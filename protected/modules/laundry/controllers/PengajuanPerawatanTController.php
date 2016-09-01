@@ -37,6 +37,12 @@ class PengajuanPerawatanTController extends MyAuthController {
 								}
 						}
 					if($this->pengPeratawan && $this->pengPeratawanDet){
+                                                $judul = "Pengajuan Perawatan Linen";                    
+                                                $isi =  "Ruangan Pengajuan              : ".Yii::app()->user->getState('ruangan_nama')." <br/>"
+                                                    .   "No. Pengajuan Perawatan Linen  : ".$model->pengperawatanlinen_no;
+                                                $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                                                    array('instalasi_id'=>Params::INSTALASI_ID_LAUNDRY, 'ruangan_id'=>Params::RUANGAN_ID_LAUNDRY, 'modul_id'=>Params::MODUL_ID_LAUNDRY),                                    
+                                                ));  
 						$transaction->commit();
 						$this->redirect(array('index','pengperawatanlinen_id'=>$model->pengperawatanlinen_id,'sukses'=>1));
 					}else{

@@ -63,9 +63,19 @@
                     array(
                         'header' => 'Tanggal Berlaku',
                         'value' => 'MyFormatter::formatDateTimeForUser($data->tglberlaku)'
-                    ),
-                            'statusperkawinan',                    
-                            'jmltanggunan',
+                    ),                            
+                    array(
+                        'header' => 'Status Perkawinan',
+                        'name' => 'statusperkawinan',
+                        'value' => '$data->statusperkawinan',
+                        'filter' => Chtml::activeDropDownList($model, 'statusperkawinan', LookupM::getItems('statusperkawinan'), array('empty'=>'-- Pilih --'))
+                    ),    
+                    array(
+                        'header' => 'Jumlah Tanggungan',
+                        'name' => 'jmltanggunan',
+                        'value' => '$data->jmltanggunan',
+                        'filter' => Chtml::activeTextField($model, 'jmltanggunan', array('class'=>'numbers-only'))
+                    ),            
                            // 'wajibpajak_thn',
                     array(
                         'header' => 'Tahun Wajib Pajak',
@@ -81,7 +91,7 @@
                     ),    
                    // 'wajibpajak_bln', 
                     array(
-                        'header'=>'Berlaku',
+                        'header'=>'Status',
                         'value'=>'($data->berlaku)?"Aktif":"Tidak Aktif"',
                         'filter'=>false,
                     ),
@@ -129,10 +139,13 @@
                         jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                         $("table").find("input[type=text]").each(function(){
                             cekForm(this);
-                        })
+                        });
                         $("table").find("select").each(function(){
                             cekForm(this);
-                        })
+                        });
+                        $(".numbers-only").keyup(function() {
+                            setNumbersOnly(this);
+                        });
                     }',
                 )); ?>
            <!-- </div>

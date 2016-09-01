@@ -4,9 +4,9 @@
         <tr>
             <!-- ====================== kolom ke-1 ============================================== -->
             <td>
-                <?php echo $form->textFieldRow($model, 'nomorindukpegawai', array('id' => 'NIP', 'onkeypress' => "if (event.keyCode == 13){setNip(this);}return $(this).focusNextInputField(event)", 'class' => 'span3', 'autofocus' => true)); ?>
+                <?php echo $form->textFieldRow($model, 'nomorindukpegawai', array('id' => 'NIP', 'onkeypress' => "if (event.keyCode == 13){setNip(this);}return $(this).focusNextInputField(event)", 'class' => 'span3 numbers-only', 'autofocus' => true)); ?>
                 <div class="control-group">
-                    <?php echo CHtml::label('Nama pegawai', 'namapegawai', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Nama Pegawai', 'namapegawai', array('class' => 'control-label hurufs-only')) ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'pegawai_id', array('readonly' => true, 'id' => 'pegawai_id')) ?>
                         <?php // echo $form->hiddenField($model, 'alamatemail', array('readonly' => true, 'id' => 'alamatemail')) ?>
@@ -53,7 +53,12 @@
                         ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model, 'alamatemail', array('readonly' => true, 'id' => 'alamatemail')); ?>
+                <div class = "control-group">
+                    <?php echo CHtml::label('Email','alamatemail',array('class'=>'control-label')); ?>
+                    <div class = "controls">
+                        <?php echo $form->textField($model, 'alamatemail', array('readonly' => true, 'id' => 'alamatemail')); ?>
+                    </div>
+                </div>
                 <?php echo $form->textFieldRow($model, 'tempatlahir_pegawai', array('readonly' => true, 'id' => 'tempatlahir_pegawai')); ?>
                 <?php echo $form->textFieldRow($model, 'tgl_lahirpegawai', array('readonly' => true, 'id' => 'tgl_lahirpegawai')); ?>
                 <?php echo $form->textFieldRow($model, 'jeniskelamin', array('readonly' => true, 'id' => 'jeniskelamin')); ?>
@@ -62,7 +67,7 @@
             <!-- =========================== kolom ke 2 ====================================== -->
             <td>
                 <div class="control-group">
-                    <?php echo $form->labelEx($model, 'norekening', array('readonly' => true, 'class' => 'control-label')); ?>
+                    <?php echo Chtml::label("No Rekening", 'norekening', array('readonly' => true, 'class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->textField($model, 'norekening', array('readonly' => true, 'class' => 'span2', 'id' => 'norek')); ?>
                         <?php echo $form->textField($model, 'banknorekening', array('readonly' => true, 'class' => 'span1', 'id' => 'banknorek', 'style' => 'width:70px;')); ?>
@@ -155,16 +160,39 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                       return false;
                     "))',
         ),
-        'nomorindukpegawai',
-        'nama_pegawai',
-        'tempatlahir_pegawai',
-        'tgl_lahirpegawai',
-        'jeniskelamin',
-        'statusperkawinan',
-        'jabatan.jabatan_nama',
-        'alamat_pegawai',
+        array(
+            'header' => 'NIP',
+            'name' => 'nomorindukpegawai',
+            'value' => '$data->nomorindukpegawai',
+            'filter' => CHtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))
+        ),        
+        array(
+            'header' => 'Nama Pegawai',
+            'name' => 'nama_pegawai',
+            'value' => '$data->namaLengkap',
+            'filter' => CHtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only'))
+            ),
+        //'tempatlahir_pegawai',
+       // 'tgl_lahirpegawai',
+       // 'statusperkawinan',
+        array(
+            'header' => 'Jabatan',
+            'name' => 'jabatan_id',
+            'value' => '!empty($data->jabatan->jabatan_nama)?$data->jabatan->jabatan_nama:"-"',
+            'filter' => Chtml::activeDropDownList($modPegawai, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+            
+        ),
+       // 'jabatan.jabatan_nama',
+       // 'alamat_pegawai',
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    .'$(".numbers-only").keyup(function() {
+        setNumbersOnly(this);
+    });
+    $(".hurufs-only").keyup(function() {
+        setHurufsOnly(this);
+    });'
+    . '}',
 ));
 
 $this->endWidget();

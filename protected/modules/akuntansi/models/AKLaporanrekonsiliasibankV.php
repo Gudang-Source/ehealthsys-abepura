@@ -2,21 +2,44 @@
 class AKLaporanrekonsiliasibankV extends LaporanrekonsiliasibankV
 {
 	public $tgl_awal,$tgl_akhir;
+        public $bln_awal,$bln_akhir;
+        public $thn_awal,$thn_akhir;
+        public $jns_periode;
+        public $filter;
+        public $data, $tick, $jumlah;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 	
 	public function criteriaLaporan(){
+                $filter = isset($_GET['filter'])?$_GET['filter']:null;
+                
 		$criteria=new CDbCriteria;
 
 		$criteria->addBetweenCondition('DATE(rekonsiliasibank_tgl)', $this->tgl_awal, $this->tgl_akhir);
 		$criteria->compare('LOWER(rekonsiliasibank_no)',strtolower($this->rekonsiliasibank_no),true);
 		$criteria->compare('rekonsiliasibank_saldokas',$this->rekonsiliasibank_saldokas);
 		$criteria->compare('rekonsiliasibank_saldobank',$this->rekonsiliasibank_saldobank);
-		if(!empty($this->bank_id)){
-			$criteria->addCondition('bank_id = '.$this->bank_id);
-		}
+                   //  var_dump($_GET['filter']);           
+               // if ($filter == '')
+               // {                
+                    if(!empty($this->bank_id)){
+                            $criteria->addInCondition('bank_id ',$this->bank_id);
+                    } // else {
+                      //  $criteria->addCondition('bank_id IS NULL');
+                   // }
+                    
+                  //  if (isset($_GET['filter']) == 'jenisrekonsiliasibank')
+                  //  {
+                        if(!empty($this->jenisrekonsiliasibank_id)){
+                                $criteria->addInCondition('jenisrekonsiliasibank_id ',$this->jenisrekonsiliasibank_id);
+                        }//else{
+                         //   $criteria->addCondition('jenisrekonsiliasibank_id is NULL');
+                    //   // }
+                //    }
+               // }
+                
 		if(!empty($this->matauang_id)){
 			$criteria->addCondition('matauang_id = '.$this->matauang_id);
 		}
@@ -44,9 +67,8 @@ class AKLaporanrekonsiliasibankV extends LaporanrekonsiliasibankV
 		if(!empty($this->rekonsiliasibankdetail_id)){
 			$criteria->addCondition('rekonsiliasibankdetail_id = '.$this->rekonsiliasibankdetail_id);
 		}
-		if(!empty($this->jenisrekonsiliasibank_id)){
-			$criteria->addCondition('jenisrekonsiliasibank_id = '.$this->jenisrekonsiliasibank_id);
-		}
+                
+                
 		$criteria->compare('LOWER(jenisrekonsiliasibank_nama)',strtolower($this->jenisrekonsiliasibank_nama),true);
 		if(!empty($this->kelrekening_id)){
 			$criteria->addCondition('kelrekening_id = '.$this->kelrekening_id);
@@ -155,5 +177,65 @@ class AKLaporanrekonsiliasibankV extends LaporanrekonsiliasibankV
         }
         
         return $kode_rekening;
+    }
+    
+    public static function criteriaGrafik($model, $type='data', $addCols = array()){
+        $criteria = new CDbCriteria;
+        $criteria->select = 'count(rekonsiliasibank_id) as jumlah';
+        $filter = isset($_GET['filter'])?$_GET['filter']:null;
+        if ( $filter == 'jenisrekonsiliasibank') {
+            if (!empty($model->jenisrekonsiliasibank_id)) {
+                $criteria->select .= ', jenisrekonsiliasibank_nama as '.$type;
+                $criteria->group .= 'jenisrekonsiliasibank_nama';
+            } 
+        } else if ( $filter == 'bank') {
+            if (!empty($model->bank_id)) {
+                $criteria->select .= ', namabank as '.$type;
+                $criteria->group .= 'namabank';
+            } 
+        }
+
+        if (!isset($_GET['filter'])){
+            $criteria->select .= ', jenisrekonsiliasibank_nama as '.$type;
+            $criteria->group .= 'jenisrekonsiliasibank_nama';
+        }
+
+        if (count($addCols) > 0){
+            if (is_array($addCols)){
+                foreach ($addCols as $i => $v){
+                    $criteria->group .= ','.$v;
+                    $criteria->select .= ','.$v.' as '.$i;
+                }
+            }            
+        }
+
+        return $criteria;
+    }
+        
+    public function searchGrafik() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+        $criteria=new CDbCriteria;
+        
+        $criteria = $this->criteriaGrafik($this, 'tick');
+                       
+        $criteria = $this->criteriaGrafik($this, 'data');       
+
+        $filter = isset($_GET['filter'])?$_GET['filter']:null;
+                       
+        $criteria->addBetweenCondition('DATE(rekonsiliasibank_tgl)', $this->tgl_awal, $this->tgl_akhir);
+
+
+        if(!empty($this->bank_id)){
+                $criteria->addInCondition('bank_id ',$this->bank_id);
+        } 
+        if(!empty($this->jenisrekonsiliasibank_id)){
+                $criteria->addInCondition('jenisrekonsiliasibank_id ',$this->jenisrekonsiliasibank_id);
+        }
+                		
+
+        return new CActiveDataProvider($this, array(
+                    'criteria' => $criteria,
+                ));
     }
 }

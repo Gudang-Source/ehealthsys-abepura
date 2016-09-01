@@ -15,12 +15,20 @@ echo CHtml::css('.control-label{
         color:black;
         padding-right:10px;
     }
-    table{
-        font-size:11px;
+     .border th, .border td{
+        border:1px solid #000;
     }
-
-    td .tengah{
-       text-align: center;  
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
     }
 ');
 ?>
@@ -29,23 +37,23 @@ echo CHtml::css('.control-label{
         <td>
             <table width="100%">
                 <tr>
-                    <td width="11%" style="text-align:right;">NIP</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b> NIP </b> </td><td width="2%">:</td>
                     <td width="37%">
                         <?php echo CHtml::encode($modelpegawai->nomorindukpegawai); ?>
                     </td>
-                    <td width="11%" style="text-align:right;">No. Rekening</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>No. Rekening</b></td><td width="2%">:</td>
                     <td width="37%">
                         <?php echo CHtml::encode(isset($modelpegawai->no_rekening) ? $modelpegawai->no_rekening : "-"); ?>
                     </td>
                 </tr>
                 <tr> 
-                    <td width="11%" style="text-align:right;">Pegawai</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Pegawai</b></td><td width="2%">:</td>
                     <td width="37%">
                         <?php
                             echo CHtml::encode($modelpegawai->nama_pegawai);
                         ?>
                     </td>
-                    <td width="11%" style="text-align:right;">Bank</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Bank</b></td><td width="2%">:</td>
                     <td width="37%">
                         <?php
                             echo CHtml::encode(isset($modelpegawai->banknorekening) ? $modelpegawai->banknorekening : "-");
@@ -53,23 +61,23 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
-                    <td width="11%" style="text-align:right;">Tempat Lahir</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Tempat Lahir</b></td><td width="2%">:</td>
                     <td width="37%">    
                         <?php echo CHtml::encode($modelpegawai->tempatlahir_pegawai); ?>
                     </td>
-                    <td width="11%" style="text-align:right;">No. Telepon</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>No. Telepon</b></td><td width="2%">:</td>
                     <td width="37%">
                         <?php echo CHtml::encode(isset($modelpegawai->notelp_pegawai) ? $modelpegawai->notelp_pegawai : "-"); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td width="11%" style="text-align:right;">Tanggal Lahir</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Tanggal Lahir</b></td><td width="2%">:</td>
                     <td width="37%">    
                         <?php
-                            echo CHtml::encode($modelpegawai->tgl_lahirpegawai);   
+                            echo MyFormatter::formatDateTimeForUser(CHtml::encode($modelpegawai->tgl_lahirpegawai));   
                         ?>
                     </td>
-                    <td width="11%" style="text-align:right;">No. Mobile</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>No. Mobile</b></td><td width="2%">:</td>
                     <td width="37%">    
                         <?php
                             echo CHtml::encode(isset($modelpegawai->nomobile_pegawai) ? $modelpegawai->nomobile_pegawai : "-");   
@@ -77,42 +85,42 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
-                    <td width="11%" style="text-align:right;">Jenis Kelamin </td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Jenis Kelamin</b> </td><td width="2%">:</td>
                     <td width="37%">    
                             <?php echo CHtml::encode($modelpegawai->jeniskelamin); ?>
                     </td>
-                    <td width="11%" style="text-align:right;">Agama</td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Agama</b></td><td width="2%">:</td>
                     <td width="37%">    
                             <?php echo CHtml::encode($modelpegawai->agama); ?>
                     </td>
                 </tr> 
                 <tr>
-                    <td width="11%" style="text-align:right;">Tanggal Penggajian </td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Tanggal Penggajian</b> </td><td width="2%">:</td>
                     <td width="37%">    
-                            <?php echo CHtml::encode($model->tglpenggajian); ?>
+                            <?php echo MyFormatter::formatDateTimeForUser(CHtml::encode($model->tglpenggajian)); ?>
                     </td>
-                    <td width="11%" style="text-align:right;">Alamat </td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Alamat</b> </td><td width="2%">:</td>
                     <td width="37%">    
                             <?php echo CHtml::encode(!empty($modelpegawai->alamat_pegawai) ? $modelpegawai->alamat_pegawai : "-"); ?>
                     </td>
                 </tr>    
                 <tr>
-                    <td width="11%" style="text-align:right;">No. Penggajian </td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>No. Penggajian</b> </td><td width="2%">:</td>
                     <td width="37%">    
                             <?php echo CHtml::encode($model->nopenggajian); ?>
                     </td>
                 </tr>  
                 <tr>
-                    <td width="11%" style="text-align:right;">Keterangan </td><td width="2%">:</td>
+                    <td width="11%" style="text-align:right;"><b>Keterangan</b> </td><td width="2%">:</td>
                     <td width="37%">    
-                            <?php echo CHtml::encode(!empty($model->keterangan) ? $modelpegawai->keterangan : "-"); ?>
+                            <?php echo CHtml::encode(!empty($model->keterangan) ? $model->keterangan : "-"); ?>
                     </td>
                 </tr>     
             </table>            
         </td>
     </tr>
 </table><br>
-<table width="100%" style='margin-left:auto; margin-right:auto;' class='table table-striped table-bordered table-condensed'>
+<table width="100%" style='margin-left:auto; margin-right:auto;' class='table border'>
     <thead>
         <tr>
             <th>
@@ -163,12 +171,12 @@ echo CHtml::css('.control-label{
                 <tr>
                     <td width="35%" align="center">
                         <div>Mengetahui</div>
-                        <div style="margin-top:60px;"><?php echo $model->gelardepan." ".$model->nama_pegawai; ?></div>
+                        <div style="margin-top:60px;"><?php echo $model->mengetahui; ?></div>
                     </td>
                     <td width="35%" align="center">
                         <div><?php echo Yii::app()->user->getState("kabupaten_nama").", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?></div>
                         <div>Menyetujui</div>
-                        <div style="margin-top:60px;"><?php echo $model->gelardepan." ".$model->nama_pegawai; ?></div>
+                        <div style="margin-top:60px;"><?php echo $model->menyetujui; ?></div>
                     </td>
                 </tr>
             </table>

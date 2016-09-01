@@ -7,8 +7,11 @@ if (isset($caraPrint)){
     $sort = false;
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
-      $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  if ($caraPrint == "EXCEL"){
+    $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  
+  }
+  
 }
 ?>
 <?php $this->widget($table,array(
@@ -38,7 +41,7 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Tanggal Pelayanan',
                 'type'=>'raw',
-                'value'=>'date("d/m/Y", strtotime($data->tglpembayaran))',
+                'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($data->tglpembayaran)))',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
             ),
             array(
@@ -56,7 +59,7 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Total Tagihan',
                 'type'=>'raw',
-                'value'=>'number_format($data->totalbiayapelayanan)',
+                'value'=>'number_format($data->totalbiayapelayanan,0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
             ),

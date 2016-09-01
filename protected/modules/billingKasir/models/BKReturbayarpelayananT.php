@@ -25,6 +25,7 @@
  */
 class BKReturbayarpelayananT extends ReturbayarpelayananT
 {
+    public $notemp;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -52,6 +53,7 @@ class BKReturbayarpelayananT extends ReturbayarpelayananT
             $criteria->compare('p.carabayar_id', $this->carabayar_id);
             $criteria->compare('p.penjamin_id', $this->penjamin_id);
             $criteria->compare('lower(pa.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
+            $criteria->compare('lower(t.noreturbayar)', strtolower($this->noreturbayar), true);
             $criteria->compare('lower(pa.nama_pasien)', strtolower($this->nama_pasien), true);
             
             return new CActiveDataProvider($this, array(

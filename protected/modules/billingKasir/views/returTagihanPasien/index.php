@@ -65,7 +65,13 @@
                     ?>
                     <?php echo CHtml::hiddenField('oa_limit', $modRetur->totaloaretur); ?>
                     <?php echo CHtml::hiddenField('tindakan_limit', $modRetur->totaltindakanretur); ?>
-                    <?php echo $form->textFieldRow($modRetur,'noreturbayar',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'readonly'=>true)); ?>
+                    <?php echo $form->hiddenField($modRetur,'noreturbayar',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'readonly'=>true)); ?>
+                    <div class = "control-group">
+                        <?php echo Chtml::label("No Retur Bayar <font style='color:red;'>*</font>",'noreturbayar',array('class'=>'control-label')) ?>
+                        <div class = "controls">
+                            <?php echo $form->textField($modRetur,'notemp',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'readonly'=>true)); ?>
+                        </div>
+                    </div>
                     <?php echo $form->textFieldRow($modRetur,'totaloaretur',array('onblur'=>'cekLimitRetur()','onkeyup'=>'hitungTotalRetur()','class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textFieldRow($modRetur,'totaltindakanretur',array('onblur'=>'cekLimitRetur()','onkeyup'=>'hitungTotalRetur()','class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textFieldRow($modRetur,'totalbiayaretur',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", "readonly"=>true)); ?>
@@ -77,7 +83,13 @@
                     <?php echo CHtml::activeHiddenField($modRetur,'user_id_otorisasi',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php //echo $form->dropDownListRow($modBuktiKeluar,'tahun', CustomFunction::getTahun(null,null),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>4)); ?>
                     <?php $modBuktiKeluar->tglkaskeluar = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modBuktiKeluar->tglkaskeluar, 'yyyy-MM-dd hh:mm:ss','medium',null)); ?>
-                    <?php echo $form->textFieldRow($modBuktiKeluar,'nokaskeluar',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php echo $form->hiddenField($modBuktiKeluar,'nokaskeluar',array('readonly'=>TRUE,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <div class = "control-group">
+                        <?php echo Chtml::label("No kas Keluar <font style='color:red;'>*</font> ",'noreturbayar',array('class'=>'control-label')) ?>
+                        <div class = "controls">
+                            <?php echo $form->textField($modBuktiKeluar,'notemp',array('readonly'=>TRUE,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                        </div>
+                    </div>                    
                     <?php 
                     echo $form->dropDownListRow($modBuktiKeluar,'carabayarkeluar', LookupM::getItems('carabayarkeluar'),array('onchange'=>'formCarabayar(this.value)','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                 </td>
@@ -87,9 +99,9 @@
                         <?php echo $form->textFieldRow($modBuktiKeluar,'denganrekening',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                         <?php echo $form->textFieldRow($modBuktiKeluar,'atasnamarekening',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                     </div>
-                    <?php echo $form->textFieldRow($modBuktiKeluar,'namapenerima',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-                    <?php echo $form->textAreaRow($modBuktiKeluar,'alamatpenerima',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modBuktiKeluar,'untukpembayaran',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+                    <?php echo $form->textFieldRow($modBuktiKeluar,'namapenerima',array('readonly'=>TRUE,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+                    <?php echo $form->textAreaRow($modBuktiKeluar,'alamatpenerima',array('readonly'=>TRUE,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modBuktiKeluar,'untukpembayaran',array('readonly'=>TRUE,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                 </td>
             </tr>
         </table>
@@ -132,14 +144,10 @@
             }
         ?>
         <?php
-            echo CHtml::link(
-                Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
-                $url_batal,
-                array(
-                    'class'=>'btn btn-danger',
-                    'disabled'=>false
-                )
-            );
+             echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                            $this->createUrl($this->id.'/index',array('modul_id'=>Yii::app()->session['modul_id'])), 
+                            array('class'=>'btn btn-danger',
+                                  'onclick'=>'return refreshForm(this);'));
             /*
             echo CHtml::htmlButton(
                 Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),

@@ -133,7 +133,7 @@
 				$this->createUrl('create'), 
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
-		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Periode Anggaran',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Konfigurasi Anggaran',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
 		<?php
 			$content = $this->renderPartial($this->path_view.'tips/add',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
