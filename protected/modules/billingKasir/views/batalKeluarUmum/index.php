@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <div class="white-container">
     <legend class="rim2">Transaksi Batal <b>Pengeluaran Umum</b></legend>
     <?php
@@ -30,7 +34,8 @@
                         <?php echo $form->labelEx($modBatalBayar,'tglbatalkeluar', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <?php   
-                                    $this->widget('MyDateTimePicker',array(
+								echo $form->textField($modBatalBayar, 'tglbatalkeluar', array('class'=>'realtime'));
+                                /*    $this->widget('MyDateTimePicker',array(
                                                 'model'=>$modBatalBayar,
                                                 'attribute'=>'tglbatalkeluar',
                                                 'mode'=>'datetime',
@@ -40,7 +45,9 @@
                                                 ),
                                                 'htmlOptions'=>array('class'=>'dtPicker2-5', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                 ),
-                            )); ?>
+								)); 
+								 * 
+								 */ ?>
 
                         </div>
                     </div>
@@ -81,7 +88,7 @@
     <?php $this->endWidget(); ?>
 </div>
 <script type="text/javascript">
-$('.currency').each(function(){this.value = formatNumber(this.value)});
+$('.integer2').each(function(){this.value = formatNumber(this.value)});
 
 function cekLogin()
 {
@@ -106,7 +113,7 @@ function cekOtorisasi()
         return false;
     } 
     
-    $('.currency').each(function(){this.value = unformatNumber(this.value)});
+    $('.integer2').each(function(){this.value = unformatNumber(this.value)});
     return true;
 }
 
