@@ -200,7 +200,18 @@
             ?>
             <?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('index',$reffUrl), array('class'=>'btn btn-danger')); ?>
             <?php  
-            $content = $this->renderPartial($this->path_view.'tips/transaksi',array(),true);
+            $tips = array(
+                '0' => 'tanggal',
+                '1' => 'autocomplete-search',
+                '2' => 'waktutime',
+                '3' => 'cari',
+                '4' => 'ulang',
+                '5' => 'simpan',
+                '6' => 'print',
+                '7' => 'status_print'
+                
+            );
+            $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
             ?>
     </div>

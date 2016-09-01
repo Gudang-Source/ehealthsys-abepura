@@ -65,6 +65,12 @@ Class Tips
                         .'  berfungsi untuk menonaktifkan data.',
             'aktif' => 'icon ini  <i class="icon-form-check"></i>'
                         .'  berfungsi untuk mengaktifkan data.',
+            'bayar' => 'icon ini  <i class="icon-form-bayar"></i>'
+                        .'  berfungsi untuk melanjutkan ke proses transaksi pembayaran.',
+            'detail' => 'icon ini  <i class="icon-form-detail"></i>'
+                        .'  berfungsi untuk melihat detail/rincian data.',
+            'batal' => 'icon ini  <i class="icon-form-silang"></i>'
+                        .'  berfungsi untuk membatalkan data.',
             
         );
     }
