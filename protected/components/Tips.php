@@ -69,6 +69,8 @@ Class Tips
                         .'  berfungsi untuk melanjutkan ke proses transaksi pembayaran.',
             'detail' => 'icon ini  <i class="icon-form-detail"></i>'
                         .'  berfungsi untuk melihat detail/rincian data.',
+            'detail2' => 'icon ini  <i class="icon-form-formulir"></i>'
+                        .'  berfungsi untuk melihat detail/rincian data.',
             'batal' => 'icon ini  <i class="icon-form-silang"></i>'
                         .'  berfungsi untuk membatalkan data.',
             
