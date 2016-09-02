@@ -62,7 +62,22 @@
                             //'tglberlaku',
                     array(
                         'header' => 'Tanggal Berlaku',
-                        'value' => 'MyFormatter::formatDateTimeForUser($data->tglberlaku)'
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tglberlaku)',
+                        'filter' => $this->widget('MyDateTimePicker', array(
+                                'model'=>$model, 
+                                'attribute'=>'tglberlaku', 
+                                'mode' => 'date',                                    
+                                'htmlOptions' => array(
+                                    'id' => 'datepicker_for_due_date',
+                                    'size' => '10',
+                                    'style'=>'width:80%'
+                                ),
+                                'options' => array(  // (#3)                    
+                                    'dateFormat' => Params::DATE_FORMAT,                    
+                                    'maxDate' => 'd',
+                                ),                                
+                            ), 
+                            true),
                     ),                            
                     array(
                         'header' => 'Status Perkawinan',
@@ -74,18 +89,21 @@
                         'header' => 'Jumlah Tanggungan',
                         'name' => 'jmltanggunan',
                         'value' => '$data->jmltanggunan',
-                        'filter' => Chtml::activeTextField($model, 'jmltanggunan', array('class'=>'numbers-only'))
+                        'filter' => Chtml::activeTextField($model, 'jmltanggunan', array('class'=>'numbers-only','style'=>'text-align:right;')),
+                        'htmlOptions' => array('style'=>'text-align:right;')
                     ),            
                            // 'wajibpajak_thn',
                     array(
                         'header' => 'Tahun Wajib Pajak',
                         'name' => 'wajibpajak_thn',
                         'value' => '"Rp".number_format($data->wajibpajak_thn,0,"",".")',                       
+                        'filter' => Chtml::activeTextField($model, 'wajibpajak_thn', array('class'=>'numbers-only','style'=>'text-align:right;')),
                         'htmlOptions' => array('style'=>'text-align:right;')
                     ),    
                     array(
                         'header' => 'Bulan Wajib Pajak',
                         'name' => 'wajibpajak_bln',
+                        'filter' => Chtml::activeTextField($model, 'wajibpajak_bln', array('class'=>'numbers-only','style'=>'text-align:right;')),
                         'value' => '"Rp".number_format($data->wajibpajak_bln,0,"",".")',                       
                         'htmlOptions' => array('style'=>'text-align:right;')
                     ),    
@@ -146,6 +164,7 @@
                         $(".numbers-only").keyup(function() {
                             setNumbersOnly(this);
                         });
+                        reinstallDatePicker();
                     }',
                 )); ?>
            <!-- </div>
@@ -173,7 +192,12 @@ function print(caraPrint)
     window.open("${urlPrint}/"+$('#ptkp-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
 JSCRIPT;
-    Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+    Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD); 
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {        
+    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+");
     ?>
 </div>
 <script type="text/javascript">

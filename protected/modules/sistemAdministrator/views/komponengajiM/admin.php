@@ -66,11 +66,28 @@
                                     'name'=>'komponengaji_id',
                                     'value'=>'$data->komponengaji_id',
                                     'filter'=>false,
+                            ),                            
+                            array(
+                                'header' => 'No Urut Gaji',
+                                'name' => 'nourutgaji',
+                                'filter' => Chtml::activeTextField($model, 'nourutgaji', array('class'=>'numbers-only','style'=>'text-align:right;')),
+                                'htmlOptions' => array('style'=>'text-align:right;'),
                             ),
-                            'nourutgaji',
-                            'komponengaji_kode',
-                            'komponengaji_nama',
-                            'komponengaji_singkt',
+                            array(
+                                'header' => 'Kode Gaji',
+                                'name' => 'komponengaji_kode',
+                                'filter' => Chtml::activeTextField($model, 'komponengaji_kode', array('class'=>'angkahuruf-only')),
+                            ),                                                        
+                            array(
+                                'header' => 'Nama Gaji',
+                                'name' => 'komponengaji_nama',
+                                'filter' => Chtml::activeTextField($model, 'komponengaji_nama', array('class'=>'custom-only')),
+                            ),
+                            array(
+                                'header' => 'Singkatan Gaji',
+                                'name' => 'komponengaji_singkt',
+                                'filter' => Chtml::activeTextField($model, 'komponengaji_singkt', array('class'=>'angkahuruf-only')),
+                            ),
                                             array(
                                                 'header'=>'Potongan',
                                                 'value'=>'(($data->ispotongan==1)? "Ya" : "Tidak")',
@@ -116,10 +133,19 @@
                         jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                         $("table").find("input[type=text]").each(function(){
                             cekForm(this);
-                        })
+                        });
                         $("table").find("select").each(function(){
                             cekForm(this);
-                        })
+                        });
+                        $(".numbers-only").keyup(function() {
+                            setNumbersOnly(this);
+                        });
+                        $(".angkahuruf-only").keyup(function() {
+                            setAngkaHurufOnly(this);
+                        });
+                        $(".custom-only").keyup(function() {
+                            setCustomOnly(this);
+                        });
                     }',
                 )); ?>
            <!-- </div>-->
