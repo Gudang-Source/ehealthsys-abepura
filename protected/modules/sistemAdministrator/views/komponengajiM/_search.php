@@ -8,11 +8,11 @@
     <tr>
         <td>
             <?php echo $form->textFieldRow($model,'nourutgaji',array('class'=>'span3')); ?>
-            <?php echo $form->textFieldRow($model,'komponengaji_kode',array('class'=>'span3','maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'komponengaji_kode',array('class'=>'span3 angkahuruf-only','maxlength'=>50)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'komponengaji_nama',array('class'=>'span3','maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'komponengaji_singkt',array('class'=>'span3','maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'komponengaji_nama',array('class'=>'span3 custom-only','maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'komponengaji_singkt',array('class'=>'span3 angkahuruf-only','maxlength'=>20)); ?>
         </td>
         <td>
             <?php echo $form->checkBoxRow($model,'ispotongan'); ?>
