@@ -56,7 +56,7 @@ class PengajuanbahanmknT extends CActiveRecord
 			array('terimabahanmakan_id, ruangan_id, supplier_id, idpegawai_mengetahui, idpegawai_mengajukan', 'numerical', 'integerOnly'=>true),
 			array('totalharganetto', 'numerical'),
 			array('nopengajuan, sumberdanabhn', 'length', 'max'=>50),
-			array('status_persetujuan, keterangan_bahan, create_time, create_loginpemakai_id', 'safe'),
+			array('status_persetujuan, keterangan_bahan, create_time, create_loginpemakai_id, idpegawai_menyetujui', 'safe'),
                     
                         array('create_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
                         array('update_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),
@@ -101,6 +101,7 @@ class PengajuanbahanmknT extends CActiveRecord
 			'alamatpengiriman' => 'Alamat Pengiriman',
 			'idpegawai_mengetahui' => 'Pegawai Mengetahui',
 			'idpegawai_mengajukan' => 'Pegawai Mengajukan',
+			'idpegawai_menyetujui' => 'Pegawai Menyetujui',
 			'keterangan_bahan' => 'Keterangan Bahan',
 			'totalharganetto' => 'Total Harga Netto',
 			'tglmintadikirim' => 'Tanggal Minta Dikirim',
