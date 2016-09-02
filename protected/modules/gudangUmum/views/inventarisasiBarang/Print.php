@@ -19,60 +19,72 @@ echo CHtml::css('.control-label{
     td .uang{
         text-align:right;
     }
-    .border{
-        border:1px solid;
+    .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
     }
 ');  
-if (!isset($_GET['frame'])){
+//if (!isset($_GET['frame'])){
     echo $this->renderPartial($this->path_view.'_headerPrint'); 
-}
+//}
 ?>
-<table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+<table width="100%" style="margin:0px;" cellpadding="0" cellspacing="0">
     <tr>
-        <td align="center" valig="middle" colspan="3">
+        <td style="text-align:center;"colspan="6">
             <b><?php echo $judulLaporan ?></b>
         </td>
     </tr>
     <tr>
-        <td>No. Inventarisasi Barang</td>
+        <td><b>No. Inventarisasi Barang</b></td>
         <td>:</td>
         <td><?php echo $model->invbarang_no; ?></td>
 
-        <td>Total Harga</td>
+        <td><b>Total Harga</b></td>
         <td>:</td>
         <td><?php echo $format->formatNumberForPrint($model->invbarang_totalharga); ?></td>
     </tr>
     <tr>
-        <td>Tanggal Inventarisasi Barang</td>
+        <td><b>Tanggal Inventarisasi Barang</b></td>
         <td>:</td>
         <td><?php echo $format->formatDateTimeForUser($model->invbarang_tgl); ?></td>
 
-        <td>Total HPP</td>
+        <td><b>Total HPP</b></td>
         <td>:</td>
         <td><?php echo $format->formatNumberForPrint($model->invbarang_totalnetto); ?></td>
     </tr>
     <?php if(isset($model->formuliropname_id)){ ?>
     <tr>
-        <td>No. Formulir Inventarisasi</td>
+        <td><b>No. Formulir Inventarisasi</b></td>
         <td>:</td>
         <td><?php echo $model->formulirinvbarang->forminvbarang_no; ?></td>
 
-        <td>Total Volume</td>
+        <td><b>Total Volume</b></td>
         <td>:</td>
         <td><?php echo $format->formatNumberForPrint($model->formulirinvbarang->forminvbarang_totalvolume); ?></td>
     </tr>
     <tr>
-        <td>Tanggal Formulir Opname</td>
+        <td><b>Tanggal Formulir Opname</b></td>
         <td>:</td>
         <td><?php echo $format->formatDateTimeForUser($model->formulirinvbarang->forminvbarang_tgl); ?></td>
 
-        <td>Total Harga</td>
+        <td><b>Total Harga</b></td>
         <td>:</td>
         <td><?php echo $format->formatNumberForPrint($model->formulirinvbarang->forminvbarang_totalharga); ?></td>
     </tr>
     <?php } ?>
     </table><br/>
-<table class="table table-bordered table-condensed middle-center">
+<table class="table border" style = "box-shadow:none;" border="1">
     <thead>
         <tr>
             <th>No.</th>
@@ -106,9 +118,49 @@ if (!isset($_GET['frame'])){
         <?php } ?>
     </tbody>
 </table>
-<?php
+
+<table width="100%" style="margin-top:20px;">
+<tr>
+    <td width="100%" align="left" align="top">
+        <table width="100%">
+            <tr>
+                <td width="35%" style="text-align:center;" colspan="3"> </td>
+                <td width="35%" style="text-align:center;" colspan="3"></td>
+                <td width="35%" style="text-align:center;" colspan="3"><div><?php echo Yii::app()->user->getState("kabupaten_nama").", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?></div></td>
+            </tr>
+            <tr>
+                <td style="text-align:center;" colspan="3">
+                    <div>Petugas 2</div>                    
+                </td>
+                <td width="35%" style="text-align:center;" colspan="3">
+                    <div>Petugas 1</div>                    
+                </td>
+                <td width="35%" style="text-align:center;" colspan="3">                    
+                    <div>Mengetahui</div>                    
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align:center;"><div><?php echo ($model->petugas2_id)?PegawaiM::model()->findByPk($model->petugas2_id)->NamaLengkap:""; ?></div></td>
+                <td colspan="3" style="text-align:center;"><div><?php echo ($model->petugas1_id)?PegawaiM::model()->findByPk($model->petugas1_id)->NamaLengkap:""; ?></div></td>
+                <td colspan="3" style="text-align:center;"><div><?php echo ($model->mengetahui_id)?PegawaiM::model()->findByPk($model->mengetahui_id)->NamaLengkap:""; ?></div></td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+
+    <?php
 if (isset($_GET['frame'])){
-    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"))."&nbsp;&nbsp;";
     echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
 ?>
     <script type='text/javascript'>
@@ -121,28 +173,6 @@ if (isset($_GET['frame'])){
     }
     </script>
 <?php
-}else{ ?>
-<table width="100%" style="margin-top:20px;">
-<tr>
-    <td width="100%" align="left" align="top">
-        <table width="100%">
-            <tr>
-                <td width="35%" align="center">
-                    <div>Petugas 2</div>
-                    <div style="margin-top:60px;"><?php echo ($model->petugas2_id)?PegawaiM::model()->findByPk($model->petugas2_id)->NamaLengkap:""; ?></div>
-                </td>
-                <td width="35%" align="center">
-                    <div>Petugas 1</div>
-                    <div style="margin-top:60px;"><?php echo ($model->petugas1_id)?PegawaiM::model()->findByPk($model->petugas1_id)->NamaLengkap:""; ?></div>
-                </td>
-                <td width="35%" align="center">
-                    <div><?php echo Yii::app()->user->getState("kabupaten_nama").", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?></div>
-                    <div>Mengetahui</div>
-                    <div style="margin-top:60px;"><?php echo ($model->mengetahui_id)?PegawaiM::model()->findByPk($model->mengetahui_id)->NamaLengkap:""; ?></div>
-                </td>
-            </tr>
-        </table>
-    </td>
-</tr>
-</table>
-<?php } 
+} ?>
+<?php //} 
+    ?>

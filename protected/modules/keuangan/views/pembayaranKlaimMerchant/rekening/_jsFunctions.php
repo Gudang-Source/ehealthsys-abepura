@@ -3,6 +3,11 @@
  * KHUSUS UNTUK MENYIMPAN FUNGSI-FUNGSI JAVASCRIPT
  */
 ?>
+
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <?php 
     $modNewRekenings = array();
     $modNewRekenings[0] = new RekeningpembayarankasirV;
