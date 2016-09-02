@@ -9,8 +9,9 @@
         <table>
             <tr>
                 <td>
-                    <?php echo $form->textFieldRow($model,'kelompoktindakan_nama',array('class'=>'span3','maxlength'=>50)); ?>
-                    <?php echo $form->textAreaRow($model,'kategoritindakan_nama',array('class'=>'span3','maxlength'=>150)); ?>
+                    <?php echo $form->dropDownListRow($model,'kelompoktindakan_nama', Chtml::listData(KelompoktindakanM::model()->findAll("kelompoktindakan_aktif = TRUE ORDER BY kelompoktindakan_nama ASC"), 'kelompoktindakan_nama', 'kelompoktindakan_nama'),array('empty'=>'-- Pilih --','class'=>'span3','maxlength'=>50)); ?>
+                    <?php echo $form->dropDownListRow($model,'komponenunit_nama', Chtml::listData(KomponenunitM::model()->findAll("komponenunit_aktif = TRUE ORDER BY komponenunit_nama ASC"), 'komponenunit_nama', 'komponenunit_nama'),array('empty'=>'-- Pilih --','class'=>'span3','maxlength'=>50)); ?>                    
+                    <?php echo $form->dropDownListRow($model,'kategoritindakan_nama', Chtml::listData(KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC"), 'kategoritindakan_nama', 'kategoritindakan_nama'),array('empty'=>'-- Pilih --','class'=>'span3','maxlength'=>50)); ?>                                        
                 </td>
                  <td>
                     <?php echo $form->textFieldRow($model,'daftartindakan_kode',array('class'=>'span3','maxlength'=>20)); ?>

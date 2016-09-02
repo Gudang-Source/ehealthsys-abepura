@@ -130,10 +130,10 @@
                 jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                 $("table").find("input[type=text]").each(function(){
                     cekForm(this);
-                })
+                });
                 $("table").find("select").each(function(){
                     cekForm(this);
-                })
+                });
             }',
         )); ?>
     <!--</div>-->
