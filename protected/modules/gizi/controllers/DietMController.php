@@ -44,7 +44,9 @@ class DietMController extends MyAuthController
                                     $model->tipediet_id = $_POST['DietM']['tipediet_id'];
                                     $model->jenisdiet_id = $_POST['DietM']['jenisdiet_id'];
                                     $model->zatgizi_id = $_POST['zatgizi_id'][$i];
-                                    $model->diet_kandungan = $_POST['diet_kandungan'][$idZatgizi];
+                                    
+                                    $model->diet_kandungan = str_replace(",",".",$_POST['diet_kandungan'][$idZatgizi]);
+                                   // var_dump($model);die;
                                     if($model->save()){
                                     	Yii::app()->user->setFlash('success', '<strong>Berhasil!!</strong> Data berhasil disimpan.');
                                     } else {
@@ -73,7 +75,7 @@ class DietMController extends MyAuthController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+                $model->diet_kandungan = str_replace('.',',',$model->diet_kandungan);
 		// Uncomment the following line if AJAX validation is needed
 		
 
