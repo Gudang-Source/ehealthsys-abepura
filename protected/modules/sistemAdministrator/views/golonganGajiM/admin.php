@@ -69,15 +69,26 @@
                       'name' => 'golonganpegawai_id',
                       'value' => '$data->golonganpegawai->golonganpegawai_nama',
                       'filter' => CHtml::dropDownList('SAGolonganGajiM[golonganpegawai_id]', $model->golonganpegawai_id,CHtml::listData(SAGolonganPegawaiM::model()->findAll('golonganpegawai_aktif = true ORDER BY golonganpegawai_nama'), 'golonganpegawai_id', 'golonganpegawai_nama'), array('empty'=>'-- Pilih --'))
-                    ),
-                    'masakerja',
+                    ),                    
+                    array(
+                        'header' => 'Masa Kerja',
+                        'name' => 'masakerja',
+                        'filter' => Chtml::activeTextField($model, 'masakerja', array('class'=>'numbers-only','style'=>'text-align:right;')),
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ), 
             //	'jmlgaji',
                      array(
                         'name'=>'jmlgaji',
                         'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->jmlgaji)',
+                         'filter' => Chtml::activeTextField($model, 'jmlgaji', array('class'=>'numbers-only','style'=>'text-align:right;')),
                          'htmlOptions' => array('style'=>'text-align:right;')
                      ),
-                    'jenisgolongan',
+                    array(
+                        'header' => 'Jenis Golongan',
+                        'name' => 'jenisgolongan',
+                        'value' => '$data->jenisgolongan',
+                        'filter' => Chtml::activeTextField($model, 'jenisgolongan', array('class'=>'custom-only','style'=>'text-align:right;')),
+                    ),                    
                     array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->golongangaji_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
@@ -109,10 +120,16 @@
                         jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                         $("table").find("input[type=text]").each(function(){
                             cekForm(this);
-                        })
+                        });
                         $("table").find("select").each(function(){
                             cekForm(this);
-                        })
+                        });
+                        $(".numbers-only").keyup(function() {
+                            setNumbersOnly(this);
+                        });
+                        $(".custom-only").keyup(function() {
+                            setCustomOnly(this);
+                        });
                     }',
                 )); ?>
            <!-- </div>

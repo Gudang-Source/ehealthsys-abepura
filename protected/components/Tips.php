@@ -11,6 +11,12 @@ Class Tips
     public static function getTips()
     {
         return array(
+            'tambah'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="icon-plus-sign icon-white"></i></div> berfungsi '
+                        .' untuk menambah baris.',
+            'kurang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
+                        .'<i class="icon-minus-sign icon-white"></i></div> berfungsi '
+                        .' untuk menghapus baris.', 
             'simpan'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="icon-ok icon-white"></i> Simpan</div> berfungsi '
                         .' untuk menyimpan data.', 
@@ -65,6 +71,14 @@ Class Tips
                         .'  berfungsi untuk menonaktifkan data.',
             'aktif' => 'icon ini  <i class="icon-form-check"></i>'
                         .'  berfungsi untuk mengaktifkan data.',
+            'bayar' => 'icon ini  <i class="icon-form-bayar"></i>'
+                        .'  berfungsi untuk melanjutkan ke proses transaksi pembayaran.',
+            'detail' => 'icon ini  <i class="icon-form-detail"></i>'
+                        .'  berfungsi untuk melihat detail/rincian data.',
+            'detail2' => 'icon ini  <i class="icon-form-formulir"></i>'
+                        .'  berfungsi untuk melihat detail/rincian data.',
+            'batal' => 'icon ini  <i class="icon-form-silang"></i>'
+                        .'  berfungsi untuk membatalkan data.',
             
         );
     }

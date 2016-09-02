@@ -57,4 +57,24 @@ class SATindakanruanganM extends TindakanruanganM
                         ),
 		));
 	}
+        
+        public function searchPrint()
+	{
+		$criteria=new CDbCriteria;
+		$criteria->with = array('ruangan','daftartindakan','daftartindakan.kategoritindakan','daftartindakan.kelompoktindakan','daftartindakan.komponenunit');
+		$criteria->compare('t.ruangan_id',$this->ruangan_id);
+		$criteria->compare('t.daftartindakan_id',$this->daftartindakan_id);
+		$criteria->compare('LOWER(ruangan.ruangan_nama)',  strtolower($this->ruangan_nama), true);
+		$criteria->compare('LOWER(kelompoktindakan.kelompoktindakan_nama)',  strtolower($this->kelompoktindakan_nama), true);
+		$criteria->compare('LOWER(kategoritindakan.kategoritindakan_nama)',  strtolower($this->kategoritindakan_nama), true);
+                $criteria->compare('LOWER(komponenunit.komponenunit_nama)',  strtolower($this->komponenunit_nama), true);
+		$criteria->compare('LOWER(daftartindakan.daftartindakan_kode)',  strtolower($this->daftartindakan_kode), true);
+		$criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',  strtolower($this->daftartindakan_nama), true);
+                $criteria->order = "daftartindakan.daftartindakan_nama ASC, kelompoktindakan.kelompoktindakan_nama ASC";
+                $criteria->limit = -1;
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination' => false,
+		));
+	}
 }
