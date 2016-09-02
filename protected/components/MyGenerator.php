@@ -1627,12 +1627,16 @@ class MyGenerator
 	public static function noAlokasiAnggaran(){
 		$default = "000001";
         $prefix = "ALOAG".date('Y');
-        $sql = "SELECT CAST(MAX(SUBSTR(no_alokasi,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+        $sql = "SELECT CAST(MAX(SUBSTR(no_alokasi,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) as nomaksimal
 				FROM alokasianggaran_t 
 				WHERE no_alokasi LIKE ('".$prefix."%')";
+		
+		//var_dump($sql); die;
         $noAlokasiAnggaran = Yii::app()->db->createCommand($sql)->queryRow();
-        $noAlokasiAnggaran_baru = $prefix.(isset($noAlokasiAnggaran['no']) ? (str_pad($noAlokasiAnggaran['no']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
-        return $noAlokasiAnggaran_baru;
+		//var_dump($noAlokasiAnggaran);
+        $noAlokasiAnggaran_baru = $prefix.(isset($noAlokasiAnggaran['nomaksimal']) ? (str_pad($noAlokasiAnggaran['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        //var_dump($noAlokasiAnggaran_baru); die;
+		return $noAlokasiAnggaran_baru;
 		
 	}
 	
