@@ -19,31 +19,31 @@ class AGInformasialokasianggaranV extends InformasialokasianggaranV
 		$criteria=new CDbCriteria;
 
 		if(!empty($this->programkerja_id)){
-			$criteria->addCondition('programkerja_id = '.$this->programkerja_id);
+			$criteria->addCondition('t.programkerja_id = '.$this->programkerja_id);
 		}
-		$criteria->compare('LOWER(programkerja_nama)',strtolower($this->programkerja_nama),true);
-		$criteria->compare('LOWER(programkerja_kode)',strtolower($this->programkerja_kode),true);
+		$criteria->compare('LOWER(t.programkerja_nama)',strtolower($this->programkerja_nama),true);
+		$criteria->compare('LOWER(t.programkerja_kode)',strtolower($this->programkerja_kode),true);
 		if(!empty($this->subprogramkerja_id)){
-			$criteria->addCondition('subprogramkerja_id = '.$this->subprogramkerja_id);
+			$criteria->addCondition('t.subprogramkerja_id = '.$this->subprogramkerja_id);
 		}
-		$criteria->compare('LOWER(subprogramkerja_nama)',strtolower($this->subprogramkerja_nama),true);
-		$criteria->compare('LOWER(subprogramkerja_kode)',strtolower($this->subprogramkerja_kode),true);
+		$criteria->compare('LOWER(t.subprogramkerja_nama)',strtolower($this->subprogramkerja_nama),true);
+		$criteria->compare('LOWER(t.subprogramkerja_kode)',strtolower($this->subprogramkerja_kode),true);
 		if(!empty($this->kegiatanprogram_id)){
-			$criteria->addCondition('kegiatanprogram_id = '.$this->kegiatanprogram_id);
+			$criteria->addCondition('t.kegiatanprogram_id = '.$this->kegiatanprogram_id);
 		}
-		$criteria->compare('LOWER(kegiatanprogram_nama)',strtolower($this->kegiatanprogram_nama),true);
-		$criteria->compare('LOWER(kegiatanprogram_kode)',strtolower($this->kegiatanprogram_kode),true);
+		$criteria->compare('LOWER(t.kegiatanprogram_nama)',strtolower($this->kegiatanprogram_nama),true);
+		$criteria->compare('LOWER(t.kegiatanprogram_kode)',strtolower($this->kegiatanprogram_kode),true);
 		if(!empty($this->subkegiatanprogram_id)){
-			$criteria->addCondition('subkegiatanprogram_id = '.$this->subkegiatanprogram_id);
+			$criteria->addCondition('t.subkegiatanprogram_id = '.$this->subkegiatanprogram_id);
 		}
-		$criteria->compare('LOWER(subkegiatanprogram_nama)',strtolower($this->subkegiatanprogram_nama),true);
-		$criteria->compare('LOWER(subkegiatanprogram_kode)',strtolower($this->subkegiatanprogram_kode),true);
-		$criteria->compare('nilaiygdisetujui',$this->nilaiygdisetujui);
+		$criteria->compare('LOWER(t.subkegiatanprogram_nama)',strtolower($this->subkegiatanprogram_nama),true);
+		$criteria->compare('LOWER(t.subkegiatanprogram_kode)',strtolower($this->subkegiatanprogram_kode),true);
+		$criteria->compare('t.nilaiygdisetujui',$this->nilaiygdisetujui);
 		if(!empty($this->unitkerja_id)){
-			$criteria->addCondition('unitkerja_id = '.$this->unitkerja_id);
+			$criteria->addCondition('t.unitkerja_id = '.$this->unitkerja_id);
 		}		
-		$criteria->compare('LOWER(namaunitkerja)',strtolower($this->namaunitkerja),true);
-		$criteria->compare('LOWER(tglapprrencanggaran)',strtolower($this->tglapprrencanggaran),true);
+		$criteria->compare('LOWER(t.namaunitkerja)',strtolower($this->namaunitkerja),true);
+		$criteria->compare('LOWER(t.tglapprrencanggaran)',strtolower($this->tglapprrencanggaran),true);
 //		if(!empty($this->statusalokasi)){
 		//	$criteria->addCondition('statusalokasi is false or statusalokasi is null');
 //		}
@@ -57,14 +57,16 @@ class AGInformasialokasianggaranV extends InformasialokasianggaranV
         
         public function searchProgramKerjaAlokasi() {
             $provider = $this->searchProgramKerja();
-            $provider->criteria->addCondition('statusalokasi = false or statusalokasi is null');
+            $provider->criteria->addCondition('t.statusalokasi = false or statusalokasi is null');
         
             return $provider;
         }
         
         public function searchProgramKerjaRealisasi() {
             $provider = $this->searchProgramKerja();
-            $provider->criteria->addCondition('statusalokasi = true');
+            $provider->criteria->addCondition('t.statusalokasi = true');
+			$provider->criteria->addCondition("p.realisasianggpeng_id is null");
+			$provider->criteria->join = "left join realisasianggpeng_t p on p.alokasianggaran_id = t.alokasianggaran_id";
         
             return $provider;
         }
