@@ -24,7 +24,7 @@ echo CHtml::css('.control-label{
     td .tengah{
        text-align: center;  
     }
-       .border th, .border td{
+    .border th, .border td{
         border:1px solid #000;
     }
     .table thead:first-child{

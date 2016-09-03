@@ -11,6 +11,12 @@ Class Tips
     public static function getTips()
     {
         return array(
+            'tambah'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="icon-plus-sign icon-white"></i></div> berfungsi '
+                        .' untuk menambah baris.',
+            'kurang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
+                        .'<i class="icon-minus-sign icon-white"></i></div> berfungsi '
+                        .' untuk menghapus baris.', 
             'simpan'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="icon-ok icon-white"></i> Simpan</div> berfungsi '
                         .' untuk menyimpan data.', 

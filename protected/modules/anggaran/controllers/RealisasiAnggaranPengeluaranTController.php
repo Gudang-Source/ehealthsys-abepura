@@ -5,7 +5,7 @@ class RealisasiAnggaranPengeluaranTController extends MyAuthController{
 	public $tandaBuktiKeluar = false;
 	public $realisasiPengeluaran = false;
 	
-	public function actionIndex(){
+	public function actionIndex($realisasianggpeng_id = null){
 		$format = new MyFormatter;
 		$model = new AGRealisasianggpengT;
 		$model->no_realisasi_peng = MyGenerator::noReaAnggPeng();
@@ -13,11 +13,16 @@ class RealisasiAnggaranPengeluaranTController extends MyAuthController{
 		$model->pegawaimenyetujui_nama = isset($model->realisasimenyetujui_id) ? AGPegawaiV::model()->findByAttributes(array('pegawai_id'=>$model->realisasimenyetujui_id))->nama_pegawai : "";
 		$modTandaBuktiKeluar = new AGTandabuktikeluarT;
 		
-		
+		if (!empty($realisasianggpeng_id)) {
+			$model = AGRealisasianggpengT::model()->findByPk($realisasianggpeng_id);
+			$model->pegawaimengetahui_nama = isset($model->realisasimengetahui_id) ? AGPegawaiV::model()->findByAttributes(array('pegawai_id'=>$model->realisasimengetahui_id))->nama_pegawai : "";
+			$model->pegawaimenyetujui_nama = isset($model->realisasimenyetujui_id) ? AGPegawaiV::model()->findByAttributes(array('pegawai_id'=>$model->realisasimenyetujui_id))->nama_pegawai : "";
+		}
 		
 		if (isset($_POST['AGTandabuktikeluarT'])){
 			$transaction = Yii::app()->db->beginTransaction();
             try{
+				//var_dump($_POST); 
 				$modTandaBuktiKeluar->attributes = $_POST['AGTandabuktikeluarT'];
 				$modTandaBuktiKeluar->shift_id = 1;		
 				$modTandaBuktiKeluar->ruangan_id = Yii::app()->user->ruangan_id;
@@ -38,6 +43,8 @@ class RealisasiAnggaranPengeluaranTController extends MyAuthController{
 						$model->create_time = date("Y-m-d H:i:s");
 						$model->create_loginpemakai_id = Yii::app()->user->id;
 						$model->create_ruangan = Yii::app()->user->ruangan_id;
+						$model->persentase_realisasi = str_replace(",", ".", $model->persentase_realisasi);
+						//var_dump($model->attributes); die;
 						if ($model->save()){
 							$this->realisasiPengeluaran = true;
 						}

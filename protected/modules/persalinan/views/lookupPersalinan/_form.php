@@ -4,6 +4,7 @@
 	'id'=>'lookup-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
+        'htmlOptions' => array('onsubmit' => 'return requiredCheck(this);'),
         'focus'=>'#LookupM_lookup_type',
 )); ?>
 
@@ -31,17 +32,17 @@
             <tr>
             
                 <td>
-                    <?php echo $form->textField($model,'[1]lookup_name',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_value','LookupM_lookup_type')", 'maxlength'=>200,'placeholder'=>$model->getAttributeLabel('lookup_name'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_name',array('class'=>'span3 custom-only required', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_value','LookupM_lookup_type')", 'maxlength'=>200,'placeholder'=>$model->getAttributeLabel('lookup_name'))); ?>
                     <span class="required">*</span>
                 </td>
                 <td>
-                    <?php echo $form->textField($model,'[1]lookup_value',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_kode','LookupM_lookup_name')", 'maxlength'=>200, 'placeholder'=> $model->getAttributeLabel('lookup_value'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_value',array('class'=>'span3 custom-only required', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_kode','LookupM_lookup_name')", 'maxlength'=>200, 'placeholder'=> $model->getAttributeLabel('lookup_value'))); ?>
                 </td>
                 <td>
                     <?php echo $form->textField($model,'[1]lookup_kode',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_urutan','LookupM_lookup_value')", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('lookup_kode'))); ?>
                 </td>
                <td>
-                    <?php echo $form->textField($model,'[1]lookup_urutan',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_aktif','LookupM_lookup_kode')", 'placeholder'=> $model->getAttributeLabel('lookup_urutan'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_urutan',array('class'=>'span3 required numbers-only', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_aktif','LookupM_lookup_kode')", 'placeholder'=> $model->getAttributeLabel('lookup_urutan'))); ?>
                 </td>
                 
                     <?php //echo $form->checkBoxRow($model,'[1]lookup_aktif', array('onkeypress'=>"return nextFocus(this,event,'btn_simpan','LookupM_lookup_urutan')")); ?>
@@ -61,12 +62,18 @@
                 <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                         $this->createUrl('admin'), 
                         array('class'=>'btn btn-danger',
-                              'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                              'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
                 <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan '.$this->nama, array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                 $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 	<?php
-$content = $this->renderPartial('persalinan.views/tips/tips',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+            $tips = array(
+                '0' => 'tambah',
+                '1' => 'kurang',
+                '2' => 'simpan',
+                '3' => 'ulang'
+            );
+            $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
         </div>
 
