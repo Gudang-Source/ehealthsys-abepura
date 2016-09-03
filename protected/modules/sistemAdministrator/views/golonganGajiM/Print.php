@@ -33,18 +33,28 @@ $this->widget($table,array(
             'header'=>'ID',
             'value'=>'$data->golongangaji_id',
         ),
-		'golonganpegawai_id',
-		'masakerja',
+        array(
+            'header' => 'Golongan',
+            'value' => '$data->golonganpegawai->golonganpegawai_nama'
+        ),    		
+        array(
+            'header' => 'Golongan',
+            'value' => '$data->masakerja',
+            'htmlOptions' => array('style'=>'text-align:right;')
+        ),    		
          array(
-                        'name'=>'jmlgaji',
+                        'header'=>'Jumlah Gaji',
                         'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->jmlgaji)',
                          'htmlOptions' => array('style'=>'text-align:right;')
                      ),
-        'jenisgolongan',
+        array(
+            'header' => 'Jenis Golongan',
+            'value' => '$data->jenisgolongan'
+        ),    		
         array(
             'header'=>'Aktif',
             'type'=>'raw',
-            'value'=>'(($data->golongangaji_aktif==1)? "Ya" : "Tidak")',
+            'value'=>'(($data->golongangaji_aktif==TRUE)? "Aktif" : "Tidak Aktif")',
         ),
  
     ),

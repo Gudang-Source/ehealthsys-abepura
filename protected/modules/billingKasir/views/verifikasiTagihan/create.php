@@ -6,7 +6,7 @@
 <?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js'); ?>
 <?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js'); ?>
 <div class="white-container">
-    <legend class="rim2">Verifikasi <b>Tagihan</b></legend>
+    <legend class="rim2"> Transaksi  <b>Verifikasi Tagihan</b></legend>
     <?php
         //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting.js'); 
         //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js');
@@ -317,7 +317,7 @@
                         </div>
                     </div>    
                     <?php
-                        echo $form->textFieldRow($modVerifikasi,'noverifikasi',
+                        echo $form->hiddenField($modVerifikasi,'noverifikasi',
                             array(
                                 'class'=>'inputRequire', 
                                 'onkeypress'=>"return $(this).focusNextInputField(event)", 
@@ -326,6 +326,22 @@
                             )
                         );
                     ?>
+                    <div class = "control-group">
+                        <?php echo Chtml::label("No Verifikasi <font style='color:red;'>*</font>",'noverifikasi',array('class'=>'control-label')) ?>
+                        <div class = "controls">
+                        <?php
+                            echo $form->textField($modVerifikasi,'notemp',
+                                array(
+                                    'class'=>'inputRequire', 
+                                    'onkeypress'=>"return $(this).focusNextInputField(event)", 
+                                    'maxlength'=>50,
+                                    'readonly'=>TRUE
+                                )
+                            );
+                        ?>
+                        </div>
+                    </div>
+                    
                     <?php
                         echo $form->dropDownListRow($modVerifikasi,'mengetahuioleh_id', CHtml::listData($modVerifikasi->getPegawaiItems(Yii::app()->user->getState('ruangan_id')), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
 

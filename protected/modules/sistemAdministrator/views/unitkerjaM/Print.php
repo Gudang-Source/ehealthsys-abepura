@@ -1,4 +1,24 @@
+<style>                    
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
 
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+                
+                .border{
+                    box-shadow:none;
+                }
+            </style>
 <?php 
 $table = 'ext.bootstrap.widgets.BootGridView';
 $template = "{summary}\n{items}\n{pager}";
@@ -19,7 +39,7 @@ $this->widget($table,array(
 	'enableSorting'=>false,
 	'dataProvider'=>$model->searchPrint(),
 	'template'=>$template,
-	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'itemsCssClass'=>'table border',//table-striped table-bordered table-condensed
 	'columns'=>array(
 		////'unitkerja_id',
 //		array(

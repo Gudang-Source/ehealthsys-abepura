@@ -53,9 +53,24 @@
                             'type'=>'raw',
                             'htmlOptions'=>array('style'=>'text-align:center; width:10px;'),
                     ),
-                    'kodeunitkerja',
-                    'namaunitkerja',
-                    'namalain',
+                    array(
+                        'header' => 'Kode',
+                        'name' => 'kodeunitkerja',
+                        'value' => '$data->kodeunitkerja',
+                        'filter' => Chtml::activeTextField($model, 'kodeunitkerja', array('class'=>'angkahurufs-only'))
+                    ),                    
+                    array(
+                        'header' => 'Nama',
+                        'name' => 'namaunitkerja',
+                        'value' => '$data->namaunitkerja',
+                        'filter' => Chtml::activeTextField($model, 'namaunitkerja', array('class'=>'hurufs-only'))
+                    ),       
+                    array(
+                        'header' => 'Nama Lain',
+                        'name' => 'namalain',
+                        'value' => '$data->namalain',
+                        'filter' => Chtml::activeTextField($model, 'namalain', array('class'=>'hurufs-only'))
+                    ),                                          
     //		array(
     //			'header'=>'Ruangan Unit',
     //			'name'=>'ruangan_nama',
@@ -115,19 +130,38 @@
             ),
              'afterAjaxUpdate'=>'function(id, data){
                 jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                $(".angkahuruf-only").keyup(function() {
+                    setAngkaHurufOnly(this);
+                });    
+                $(".hurufs-only").keyup(function() {
+                    setHurufsOnly(this);
+                });    
                 $("table").find("input[type=text]").each(function(){
                     cekForm(this);
-                })
+                });
                  
             }',
         )); ?>
     <!--</div>-->
     <?php 
-    echo CHtml::link(Yii::t('mds','{icon} Tambah Unit',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
+    echo CHtml::link(Yii::t('mds','{icon} Tambah Unit Kerja',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $content = $this->renderPartial($this->path_view.'tips/master',array(),true);
+     $tips = array(       
+        '0' => 'lihat',
+        '1' => 'ubah',
+        '2' => 'nonaktif',
+        '3' => 'hapus',
+        '4' => 'aktif',        
+        '5' => 'masterPRINT',
+        '6' => 'masterEXCEL',
+        '7' => 'masterPDF',
+        '8' => 'pencarianlanjut',
+        '9' => 'cari',
+        '10' => 'masterUlang',
+    );
+    $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
     $this->widget('UserTips',array('type'=>'master','content'=>$content));
     $urlPrint= $this->createUrl('print');
 
@@ -146,7 +180,7 @@ function cekForm(obj)
     $("#agunitkerja-m-search :input[name='"+obj.name+"']").val(obj.value);
 }	
 	function nonActive(obj){
-		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",
+		myConfirm("Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?","Perhatian!",
 			function(r){
 				if(r){ 
 					$.ajax({
@@ -170,7 +204,7 @@ function cekForm(obj)
 		return false;
 	}
 	function active(obj){
-		myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",
+		myConfirm("Apakah Anda yakin ingin mengaktifkan data ini untuk sementara?","Perhatian!",
 			function(r){
 				if(r){ 
 					$.ajax({

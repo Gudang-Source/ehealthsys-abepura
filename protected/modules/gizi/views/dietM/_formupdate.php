@@ -1,5 +1,5 @@
-
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'gzdiet-m-form',
 	'enableAjaxValidation'=>false,
@@ -24,7 +24,7 @@
               
 	<?php echo $form->dropDownListRow($model,'zatgizi_id',CHtml::listData($model->ZatgiziItems,'zatgizi_id','zatgizi_nama'), array('onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 
-	<?php echo $form->textFieldRow($model,'diet_kandungan', array('onkeypress'=>"return $(this).focusNextInputField(event)")); ?>    
+	<?php echo $form->textFieldRow($model,'diet_kandungan', array('onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'float2')); ?>    
                 <div class="form-actions">
                         <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),

@@ -12,10 +12,10 @@
 	<?php echo $form->errorSummary($model); ?>
 
             <?php //echo $form->textFieldRow($model,'lookup_type',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_name','')", 'maxlength'=>100,)); ?>
-            <?php echo $form->textFieldRow($model,'lookup_name',array('onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_value','LookupM_lookup_type')", 'maxlength'=>200)); ?>
-            <?php echo $form->textFieldRow($model,'lookup_value',array('onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_kode','LookupM_lookup_name')", 'maxlength'=>200)); ?>
-            <?php echo $form->textFieldRow($model,'lookup_kode',array('onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_urutan','LookupM_lookup_value')", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'lookup_urutan',array('onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_aktif','LookupM_lookup_kode')")); ?>
+            <?php echo $form->textFieldRow($model,'lookup_name',array('class'=>'custom-only','onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_value','LookupM_lookup_type')", 'maxlength'=>200)); ?>
+            <?php echo $form->textFieldRow($model,'lookup_value',array('class'=>'custom-only','onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_kode','LookupM_lookup_name')", 'maxlength'=>200)); ?>
+            <?php echo $form->textFieldRow($model,'lookup_kode',array('class'=>'custom-only','onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_urutan','LookupM_lookup_value')", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'lookup_urutan',array('class'=>'numbers-only','onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_aktif','LookupM_lookup_kode')", 'style'=>'text-align:right;')); ?>
             <?php echo $form->checkBoxRow($model,'lookup_aktif',array('onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_aktif','LookupM_lookup_kode')")); ?>
             
 <!--	<table id="tbl-Lookup" class="table table-striped table-bordered table-condensed">
@@ -71,12 +71,16 @@
                 <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                         $this->createUrl('admin'), 
                         array('class'=>'btn btn-danger',
-                              'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                              'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
                 <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan '.$this->nama, array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                         $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 		<?php
-$content = $this->renderPartial('persalinan.views/tips/tips',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                    $tips = array(
+                        '0'=>'simpan',
+                        '1'=>'ulang',                        
+                    );
+                    $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
         </div>
 

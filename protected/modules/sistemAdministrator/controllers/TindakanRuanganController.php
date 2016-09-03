@@ -257,4 +257,39 @@ class TindakanRuanganController extends MyAuthController
             'model'=>$model,
         ));
     }
+    
+    public function actionPrint()
+    {         
+        $model= new SATindakanruanganM;
+        $judulLaporan='Data Tindakan Ruangan';
+        $caraPrint=$_REQUEST['caraPrint'];
+        if(isset($_GET['SATindakanruanganM'])){
+            $model->attributes=$_GET['SATindakanruanganM'];
+            $model->kelompoktindakan_nama=$_GET['SATindakanruanganM']['kelompoktindakan_nama'];
+            $model->kategoritindakan_nama=$_GET['SATindakanruanganM']['kategoritindakan_nama'];
+            $model->daftartindakan_kode=$_GET['SATindakanruanganM']['daftartindakan_kode'];
+            $model->daftartindakan_nama=$_GET['SATindakanruanganM']['daftartindakan_nama'];
+            $model->komponenunit_nama=$_GET['SATindakanruanganM']['komponenunit_nama'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        }
+        if($caraPrint=='PRINT') {
+            $this->layout='//layouts/printWindows';
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+        }
+        else if($caraPrint=='EXCEL') {
+            $this->layout='//layouts/printExcel';
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+        }
+        else if($_REQUEST['caraPrint']=='PDF') {
+            $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
+            $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
+            $mpdf = new MyPDF('',$ukuranKertasPDF); 
+            $mpdf->useOddEven = 2;  
+            $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
+            $mpdf->WriteHTML($stylesheet,1);  
+            $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
+            $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
+        }                       
+    }
 }

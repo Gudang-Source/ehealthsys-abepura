@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <div class="white-container">
     <legend class="rim2">Transaksi Realisasi <b>Anggaran Pengeluaran</b></legend>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
@@ -51,7 +55,7 @@ if(isset($_GET['sukses'])){
 					<?php echo $form->labelEx($model,'Periode Anggaran <span class="required">*</span>', array('class'=>'control-label')) ?>
 						<div class="controls">
 							<?php echo $form->dropDownList($model, 'konfiganggaran_id', CHtml::listData(AGRealisasianggpengT::model()->getTglPeriodeRealisasi(), 'konfiganggaran_id', 'deskripsiperiode'), array('empty'=>'--Pilih--','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-							<?php // echo CHtml::textField('konfiganggaran_id','',array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true))?>
+							<?php // echo CHtml::textField('konfiganggaran_id','',array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true))?>
 						</div>
 				</div>
 			</div>
@@ -64,6 +68,7 @@ if(isset($_GET['sukses'])){
 			<div class="control-group ">
 			<?php echo $form->labelEx($model, 'Program Kerja', array('class' => 'control-label')); ?>
 				<div class="controls">
+					<?php echo $form->hiddenField($model, 'alokasianggaran_id'); ?>
 					<?php echo $form->hiddenField($model, 'subkegiatanprogram_id',array('readonly'=>true)); ?>
 					<?php
 					$this->widget('MyJuiAutoComplete', array(
@@ -149,19 +154,19 @@ if(isset($_GET['sukses'])){
 			<div class='control-group'>
 				<?php echo CHtml::label('Nilai Alokasi','nilaialokasi_pengeluaran', array('class' => 'control-label')) ?>
 				<div class="controls">
-					<?php echo $form->textField($model, 'nilaialokasi_pengeluaran',array('readonly'=>true,'class'=>'span3 integer')); ?>
+					<?php echo $form->textField($model, 'nilaialokasi_pengeluaran',array('readonly'=>true,'class'=>'span3 integer2')); ?>
 				</div>
 			</div>
 			<div class='control-group'>
 				<?php echo CHtml::label('Nilai Realisasi','nilairealisasi_pengeluaran', array('class' => 'control-label')) ?>
 				<div class="controls">
-					<?php echo $form->textField($model, 'nilairealisasi_pengeluaran',array('class'=>'span3 integer','onkeyup'=>'hitungPersentase();')); ?>
+					<?php echo $form->textField($model, 'nilairealisasi_pengeluaran',array('class'=>'span3 integer2','onkeyup'=>'hitungPersentase();')); ?>
 				</div>
 			</div>
 			<div class='control-group'>
 				<?php echo CHtml::label('Persentase (%)','persentase_realisasi', array('class' => 'control-label')) ?>
 				<div class="controls">
-					<?php echo $form->textField($model, 'persentase_realisasi',array('readonly'=>true,'class'=>'span3 integer')); ?>
+					<?php echo $form->textField($model, 'persentase_realisasi',array('readonly'=>true,'class'=>'span3', 'style'=>'text-align: right;')); ?>
 				</div>
 			</div>
 			<div class="control-group ">
@@ -299,7 +304,7 @@ if(isset($_GET['sukses'])){
     </fieldset>
 
     <div class="form-actions">
-		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'disabled'=>!$model->isNewRecord)); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
 				$this->createUrl('index'),array('class'=>'btn btn-danger','onclick'=>'if(!confirm("'.Yii::t('mds','Apakah anda akan mengulang input data ?').'")) return false;')); ?>
 	<?php 
@@ -594,7 +599,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 				),
 				array(
 					'header'=>'Nilai Alokasi',
-					'value'=>'number_format($data->nilaiygdialokasikan)',
+					'value'=>'MyFormatter::formatNumberForPrint($data->nilaiygdialokasikan)',
 					'htmlOptions'=>array('style'=>'text-align:right;')
 				),
 				array(
@@ -609,6 +614,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     "href"=>"",
                                     "id" => "selectProgramKerja",
                                     "onClick" => "
+													$(\"#'.CHtml::activeId($model,'alokasianggaran_id').'\").val(\"$data->alokasianggaran_id\");
 													$(\"#'.CHtml::activeId($model,'subkegiatanprogram_id').'\").val(\"$data->subkegiatanprogram_id\");
 													$(\"#'.CHtml::activeId($model,'subkegiatanprogram_nama').'\").val(\"$data->subkegiatanprogram_nama\");
 													$(\"#'.CHtml::activeId($model,'sumberanggaran_id').'\").val(\"$data->sumberanggaran_id\");
@@ -648,10 +654,12 @@ function formatDateMonth(){
 function hitungPersentase(){
 unformatNumberSemua();
 	var total_persentase = 0;
-	var nilaialokasi_pengeluaran=parseInt($("#<?php echo CHtml::activeId($model,"nilaialokasi_pengeluaran");?>").val());
-	var nilairealisasi_pengeluaran=parseInt($("#<?php echo CHtml::activeId($model,"nilairealisasi_pengeluaran");?>").val());
+	var nilaialokasi_pengeluaran=parseFloat($("#<?php echo CHtml::activeId($model,"nilaialokasi_pengeluaran");?>").val());
+	var nilairealisasi_pengeluaran=parseFloat($("#<?php echo CHtml::activeId($model,"nilairealisasi_pengeluaran");?>").val());
 	total_persentase = (nilairealisasi_pengeluaran / nilaialokasi_pengeluaran) * 100;
-	$("#<?php echo CHtml::activeId($model,"persentase_realisasi");?>").val(total_persentase);
+	
+	// bisa diadjust berapa angka dibelakang koma (x) via -> toFixed(x)
+	$("#<?php echo CHtml::activeId($model,"persentase_realisasi");?>").val(total_persentase.toFixed(2).replace(".",","));
 formatNumberSemua();
 }
 </script>

@@ -1,3 +1,8 @@
+<?php 
+
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/accounting2.js', CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form2.js', CClientScript::POS_END);
+?>
 <div class="white-container">
     <legend class="rim2">Transaksi Pembatalan <b>Uang Muka</b></legend>
     <?php
@@ -92,7 +97,7 @@
 						$modBuktiKeluar->jmlkaskeluar = !empty($modBuktiKeluar->jmlkaskeluar)?MyFormatter::formatNumberForUser($modBuktiKeluar->jmlkaskeluar):0;
                         echo $form->textFieldRow($modBuktiKeluar,'jmlkaskeluar',
                             array(
-                                'class'=>'span3 integer req', 
+                                'class'=>'span3 integer2 req', 
                                 'onkeypress'=>"return $(this).focusNextInputField(event);"
                             )
                         ); 
@@ -102,7 +107,7 @@
 						$modBuktiKeluar->biayaadministrasi = MyFormatter::formatNumberForUser($modBuktiKeluar->biayaadministrasi);
                         echo $form->textFieldRow($modBuktiKeluar,'biayaadministrasi',
                             array(
-                                'class'=>'span3 integer', 
+                                'class'=>'span3 integer2', 
                                 'onkeypress'=>"return $(this).focusNextInputField(event);"
                             )
                         ); 
@@ -120,14 +125,29 @@
                     <?php // echo $form->dropDownListRow($modBuktiKeluar,'tahun', CustomFunction::getTahun(null,null),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>4)); ?>
                     <?php $modBuktiKeluar->tglkaskeluar = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modBuktiKeluar->tglkaskeluar, 'yyyy-MM-dd hh:mm:ss','medium',null)); ?>
                     <?php
-                        echo $form->textFieldRow($modBuktiKeluar,'nokaskeluar',
+                        echo $form->hiddenField($modBuktiKeluar,'nokaskeluar',
                             array(
                                 'class'=>'span3', 
                                 'onkeypress'=>"return $(this).focusNextInputField(event);", 
                                 'maxlength'=>50
                             )
-                        );
+                        );                        
                     ?>
+                        <div class = "control-group">                            
+                            <?php echo CHtml::label("No Kas Keluar <font style='color:red;'>*</font>",'notemp',array('class'=>'control-label')) ?>
+                            <div class = "controls">
+                                <?php
+                                    echo $form->textField($modBuktiKeluar,'notemp',
+                                    array(
+                                        'class'=>'span3', 
+                                        'onkeypress'=>"return $(this).focusNextInputField(event);", 
+                                        'maxlength'=>50,
+                                        'readonly'=>TRUE
+                                    )
+                                );
+                                ?>
+                            </div>
+                        </div>
                     <?php
                         echo $form->dropDownListRow($modBuktiKeluar,'carabayarkeluar', 
                             LookupM::getItems('carabayarkeluar'),
@@ -171,7 +191,7 @@
                     <?php
                         echo $form->textFieldRow($modBuktiKeluar,'namapenerima',
                             array(
-                                'class'=>'span3', 
+                                'class'=>'span3 hurufs-only', 
                                 'onkeypress'=>"return $(this).focusNextInputField(event);", 
                                 'maxlength'=>100
                             )

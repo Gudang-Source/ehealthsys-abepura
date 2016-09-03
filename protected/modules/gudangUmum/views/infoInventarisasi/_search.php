@@ -19,6 +19,7 @@
 								'mode'=>'date',
 								'options'=> array(
 									'dateFormat'=>Params::DATE_FORMAT,
+                                                                        'maxDate' => 'd'
 								),
 								'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
 								),
@@ -40,6 +41,7 @@
 											'mode'=>'date',
 											'options'=> array(
 												'dateFormat'=>Params::DATE_FORMAT,
+                                                                                                'maxDate' => 'd'
 											),
 											'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
 											),
@@ -50,7 +52,7 @@
 			</div>
 		</div>
 		<div class="span4">
-			<?php echo $form->textFieldRow($model,'invbarang_no',array('placeholder'=>'Ketik No. Inventarisasi','class'=>'numberOnly')); ?>
+			<?php echo $form->textFieldRow($model,'invbarang_no',array('placeholder'=>'Ketik No. Inventarisasi','class'=>'angkahuruf-only')); ?>
 		</div>
 	</div>
 	<div class="form-actions">
@@ -60,7 +62,13 @@
 							array('class'=>'btn btn-danger',
 								  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
 		<?php  
-			$content = $this->renderPartial($this->path_view.'tips.informasi',array(),true);
+                        $tips = array(
+                            '0' => 'tanggal',
+                            '1' => 'detail2',
+                            '2' => 'cari',
+                            '3' => 'ulang2'
+                        );
+			$content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 		?>  
 	</div>

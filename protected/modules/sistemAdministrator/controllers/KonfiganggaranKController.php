@@ -47,7 +47,7 @@ class KonfiganggaranKController extends MyAuthController
 			
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin', 'sukses'=>1));
 			}
 		}
 
@@ -84,7 +84,7 @@ class KonfiganggaranKController extends MyAuthController
 			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');	
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->konfiganggaran_id));
+				$this->redirect(array('admin','id'=>$model->konfiganggaran_id, 'sukses'=>1));
 			}
 		}
 
@@ -195,8 +195,11 @@ class KonfiganggaranKController extends MyAuthController
 	/**
 	 * Pengaturan data.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses == 1){
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            }
 		$format = new MyFormatter;
 		$model=new SAKonfiganggaranK('search');
 		$model->unsetAttributes();  // clear any default values

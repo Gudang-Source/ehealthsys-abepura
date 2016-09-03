@@ -2,7 +2,7 @@
 	'id'=>'agunitkerja-m-form',
 	'enableAjaxValidation'=>false,
 	'type'=>'horizontal',
-	'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event);', 'onsubmit'=>'return requiredCheck(this);'),
+	'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event);', 'onsubmit'=>'return cekRuangan()'),
 	'focus'=>'#'.CHtml::activeId($model, 'kodeunitkerja'),
 )); ?>
 
@@ -12,9 +12,9 @@
 
 	<div class="row-fluid">
             <div class = "span6">
-                <?php echo $form->textFieldRow($model,'kodeunitkerja',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-                <?php echo $form->textFieldRow($model,'namaunitkerja',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
-                <?php echo $form->textFieldRow($model,'namalain',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                <?php echo $form->textFieldRow($model,'kodeunitkerja',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                <?php echo $form->textFieldRow($model,'namaunitkerja',array('class'=>'span3 hurufs-only', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                <?php echo $form->textFieldRow($model,'namalain',array('class'=>'span3 hurufs-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
                 <?php echo $form->dropDownListRow($model, 'nama_instalasi', CHtml::listData(InstalasiM::model()->findAllByAttributes(array('instalasi_aktif'=>true),array('order'=>'instalasi_nama ASC')),'instalasi_id','instalasi_nama'), array('class'=>'span3','empty'=>'-- Pilih --','onchange'=>'updateNamaRuangan()')); ?>
                 <?php echo $form->error($model, 'nama_instalasi'); ?>
             </div>
@@ -81,6 +81,17 @@ function updateNamaRuangan(){
 		$(".multiselect").multiselect({sortable:true,searchable:true});
 		}
     });
+}
+
+function cekRuangan(){
+   if ($(".selected").find("li").length < 2)
+   {
+       myAlert("Maaf, <b>Ruangan</b> belum dipilih","Perhatian!");
+       return false;
+   }else {
+        return requiredCheck("#agunitkerja-m-form");        
+   }
+    
 }
 
 function namaLain(nama)

@@ -17,7 +17,7 @@ $('.search-button').click(function(){
 	$('.search-form').toggle();
 	return false;
 });
-$('#search').submit(function(){
+$('#form_kategoriObt_search').submit(function(){
 	$.fn.yiiGridView.update('lookup-m-grid', {
 		data: $(this).serialize()
 	});
@@ -47,11 +47,32 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 //        'value'=>'$data->lookup_id',
                 //),
 		//'lookup_type',
-//               'lookup_type',
-		'lookup_name',
-		'lookup_value',
-                'lookup_kode',
-		'lookup_urutan',
+//               'lookup_type',		
+		array(
+                    'header' => 'Name',
+                    'name' => 'lookup_name',
+                    'value' => '$data->lookup_name',
+                    'filter' => Chtml::activeTextField($model, 'lookup_name', array('class'=>'custom-only'))
+                ),           
+                array(
+                    'header' => 'Value',
+                    'name' => 'lookup_value',
+                    'value' => '$data->lookup_value',
+                    'filter' => Chtml::activeTextField($model, 'lookup_value', array('class'=>'custom-only'))
+                ),
+                array(
+                    'header' => 'Kode',
+                    'name' => 'lookup_kode',
+                    'value' => '$data->lookup_kode',
+                    'filter' => Chtml::activeTextField($model, 'lookup_kode', array('class'=>'custom-only'))
+                ),
+                array(
+                    'header' => 'Urutan',
+                    'name' => 'lookup_urutan',
+                    'value' => '$data->lookup_urutan',
+                    'filter' => Chtml::activeTextField($model, 'lookup_urutan', array('class'=>'numbers-only')),
+                    'htmlOptions' => array('style'=>'text-align:right;')
+                ),
 		//'lookup_aktif',
                  array(
                     'header'=>'<center>Status</center>',
@@ -81,10 +102,10 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                         'template'=>'{remove} {delete}',
                         'buttons'=>array(
                                         'remove' => array (
-                                                'label'=>"<i class='icon-remove'></i>",
+                                                'label'=>"<i class='icon-form-silang'></i>",
                                                 'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                                 'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->lookup_id"))',
-                                                //'visible'=>'($data->kabupaten_aktif && Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ? TRUE : FALSE',
+                                                'visible'=>'($data->lookup_aktif==TRUE)?TRUE:FALSE',
                                                 'click'=>'function(){ removeTemporary(this); return false;}',
                                         ),
                                         'delete'=> array(
@@ -97,7 +118,13 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
             $("table").find("input[type=text]").each(function(){
                 cekForm(this);
-            })
+            });
+            $(".custom-only").keyup(function() {
+                setCustomOnly(this);
+            });
+            $(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
         }',
 )); ?>
 
@@ -106,8 +133,21 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-     $content = $this->renderPartial('persalinan.views/tips/master',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+        
+        $tips = array(
+            '0' => 'lihat',
+            '1' => 'ubah',
+            '2' => 'nonaktif',            
+            '3' => 'hapus',
+            '4' => 'pencarianlanjut',
+            '5' => 'cari',
+            '6' => 'ulang2',
+            '7' => 'masterPRINT',
+            '8' => 'masterEXCEL',
+            '9' => 'masterPDF',
+        );
+        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
         $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
@@ -127,7 +167,7 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 <script type="text/javascript">
     function removeTemporary(obj){
         var url = $(obj).attr('href');
-        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+        myConfirm("Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
             if (r){
                  $.ajax({
                     type:'GET',

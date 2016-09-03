@@ -99,7 +99,11 @@ class LookupM extends CActiveRecord
 		$criteria->compare('lookup_value',$this->lookup_value,true);
 		$criteria->compare('lookup_urutan',$this->lookup_urutan);
 		$criteria->compare('lookup_kode',$this->lookup_kode,true);
-		$criteria->compare('lookup_aktif',$this->lookup_aktif);
+                if (Yii::app()->user->getState('ruangan_id')!=Params::RUANGAN_ID_SIMRS){
+                    $criteria->compare('lookup_aktif',$this->lookup_aktif);
+                }else{
+                    $criteria->compare('lookup_aktif',isset($this->lookup_aktif)?$this->lookup_aktif:true);
+                }
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

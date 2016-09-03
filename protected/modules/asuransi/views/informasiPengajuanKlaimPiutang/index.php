@@ -33,23 +33,33 @@
                         'value'=>'$data->nopengajuanklaimanklaim',
                     ),
                     array(
-                        'name'=>'penjamin_nama',
-                        'value'=>'$data->penjamin_nama',
+                        'header' => 'Cara Bayar / Penjamin',
+                        'type' => 'raw',
+                        'value'=>'$data->carabayar_nama." <br/> / ".$data->penjamin_nama',
                     ),
                     array(
-                                            'header'=>'Total Pengajuan',
+                        'header'=>'Total Pengajuan',
                         'name'=>'totalpiutang',
-                        'value'=>'number_format($data->totalpiutang)',
+                        'value'=>'number_format($data->totalpiutang,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                                     array(
-                                                            'header'=>'Pembayaran Klaim Piutang',
-                                                            'type'=>'raw',
-                                                            'htmlOptions'=>array('style'=>'text-align:left;'),
-                                                            'value'=>'CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranKlaimPiutangAS/index",array("pengajuanklaim_id"=>$data->pengajuanklaimpiutang_id)),
-                                                                                                    array("class"=>"", 
-                                                                                                              "rel"=>"tooltip",
-                                                                                                              "title"=>"Klik untuk melakukan pembayaran Klaim Piutang",
-                                                                                            ))',
+                                    'header'=>'Pembayaran Klaim Piutang',
+                                    'type'=>'raw',
+                                    'htmlOptions'=>array('style'=>'text-align:left;'),
+                                    'value'=>function($data){
+                                       $cek = PengajuanklaimpiutangT::model()->findByPk($data->pengajuanklaimpiutang_id);
+                            
+                                        if (empty($cek->pembayarklaim_id)){ 
+                                        return CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranKlaimPiutangAS/index",array("pengajuanklaim_id"=>$data->pengajuanklaimpiutang_id)),
+                                                                            array("class"=>"", 
+                                                                                      "rel"=>"tooltip",
+                                                                                      "title"=>"Klik untuk melakukan pembayaran Klaim Piutang",
+                                                                    ));
+                                        }else{
+                                            echo "SUDAH DIBAYAR";
+                                        }
+                                    },
                                                     ),
                                     array(
                                                             'header'=>'Rincian Pengajuan',
@@ -64,17 +74,25 @@
                                                                                             ))',
                                                     ),
                                     array(
-                                                            'header'=>'Batal',
-                                                            'type'=>'raw',
-                                                            'htmlOptions'=>array('style'=>'text-align:left;'),
-                                                            'value'=>'CHtml::Link("<i class=\"icon-form-silang\"></i>",Yii::app()->controller->createUrl("InformasiPengajuanKlaimPiutang/batalPembayaran",array("id"=>$data->pengajuanklaimpiutang_id,"frame"=>true)),
-                                                                                                    array("class"=>"", 
-                                                                                                              "target"=>"batalPembayaran",
-                                                                                                              "onclick"=>"deleteRecord($data->pengajuanklaimpiutang_id);",
-                                                                                                              "rel"=>"tooltip",
-                                                                                                              "title"=>"Klik untuk membatalkan Pengajuan Klaim Piutang",
-                                                                                            ))',
-                                                    ),
+                        'header'=>'Batal',
+                        'type'=>'raw',
+                        'htmlOptions'=>array('style'=>'text-align:left;'),
+                        'value'=>function($data){
+                            $cek = PengajuanklaimpiutangT::model()->findByPk($data->pengajuanklaimpiutang_id);
+                            
+                            if (empty($cek->pembayarklaim_id)){
+                                return CHtml::Link("<i class=\"icon-form-silang\"></i>",Yii::app()->controller->createUrl("InformasiPengajuanKlaimPiutang/batalPembayaran",array("id"=>$data->pengajuanklaimpiutang_id,"frame"=>true)),
+                                                                array("class"=>"", 
+                                                                          "target"=>"batalPembayaran",
+                                                                          "onclick"=>"deleteRecord($data->pengajuanklaimpiutang_id);",
+                                                                          "rel"=>"tooltip",
+                                                                          "title"=>"Klik untuk membatalkan Pengajuan Klaim Piutang",
+                                                        ));
+                            }
+                                    
+                                    
+                        },
+                ),
 
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
