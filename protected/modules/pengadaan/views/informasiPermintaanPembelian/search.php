@@ -22,6 +22,7 @@
                                         'mode'=>'date',
                                         'options'=> array(
                                             'dateFormat'=>Params::DATE_FORMAT,
+                                            'maxDate' => 'd'
                                         ),
                                         'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                         ),
@@ -41,6 +42,7 @@
                                                     'mode'=>'date',
                                                     'options'=> array(
                                                         'dateFormat'=>Params::DATE_FORMAT,
+                                                        'maxDate' => 'd'
                                                     ),
                                                     'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                     ),
@@ -75,9 +77,21 @@
     </table>
     <div class="form-actions">
         <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
-        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); echo "&nbsp;"; ?>
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                        Yii::app()->createUrl($this->module->id.'index',array('modul_id'=>Yii::app()->session['modul_id'])), 
+                        array('class'=>'btn btn-danger',
+                              'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  
+        ?>
         <?php
-           $content = $this->renderPartial('pengadaan.views.tips/informasi_pengadaan',array(),true);
+           $tips = array(
+               '0' => 'tanggal',
+               '1' => 'ubah',
+               '2' => 'terima',
+               '3' => 'detail',
+               '4' => 'cari',
+               '5' => 'ulang2'
+           );
+           $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
     </div>

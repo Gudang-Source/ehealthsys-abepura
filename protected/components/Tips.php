@@ -79,6 +79,8 @@ Class Tips
                         .'  berfungsi untuk melihat detail/rincian data.',
             'batal' => 'icon ini  <i class="icon-form-silang"></i>'
                         .'  berfungsi untuk membatalkan data.',
+            'terima' => 'icon ini  <i class="icon-form-terimaobalkes"></i>'
+                        .'  berfungsi untuk melanjutkan ke transaksi penerimaan.',
             
         );
     }
