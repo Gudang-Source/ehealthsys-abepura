@@ -131,7 +131,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 			Menyetujui,
 		</div>
 		<div class="control-group">
-			( <?php echo $model->pegawaimengetahui->NamaLengkap;?> )
+			( <?php echo $model->pegawaimenyetujui->NamaLengkap;?> )
 		</div>
 	</div>
 </div>
