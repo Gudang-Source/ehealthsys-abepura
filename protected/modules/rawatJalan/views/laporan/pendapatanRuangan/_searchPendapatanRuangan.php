@@ -211,7 +211,7 @@
                                             </table>
                                             <table  id="penjamin">
                                             <tr>
-                                                <td>Data Tidak Ditemukan</td>
+                                                <td></td>
                                             </tr>
                                             </table>',            
                                 'active'=>false,
@@ -224,7 +224,7 @@
                         
                     </td>
                     <td></td>
-                </tr>
+                
             </tr>
             </table>                           
     <div class="form-actions">

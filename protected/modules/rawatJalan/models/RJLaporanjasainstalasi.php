@@ -9,7 +9,7 @@ class RJLaporanjasainstalasi extends LaporanjasainstalasiV {
     public $thn_awal;
     public $thn_akhir;
     public $jns_periode;
-    
+    public $nama_pegawai;
     public $subtotal;
 
     public static function model($className = __CLASS__) {
