@@ -1,7 +1,7 @@
 <div class="white-container">
     <legend class="rim2">Laporan Pemakai <b>Obat Alkes</b></legend>
     <?php
-    $url = Yii::app()->createUrl('rawatInap/laporan/frameGrafikLaporanPemakaiObatAlkes&id=1');
+    $url = Yii::app()->createUrl('perawatanIntensif/laporan/FrameGrafikLaporanPemakaiObatAlkes&id=1');
     Yii::app()->clientScript->registerScript('search',"
     $('.search-button').click(
         function(){

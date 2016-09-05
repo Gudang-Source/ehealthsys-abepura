@@ -129,53 +129,74 @@
         </div> 
     </div> 
 </table>  
-<table width="100%" border="0">
-    <tr>
-        <td width="65%">
-            <fieldset class="box2">
-				<legend class="rim">Berdasarkan Kelas Pelayanan </legend>
-				<input id="checkSemuaid" class="checkbox-column" type="checkbox" value="1" checked="checked" onclick="checkSemua()" onkeypress="return $(this).focusNextInputField(event)">
-				Pilih Semua<br>
-				<div class="penjamin">
-					<?php 
-						echo $form->checkBoxList($model, 'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->findAll(), 'kelaspelayanan_id', 'kelaspelayanan_nama'));
-					?>
-				</div>
-			</fieldset>
-        </td>
-        <td>
-            <div id='searching'>
-                <fieldset class="box2">
-                    <legend class="rim">Berdasarkan Cara Bayar </legend>
-                    <?php
-                    echo '<table>
-                                                    <tr>
-                                                        <td>' . CHtml::hiddenField('filter', 'carabayar', array('disabled' => 'disabled')) . '<label>Cara&nbsp;Bayar</label></td>
-                                                        <td>' . $form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
-                        'ajax' => array('type' => 'POST',
-                            'url' => $this->createUrl('GetPenjaminPasienForCheckBox', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
-                            'update' => '#penjamin', //selector to update
-                        ),
-                    )) . '
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label>Penjamin</label>
-                                                        </td>
-                                                        <td>
-                                                            <div id="penjamin">
-                                                            <label>data tidak ditemukan</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                 </table>';
-                    ?>
-                </fieldset>
-            </div>
-        </td>
-    </tr>
-</table>
+ <table width="100%" border="0">
+                <tr>
+                <td> 
+                    <div id='searching'>
+                    <fieldset>    
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content2'=>array(
+                                'header'=>'Berdasarkan Kelas pelayanan',
+                                'isi'=>  CHtml::checkBox('cek_all', true, array("id"=>"checkSemuaid",'value'=>'cek', "onclick"=>"checkSemua()")).'Pilih Semua <br\>                                             
+                                            <table class="penjamin">                                            
+                                            <tr>
+                                                    <td>'.
+                                                           $form->checkBoxList($model, 'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama ASC"), 'kelaspelayanan_id', 'kelaspelayanan_nama'))
+                                                    .'</td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>true,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>											
+                    </fieldset>	
+                    </div>
+                </td>
+                <td>
+                     <div id='searching'>
+                    <fieldset>    
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan2',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content1'=>array(
+                                'header'=>'Berdasarkan Cara Bayar',
+                                'isi'=>  '<table>
+                                            <tr>
+                                                <td>'.CHtml::hiddenField('filter', 'carabayar', array('disabled'=>'disabled')).'<label>Cara&nbsp;Bayar</label></td>
+                                                <td>'.$form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                                    'ajax' => array('type' => 'POST',
+                                                        'url' => $this->createUrl('GetPenjaminPasienForCheckBox', array('encode' => false, 'namaModel' => ''.$model->getNamaModel().'')),
+                                                        'update' => '#penjamin',  //selector to update
+                                                    ),
+                                                )).'
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label>Penjamin</label>
+                                                </td>
+                                                <td>
+                                                   <div id="penjamin">
+                                                           <label> Data belum ditemukan </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>',          
+                                'active'=>false,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>											
+                    </fieldset>	
+                    </div>      
+                </td>
+                </tr>
+            </table>
 <div class="form-actions">
     <?php
     echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
