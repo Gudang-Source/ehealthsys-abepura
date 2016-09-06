@@ -2,7 +2,7 @@
     <legend class="rim2">Laporan <b>Pembebasan Tarif</b></legend>
     <?php
 
-    $url = Yii::app()->createUrl('billingKasir/laporan/FrameGrafikLaporanPembebasanTarif&id=1');
+    $url = Yii::app()->createUrl('perawatanIntensif/laporan/FrameGrafikLaporanPembebasanTarif&id=1');
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();
@@ -18,11 +18,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="box search-form">
+    <fieldset class="box search-form">
         <?php $this->renderPartial('pembebasanTarif/_search',array(
             'model'=>$model,
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form --> 
     <div class="block-tabel"> 
         <h6>Tabel <b>Pembebasan Tarif</b></h6>
         <?php $this->renderPartial('pembebasanTarif/_table', array('model'=>$model)); ?>

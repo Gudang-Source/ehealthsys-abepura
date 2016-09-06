@@ -450,4 +450,55 @@ class InfokunjunganpersalinanV extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+               
+        
+         public function getCaraBayarItems()
+        {
+            return CarabayarM::model()->findAll('carabayar_aktif=TRUE') ;
+        }
+        
+        public function getPenjaminItems()
+        {
+            return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE');
+        }
+        
+        public function getPropinsiItems()
+        {
+            return PropinsiM::model()->findAll('propinsi_aktif=TRUE ORDER BY propinsi_nama');
+        }
+        
+        public function getNamaNamaBIN()
+        { 
+            if (!empty($this->nama_bin)) {
+                return $this->nama_pasien.' alias '.$this->nama_bin;
+            } else {
+                return $this->nama_pasien;
+            }
+            
+        }
+        
+        public function getCaraBayarPenjamin()
+        {
+                return $this->carabayar_nama.' / '.$this->penjamin_nama;
+        }
+        
+        public function getAlamatRTRW()
+        {
+            return $this->alamat_pasien.'<br>'.$this->rt.' / '.$this->rw;
+        }
+        
+        public function getNoRMNoPend(){
+            return $this->no_rekam_medik.'<br/>'.$this->no_pendaftaran;
+        }
+        
+        public function getTglMasukNoPenunjang(){
+            return $this->tglmasukpenunjang.'<br/>'.PHP_EOL.$this->no_masukpenunjang;
+        }
+        
+        public function getJenisKelaminUmur(){
+            return $this->jeniskelamin.'<br/>'.$this->umur;
+        }
+        public function getInstalasiRuangan(){
+            return $this->instalasiasal_nama.'<br/>'.$this->ruanganasal_nama;
+        }
 }

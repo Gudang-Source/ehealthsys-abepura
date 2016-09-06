@@ -1,4 +1,5 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.BootGridView';
 $template = "{summary}\n{items}\n{pager}";
 $row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
@@ -9,6 +10,31 @@ if (isset($caraPrint)){
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  echo "<style>
+     .border th, .border td{
+        border:1px solid #000;
+    }
+    .border{
+        box-shadow:none;
+    }
+    
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>";
+  if ($caraPrint == "PRINT"){
+      
+  $itemCssClass = 'table border';
+  }
 } else{
   $data = $model->searchTable();
 }
@@ -17,7 +43,7 @@ if (isset($caraPrint)){
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
         'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
             array(
                 'header' => 'No',

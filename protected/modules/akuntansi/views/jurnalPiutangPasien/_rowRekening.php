@@ -35,16 +35,16 @@ if(count($modRekenings) > 0){
                     "</td>";
                 echo "<td>".
                         CHtml::hiddenField("row", $key,array('readonly'=>true, 'class'=>'span1')).
-                        CHtml::textField($namaModel."[$key][kdstruktur]", $value->kdstruktur,array('readonly'=>true, 'class'=>'span1', 'style'=>'width:20px')).
-                        CHtml::hiddenField($namaModel."[$key][struktur_id]", $value->struktur_id,array('readonly'=>true, 'class'=>'span1')).
-                        CHtml::textField($namaModel."[$key][kdkelompok]", $value->kdkelompok,array('readonly'=>true, 'class'=>'span1', 'style'=>'width:20px')).
-                        CHtml::hiddenField($namaModel."[$key][kelompok_id]", $value->kelompok_id,array('readonly'=>true, 'class'=>'span1')).
-                        CHtml::textField($namaModel."[$key][kdjenis]", $value->kdjenis,array('readonly'=>true, 'class'=>'span1', 'style'=>'width:20px')).
-                        CHtml::hiddenField($namaModel."[$key][jenis_id]", $value->jenis_id,array('readonly'=>true, 'class'=>'span1')).
-                        CHtml::textField($namaModel."[$key][kdobyek]", $value->kdobyek,array('readonly'=>true, 'class'=>'span1', 'style'=>'width:20px')).
-                        CHtml::hiddenField($namaModel."[$key][obyek_id]", $value->obyek_id,array('readonly'=>true, 'class'=>'span1')).
-                        CHtml::textField($namaModel."[$key][kdrincianobyek]", $value->kdrincianobyek,array('readonly'=>true, 'class'=>'span1')).
-                        CHtml::hiddenField($namaModel."[$key][rincianobyek_id]", $value->rincianobyek_id,array('readonly'=>true, 'class'=>'span1')).
+                        CHtml::hiddenField($namaModel."[$key][kdrekening1]", $value->kdrekening1,array('readonly'=>true, 'class'=>'span1', 'style'=>'width:20px')).
+                        CHtml::hiddenField($namaModel."[$key][rekening1_id]", $value->rekening1_id,array('readonly'=>true, 'class'=>'span1')).
+                        CHtml::hiddenField($namaModel."[$key][kdrekening2]", $value->kdrekening2,array('readonly'=>true, 'class'=>'span1', 'style'=>'width:20px')).
+                        CHtml::hiddenField($namaModel."[$key][rekening2_id]", $value->rekening2_id,array('readonly'=>true, 'class'=>'span1')).
+                        CHtml::hiddenField($namaModel."[$key][kdrekening3]", $value->kdrekening3,array('readonly'=>true, 'class'=>'span1', 'style'=>'width:20px')).
+                        CHtml::hiddenField($namaModel."[$key][rekening3_id]", $value->rekening3_id,array('readonly'=>true, 'class'=>'span1')).
+                        CHtml::hiddenField($namaModel."[$key][kdrekening4]", $value->kdrekening4,array('readonly'=>true, 'class'=>'span1', 'style'=>'width:20px')).
+                        CHtml::hiddenField($namaModel."[$key][rekening4_id]", $value->rekening4_id,array('readonly'=>true, 'class'=>'span1')).
+                        CHtml::textField($namaModel."[$key][kdrekening5]", $value->kdrekening5,array('readonly'=>true, 'class'=>'span2')).
+                        CHtml::hiddenField($namaModel."[$key][rekening5_id]", $value->rekening5_id,array('readonly'=>true, 'class'=>'span1')).
                     "</td>";
                 echo('<td>');
 //                echo CHtml::hiddenField($namaModel."[$key][nama_rekening]", $value->nmrincianobyek,array('readonly'=>true));
@@ -55,7 +55,7 @@ if(count($modRekenings) > 0){
                 echo CHtml::hiddenField($namaModel."[$key][tindakanpelayanan_id]", $value->tindakanpelayanan_id,array('readonly'=>true));
                 $this->widget('MyJuiAutoComplete',
                     array(
-                        'value'=>$value->nmrincianobyek,
+                        'value'=>$value->nmrekening5,
                         'name' => $namaModel."[$key][rekDebitKredit]",
                         'id' => $namaModel."_".$key."_rekDebitKredit",
                         'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/rekeningAkuntansi', array('id_jenis_rek'=>null)),
@@ -89,9 +89,9 @@ if(count($modRekenings) > 0){
             
             echo '<td>';
                 echo CHtml::textField($namaModel."[$key][saldodebit]", 
-                    number_format($value->saldodebit),
+                    MyFormatter::formatNumberForPrint($value->saldodebit),
                     array(
-                        'class'=>'inputFormTabel uncurrency',
+                        'class'=>'inputFormTabel integer2',
                         //'disabled'=>($status == 'debit' ? "" : "disabled"),
                         'onkeyup' => "hitungSemua();",
                         'onkeypress' => "return $(this).focusNextInputField(event)",
@@ -100,9 +100,9 @@ if(count($modRekenings) > 0){
             echo '</td>';
             echo '<td>';
                 echo CHtml::textField($namaModel."[$key][saldokredit]",
-                    number_format($value->saldokredit),
+                    MyFormatter::formatNumberForPrint($value->saldokredit),
                     array(
-                        'class'=>'inputFormTabel uncurrency',
+                        'class'=>'inputFormTabel integer2',
                         //'disabled'=>($status == 'kredit' ? "" : "disabled"),
                         'onkeyup' => "hitungSemua();",
                         'onkeypress' => "return $(this).focusNextInputField(event)",

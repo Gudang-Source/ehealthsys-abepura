@@ -408,10 +408,12 @@ class PembelianbarangTController extends MyAuthController
         public function actionDetailPembelianBarang($id){
             $this->layout ='//layouts/iframe';
             $modBeli = PembelianbarangT::model()->findByPk($id);
+            $judulLaporan='Data Pembelian Barang';
             $modDetailBeli = BelibrgdetailT::model()->findAllByAttributes(array('pembelianbarang_id'=>$modBeli->pembelianbarang_id));
             $this->render($this->path_view.'detailInformasi', array(
                 'modBeli'=>$modBeli,
                 'modDetailBeli'=>$modDetailBeli,
+                'judulLaporan'=>$judulLaporan,
             ));
         }
         

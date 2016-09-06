@@ -94,7 +94,7 @@ class LaporanjasainstalasiV extends CActiveRecord
         public $karcisnama;
         public $karcisqty;
         public $karcisrs, $karcismedis, $karcissubtotal;
-        
+        public $nama_pegawai;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -241,6 +241,7 @@ class LaporanjasainstalasiV extends CActiveRecord
                         'karcisrs'=>'Rumah Sakit',
                         'karcismedis'=>'Medis',
                         'karcissubtotal'=>'Sub Total',
+                        'nama_pegawai' => 'Dokter',
 		);
 	}
 

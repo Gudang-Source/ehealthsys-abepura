@@ -1,3 +1,24 @@
+<style>
+    .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .border {
+        box-shadow:none;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>
 <?php 
 
 if($caraPrint=='EXCEL')
@@ -26,7 +47,7 @@ if (isset($caraPrint)){
     'dataProvider'=>$dataProv,
     'enableSorting'=>$sort,
     'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'itemsCssClass'=>'table border',
 	'columns'=>array(
                  array(
                     'header'=>'Nama Dokter',

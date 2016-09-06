@@ -286,7 +286,7 @@ class PSInfokunjunganrdV extends LaporankunjunganpersalinanV {
             $criteria->addCondition('penjamin_id='.$this->penjamin_id);
 		}
         $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
-		$criteria->addCondition('ruangan_id='.Yii::app()->user->getState('ruangan_id'));
+        $criteria->addCondition('ruangan_id='.Yii::app()->user->getState('ruangan_id'));
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->order = 'tgl_pendaftaran DESC';
 
