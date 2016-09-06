@@ -29,7 +29,7 @@
         <TD colspan="2" HEIGHT=2 style="border-bottom: 1px solid #000000">&nbsp;</TD>
     </TR>
     <TR>
-        <TD ALIGN=CENTER colspan="2" class="judul">
+        <TD STYLE="text-align:center;" colspan="2" class="judul">
             <font color="black"><h5><?php echo ((isset($judulLaporan)) ? $judulLaporan : null); ?></h5></font>
         </TD>
     </TR>    
