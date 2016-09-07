@@ -48,6 +48,20 @@
 			'value'=>'$data->NoPendaftaranKelas',
 			'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
 		),
+                array(
+                    'header' => 'Dokter',
+                    'value' => function($data){
+                        $pegawai_id = TindakanpelayananT::model()->findByPk($data->tindakanpelayanan_id)->dokterpemeriksa1_id;
+                        
+                        $nama = RIPegawaiM::model()->findByPk($pegawai_id);
+                        
+                        if (count($nama)>0){
+                            return $nama->namaLengkap;
+                        }else{
+                            return '-';
+                        }
+                    }
+                ),
 		array(
 			'header'=>'Cara Bayar Penjamin',
 			'name' => 'carabayarPenjamin',

@@ -6,67 +6,75 @@
     $format = new MyFormatter;
 ?>
 <style>
-
-.table
-{
-    border: 1px solid #000;
-    border-radius: 0px 0px 0px 0px;
-    box-shadow: 0px 0px 0px 0px;
-}
+    .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
     
-.table-striped tbody tr:nth-child(2n+1) td
-{
-    background-color: #fff;
-}
-
-.table th
-{
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    thead th{
+        background:none;
+        color:#333;
+    }
     
-}
-
-.c th + th, .c td + td, .c th + td, .c td + th 
-{
-    border-left: 1px solid #000;
+    .border {
+        box-shadow:none;
+    }
     
-}
-
-.d th + th, .d td + td, .d th + td, .d td + th 
-{
-    border-left: 0px;
-    
-}
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
 </style>
 
-<table bgcolor='white' class='table table-striped table-bordered table-condensed d' style = "border:0px">
+<table bgcolor='white' class='table' style = "box-shadow:none;">
     <tr bgcolor='white' >
-        <td bgcolor='white'>
-             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('nopembelian')); ?>:</b>
-            <?php echo CHtml::encode($modBeli->nopembelian); ?>
-            <br />
-             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('tglpembelian')); ?>:</b>
-            <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser(date('Y-m-d',strtotime($modBeli->tglpembelian)))); ?>
-             <br/>
-             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('tgldikirim')); ?>:</b>
-            <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser(date('Y-m-d',strtotime($modBeli->tgldikirim)))); ?>
-             <br/>                                    
+        <td>
+             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('nopembelian')); ?></b>
         </td>
-        <td bgcolor='white'>
-             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('peg_pemesanan_id')); ?>:</b>
-            <?php echo CHtml::encode($modBeli->pemesan->nama_pegawai); ?>
-            <br />             
-             <b><?php echo "Nama Supplier" ?>:</b>
-            <?php 
+        <td>
+            : <?php echo CHtml::encode($modBeli->nopembelian); ?>
+        </td>
+        <td>
+            &nbsp;
+        </td>    
+        <td>
+            <b><?php echo CHtml::encode($modBeli->getAttributeLabel('peg_pemesanan_id')); ?></b>            
+        </td>
+        <td>: <?php echo CHtml::encode($modBeli->pemesan->nama_pegawai); ?></td>
+    </tr>
+    <tr>
+        <td>
+             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('tglpembelian')); ?></b>
+        </td>
+        <td>
+            : <?php echo !empty($modBeli->tglpembelian)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($modBeli->tglpembelian)))):"-" ?>
+        </td>
+        <td>
+            &nbsp;
+        </td> 
+        <td>
+             <b><?php echo "Supplier" ?></b>            
+        </td>
+        <td>
+            : <?php 
                 $nama = SupplierM::model()->findByAttributes(array('supplier_id'=>$modBeli->supplier_id));
                 echo $nama->supplier_nama;
             ?>
-             <br/>  
         </td>
-    </tr>   
+    </tr>
+    <tr>
+        <td>
+             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('tgldikirim')); ?></b>
+        </td>
+        <td>
+            : <?php echo !empty($modBeli->tgldikirim)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($modBeli->tgldikirim)))):"-"; ?>
+        </td>
+    </tr>
+        
 </table>
 
-<table id="tableObatAlkes" class="table table-striped table-bordered table-condensed c" bgcolor='white'>
+<table id="tableObatAlkes" class="table border" bgcolor='white'>
     <thead>
         <th>No.Urut</th>
         <th>Golongan</th>
@@ -128,3 +136,21 @@
 		</td>
 	</tr>
 </table>
+
+<?php
+if (isset($_GET['frame'])){
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+    //echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
+?>
+    <script type='text/javascript'>
+    /**
+     * print
+     */    
+    function print(caraPrint){
+        pembelianbarang_id = '<?php echo isset($modBeli->pembelianbarang_id) ? $modBeli->pembelianbarang_id : ''; ?>';
+        window.open('<?php echo $this->createUrl('print'); ?>&id='+pembelianbarang_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
+    }
+    </script>
+<?php
+}
+?>
