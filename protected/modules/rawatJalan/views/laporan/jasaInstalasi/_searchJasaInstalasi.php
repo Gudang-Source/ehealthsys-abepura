@@ -188,6 +188,39 @@
                     </div>
                 </td>
             </tr>
+            <tr>
+                    <td style = "text-align:left;">
+                        <div id='searching'>
+                    <fieldset>    
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan2',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content3'=>array(
+                                'header'=>'Berdasarkan Dokter',
+                                'isi'=>  '
+                                            <table>                                            
+                                            <tr>
+                                                    <td>'.$form->textFieldRow($model,'nama_pegawai',array('placeholder'=>'Ketik Nama Dokter'))
+                                                    .'</td>
+                                            </tr>
+                                            </table>
+                                            <table  id="penjamin">
+                                            <tr>
+                                                <td></td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>false,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>											
+                    </fieldset>	
+                    </div>
+                        
+                    </td>
+                    <td></td>
+                </tr>
             </table>   
 				
 	

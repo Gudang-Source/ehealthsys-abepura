@@ -448,7 +448,7 @@ class LaporanpendapatanruanganV extends CActiveRecord
         
         public function getCaraBayarPenjamin()
         {
-                return $this->carabayar_nama.'/'.$this->penjamin_nama;
+                return $this->carabayar_nama.' / <br/> '.$this->penjamin_nama;
         }
         
         public function getRTRW()

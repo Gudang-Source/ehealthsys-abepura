@@ -31,7 +31,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
             'type'=>'horizontal',
             'htmlOptions'=>array(
                 'onKeyPress'=>'return disableKeyPress(event)',
-                'onSubmit'=>'return unformatSemuaInput();'
+                'onSubmit'=>'return unformatNumberSemua();'
             ),
             'focus'=>'#',
         )
@@ -97,12 +97,39 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 echo CHtml::hiddenField('row',0,array('readonly'=>true)); //untuk mencatat asal baris di klik
-$modRekKredit = new RekeningakuntansiV('searchAccounts');
+$modRekKredit = new RekeningakuntansiV('search');
 $modRekKredit->unsetAttributes();
+// $modRekDebit->rekening5_nb = "D";
+$modRekKredit->rekening5_aktif = true;
+$account = "";
 if(isset($_GET['RekeningakuntansiV'])) {
     $modRekKredit->attributes = $_GET['RekeningakuntansiV'];
-//    $modRekKredit->rincianobyek_nb = $_GET['RekeningakuntansiV']['rincianobyek_nb'];
 }
+
+$c2 = new CDbCriteria();
+$c3 = new CDbCriteria();
+$c4 = new CDbCriteria();
+
+
+$c2->compare('rekening1_id', $modRekKredit->rekening1_id);
+$c2->addCondition('rekening2_aktif = true');
+$c2->order = 'kdrekening2';
+
+$r2 = Rekening2M::model()->findAll($c2);
+
+$c3->compare('rekening2_id', $modRekKredit->rekening2_id);
+$c3->addCondition('rekening3_aktif = true');
+$c3->order = 'kdrekening3';
+
+$r3 = Rekening3M::model()->findAll($c3);
+
+$c4->compare('rekening3_id', $modRekKredit->rekening3_id);
+$c4->addCondition('rekening4_aktif = true');
+$c4->order = 'kdrekening4';
+
+$r4 = Rekening4M::model()->findAll($c4);
+
+
 //$this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 	'id'=>'rekkreditdebit-m-grid',

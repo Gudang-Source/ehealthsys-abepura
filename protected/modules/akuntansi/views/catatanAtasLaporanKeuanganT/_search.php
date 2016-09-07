@@ -1,17 +1,17 @@
 <div class="row-fluid">
 	<div class="span4">
 		<div class="control-group ">
-		<?php echo CHtml::label('Periode Akuntansi','rekperiod_id', array('class'=>'control-label')) ?>
+		<?php echo CHtml::label('Periode Akuntansi  <span class="required">*</span>','rekperiod_id', array('class'=>'control-label')) ?>
 			<div class="controls">
-			<?php echo $form->dropDownList($model,'rekperiod_id',CHtml::listData(RekperiodM::model()->findAllByAttributes(array('isclosing'=>false)),'rekperiod_id','deskripsi'),array('class'=>'span3','onkeypress'=>'return $(this).focusNextInputField(event)')); ?>
+			<?php echo $form->dropDownList($model,'rekperiod_id',CHtml::listData(RekperiodM::model()->findAllByAttributes(array('isclosing'=>false)),'rekperiod_id','deskripsi'),array('empty'=>'-- Pilih --','class'=>'span3 required','onkeypress'=>'return $(this).focusNextInputField(event)')); ?>
 			</div>
 		</div>
 	</div>
 	<div class="span4">
 		<div class="control-group ">
-		<?php echo CHtml::label('No. CALK','calk_no', array('class'=>'control-label')) ?>
+		<?php echo CHtml::label('No. CALK <span class="required">*</span>','calk_no', array('class'=>'control-label')) ?>
 			<div class="controls">
-			<?php echo $form->textField($model,'calk_no',array('class'=>'span3','onkeypress'=>'return $(this).focusNextInputField(event)', 'maxlength'=>25)); ?>
+			<?php echo $form->textField($model,'calk_no',array('class'=>'span3 required','onkeypress'=>'return $(this).focusNextInputField(event)', 'maxlength'=>25)); ?>
 			</div>
 		</div>
 	</div>

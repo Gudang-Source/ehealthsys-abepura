@@ -1,7 +1,7 @@
 <div class="white-container">
     <legend class="rim2">Laporan <b>Jasa Instalasi</b></legend>
     <?php
-    $url = Yii::app()->createUrl('rawatInap/laporan/frameGrafikLaporanJasaInstalasi&id=1');
+    $url = Yii::app()->createUrl('perawatanIntensif/laporan/frameGrafikLaporanJasaInstalasi&id=1');
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();
