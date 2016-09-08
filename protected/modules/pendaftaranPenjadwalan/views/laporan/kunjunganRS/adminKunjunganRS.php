@@ -2,6 +2,10 @@
     <legend class="rim2">Laporan <b>Kunjungan RS</b></legend>
     <?php
     $url = Yii::app()->createUrl('pendaftaranPenjadwalan/laporan/frameGrafikKunjunganRS&id=1');
+    if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_REKAM_MEDIS){
+        $url = Yii::app()->createUrl('rekamMedis/laporan/frameGrafikKunjunganRS&id=1');
+    }
+    
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();
@@ -35,3 +39,4 @@
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanKunjunganRS');
     $this->renderPartial('pendaftaranPenjadwalan.views.laporan._footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'tips'=>'bukuregister')); ?>
 </div>
+<?php $this->renderPartial('pendaftaranPenjadwalan.views.laporan.bukuRegister/_jsFunctions', array('model'=>$model));?>

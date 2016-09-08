@@ -35,19 +35,12 @@ class PPLaporankunjunganbydokterV extends LaporankunjunganbydokterV
 
         $criteria = new CDbCriteria;
         if(!empty($this->ruangan_id)){                    
-                    $count = count($this->ruangan_id);                    
-                    $i=0;
-                    for ($i=0;$i < $count;$i++)
-                    {
-                        if ($i == 0):
-                            $criteria->addCondition("ruangan_id = ".$this->ruangan_id[$i]); 
-                        endif;
-                        
-                        //$criteria->addCondition("ruangan_id = ".$this->ruangan_id[$i]); 			
-                    }                   
-                   // var_dump($i);die;
-                    
-		}
+             $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+        }else{
+            if (!empty($this->instalasi_id)){
+                $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+            }
+        }
         $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition("pasien_id = ".$this->pasien_id); 			
@@ -169,14 +162,13 @@ class PPLaporankunjunganbydokterV extends LaporankunjunganbydokterV
 		if(!empty($this->shift_id)){
 			$criteria->addCondition("shift_id = ".$this->shift_id); 			
 		}
-		if(!empty($this->ruangan_id)){
-                    
-			$criteria->addCondition("ruangan_id = ".$this->ruangan_id); 			
-		}
-		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id); 			
-		}
+		if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+               }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+               }
 		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
 		if(!empty($this->jeniskasuspenyakit_id)){
 			$criteria->addCondition("jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id); 			

@@ -117,8 +117,14 @@ class PPBukuregisterpasienV extends BukuregisterpasienV {
 		$criteria->compare('LOWER(hubungankeluarga)',strtolower($this->hubungankeluarga),true);
 		$criteria->compare('LOWER(nama_pj)',strtolower($this->nama_pj),true);
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$this->ruangan_id); 			
-		}
+                    if (is_array($this->ruangan_id)){
+                        $criteria->addInCondition("ruangan_id",$this->ruangan_id); 			
+                    }			
+                }else{
+                        if (!empty($this->instalasi_id)){
+                            $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                        }
+                    }
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition("instalasi_id = ".$this->instalasi_id); 			
@@ -242,6 +248,15 @@ class PPBukuregisterpasienV extends BukuregisterpasienV {
 //		echo "<pre>";
 //		print_r($criteria);
 //		exit;
+                if(!empty($this->ruangan_id)){
+                    if (is_array($this->ruangan_id)){
+                        $criteria->addInCondition("ruangan_id",$this->ruangan_id); 			
+                    }			
+                }else{
+                        if (!empty($this->instalasi_id)){
+                            $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                        }
+                    }
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -351,13 +366,15 @@ class PPBukuregisterpasienV extends BukuregisterpasienV {
             $criteria->compare('LOWER(pengantar)',strtolower($this->pengantar),true);
             $criteria->compare('LOWER(hubungankeluarga)',strtolower($this->hubungankeluarga),true);
             $criteria->compare('LOWER(nama_pj)',strtolower($this->nama_pj),true);
-			if(!empty($this->ruangan_id)){
-				$criteria->addCondition("ruangan_id = ".$this->ruangan_id); 			
-			}
-            $criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id); 			
-			}
+                if(!empty($this->ruangan_id)){
+                    if (is_array($this->ruangan_id)){
+                        $criteria->addInCondition("ruangan_id",$this->ruangan_id); 			
+                    }			
+                }else{
+                        if (!empty($this->instalasi_id)){
+                            $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                        }
+                    }
             $criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
 			if(!empty($this->jeniskasuspenyakit_id)){
 				$criteria->addCondition("jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id); 			
