@@ -201,7 +201,7 @@
                                 'isi'=>  '
                                             <table>                                            
                                             <tr>
-                                                    <td>'.$form->textFieldRow($model,'nama_pegawai',array('placeholder'=>'Ketik Nama Dokter'))
+                                                    <td>'.$form->dropDownListRow($model,'nama_pegawai',  CHtml::listData(DokterV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."'  "), 'nama_pegawai', 'namaLengkap'),array('empty'=>'-- Pilih --'))
                                                     .'</td>
                                             </tr>
                                             </table>

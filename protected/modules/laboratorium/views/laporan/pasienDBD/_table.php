@@ -26,7 +26,7 @@
                    array(
                        'header'=>'<center>Nama</center>',
                        'type'=>'raw',
-                       'value'=>'$data->nama_pasien',
+                       'value'=>'$data->namadepan." ".$data->nama_pasien',
                    ),
                    array(
                        'header'=>'<center>Alamat</center>',
@@ -41,7 +41,7 @@
                    array(
                        'header'=>'<center>Tanggal Masuk</center>',
                        'type'=>'raw',
-                       'value'=>'date("d/m/Y H:i:s", strtotime($data->tgl_pendaftaran))',
+                       'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tgl_pendaftaran)))',
                    ),
                    array(
                        'header'=>'<center>IgG</center>',

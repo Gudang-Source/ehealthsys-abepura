@@ -1,4 +1,5 @@
 <?php 
+    $itemCssClass = 'table table-striped table-condensed';
     $rim = 'width:600px;overflow-x:none;';
     $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
     $data = $model->searchPrintPasienDBD();
@@ -12,8 +13,37 @@
       $data = $model->searchPrintPasienDBD();
       $rim = '';
       $template = "{items}";
-      if ($caraPrint == "EXCEL")
+      if ($caraPrint == "EXCEL"){
           $table = 'ext.bootstrap.widgets.BootExcelGridView';
+      }
+      
+      echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+                
+                .border thead, .border tb{
+                    border:1px solid #000;
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
     }
 ?>
 <?php if(isset($_GET['filter_tab'])){ ?>
@@ -26,7 +56,7 @@
                     'dataProvider'=>$model->searchPasienDBD(),
                     'template'=>$template,
                     'enableSorting'=>true,
-                    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+                    'itemsCssClass'=>$itemCssClass,
                     'mergeHeaders'=>array(
                         array(
                             'name'=>'<center>HASIL (<i class="icon-ok icon-black"></i>) </center>',
@@ -185,7 +215,7 @@
                     'dataProvider'=>$model->searchPrint(),
                     'template'=>$template,
                     'enableSorting'=>true,
-                    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+                    'itemsCssClass'=>'table table-striped table-condensed',
                     'mergeHeaders'=>array(
                         array(
                             'name'=>'<center>HASIL (<i class="icon-ok icon-black"></i>) </center>',

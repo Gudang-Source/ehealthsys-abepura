@@ -14,7 +14,7 @@ class LBLaporansensuslabV extends LaporansensuslabV {
 
         $criteria = $this->functionCriteria();
         
-        $criteria->select = 'count(tglmasukpenunjang) as jumlah, kunjungan as data';
+        $criteria->select = 'count(pendaftaran_id) as jumlah, kunjungan as data';
         $criteria->group = 'kunjungan';
         if ($this->pilihan == 'carabayar'){
             if (!empty($this->penjamin_id)) {
@@ -73,7 +73,19 @@ class LBLaporansensuslabV extends LaporansensuslabV {
         
         if (!is_array($this->kunjungan)){
             $this->kunjungan = 0;
+        }else{
+            $data = array();
+            foreach(  $this->kunjungan as $i => $values ){
+                                
+                if( $values == "KUNJUNGAN ULANG"){
+                    $data[]="KUNJUNGAN LAMA";
+                } else{
+                    $data[]=$values;
+                }
+            }                                            
+            $criteria->addInCondition('kunjungan', $data);
         }
+        
         if ($this->pilihan == 'jenis'){
 			if(!empty($this->jenispemeriksaanlab_id)){
 				$criteria->addCondition('jenispemeriksaanlab_id = '.$this->jenispemeriksaanlab_id);
@@ -83,7 +95,7 @@ class LBLaporansensuslabV extends LaporansensuslabV {
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
-        $criteria->compare('kunjungan', $this->kunjungan);
+        
 		
         $criteria->compare('jenispemeriksaanlab_nama', $this->jenispemeriksaanlab_nama);
 		if(!empty($this->pemeriksaanlab_id)){
