@@ -247,5 +247,15 @@ $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dip
             $("#rujukan").find("input[type=\'checkbox\']").attr("checked", false);
         }
     }
-    
+    function checkAll(){
+        if($('#checkAllRuangan').is(':checked')){
+           $('#searchLaporan input[name*="ruangan_id"]').each(function(){
+                $(this).attr('checked',true);
+           });
+        }else{
+             $('#searchLaporan input[name*="ruangan_id"]').each(function(){
+                $(this).removeAttr('checked');
+           });
+        }
+    }
 </script>

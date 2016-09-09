@@ -98,6 +98,17 @@ class RKLaporantindaklanjutV extends LaporantindaklanjutV
             $criteria->addCondition('pasienpulang_id is not null');
             $criteria->addCondition('carakeluar is null');
         }
+        
+        if (!empty($this->ruangan_id)){
+            if (is_array($this->ruangan_id)){
+                $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+            }            
+        }else{
+            if (!empty($this->instalasi_id)){
+                $criteria->addCondition('instalasi_id ='.$this->instalasi_id);
+            }
+        }
+        
         $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
@@ -147,7 +158,15 @@ class RKLaporantindaklanjutV extends LaporantindaklanjutV
         $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
-
+        if (!empty($this->ruangan_id)){
+            if (is_array($this->ruangan_id)){
+                $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+            }            
+        }else{
+            if (!empty($this->instalasi_id)){
+                $criteria->addCondition('instalasi_id ='.$this->instalasi_id);
+            }
+        }
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
@@ -178,6 +197,15 @@ class RKLaporantindaklanjutV extends LaporantindaklanjutV
         $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
         $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
         $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
+        if (!empty($this->ruangan_id)){
+            if (is_array($this->ruangan_id)){
+                $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+            }            
+        }else{
+            if (!empty($this->instalasi_id)){
+                $criteria->addCondition('instalasi_id ='.$this->instalasi_id);
+            }
+        }
         $criteria->limit = -1;
 
         return new CActiveDataProvider($this, array(

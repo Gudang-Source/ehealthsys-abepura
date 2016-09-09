@@ -73,8 +73,9 @@ class LaporantindaklanjutV extends CActiveRecord
                 public $jumlah;
                 public $data;
                 public $tick;
-                public $tgl_awal;
-                public $tgl_akhir;
+                public $tgl_awal, $bln_awal, $thn_awal;
+                public $tgl_akhir, $bln_akhir, $thn_akhir;
+                public $jns_periode;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
