@@ -5,8 +5,12 @@
         'Ppinfo Kunjungan Rjvs'=>array('index'),
         'Manage',
     );
-
+    
     $url = Yii::app()->createUrl('pendaftaranPenjadwalan/laporan/frameGrafik10BesarPenyakit&id=1');
+    if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_REKAM_MEDIS){
+        $url = Yii::app()->createUrl('rekamMedis/laporan/frameGrafik10BesarPenyakit&id=1');
+    }
+    
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();

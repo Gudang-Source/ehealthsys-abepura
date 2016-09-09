@@ -1098,7 +1098,7 @@ class ActionDynamicController extends Controller
                 if(empty($instalasi_id)){
                     $ruangan = RuanganM::model()->findAll('ruangan_aktif = TRUE and instalasi_id=9999');
                 } else {
-                    $ruangan = RuanganM::model()->findAll('ruangan_aktif = TRUE and instalasi_id='.$instalasi_id.'');
+                    $ruangan = RuanganM::model()->findAll('ruangan_aktif = TRUE and instalasi_id='.$instalasi_id.' ORDER BY ruangan_nama ASC');
                 }
                 $ruangan = CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
                 echo CHtml::hiddenField(''.$namaModel.'[ruangan_id]');

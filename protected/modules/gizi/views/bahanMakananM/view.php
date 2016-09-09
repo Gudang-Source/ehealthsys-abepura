@@ -30,11 +30,24 @@
                     'namabahanmakanan',
                     'jmlpersediaan',
                     'satuanbahan',
-                    'harganettobahan',
-                    'hargajualbahan',
+                    array(
+                        'label' => 'Harga Netto',
+                        'value' => number_format($model->harganettobahan,0,"",".")
+                    ),                    
+                    array(
+                        'label' => 'Harga Netto',
+                        'value' => number_format($model->hargajualbahan,0,"",".")
+                    ),                    
                     'discount',
-                    'tglkadaluarsabahan',
+                    array(
+                        'label' => 'Tanggal Kadaluarsa',
+                        'value' => MyFormatter::formatDateTimeForUser($model->tglkadaluarsabahan)
+                    ),                    
                     'jmlminimal',
+                    array(
+                        'label' => 'Status',
+                        'value' => ($model->bahanmakanan_aktif == TRUE)?"Aktif":"Tidak Aktif"
+                    ),
             ),
     )); ?>
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Bahan Makanan', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('bahanMakananM/admin', array('modul_id' => Yii::app()->session['modul_id'], 'tab'=>'frame')), array('class' => 'btn btn-success'));
