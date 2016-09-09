@@ -71,7 +71,16 @@
                                     'filter'=> CHtml::dropDownList('BahanmakananM[kelbahanmakanan]', $model->kelbahanmakanan,CHtml::listData($model->KelBahanMakananItems, 'lookup_name', 'lookup_value'), array('empty'=>'--Pilih--')),
                                     'value'=>'$data->kelbahanmakanan',
                                 ),
-                            'namabahanmakanan',
+                    array(
+                        'header' => 'Bahan Makanan',
+                        'name' => 'namabahanmakanan',
+                        'value' => '$data->namabahanmakanan',
+                        'filter' => Chtml::activeTextField($model, 'namabahanmakanan', array('class'=>'custom-only'))
+                    ),       
+                    array(
+                        'header' => 'Status',
+                        'value' => '($data->bahanmakanan_aktif ==TRUE)?"Aktif":"Tidak Aktif"',                        
+                    ),
                             /*
                     'sumberdanabhn',
                     'jenisbahanmakanan',
@@ -107,7 +116,8 @@
                             array(
                                 'header'=>'Hapus',
                                 'type'=>'raw',
-                                'value'=>'CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->bahanmakanan_id)",array("id"=>"$data->bahanmakanan_id","rel"=>"tooltip","title"=>"Hapus bahan makanan"));',
+                                //'value'=>'CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->bahanmakanan_id)",array("id"=>"$data->bahanmakanan_id","rel"=>"tooltip","title"=>"Hapus bahan makanan"));',
+                                'value'=>'($data->bahanmakanan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->bahanmakanan_id)",array("id"=>"$data->bahanmakanan_id","rel"=>"tooltip","title"=>"Menonaktifkan Bahan Makanan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->bahanmakanan_id)",array("id"=>"$data->bahanmakanan_id","rel"=>"tooltip","title"=>"Hapus Bahan Makanan")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->bahanmakanan_id)",array("id"=>"$data->bahanmakanan_id","rel"=>"tooltip","title"=>"Hapus Bahan Makanan"));',
                                 'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                             ),
                     ),
@@ -115,10 +125,13 @@
                         jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                         $("table").find("input[type=text]").each(function(){
                             cekForm(this);
-                        })
+                        });
                         $("table").find("select").each(function(){
                             cekForm(this);
-                        })
+                        });
+                        $(".custom-only").keyup(function() {
+                            setCustomOnly(this);
+                        });
                     }',
                 )); ?>
             <!--</div>-->
@@ -129,7 +142,19 @@
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $content = $this->renderPartial('../tips/master2',array(),true);
+    $tips = array(
+        '0' => 'ubah',
+        '1' => 'lihat',
+        '2' => 'nonaktif',
+        '3' => 'hapus',
+        '4' => 'pencarianlanjut',
+        '5' => 'cari',
+        '6' => 'ulang2',
+        '7' => 'masterPDF',
+        '8' => 'masterPRINT',
+        '9' => 'masterEXCEL',
+    );
+    $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
     $this->widget('UserTips',array('type'=>'admin','content'=>$content)); 
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
@@ -151,10 +176,29 @@ JSCRIPT;
     ?>
 <!--</div>-->
 <script type="text/javascript">
+    
+    function removeTemporary(id){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+
+        myConfirm('Apakah Anda yakin ingin akan menonaktifkan data ini untuk sementara?','Perhatian!',
+        function(r){
+            if(r){
+               $.post(url, {id: id},
+                    function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('bahan-makanan-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+            }
+        }); 
+    }
+    
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
-        myConfirm('Yakin Akan Menghapus Data ini?','Perhatian!',
+        myConfirm('Apakah Anda yakin ingin menghapus data ini?','Perhatian!',
         function(r){
             if(r){
                 $.post(url, {id: id},

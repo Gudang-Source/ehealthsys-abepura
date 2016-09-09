@@ -61,7 +61,7 @@ class BahanmakananM extends CActiveRecord
 			array('jmlpersediaan, harganettobahan, hargajualbahan, discount', 'numerical'),
 			array('sumberdanabhn, jenisbahanmakanan, kelbahanmakanan, satuanbahan', 'length', 'max'=>50),
 			array('namabahanmakanan', 'length', 'max'=>100),
-			array('tglkadaluarsabahan', 'safe'),
+			array('tglkadaluarsabahan, bahanmakanan_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('bahanmakanan_id, golbahanmakanan_id, sumberdanabhn, jenisbahanmakanan, kelbahanmakanan, namabahanmakanan, jmlpersediaan, satuanbahan, harganettobahan, hargajualbahan, discount, tglkadaluarsabahan, jmlminimal, jmldlmkemasan', 'safe', 'on'=>'search'),
@@ -106,6 +106,7 @@ class BahanmakananM extends CActiveRecord
 			'tglkadaluarsabahan' => 'Tanggal Kadaluarsa Bahan',
 			'jmlminimal' => 'Jumlah Minimal',
 			'jmldlmkemasan' => 'Jumlah dalam Kemasan',
+                        'bahanmakanan_aktif' => 'Aktif',
 		);
 	}
 
@@ -134,6 +135,7 @@ class BahanmakananM extends CActiveRecord
 		$criteria->compare('LOWER(tglkadaluarsabahan)',strtolower($this->tglkadaluarsabahan),true);
 		$criteria->compare('jmlminimal',$this->jmlminimal);
 		$criteria->compare('jmldlmkemasan',$this->jmldlmkemasan);
+                $criteria->compare('bahanmakanan_aktif',isset($this->bahanmakanan_aktif)?$this->bahanmakanan_aktif:true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -161,6 +163,7 @@ class BahanmakananM extends CActiveRecord
 		$criteria->compare('LOWER(tglkadaluarsabahan)',strtolower($this->tglkadaluarsabahan),true);
 		$criteria->compare('jmlminimal',$this->jmlminimal);
 		$criteria->compare('jmldlmkemasan',$this->jmldlmkemasan);
+                $criteria->compare('bahanmakanan_aktif',isset($this->bahanmakanan_aktif)?$this->bahanmakanan_aktif:true);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
 //                $criteria->limit=-1; 
 
