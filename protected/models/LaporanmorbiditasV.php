@@ -59,10 +59,10 @@ class LaporanmorbiditasV extends CActiveRecord
 			array('diagnosa_kode', 'length', 'max'=>10),
 			array('diagnosa_nama', 'length', 'max'=>100),
 			array('diagnosa_namalainnya', 'length', 'max'=>50),
-			array('tglmorbiditas', 'safe'),
+			array('tglmorbiditas, ruangan_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('tgl_awal, tgl_akhir, jumlah, data, tick, pasien_id, pendaftaran_id, tglmorbiditas, kasusdiagnosa, umur_0_28hr, umur_28hr_1thn, umur_1_4thn, umur_5_14thn, umur_15_24thn, umur_25_44thn, umur_45_64thn, umur_65, diagnosa_id, diagnosa_kode, diagnosa_nama, diagnosa_namalainnya, diagnosa_nourut, golonganumur_id, jeniskelamin', 'safe', 'on'=>'search'),
+			array('tgl_awal, tgl_akhir, jumlah, data, tick, pasien_id, pendaftaran_id, tglmorbiditas, kasusdiagnosa, umur_0_28hr, umur_28hr_1thn, umur_1_4thn, umur_5_14thn, umur_15_24thn, umur_25_44thn, umur_45_64thn, umur_65, diagnosa_id, diagnosa_kode, diagnosa_nama, diagnosa_namalainnya, diagnosa_nourut, golonganumur_id, jeniskelamin, ruangan_id', 'safe', 'on'=>'search'),
 		);
 	}
 
