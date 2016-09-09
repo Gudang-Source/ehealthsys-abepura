@@ -132,9 +132,10 @@
                         <?php echo $form->labelEx($model, 'peg_pemesanan_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'peg_pemesanan_id'); ?>
+                        <?php echo $form->textField($model, 'peg_pemesan_nama', array('class'=>'span3', 'readonly'=>TRUE)); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
                         <?php
-                        $this->widget('MyJuiAutoComplete', array(
+                        /*$this->widget('MyJuiAutoComplete', array(
                             'model' => $model,
                             'attribute' => 'peg_pemesan_nama',
                             'source' => 'js: function(request, response) {
@@ -167,7 +168,7 @@
                                 'placeholder' => 'Ketikan nama pegawai pemesanan',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogPegawai', 'jsFunction' => 'openDialog("' . Chtml::activeId($model, 'peg_pemesanan_id') . '");'),
-                        ));
+                        ));*/
                         ?>
                         <?php echo $form->error($model, 'peg_pemesanan_id'); ?>
                     </div>
@@ -391,15 +392,18 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modPegawai = new ADPegawaiM('search');
+$modPegawai = new PegawairuanganV('search');
 $modPegawai->unsetAttributes();
+$modPegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
 //$modPegawai->ruangan_id = 0;
-if (isset($_GET['ADPegawaiM']))
-    $modPegawai->attributes = $_GET['ADPegawaiM'];
+if (isset($_GET['PegawairuanganV'])){
+    $modPegawai->attributes = $_GET['PegawairuanganV'];
+    $modPegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
+}
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'pegawai-m-grid',
-    'dataProvider' => $modPegawai->searchDialog(),
+    'dataProvider' => $modPegawai->search(),
     'filter' => $modPegawai,
     'template'=>"{summary}\n{items}\n{pager}",
     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -417,17 +421,42 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                     $(\'#dialogPegawai\').dialog(\'close\');
                                     return false;"))',
         ),
-        'nama_pegawai',
-        'nomorindukpegawai',
-        'alamat_pegawai',
-        'agama',
         array(
-            'name' => 'jeniskelamin',
-            'filter' => CHtml::dropDownList('ADPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
-            'value' => '$data->jeniskelamin',
+            'header' => 'NIP',
+            'name' => 'nomorindukpegawai',
+            'value' => '$data->nomorindukpegawai',
+            'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))
         ),
+        array(
+            'header' => 'Nama Pegawai',
+            'name' => 'nama_pegawai',
+            'value' => '$data->namaLengkap',
+            'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only'))
+        ),             
+        array(
+            'header' => 'Jabatan',
+            'name' => 'jabatan_id',
+            'value' => function ($data){
+                $p = JabatanM::model()->findByPk($data->jabatan_id);
+                
+                if (count($p)>0){
+                    return $p->jabatan_nama;
+                }else{
+                    return '-';
+                }
+            },
+            'filter' => Chtml::activeDropDownList($modPegawai, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"),'jabatan_id','jabatan_nama') ,array('empty'=>'-- Pilih --'))
+        ),  
+        
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    . '$(".numbers-only").keyup(function() {
+        setNumbersOnly(this);
+        });
+        $(".hurufs-only").keyup(function() {
+        setHurufsOnly(this);
+        });'
+    . '}',
 ));
 
 $this->endWidget();

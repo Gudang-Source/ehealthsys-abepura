@@ -1,3 +1,20 @@
+<style>
+    .pagination{
+        font-weight: initial;
+    }
+    
+    .summary{
+        font-weight: initial;
+    }
+    
+    .nav{
+        font-weight: initial;
+    }
+    
+    .required{
+        font-weight: initial;
+    }
+</style>
 <div class="white-container">
     <legend class="rim2">Laporan <b>Sensus Harian</b></legend>
     <?php

@@ -39,7 +39,7 @@ echo CHtml::css('.table thead tr th{
             'diagnosa_nama',
             'umur_0_28hr',
             'umur_28hr_1thn',
-                        'umur_1_4thn',
+            'umur_1_4thn',
             'umur_5_14thn',
             'umur_15_24thn',
             'umur_25_44thn',

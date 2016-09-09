@@ -1,4 +1,4 @@
-<span class="required"><i>Bagian dengan tanda * harus diisi.</i></span>
+<a class="required"><i>Bagian dengan tanda * harus diisi.</i></a>
 <p>
 <table border="0" style="padding :none;">
   <tr>

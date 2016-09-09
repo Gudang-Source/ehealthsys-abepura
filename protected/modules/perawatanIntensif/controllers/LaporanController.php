@@ -655,14 +655,14 @@ class LaporanController extends MyAuthController {
 
     public function actionPrintLaporan10BesarPenyakit() {
         $model = new RILaporan10besarpenyakit('search');
-		$model->jns_periode = "hari";
-		$model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
-		$model->tgl_akhir = date('Y-m-d');
-		$model->bln_awal = date('Y-m', strtotime('first day of january'));
-		$model->bln_akhir = date('Y-m');
-		$model->thn_awal = date('Y');
-		$model->thn_akhir = date('Y');
-                $model->ruangan_id = Yii::app()->user->getState('ruangan_id');  
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');  
         $judulLaporan = 'Laporan 10 Besar Penyakit Pasien Rawat Inap';
         $format = new MyFormatter();
         

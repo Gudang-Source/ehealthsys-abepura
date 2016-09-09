@@ -7,6 +7,8 @@
         'id' => 'searchLaporan',
         'htmlOptions' => array('enctype' => 'multipart/form-data'),
     ));
+    
+    $format = new MyFormatter();
     ?>
     <style>
         table{
@@ -23,99 +25,142 @@
             display:inline-block;
         }
     </style>
+    <div class="row-fluid">
+        <div class="span4">
+            <?php echo CHtml::hiddenField('type', ''); ?>
+            <?php echo CHtml::label('Tanggal Kunjungan', 'tgladmisi', array('class' => 'control-label')) ?>
+            <div class="controls">
+                <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
+            </div>
+        </div>
+        <div class="span4">
+            <div class='control-group hari'>
+                <?php echo CHtml::label('Dari Tanggal', 'dari_tanggal', array('class' => 'control-label')) ?>
+                <div class="controls">  
+                    <?php $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal); ?>                     
+                    <?php
+                    $this->widget('MyDateTimePicker', array(
+                        'model' => $model,
+                        'attribute' => 'tgl_awal',
+                        'mode' => 'date',
+                        'options' => array(
+                            'dateFormat' => Params::DATE_FORMAT,
+                            'maxDate' => 'd',
+                        ),
+                        'htmlOptions' => array('readonly' => true, 'class' => "span2",
+                            'onkeypress' => "return $(this).focusNextInputField(event)"),
+                    ));
+                    ?>
+                    <?php $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal); ?>                     
+                </div> 
+
+            </div>
+            <div class='control-group bulan'>
+                <?php echo CHtml::label('Dari Bulan', 'dari_tanggal', array('class' => 'control-label')) ?>
+                <div class="controls">
+                    <?php $model->bln_awal = $format->formatMonthForUser($model->bln_awal); ?>
+                    <?php
+                    $this->widget('MyMonthPicker', array(
+                        'model' => $model,
+                        'attribute' => 'bln_awal',
+                        'options' => array(
+                            'dateFormat' => Params::MONTH_FORMAT,
+                        ),
+                        'htmlOptions' => array('readonly' => true,
+                            'class' => "span2",
+                            'onkeypress' => "return $(this).focusNextInputField(event)"),
+                    ));
+                    ?>
+                    <?php $model->bln_awal = $format->formatMonthForDb($model->bln_awal); ?>
+                </div> 
+            </div>
+            <div class='control-group tahun'>
+                <?php echo CHtml::label('Dari Tahun', 'dari_tanggal', array('class' => 'control-label')) ?>
+                <div class="controls">
+                    <?php
+                    echo $form->dropDownList($model, 'thn_awal', CustomFunction::getTahun(null, null), array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)"));
+                    ?>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class='control-group hari'>
+                <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                <div class="controls">  
+                    <?php $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir); ?>
+                    <?php
+                    $this->widget('MyDateTimePicker', array(
+                        'model' => $model,
+                        'attribute' => 'tgl_akhir',
+                        'mode' => 'date',
+                        'options' => array(
+                            'dateFormat' => Params::DATE_FORMAT,
+                            'maxDate' => 'd',
+                        ),
+                        'htmlOptions' => array('readonly' => true, 'class' => "span2",
+                            'onkeypress' => "return $(this).focusNextInputField(event)"),
+                    ));
+                    ?>
+                    <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
+                </div> 
+            </div>
+            <div class='control-group bulan'>
+                <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                <div class="controls"> 
+                    <?php $model->bln_akhir = $format->formatMonthForUser($model->bln_akhir); ?>
+                    <?php
+                    $this->widget('MyMonthPicker', array(
+                        'model' => $model,
+                        'attribute' => 'bln_akhir',
+                        'options' => array(
+                            'dateFormat' => Params::MONTH_FORMAT,
+                        ),
+                        'htmlOptions' => array('readonly' => true, 'class' => "span2",
+                            'onkeypress' => "return $(this).focusNextInputField(event)"),
+                    ));
+                    ?>
+                    <?php $model->bln_akhir = $format->formatMonthForDb($model->bln_akhir); ?>
+                </div> 
+            </div>
+            <div class='control-group tahun'>
+                <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                <div class="controls">
+                    <?php
+                    echo $form->dropDownList($model, 'thn_akhir', CustomFunction::getTahun(null, null), array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)"));
+                    ?>
+                </div>
+            </div>
+        </div> 
+    </div>  
     <table width="100%">
         <tr>
-            <td class="row-fluid">
-                <div class="span6">
-                    <fieldset class="box2">
-                        <legend class="rim">Berdasarkan Kunjungan</legend>
-                        <?php echo CHtml::hiddenField('type', ''); ?>
-                        <?php //echo CHtml::hiddenField('src', ''); ?>
-                        <div class = 'control-label'>Tanggal Kunjungan</div>
-                        <div class="controls">  
-                            <?php
-                            $this->widget('MyDateTimePicker', array(
-                                'model' => $model,
-                                'attribute' => 'tgl_awal',
-                                'mode' => 'date',
-                                'options' => array(
-                                    'maxDate'=>'d',
-                                    'dateFormat' => Params::DATE_FORMAT,
-                                ),
-                                'htmlOptions' => array('readonly' => true,
-                                'class'=>'dtPicker2',
-                                'onkeypress' => "return $(this).focusNextInputField(event)"),
-                            ));
-                            ?>
-                        </div> 
-                        <?php echo CHtml::label('Sampai dengan', 'Sampai dengan', array('class' => 'control-label')) ?>
-                        <div class="controls">  
-                            <?php
-                            $this->widget('MyDateTimePicker', array(
-                                'model' => $model,
-                                'attribute' => 'tgl_akhir',
-                                'mode' => 'date',
-                                'options' => array(
-                                    'maxDate'=>'d',
-                                    'dateFormat' => Params::DATE_FORMAT,
-                                ),
-                                'htmlOptions' => array('readonly' => true,
-                                'class'=>'dtPicker2',
-                                'onkeypress' => "return $(this).focusNextInputField(event)"),
-                            ));
-                            ?>
-                        </div> 
-                    </fieldset>
-                </div>
-                <div class="span6" id='searching'>
-                    <fieldset class="box2">
-                        <legend class="rim">Grafik Kunjungan</legend>   
-                        <?php echo '<table width=100%>
-                                                        <tr>
-                                                        <td>' .
-                        $form->checkBoxList($model, 'kunjungan', LookupM::getItems('kunjungan'), array('value' => 'pengunjung', 'inline' => true, 'empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")) . '</td></tr></table>';
-                        ?>
-                    </fieldset>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="row-fluid" id='searching'>
-                    <fieldset class="span4">
-                        <?php
+            <td>        
+                <div id='searching'>
+                    <fieldset >
+                         <?php
                         $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
-                            'id' => 'big',
+                            'id' => 'big4',
 //                                    'parent'=>false,
 //                                    'disabled'=>true,
 //                                    'accordion'=>false, //default
                             'content' => array(
-                                'content1' => array(
-                                    'header' => 'Berdasarkan Jenis Pemeriksaan',
+                                'content6' => array(
+                                    'header' => 'Berdasarkan Kunjungan',
                                     'isi' => '<table>
                                                             <tr>
-                                                            <td>' . CHtml::hiddenField('idJenisPemeriksaan')
-                                    . '<div class="input-append"><span class="add-on">' . $form->textField($model, 'jenispemeriksaanlab_nama', array('id' => 'jenispemeriksaanlab', 'data-offset-top' => 200,
-                                        'data-spy' => 'affix', 'style' => 'margin-top:-3px; margin-left:-3px',
-                                        'inline' => false,
-                                        'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/JenisPemeriksaanlab'),
-                                        'placeholder' => 'Ketikan Jenis Pemeriksaan Lab'))
-                                    . '<a href="javascript:void(0);" id="tombolJenisPemeriksaanLab" 
-                                                                    onclick="$(&quot;#dialogJenisPemeriksaanLab&quot;).dialog(&quot;open&quot;);return false;">
-                                                        <i class="icon-list-alt"></i>
-                                                        <i class="icon-search">
-                                                        </i>
-                                                        </a>
-                                                        </span>
-                                                        </div></td></tr></table>',
+                                                            <td>' .$form->checkBoxList($model, 'kunjungan', LookupM::getItems('kunjungan'), array('value' => 'pengunjung', 'inline' => true, 'empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")).'</td></tr></table>',
                                     'active' => true,
                                 ),
                             ),
 //                                    'htmlOptions'=>array('class'=>'aw',)
                         ));
                         ?>
+                      
                     </fieldset>
-                    <fieldset class="span4">
+                </div>
+            </td>
+            <td>
+                 <fieldset>
                         <?php
                         $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
                             'id' => 'big',
@@ -136,22 +181,62 @@
                                                             </tr><tr>
                                                         <td><label>Penjamin</label></td><td>' .
                                     $form->dropDownList($model, 'penjamin_id', CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>',
-                                    'active' => true,
+                                    'active' => false,
                                 ),
                             ),
                         ));
                         ?>
                     </fieldset>
-                    <fieldset class="span4">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="row-fluid" id='searching'>
+                    <fieldset>
                         <?php
                         $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
-                            'id' => 'big',
+                            'id' => 'big1',
+//                                    'parent'=>false,
+//                                    'disabled'=>true,
+//                                    'accordion'=>false, //default
+                            'content' => array(
+                                'content1' => array(
+                                    'header' => 'Berdasarkan Jenis Pemeriksaan',
+                                    'isi' => '<table>
+                                                            <tr>
+                                                            <td>' . CHtml::hiddenField('idJenisPemeriksaan')
+                                    . '<div class="input-append"><span class="add-on">' . $form->textField($model, 'jenispemeriksaanlab_nama', array('id' => 'jenispemeriksaanlab', 'data-offset-top' => 200,
+                                        'data-spy' => 'affix', 'style' => 'margin-top:-3px; margin-left:-3px',
+                                        'inline' => false,
+                                        'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/JenisPemeriksaanlab'),
+                                        'placeholder' => 'Ketikan Jenis Pemeriksaan Lab'))
+                                    . '<a href="javascript:void(0);" id="tombolJenisPemeriksaanLab" 
+                                                                    onclick="$(&quot;#dialogJenisPemeriksaanLab&quot;).dialog(&quot;open&quot;);return false;">
+                                                        <i class="icon-list"></i>
+                                                        <i class="icon-search">
+                                                        </i>
+                                                        </a>
+                                                        </span>
+                                                        </div></td></tr></table>',
+                                    'active' => false,
+                                ),
+                            ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+                        ));
+                        ?>
+                    </fieldset>
+                </td>
+                <td>
+                    <fieldset>
+                        <?php
+                        $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
+                            'id' => 'big2',
 //                                    'parent'=>false,
 //                                    'disabled'=>true,
 //                                    'accordion'=>false, //default
                             'content' => array(
                                 'content3' => array(
-                                    'header' => 'Berdasarkan Nama Pemeriksaan',
+                                    'header' => 'Berdasarkan Pemeriksaan',
                                     'isi' => '<table>
                                                             <tr>
                                                             <td>' . CHtml::hiddenField('idPemeriksaan')
@@ -162,13 +247,13 @@
                                         'placeholder' => 'Ketikan Nama Pemeriksaan Lab'))
                                     . '<a href="javascript:void(0);" id="tombolPemeriksaanLab" 
                                                                     onclick="$(&quot;#dialogPemeriksaanLab&quot;).dialog(&quot;open&quot;);return false;">
-                                                        <i class="icon-list-alt"></i>
+                                                        <i class="icon-list"></i>
                                                         <i class="icon-search">
                                                         </i>
                                                         </a>
                                                         </span>
                                                         </div></td></tr></table>',
-                                    'active' => true,
+                                    'active' => false,
                                 ),
                             ),
 //                                    'htmlOptions'=>array('class'=>'aw',)
@@ -302,8 +387,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 //                ),
         array(
             'header' => 'Jenis Pemeriksaan',
-            'name' => 'jenispemeriksaanlab_nama',
+            'name' => 'jenispemeriksaanlab_id',
             'value' => '$data->jenispemeriksaan->jenispemeriksaanlab_nama',
+            'filter' => Chtml::activeDropDownList($modPemeriksaan, 'jenispemeriksaanlab_id', Chtml::listData(LBJenisPemeriksaanLabM::model()->findAll(" jenispemeriksaanlab_aktif = TRUE ORDER BY jenispemeriksaanlab_nama ASC "), 'jenispemeriksaanlab_id', 'jenispemeriksaanlab_nama'), array('empty'=>'-- Pilih --'))
         ),
         array(
             'header' => 'Kode Pemeriksaan',
@@ -321,3 +407,4 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 
 $this->endWidget();
 ?>
+<?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
