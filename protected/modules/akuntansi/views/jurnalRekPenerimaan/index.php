@@ -1,5 +1,5 @@
 <?php
-$this->breadcrumbs=array(
+/*$this->breadcrumbs=array(
 	'Matauang Ms',
 );
 
@@ -16,4 +16,13 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 	'itemView'=>'_view',
 )); ?>
 
-<?php $this->widget('UserTips',array('type'=>'list'));?>
+<?php $this->widget('UserTips',array('type'=>'list')); */ ?>
+
+<div class="white-container">
+    <legend class="rim2">Master <b>Jurnal Rekening</b></legend>
+    <?php $this->renderPartial('_tabMenuPenerimaan',array()); ?>
+    <?php $this->renderPartial('_jsFunctions',array()); ?>
+    <div>
+        <iframe class='biru' id="frame" src="" width='100%' frameborder="0" style="overflow-y:scroll" ></iframe>
+    </div>
+</div>

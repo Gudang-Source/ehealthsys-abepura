@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Tambah <b>Penjamin + Rekening Penjamin</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Tambah <b>Penjamin + Rekening Penjamin</b></legend>-->
+<fieldset class = "box">
+    <legend class="rim">Tambah Penjamin + Rekening Penjamin</legend>
     <?php
     $this->breadcrumbs=array(
             'Jurnal Rekening Penjamin Ms'=>array('index'),
@@ -16,3 +18,4 @@
 
     <?php echo $this->renderPartial('_form', array('model'=>$model,'modDetails'=>$modDetails,'modPenjamin'=>$modPenjamin)); ?>
 </div>
+</fieldset>

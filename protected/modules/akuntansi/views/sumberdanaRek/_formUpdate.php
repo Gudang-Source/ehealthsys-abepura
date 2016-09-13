@@ -124,10 +124,11 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                 array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  
                 ?>
-               <?php
-                    $content = $this->renderPartial('../tips/transaksi',array(),true);
-                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
-                ?>
+               <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jurnal Rekening Sumber Dana',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+	<?php
+		$content = $this->renderPartial('akuntansi.views.tips.tipsaddedit3a',array(),true);
+		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+	?>
                
            </div>
 
@@ -335,18 +336,18 @@ $c4->order = 'kdrekening4';
 $r4 = Rekening4M::model()->findAll($c4);
 
 $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
-	'id'=>'rekdebit-m-grid',
+	'id'=>'rekdebit1-m-grid',
         //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
 	'dataProvider'=>$modRekKredit->searchAccounts(),
 	'filter'=>$modRekKredit,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
         'mergeHeaders'=>array(
-            array(
+          /*  array(
                 'name'=>'<center>Kode Rekening</center>',
                 'start'=>1, //indeks kolom 3
                 'end'=>5, //indeks kolom 4
-            ),
+            ),*/
         ),
 	'columns'=>array(
                 array(

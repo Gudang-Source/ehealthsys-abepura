@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Ubah Jurnal <b>Rekening Pengeluaran</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Ubah Jurnal <b>Rekening Pengeluaran</b></legend>-->
+<fieldset class="box">
+    <legend class = "rim">Ubah Jurnal Rekening Pengeluaran</legend>
 <?php
     $this->breadcrumbs=array(
             'Jenispengeluaran Ms'=>array('index'),
@@ -17,4 +19,5 @@
 ?>
 
 <?php echo $this->renderPartial('_formUpdate',array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

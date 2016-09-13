@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Pengaturan Jurnal <b>Rekening Penjamin</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Pengaturan Jurnal <b>Rekening Penjamin</b></legend>-->
+<fieldset class="box">
+    <legend class = "rim">Pengaturan Jurnal Rekening Penjamin</legend>
     <?php
     $this->breadcrumbs=array(
             'Jenis Penjamin Alkes Ms'=>array('index'),
@@ -27,10 +29,10 @@
     ");
 
     $this->widget('bootstrap.widgets.BootAlert'); 
-    $this->renderPartial('_tabMenuPenjamin',array());
+    //$this->renderPartial('_tabMenuPenjamin',array());
     ?>
-    <div class="biru">
-        <div class="white">
+    <!--<div class="biru">
+        <div class="white">-->
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
         <?php $this->renderPartial('_search',array(
@@ -115,7 +117,16 @@
                             )
                     ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+             
+                    'afterAjaxUpdate'=>'function(id, data){
+                            jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                            $("table").find("input[type=text]").each(function(){
+                                cekForm(this);
+                            });
+                            $("table").find("select").each(function(){
+                                cekForm(this);
+                            });
+                        }',
         )); ?>
         </div>
     </div>
@@ -140,6 +151,10 @@
         
         
 $js = <<< JSCRIPT
+function cekForm(obj)
+{
+    $("#search :input[name='"+ obj.name +"']").val(obj.value);
+}
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
@@ -167,3 +182,4 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 
 </iframe>
 <?php $this->endWidget(); ?>
+</fieldset>

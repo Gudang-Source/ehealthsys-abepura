@@ -4,7 +4,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 	'id' => 'reharga-jual-m-form',
 	'enableAjaxValidation' => false,
 	'type' => 'horizontal',
-	'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)'),
+	'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)','onsubmit'=>'return requiredCheck(this);'),
 	'focus' => '#AKPenjaminRekM_rekDebit',
 		));
 ?>
@@ -179,7 +179,12 @@ if (isset($modDetails)) {
 	?>
         <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jurnal Rekening Penjamin',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
 	<?php
-	$content = $this->renderPartial('akuntansi.views.tips.tipsaddedit3a', array(), true);
+	 $tips = array(
+            '0' => 'autocomplete-search',
+            '1' => 'simpan',
+            '2' => 'ulang',
+        );
+	$content = $this->renderPartial('sistemAdministrator.views.tips.detailTips', array('tips'=>$tips), true);
 	$this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
 	?>
 </div>

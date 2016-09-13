@@ -3,7 +3,7 @@
     'id'=>'reharga-jual-m-form',
     'enableAjaxValidation'=>false,
 	'type'=>'horizontal',
-	'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+	'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)','onsubmit'=>'return requiredCheck(this);'),
 	'focus'=>'#AKSumberdanaRekM_rekDebit',
 )); ?>
 
@@ -143,7 +143,7 @@
 			Yii::app()->createUrl($this->module->id.'/'.$this->id.'/create'), 
 				array('class'=>'btn btn-danger',
 					'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-                                        <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jurnal Rekening Sumber Dana',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+            <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jurnal Rekening Sumber Dana',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
 	<?php
 		$content = $this->renderPartial('akuntansi.views.tips.tipsaddedit3a',array(),true);
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
@@ -167,7 +167,7 @@ $account = "D";
 
 $modRekDebit = new RekeningakuntansiV('searchAccounts');
 $modRekDebit->unsetAttributes();
-// $modRekDebit->rekening5_nb = $account;
+ //$modRekDebit->rekening5_nb = $account;
 $modRekDebit->rekening5_aktif = true;
 if(isset($_GET['RekeningakuntansiV'])) {
     $modRekDebit->attributes = $_GET['RekeningakuntansiV'];
@@ -236,6 +236,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                         'header' => 'Kode Akun',
                         'name' => 'kdrekening5',
                         'value' => '$data->kdrekening5',
+                        'filter' => Chtml::activeTextField($modRekDebit, 'kdrekening5', array('class'=>'numbers-only','maxlength'=>10))
                 ),
                 array(
                         'header'=>'Kelompok Akun',
@@ -287,6 +288,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                         'header' => 'Akun',
                         'name' => 'nmrekening5',
                         'value' => '$data->nmrekening5',
+                        'filter' => Chtml::activeTextField($modRekDebit, 'nmrekening5', array('class'=>'custom-only'))
                 ),
                 array(
                         'header'=>'Saldo Normal',
@@ -295,7 +297,11 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                         'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>"-- Pilih --")),
                 ),
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . '$(".numbers-only").keyup(function() {
+            setNumbersOnly(this);
+            });'
+        . '}',
 ));
 
 $this->endWidget();
@@ -315,10 +321,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-$account = "K";
+$accounts = "K";
 $modRekKredit = new RekeningakuntansiV('searchAccounts');
 $modRekKredit->unsetAttributes();
-// $modRekKredit->rekening5_nb = $account;
+ //$modRekKredit->rekening5_nb = $accounts;
 $modRekKredit->rekening5_aktif = true;
 
 if(isset($_GET['RekeningakuntansiV'])) {
@@ -350,19 +356,19 @@ $c4->order = 'kdrekening4';
 $r4 = Rekening4M::model()->findAll($c4);
 
 $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
-	'id'=>'rekdebit-m-grid',
+	'id'=>'rekdebit1-m-grid',
         //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
 	'dataProvider'=>$modRekKredit->searchAccounts(),
 	'filter'=>$modRekKredit,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-        'mergeHeaders'=>array(
+      /*  'mergeHeaders'=>array(
             array(
                 'name'=>'<center>Kode Rekening</center>',
                 'start'=>1, //indeks kolom 3
                 'end'=>5, //indeks kolom 4
             ),
-        ),
+        ),*/
 	'columns'=>array(
                 array(
                     'header'=>'Pilih',
@@ -380,6 +386,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                         'header' => 'Kode Akun',
                         'name' => 'kdrekening5',
                         'value' => '$data->kdrekening5',
+                         'filter' => Chtml::activeTextField($modRekKredit, 'kdrekening5', array('class'=>'numbers-only','maxlength'=>10))
                 ),
                 array(
                         'header'=>'Kelompok Akun',
@@ -431,6 +438,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                         'header' => 'Akun',
                         'name' => 'nmrekening5',
                         'value' => '$data->nmrekening5',
+                        'filter' => Chtml::activeTextField($modRekDebit, 'nmrekening5', array('class'=>'custom-only'))
                 ),
                 array(
                         'header'=>'Saldo Normal',

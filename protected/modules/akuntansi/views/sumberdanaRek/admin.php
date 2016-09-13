@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Pengaturan Jurnal <b>Rekening Sumber Dana</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Pengaturan Jurnal <b>Rekening Sumber Dana</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Jurnal Rekening Sumber Dana</legend>
     <?php
     $this->breadcrumbs=array(
             'Jenis Sumber Dana Ms'=>array('index'),
@@ -25,10 +27,10 @@
     ");
 
     $this->widget('bootstrap.widgets.BootAlert'); 
-    $this->renderPartial('_tabMenuSumberDana',array());
+    //$this->renderPartial('_tabMenuSumberDana',array());
     ?>
-    <div class="biru">
-        <div class="white">
+    <!--<div class="biru">
+        <div class="white">-->
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
         <?php $this->renderPartial('_search',array(
@@ -135,8 +137,8 @@
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Jurnal Rekening Sumber Dana ', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),
@@ -184,3 +186,4 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <iframe src="" name="iframeEditRekeningDebitKredit" width="100%" height="650" >
 </iframe>
 <?php $this->endWidget(); ?>
+</fieldset>

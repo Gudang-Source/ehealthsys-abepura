@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Tambah Jurnal <b>Rekening Pengeluaran</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Tambah Jurnal <b>Rekening Pengeluaran</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Tambah Jurnal Rekening Pengeluaran</legend>
     <?php
     $this->breadcrumbs=array(
             'Jenispengeluaran Ms'=>array('index'),
@@ -21,3 +23,4 @@
         <!--/div>
     </div-->
 </div>
+</fieldset>
