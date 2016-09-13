@@ -2,5 +2,6 @@
 Yii::import('pengadaan.controllers.InformasiPermintaanPenawaranController');
 Yii::import('pengadaan.models.*');
 class InformasiPermintaanPenawaranGFController extends InformasiPermintaanPenawaranController {
-    //put your code here
+    public $path_permintaan = 'PermintaanPembelianGF';    
+    public $path_penawaran = 'PermintaanPenawaranGF';
 }
