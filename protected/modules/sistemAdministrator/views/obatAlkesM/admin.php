@@ -55,9 +55,9 @@
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
             'columns'=>array(
                     array(
-                            'header'=>'Asal Barang',
-                            'name'=>'sumberdanaNama',
-    //                        'filter'=>  CHtml::listData(SumberdanaM::model()->findAll(), 'sumberdana_id', 'sumberdana_nama'),
+                            'header'=>'Sumber Dana',
+                            'name'=>'sumberdana_id',
+                            'filter'=>  Chtml::activeDropDownList($model, 'sumberdana_id',CHtml::listData(SumberdanaM::model()->findAll("sumberdana_aktif = TRUE ORDER BY sumberdana_nama ASC"), 'sumberdana_id', 'sumberdana_nama'), array('empty'=>'-- Pilih --')),
                             'value'=>'$data->sumberdana->sumberdana_nama',
                     ),
                     array(
@@ -80,12 +80,13 @@
                             'header'=>'Kode Obat',
                             'name'=>'obatalkes_kode',
                             'value'=>'$data->obatalkes_kode',
-                            'filter'=>CHtml::activeTextField($model, 'obatalkes_kode'),
+                            'filter'=>CHtml::activeTextField($model, 'obatalkes_kode', array('class'=>'custom-only')),
                     ),
                     array(
                             'header'=>'Nama Obat',
                             'name'=>'obatalkes_nama',
                             'value'=>'$data->obatalkes_nama',
+                            'filter'=>CHtml::activeTextField($model, 'obatalkes_nama', array('class'=>'custom-only')),
                     ), /*
                     array(
                             'header'=>'Satuan Besar',
@@ -115,6 +116,7 @@
                         'header'=>'Harga Netto',
                         'name'=>'harganetto',
                         'type'=>'raw',
+                        'filter'=>CHtml::activeTextField($model, 'harganetto', array('class'=>'numbers-only', 'style'=>'text-align:right;')),
                         'htmlOptions'=>array('style'=>'text-align: right'),
     //                    'value'=>'"Rp. ".number_format($data->harganetto)',
                         'value'=>'CHtml::link("<i class=\'icon-form-ubah\'></i>", Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/updateHarga", array("idObat"=>$data->obatalkes_id, "status"=>"harganetto")), array("title"=>"Ubah harga netto", "target"=>"iframeUpdateHarga", "onclick"=>"$(\"#doalogUpdateHarga\").dialog(\"open\")", "rel"=>"tooltip"))."&nbsp;&nbsp;".number_format($data->harganetto,0,",",".")',
@@ -190,10 +192,16 @@
                 jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                 $("table").find("input[type=text]").each(function(){
                     cekForm(this);
-                })
+                });
                 $("table").find("select").each(function(){
                     cekForm(this);
-                })
+                });
+                $(".custom-only").keyup(function() {
+                    setCustomOnly(this);
+                });
+                $(".numbers-only").keyup(function() {
+                    setNumbersOnly(this);
+                });
             }',
         )); ?>
     <!--</div>-->

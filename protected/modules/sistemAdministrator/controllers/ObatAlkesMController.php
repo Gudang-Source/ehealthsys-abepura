@@ -378,8 +378,9 @@ class ObatAlkesMController extends MyAuthController
                 if (!empty($this->defaultJenis)) {
                     $model->jenisobatalkes_id = $this->defaultJenis;
                 }
-		if(isset($_GET['SAObatalkesM']))
+		if(isset($_GET['SAObatalkesM'])){
 			$model->attributes=$_GET['SAObatalkesM'];
+                }
 
 		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
