@@ -370,10 +370,10 @@ class SumberdanaRekController extends MyAuthController
         
 	public function actionPrint()
 	{
-		$model= new AKSumberdanaRekM;
+		$model= new SumberdanaM;//AKSumberdanaRekM;
 		
-		if(isset($_REQUEST['AKSumberdanaRekM'])){
-			$model->attributes=$_REQUEST['AKSumberdanaRekM'];
+		if(isset($_REQUEST['SumberdanaM'])){
+			$model->attributes=$_REQUEST['SumberdanaM'];
 		}		
 		$judulLaporan='Data Sumber Dana Rekening ';
 		$caraPrint=$_REQUEST['caraPrint'];

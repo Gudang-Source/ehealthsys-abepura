@@ -11,8 +11,8 @@
             <div class="control-label">Inventaris Aset</div>
             <div class="controls">
                 <?php echo $form->hiddenField($model, 'inventarisaset_id',array('id'=>'inventarisaset_id')) ?>
-                <?php echo $form->hiddenField($model, 'barang_nama',array('id'=>'brg_nama')) ?>
-                <?php $this->widget('MyJuiAutoComplete', array(
+                <?php echo $form->textField($model, 'barang_nama',array('id'=>'brg_nama')) ?>
+                <?php /*$this->widget('MyJuiAutoComplete', array(
                                                                    'name'=>'inventarisaset', 
                                                                     'source'=>'js: function(request, response) {
                                                                            $.ajax({
@@ -46,7 +46,7 @@
                                                                         'onkeypress'=>"return $(this).focusNextInputField(event);",
                                                                     ),
                                                                     'tombolDialog'=>array('idDialog'=>'dialogbarang'),
-                                                            )); ?>
+                                                            ));*/ ?>
             </div>
         </td>  
         <td>    
