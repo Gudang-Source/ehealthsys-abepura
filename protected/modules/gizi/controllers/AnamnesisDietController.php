@@ -43,6 +43,8 @@ class AnamnesisDietController extends MyAuthController
             
             if(isset($_POST['GZAnamnesaDietT']))
             {
+				// var_dump($_POST);
+				
                 $modAnamnesa->attributes=$_POST['GZAnamnesaDietT'];
                 $modDetails = $this->validasiTabular($modPendaftaran, $_POST['GZAnamnesaDietT']);
 //                                    echo '<pre>';
@@ -53,7 +55,7 @@ class AnamnesisDietController extends MyAuthController
                         $jumlah = 0;
 
 //                        if($modAnamnesa->save()){
-                            $modDetails = $this->validasiTabular($modPendaftaran, $_POST['GZAnamnesaDietT']);
+                            //$modDetails = $this->validasiTabular($modPendaftaran, $_POST['GZAnamnesaDietT']);
                             foreach ($modDetails as $i=>$row)
                             {
 //                                                $modRencanaprodet = new RencanaprodetM;
@@ -65,6 +67,8 @@ class AnamnesisDietController extends MyAuthController
                                 }
                             }
 //                        }
+						//var_dump($jumlah == count($modDetails));
+						//die;
                         if ($jumlah == count($modDetails)) {
                             $transaction->commit();
                             Yii::app()->user->setFlash('success',"Anamnesa Diet berhasil disimpan");
@@ -113,11 +117,11 @@ class AnamnesisDietController extends MyAuthController
 //                $modDetails[$i]->pekerjaan_id = $modPendaftaran->pekerjaan_id;
                 $modDetails[$i]->menudiet_id = $row['menudiet_id'];
                 $modDetails[$i]->katpekerjaan = $row['katpekerjaan'];
-                $modDetails[$i]->beratbahan = $row['beratbahan'];
-                $modDetails[$i]->energikalori = $row['energikalori'];
-                $modDetails[$i]->protein = $row['protein'];
-                $modDetails[$i]->lemak = $row['lemak'];
-                $modDetails[$i]->hidratarang = $row['hidratarang'];
+                $modDetails[$i]->beratbahan = MyFormatter::formatNumberForDb($row['beratbahan']);
+                $modDetails[$i]->energikalori = MyFormatter::formatNumberForDb($row['energikalori']);
+                $modDetails[$i]->protein = MyFormatter::formatNumberForDb($row['protein']);
+                $modDetails[$i]->lemak = MyFormatter::formatNumberForDb($row['lemak']);
+                $modDetails[$i]->hidratarang = MyFormatter::formatNumberForDb($row['hidratarang']);
                 $modDetails[$i]->urt = $row['urt'];
                 $modDetails[$i]->tglanamesadiet = $format->formatDateTimeForDb($_POST['tglAnamnesadiet']);
                 $modDetails[$i]->pegawai_id = $_POST['pegawai_id'];
@@ -133,7 +137,7 @@ class AnamnesisDietController extends MyAuthController
 //                    echo print_r($modDetails[$i]->attributes);
 //                    echo '</pre>';
                 $modDetails[$i]->validate();
-                    
+				// var_dump($modDetails[$i]->attributes, $modDetails[$i]->errors);
 //            }    
                    
         }
@@ -160,11 +164,11 @@ class AnamnesisDietController extends MyAuthController
             $zatGiziBDD = ZatBahanMakananM::model()->findByAttributes(array('bahanmakanan_id'=>$bahanmakanan_id,'zatgizi_id'=>32));
             $zatGiziHidratArang = ZatBahanMakananM::model()->findByAttributes(array('bahanmakanan_id'=>$bahanmakanan_id,'zatgizi_id'=>5));
             
-            $zatEnergi = (isset($zatGiziBahanEner->kandunganbahan) ? $zatGiziBahanEner->kandunganbahan : 0);
-            $zatProtein = (isset($zatGiziBahanPro->kandunganbahan) ? $zatGiziBahanPro->kandunganbahan : 0);
-            $zatLemak = (isset($zatGiziBahanLemak->kandunganbahan) ? $zatGiziBahanLemak->kandunganbahan : 0);
+            $zatEnergi = (isset($zatGiziBahanEner->kandunganbahan) ? number_format($zatGiziBahanEner->kandunganbahan, 2, ",", "") : 0);
+            $zatProtein = (isset($zatGiziBahanPro->kandunganbahan) ? number_format($zatGiziBahanPro->kandunganbahan, 2, ",", "") : 0);
+            $zatLemak = (isset($zatGiziBahanLemak->kandunganbahan) ? number_format($zatGiziBahanLemak->kandunganbahan, 2, ",", "") : 0);
             $zatBDD = (isset($zatGiziBDD->kandunganbahan) ? $zatGiziBDD->kandunganbahan : 0);
-            $zatHidratArang = (isset($zatGiziHidratArang->kandunganbahan) ? $zatGiziHidratArang->kandunganbahan : 0);
+            $zatHidratArang = (isset($zatGiziHidratArang->kandunganbahan) ? number_format($zatGiziHidratArang->kandunganbahan, 2, ",", "") : 0);
 //            
             $modAnamnesa = new GZAnamnesaDietT;
             $nourut = 1;
@@ -174,16 +178,20 @@ class AnamnesisDietController extends MyAuthController
                               CHtml::activeHiddenField($modAnamnesa,'['.$jeniswaktu_id.']bahanmakanan_id',array('value'=>$bahanmakanan_id, 'class'=>'bahanmakanan_id')).
                               CHtml::activeHiddenField($modAnamnesa,'['.$jeniswaktu_id.']jeniswaktu_id',array('value'=>$jeniswaktu_id, 'class'=>'jeniswaktu_id')).
                        "</td>
+						<td>".$modJeniswaktu->jeniswaktu_nama.
+						"</td>
+						<td>".$modMenuDiet->menudiet_nama.
+						"</td>
                         <td>".$modBahanMakanan->namabahanmakanan."</td>
                         <td>".$modBahanMakanan->satuanbahan."</td>
                         
                         <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']beratbahan',array('onkeyup'=>'setBeratBahan(this);','value'=>0,'class'=>'span1  beratbahan numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right'))."</td>
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']energikalori',array('value'=>(empty($zatEnergi) ?  "0" : $zatEnergi),'class'=>'span1 energikalori numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right')).
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']energikalori',array('value'=>(empty($zatEnergi) ?  "0" : $zatEnergi),'class'=>'span1 energikalori numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right', 'onkeyup'=>'setBeratBahan(this);')).
                               CHtml::activeHiddenField($modAnamnesa,'['.$jeniswaktu_id.']energikalori2',array('value'=>(empty($zatEnergi) ?  "0" : $zatEnergi),'class'=>'span1 energikalori2 numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right')).
                         "</td>
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']protein',array('value'=>(empty($zatProtein) ?  "0" : $zatProtein),'class'=>'span1 protein numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right'))."</td>
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']lemak',array('value'=>(empty($zatLemak) ?  "0" : $zatLemak),'class'=>'span1 lemak numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right'))."</td>
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']hidratarang',array('value'=>(empty($zatHidratArang) ?  "0" : $zatHidratArang),'class'=>'span1 hidratarang numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right')).
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']protein',array('value'=>(empty($zatProtein) ?  "0" : $zatProtein),'class'=>'span1 protein numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right', 'onkeyup'=>'setBeratBahan(this);'))."</td>
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']lemak',array('value'=>(empty($zatLemak) ?  "0" : $zatLemak),'class'=>'span1 lemak numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right', 'onkeyup'=>'setBeratBahan(this);'))."</td>
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']hidratarang',array('value'=>(empty($zatHidratArang) ?  "0" : $zatHidratArang),'class'=>'span1 hidratarang numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right', 'onkeyup'=>'setBeratBahan(this);')).
                               CHtml::activeHiddenField($modAnamnesa,'['.$jeniswaktu_id.']bdd',array('value'=>(empty($zatBDD) ?  "0" : $zatBDD),'class'=>'span1 bdd numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right')).
                        "</td>
                         <td>".CHtml::activeDropDownList($modAnamnesa,'['.$jeniswaktu_id.']katpekerjaan', LookupM::getItems('katpekerjaan'),array('empty'=>'--Pilih--','class'=>'span1 katpekerjaan','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
