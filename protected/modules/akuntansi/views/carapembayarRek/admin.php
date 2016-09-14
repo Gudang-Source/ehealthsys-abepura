@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Pengaturan Jurnal <b>Rekening Cara Pembayaran</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Pengaturan Jurnal <b>Rekening Cara Pembayaran</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Jurnal Rekening Cara Pembayaran</legend>
     <?php
     $this->breadcrumbs=array(
         'Jenis Cara Pembayaran'=>array('index'),
@@ -27,10 +29,10 @@
     ");
 
     $this->widget('bootstrap.widgets.BootAlert'); 
-    $this->renderPartial('_tabMenuCaraPembayaran',array());
+   // $this->renderPartial('_tabMenuCaraPembayaran',array());
     ?>
-    <div class="biru">
-        <div class="white">
+    <!--<div class="biru">
+        <div class="white">-->
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
         <?php $this->renderPartial('_search',array(
@@ -67,8 +69,9 @@
                                     'carapembayaran'=>$data->lookup_name,
                                     'debitkredit'=>'D'
                                 ));
+                                
                                 if (empty($de)) return "-";
-                                return $de->rekening5->nmrekening5;
+                                return !empty($de->rekening5->nmrekening5)?$de->rekening5->nmrekening5:"-";
                             }, //'$this->grid->owner->renderPartial("_rek_debet",array("rekening5_nb"=>"D","carapembayaran"=>$data->carapembayaran),true)',
                         ),
 
@@ -82,7 +85,7 @@
                                     'debitkredit'=>'K'
                                 ));
                                 if (empty($de)) return "-";
-                                return $de->rekening5->nmrekening5;
+                                return !empty($de->rekening5->nmrekening5)?$de->rekening5->nmrekening5:"-";
                             }, //'$this->grid->owner->renderPartial("_rek_kredit",array("rekening5_nb"=>"K","carapembayaran"=>$data->carapembayaran),true)',
                         ),
 
@@ -133,11 +136,19 @@
                                 )
                         ),
             ),
-                'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                'afterAjaxUpdate'=>'function(id, data){
+                            jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                            $("table").find("input[type=text]").each(function(){
+                                cekForm(this);
+                            });
+                            $("table").find("select").each(function(){
+                                cekForm(this);
+                            });
+                        }',
         )); ?>
     <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Jurnal Rekening Cara Pembayaran', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),
@@ -158,6 +169,10 @@
         
         
 $js = <<< JSCRIPT
+function cekForm(obj)
+{
+    $("#search :input[name='"+ obj.name +"']").val(obj.value);
+}
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#carabayarrek-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
@@ -186,3 +201,4 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <iframe src="" name="iframeEditRekeningDebitKredit" width="100%" height="650" >
 </iframe>
 <?php $this->endWidget(); ?>
+</fieldset>

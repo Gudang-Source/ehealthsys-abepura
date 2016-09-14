@@ -14,6 +14,9 @@ Class Tips
             'tambah'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="icon-plus-sign icon-white"></i></div> berfungsi '
                         .' untuk menambah baris.',
+            'tambah2'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="icon-plus icon-white"></i></div> berfungsi '
+                        .' untuk menambah data.',
             'kurang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="icon-minus-sign icon-white"></i></div> berfungsi '
                         .' untuk menghapus baris.', 

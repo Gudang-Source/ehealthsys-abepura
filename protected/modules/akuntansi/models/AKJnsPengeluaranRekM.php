@@ -19,31 +19,31 @@
 
                     $criteria=new CDbCriteria;
 					
-					if(!empty($this->jnspengeluaranrek_id)){
-						$criteria->addCondition("t.jnspengeluaranrek_id = ".$this->jnspengeluaranrek_id);			
-					}
-					if(!empty($this->jenispengeluaran_id)){
-						$criteria->addCondition("t.jenispengeluaran_id = ".$this->jenispengeluaran_id);			
-					}
-					if(!empty($this->rekening5_id)){
-						$criteria->addCondition("t.rekening5_id = ".$this->rekening5_id);			
-					}			
-					
-					if(!empty($this->jenispengeluaran_kode)){
-						$criteria->compare('LOWER(jenispengeluaran_kode)', strtolower($this->jenispengeluaran_kode), true);
-					}
-					if(!empty($this->jenispengeluaran_nama)){
-						$criteria->compare('LOWER(jenispengeluaran_nama)', strtolower($this->jenispengeluaran_nama), true);
-					}
-					if(!empty($this->jenispengeluaran_namalain)){
-						$criteria->compare('LOWER(jenispengeluaran_namalain)', strtolower($this->jenispengeluaran_namalain), true);
-					}
-					if(!empty($this->rekening_debit)){
-						$criteria->compare('LOWER(nmrekening5)', strtolower($this->rekening_debit), true);
-					}
-					if(!empty($this->rekeningKredit)){
-						$criteria->compare('LOWER(nmrekening5)', strtolower($this->rekeningKredit), true);
-					}
+                    if(!empty($this->jnspengeluaranrek_id)){
+                            $criteria->addCondition("t.jnspengeluaranrek_id = ".$this->jnspengeluaranrek_id);			
+                    }
+                    if(!empty($this->jenispengeluaran_id)){
+                            $criteria->addCondition("t.jenispengeluaran_id = ".$this->jenispengeluaran_id);			
+                    }
+                    if(!empty($this->rekening5_id)){
+                            $criteria->addCondition("t.rekening5_id = ".$this->rekening5_id);			
+                    }			
+
+                    if(!empty($this->jenispengeluaran_kode)){
+                            $criteria->compare('LOWER(jenispengeluaran_kode)', strtolower($this->jenispengeluaran_kode), true);
+                    }
+                    if(!empty($this->jenispengeluaran_nama)){
+                            $criteria->compare('LOWER(jenispengeluaran_nama)', strtolower($this->jenispengeluaran_nama), true);
+                    }
+                    if(!empty($this->jenispengeluaran_namalain)){
+                            $criteria->compare('LOWER(jenispengeluaran_namalain)', strtolower($this->jenispengeluaran_namalain), true);
+                    }
+                    if(!empty($this->rekening_debit)){
+                            $criteria->compare('LOWER(nmrekening5)', strtolower($this->rekening_debit), true);
+                    }
+                    if(!empty($this->rekeningKredit)){
+                            $criteria->compare('LOWER(nmrekening5)', strtolower($this->rekeningKredit), true);
+                    }
 					
 //                    $criteria->compare('LOWER(t.saldonormal)',strtolower($this->saldonormal),true);
 					$criteria->select = 't.jenispengeluaran_id';

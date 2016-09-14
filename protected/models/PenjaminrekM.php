@@ -54,7 +54,7 @@ class PenjaminrekM extends CActiveRecord
 		return array(
                     'rekeningdebit'=>array(self::BELONGS_TO,'Rekening5M','rekening5_id'),
                     'rekeningkredit'=>array(self::BELONGS_TO,'Rekening5M','rekening5_id'),
-                    'penjamin'=>array(self::BELONGS_TO,'PenjaminpasienM','penjamin_id'),
+                    'penjamin'=>array(self::BELONGS_TO,'PenjaminpasienM','penjamin_id'),                    
 		);
 	}
 

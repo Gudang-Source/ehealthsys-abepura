@@ -1,3 +1,25 @@
+<style>
+    .border th, .border td{
+        border:1px solid #000;
+        padding:2px;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .border{
+        box-shadow: none;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>
 <?php 
 echo $this->renderPartial('application.views.headerReport.headerAnggaran',array('judulLaporan'=>$judulLaporan, 'deskripsi'=>$deskripsi, 'colspan'=>10));
  
@@ -27,7 +49,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 		<td colspan="2"> <i>Merupakan penawaran <?php echo ($model->ispenawaranmasuk == TRUE)?"Masuk":"Keluar" ?> dari Supplier </i><b><?php echo $model->supplier_nama ?></b></td>
 	</tr>
 </table>
-<table class="items table table-striped table-condensed" id="table-rencanaanggaranpenerimaan">
+<table class="table border" id="table-rencanaanggaranpenerimaan">
 	<thead>
 		<tr>
 			<th>No.</th>
@@ -54,23 +76,23 @@ $this->widget('bootstrap.widgets.BootAlert');
 				<td><?php echo (!empty($modDetail->obatalkes->obatalkes_kategori) ? $modDetail->obatalkes->obatalkes_kategori."/ " : "") ."". $modDetail->obatalkes->obatalkes_nama; ?></td>
 				<td style="text-align: center;"><?php echo $modDetail->kemasanbesar; ?></td>
 				<td style="text-align: center;"><?php echo $modDetail->qty; ?></td>
-				<td><?php echo $format->formatUang($modDetail->harganetto); ?></td>
+				<td  style="text-align: right;"><?php echo "Rp".number_format($modDetail->harganetto,0,"","."); ?></td>
 				<td style="text-align: center;"><?php
 				$modDetail->stokakhir = StokobatalkesT::getJumlahStok($modDetail->obatalkes_id, Yii::app()->user->getState('ruangan_id'));
 				echo $modDetail->stokakhir; ?></td>
 				<td style="text-align: center;"><?php echo $modDetail->minimalstok; ?></td>
-				<td><?php 
+				<td style = "text-align:right;"><?php 
 					$subtotal = ($modDetail->harganetto * $modDetail->qty);
 					$total += $subtotal;
-					echo $format->formatUang($subtotal); ?>
+					echo "Rp".number_format($subtotal,0,"","."); ?>
 				</td>
 		</tr>
 		<?php } ?>
 		<tfoot>
 			<tr>
-				<td colspan="3" style="text-align:right;">Total</td>
-				<td>
-					<?php echo $format->formatNumberForUser($total) ?>
+				<td colspan="8" style="text-align:right;"><b>Total</b> </td>
+				<td style="text-align:right;"><b>
+					<?php echo "Rp".number_format($total,0,"","."); ?></b>
 				</td>
 			</tr>
 		</tfoot>

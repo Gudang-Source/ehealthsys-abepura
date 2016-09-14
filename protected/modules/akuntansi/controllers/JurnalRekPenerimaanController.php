@@ -14,8 +14,10 @@ class JurnalRekPenerimaanController extends MyAuthController {
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id) {
-		$model = AKJnsPenerimaanRekM::model()->findByAttributes(array('jenispenerimaan_id' => $id));
+	public function actionView($id) 
+        {
+                $this->layout='//layouts/iframe';
+		$model = AKJenispenerimaanM::model()->findByAttributes(array('jenispenerimaan_id' => $id));
 
 		$this->render('view', array(
 			'model' => $model,
@@ -27,6 +29,7 @@ class JurnalRekPenerimaanController extends MyAuthController {
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate($id='') {
+                $this->layout='//layouts/iframe';
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
                 if ($id == 1):
                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -64,7 +67,7 @@ class JurnalRekPenerimaanController extends MyAuthController {
 			if ($ok) {
                                 $trans->commit();
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','tab'=>'frame','modul_id'=>Yii::app()->session['modul_id']));
 			} else {
                                 $trans->rollback();
                                 Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
@@ -83,6 +86,7 @@ class JurnalRekPenerimaanController extends MyAuthController {
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id) {
+                $this->layout='//layouts/iframe';
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model = $this->loadModel($id);
 
@@ -117,11 +121,11 @@ class JurnalRekPenerimaanController extends MyAuthController {
                         if ($ok) {
                                 $trans->commit();
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','tab'=>'frame','modul_id'=>Yii::app()->session['modul_id']));
 			} else {
                                 $trans->rollback();
                                 Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
-                                $this->redirect(array('admin'));
+                                $this->redirect(array('update'));
                         }
                         
                         /*
@@ -197,10 +201,12 @@ class JurnalRekPenerimaanController extends MyAuthController {
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin($id='') {
-             if ($id == 1):
-                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                endif;
+	public function actionAdmin($tab=null) {
+            if ($tab != 'frame'):
+                $this->redirect(array('index','modul_id'=>Yii::app()->session['modul_id']));
+            else:
+                $this->layout='//layouts/iframe';        
+            endif;
                 
 		$model = new AKJenispenerimaanM('searchJenisPenerimaan');
 		$model->unsetAttributes();

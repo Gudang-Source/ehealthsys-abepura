@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Lihat Jurnal <b>Rekening Cara Pembayaran</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Lihat Jurnal <b>Rekening Cara Pembayaran</b></legend>-->
+<fieldset class="box">
+    <legend class="rim">Lihat Jurnal Rekening Cara Pembayaran</legend> 
     <?php /*
     $this->breadcrumbs=array(
         'Jurnal Rekening Cara Pembayaran'=>array('index'),
@@ -37,4 +39,5 @@
     )); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jurnal Rekening Cara Pembayaran',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

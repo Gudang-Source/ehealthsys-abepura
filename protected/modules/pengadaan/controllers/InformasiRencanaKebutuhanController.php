@@ -6,6 +6,7 @@ class InformasiRencanaKebutuhanController extends MyAuthController
         public $path_view = 'pengadaan.views.informasiRencanaKebutuhan.';
         public $path_permintaan = 'PermintaanPembelian';
         public $path_penawaran = 'PermintaanPenawaran';
+        public $path_rencana = 'RencanaKebutuhan';
 
 	public function actionIndex()
 	{

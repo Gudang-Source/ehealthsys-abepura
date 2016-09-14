@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Tambah Jurnal <b>Rekening Penerimaan</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Tambah Jurnal <b>Rekening Penerimaan</b></legend>-->
+<fieldset class = "box">
+    <legend class="rim">Tambah Jurnal Rekening Penerimaan</legend>
     <?php
     $this->breadcrumbs=array(
             'Matauang Ms'=>array('index'),
@@ -21,4 +23,5 @@
             <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
         <!--/div>
     </div-->
-</div>
+<!--</div>-->
+</fieldset>

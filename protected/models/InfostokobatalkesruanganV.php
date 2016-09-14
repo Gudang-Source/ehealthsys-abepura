@@ -271,7 +271,7 @@ class InfostokobatalkesruanganV extends CActiveRecord
         
         public function getJenisobatalkesItems()
         {
-            return JenisobatalkesM::model()->findAll();
+            return JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC");
         }
         public function getRuanganItems()
         {
