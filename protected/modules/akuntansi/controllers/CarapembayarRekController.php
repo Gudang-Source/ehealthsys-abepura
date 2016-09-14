@@ -386,9 +386,11 @@ class CarapembayarRekController extends MyAuthController {
 	}
 
 	public function actionPrint() {
-		$model = new AKCarapembayarRekM;
-		if (isset($_REQUEST['AKCarapembayarRekM'])) {
-			$model->attributes = $_REQUEST['AKCarapembayarRekM'];
+		$model = new AKLookupM;//AKCarapembayarRekM
+                $model->lookup_type = "carapembayaran";
+		if (isset($_REQUEST['AKLookupM'])) {
+			$model->attributes = $_REQUEST['AKLookupM'];
+                        $model->lookup_type = "carapembayaran";
 		}
 		$judulLaporan = 'Data Cara Bayar Rekening ';
 		$caraPrint = $_REQUEST['caraPrint'];

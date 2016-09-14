@@ -52,7 +52,6 @@
                             'header'=>'No',
                             'value'=>'$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',  
                         ),
-
                         array(
                             'header'=>'Cara Pembayaran',
                             'name'=>'lookup_name',

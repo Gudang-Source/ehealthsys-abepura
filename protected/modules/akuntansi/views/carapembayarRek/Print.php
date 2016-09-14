@@ -26,7 +26,7 @@ $table = 'ext.bootstrap.widgets.BootGridView';
 
 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'carabayarrek-m-grid',
-    'dataProvider'=>$model->search('print'),
+    'dataProvider'=>$model->searchCaraPembayaranPrint(),
 //  'filter'=>$model,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -37,17 +37,17 @@ $table = 'ext.bootstrap.widgets.BootGridView';
 		),
 		array(
 			'header'=>'Cara Pembayaran',
-			'value'=>'$data->carapembayaran',  
+			'value'=>'$data->lookup_name',  
 		),
 		array(
 			'header'=>'Rekening Debit',
 			'type'=>'raw',
-			'value'=>'$this->grid->owner->renderPartial("_rek_debet",array("saldonormal"=>"D","carapembayaran"=>$data->carapembayaran),true)',
+			'value'=>'$this->grid->owner->renderPartial("_rek_debet",array("saldonormal"=>"D","carapembayaran"=>$data->lookup_name),true)',
 		),   
 		 array(
 			'header'=>'Rekening Kredit',
 			'type'=>'raw',
-			'value'=>'$this->grid->owner->renderPartial("_rek_kredit",array("saldonormal"=>"K","carapembayaran"=>$data->carapembayaran),true)',
+			'value'=>'$this->grid->owner->renderPartial("_rek_kredit",array("saldonormal"=>"K","carapembayaran"=>$data->lookup_name),true)',
 		), 
         
     ),

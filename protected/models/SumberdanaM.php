@@ -106,6 +106,23 @@ class SumberdanaM extends CActiveRecord
 			'pagination'=>false,
 		));
     } 
+    
+    public function searchSumberdanaPrint()
+    {
+    	$criteria=new CDbCriteria;
+
+		$criteria->compare('sumberdana_id',$this->sumberdana_id);
+		$criteria->compare('LOWER(sumberdana_nama)',strtolower($this->sumberdana_nama),true);
+		$criteria->compare('LOWER(sumberdana_namalainnya)',strtolower($this->sumberdana_namalainnya),true);
+		$criteria->compare('sumberdana_aktif',$this->sumberdana_aktif);
+		$criteria->addCondition("sumberdana_id not in(select sumberdana_id from sumberdanarek_m)");
+
+        $criteria->order='sumberdana_nama'; 
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'pagination'=>false,
+		));
+    } 
 
         public function searchPrint()
         {
@@ -116,7 +133,7 @@ class SumberdanaM extends CActiveRecord
 		$criteria->compare('sumberdana_id',$this->sumberdana_id);
 		$criteria->compare('LOWER(sumberdana_nama)',strtolower($this->sumberdana_nama),true);
 		$criteria->compare('LOWER(sumberdana_namalainnya)',strtolower($this->sumberdana_namalainnya),true);
-//		$criteria->compare('sumberdana_aktif',$this->sumberdana_aktif);
+		$criteria->compare('sumberdana_aktif',isset($this->sumberdana_aktif)?$this->sumberdana_aktif:true);
                 $criteria->order='sumberdana_nama';
                 $criteria->limit=-1; 
 
