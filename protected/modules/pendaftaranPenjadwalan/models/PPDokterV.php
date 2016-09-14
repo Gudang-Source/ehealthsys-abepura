@@ -97,13 +97,16 @@ class PPDokterV extends DokterV
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-                $criteria->select = 'DISTINCT pegawai_id, gelardepan, nama_pegawai, gelarbelakang_nama, tempatlahir_pegawai, tgl_lahirpegawai, alamat_pegawai, jeniskelamin, nomorindukpegawai';
+                $criteria->select = 'DISTINCT pegawai_id, gelardepan, nama_pegawai, gelarbelakang_nama, tempatlahir_pegawai, tgl_lahirpegawai, alamat_pegawai, jeniskelamin, nomorindukpegawai, jabatan_id';
 			if(!empty($this->ruangan_id)){
 				$criteria->addCondition("ruangan_id = ".$this->ruangan_id); 			
 			}
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->pegawai_id)){
 			$criteria->addCondition("pegawai_id = ".$this->pegawai_id); 			
+		}
+                if(!empty($this->jabatan_id)){
+			$criteria->addCondition("jabatan_id = ".$this->jabatan_id); 			
 		}
 		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
@@ -115,7 +118,7 @@ class PPDokterV extends DokterV
 		$criteria->compare('LOWER(alamat_pegawai)',strtolower($this->alamat_pegawai),true);
 		$criteria->compare('pegawai_aktif', isset($this->pegawai_aktif)?$this->pegawai_aktif:true);                
 		$criteria->order = 'nama_pegawai';
-                $criteria->group = "pegawai_id, gelardepan, nama_pegawai, gelarbelakang_nama, tempatlahir_pegawai, tgl_lahirpegawai, alamat_pegawai, jeniskelamin, nomorindukpegawai";
+                $criteria->group = "pegawai_id, gelardepan, nama_pegawai, gelarbelakang_nama, tempatlahir_pegawai, tgl_lahirpegawai, alamat_pegawai, jeniskelamin, nomorindukpegawai, jabatan_id";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         

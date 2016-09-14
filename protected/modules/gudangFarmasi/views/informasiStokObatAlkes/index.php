@@ -42,6 +42,11 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                         
                         'obatalkes_kode',
                         'obatalkes_nama',
+                         array(
+                            'header'=>'Tanggal Kadaluarsa',
+                            'type'=>'raw',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)',
+                        ),
                         array(
                             'header'=>'Stok Masuk',
                             'type'=>'raw',
@@ -52,6 +57,7 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                                 //));
                                 $criteria = new CDbCriteria();
                                 $criteria->compare('obatalkes_id',$data->obatalkes_id);
+                                $criteria->addCondition("tglkadaluarsa = '".MyFormatter::formatDateTimeForDb($data->tglkadaluarsa)."' ");
                                 //if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI)
                                 //{
                                     $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
