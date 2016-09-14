@@ -37,6 +37,11 @@ $this->widget($table,array(
 		'nopolisi',
 		'jeniskendaraan',
 		'isibbmliter',
+                 array(
+                                'header'=>'<center>Status</center>',
+                                'value'=>'($data->mobilambulans_aktif == true ) ? "Aktif" : "Tidak Aktif"',
+                                'htmlOptions'=>array('style'=>'text-align:center;'),
+                            ),
              ), 
               
 	
