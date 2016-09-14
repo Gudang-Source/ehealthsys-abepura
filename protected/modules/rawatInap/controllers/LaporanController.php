@@ -647,7 +647,7 @@ class LaporanController extends MyAuthController {
         $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
@@ -682,9 +682,9 @@ class LaporanController extends MyAuthController {
     public function actionPrintLaporan10BesarPenyakit() {
         $model = new RILaporan10besarpenyakit('search');
 		$model->jns_periode = "hari";
-		$model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+		$model->tgl_awal = date('Y-m-d');
 		$model->tgl_akhir = date('Y-m-d');
-		$model->bln_awal = date('Y-m', strtotime('first day of january'));
+		$model->bln_awal = date('Y-m');
 		$model->bln_akhir = date('Y-m');
 		$model->thn_awal = date('Y');
 		$model->thn_akhir = date('Y');
@@ -708,8 +708,8 @@ class LaporanController extends MyAuthController {
                 case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
                 default : null;
             }
-            $model->tgl_awal = $model->tgl_awal;
-            $model->tgl_akhir = $model->tgl_akhir;
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
             
         }
         
@@ -722,9 +722,9 @@ class LaporanController extends MyAuthController {
     public function actionFrameGrafik10BesarPenyakit() {
         $this->layout = '//layouts/iframe';
         $model = new RILaporan10besarpenyakit('search');
-		$model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+		$model->tgl_awal = date('Y-m-d');
 		$model->tgl_akhir = date('Y-m-d');
-		$model->bln_awal = date('Y-m', strtotime('first day of january'));
+		$model->bln_awal = date('Y-m');
 		$model->bln_akhir = date('Y-m');
 		$model->thn_awal = date('Y');
 		$model->thn_akhir = date('Y');

@@ -80,6 +80,9 @@ class LaporansensuslabV extends CActiveRecord
 {
     
         public $tgl_awal, $tgl_akhir, $jumlah, $data, $tick, $pilihan;
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
+        public $jns_periode;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -409,9 +412,9 @@ class LaporansensuslabV extends CActiveRecord
         public function getNamaNamaBIN()
         { 	
         	if (!empty($this->nama_bin)) {
-        		return $this->nama_pasien.' alias '.$this->nama_bin;
+        		return $this->namadepan.' '.$this->nama_pasien.' alias '.$this->nama_bin;
         	} else {
-        		return $this->nama_pasien;
+        		return $this->namadepan.' '.$this->nama_pasien;
         	}
         	
             
@@ -428,17 +431,17 @@ class LaporansensuslabV extends CActiveRecord
         }
         
         public function getNoRMNoPend(){
-            return $this->no_rekam_medik.'<br/>'.$this->no_pendaftaran;
+            return $this->no_rekam_medik.'<br/>/ '.$this->no_pendaftaran;
         }
         
         public function getTglMasukNoPenunjang(){
-            return date("d/m/Y", strtotime($this->tglmasukpenunjang)).'<br/>'.PHP_EOL.$this->no_masukpenunjang;
+            return MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($this->tglmasukpenunjang))).'<br/>/ '.PHP_EOL.$this->no_masukpenunjang;
         }
         
         public function getJenisKelaminUmur(){
-            return $this->jeniskelamin.'<br/>'.$this->umur;
+            return $this->jeniskelamin.'<br/>/ '.$this->umur;
         }
         public function getInstalasiRuangan(){
-            return $this->instalasiasal_nama.'<br/>'.$this->ruanganasal_nama;
+            return $this->instalasiasal_nama.'<br/>/ '.$this->ruanganasal_nama;
         }
 }

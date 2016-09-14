@@ -159,6 +159,7 @@ Class Params
         const RUANGAN_ID_KLAIM_KPS = 81;
         const RUANGAN_ID_KLAIM_BPJS = 80;
         const RUANGAN_ID_SIMRS = 1;
+        const RUANGAN_ID_REKAM_MEDIS = 6;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
@@ -448,6 +449,17 @@ Class Params
         const ASALRUJUKAN_ID_RS = 4;
         const RUJUKANDARI_ID_ABE = 1811;
             
+        const GOLONGAN_UMUR_DEWASA = 3; // 25-44th
+        const GOLONGAN_UMUR_ORANG_TUA = 4; // 45-64th
+        const GOLONGAN_UMUR_MANULA = 5; // 65+th
+        const GOLONGAN_UMUR_BARU_LAHIR = 6; // 0<28hr
+        const GOLONGAN_UMUR_BAYI = 7; // 28hr>1th
+        const GOLONGAN_UMUR_ANAK_ANAK = 1; // 5-14th
+        const GOLONGAN_UMUR_REMAJA = 2; // 15-24th 
+        const GOLONGAN_UMUR_BALITA = 8; // 1-5thn
+       
+
+
         
         
 	//===   END KONSTANTA ===

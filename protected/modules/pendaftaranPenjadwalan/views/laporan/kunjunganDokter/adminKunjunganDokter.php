@@ -5,6 +5,10 @@
 //);
 
 $url = Yii::app()->createUrl('pendaftaranPenjadwalan/laporan/frameGrafikKunjunganDokter&id=1');
+if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_REKAM_MEDIS){
+        $url = Yii::app()->createUrl('rekamMedis/laporan/frameGrafikKunjunganDokter&id=1');
+    }
+    
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
     $('.search-form').toggle();

@@ -1,4 +1,4 @@
-<legend class="rim"><i class="icon-white icon-search"></i> Pencarian Berdasarkan Kunjungan</legend>
+<legend class="rim"><i class="icon-white icon-search"></i> Pencarian </legend>
 <div class="search-form" style="">
     <?php
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -8,6 +8,7 @@
         'id' => 'searchLaporan',
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'onKeyPress' => 'return disableKeyPress(event)'),
             ));
+    $format = new MyFormatter();
     ?>
     <style>
         table{
@@ -20,52 +21,113 @@
         .nav-tabs>li>a{display:block; cursor:pointer;}
         .nav-tabs > .active a:hover{cursor:pointer;}
     </style>
-        <fieldset>
-        <table width="100%">
-            <tr>
-                <td width="50%">
-                    <?php echo CHtml::hiddenField('type', ''); ?>
-                    <div class='control-group'>
-                        <div class = 'control-label'>Tanggal Pemeriksaan</div>
-                        <div class="controls">  
-                            <?php
-                            $this->widget('MyDateTimePicker', array(
-                                'model' => $model,
-                                'attribute' => 'tgl_awal',
-                                'mode' => 'date',
-                                'options' => array(
-                                    'maxDate'=>'d',
-                                    'dateFormat' => Params::DATE_FORMAT,
-                                ),
-                                'htmlOptions' => array('readonly' => true,
-                                'class'=>'dtPicker2',
-                                'onkeypress' => "return $(this).focusNextInputField(event)"),
-                            ));
-                            ?>
-                        </div>
-                    </div>
-                </td>
-                <td> 
-                    <div class="control-group ">
-                        <?php
-                        $this->widget('MyDateTimePicker', array(
-                            'model' => $model,
-                            'attribute' => 'tgl_akhir',
-                            'mode' => 'date',
-                            'options' => array(
-                                'maxDate'=>'d',
-                                'dateFormat' => Params::DATE_FORMAT,
-                            ),
-                            'htmlOptions' => array('readonly' => true,
-                            'class'=>'dtPicker2',
-                            'onkeypress' => "return $(this).focusNextInputField(event)"),
-                        ));
-                        ?>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </fieldset>
+    <div class="row-fluid">
+         <div class="span4">
+             <?php echo CHtml::hiddenField('type', ''); ?>
+             <?php echo CHtml::label('Tanggal Pemeriksaan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
+             <div class="controls">
+                 <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
+             </div>
+         </div>
+         <div class="span4">
+             <div class='control-group hari'>
+                 <?php echo CHtml::label('Dari Tanggal', 'dari_tanggal', array('class' => 'control-label')) ?>
+                 <div class="controls">  
+                     <?php $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal); ?>                     
+                    <?php
+                     $this->widget('MyDateTimePicker', array(
+                         'model' => $model,
+                         'attribute' => 'tgl_awal',
+                         'mode' => 'date',
+                         'options' => array(
+                             'dateFormat' => Params::DATE_FORMAT,
+                             'maxDate'=>'d',
+                         ),
+                         'htmlOptions' => array('readonly' => true, 'class' => "span2",
+                             'onkeypress' => "return $(this).focusNextInputField(event)"),
+                     ));
+                     ?>
+                     <?php $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal); ?>                     
+                 </div> 
+
+             </div>
+             <div class='control-group bulan'>
+                 <?php echo CHtml::label('Dari Bulan', 'dari_tanggal', array('class' => 'control-label')) ?>
+                 <div class="controls">
+                     <?php $model->bln_awal = $format->formatMonthForUser($model->bln_awal); ?>
+                     <?php 
+                         $this->widget('MyMonthPicker', array(
+                             'model' => $model,
+                             'attribute' => 'bln_awal', 
+                             'options'=>array(
+                                 'dateFormat' => Params::MONTH_FORMAT,
+                             ),
+                             'htmlOptions' => array('readonly' => true,
+                                 'class' => "span2",
+                                 'onkeypress' => "return $(this).focusNextInputField(event)"),
+                         ));  
+                     ?>
+                     <?php $model->bln_awal = $format->formatMonthForDb($model->bln_awal); ?>
+                 </div> 
+             </div>
+             <div class='control-group tahun'>
+                 <?php echo CHtml::label('Dari Tahun', 'dari_tanggal', array('class' => 'control-label')) ?>
+                 <div class="controls">
+                     <?php 
+                     echo $form->dropDownList($model, 'thn_awal', CustomFunction::getTahun(null,null), array('class' => "span2",'onkeypress' => "return $(this).focusNextInputField(event)")); 
+                     ?>
+                 </div>
+             </div>
+         </div>
+         <div class="span4">
+             <div class='control-group hari'>
+                 <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                 <div class="controls">  
+                     <?php $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir); ?>
+                     <?php
+                     $this->widget('MyDateTimePicker', array(
+                         'model' => $model,
+                         'attribute' => 'tgl_akhir',
+                         'mode' => 'date',
+                         'options' => array(
+                             'dateFormat' => Params::DATE_FORMAT,
+                             'maxDate'=>'d',
+                         ),
+                         'htmlOptions' => array('readonly' => true,'class' => "span2",
+                             'onkeypress' => "return $(this).focusNextInputField(event)"),
+                     ));
+                     ?>
+                     <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
+                 </div> 
+             </div>
+             <div class='control-group bulan'>
+                 <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                 <div class="controls"> 
+                     <?php $model->bln_akhir = $format->formatMonthForUser($model->bln_akhir); ?>
+                     <?php 
+                         $this->widget('MyMonthPicker', array(
+                             'model' => $model,
+                             'attribute' => 'bln_akhir', 
+                             'options'=>array(
+                                 'dateFormat' => Params::MONTH_FORMAT,
+                             ),
+                             'htmlOptions' => array('readonly' => true,'class' => "span2",
+                                 'onkeypress' => "return $(this).focusNextInputField(event)"),
+                         ));  
+                     ?>
+                     <?php $model->bln_akhir = $format->formatMonthForDb($model->bln_akhir); ?>
+                 </div> 
+             </div>
+             <div class='control-group tahun'>
+                 <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                 <div class="controls">
+                     <?php 
+                     echo $form->dropDownList($model, 'thn_akhir', CustomFunction::getTahun(null,null), array('class' => "span2",'onkeypress' => "return $(this).focusNextInputField(event)")); 
+                     ?>
+                 </div>
+             </div>
+         </div> 
+     </div> 
     <fieldset>
         <table>
             <tr>
@@ -78,7 +140,6 @@
             </tr>
         </table>
     </fieldset>
-
     <div class="form-actions">
         <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), 
                 array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan')); ?>
@@ -94,5 +155,5 @@ $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dip
 $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
 $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaftaran_id' => ''));
 ?>
-
+<?php $this->renderPartial('_jsFunctions', array('model'=>$model));?>
 

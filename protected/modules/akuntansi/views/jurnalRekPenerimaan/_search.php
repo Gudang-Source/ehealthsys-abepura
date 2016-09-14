@@ -23,9 +23,9 @@
             </td>
             <td>
                 <div class='control-group'>
-                              <?php echo $form->labelEx($model,'jenispenerimaan_namalain', array('class'=>'control-label')) ?>
+                              <?php //echo $form->labelEx($model,'jenispenerimaan_namalain', array('class'=>'control-label')) ?>
                          <div class="controls">
-                              <?php echo $form->textField($model,'jenispenerimaan_namalain',array('class'=>'span3','maxlength'=>50)); ?>
+                              <?php //echo $form->textField($model,'jenispenerimaan_namalain',array('class'=>'span3','maxlength'=>50)); ?>
                          </div>
                </div>
                <?php /*

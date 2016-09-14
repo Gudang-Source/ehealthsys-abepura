@@ -1,6 +1,7 @@
 
 <?php
 $table = 'ext.bootstrap.widgets.BootGridView';
+$itemCssClass = 'table table-striped table-condensed';
 $template = "{summary}\n{items}\n{pager}";
 if (isset($caraPrint)){
   $data = $model->searchPrint();
@@ -8,6 +9,31 @@ if (isset($caraPrint)){
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
+        
 } else{
   $data = $model->searchTable();
 }
@@ -17,7 +43,7 @@ if (isset($caraPrint)){
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
         'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=> $itemCssClass,
 	'columns'=>array(
 //            'instalasi_nama',
             array(
@@ -33,7 +59,7 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Nama Pasien',
                 'type'=>'raw',
-                'value'=>'$data->nama_pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
             ),
 //            'nama_pasien',
             array(
@@ -72,6 +98,11 @@ if (isset($caraPrint)){
                 'value'=>'$data->asalrujukan_nama',
             ),
 //            'asalrujukan_nama',
+            array(
+                'header' => 'Instalasi / <br/> Ruangan',
+                'type' => 'raw',
+                'value' => '$data->instalasi_nama." / <br/> ".$data->ruangan_nama'
+            ),
             array(
                 'header'=>'Nama Jenis Kasus Penyakit',
                 'type'=>'raw',

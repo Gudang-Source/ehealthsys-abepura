@@ -3,6 +3,8 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
 {
         public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
         public $lakilaki,$perempuan,$jumlahkunjungan;
+        public $instalasi_id, $ruangan_id;
+        public $umur_1_5thn;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -16,9 +18,9 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
-		$criteria->select = "golonganumur_nama, tglmorbiditas, diagnosa_nama,umur_0_28hr,umur_28hr_1thn, umur_1_4thn,umur_5_14thn,umur_15_24thn,umur_25_44thn,umur_45_64thn, umur_65, jeniskelamin, pendaftaran_id , CASE WHEN jeniskelamin = '".Params::JENIS_KELAMIN_PEREMPUAN."' THEN 0 else 1 END AS lakilaki, CASE WHEN jeniskelamin = '".Params::JENIS_KELAMIN_PEREMPUAN."' THEN 1 else 0 END AS perempuan";
-		$criteria->group = "golonganumur_nama, tglmorbiditas, diagnosa_nama,umur_0_28hr,umur_28hr_1thn, umur_1_4thn,umur_5_14thn,umur_15_24thn,umur_25_44thn,umur_45_64thn, umur_65, jeniskelamin, pendaftaran_id";
+		$criteria=new CDbCriteria;                
+		$criteria->select = "t.golonganumur_nama, t.tglmorbiditas, t.diagnosa_nama, t.umur_0_28hr, t.umur_28hr_1thn, t.umur_1_4thn, t.umur_5_14thn, t.umur_15_24thn, t.umur_25_44thn, t.umur_45_64thn, t.umur_65, t.jeniskelamin, t.pendaftaran_id , CASE WHEN jeniskelamin = '".Params::JENIS_KELAMIN_PEREMPUAN."' THEN 0 else 1 END AS lakilaki, CASE WHEN jeniskelamin = '".Params::JENIS_KELAMIN_PEREMPUAN."' THEN 1 else 0 END AS perempuan";
+		$criteria->group = "t.golonganumur_nama, t.tglmorbiditas, t.diagnosa_nama, t.umur_0_28hr, t.umur_28hr_1thn, t.umur_1_4thn, t.umur_5_14thn, t.umur_15_24thn, t.umur_25_44thn, t.umur_45_64thn, t.umur_65, t.jeniskelamin, t.pendaftaran_id";
 //             
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition("pasien_id = ".$this->pasien_id);			
@@ -39,6 +41,24 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
 		if(!empty($this->diagnosa_id)){
 			$criteria->addCondition("diagnosa_id = ".$this->diagnosa_id);			
 		}
+                
+                
+                if (!empty($this->ruangan_id)){
+                    if (is_array($this->ruangan_id)){
+                        $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                    }
+                }else{
+                    if (!empty($this->instalasi_id)){
+                        $ruangan = RuanganM::model()->findAll("instalasi_id = '".$this->instalasi_id."' AND ruangan_aktif = TRUE ");
+                        $r = array();
+                        foreach($ruangan as $ruang){
+                            $r[] = $ruang->ruangan_id; 
+                        }
+                        
+                        $criteria->addInCondition('ruangan_id', $r);
+                    }
+                }
+                
 		$criteria->compare('LOWER(diagnosa_kode)',strtolower($this->diagnosa_kode),true);
 		$criteria->compare('LOWER(diagnosa_nama)',strtolower($this->diagnosa_nama),true);
 		$criteria->compare('LOWER(diagnosa_namalainnya)',strtolower($this->diagnosa_namalainnya),true);
@@ -57,10 +77,21 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
          * @return CActiveDataProvider 
          */
         public function searchTable(){
+            $asd = Params::ASALRUJUKAN_ID_RS;
             $criteria = $this->functionCriteria();
             $crit = $criteria;
-            $crit->select = 'diagnosa_nama, sum(umur_0_28hr) as umur_0_28hr,sum(umur_28hr_1thn) as umur_28hr_1thn, sum(umur_1_4thn) as umur_1_4thn, sum(umur_5_14thn) as umur_5_14thn, sum(umur_15_24thn) as umur_15_24thn,sum(umur_25_44thn) as umur_25_44thn,sum(umur_45_64thn) as umur_45_64thn, sum(umur_65) as umur_65, count(pendaftaran_id) as jumlah, '
-                    . 'COUNT(CASE WHEN jeniskelamin !=\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' THEN 1 ELSE NULL END) AS lakilaki, COUNT(CASE WHEN jeniskelamin =\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' THEN 1 ELSE NULL END) AS perempuan, count(pendaftaran_id) as jumlahkunjungan';
+            $crit->select = 'diagnosa_nama, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BARU_LAHIR.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_0_28hr, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BAYI.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_28hr_1thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BALITA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_1_4thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_ANAK_ANAK.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_5_14thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_REMAJA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_15_24thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_DEWASA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_25_44thn,'
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_ORANG_TUA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_45_64thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_MANULA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_65, count(pendaftaran_id) as jumlah, '
+                    . 'COUNT(CASE WHEN (jeniskelamin !=\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE NULL END) AS lakilaki, '
+                    . 'COUNT(CASE WHEN (jeniskelamin =\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE NULL END) AS perempuan, '
+                    . 'count(pendaftaran_id) as jumlahkunjungan';
             $crit->group = 'diagnosa_nama';
             return new CActiveDataProvider($this, array(
 			'criteria'=>$crit,
@@ -73,8 +104,20 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
         public function searchPrint(){
             $criteria = $this->functionCriteria();
             $crit = $criteria;
-            $crit->select = 'diagnosa_nama, sum(umur_0_28hr) as umur_0_28hr,sum(umur_28hr_1thn) as umur_28hr_1thn, sum(umur_1_4thn) as umur_1_4thn, sum(umur_5_14thn) as umur_5_14thn, sum(umur_15_24thn) as umur_15_24thn,sum(umur_25_44thn) as umur_25_44thn,sum(umur_45_64thn) as umur_45_64thn, sum(umur_65) as umur_65, count(pendaftaran_id) as jumlah, COUNT(CASE WHEN jeniskelamin !=\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' THEN 1 ELSE NULL END) AS lakilaki, COUNT(CASE WHEN jeniskelamin =\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' THEN 1 ELSE NULL END) AS perempuan, count(pendaftaran_id) as jumlahkunjungan';
+             $crit->select = 'diagnosa_nama, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BARU_LAHIR.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_0_28hr, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BAYI.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_28hr_1thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BALITA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_1_4thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_ANAK_ANAK.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_5_14thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_REMAJA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_15_24thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_DEWASA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_25_44thn,'
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_ORANG_TUA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_45_64thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_MANULA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_65, count(pendaftaran_id) as jumlah, '
+                    . 'COUNT(CASE WHEN (jeniskelamin !=\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE NULL END) AS lakilaki, '
+                    . 'COUNT(CASE WHEN (jeniskelamin =\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE NULL END) AS perempuan, '
+                    . 'count(pendaftaran_id) as jumlahkunjungan';
             $crit->group = 'diagnosa_nama';
+            $crit->order = 'diagnosa_nama ASC';
             return new CActiveDataProvider($this, array(
 			'criteria'=>$crit,
                         'pagination'=>false, 
@@ -93,6 +136,10 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
             return new CActiveDataProvider($this, array(
 			'criteria'=>$crit,
 		));
+        }
+        
+        public function getPasienByUmu(){
+            
         }
 
 }

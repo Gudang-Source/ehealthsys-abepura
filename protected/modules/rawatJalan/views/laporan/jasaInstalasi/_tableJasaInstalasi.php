@@ -53,7 +53,7 @@
                     'value' => function($data){
                         $pegawai_id = TindakanpelayananT::model()->findByPk($data->tindakanpelayanan_id)->dokterpemeriksa1_id;
                         
-                        $nama = RIPegawaiM::model()->findByPk($pegawai_id);
+                        $nama = RJPegawaiM::model()->findByPk($pegawai_id);
                         
                         if (count($nama)>0){
                             return $nama->namaLengkap;
@@ -106,7 +106,7 @@
 			'name'=>'subtotal',
 			'type'=>'raw',
 			'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-			'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->qty_tindakan*($data->tarif_rsakomodasi+$data->tarif_medis+$data->tarif_paramedis+$data->tarif_bhp),0,"",".") : \'\'',
+			'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format(($data->tarif_rsakomodasi+$data->tarif_medis+$data->tarif_paramedis+$data->tarif_bhp),0,"",".") : \'\'',
                         'htmlOptions' => array('style'=>'text-align:right;'),
 		),
 		array(

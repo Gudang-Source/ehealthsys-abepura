@@ -158,6 +158,35 @@ class BahanMakananMController extends MyAuthController
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
+        
+         public function actionRemoveTemporary()
+        {
+                
+            $id = $_POST['id'];   
+            if(isset($_POST['id']))
+            {
+               $update = BahanmakananM::model()->updateByPk($id,array('bahanmakanan_aktif'=>false));
+               if($update)
+                {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+                }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+            }
+
+        }
 
 	/**
 	 * Lists all models.

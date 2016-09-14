@@ -115,6 +115,26 @@ class JenispengeluaranM extends CActiveRecord
 		));
 	}
         
+        public function searchJenisPengeluaranPrint()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('jenispengeluaran_id',$this->jenispengeluaran_id);
+		$criteria->compare('LOWER(jenispengeluaran_nama)',strtolower($this->jenispengeluaran_nama),true);
+		$criteria->compare('LOWER(jenispengeluaran_kode)',strtolower($this->jenispengeluaran_kode),true);
+		$criteria->compare('LOWER(jenispengeluaran_namalain)',strtolower($this->jenispengeluaran_namalain),true);
+		$criteria->compare('jenispengeluaran_aktif',$this->jenispengeluaran_aktif);
+//                $criteria->addCondition("jenispengeluaran_id not in(select jenispengeluaran_id from jnspengeluaranrek_m)");
+                $criteria->addCondition('jenispengeluaran_aktif is true');
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
 	public function searchJnsPengeluaranInRek()
 	{
 		$criteria=new CDbCriteria;
