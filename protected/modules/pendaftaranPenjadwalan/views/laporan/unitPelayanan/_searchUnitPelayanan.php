@@ -286,13 +286,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modDokter = new PPDokterpegawaiV;
-if(isset($_GET['PPDokterpegawaiV'])){
-    $modDokter->attributes = $_GET['PPDokterpegawaiV'];
+$modDokter = new PPDokterV;
+if(isset($_GET['PPDokterV'])){
+    $modDokter->attributes = $_GET['PPDokterV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawai-m-grid',
-	'dataProvider'=>$modDokter->search(),
+	'dataProvider'=>$modDokter->searchDialogPegawai(),
 	'filter'=>$modDokter,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
