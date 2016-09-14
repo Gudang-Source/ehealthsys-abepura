@@ -4,6 +4,8 @@
         <thead>
             <tr>
                 <th>No.</th>
+				<th>Waktu Makan</th>
+				<th>Menu Diet</th>
                 <th>Nama Makanan</th>
                 <th>Satuan</th>
                 <th>Berat Bahan<br>(gr)</th>
@@ -22,21 +24,21 @@
         </tbody>
         <tfoot>
            <tr class="trfooter">
-                <td colspan="3">Total</td>
+                <td colspan="5">Total</td>
                 <td>
-                    <?php echo CHtml::textField("totBeratBahan", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totberatbahan','style'=>'width:80px; text-align: right',)); ?>
+                    <?php echo CHtml::textField("totBeratBahan", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totberatbahan float2','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td>
-                    <?php echo CHtml::textField("totEnergiKalori", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totenergikalori','style'=>'width:80px; text-align: right',)); ?>
+                    <?php echo CHtml::textField("totEnergiKalori", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totenergikalori float2','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td>
-                    <?php echo CHtml::textField("totProtein", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totprotein','style'=>'width:80px; text-align: right',)); ?>
+                    <?php echo CHtml::textField("totProtein", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totprotein float2','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td>
-                    <?php echo CHtml::textField("totLemak", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totlemak','style'=>'width:80px; text-align: right',)); ?>
+                    <?php echo CHtml::textField("totLemak", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totlemak float2','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td>
-                    <?php echo CHtml::textField("totHidratArang", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 tothidratarang','style'=>'width:80px; text-align: right',)); ?>
+                    <?php echo CHtml::textField("totHidratArang", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 tothidratarang float2','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td></td>
                 <td></td>
