@@ -5,7 +5,8 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
         public $lakilaki,$perempuan,$jumlahkunjungan;
         public $instalasi_id, $ruangan_id;
         public $umur_1_5thn;
-	public static function model($className=__CLASS__)
+        public $kasusbaru;
+        public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -91,6 +92,7 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
                     . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_MANULA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_65, count(pendaftaran_id) as jumlah, '
                     . 'COUNT(CASE WHEN (jeniskelamin !=\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE NULL END) AS lakilaki, '
                     . 'COUNT(CASE WHEN (jeniskelamin =\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE NULL END) AS perempuan, '
+                    . 'COUNT(CASE WHEN (kasusdiagnosa = \'KASUS BARU\' ) THEN 1 ELSE NULL END) AS kasusbaru, '
                     . 'count(pendaftaran_id) as jumlahkunjungan';
             $crit->group = 'diagnosa_nama';
             return new CActiveDataProvider($this, array(
@@ -115,6 +117,7 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
                     . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_MANULA.') AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE null END ) as umur_65, count(pendaftaran_id) as jumlah, '
                     . 'COUNT(CASE WHEN (jeniskelamin !=\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE NULL END) AS lakilaki, '
                     . 'COUNT(CASE WHEN (jeniskelamin =\''.Params::JENIS_KELAMIN_PEREMPUAN.'\' AND (kasusdiagnosa = \'KASUS BARU\' )) THEN 1 ELSE NULL END) AS perempuan, '
+                    . 'COUNT(CASE WHEN (kasusdiagnosa = \'KASUS BARU\' ) THEN 1 ELSE NULL END) AS kasusbaru, '
                     . 'count(pendaftaran_id) as jumlahkunjungan';
             $crit->group = 'diagnosa_nama';
             $crit->order = 'diagnosa_nama ASC';
