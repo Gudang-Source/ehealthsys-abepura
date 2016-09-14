@@ -256,7 +256,7 @@ class StokobatalkesT extends CActiveRecord
 		/**
          * menampilkan jumlah stok terakhir
          */
-        public static function getJumlahStok($obatalkes_id, $ruangan_id = null){
+        public static function getJumlahStok($obatalkes_id, $ruangan_id = null, $tglkadaluarsa=''){
             $criteria = new CDbCriteria();
             $criteria->select = "sum(qtystok_in - qtystok_out) AS qtystok";
             //$criteria->addCondition('stokoa_aktif IS TRUE');            
@@ -264,6 +264,9 @@ class StokobatalkesT extends CActiveRecord
                     $criteria->addCondition("ruangan_id = ".$ruangan_id);
             }
             $criteria->addCondition('obatalkes_id = '.$obatalkes_id);
+            if (!empty($tglkadaluarsa)){
+            $criteria->addCondition("tglkadaluarsa = '".MyFormatter::formatDateTimeForDb($tglkadaluarsa)."' ");
+            }
             $criteria->group = "obatalkes_id, ruangan_id";            
             $model = InfostokobatalkesruanganV::model()->find($criteria);
             
