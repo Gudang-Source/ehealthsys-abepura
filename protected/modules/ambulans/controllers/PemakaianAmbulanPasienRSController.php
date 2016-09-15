@@ -5,6 +5,7 @@ class PemakaianAmbulanPasienRSController extends MyAuthController
     protected $obatalkespasientersimpan = true;
     protected $tindakanpelayanantersimpan = true;
     public $path_view = 'ambulans.views.pemakaianAmbulanPasienRS.';    
+    public $inisial_modul = '';
 
     public function actionIndex($pemakaian_id = '', $pendaftaran_id='', $pemesanan_id='')
     {
