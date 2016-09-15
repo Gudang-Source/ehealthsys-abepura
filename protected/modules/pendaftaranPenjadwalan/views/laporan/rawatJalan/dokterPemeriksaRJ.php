@@ -65,7 +65,7 @@
     </div>
     <div class="block-tabel">
         <?php $this->renderPartial('pendaftaranPenjadwalan.views.laporan._tab'); ?>
-        <iframe src="" id="Grafik" width="100%" height='0' onload="javascript:resizeIframe(this);">
+        <iframe class="biru" src="" id="Grafik" width="100%" height='0' onload="javascript:resizeIframe(this);">
         </iframe>        
     </div>
     <?php

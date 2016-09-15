@@ -208,9 +208,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -252,9 +256,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -296,9 +304,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -340,9 +352,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -383,9 +399,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -427,9 +447,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -470,9 +494,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -514,9 +542,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -558,9 +590,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -602,9 +638,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -645,9 +685,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -693,9 +737,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 					$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 				}
 				$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-				if(!empty($this->instalasi_id)){
-					$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-				}
+				if(!empty($this->ruangan_id)){                    
+                                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                                }else{
+                                   if (!empty($this->instalasi_id)){
+                                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                                   }
+                                }
 				$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 				if(!empty($this->carabayar_id)){
 					$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -737,9 +785,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -781,9 +833,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -824,9 +880,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 					$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 				}
 				$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-				if(!empty($this->instalasi_id)){
-					$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-				}
+				if(!empty($this->ruangan_id)){                    
+                                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                                }else{
+                                   if (!empty($this->instalasi_id)){
+                                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                                   }
+                                }
 				$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 				if(!empty($this->carabayar_id)){
 					$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -868,9 +928,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -912,9 +976,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -967,9 +1035,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 		}
 		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-		}
+		if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -1018,9 +1090,13 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 		}
 		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-		}
+		if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
