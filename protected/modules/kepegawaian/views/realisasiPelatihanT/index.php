@@ -4,7 +4,7 @@
 	'id'=>'realisasipelatihan-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event); '),//dimatikan karena pakai verifikasi >> ,'onsubmit'=>'return requiredCheck(this);'
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event);','onsubmit' => 'return requiredCheck(this);'),//dimatikan karena pakai verifikasi >> ,'onsubmit'=>'return requiredCheck(this);'
 		'focus' => '#'.CHtml::activeId($model, 'tglrencanadiklat'),
 )); ?>
 <?php 
@@ -97,10 +97,10 @@ if(isset($_GET['sukses'])){
                     <th>Tanggal <br>Mulai Diklat</th>
                     <th>Lama Pelatihan</th>
                     <th>Tempat Pelatihan</th>
-                    <th>No. Keputusan</th>
-                    <th>Tanggal Penetapan</th>
-                    <th>Pimpinan</th>
-                    <th>Keterangan</th>
+                    <th>No. Keputusan <font style="color:red">*</font></th>
+                    <th>Tanggal Penetapan <font style="color:red">*</font></th>
+                    <th>Pimpinan <font style="color:red">*</font></th>
+                    <th>Keterangan <font style="color:red">*</font></th>
                 </tr>
             </thead>
             <tbody>

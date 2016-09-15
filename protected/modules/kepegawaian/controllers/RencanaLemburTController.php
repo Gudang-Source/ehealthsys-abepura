@@ -19,8 +19,11 @@ class RencanaLemburTController extends MyAuthController
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionBuat($norencana=null)
+	public function actionBuat($norencana=null,$sukses='')
 	{
+            if ($sukses == 1){
+                Yii::app()->user->setFlash('success',"<b>Berhasil!</b> Data telah berhasil disimpan !");
+            }
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$modRencanaLembur = new KPRencanaLemburT();
 		$sukses = false;
@@ -72,13 +75,13 @@ class RencanaLemburTController extends MyAuthController
 						if(empty($modRencanaLemburTab[$i]->jamMulai)){
 							$modRencanaLemburTab[$i]->tglmulai = null;
 						}else{
-							$tglmulai = $tglrencana." ".$modRencanaLemburTab[$i]->jamMulai.":00";
+							$tglmulai = $tglrencana." ".$modRencanaLemburTab[$i]->jamMulai;
 							$modRencanaLemburTab[$i]->tglmulai = $tglmulai;
 						}
 						if(empty($modRencanaLemburTab[$i]->jamSelesai)){
 							$modRencanaLemburTab[$i]->tglselesai = null;
 						}else{
-							$tglselesai = $tglrencana." ".$modRencanaLemburTab[$i]->jamSelesai.":00";
+							$tglselesai = $tglrencana." ".$modRencanaLemburTab[$i]->jamSelesai;
 							$modRencanaLemburTab[$i]->tglselesai = $tglselesai;
 						}
 
@@ -294,7 +297,9 @@ class RencanaLemburTController extends MyAuthController
 		{
 			$tr = "";
 			if(Yii::app()->request->isAjaxRequest) {
-
+                        Yii::app()->clientScript->scriptMap['*.js'] = false;
+                        Yii::app()->clientScript->scriptMap['*.css'] = false;
+                        
 				$modRencanaLembur=new KPRencanaLemburT;
 				if(!empty($_POST['pegawailembur_id'])){
 					$pegawailembur_id=$_POST['pegawailembur_id'];
@@ -316,9 +321,11 @@ class RencanaLemburTController extends MyAuthController
 							<td>".$modPegawai->nomorindukpegawai."</td>
 							<td>".$modPegawai->nama_pegawai."</td>";      //<td>".$modPegawai->jabatan->jabatan_nama."</td>                  
 
-					$tr.="<td>".CHtml::activetextField($modRencanaLembur,'['.$pegawailembur_id.']jamMulai',array('placeholder'=>'00:00','class'=>'span1 detailRequired','readonly'=>false, 'maxLength'=>5, 'onkeypress'=>'return $(this).focusNextInputField(event)', 'onblur'=>'checkTime(this);'))."</td>";
-					$tr.="<td>".CHtml::activetextField($modRencanaLembur,'['.$pegawailembur_id.']jamSelesai',array('placeholder'=>'00:00','class'=>'span1','readonly'=>false, 'maxLength'=>5, 'onkeypress'=>'return $(this).focusNextInputField(event)', 'onblur'=>'checkTime(this);'))."</td>";
-
+					//$tr.="<td>".CHtml::activetextField($modRencanaLembur,'['.$pegawailembur_id.']jamMulai',array('placeholder'=>'00:00','class'=>'span1 detailRequired','readonly'=>false, 'maxLength'=>5, 'onkeypress'=>'return $(this).focusNextInputField(event)', 'onblur'=>'checkTime(this);'))."</td>";
+                                        $tr.="<td>".$this->renderPartial('_jam', array('detail'=>$modRencanaLembur,'no'=>$pegawailembur_id,'jam'=>'mulai'), true, true)."</td>";
+					//$tr.="<td>".CHtml::activetextField($modRencanaLembur,'['.$pegawailembur_id.']jamSelesai',array('placeholder'=>'00:00','class'=>'span1','readonly'=>false, 'maxLength'=>5, 'onkeypress'=>'return $(this).focusNextInputField(event)', 'onblur'=>'checkTime(this);'))."</td>";
+                                        $tr.="<td>".$this->renderPartial('_jam', array('detail'=>$modRencanaLembur,'no'=>$pegawailembur_id,'jam'=>'selesai'), true, true)."</td>";
+                                        
 					$tr.="        <td>".CHtml::activetextField($modRencanaLembur,'['.$pegawailembur_id.']alasanlembur',array('class'=>'span3','readonly'=>false, 'onkeypress'=>'return $(this).focusNextInputField(event)'))."</td>
 							<td>".CHtml::link("<span class='icon-remove'>&nbsp;</span>",'#',array('href'=>'','onclick'=>'hapusBaris(this); return false;'))."</td>
 						 </tr>   
