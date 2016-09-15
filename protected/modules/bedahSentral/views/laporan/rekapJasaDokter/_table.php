@@ -85,12 +85,12 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                     array(
                         'header' => 'Tanggal Pendaftaran',
                         'type' => 'raw',
-                        'value' => 'date("d/m/Y",strtotime($data->tgl_pendaftaran))',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
                     ),
                     array(
                         'header' => 'Tanggal Keluar',
                         'type' => 'raw',
-                        'value' => '(isset($data->tgl_keluar) ?date("d/m/Y",strtotime($data->tgl_keluar)) : "-")',
+                        'value' => '(isset($data->tgl_keluar) ?MyFormatter::formatDateTimeForUser($data->tgl_keluar) : "-")',
                     ),
                     array(
                         'header' => 'Nama Tindakan',
@@ -100,8 +100,9 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                     array(
                         'header' => 'Jasa Pelayanan',
                         'type' => 'raw',
-                        'value' => 'number_format($data->tarif_tindakankomp)',
-                    ),
+                        'value' => 'MyFormatter::formatNumberForPrint($data->tarif_tindakankomp)',
+						'htmlOptions' => array('style' => 'text-align:right;'),
+					),
                     array(
                         'header' => 'Nama Dokter',
                         'type' => 'raw',

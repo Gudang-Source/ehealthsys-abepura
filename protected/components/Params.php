@@ -124,6 +124,7 @@ Class Params
 
 	const KOMPONENTARIF_ID_TOTAL = 6;  
         const KOMPONENTARIF_ID_PELAYANAN = 24;
+	const KOMPONENTARIF_ID_JASA_MEDIS = 5;
 	
 	const KOMPONENUNIT_ID_GIZI = 23; // komponenunit_id untuk konsultasi gizi 
         const KOMPONENUNIT_ID_AMBULANS = 23;
