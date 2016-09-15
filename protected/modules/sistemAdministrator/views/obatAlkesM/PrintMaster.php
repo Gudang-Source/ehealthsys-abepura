@@ -41,10 +41,18 @@ $this->widget($table,array(
                     'value'=>'$data->obatalkes_nama',
                 ),
 		array(
-                    'header'=>'Asal Barang',
+                    'header'=>'Sumber Dana',
                     'name'=>'sumberdanaNama',
                     'value'=>'$data->sumberdana->sumberdana_nama',
                 ),
+                array(
+                        'header' => 'Jenis Kelompok',
+                        'name' => 'jnskelompok',
+                        'value' => function($data){
+                            return $data->getNameLookup($data->jnskelompok);
+                        },
+                       // 'filter' => Chtml::activeDropDownList($model, 'jnskelompok', LookupM::getItems('jnskelompok'), array('empty'=>'-- Pilih --'))
+                    ),
 		array(
                     'header'=>'Jenis Obat',
                     'name'=>'jenisobatalkes_id',

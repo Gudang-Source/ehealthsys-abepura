@@ -61,6 +61,14 @@
                             'value'=>'$data->sumberdana->sumberdana_nama',
                     ),
                     array(
+                        'header' => 'Jenis Kelompok',
+                        'name' => 'jnskelompok',
+                        'value' => function($data){
+                            return $data->getNameLookup($data->jnskelompok);
+                        },
+                        'filter' => Chtml::activeDropDownList($model, 'jnskelompok', LookupM::getItems('jnskelompok'), array('empty'=>'-- Pilih --'))
+                    ),
+                    array(
                             'header'=>'Jenis Obat',
                             'name'=>'jenisobatalkes_id',
                             'filter'=> CHtml::dropDownList('SAObatalkesM[jenisobatalkes_id]',$model->jenisobatalkes_id,CHtml::listData($model->JenisObatAlkesItems, 'jenisobatalkes_id', 'jenisobatalkes_nama'),array('empty'=>'--Pilih--')),
