@@ -27,6 +27,10 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                         // 'instalasi_nama',
                         // 'ruangan_nama',
                         array(
+                            'header' => 'Jenis Kelompok',
+                            'value' => '$data->lookup_name'
+                        ),
+                        array(
                             'name'=>'jenisobatalkes_nama',
                             'value'=>'!empty($data->jenisobatalkes_id)?(($data->jenisobatalkes_nama==null)?$data->jenisobatalkes->jenisobatalkes_nama:$data->jenisobatalkes_nama):"-"',
                         ),

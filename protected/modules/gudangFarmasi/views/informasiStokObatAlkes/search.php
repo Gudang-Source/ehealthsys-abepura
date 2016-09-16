@@ -17,7 +17,12 @@
                                         'update'=>"#".CHtml::activeId($model, 'ruangan_id'),
                             ))); */ ?>
             <?php // echo $form->dropDownListRow($model,'ruangan_id',$ruanganAsals,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-            
+            <div class = "control-group">
+                <?php echo Chtml::label('Jenis Kelompok', 'jnskelompok',array('class'=>'control-label')) ?>
+                <div class = "controls">
+                    <?php echo $form->dropDownList($model,'jnskelompok', LookupM::getItems('jnskelompok'),array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                </div>
+            </div>
             <?php echo $form->dropDownListRow($model,'jenisobatalkes_id',  
                     CHtml::listData(JenisobatalkesM::model()->findAll(array(
                         'condition'=>'jenisobatalkes_aktif = true',
