@@ -92,8 +92,6 @@ class PPRuanganM extends RuanganM{
 	public function searchUnitPelayananPrint(){
 
 		$criteria = new CDbCriteria();
-
-		$criteria = new CDbCriteria();
                 $bln_awal = explode('-',$this->bln_awal);
                 $bln_akhir = explode('-',$this->bln_akhir);
 		$criteria->select = 't.ruangan_nama ,t.ruangan_id, '
@@ -114,7 +112,7 @@ class PPRuanganM extends RuanganM{
 		if($this->jns_periode == "tahun"){
 			$criteria->addBetweenCondition("date_part('year',pendaftaran_t.tgl_pendaftaran)",$this->thn_awal,$this->thn_akhir);
 		}
-                var_dump($this->ruangan_id);
+                
                 if (!empty($this->ruangan_id)){
                     if (is_array($this->ruangan_id)){
                         $criteria->addInCondition('t.ruangan_id', $this->ruangan_id);
