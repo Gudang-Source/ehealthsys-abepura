@@ -1332,7 +1332,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $model->bulan = date('m');
+       
         $judulLaporan = 'Laporan Kunjungan Pasien Rawat Jalan Berdasarkan Unit Pelayanan';
 
         //Data Grafik

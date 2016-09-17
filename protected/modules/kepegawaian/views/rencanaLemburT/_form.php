@@ -172,8 +172,8 @@
                 $format = new MyFormatter;
                if(count($rencana) > 0){
                     foreach($rencana AS $key=> $modDetail){
-						$rencana[$key]->jamMulai = date('H:i', strtotime($rencana[$key]->tglmulai));
-						$rencana[$key]->jamSelesai = date('H:i', strtotime($rencana[$key]->tglselesai));
+						$rencana[$key]->jamMulai = date('H:i:s', strtotime($rencana[$key]->tglmulai));
+						$rencana[$key]->jamSelesai = date('H:i:s', strtotime($rencana[$key]->tglselesai));
 						$tr.="<tr>
 						   <td>". CHtml::TextField('noUrut',$no++,array('class'=>'span1 noUrut','readonly'=>TRUE))."</td>
 						   <td>".$rencana[$key]->pegawai->nomorindukpegawai."</td>
@@ -253,10 +253,19 @@
                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
     } ?>
         <?php
-                echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue', 'disabled'=>$disablePrint,'type'=>'button','onclick'=>'print(\'PRINT\')'));
+                echo CHtml::htmlButton(Yii::t('mds','{icon} Cetak',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue', 'disabled'=>$disablePrint,'type'=>'button','onclick'=>'print(\'PRINT\')'));
         ?>
     <?php
-        $content = $this->renderPartial('tips/tipsLembur',array(),true);
+        $tips = array(
+            '0' => 'tanggal',
+            '1' => 'autocomplete-search',
+            '2' => 'time',
+            '3' => 'tambah2',
+            '4' => 'simpan',
+            '5' => 'ulang',
+            '6' => 'print',
+        );
+        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
     ?>
 </div>

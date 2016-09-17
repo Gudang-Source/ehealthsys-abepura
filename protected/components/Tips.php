@@ -36,10 +36,10 @@ Class Tips
                         .'<i class="icon-search icon-white"></i> Cari</div> berfungsi '
                         .' untuk mencari data.', 
             'print'    => 'Gunakan tombol ini  <div class="btn btn-info">'
-                        .'<i class="icon-print icon-white"></i> Print</div> berfungsi '
+                        .'<i class="icon-print icon-white"></i> Cetak</div> berfungsi '
                         .' untuk mencetak data.', 
             'masterPRINT'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
-                        .'<i class="icon-print icon-white"></i> Print</div> berfungsi '
+                        .'<i class="icon-print icon-white"></i> Cetak</div> berfungsi '
                         .' untuk mencetak data.', 
             'masterPDF'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="icon-book icon-white"></i> PDF</div> berfungsi '
@@ -59,6 +59,8 @@ Class Tips
             'waktutime' => 'icon ini  <i class="icon-calendar"></i><i class="icon-time"></i>'
                         .'  berfungsi untuk menentukan tanggal dan waktu.',
             'tanggal' => 'icon ini  <i class="icon-calendar"></i>'
+                        .'  berfungsi untuk menentukan waktu.',
+            'time' => 'icon ini  <i class="icon-time"></i>'
                         .'  berfungsi untuk menentukan tanggal.',
             'lihat' => 'icon ini  <i class="icon-form-lihat"></i>'
                         .'  berfungsi untuk melihat data.',

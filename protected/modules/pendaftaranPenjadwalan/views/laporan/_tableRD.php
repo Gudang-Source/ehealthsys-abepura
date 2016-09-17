@@ -21,9 +21,9 @@ if (isset($caraPrint)){
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
            array(
-              'header'=>'Tanggal Pendaftaran',
+              'header'=>'Tanggal Pendaftaran <br/> / No Pendaftaran',
               'type'=>'raw',
-              'value'=>'date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran))',
+              'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran)))." <br/> / ".$data->no_pendaftaran',
             ),
             array(
               'header'=>'No. Pendaftaran',
@@ -118,10 +118,10 @@ if (isset($caraPrint)){
                'htmlOptions'=>array('style'=>'text-align: center')
             ),            
             array(
-               'header'=>'Nama Ruangan',
+               'header'=>'Instalasi <br/> / Ruangan',
                'name'=>'ruangan_nama',
                'type'=>'raw',
-               'value'=>'$data->ruangan_nama',
+               'value'=>'$data->instalasi_nama." <br/> /".$data->ruangan_nama',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),
             array(
