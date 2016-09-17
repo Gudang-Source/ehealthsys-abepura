@@ -102,6 +102,7 @@ class PendaftaranBedahSentralRujukanRSController extends MyAuthController
 							}
 						}
 					}
+						$postRencanaTindakan = array();
 					
 						foreach($_POST['BSRencanaOperasiT'] as $k => $v){
 							if(is_array($v)){
@@ -136,6 +137,8 @@ class PendaftaranBedahSentralRujukanRSController extends MyAuthController
 							}
 						}
 					
+						
+				// var_dump($this->pasienpenunjangtersimpan && $this->rencanaoperasitersimpan); die;
 				if ($this->pasienpenunjangtersimpan && $this->rencanaoperasitersimpan){
 					// SMS GATEWAY
 
