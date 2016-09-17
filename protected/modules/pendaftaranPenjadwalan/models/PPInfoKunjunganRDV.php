@@ -398,7 +398,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 				}
 				$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 				$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
-//		                
+		                $criteria->order = "jumlah DESC";
 				return new CActiveDataProvider($this, array(
 					'criteria'=>$criteria,
 				));
@@ -445,6 +445,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -492,6 +493,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -539,6 +541,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -586,6 +589,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -633,6 +637,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -680,6 +685,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 //		                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -727,6 +733,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -774,6 +781,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -821,6 +829,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -868,6 +877,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 //		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -916,6 +926,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -963,6 +974,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -1011,6 +1023,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -1058,6 +1071,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -1105,6 +1119,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = "jumlah DESC";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,

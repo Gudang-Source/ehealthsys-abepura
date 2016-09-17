@@ -1,11 +1,36 @@
 <?php
   $table = 'ext.bootstrap.widgets.BootGridView';
+  $itemCssClass = 'table table-striped table-condensed';
 if (isset($caraPrint)){
   $data = $model->searchPrint();
   $template = '{items}';
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
+  
 } else{
   $data = $model->searchTableLaporan();
   $template = "{summary}{items}{pager}";
@@ -20,12 +45,12 @@ if (isset($caraPrint)){
 	'id'=>'PPInfoKunjungan-v',
 	'dataProvider'=>$data,
         'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
             array(
               'header'=>'Nama Dokter',
               'type'=>'raw',
-              'value'=>'$data->nama_pegawai',
+              'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
             ),
             array(
               'header'=>'Nama Pasien / Alias',
@@ -47,12 +72,17 @@ if (isset($caraPrint)){
             array(
               'header'=>'Tanggal Masuk',
               'type'=>'raw',
-              'value'=>'$data->tgladmisi',
+              'value'=>'MyFormatter::formatDateTimeForUser($data->tgladmisi)',
             ),
             array(
               'header'=>'Tanggal Keluar',
               'type'=>'raw',
-              'value'=>'$data->tglpulang',
+              'value'=>'MyFormatter::formatDateTimeForUser($data->tglpulang)',
+            ),
+            array(
+                'header' => 'Instalasi <br/> / Ruangan',
+                'type' => 'raw',
+                'value' => '$data->instalasi_nama." <br/> / ".$data->ruangan_nama'
             ),
 //            
 	),

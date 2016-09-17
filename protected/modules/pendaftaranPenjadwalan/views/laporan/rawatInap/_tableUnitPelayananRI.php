@@ -1,11 +1,37 @@
 <?php
   $table = 'ext.bootstrap.widgets.MergeHeaderGroupGridView';
+  $itemCssClass = 'table table-striped table-condensed';
 if (isset($caraPrint)){
   $data = $model->searchUnitPelayananPrint();
   $template = '{items}';
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
+  
 } else{
   $data = $model->searchUnitPelayanan();
   $template = "{summary}{items}{pager}";
@@ -22,7 +48,7 @@ if (isset($caraPrint)){
 	'dataProvider'=>$data,
         'template'=>$template,
 //        'mergeColumns'=>array('ruangan_nama'),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
              array(
           'header'=>'No',
@@ -38,23 +64,27 @@ if (isset($caraPrint)){
           'type'=>'raw',
         ),
         array(
-          'header'=>'Kunjungan Baru',
-          'value'=>'$data->getKunjungan("PENGUNJUNG BARU",$data->ruangan_id)',
-          'htmlOptions'=>array('style'=>'text-align:left;width:30px;'),
+          'header'=>'<center>Kunjungan Baru</center>',
+          //'value'=>'$data->getKunjungan("PENGUNJUNG BARU",$data->ruangan_id)',
+           'value' => 'number_format($data->jumlahkunjunganbaru,0,"",".")',
+          'htmlOptions'=>array('style'=>'width:30px;text-align:right;'),
           'type'=>'raw',
         ),
         array(
-          'header'=>'Kunjungan Lama',
-          'value'=>'$data->getKunjungan("PENGUNJUNG LAMA",$data->ruangan_id)',
-          'htmlOptions'=>array('style'=>'text-align:left;width:30px;'),
+          'header'=>'<center>Kunjungan Lama</center>',
+          //'value'=>'$data->getKunjungan("PENGUNJUNG LAMA",$data->ruangan_id)',
+            'value' => 'number_format($data->jumlahkunjunganlama,0,"",".")',
+          'htmlOptions'=>array('style'=>'width:30px;text-align:right;'),
           'type'=>'raw',
         ),
         array(
-          'header'=>'Jumlah',
-          'value'=>'number_format($data->jumlahkunjunganbaru)',
-          'htmlOptions'=>array('style'=>'text-align:left;width:30px;'),
+          'header'=>'<center>Jumlah</center>',
+  //          'value'=>'$data->getJmlKunjungan($data->ruangan_id)',
+//          'value'=>'number_format($data->jumlahkunjunganbaru)',
+            'value' => 'number_format($data->jumlahkunjungan,0,"",".")',
+          'htmlOptions'=>array('style'=>'width:30px;text-align:right;'),
           'type'=>'raw',
-        ),
+        ),         
        
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

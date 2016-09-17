@@ -47,12 +47,17 @@ if (isset($caraPrint)){
             array(
               'header'=>'Tanggal Masuk',
               'type'=>'raw',
-              'value'=>'$data->tgladmisi',
+              'value'=>'MyFormatter::formatDateTimeForUser($data->tgladmisi)',
             ),
             array(
               'header'=>'Tanggal Keluar',
               'type'=>'raw',
-              'value'=>'$data->tglpulang',
+              'value'=>'MyFormatter::formatDateTimeForUser($data->tglpulang)',
+            ),
+            array(
+                'header' => 'Instalasi <br/> / Ruangan',
+                'type' => 'raw',
+                'value' => '$data->instalasi_nama." <br/> / ".$data->ruangan_nama'
             ),
 //            
 	),

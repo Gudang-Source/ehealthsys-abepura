@@ -6,6 +6,7 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
     public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
     public $harganetto_oa;
     public $jenisobatalkes_kode;
+    public $jnskelompok, $lookup_name;
    
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -368,44 +369,49 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
             // should not be searched.
 
             $criteria=new CDbCriteria;
-                $criteria->select = "obatalkes_id,obatalkes_nama,obatalkes_golongan,obatalkes_kategori,jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa";
+                $criteria->select = "l.lookup_name, t.obatalkes_id,t.obatalkes_nama,t.obatalkes_golongan,t.obatalkes_kategori,t.jenisobatalkes_id,t.jenisobatalkes_nama,t.obatalkes_kode,t.satuankecil_nama, t.tglkadaluarsa";
+                $criteria->join = " JOIN obatalkes_m oa ON t.obatalkes_id = oa.obatalkes_id "
+                                . " JOIN lookup_m l ON oa.jnskelompok = l.lookup_value";
                 //var_dump($this->instalasi_id);
 		if(!empty($this->instalasi_id)){
-			$criteria->addCondition('instalasi_id = '.$this->instalasi_id);
+			$criteria->addCondition('t.instalasi_id = '.$this->instalasi_id);
                 }else{
                    // $criteria->addCondition('instalasi_id is NULL ');
                 }
-		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+		$criteria->compare('LOWER(t.instalasi_nama)',strtolower($this->instalasi_nama),true);
                 
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+			$criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
                 }else{
                   // $criteria->addCondition('ruangan_id is NULL ');
                 }
 		//$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-		if(!empty($this->jenisobatalkes_id)){
-			$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
-		}		
-		$criteria->compare('LOWER(jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);		
-		if(!empty($this->obatalkes_id)){
-			$criteria->addCondition('obatalkes_id = '.$this->obatalkes_id);
-		}		
-		$criteria->compare('LOWER(obatalkes_kode)',strtolower($this->obatalkes_kode),true);
-		$criteria->compare('LOWER(obatalkes_nama)',strtolower($this->obatalkes_nama),true);		
-		$criteria->compare('LOWER(obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
-		$criteria->compare('LOWER(obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
-		$criteria->compare('LOWER(obatalkes_kadarobat)',strtolower($this->obatalkes_kadarobat),true);
-		if(!empty($this->satuankecil_id)){
-			$criteria->addCondition('satuankecil_id = '.$this->satuankecil_id);
+                if(!empty($this->jnskelompok)){
+			$criteria->addCondition("oa.jnskelompok = '".$this->jnskelompok."' ");
 		}
-		$criteria->compare('LOWER(satuankecil_nama)',strtolower($this->satuankecil_nama),true);		
+		if(!empty($this->jenisobatalkes_id)){
+			$criteria->addCondition('t.jenisobatalkes_id = '.$this->jenisobatalkes_id);
+		}		
+		$criteria->compare('LOWER(t.jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);		
+		if(!empty($this->obatalkes_id)){
+			$criteria->addCondition('t.obatalkes_id = '.$this->obatalkes_id);
+		}		
+		$criteria->compare('LOWER(t.obatalkes_kode)',strtolower($this->obatalkes_kode),true);
+		$criteria->compare('LOWER(t.obatalkes_nama)',strtolower($this->obatalkes_nama),true);		
+		$criteria->compare('LOWER(t.obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
+		$criteria->compare('LOWER(t.obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
+		$criteria->compare('LOWER(t.obatalkes_kadarobat)',strtolower($this->obatalkes_kadarobat),true);
+		if(!empty($this->satuankecil_id)){
+			$criteria->addCondition('t.satuankecil_id = '.$this->satuankecil_id);
+		}
+		$criteria->compare('LOWER(t.satuankecil_nama)',strtolower($this->satuankecil_nama),true);		
                 if(!empty($this->tglkadaluarsa)){
-			 $criteria->addCondition("tglkadaluarsa ='$this->tglkadaluarsa'");
+			 $criteria->addCondition("t.tglkadaluarsa ='$this->tglkadaluarsa'");
 		}
                
 		
-		$criteria->compare('qtystok',$this->qtystok);
-                $criteria->group = 'obatalkes_id, obatalkes_nama,obatalkes_golongan,obatalkes_kategori, jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa';
+		$criteria->compare('t.qtystok',$this->qtystok);
+                $criteria->group = 'l.lookup_name, t.obatalkes_id, t.obatalkes_nama, t.obatalkes_golongan, t.obatalkes_kategori, t.jenisobatalkes_id, t.jenisobatalkes_nama, t.obatalkes_kode, t.satuankecil_nama, t.tglkadaluarsa';
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

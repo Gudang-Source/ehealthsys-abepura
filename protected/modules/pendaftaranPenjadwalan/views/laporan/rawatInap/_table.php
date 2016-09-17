@@ -22,28 +22,21 @@ if (isset($caraPrint)){
         'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
             array(
-              'header'=>'Tanggal Pendaftaran',
+              'header'=>'Tgl. Pendaftaran <br/> / No Pendaftaran',
               'type'=>'raw',
-              'value'=>'date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran))',
-            ),
+              'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)." <br/> / ".$data->no_pendaftaran',
+            ),            
             array(
-              'header'=>'No. Pendaftaran',
+              'header'=>'Tgl. Masuk ',
               'type'=>'raw',
-              'value'=>'$data->no_pendaftaran',
+              'value'=>'MyFormatter::formatDateTimeForUser($data->tgladmisi)',
             ),
             
             array(
-              'header'=>'Tanggal Masuk ',
+              'header'=>'Tgl. Keluar',
               'type'=>'raw',
-              'value'=>'$data->tgladmisi',
-            ),
-            
-            array(
-              'header'=>'Tanggal Keluar',
-              'type'=>'raw',
-              'value'=>'$data->tglpulang',
-            ),
-            
+              'value'=>'MyFormatter::formatDateTimeForUser($data->tglpulang)',
+            ),            
             array(
               'header'=>'No. Rekam Medik',
               'type'=>'raw',
@@ -137,10 +130,10 @@ if (isset($caraPrint)){
                'htmlOptions'=>array('style'=>'text-align: center')
             ),            
             array(
-               'header'=>'Nama Ruangan',
+               'header'=>'Intalasi <br/> / Ruangan',
 //               'name'=>'ruangan_nama',
                'type'=>'raw',
-               'value'=>'$data->ruangan_nama',
+               'value'=>'$data->instalasi_nama." <br/> / ".$data->ruangan_nama',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),
             array(
