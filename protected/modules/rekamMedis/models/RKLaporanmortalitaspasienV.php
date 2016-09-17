@@ -3,6 +3,8 @@ class RKLaporanmortalitaspasienV extends LaporanmortalitaspasienV
 {
         public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
         public $kondisipulang1, $kondisipulang2, $jumlahkunjungan;
+        public $instalasi_id;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -48,6 +50,23 @@ class RKLaporanmortalitaspasienV extends LaporanmortalitaspasienV
 		if(!empty($this->golonganumur_id)){
 			$criteria->addCondition("golonganumur_id = ".$this->golonganumur_id);			
 		}
+                
+                if (!empty($this->ruangan_id)){
+                    if (is_array($this->ruangan_id)){
+                        $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                    }
+                }else{
+                    if (!empty($this->instalasi_id)){
+                        $ruangan = RuanganM::model()->findAll("instalasi_id = '".$this->instalasi_id."' AND ruangan_aktif = TRUE ");
+                        $r = array();
+                        foreach($ruangan as $ruang){
+                            $r[] = $ruang->ruangan_id; 
+                        }
+                        
+                        $criteria->addInCondition('ruangan_id', $r);
+                    }
+                }
+                
 		$criteria->compare('LOWER(kondisipulang)',strtolower($this->kondisipulang),true);
 		$criteria->compare('LOWER(carakeluar)',strtolower($this->carakeluar),true);
 
@@ -60,8 +79,19 @@ class RKLaporanmortalitaspasienV extends LaporanmortalitaspasienV
         public function searchPrint(){
             $criteria = $this->functionCriteria();
             $crit = $criteria;
-//            $crit->select = 'diagnosa_nama, sum(umur_0_28hr) as umur_0_28hr,sum(umur_28hr_1thn) as umur_28hr_1thn, sum(umur_1_4thn) as umur_1_4thn, sum(umur_5_14thn) as umur_5_14thn, sum(umur_15_24thn) as umur_15_24thn,sum(umur_25_44thn) as umur_25_44thn,sum(umur_45_64thn) as umur_45_64thn, sum(umur_65) as umur_65, count(pendaftaran_id) as jumlah, sum(kondisipulang1) as kondisipulang1 , sum(kondisipulang2) as kondisipulang2, count(pendaftaran_id) as jumlahkunjungan';
-//            $crit->group = 'diagnosa_nama';
+            $crit->select = 'diagnosa_nama, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BARU_LAHIR.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_0_28hr, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BAYI.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_28hr_1thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BALITA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_1_4thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_ANAK_ANAK.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_5_14thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_REMAJA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_15_24thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_DEWASA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_25_44thn,'
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_ORANG_TUA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_45_64thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_MANULA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_65, count(pendaftaran_id) as jumlah, '
+                    . 'COUNT(CASE WHEN ((kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\') )) THEN 1 ELSE NULL END) AS kondisipulang1, '
+                    . 'COUNT(CASE WHEN ((kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE NULL END) AS kondisipulang2, '                    
+                    . 'count(CASE WHEN ((kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as jumlahkunjungan';
+            $crit->group = 'diagnosa_nama';
             return new CActiveDataProvider($this, array(
 			'criteria'=>$crit,
                         'pagination'=>false,
@@ -72,8 +102,21 @@ class RKLaporanmortalitaspasienV extends LaporanmortalitaspasienV
          * @return CActiveDataProvider 
          */
         public function searchTable(){
-            $criteria = $this->functionCriteria();
+            $criteria = $this->functionCriteria();            
             $crit = $criteria;
+            $crit->select = 'diagnosa_nama, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BARU_LAHIR.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_0_28hr, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BAYI.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_28hr_1thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_BALITA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_1_4thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_ANAK_ANAK.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_5_14thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_REMAJA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_15_24thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_DEWASA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_25_44thn,'
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_ORANG_TUA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_45_64thn, '
+                    . 'count(CASE WHEN ( (golonganumur_id = '.Params::GOLONGAN_UMUR_MANULA.') AND (kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as umur_65, count(pendaftaran_id) as jumlah, '
+                    . 'COUNT(CASE WHEN ((kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\') )) THEN 1 ELSE NULL END) AS kondisipulang1, '
+                    . 'COUNT(CASE WHEN ((kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE NULL END) AS kondisipulang2, '                    
+                    . 'count(CASE WHEN ((kondisikeluar_id IN  (\''.Params::KONDISIKELUAR_ID_MENINGGAL_1.'\',\''.Params::KONDISIKELUAR_ID_MENINGGAL_2.'\') )) THEN 1 ELSE null END ) as jumlahkunjungan';
+            $crit->group = 'diagnosa_nama';
 //            $crit->select = 'diagnosa_nama, sum(umur_0_28hr) as umur_0_28hr,sum(umur_28hr_1thn) as umur_28hr_1thn, sum(umur_1_4thn) as umur_1_4thn, sum(umur_5_14thn) as umur_5_14thn, sum(umur_15_24thn) as umur_15_24thn,sum(umur_25_44thn) as umur_25_44thn,sum(umur_45_64thn) as umur_45_64thn, sum(umur_65) as umur_65, count(pendaftaran_id) as jumlah, sum(kondisipulang1) as kondisipulang1 , sum(kondisipulang2) as kondisipulang2, count(pendaftaran_id) as jumlahkunjungan';
 //            $crit->group = 'diagnosa_nama';
             return new CActiveDataProvider($this, array(

@@ -38,25 +38,51 @@ echo CHtml::css('.table thead tr th{
             ),
 //        'tglmorbiditas',
             'diagnosa_nama',
-//        'kasusdiagnosa',
-            'umur_0_28hr',
-            'umur_28hr_1thn',
-            'umur_1_4thn',
-            'umur_5_14thn',
-            'umur_15_24thn',
-            'umur_25_44thn',
-            'umur_45_64thn',
-            'umur_65',
+//        'kasusdiagnosa',            
+             array(
+                'name' => 'umur_0_28hr',
+                'htmlOptions' => array('style'=>'text-align:center;'),
+            ),
+            array(
+                'name' => 'umur_28hr_1thn',
+                'htmlOptions' => array('style'=>'text-align:center;'),
+            ),
+            array(
+                'name' => 'umur_1_4thn',
+                'htmlOptions' => array('style'=>'text-align:center;'),
+            ),
+            array(
+                'name' => 'umur_5_14thn',
+                'htmlOptions' => array('style'=>'text-align:center;'),
+            ),
+            array(
+                'name' => 'umur_15_24thn',
+                'htmlOptions' => array('style'=>'text-align:center;'),
+            ),
+            array(
+                'name' => 'umur_25_44thn',
+                'htmlOptions' => array('style'=>'text-align:center;'),
+            ),
+            array(
+                'name' => 'umur_45_64thn',
+                'htmlOptions' => array('style'=>'text-align:center;'),
+            ),
+            array(
+                'name' => 'umur_65',
+                'htmlOptions' => array('style'=>'text-align:center;'),
+            ),
             array(
                     'name' => 'kondisipulang1',
                     'header'=>'< 48 Jam',
                     'value' => '$data->kondisipulang1',
+                    'htmlOptions' => array('style'=>'text-align:center;'),
 //                    'footer'=>'sum(kondisipulang1)',
                 ),
             array(
                     'name' => 'kondisipulang2',
                     'header'=>'> 48 Jam',
                     'value' => '$data->kondisipulang2',
+                    'htmlOptions' => array('style'=>'text-align:center;'),
 //                    'footer'=>'sum(kondisipulang2)',
                 ),
 //            'kondisipulang1',
@@ -64,6 +90,7 @@ echo CHtml::css('.table thead tr th{
             array(
                 'header'=>'Jumlah',
                 'value'=>'(isset($data->jumlahkunjungan) ? $data->jumlahkunjungan : 0)',
+                'htmlOptions' => array('style'=>'text-align:center;'),
             )
 //            'jumlahkunjungan',
         /*
