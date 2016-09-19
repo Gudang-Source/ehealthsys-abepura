@@ -143,9 +143,9 @@
 			</div>
 		</div>
 		<div class="control-group ">
-			<?php echo $form->labelEx($modPenerimaanBarang,'statuspenerimaan', array('class'=>'control-label')) ?>
+			<?php echo Chtml::label('Status Penerimaan <font style="color:red">*</font>','statuspenerimaan', array('class'=>'control-label')) ?>
 				<div class="controls">
-					<?php echo $form->dropDownList($modPenerimaanBarang,'statuspenerimaan',LookupM::getItems('statuspenerimaan'),array('empty'=>'--Pilih--','style'=>'width:130px;','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+					<?php echo $form->dropDownList($modPenerimaanBarang,'statuspenerimaan',LookupM::getItems('statuspenerimaan'),array('class'=>'required','empty'=>'--Pilih--','style'=>'width:130px;','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 				</div>
 		</div>
 	</div>

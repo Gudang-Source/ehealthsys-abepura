@@ -38,7 +38,7 @@
 		<?php echo  CHtml::activeTextField($model, '['.$i.']tempat_diklat',array('readonly'=>true, 'style'=>'width:200px;')); ?>
 	</td>
     <td>
-        <?php echo CHtml::activeTextField($modPegawaiDiklat,'['.$i.']nomorkeputusandiklat',array('class'=>'span3 nomorkeputusandiklat','style'=>'width:140px;', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modPegawaiDiklat,'['.$i.']nomorkeputusandiklat',array('class'=>'span3 nomorkeputusandiklat required','style'=>'width:140px;', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
 	<td>
 		<?php 
@@ -50,7 +50,7 @@
 				'options' => array(
 					'dateFormat' => Params::DATE_FORMAT,
 				),
-				'htmlOptions' => array('readonly' => true,'style'=>'width:80px;', 'onkeypress'=>"return $(this).focusNextInputField(event);",'class'=>'tglditetapkandiklat'),
+				'htmlOptions' => array('readonly' => true,'style'=>'width:80px;', 'onkeypress'=>"return $(this).focusNextInputField(event);",'class'=>'tglditetapkandiklat required'),
 			));
 		?>
 	</td>

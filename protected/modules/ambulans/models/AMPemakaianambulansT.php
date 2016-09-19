@@ -13,7 +13,8 @@ class AMPemakaianambulansT extends PemakaianambulansT
     public $tgl_akhir;
     public $tick, $data, $jumlah, $daftartindakanId, $rt, $rw;
     public $KMawalKMakhir;
-    public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;    
+    public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;   
+    public $inisial_modul;
     /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

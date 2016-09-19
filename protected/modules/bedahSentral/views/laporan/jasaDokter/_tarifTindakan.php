@@ -1,6 +1,6 @@
 <?php
     $criteria = new CDbCriteria;
-    $criteria->select = 'tindakankomponen_t.komponentarif_id,t.daftartindakan_tindakan,t.pendaftaran_id,t.ruangan_id,t.tgl_pendaftaran,pegawai_id';
+    $criteria->select = 'tindakankomponen_t.komponentarif_id, t.tarif_tindakan, t.pendaftaran_id, t.ruangan_id, t.tgl_pendaftaran,t.pegawai_id, t.daftartindakan_tindakan';
     if($pendaftaran_id == null || $ruangan_id == null || $tgl_pendaftaran == null){
 		if(!empty($pegawai_id)){
 			$criteria->addCondition("t.pegawai_id = ".$pegawai_id);			
@@ -13,7 +13,7 @@
 			$criteria->addCondition("t.ruangan_id = ".$ruangan_id);			
 		}
 		if(!empty($tgl_pendaftaran)){
-			$criteria->addCondition("DATE(t.tgl_pendaftaran) = '".$tgl_pendaftaran."'"); 		
+			$criteria->addCondition("DATE(t.tgl_pendaftaran) = '".$tgl_pendaftaran."'"); 
 		}
     }
     $criteria->join = 'LEFT JOIN tindakanpelayanan_t ON t.tindakanpelayanan_id = tindakanpelayanan_t.tindakanpelayanan_id LEFT JOIN tindakankomponen_t ON tindakankomponen_t.tindakanpelayanan_id = t.tindakanpelayanan_id';
@@ -24,12 +24,12 @@
     $totTarif = 0;
     
     foreach($modTarif as $key=>$tarif){
-       if($tarif->daftartindakan_tindakan == true && $tarif->komponentarif_id == 2){
+       if($tarif->daftartindakan_tindakan == true){
            $totTarif += $tarif->tarif_tindakan;
            /*
            if($totTarif == null){
                echo "0";
-           }else{
+       }else{
                echo $totTarif;
            }
             * 

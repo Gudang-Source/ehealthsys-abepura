@@ -8,8 +8,13 @@ if($caraPrint=='EXCEL')
 }
 echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$judulLaporan, 'periode'=>$periode));  
 
-if ($caraPrint != 'GRAFIK')
-$this->renderPartial('pendaftaranPenjadwalan.views.laporan._tableAgama', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
+if ($caraPrint != 'GRAFIK'){
+    if ($initial == 'RI'){
+        $this->renderPartial('pendaftaranPenjadwalan.views.laporan.rawatInap._tableAgamaRI', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
+    }else{
+        $this->renderPartial('pendaftaranPenjadwalan.views.laporan._tableAgama', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
+    }
+}
 
 if ($caraPrint == 'GRAFIK')
 echo $this->renderPartial('pendaftaranPenjadwalan.views.laporan._grafikAgama', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint, 'colspan'=>9), true); 

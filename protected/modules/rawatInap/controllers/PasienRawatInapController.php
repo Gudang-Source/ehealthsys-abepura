@@ -367,7 +367,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                              * 
                              */
                             // END SMS GATEWAY
-
+							// die;
                              $transaction->commit();
 //                             echo "berhasil9";exit;
                              Yii::app()->user->setFlash('success',"Data Berhasil disimpan");
@@ -744,6 +744,9 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                   $keterangan_kamar = 'BOOKING';
                 }
 				$ukamarruangan = true;
+				
+				// var_dump($kamarruangan_status, $keterangan_kamar); die;
+				
                 if(!empty($masukKamar->kamarruangan_id)){
 					$ukamarruangan = KamarruanganM::model()->updateByPk(
 						$masukKamar->kamarruangan_id,
@@ -997,161 +1000,171 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
         
 	public function actionPindahKamarPasienRI($pendaftaran_id)
 	{
-            $this->layout='//layouts/iframe';
-            $format = new MyFormatter();
-            $modPindahKamar = new RIPindahkamarT;
-            $modPasienAdmisi = new RIPasienAdmisiT;
-            $modPasienPulang = new RIPasienPulangT;
+			$this->layout='//layouts/iframe';
+			$format = new MyFormatter();
+			$modPindahKamar = new RIPindahkamarT;
+			$modPasienAdmisi = new RIPasienAdmisiT;
+			$modPasienPulang = new RIPasienPulangT;
 			$modMasukKamar = new RIMasukKamarT;
-            $modTindakan = null;
+			$modTindakan = null;
 
-            $nama_modul = Yii::app()->controller->module->id;
-            $nama_controller = Yii::app()->controller->id;
-            $nama_action = Yii::app()->controller->action->id;
-            $modul_id = ModulK::model()->findByAttributes(array('url_modul'=>$nama_modul))->modul_id;
-            $criteria = new CDbCriteria;
-            $criteria->compare('modul_id',$modul_id);
-            $criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
-            $criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
-            if(isset($_POST['tujuansms'])){
-                $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
-            }
-            $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
-            $smspasien = 1;
-            
-            $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
-            $modPasienRIV = RIPasienRawatInapV::model()->findByAttributes(
-                array('pasienadmisi_id'=>$modPendaftaran->pasienadmisi_id)
-            );
-            $modMasukKamar = RIMasukKamarT::model()->findByPk(
-                $modPasienRIV->masukkamar_id
-            );
-            
-            $modPindahKamar->pasien_id=$modPasienRIV->pasien_id;
-            $modPindahKamar->pendaftaran_id=$modPasienRIV->pendaftaran_id;
-            $modPindahKamar->pasienadmisi_id=$modPasienRIV->pasienadmisi_id;
-            $modPindahKamar->masukkamar_id=$modPasienRIV->masukkamar_id;
-            $modPindahKamar->kamarruangan_id = !empty($modPasienRIV->kamarruangan_id) ? $modPasienRIV->kamarruangan_id : null;
-            $modPindahKamar->pegawai_id = $modPendaftaran->pegawai_id;
-            $modPindahKamar->carabayar_id = $modPendaftaran->carabayar_id;
-            $modPindahKamar->ruangan_id = $modPendaftaran->ruangan_id;
-            $modPindahKamar->penjamin_id = $modPendaftaran->penjamin_id;
-            $modPindahKamar->kelaspelayanan_id = $modPasienRIV->kelaspelayanan_id;
-            $modPindahKamar->jampindahkamar=date('H:i:s');
-            $modPindahKamar->shift_id = Yii::app()->user->getState('shift_id'); 
-            $modPindahKamar->nopindahkamar = MyGenerator::noMasukKamar($modPindahKamar->ruangan_id);
-            $modPindahKamar->tglpindahkamar = date('d M Y');
-            
-            $tersimpan = 'Tidak';
-            if(isset($_POST['RIPindahkamarT']))
-            {
-                if($_POST['RIPindahkamarT']['pendaftaran_id'] == '')
-                {
-                    Yii::app()->user->setFlash('error',"Pendaftaran masih kosong coba cek lagi");
-                    $this->refresh();
-                }else{
-                    $modPindahKamar->attributes = $_POST['RIPindahkamarT'];
-                    $modPindahKamar->tglpindahkamar = $format->formatDateTimeForDb($_POST['RIPindahkamarT']['tglpindahkamar'])." ".$modPindahKamar->jampindahkamar;
-                    $pendaftaran_id = ((isset($_POST['RIPindahkamarT']['pendaftaran_id'])) ? $_POST['RIPindahkamarT']['pendaftaran_id'] : null);
-                    $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+			$nama_modul = Yii::app()->controller->module->id;
+			$nama_controller = Yii::app()->controller->id;
+			$nama_action = Yii::app()->controller->action->id;
+			$modul_id = ModulK::model()->findByAttributes(array('url_modul'=>$nama_modul))->modul_id;
+			$criteria = new CDbCriteria;
+			$criteria->compare('modul_id',$modul_id);
+			$criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
+			$criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
+			if(isset($_POST['tujuansms'])){
+				$criteria->addInCondition('tujuansms',$_POST['tujuansms']);
+			}
+			$modSmsgateway = SmsgatewayM::model()->findAll($criteria);
+			$smspasien = 1;
 
-                    $modPasienRIV = RIPasienRawatInapV::model()->findByAttributes(
-                        array(
-                            'pasienadmisi_id'=>$modPendaftaran->pasienadmisi_id
-                        )
-                    );
+			$modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+			$modPasienRIV = RIPasienRawatInapV::model()->findByAttributes(
+				array('pasienadmisi_id'=>$modPendaftaran->pasienadmisi_id)
+			);
+			$modMasukKamar = RIMasukKamarT::model()->findByPk(
+				$modPasienRIV->masukkamar_id
+			);
 
-                    /* PASIEN MASUK KAMAR LAMA*/
-                    $modMasukKamar = RIMasukKamarT::model()->findByPk(
-                        $modPindahKamar->masukkamar_id
-                    );
+			$modPindahKamar->pasien_id=$modPasienRIV->pasien_id;
+			$modPindahKamar->pendaftaran_id=$modPasienRIV->pendaftaran_id;
+			$modPindahKamar->pasienadmisi_id=$modPasienRIV->pasienadmisi_id;
+			$modPindahKamar->masukkamar_id=$modPasienRIV->masukkamar_id;
+			$modPindahKamar->kamarruangan_id = !empty($modPasienRIV->kamarruangan_id) ? $modPasienRIV->kamarruangan_id : null;
+			$modPindahKamar->pegawai_id = $modPendaftaran->pegawai_id;
+			$modPindahKamar->carabayar_id = $modPendaftaran->carabayar_id;
+			$modPindahKamar->ruangan_id = $modPendaftaran->ruangan_id;
+			$modPindahKamar->penjamin_id = $modPendaftaran->penjamin_id;
+			$modPindahKamar->kelaspelayanan_id = $modPasienRIV->kelaspelayanan_id;
+			$modPindahKamar->jampindahkamar=date('H:i:s');
+			$modPindahKamar->shift_id = Yii::app()->user->getState('shift_id'); 
+			$modPindahKamar->nopindahkamar = MyGenerator::noMasukKamar($modPindahKamar->ruangan_id);
+			$modPindahKamar->tglpindahkamar = date('d M Y');
 
-                    /* PASIEN ADMISI*/
-                    $modPasienAdmisi = RIPasienAdmisiT::model()->findByPK(
-                        $modPindahKamar->pasienadmisi_id
-                    );
+			$tersimpan = 'Tidak';
+			if(isset($_POST['RIPindahkamarT']))
+			{
+				if($_POST['RIPindahkamarT']['pendaftaran_id'] == '')
+				{
+					Yii::app()->user->setFlash('error',"Pendaftaran masih kosong coba cek lagi");
+					$this->refresh();
+				}else{
+					$modPindahKamar->attributes = $_POST['RIPindahkamarT'];
+					$modPindahKamar->tglpindahkamar = $format->formatDateTimeForDb($_POST['RIPindahkamarT']['tglpindahkamar'])." ".$modPindahKamar->jampindahkamar;
+					$pendaftaran_id = ((isset($_POST['RIPindahkamarT']['pendaftaran_id'])) ? $_POST['RIPindahkamarT']['pendaftaran_id'] : null);
+					$modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
 
-                    /* END PASIEN ADMISI*/
+					$modPasienRIV = RIPasienRawatInapV::model()->findByAttributes(
+						array(
+							'pasienadmisi_id'=>$modPendaftaran->pasienadmisi_id
+						)
+					);
 
-                    $modPindahKamar->pasien_id = $modPasienRIV->pasien_id;
-                    $modPindahKamar->pendaftaran_id = $modPasienRIV->pendaftaran_id;
-                    $modPindahKamar->pasienadmisi_id = $modPasienRIV->pasienadmisi_id;
-                    $modPindahKamar->shift_id = Yii::app()->user->getState('shift_id'); 
-                    $modPindahKamar->nopindahkamar = MyGenerator::noPindahKamar($modPindahKamar->ruangan_id);
-                    $modPindahKamar->carabayar_id = $modPasienAdmisi->carabayar_id;
-                    $modPindahKamar->penjamin_id = $modPasienAdmisi->penjamin_id;
-                    $modPindahKamar->pegawai_id = $modPasienAdmisi->pegawai_id;
-                    
-                    //die;
+					/* PASIEN MASUK KAMAR LAMA*/
+					$modMasukKamar = RIMasukKamarT::model()->findByPk(
+						$modPindahKamar->masukkamar_id
+					);
 
-                    /* PROSES SIMPAN DAN UPDATE */
-                    $transaction = Yii::app()->db->beginTransaction();
-                    $is_simpan = false;
-                    $errors = array();
-                    $pesan = array(
-                        'status'=>'success',
-                        'text'=>'Data Berhasil Disimpan'
-                    );
-                    
-                    
-                    /* PROSES PINDAH DOKUMEN RM */
-                    $dokrm = PengirimanrmT::model()->findByAttributes(array(
-                        'pendaftaran_id'=>$modPasienRIV->pendaftaran_id,
-                        'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
-                    ), array(
-                        'order'=>'pengirimanrm_id desc',
-                    ));
-                    if (!empty($dokrm)) {
-                        $doknew = new PengirimanrmT();
-                        //$doknew->attributes = $dokrm->attributes;
-                        $doknew->pengirimanrm_id = null;
-                        $doknew->pasien_id = $dokrm->pasien_id;
-                        $doknew->pendaftaran_id = $dokrm->pendaftaran_id;
-                        $doknew->ruanganpengirim_id = $dokrm->ruangan_id;
-                        $doknew->dokrekammedis_id = $dokrm->dokrekammedis_id;
-                        $doknew->ruangan_id = $modPindahKamar->ruangan_id;
-                        $doknew->nourut_keluar = MyGenerator::noUrutKeluarRM();
-                        $doknew->tglpengirimanrm = $modPindahKamar->tglpindahkamar;
-                        $doknew->kelengkapandokumen = true;
-                    
-                        $lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
-                        if (!empty($lp->pegawai_id)) {
-                            $pegawai = PegawaiM::model()->findByPk($lp->pegawai_id);
-                            $doknew->petugaspengirim = $pegawai->nama_pegawai;
-                        }
+					/* PASIEN ADMISI*/
+					$modPasienAdmisi = RIPasienAdmisiT::model()->findByPK(
+						$modPindahKamar->pasienadmisi_id
+					);
+
+					/* END PASIEN ADMISI*/
+
+					$modPindahKamar->pasien_id = $modPasienRIV->pasien_id;
+					$modPindahKamar->pendaftaran_id = $modPasienRIV->pendaftaran_id;
+					$modPindahKamar->pasienadmisi_id = $modPasienRIV->pasienadmisi_id;
+					$modPindahKamar->shift_id = Yii::app()->user->getState('shift_id'); 
+					$modPindahKamar->nopindahkamar = MyGenerator::noPindahKamar($modPindahKamar->ruangan_id);
+					$modPindahKamar->carabayar_id = $modPasienAdmisi->carabayar_id;
+					$modPindahKamar->penjamin_id = $modPasienAdmisi->penjamin_id;
+					$modPindahKamar->pegawai_id = $modPasienAdmisi->pegawai_id;
+
+					// die;
+
+					/* PROSES SIMPAN DAN UPDATE */
+					$transaction = Yii::app()->db->beginTransaction();
+					$is_simpan = false;
+					$errors = array();
+					$pesan = array(
+						'status'=>'success',
+						'text'=>'Data Berhasil Disimpan'
+					);
 
 
-                        $doknew->validate();
-                    }
-                    
-                    try {
-                        /* simpan_pindah_kamar */
-                        // var_dump($modPindahKamar->attributes); die;
-                        $modPindahKamar->masukkamar_id = null; //ini di isi masukkamar baru nanti
-                        if($modPindahKamar->save()){
-                            $modMasukKamar->pindahkamar_id = $modPindahKamar->pindahkamar_id;
-                        }else{
-                            $modMasukKamar->pindahkamar_id = null;
-                        }
-						
-                        if(!empty($modPasienAdmisi->kamarruangan_id)){
+					/* PROSES PINDAH DOKUMEN RM */
+					$dokrm = PengirimanrmT::model()->findByAttributes(array(
+						'pendaftaran_id'=>$modPasienRIV->pendaftaran_id,
+						'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+					), array(
+						'order'=>'pengirimanrm_id desc',
+					));
+					if (!empty($dokrm)) {
+						$doknew = new PengirimanrmT();
+						//$doknew->attributes = $dokrm->attributes;
+						$doknew->pengirimanrm_id = null;
+						$doknew->pasien_id = $dokrm->pasien_id;
+						$doknew->pendaftaran_id = $dokrm->pendaftaran_id;
+						$doknew->ruanganpengirim_id = $dokrm->ruangan_id;
+						$doknew->dokrekammedis_id = $dokrm->dokrekammedis_id;
+						$doknew->ruangan_id = $modPindahKamar->ruangan_id;
+						$doknew->nourut_keluar = MyGenerator::noUrutKeluarRM();
+						$doknew->tglpengirimanrm = $modPindahKamar->tglpindahkamar;
+						$doknew->kelengkapandokumen = true;
+
+						$lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+						if (!empty($lp->pegawai_id)) {
+							$pegawai = PegawaiM::model()->findByPk($lp->pegawai_id);
+							$doknew->petugaspengirim = $pegawai->nama_pegawai;
+						}
+
+
+						$doknew->validate();
+					}
+
+					try {
+						/* simpan_pindah_kamar */
+						// var_dump($modPindahKamar->attributes);
+						$mk =  MasukkamarT::model()->findByPk($modPindahKamar->masukkamar_id);
+						$modPindahKamar->masukkamar_id = null; //ini di isi masukkamar baru nanti
+						if($modPindahKamar->save()){
+							$modMasukKamar->pindahkamar_id = $modPindahKamar->pindahkamar_id;
+						}else{
+							$modMasukKamar->pindahkamar_id = null;
+						}
+
+						// var_dump($mk->kamarruangan_id);
+
+						if(!empty($modPasienAdmisi->kamarruangan_id)){
+							//echo "Kick1"; die;
 							KamarruanganM::model()->updateByPk(
 								$modPasienAdmisi->kamarruangan_id, array('kamarruangan_status'=>true,'keterangan_kamar'=>'OPEN')
 							);
+						} else if (!empty($mk) && !empty($mk->kamarruangan_id)) {
+							//echo "Kick2"; die;
+							KamarruanganM::model()->updateByPk(
+								$mk->kamarruangan_id, array('kamarruangan_status'=>true,'keterangan_kamar'=>'OPEN')
+							);
 						}
+						// die;
 
-                        /* update_masuk_kamar lama*/
-                        if($modMasukKamar->save())
-                        {
-                            /* update_pasien_admisi */
-                            $is_simpan = true;
-                            $modPasienAdmisi->ruangan_id = $modPindahKamar->ruangan_id;
-                            $modPasienAdmisi->kelaspelayanan_id = $modPindahKamar->kelaspelayanan_id;
-                            $modPasienAdmisi->kamarruangan_id = !empty($modPindahKamar->kamarruangan_id) ? $modPindahKamar->kamarruangan_id : null;
-                            if($modPasienAdmisi->save())
-                            {
-                                /* simpan_masuk_kamar_new */
-                                $is_simpan = true;
+						/* update_masuk_kamar lama*/
+						if($modMasukKamar->save())
+						{
+							/* update_pasien_admisi */
+							$is_simpan = true;
+							$modPasienAdmisi->ruangan_id = $modPindahKamar->ruangan_id;
+							$modPasienAdmisi->kelaspelayanan_id = $modPindahKamar->kelaspelayanan_id;
+							$modPasienAdmisi->kamarruangan_id = !empty($modPindahKamar->kamarruangan_id) ? $modPindahKamar->kamarruangan_id : null;
+							if($modPasienAdmisi->save())
+							{
+								/* simpan_masuk_kamar_new */
+								$is_simpan = true;
 								$mod_masuk_kamar = new RIMasukKamarT();
 								$mod_masuk_kamar->attributes = $modPindahKamar->attributes; //mengambil nilai ruangan_id, 
 								$mod_masuk_kamar->pindahkamar_id = null; //karena record baru asumsi belum pernah pindah
@@ -1168,10 +1181,10 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
 								if($mod_masuk_kamar->save())
 								{
 									$is_simpan = true;
-                                                                        if (!empty($dokrm)) {
-                                                                            $doknew->save();
-                                                                        }
-                                                                        //var_dump($doknew->save()); die;
+									if (!empty($dokrm)) {
+										$doknew->save();
+									}
+																		//var_dump($doknew->save()); die;
 									//update masukkamar_id (baru) pada pindahkamar_t
 									$modPindahKamar->updateByPk($modPindahKamar->pindahkamar_id, array('masukkamar_id'=>$mod_masuk_kamar->masukkamar_id)); 
 									if(!empty($modPindahKamar->kamarruangan_id)){
@@ -1180,7 +1193,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
 											$modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>false,'keterangan_kamar'=>'IN USE')
 										);
 									}
-                                                                        
+
 								}else{
 									$is_simpan = false;
 									$pesan = array(
@@ -1189,106 +1202,106 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
 									);
 									$errors[] = $pesan;
 								}
-                            }else{
-                                $is_simpan = false;
-                                $pesan = array(
-                                    'status'=>'error',
-                                    'text'=>'Data Admisi Gagal Disimpan'
-                                );
-                                $errors[] = $pesan;                                    
-                            }
-                        }else{
-                            $is_simpan = false;
-                            $pesan = array(
-                                'status'=>'error',
-                                'text'=>'Data Masuk Kamar Gagal Disimpan'
-                            );
-                            $errors[] = $pesan;                                
-                        }
-                        
-                        self::saveAkomodasi($modPendaftaran, $modPasienAdmisi);
+							}else{
+								$is_simpan = false;
+								$pesan = array(
+									'status'=>'error',
+									'text'=>'Data Admisi Gagal Disimpan'
+								);
+								$errors[] = $pesan;                                    
+							}
+						}else{
+							$is_simpan = false;
+							$pesan = array(
+								'status'=>'error',
+								'text'=>'Data Masuk Kamar Gagal Disimpan'
+							);
+							$errors[] = $pesan;                                
+						}
 
-                        if($is_simpan)
-                        {
-                            $tersimpan = 'Ya';
+						self::saveAkomodasi($modPendaftaran, $modPasienAdmisi);
 
-                            // SMS GATEWAY
-                            /*
-                            $modPasien = $modPasienAdmisi->pasien;
-                            $modRuangan = $modPasienAdmisi->ruangan;
-                            $modKamarRuangan = $modPasienAdmisi->kamarruangan;
-                            $modKelaspelayanan = $modPasienAdmisi->kelaspelayanan;
-                            $sms = new Sms();
-                            foreach ($modSmsgateway as $i => $smsgateway) {
-                                $isiPesan = $smsgateway->templatesms;
+						if($is_simpan)
+						{
+							$tersimpan = 'Ya';
 
-                                $attributes = $modPasien->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
-                                $attributes = $modRuangan->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
-                                $attributes = $modKelaspelayanan->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
+							// SMS GATEWAY
+							/*
+							$modPasien = $modPasienAdmisi->pasien;
+							$modRuangan = $modPasienAdmisi->ruangan;
+							$modKamarRuangan = $modPasienAdmisi->kamarruangan;
+							$modKelaspelayanan = $modPasienAdmisi->kelaspelayanan;
+							$sms = new Sms();
+							foreach ($modSmsgateway as $i => $smsgateway) {
+								$isiPesan = $smsgateway->templatesms;
+
+								$attributes = $modPasien->getAttributes();
+								foreach($attributes as $attributes => $value){
+									$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+								}
+								$attributes = $modRuangan->getAttributes();
+								foreach($attributes as $attributes => $value){
+									$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+								}
+								$attributes = $modKelaspelayanan->getAttributes();
+								foreach($attributes as $attributes => $value){
+									$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+								}
 								if($modKamarRuangan){
 									$attributes = $modKamarRuangan->getAttributes();
 									foreach($attributes as $attributes => $value){
 										$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
 									}
 								}
-                                $attributes = $modPindahKamar->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
-                                $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($modPindahKamar->tglpindahkamar),$isiPesan);
+								$attributes = $modPindahKamar->getAttributes();
+								foreach($attributes as $attributes => $value){
+									$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+								}
+								$isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($modPindahKamar->tglpindahkamar),$isiPesan);
 
-        
-                                if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-                                    if(!empty($modPasien->no_mobile_pasien)){
-                                        $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-                                    }else{
-                                        $smspasien = 0;
-                                    }
-                                }
-                            }
-                             * 
-                             */
-                            // END SMS GATEWAY
 
-                            $transaction->commit();
-                            Yii::app()->user->setFlash($pesan['status'],$pesan['text']);
-                        }else{
-                            foreach($errors as $val)
-                            {
-                                Yii::app()->user->setFlash($val['status'],$val['text']);
-                            }
-                            $transaction->rollback();
-                        }
+								if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
+									if(!empty($modPasien->no_mobile_pasien)){
+										$sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+									}else{
+										$smspasien = 0;
+									}
+								}
+							}
+							 * 
+							 */
+							// END SMS GATEWAY
 
-                    } catch (Exception $exc)
-                    {
-                        $transaction->rollback();
-                        Yii::app()->user->setFlash('error',"Data gagal disimpan" . MyExceptionMessage::getMessage($exc,true));
-                    }
-                }
-             }            
-            $this->render(
-                'formPindahKamar',
-                array(
-                    'modPindahKamar'=>$modPindahKamar,
-                    'modPasienRIV'=>$modPasienRIV,
-                    'modMasukKamar'=>$modMasukKamar,
-                    'modTindakan'=>$modTindakan,
-                    'tersimpan'=>$tersimpan,
-                    'is_grid'=>true,
-                    'smspasien'=>$smspasien
-                )
-            );
-  }
+							$transaction->commit();
+							Yii::app()->user->setFlash($pesan['status'],$pesan['text']);
+						}else{
+							foreach($errors as $val)
+							{
+								Yii::app()->user->setFlash($val['status'],$val['text']);
+							}
+							$transaction->rollback();
+						}
+
+					} catch (Exception $exc)
+					{
+						$transaction->rollback();
+						Yii::app()->user->setFlash('error',"Data gagal disimpan" . MyExceptionMessage::getMessage($exc,true));
+					}
+				}
+			 }            
+			$this->render(
+				'formPindahKamar',
+				array(
+					'modPindahKamar'=>$modPindahKamar,
+					'modPasienRIV'=>$modPasienRIV,
+					'modMasukKamar'=>$modMasukKamar,
+					'modTindakan'=>$modTindakan,
+					'tersimpan'=>$tersimpan,
+					'is_grid'=>true,
+					'smspasien'=>$smspasien
+				)
+			);
+	}
         
         public static function cekAkomodasiHariIni($modPendaftaran, $modPasienAdmisi, $modMasukKamar){
             $akomodasi = PasienRawatInapController::tindakanAkomodasi($modMasukKamar->kelaspelayanan_id,$modMasukKamar->penjamin_id,$modPasienAdmisi->ruangan_id);
@@ -1724,7 +1737,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
             $dat = TindakanpelayananT::model()->find($cr);
             $ok = true;
             if ($dat->tindakanpelayanan_id > 0) {
-                echo "MK"; die;
+                //echo "MK"; die;
                 return false;
             } else {
                 $ok = $ok && TindakanpelayananT::model()->deleteAllByAttributes(array(
@@ -1765,7 +1778,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                 return $ok;
             }
             // echo 'Kick';
-            die;
+            // die;
         }
         
         public function actionRencanaPulangPasienRI($idPasienadmisi)
@@ -1863,6 +1876,8 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
         
         if(isset($_POST['MasukkamarT']))
         {
+			// $trans = Yii::app()->db->beginTransaction();
+			// var_dump($_POST);
             $modMasukKamar->attributes =  $_POST['MasukkamarT'];
             $modMasukKamar->pasienadmisi_id = $modPasienAdmisi->pasienadmisi_id;
             $modMasukKamar->carabayar_id = $modPasienAdmisi->carabayar_id;
@@ -1878,18 +1893,23 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
             $kamarruanganidupdate = isset($_POST['MasukkamarT']['kamarruangan_id']) ? $_POST['MasukkamarT']['kamarruangan_id'] : null;
 //            $cekidkamar = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
             $cekidkamar = PendaftaranT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
-           if(empty($kamarruanganidupdate)){ 
+			
+			
+			
+            //if(empty($kamarruanganidupdate)){ 
                    PasienadmisiT::model()->updateByPk($cekidkamar->pasienadmisi_id, array('kamarruangan_id'=>$kamarruanganidupdate));
+				   // var_dump($modDataPasien->kamarruangan_id); die;
                    if(!empty($modDataPasien->kamarruangan_id)){
-						KamarruanganM::model()->updateByPk($modDataPasien->kamarruangan_id,array('kamarruangan_status'=>true));
+						KamarruanganM::model()->updateByPk($modDataPasien->kamarruangan_id,array('kamarruangan_status'=>true, 'keterangan_kamar'=>'OPEN'));
 				   }
-            } 
+            //}
             if($modMasukKamar->save())
             {
 				if(!empty($kamarruanganidupdate)){
-					KamarruanganM::model()->updateByPk($kamarruanganidupdate, array('kamarruangan_status'=>false));
+					KamarruanganM::model()->updateByPk($kamarruanganidupdate, array('kamarruangan_status'=>false, 'keterangan_kamar'=>'IN USE'));
 				}
                 
+				// die;
                 if (Yii::app()->request->isAjaxRequest)
                 {
                     echo CJSON::encode(array(

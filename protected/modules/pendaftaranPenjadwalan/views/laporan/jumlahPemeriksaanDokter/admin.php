@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
         'model'=>$model,
     )); ?>
     </div><!-- search-form --> 
-    <fieldset> 
+    
         <div class="block-tabel">
             <h6>Tabel <b>Jumlah Pemeriksaan Dokter</b></h6>
             <?php $this->renderPartial('pendaftaranPenjadwalan.views.laporan.jumlahPemeriksaanDokter/_table', array('model'=>$model)); ?>
@@ -39,7 +39,7 @@ $('.search-form form').submit(function(){
         
         
               
-    </fieldset>
+   
     <?php 
       //echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     //        echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
@@ -49,5 +49,6 @@ $('.search-form form').submit(function(){
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanJumlahPemeriksaanDokter');
-    $this->renderPartial('pendaftaranPenjadwalan.views.laporan.jumlahPemeriksaanDokter._footer_jml', array('urlPrint'=>$urlPrint, 'url'=>$url)); ?>
+    $this->renderPartial('pendaftaranPenjadwalan.views.laporan._footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'tips'=>'rekapitulasi')); ?>
+    <?php $this->renderPartial('pendaftaranPenjadwalan.views.laporan.rawatJalan/_jsFunctions', array('model'=>$model));?>
 </div>

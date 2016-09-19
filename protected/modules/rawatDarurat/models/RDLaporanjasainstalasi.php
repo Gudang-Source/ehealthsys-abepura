@@ -139,11 +139,11 @@ class RDLaporanjasainstalasi extends LaporanjasainstalasiV {
         }
         $criteria->compare('LOWER(kelaspelayanan_nama)', strtolower($this->kelaspelayanan_nama), true);
 		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
+			$criteria->addCondition("instalasikc_id = ".$this->instalasi_id);				
 		}
         $criteria->compare('LOWER(instalasi_nama)', strtolower($this->instalasi_nama), true);
         if(!empty($this->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);				
+			$criteria->addCondition("ruangankc_id = ".$this->ruangan_id);				
 		}
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(tgl_tindakan)', strtolower($this->tgl_tindakan), true);

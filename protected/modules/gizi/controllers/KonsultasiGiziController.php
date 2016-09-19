@@ -24,15 +24,21 @@ class KonsultasiGiziController extends MyAuthController
             $modTindakan->dokterpemeriksa1_id = $modPendaftaran->pegawai_id;
             $modTindakan->dokterpemeriksa1Nama = $modPendaftaran->pegawai->NamaLengkap;
 			
-			$modPasienMasukPenunjang = new GZPasienMasukPenunjangT;
-            $modPasienMasukPenunjang->ruangan_id = Yii::app()->user->getState('ruangan_id');
-            $modPasienMasukPenunjang->is_adakarcis = Yii::app()->user->getState('iskarcis'); //RND-7737
-			
+			$modPasienMasukPenunjang = GZPasienMasukPenunjangT::model()->findByAttributes(array(
+				'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+				'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+			));
+			// var_dump($modPasienMasukPenunjang->attributes); die;
+			if (empty($modPasienMasukPenunjang)) {
+				$modPasienMasukPenunjang = new GZPasienMasukPenunjangT;
+				$modPasienMasukPenunjang->ruangan_id = Yii::app()->user->getState('ruangan_id');
+				$modPasienMasukPenunjang->is_adakarcis = Yii::app()->user->getState('iskarcis'); //RND-7737
+			}
             $models= new GZPaketpelayananV();
             
             if(isset($_POST['GZTindakanpelayananT']) || isset($_POST['TindakanpelayananT']))
             {
-					$modPasienMasukPenunjang = $this->simpanPasienMasukPenunjang($modPasienMasukPenunjang,$modPendaftaran,null);
+					if ($modPasienMasukPenunjang->isNewRecord) $modPasienMasukPenunjang = $this->simpanPasienMasukPenunjang($modPasienMasukPenunjang,$modPendaftaran,null);
 					$post = (isset($_POST['TindakanpelayananT'])) ? $_POST['TindakanpelayananT'] : $_POST['GZTindakanpelayananT'];
 					$modTindakans = $this->saveTindakan($modPasien, $modPendaftaran, $modPasienMasukPenunjang);
 					

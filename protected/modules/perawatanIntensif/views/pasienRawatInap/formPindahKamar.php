@@ -126,7 +126,7 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
                             <?php echo  $form->textFieldRow($modMasukKamar,'carabayar_id',array('class'=>'span3','readonly'=>TRUE,'value'=>  ((isset($modMasukKamar->carabayar->carabayar_nama)) ? $modMasukKamar->carabayar->carabayar_nama : null)));?>
                             <?php echo  $form->textFieldRow($modMasukKamar,'penjamin_id',array('class'=>'span3','readonly'=>TRUE,'value'=>  ((isset($modMasukKamar->penjamin->penjamin_nama)) ? $modMasukKamar->penjamin->penjamin_nama : null)));?>
                             <?php echo  $form->textFieldRow($modMasukKamar,'kelaspelayanan_id',array('class'=>'span3','readonly'=>TRUE,'value'=>  ((isset($modMasukKamar->kelaspelayanan->kelaspelayanan_nama)) ? $modMasukKamar->kelaspelayanan->kelaspelayanan_nama : null)));?>
-                            <?php echo  $form->textFieldRow($modMasukKamar,'pegawai_id',array('class'=>'span3','readonly'=>TRUE,'value'=>  ((isset($modMasukKamar->pegawai->nama_pegawai)) ? $modMasukKamar->pegawai->nama_pegawai : null)));?>
+                            <?php echo  $form->textFieldRow($modMasukKamar,'pegawai_id',array('class'=>'span3','readonly'=>TRUE,'value'=>  ((isset($modMasukKamar->pegawai->namaLengkap)) ? $modMasukKamar->pegawai->namaLengkap : null)));?>
                             <?php
                                 echo  $form->textFieldRow(
                                         $modMasukKamar,
@@ -199,7 +199,7 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
                                 array(
                                     'empty'=>'-- Pilih --',
                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
-                                    'class'=>'span2 required'
+                                    'class'=>'span3 required'
                                 )
                             );
                         ?>
