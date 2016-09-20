@@ -91,7 +91,12 @@ echo CHtml::css('.control-label{
             <td><?php echo $barang->barang->barang_merk; ?></td>
             <td><?php echo $barang->barang->barang_noseri; ?></td>
             <td><?php echo $barang->barang->barang_satuan; ?></td>
-            <td style="text-align:right;"><?php echo $format->formatNumberForPrint($barang->barang->barang_hpp); ?></td>
+            <td style="text-align:right;"><?php 
+            $data = BarangM::model()->findByPk($barang->barang_id);
+            echo $format->formatNumberForPrint(
+            (isset($data->barang_hpp) && !empty($data->barang_hpp) && $data->barang_hpp != 0) ? $data->barang_hpp : $data->barang_harganetto
+            ); 
+            ?></td>
             <td style="text-align:right;"><?php echo $format->formatNumberForPrint($barang->volume_inventaris); ?></td>
         </tr>
         <?php } ?>

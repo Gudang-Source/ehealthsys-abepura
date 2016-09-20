@@ -82,6 +82,7 @@ class InventarisasiBarangController extends MyAuthController {
 												}
                                                                                                 $modInventarisasiRuangan = GUInventarisasiruanganT::model()->findByAttributes(array('inventarisasi_id' => $detail['inventarisasi_id']));
                                                                                                 $qty_skrg = isset($modInventarisasiRuangan->inventarisasi_qty_skrg) ? $modInventarisasiRuangan->inventarisasi_qty_skrg : NULL;
+                                                                                                
                                                                                                 if ($qty_skrg != NULL) {
                                                                                                         if ($detail['inventarisasi_qty_fisik'] > $qty_skrg) {
                                                                                                                 $qty_in_old = $modInventarisasiRuangan->inventarisasi_qty_in;

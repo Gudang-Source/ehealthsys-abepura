@@ -122,6 +122,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                             'modal'=>true
                          ),
                     ));
+
 ?>
 <div class="awawa" width="100%" height="100%">
     <?php echo CHtml::textField('fisiks', 0, array('class'=>'numbers-only span2')); ?><br><br>
