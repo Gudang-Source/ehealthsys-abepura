@@ -38,11 +38,11 @@
 			cursor:pointer;
 			color:#0000FF;
 			font-weight: bold;
-		}
+		}                                
     </style>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="en" />
-
+        
 	<!-- blueprint CSS framework -->
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
@@ -92,12 +92,21 @@
 
 	<link rel="shortcut icon" href="fav.ico" type="image/x-icon" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+        <?php
+            Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/custom.css');
         
+            Yii::app()->clientScript->registerCss('mycss', '
+            
+          ');
+        ?>
+        
+        <!--<link rel="stylesheet" href="<?php //echo Yii::app()->request->baseUrl; ?>/themes/neon/assets/css/font-icons/entypo/css/entypo.css">-->
         
 </head>
-
 	<body>
-	<?php       
+            
+	<?php     
+                                                
             $namaInstalasi = Yii::app()->user->getState('instalasi_nama');
             $namaRuangan = Yii::app()->user->getState('ruangan_nama');
             $idModul = ((!empty($this->module->id)) ? $this->module->id : null);
