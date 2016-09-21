@@ -46,7 +46,8 @@
                                                                     'readonly'=>false,
                                                                     'placeholder'=>'Menu Diet',
                                                                     'size'=>13,
-                                                                    'onkeypress'=>"return $(this).focusNextInputField(event);",
+                                                                   // 'onkeypress'=>"return $(this).focusNextInputField(event);",
+                                                                    'onkeypress' =>'changeSize()',
                                                                 ),
                                                                 'tombolDialog'=>array('idDialog'=>'dialogMenuDiet'),
                                                         )); ?>
@@ -87,7 +88,8 @@
                                                                     'readonly'=>false,
                                                                     'placeholder'=>'Bahan Makanan',
                                                                     'size'=>13,
-                                                                    'onkeypress'=>"return $(this).focusNextInputField(event);" 
+                                                                   // 'onkeypress'=>"return $(this).focusNextInputField(event);" ,
+                                                                    'onkeypress' =>'changeSize()',
                                                                 ),
                                                                 'tombolDialog'=>array('idDialog'=>'dialogBahanMakanan'),
                                                         )); ?>
@@ -327,3 +329,17 @@ JS;
 
 Yii::app()->clientScript->registerScript('bahanmenudiet',$jscript, CClientScript::POS_HEAD);
 ?>
+<script>
+$( document ).ready(function(){
+    $(".add-on").on("click",function() {
+        changeSize();        
+    });
+        
+    
+});
+    
+function changeSize()
+{            
+    window.parent.document.getElementById('frame').style= 'overflow-y:scroll;height:600px;';            
+}
+</script>
