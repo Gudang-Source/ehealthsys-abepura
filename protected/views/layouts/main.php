@@ -94,13 +94,10 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <?php
             Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/custom.css');
-        
-            Yii::app()->clientScript->registerCss('mycss', '
-            
-          ');
+                   
         ?>
         
-        <!--<link rel="stylesheet" href="<?php //echo Yii::app()->request->baseUrl; ?>/themes/neon/assets/css/font-icons/entypo/css/entypo.css">-->
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/themes/neon/assets/css/font-icons/entypo/css/entypo.css">
         
 </head>
 	<body>

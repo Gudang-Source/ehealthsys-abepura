@@ -42,7 +42,7 @@ class InformasiPengajuanPerawatanLinenController extends MyAuthController {
 		$format = new MyFormatter();
 		$model = LAPengperawatanlinenT::model()->findByPk($pengperawatanlinen_id);  
 		$modDetail = LAPengperawatanlinendetT::model()->findAllByAttributes(array('pengperawatanlinen_id'=>$model->pengperawatanlinen_id));
-        $judulLaporan = 'Pengajuan Perawatan Linen';
+                $judulLaporan = 'Pengajuan Perawatan Linen';
 		$deskripsi = $format->formatDateTimeForUser($model->tglpengperawatanlinen);
         $this->render('_detail', array(
 				'format'=>$format,
