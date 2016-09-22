@@ -13,20 +13,20 @@
   </tr>-->
   <tr>
     <td style = "vertical-align:middle;">2. </td>
-    <td>Gunakan tombol ini  <button class="btn btn-primary" type="button"><i class="icon-ok icon-white"></i>
+    <td>Gunakan tombol ini  <button class="btn btn-primary" type="button"><i class="entypo-check"></i>
 Cari
 </button> berfungsi untuk melakukan pencarian data.</td>
   </tr>
   <tr>
     <td style = "vertical-align:middle;">3. </td>
-    <td>Gunakan tombol ini  <button class="btn btn-danger" type="button"><i class="icon-refresh icon-white"></i>
+    <td>Gunakan tombol ini  <button class="btn btn-danger" type="button"><i class="entypo-arrows-ccw"></i>
 Ulang
 </button> berfungsi untuk mengulang kembali inputan.</td>
   </tr>
   <tr>
     <td style = "vertical-align:middle;">4. </td>
     <td>Gunakan tombol ini <a class="btn btn-primary" >
-<i class="icon-print icon-white"></i>
+<i class="entypo-print"></i>
 Cetak
 </a> untuk mencetak data.</td>
   </tr>
@@ -58,7 +58,7 @@ Excel
    <tr>
     <td style = "vertical-align:middle;">7. </td>
     <td>Gunakan tombol ini <a class="btn btn-primary" >
-<i class="icon-print icon-white"></i>
+<i class="entypo-print"></i>
 Grafik
 </a> untuk mencetak data dalam bentuk grafik.</td>
   </tr>

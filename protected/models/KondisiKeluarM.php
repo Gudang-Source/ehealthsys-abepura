@@ -142,4 +142,22 @@ class KondisiKeluarM extends CActiveRecord
         else
                return array();
     }
+    
+    public function getKondisiKeluar()
+	{
+            $data = array();
+            $criteria = new CDbCriteria();            
+            $criteria->addCondition("kondisikeluar_aktif = TRUE");
+            $criteria->order = 'kondisikeluar_nama ASC';
+            $models=self::model()->findAll($criteria);
+            if(count($models) > 0){
+                foreach($models as $model)
+                    // $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                    $data[$model->kondisikeluar_nama]= ($model->kondisikeluar_nama);
+            }else{
+                $data[""] = null;
+            }
+            
+            return $data;
+	}
 }
