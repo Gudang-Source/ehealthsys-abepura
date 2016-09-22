@@ -8,10 +8,10 @@
 <?php $data=ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
 <table width="100%">
     <tr>
-        <td width="50">
+        <td width="50" style="text-align:center;">
             <img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?> " style="float:left; max-width: 80px; width:80px;" class='image_report'/>
         </td>
-        <td align="center">
+        <td style="text-align:center;">
             <div>
                 <B><FONT FACE="Liberation Serif" SIZE=4 color="black"><?php echo $data->nama_rumahsakit ?></FONT></B>
             </div>
@@ -28,7 +28,7 @@
         <td colspan="3" HEIGHT=2 style="border-bottom: 3px solid #000000">&nbsp;</td>
     </tr>
     <tr>
-        <td colspan="3" ALIGN=CENTER VALIGN=MIDDLE>
+        <td colspan="3" style="text-align:center;" VALIGN=MIDDLE>
             <font color="black"><h5><?php echo (isset($judulLaporan) ? $judulLaporan : '') ?></h5></font>
         </td>
     </tr>

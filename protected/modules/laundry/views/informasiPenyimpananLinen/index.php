@@ -48,7 +48,7 @@ $('#penyimpananlinen-info-search').submit(function(){
 				array(
 					'header'=>'Lihat Detail',
 					'type'=>'raw',
-					'value'=>'CHtml::link("<i class=\'icon-form-lihat\'></i> ",  Yii::app()->controller->createUrl("/laundry/informasiPenyimpananLinen/detail",array("id"=>$data->penyimpananlinen_id)),array("target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Penyimpanan Linen Linen", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
+					'value'=>'CHtml::link("<i class=\'icon-form-lihat\'></i> ",  Yii::app()->controller->createUrl("/laundry/informasiPenyimpananLinen/detail",array("id"=>$data->penyimpananlinen_id,"frame"=>1)),array("target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Penyimpanan Linen Linen", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
 				),
 			),
 			'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

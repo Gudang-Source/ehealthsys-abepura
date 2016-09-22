@@ -299,7 +299,7 @@
 								<?php echo $form->textFieldRow($model, 'totalharga', array('class' => 'span2 isRequired integer2 totalharga', 'readonly' => TRUE)) ?>
 						<div class="control-group ">
 							<label class='control-label'>
-<?php echo CHtml::checkbox('termasukPPN', false, array('onclick' => 'persenPPN(this)', 'style' => 'width : 10px', 'class' => 'integer2')) ?>
+<?php echo CHtml::checkbox('termasukPPN', false, array('onchange' => 'persenPPN(this)', 'style' => 'width : 10px', 'class' => 'integer2')) ?>
 								Ppn (Total)
 							</label>
 							<div class="controls">
@@ -308,7 +308,7 @@
 						</div>
 						<div class="control-group ">
 							<label class='control-label'>
-<?php echo CHtml::checkBox('termasukPPH', false, array('onclick' => 'persenPPH(this)', 'style' => 'width : 10px', 'class' => 'integer2', 'readonly' => TRUE)) ?>
+<?php echo CHtml::checkBox('termasukPPH', false, array('onchange' => 'persenPPH(this)', 'style' => 'width : 10px', 'class' => 'integer2', 'readonly' => TRUE)) ?>
 								Pph (Total)
 							</label>
 							<div class="controls">
@@ -825,46 +825,26 @@ $this->widget('application.extensions.moneymask.MMask', array(
 			alert('Silahkan Pilih penerimaan Terlebih Dahulu');
 		} else {
 			$("#tableFaktur tbody tr").remove();
-			$.post('<?php echo $this->createUrl('FakturPembelianGU/getPenerimaanPersediaan'); ?>', {idTerimaPers: idTerimaPers},
-			function (data) {
+			$.post('<?php echo $this->createUrl('FakturPembelianGU/getPenerimaanPersediaan'); ?>', {
+				idTerimaPers: idTerimaPers
+			}, function (data) {
 				$('#tableFaktur').append(data.tab);
 
 				$("#tableFaktur tbody tr .integer2").maskMoney({"defaultZero": true, "allowZero": true, "decimal": ",", "thousands": ".", "precision": 0, "symbol": null});
-//                $('#${idSupplier}').val(data.supplier_id);
-//                $('#uangmuka').val(formatUang(data.uangMuka));
+				
 				$('#uangmuka').val(data.uangMuka);
-				// $("#KUTerimapersediaanT_supplier_id").val(data.persdiaan.supplier_id);
-//                $("#${idSupplier}").attr("disabled","disabled");
-				hitungSemua();
-
 				if (data.isPPN == '1') { //Jika termasuk PPN
-					$('#termasukPPN').attr('checked', 'checked');
+					$('#termasukPPN').prop('checked', 'checked').change();
+				} else {
+					$('#termasukPPN').change();
 				}
-
 				if (data.isPPH == '1') { //Jika termasuk PPH
-					$('#termasukPPH').attr('checked', 'checked');
+					$('#termasukPPH').prop('checked', 'checked').change();
+				} else {
+					$('#termasukPPH').change();
 				}
-				var idObat = $("#tableFaktur tbody").parents().find('input[name$="[obatalkes_id]"]').val();
-				var qty = $("#tableFaktur tbody").parents().find('input[name$="[jmlkemasan]"]').val();
-
-				var supplier_id = $('#KUTerimapersediaanT_supplier_id').val();
-//                var supplier_id = 19;
-//                alert(supplier_id);
-				var hargaSatuan = unformatNumber($("#tableFaktur tbody").parents().find('input[name$="[harganettofaktur]"]').val());
-				var diskon = unformatNumber($('#tableFaktur tbody').parents().find('input[name$="[persendiscount]"]').val());
-				var total = unformatNumber($('#GFFakturPembelianT_totalhargabruto').val());
-//               var total = unformatNumber($('#tableFaktur tbody').parents().find('input[name$="[harganettofaktur]"]').val());
-
-//                   saldo = (total - (total * (diskon/100)));
-				saldo = total;
-				if (saldo < 0) {
-					saldo = total;
-				}
-				var sisabayar = $('#sisabayar').val();
-//                   getDataRekeningFaktur(supplier_id,sisabayar);
-				setTimeout(function () {//karna form rekening butuh waktu ketika ajax request nya
-//                        updateRekeningFaktur(supplier_id, formatDesimal(sisabayar))
-				}, 1500);
+				
+				hitungSemua();
 			}, "json");
 		}
 	}
@@ -913,6 +893,7 @@ $this->widget('application.extensions.moneymask.MMask', array(
 			$('#diskonSemua').removeAttr('disabled');
 			$('#KUTerimapersediaanT_discount').val(0);
 		}
+		hitungSemua();
 	}
 
 	function biayaAdministrasi() {
@@ -1086,10 +1067,10 @@ $this->widget('application.extensions.moneymask.MMask', array(
 			PPHPreProduk = unformatNumber($(this).parents("tr").find('.pph').val());
 			jmlDiskon = unformatNumber($(this).parents("tr").find('.jmlDiskon').val());
 
-			$(this).parents("tr").find('.ppn').val(formatUang(PPNPreProduk));
-			$(this).parents("tr").find('.pph').val(formatUang(PPHPreProduk));
-			$(this).parents("tr").find('.netto').val(formatUang(nettoPerProduk));
-			$(this).parents("tr").find('.jmlDiskon').val(formatUang(jmlDiskon));
+			$(this).parents("tr").find('.ppn').val(formatNumber(PPNPreProduk));
+			$(this).parents("tr").find('.pph').val(formatNumber(PPHPreProduk));
+			$(this).parents("tr").find('.netto').val(formatNumber(nettoPerProduk));
+			$(this).parents("tr").find('.jmlDiskon').val(formatNumber(jmlDiskon));
 		});
 	}
 	hitungSemua();
@@ -1098,13 +1079,13 @@ $this->widget('application.extensions.moneymask.MMask', array(
 		var discountPersen = $('#discountpersen').val();
 		var totalHarga = 0;
 		$('.cancel').each(function () {
-			qty = $(this).parents('tr').find('.qty').val();
-			satuan = $(this).parents('tr').find('.satuan').val();
+			qty = unformatNumber($(this).parents('tr').find('.qty').val());
+			satuan = unformatNumber($(this).parents('tr').find('.satuan').val());
 			totalHarga += parseFloat(qty * satuan);
 		});
 //	$('#${totalharga}').val(totalHarga);
 
-		$('#tothargabruto').val(totalHarga);
+		$('#tothargabruto').val(formatNumber(totalHarga));
 		if (jQuery.isNumeric(discountPersen)) {
 //		$('#${discount}').val(totalHarga*discountPersen/100);
 		}
@@ -1148,17 +1129,19 @@ $this->widget('application.extensions.moneymask.MMask', array(
 		var jml=0;
 
 		$('.beli').each(function(){
-			var hargaBeli = parseFloat(unformatNumber($(this).parents("tr").find('.beli').val())); 
+			var hargasatuan = parseFloat(unformatNumber($(this).parents("tr").find('.satuan').val())); 
 			var qty = parseFloat(unformatNumber($(this).parents("tr").find('.qty').val())); 
-			var subTotalHarga = (hargaBeli*qty);
 			var jml = parseFloat(unformatNumber($(this).parents("tr").find('.jml').val())); 
+			var hargaBeli = hargasatuan * qty;
+			var subTotalHarga = (hargasatuan * qty);
+			
 			console.log(hargaBeli, qty, subTotalHarga);
-			var hargasatuan = hargaBeli/jml;
-			if (jQuery.isNumeric(subTotalHarga)){
+			/*
+			if (jQuery.isNumeric(hargaBeli)){
 			  $(this).parents("tr").find('.subTotal').val(subTotalHarga);
-			}
-			if (jQuery.isNumeric(hargasatuan)){
-			  $(this).parents("tr").find('.hargasatuan').val(hargasatuan);
+			} */
+			if (jQuery.isNumeric(hargaBeli)){
+			  $(this).parents("tr").find('.beli').val(formatNumber(hargaBeli));
 			}
 			totalHarga+=subTotalHarga;
 		});
@@ -1169,8 +1152,9 @@ $this->widget('application.extensions.moneymask.MMask', array(
 		var biayaadministrasi = parseFloat(unformatNumber($('#KUTerimapersediaanT_biayaadministrasi').val()));
 
 		if ($.isNumeric(totalHarga)){
+			$('.totalhargabruto').val(formatNumber(totalHarga));
 			totalHarga = totalHarga + pajakppn + pajakpph - diskon + biayaadministrasi;
-			$('.totalharga, .totalhargabruto').val(formatNumber(totalHarga));
+			$('.totalharga').val(formatNumber(totalHarga));
 		}
 
 		sisabayar=totalHarga-uangmuka;
@@ -1187,6 +1171,21 @@ $this->widget('application.extensions.moneymask.MMask', array(
 			  $(this).val(noUrut);
 			  noUrut = noUrut + 1;
 		 });
+	}
+	
+	function hitungSatuan() {
+		$('.beli').each(function(){
+			var beli = parseFloat(unformatNumber($(this).parents("tr").find('.beli').val()));
+			var qty = parseFloat(unformatNumber($(this).parents("tr").find('.qty').val()));
+			var hargasatuan = 0;
+			
+			if (qty !== 0) {
+				hargasatuan = beli / qty
+			}
+			
+			$(this).parents("tr").find('.satuan').val(formatNumber(hargasatuan));
+		});
+		
 	}
 
 	$(document).ready(function () {

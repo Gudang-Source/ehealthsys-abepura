@@ -23,7 +23,7 @@ class GUInfoformulirinvbarangV extends InfoformulirinvbarangV
 
 		$criteria=new CDbCriteria;
 
-		$criteria->group = 'formulirinvbarang_id, forminvbarang_no, forminvbarang_tgl, invbarang_id, forminvbarang_totalvolume, forminvbarang_totalharga';
+		$criteria->group = 'formulirinvbarang_id, forminvbarang_no, forminvbarang_tgl, invbarang_id, forminvbarang_totalvolume, forminvbarang_totalharga, beluminv';
 		$criteria->select = $criteria->group;
 		
 		$criteria->addBetweenCondition('DATE(forminvbarang_tgl)', $this->tgl_awal, $this->tgl_akhir);
