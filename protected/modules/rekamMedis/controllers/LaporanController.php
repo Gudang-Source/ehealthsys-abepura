@@ -7467,6 +7467,129 @@ class LaporanController extends MyAuthController {
             'data' => $data,
         ));
     }
+    
+    public function actionLaporanPasienPulang() {
+        $model = new RKLaporanpasienpulang('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['RKLaporanpasienpulang'])) {
+            $model->attributes = $_GET['RKLaporanpasienpulang'];
+            $model->jns_periode = $_GET['RKLaporanpasienpulang']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['RKLaporanpasienpulang']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RKLaporanpasienpulang']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['RKLaporanpasienpulang']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['RKLaporanpasienpulang']['bln_akhir']);
+            $model->thn_awal = $_GET['RKLaporanpasienpulang']['thn_awal'];
+            $model->thn_akhir = $_GET['RKLaporanpasienpulang']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";            
+        }
+
+        $this->render('pasienPulang/admin', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+
+    public function actionPrintLaporanPasienPulang() {
+        $model = new RKLaporanpasienpulang();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $judulLaporan = 'Laporan Pasien Pulang';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Pasien Pulang';
+        $data['type'] = $_REQUEST['type'];
+        if (isset($_REQUEST['RKLaporanpasienpulang'])) {
+            $model->attributes = $_REQUEST['RKLaporanpasienpulang'];
+            $model->jns_periode = $_REQUEST['RKLaporanpasienpulang']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['RKLaporanpasienpulang']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RKLaporanpasienpulang']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['RKLaporanpasienpulang']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['RKLaporanpasienpulang']['bln_akhir']);
+            $model->thn_awal = $_GET['RKLaporanpasienpulang']['thn_awal'];
+            $model->thn_akhir = $_GET['RKLaporanpasienpulang']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = 'pasienPulang/_print';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+        
+    public function actionFrameGrafikLaporanPasienPulang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new RKLaporanpasienpulang();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Pasien Pulang';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['RKLaporanpasienpulang'])) {
+            $model->attributes = $_GET['RKLaporanpasienpulang'];
+            $model->jns_periode = $_GET['RKLaporanpasienpulang']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['RKLaporanpasienpulang']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RKLaporanpasienpulang']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['RKLaporanpasienpulang']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['RKLaporanpasienpulang']['bln_akhir']);
+            $model->thn_awal = $_GET['RKLaporanpasienpulang']['thn_awal'];
+            $model->thn_akhir = $_GET['RKLaporanpasienpulang']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";            
+        }
+
+        $this->render('_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
 	
 	
        public function actionPrintPemeriksaKunjunganRJ() {
