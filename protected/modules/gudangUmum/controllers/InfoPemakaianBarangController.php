@@ -41,7 +41,7 @@ class InfoPemakaianBarangController extends MyAuthController
 	
 	public function actionDetail($id)
 	{
-		$this->layout = '//layouts/frameDialog';
+		$this->layout = '//layouts/iframe';
         $modPemakaianbarang = GUPemakaianbarangT::model()->findByPk($id);
 		if(count($modPemakaianbarang)>0){
 			$modDetailPemakaian = GUPemakaianbrgdetailT::model()->findAllByAttributes(array('pemakaianbarang_id'=>$id));
