@@ -18,6 +18,7 @@ class PPRuanganM extends RuanganM{
     
     public $tick, $data, $jumlah;
     public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir,$tgl_awal,$tgl_akhir;
+    public $tipe;
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -44,7 +45,20 @@ class PPRuanganM extends RuanganM{
 				. 'COUNT(CASE pendaftaran_t.kunjungan WHEN \'KUNJUNGAN LAMA\' THEN 1 ELSE NULL END) AS jumlahkunjunganlama';
 		$criteria->group = 't.ruangan_nama,t.ruangan_id, t.instalasi_id';
 		$criteria->order='t.instalasi_id';
-		$criteria->addInCondition('t.instalasi_id',array(2,3,4));
+                
+                if (isset($this->tipe)){
+                    if ($this->tipe == 'penunjang'){
+                        $criteria->addInCondition('t.instalasi_id',Params::getArrayInstalasiPenunjang());
+                    }elseif ($this->tipe == 'rawatjalan'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RJ));
+                    }elseif ($this->tipe == 'rawatdarurat'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RD));
+                    }elseif ($this->tipe == 'rawatinap'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RI));
+                    }
+                }else{
+                    $criteria->addInCondition('t.instalasi_id',array(2,3,4));
+                }
 		$criteria->join ='LEFT JOIN pendaftaran_t ON pendaftaran_t.ruangan_id = t.ruangan_id';
 		if($this->jns_periode == "hari"){
 			$criteria->addBetweenCondition('DATE(pendaftaran_t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir);
@@ -100,7 +114,19 @@ class PPRuanganM extends RuanganM{
 				. 'COUNT(CASE pendaftaran_t.kunjungan WHEN \'KUNJUNGAN LAMA\' THEN 1 ELSE NULL END) AS jumlahkunjunganlama';
 		$criteria->group = 't.ruangan_nama,t.ruangan_id, t.instalasi_id';
 		$criteria->order='t.instalasi_id';
-		$criteria->addInCondition('t.instalasi_id',array(2,3,4));
+		if (isset($this->tipe)){
+                    if ($this->tipe == 'penunjang'){
+                        $criteria->addInCondition('t.instalasi_id',Params::getArrayInstalasiPenunjang());
+                    }elseif ($this->tipe == 'rawatjalan'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RJ));
+                    }elseif ($this->tipe == 'rawatdarurat'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RD));
+                    }elseif ($this->tipe == 'rawatinap'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RI));
+                    }
+                }else{
+                    $criteria->addInCondition('t.instalasi_id',array(2,3,4));
+                }
 		$criteria->join ='LEFT JOIN pendaftaran_t ON pendaftaran_t.ruangan_id = t.ruangan_id';
 		if($this->jns_periode == "hari"){
 			$criteria->addBetweenCondition('DATE(pendaftaran_t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir);
@@ -164,7 +190,19 @@ class PPRuanganM extends RuanganM{
 		$criteria->select = 't.ruangan_nama as data ,t.ruangan_id, count(pendaftaran_t.statuspasien) as jumlah';
 		$criteria->group = 't.ruangan_nama,t.ruangan_id';
 		$criteria->order='t.ruangan_id';
-		$criteria->addInCondition('t.instalasi_id',array(2,3,4));
+		if (isset($this->tipe)){
+                    if ($this->tipe == 'penunjang'){
+                        $criteria->addInCondition('t.instalasi_id',Params::getArrayInstalasiPenunjang());
+                    }elseif ($this->tipe == 'rawatjalan'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RJ));
+                    }elseif ($this->tipe == 'rawatdarurat'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RD));
+                    }elseif ($this->tipe == 'rawatinap'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RI));
+                    }
+                }else{
+                    $criteria->addInCondition('t.instalasi_id',array(2,3,4));
+                }
 		
 		$criteria->join ='LEFT JOIN pendaftaran_t ON pendaftaran_t.ruangan_id = t.ruangan_id';
 		if($this->jns_periode == "hari"){
@@ -238,7 +276,19 @@ class PPRuanganM extends RuanganM{
 		$criteria->select = 'count(pendaftaran_t.statuspasien) as jumlahkunjunganbaru, pendaftaran_t.statuspasien, t.ruangan_nama ';
 		$criteria->group = 'pendaftaran_t.statuspasien, t.ruangan_nama, t.instalasi_id';
 		$criteria->order='t.instalasi_id';
-		$criteria->addCondition('t.instalasi_id',array(2,3,4));
+		if (isset($this->tipe)){
+                    if ($this->tipe == 'penunjang'){
+                        $criteria->addInCondition('t.instalasi_id',Params::getArrayInstalasiPenunjang());
+                    }elseif ($this->tipe == 'rawatjalan'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RJ));
+                    }elseif ($this->tipe == 'rawatdarurat'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RD));
+                    }elseif ($this->tipe == 'rawatinap'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RI));
+                    }
+                }else{
+                    $criteria->addInCondition('t.instalasi_id',array(2,3,4));
+                }
 		if(!empty($ruangan_id)){
 			$criteria->addCondition("t.ruangan_id = ".$ruangan_id);			
 		}
@@ -265,7 +315,19 @@ class PPRuanganM extends RuanganM{
 		$criteria->select = 'count(pendaftaran_t.statuspasien) as jumlahkunjunganbaru, pendaftaran_t.statuspasien, t.ruangan_nama ';
 		$criteria->group = 'pendaftaran_t.statuspasien, t.ruangan_nama, t.instalasi_id';
 		$criteria->order='t.instalasi_id';
-		$criteria->addInCondition('t.instalasi_id',array(2,3,4));
+		if (isset($this->tipe)){
+                    if ($this->tipe == 'penunjang'){
+                        $criteria->addInCondition('t.instalasi_id',Params::getArrayInstalasiPenunjang());
+                    }elseif ($this->tipe == 'rawatjalan'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RJ));
+                    }elseif ($this->tipe == 'rawatdarurat'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RD));
+                    }elseif ($this->tipe == 'rawatinap'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RI));
+                    }
+                }else{
+                    $criteria->addInCondition('t.instalasi_id',array(2,3,4));
+                }
 		if(!empty($ruangan_id)){
 			$criteria->addCondition("t.ruangan_id = ".$ruangan_id);			
 		}
@@ -301,7 +363,19 @@ class PPRuanganM extends RuanganM{
 		$criteria->select = 'count(pendaftaran_t.statuspasien) as jumlahkunjunganbaru, pendaftaran_t.statuspasien, t.ruangan_nama ';
 		$criteria->group = 'pendaftaran_t.statuspasien, t.ruangan_nama, t.instalasi_id';
 		$criteria->order='t.instalasi_id';
-		$criteria->addInCondition('t.instalasi_id',array(2,3,4));
+		if (isset($this->tipe)){
+                    if ($this->tipe == 'penunjang'){
+                        $criteria->addInCondition('t.instalasi_id',Params::getArrayInstalasiPenunjang());
+                    }elseif ($this->tipe == 'rawatjalan'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RJ));
+                    }elseif ($this->tipe == 'rawatdarurat'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RD));
+                    }elseif ($this->tipe == 'rawatinap'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RI));
+                    }
+                }else{
+                    $criteria->addInCondition('t.instalasi_id',array(2,3,4));
+                }
 		if(!empty($ruangan_id)){
 			$criteria->addCondition("t.ruangan_id = ".$ruangan_id);			
 		}
@@ -361,7 +435,19 @@ class PPRuanganM extends RuanganM{
 		$criteria->select = 'count(pendaftaran_t.statuspasien) as jumlahkunjunganbaru, pendaftaran_t.statuspasien, t.ruangan_nama ';
 		$criteria->group = 'pendaftaran_t.statuspasien, t.ruangan_nama, t.instalasi_id';
 		$criteria->order='t.instalasi_id';
-		$criteria->addInCondition('t.instalasi_id',array(2,3,4));
+		if (isset($this->tipe)){
+                    if ($this->tipe == 'penunjang'){
+                        $criteria->addInCondition('t.instalasi_id',Params::getArrayInstalasiPenunjang());
+                    }elseif ($this->tipe == 'rawatjalan'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RJ));
+                    }elseif ($this->tipe == 'rawatdarurat'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RD));
+                    }elseif ($this->tipe == 'rawatinap'){
+                        $criteria->addInCondition('t.instalasi_id',array(Params::INSTALASI_ID_RI));
+                    }
+                }else{
+                    $criteria->addInCondition('t.instalasi_id',array(2,3,4));
+                }
 		if(!empty($ruangan_id)){
 			$criteria->addCondition("t.ruangan_id = ".$ruangan_id);			
 		}

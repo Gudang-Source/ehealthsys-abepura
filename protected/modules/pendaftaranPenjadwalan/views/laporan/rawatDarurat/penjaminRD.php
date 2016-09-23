@@ -7,6 +7,9 @@
     );
 
     $url = Yii::app()->createUrl('pendaftaranPenjadwalan/laporan/frameGrafikPenjaminRD&id=1');
+    if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_REKAM_MEDIS){
+        $url = Yii::app()->createUrl('rekamMedis/laporan/frameGrafikPenjaminRD&id=1');
+    }
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();
@@ -50,7 +53,7 @@
             array('label'=>'Keterangan Pulang', 'url'=>$this->createAbsoluteUrl($controller.'/laporanKetPulangKunjunganRD'),),
             array('label'=>'Penjamin Pasien', 'url'=>$this->createAbsoluteUrl($controller.'/laporanPenjaminKunjunganRD'),'active'=>true),
             array('label'=>'Nama Dokter', 'url'=>$this->createAbsoluteUrl($controller.'/laporanDokterPemeriksaKunjunganRD'),),
-    //        array('label'=>'Per Unit Pelayanan', 'url'=>$this->createAbsoluteUrl($controller.'/laporanUnitPelayananKunjunganRD'),),
+            array('label'=>'Per Unit Pelayanan', 'url'=>$this->createAbsoluteUrl($controller.'/laporanUnitPelayananKunjunganRD'),),
 
                 ),
     )); 
