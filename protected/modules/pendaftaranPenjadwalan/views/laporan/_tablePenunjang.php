@@ -24,15 +24,10 @@
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                 array(
-                  'header'=>'Tgl. Pendaftaran',
+                  'header'=>'Tgl. Pendaftaran <br/> / No Pendaftaran',
                   'type'=>'raw',
-                  'value'=>'date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran))',
-                ),
-                array(
-                  'header'=>'No. Pendaftaran',
-                  'type'=>'raw',
-                  'value'=>'$data->no_pendaftaran',
-                ),
+                  'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran)))." ".$data->no_pendaftaran',
+                ),                
                 array(
                   'header'=>'No. Rekam Medik',
                   'type'=>'raw',
@@ -121,10 +116,10 @@
                    'htmlOptions'=>array('style'=>'text-align: center')
                 ),            
                 array(
-                   'header'=>'Ruangan Poliklinik',
+                   'header'=>'Instalasi <br/> / Ruangan Poliklinik',
                    'name'=>'ruangan_nama',
                    'type'=>'raw',
-                   'value'=>'$data->ruangan_nama',
+                   'value'=>'$data->instalasi_nama." <br/> / ".$data->ruangan_nama',
                    'htmlOptions'=>array('style'=>'text-align: center')
                 ),
                 array(

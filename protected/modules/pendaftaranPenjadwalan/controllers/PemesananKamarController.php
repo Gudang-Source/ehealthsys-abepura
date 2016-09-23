@@ -17,7 +17,8 @@ class PemesananKamarController extends MyAuthController
         $model->tglakhirkonfirmasi = date('d M Y H:i:s', $tanggal_sekarang);
         $modPasien = new PPPasienM;
         $modPasien->tanggal_lahir = date('d/m/Y');
-        $modPasien->agama = Params::DEFAULT_AGAMA;
+        $modPasien->propinsi_id = Yii::app()->user->getState('propinsi_id');
+       // $modPasien->agama = Params::DEFAULT_AGAMA;
         $modPasien->warga_negara = Params::DEFAULT_WARGANEGARA;
 		$modPasien->isPasienLama = false;
 		$modPegawai = new PPPegawaiM;

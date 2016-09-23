@@ -956,5 +956,27 @@ Class Params
             );
         }
         
+        public static function getInstalasiPenunjang() {
+            return  Params::INSTALASI_ID_ICU.','.//fisioterapi
+                    Params::INSTALASI_ID_IBS.','.//bedah sentral
+                    Params::INSTALASI_ID_RAD.','.//radiologi
+                    Params::INSTALASI_ID_REHAB.','.//rehabilitasi
+                    Params::INSTALASI_ID_LAB.','.//laboratorium
+                    Params::INSTALASI_ID_JZ.','.//pemulasaran jenazah
+                    Params::INSTALASI_ID_GIZI;//gizi
+            
+        }
+        
+        public static function getArrayInstalasiPenunjang() {
+            return  array(Params::INSTALASI_ID_ICU,//fisioterapi
+                    Params::INSTALASI_ID_IBS,//bedah sentral
+                    Params::INSTALASI_ID_RAD,//radiologi
+                    Params::INSTALASI_ID_REHAB,//rehabilitasi
+                    Params::INSTALASI_ID_LAB,//laboratorium
+                    Params::INSTALASI_ID_JZ,//pemulasaran jenazah
+                    Params::INSTALASI_ID_GIZI);//gizi
+            
+        }
+        
 }
 ?>

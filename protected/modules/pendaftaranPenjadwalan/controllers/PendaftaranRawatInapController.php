@@ -47,11 +47,11 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $dataTindakans = array();
 			$modKarcisV =array();
             $modPasien->propinsi_id = Yii::app()->user->getState('propinsi_id');
-            $modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
-            $modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
-            $modPasien->kelurahan_id = Yii::app()->user->getState('kelurahan_id');
+            //$modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
+            //$modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
+            //$modPasien->kelurahan_id = Yii::app()->user->getState('kelurahan_id');
             $modPasien->warga_negara = Params::DEFAULT_WARGANEGARA;
-            $modPasien->agama = Params::DEFAULT_AGAMA;
+            //$modPasien->agama = Params::DEFAULT_AGAMA;
             $model->is_adakarcis = Yii::app()->user->getState('iskarcis'); //RND-7737
 			$model->is_pasienrujukan = 1;
 			$model->is_asubadak = 0;

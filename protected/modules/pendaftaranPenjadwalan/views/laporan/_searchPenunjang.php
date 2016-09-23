@@ -206,7 +206,7 @@
                                         'isi'=>'<table>
                                                     <tr>
                                                         <td><label>Instalasi</label></td>
-                                                        <td>'.$form->dropDownList($modPPInfoKunjunganV, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll("instalasi_aktif = true AND instalasi_id = '".Params::INSTALASI_ID_RJ."' ORDER BY instalasi_nama ASC"), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                                        <td>'.$form->dropDownList($modPPInfoKunjunganV, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll("instalasi_aktif = true AND instalasi_id IN (".Params::getInstalasiPenunjang().") ORDER BY instalasi_nama ASC"), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'ajax' => array('type' => 'POST',
                                                                 'url' => Yii::app()->createUrl('ActionDynamic/GetRuanganForCheckBox', array('encode' => false, 'namaModel' => ''.get_class($modPPInfoKunjunganV).'')),
                                                                 'update' => '#ruangan',  //selector to update

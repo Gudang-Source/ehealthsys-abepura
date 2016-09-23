@@ -63,11 +63,11 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $modRujukanBpjs=new PPRujukanbpjsT;
             $modPembayaran = new PPPembayaranpelayananT();
             $modPasien->propinsi_id = Yii::app()->user->getState('propinsi_id');
-            $modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
-            $modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
-            $modPasien->kelurahan_id = Yii::app()->user->getState('kelurahan_id');
+            //$modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
+            //$modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
+            //$modPasien->kelurahan_id = Yii::app()->user->getState('kelurahan_id');
             $modPasien->warga_negara = Params::DEFAULT_WARGANEGARA;
-            $modPasien->agama = Params::DEFAULT_AGAMA;
+            //$modPasien->agama = Params::DEFAULT_AGAMA;
 
             $nama_modul = Yii::app()->controller->module->id;
             $nama_controller = Yii::app()->controller->id;

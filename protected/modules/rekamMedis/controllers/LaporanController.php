@@ -663,6 +663,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
+        $model->tipe = 'rawatjalan';
 
         if (isset($_GET['PPRuanganM'])) {
             $model->attributes = $_GET['PPRuanganM'];
@@ -682,6 +683,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'rawatjalan';
         }
 
         $this->render($this->pathViewPP.'rawatJalan/unitPelayananRJ', array(
@@ -1332,7 +1334,8 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-       
+        $model->tipe = 'rawatjalan';
+                
         $judulLaporan = 'Laporan Kunjungan Pasien Rawat Jalan Berdasarkan Unit Pelayanan';
 
         //Data Grafik
@@ -1356,6 +1359,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'rawatjalan';
 //            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
         }
         $caraPrint = $_REQUEST['caraPrint'];
@@ -2068,7 +2072,8 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-
+        $model->tipe = 'rawatjalan';
+        
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Jalan Berdasarkan Unit Pelayanan';
         $data['type'] = $_REQUEST['type'];
@@ -2091,6 +2096,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'rawatjalan';
         }
 
         $this->render($this->pathViewPP.'_grafikUnitPelayanan', array(
@@ -2706,14 +2712,35 @@ class LaporanController extends MyAuthController {
     public function actionLaporanUnitPelayananKunjunganRD() {
         $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Rawat Darurat Berdasarkan Unit Pelayanan";
         $model = new PPRuanganM('search');
-        $model->tgl_awal = date('Y-m-d').' 00:00:00';
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->tipe = 'rawatdarurat';
 
         if (isset($_GET['PPRuanganM'])) {
             $model->attributes = $_GET['PPRuanganM'];
-            $format = new MyFormatter();
+           $model->jns_periode = $_GET['PPRuanganM']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPRuanganM']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPRuanganM']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPRuanganM']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPRuanganM']['bln_akhir']);
+            $model->thn_awal = $_GET['PPRuanganM']['thn_awal'];
+            $model->thn_akhir = $_GET['PPRuanganM']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'rawatdarurat';
         }
 
         $this->render($this->pathViewPP.'rawatDarurat/unitPelayananRD', array(
@@ -3385,9 +3412,16 @@ class LaporanController extends MyAuthController {
     }
     public function actionPrintUnitPelayananKunjunganRD() {
         $model = new PPRuanganM('search');
-        $model->tgl_awal = date('Y-m-d').' 00:00:00';
-        $model->tgl_akhir = date('Y-m-d H:i:s');
-        $model->bulan = date('m');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->tipe = 'rawatdarurat';
         $judulLaporan = 'Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Unit Pelayanan';
 
         //Data Grafik
@@ -3395,9 +3429,23 @@ class LaporanController extends MyAuthController {
         $data['type'] = $_REQUEST['type'];
         if (isset($_REQUEST['PPRuanganM'])) {
             $model->attributes = $_REQUEST['PPRuanganM'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_REQUEST['PPRuanganM']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPRuanganM']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPRuanganM']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPRuanganM']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPRuanganM']['bln_akhir']);
+            $model->thn_awal = $_GET['PPRuanganM']['thn_awal'];
+            $model->thn_akhir = $_GET['PPRuanganM']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'rawatdarurat';
 //            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
         }
         $caraPrint = $_REQUEST['caraPrint'];
@@ -3412,8 +3460,15 @@ class LaporanController extends MyAuthController {
     public function actionFrameGrafikRD() {
         $this->layout = '//layouts/iframe';
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
         $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat';
@@ -3421,9 +3476,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafik', array(
@@ -3436,8 +3504,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Agama';
@@ -3445,9 +3520,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikAgama', array(
@@ -3459,8 +3547,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Alamat';
@@ -3468,9 +3563,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikAlamat', array(
@@ -3482,8 +3590,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Cara Masuk';
@@ -3491,9 +3606,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikCaraMasuk', array(
@@ -3505,8 +3633,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Dokter Pemeriksa';
@@ -3514,9 +3649,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikDokterPemeriksa', array(
@@ -3528,8 +3676,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Jenis Kelamin';
@@ -3537,9 +3692,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikJk', array(
@@ -3551,8 +3719,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Kabupaten / Kota';
@@ -3560,9 +3735,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikKabupaten', array(
@@ -3574,8 +3762,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Kecamatan';
@@ -3583,9 +3778,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikKecamatan', array(
@@ -3597,8 +3805,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Keterangan Pulang';
@@ -3606,9 +3821,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikKetPulang', array(
@@ -3620,8 +3848,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Pekerjaan';
@@ -3629,9 +3864,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikPekerjaan', array(
@@ -3643,8 +3891,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Pemeriksaan';
@@ -3652,9 +3907,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikPemeriksaan', array(
@@ -3666,8 +3934,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Penjamin';
@@ -3675,9 +3950,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikPenjamin', array(
@@ -3689,8 +3977,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Rujukan';
@@ -3698,9 +3993,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikRujukan', array(
@@ -3712,8 +4020,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Status Perkawinan';
@@ -3721,9 +4036,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikStatusPerkawinan', array(
@@ -3735,8 +4063,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Kedatangan Lama / Baru';
@@ -3744,9 +4079,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikStatus', array(
@@ -3758,8 +4106,15 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPInfoKunjunganRDV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Umur';
@@ -3767,9 +4122,22 @@ class LaporanController extends MyAuthController {
 
         if (isset($_GET['PPInfoKunjunganRDV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRDV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->jns_periode = $_REQUEST['PPInfoKunjunganRDV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRDV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPInfoKunjunganRDV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPInfoKunjunganRDV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPInfoKunjunganRDV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render($this->pathViewPP.'_grafikUmur', array(
@@ -3781,18 +4149,39 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 
         $model = new PPRuanganM('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
-
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->tipe = 'rawatdarurat';
+        
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Darurat Berdasarkan Unit Pelayanan';
         $data['type'] = $_GET['type'];
 
         if (isset($_GET['PPRuanganM'])) {
             $model->attributes = $_GET['PPRuanganM'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_GET['PPRuanganM']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPRuanganM']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPRuanganM']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPRuanganM']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPRuanganM']['bln_akhir']);
+            $model->thn_awal = $_GET['PPRuanganM']['thn_awal'];
+            $model->thn_akhir = $_GET['PPRuanganM']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'rawatdarurat';
         }
 
         $this->render($this->pathViewPP.'_grafikUnitPelayanan', array(
@@ -4434,7 +4823,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $model->instalasi_id = Params::INSTALASI_ID_RI;
+        $model->tipe = 'rawatinap';
                 
           if (isset($_GET['PPRuanganM'])) {
             $model->attributes = $_GET['PPRuanganM'];
@@ -4454,7 +4843,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
-            $model->instalasi_id = Params::INSTALASI_ID_RI;
+            $model->tipe = 'rawatinap';
         }
 
             $this->render($this->pathViewPP.'rawatInap/unitPelayananRI', array(
@@ -5184,7 +5573,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        
+        $model->tipe = 'rawatinap';
         $judulLaporan = 'Laporan Kunjungan Pasien Rawat Inap';
 
         //Data Grafik
@@ -5208,7 +5597,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
-            
+            $model->tipe = 'rawatinap';
         }
         
         $caraPrint = $_REQUEST['caraPrint'];
@@ -6025,7 +6414,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        
+        $model->tipe = 'rawatinap';
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Rawat Inap Berdasarkan Unit Pelayanan';
         $data['type'] = $_GET['type'];
@@ -6048,6 +6437,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'rawatinap';
             
         }
 
@@ -8513,6 +8903,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
+        $model->tipe = 'penunjang';
 
         if (isset($_GET['PPRuanganM'])) {
             $model->attributes = $_GET['PPRuanganM'];
@@ -8532,6 +8923,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'penunjang';
         }
 
         $this->render($this->pathViewPP.'penunjang/unitPelayananPenunjang', array(
@@ -9183,6 +9575,7 @@ class LaporanController extends MyAuthController {
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
         $model->bulan = date('m');
+        $model->tipe = 'penunjang';
         $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Unit Pelayanan';
 
         //Data Grafik
@@ -9206,6 +9599,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'penunjang';
 //            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
         }
         $caraPrint = $_REQUEST['caraPrint'];
@@ -9919,7 +10313,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-
+        $model->tipe = 'penunjang';
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Unit Pelayanan';
         $data['type'] = $_REQUEST['type'];
@@ -9942,6 +10336,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tipe = 'penunjang';
         }
 
         $this->render($this->pathViewPP.'_grafikUnitPelayanan', array(
