@@ -85,7 +85,7 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        $criteria->select = "namadepan, nama_pasien, no_rekam_medik, tglpasienpulang, ruangan_nama, carakeluar, kondisipulang";
         if (!empty($this->carakeluar)){
             if (is_array($this->carakeluar)){
                 $criteria->addInCondition("carakeluar",$this->carakeluar);
@@ -108,7 +108,7 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
             }
         }
         
-        $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('date(tglpasienpulang)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
         $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
@@ -116,7 +116,8 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
         $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
         $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
         $criteria->addCondition('pasienpulang_id is not null');
-        
+        $criteria->group = "namadepan, nama_pasien, no_rekam_medik, tglpasienpulang, ruangan_nama, carakeluar, kondisipulang";
+                
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
@@ -127,7 +128,8 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        //$criteria->select = "count(pasienpulang_id) as jumlah,namadepan, nama_pasien, no_rekam_medik, tglpasienpulang, ruangan_nama, carakeluar, kondisipulang as data";
+        $criteria->select = "count(pasienpulang_id) as jumlah,  carakeluar as data";
        if (!empty($this->carakeluar)){
             if (is_array($this->carakeluar)){
                 $criteria->addInCondition("carakeluar",$this->carakeluar);
@@ -140,22 +142,15 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
             }
         }
 
-        $criteria->select = "count(pendaftaran_id) as jumlah, coalesce(carakeluar,'PULANG') as data";
-        $criteria->group = 'carakeluar';
+        
+        
 
-        $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
+        $criteria->addBetweenCondition('tglpasienpulang', $this->tgl_awal, $this->tgl_akhir);
+       $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
         $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
         $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
-        $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
-        $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
-        $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
-        $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
-        $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
-        $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
-        $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
         if (!empty($this->ruangan_id)){
             if (is_array($this->ruangan_id)){
@@ -167,6 +162,8 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
             }
         }
         $criteria->addCondition('pasienpulang_id is not null');
+        $criteria->group = 'carakeluar';
+        //$criteria->group = "namadepan, nama_pasien, no_rekam_medik, tglpasienpulang, ruangan_nama, carakeluar, kondisipulang";
         
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -178,7 +175,7 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        $criteria->select = "namadepan, nama_pasien, no_rekam_medik, tglpasienpulang, ruangan_nama, carakeluar, kondisipulang";
         if (!empty($this->carakeluar)){
             if (is_array($this->carakeluar)){
                 $criteria->addInCondition("carakeluar",$this->carakeluar);
@@ -191,7 +188,7 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
             }
         }
         
-        $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('date(tglpasienpulang)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
         $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
@@ -208,6 +205,7 @@ class RKLaporanpasienpulang extends LaporantindaklanjutV
             }
         }
         $criteria->addCondition('pasienpulang_id is not null');
+        $criteria->group = "namadepan, nama_pasien, no_rekam_medik, tglpasienpulang, ruangan_nama, carakeluar, kondisipulang";
         
         $criteria->limit = -1;
 

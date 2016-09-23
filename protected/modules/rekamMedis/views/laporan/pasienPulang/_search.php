@@ -19,7 +19,7 @@
        <div class="row-fluid">
          <div class="span4">
              <?php echo CHtml::hiddenField('type', ''); ?>
-             <?php echo CHtml::label('Tanggal Kunjungan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Tanggal Pasien Pulang', 'tglpemeriksaan', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -221,7 +221,7 @@
         </table>
     <div class="form-actions">
         <?php
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
         ?>
 		<?php
  echo CHtml::htmlButton(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')),

@@ -232,9 +232,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -276,9 +280,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -320,9 +328,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -364,9 +376,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -407,9 +423,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -451,9 +471,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -494,9 +518,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -538,9 +566,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -582,9 +614,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -626,9 +662,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -669,9 +709,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -717,9 +761,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 					$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 				}
 				$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-				if(!empty($this->instalasi_id)){
-					$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-				}
+				if(!empty($this->ruangan_id)){                    
+                                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                                }else{
+                                   if (!empty($this->instalasi_id)){
+                                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                                   }
+                                }
 				$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 				if(!empty($this->carabayar_id)){
 					$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -761,9 +809,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -805,9 +857,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -832,83 +888,91 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
                 $criteria->order = 'jumlah DESC';
                 
                 $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-				if(!empty($this->propinsi_id)){
-					$criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
-				}
-				$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
-				if(!empty($this->kabupaten_id)){
-					$criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
-				}
-				$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
-				if(!empty($this->kecamatan_id)){
-					$criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
-				}
-				$criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
-				if(!empty($this->kelurahan_id)){
-					$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
-				}
-				$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-				if(!empty($this->instalasi_id)){
-					$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-				}
-				$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-				if(!empty($this->carabayar_id)){
-					$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
-				}
-				$criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
-				if(!empty($this->penjamin_id)){
-					$criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
-				}
-				$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-				$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
-		//		                
-				return new CActiveDataProvider($this, array(
-					'criteria'=>$criteria,
-				));
+                if(!empty($this->propinsi_id)){
+                        $criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
+                }
+                $criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
+                if(!empty($this->kabupaten_id)){
+                        $criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
+                }
+                $criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
+                if(!empty($this->kecamatan_id)){
+                        $criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
+                }
+                $criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
+                if(!empty($this->kelurahan_id)){
+                        $criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
+                }
+                $criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
+                if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
+                $criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+                if(!empty($this->carabayar_id)){
+                        $criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
+                }
+                $criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
+                if(!empty($this->penjamin_id)){
+                        $criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
+                }
+                $criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+                $criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+//		                
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                ));
         }
         public function searchGrafikRujukan(){
             
-			$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, nama_perujuk as data';
-			$criteria->group = 'nama_perujuk';
-			$criteria->order = 'nama_perujuk';
+            $criteria->select = 'count(pendaftaran_id) as jumlah, nama_perujuk as data';
+            $criteria->group = 'nama_perujuk';
+            $criteria->order = 'nama_perujuk';
 
-			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);$criteria->addCondition('tgl_pendaftaran BETWEEN \''.$this->tgl_awal.'\' and \''.$this->tgl_akhir.'\'');
-			
-			if(!empty($this->propinsi_id)){
-				$criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
-			}
-			$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
-			if(!empty($this->kabupaten_id)){
-				$criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
-			}
-			$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
-			if(!empty($this->kecamatan_id)){
-				$criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
-			}
-			$criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
-			if(!empty($this->kelurahan_id)){
-				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
-			}
-			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
-			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-			if(!empty($this->carabayar_id)){
-				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
-			}
-			$criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
-			if(!empty($this->penjamin_id)){
-				$criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
-			}
-			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
-	//		                
-			return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-			));
+            $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);$criteria->addCondition('tgl_pendaftaran BETWEEN \''.$this->tgl_awal.'\' and \''.$this->tgl_akhir.'\'');
+
+            if(!empty($this->propinsi_id)){
+                    $criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
+            }
+            $criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
+            if(!empty($this->kabupaten_id)){
+                    $criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
+            }
+            $criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
+            if(!empty($this->kecamatan_id)){
+                    $criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
+            }
+            $criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
+            if(!empty($this->kelurahan_id)){
+                    $criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
+            }
+            $criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
+            if(!empty($this->ruangan_id)){                    
+                $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+            }else{
+               if (!empty($this->instalasi_id)){
+                   $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+               }
+            }
+            $criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+            if(!empty($this->carabayar_id)){
+                    $criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
+            }
+            $criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
+            if(!empty($this->penjamin_id)){
+                    $criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
+            }
+            $criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+            $criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+//		                
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
         }
         public function searchGrafikPemeriksaan(){
             
@@ -936,9 +1000,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -991,9 +1059,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 		}
 		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-		}
+		if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -1048,9 +1120,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 		}
 		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-		}
+		if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -1098,10 +1174,7 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 		if(!empty($this->kelurahan_id)){
 			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 		}
-		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-		}
+		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);		
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -1113,9 +1186,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 		}
 		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 		// $criteria->compare('DATE_PART(MONTH,tgl_pendaftaran)',($this->bulan));
-		if(!empty($this->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);			
-		}
+		if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
 		$criteria->compare('LOWER(nama_pegawai)',($this->nama_pegawai));
 		//$criteria->compare('LOWER(kelompokumur_nama)',strtolower($this->kelompokumur_nama),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
