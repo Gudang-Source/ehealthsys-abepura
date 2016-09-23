@@ -16,9 +16,9 @@
             'itemsCssClass'=>'table table-striped table-bordered table-condensed table-responsive',
             'columns'=>array(
                 array(
-                    'header'=>'Tgl. Pembuatan',
+                    'header'=>'Tgl. Terakhir Login',
                     'type'=>'raw',
-                    'value'=>'MyFormatter::formatDateTimeForUser($data->tglpembuatanlogin)',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->lastlogin)',
                 ),
 				array(
 					'header'=>'Nama Pemakai',

@@ -17,7 +17,7 @@ class SALoginpemakaiK extends LoginpemakaiK
 
 	   $criteria=new CDbCriteria;
 	   $criteria->compare('DATE(waktuterakhiraktifitas)', date("Y-m-d"));
-	   $criteria->order = 'waktuterakhiraktifitas DESC';
+	   $criteria->order = 'lastlogin DESC';
 	   $criteria->limit = 5;
 	   return new CActiveDataProvider($this, array(
 		   'criteria'=>$criteria,
