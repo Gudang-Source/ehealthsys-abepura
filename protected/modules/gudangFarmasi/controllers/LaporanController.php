@@ -988,6 +988,128 @@ class LaporanController extends MyAuthController
     }
     /* end laporan stock opname */
     
+    
+    /* laporan formulir opname */
+     public function actionLaporanFormulirOpname() {
+        $model = new GFInformasiformuliropnameV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        if (isset($_GET['GFInformasiformuliropnameV'])) {
+            $format = new MyFormatter();
+            $model->attributes = $_GET['GFInformasiformuliropnameV'];
+            $model->jns_periode = $_GET['GFInformasiformuliropnameV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['GFInformasiformuliropnameV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GFInformasiformuliropnameV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GFInformasiformuliropnameV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GFInformasiformuliropnameV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            
+        }
+
+        $this->render('stockOpname/admin', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+
+    public function actionPrintLaporanFormulirOpname() {
+        $model = new GFInformasiformuliropnameV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $judulLaporan = 'Laporan Formulir Opname Obat Alkes';
+
+        //Data Grafik       
+        $data['title'] = 'Grafik Laporan Stock Opname';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : null);
+        if (isset($_REQUEST['GFInformasiformuliropnameV'])) {
+            $format = new MyFormatter();
+            $model->attributes = $_REQUEST['GFInformasiformuliropnameV'];
+            $model->jns_periode = $_REQUEST['GFInformasiformuliropnameV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['GFInformasiformuliropnameV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFInformasiformuliropnameV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            
+        }
+        
+        $caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
+        $target = 'stockOpname/_printStockOpname';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+
+    public function actionFrameGrafikFormulirOpname() {
+        $this->layout = '//layouts/iframe';
+        $model = new GFLaporanfarmasikopnameV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Formulir Opname Obat Alkes';
+        $data['type'] = $_GET['type'];
+        if (isset($_GET['GFInformasiformuliropnameV'])) {
+            $model->attributes = $_GET['GFInformasiformuliropnameV'];
+            $format = new MyFormatter();
+            $model->jns_periode = $_REQUEST['GFInformasiformuliropnameV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['GFInformasiformuliropnameV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFInformasiformuliropnameV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+        
+        $this->render('_grafik', array(
+            'model' => $model,'format'=>$format,
+            'data' => $data,
+        ));
+    }
+    /* end laporan formulir opname */
+    
         public function actionLaporanPermintaanPembelian()
         {
             $model = new GFPermintaanPembelianT;

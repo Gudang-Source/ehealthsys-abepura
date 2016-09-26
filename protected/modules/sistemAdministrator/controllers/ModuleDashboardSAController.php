@@ -177,7 +177,7 @@ class ModuleDashboardSAController extends ModuleDashboardNeonController
 		$criteria_updatepemakai = new CDbCriteria();
 		$criteria_updatepemakai->limit=5;
 		$criteria_updatepemakai->addCondition("loginpemakai_aktif is true");
-		$criteria_updatepemakai->order = 'waktuterakhiraktifitas DESC';
+		$criteria_updatepemakai->order = 'lastlogin DESC';
 		$dataTable = SALoginpemakaiK::model()->findAll($criteria_updatepemakai);
 				
 		$dataTable = new SALoginpemakaiK("search");
