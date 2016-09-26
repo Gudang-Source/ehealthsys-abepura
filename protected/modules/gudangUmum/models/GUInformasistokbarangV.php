@@ -7,6 +7,13 @@ class GUInformasistokbarangV extends InformasistokbarangV
 	 * @param string $className active record class name.
 	 * @return InformasistokbarangV the static model class
 	 */
+        public $tgl_awal, $tgl_akhir;
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
+        public $jns_periode;
+        public $jumlah, $data;
+        public $stok;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -93,4 +100,92 @@ class GUInformasistokbarangV extends InformasistokbarangV
 				'criteria'=>$criteria,
 		));
 	}
+        
+        
+        public function searchMaterialHabisTable() {
+            $criteria = new CDbCriteria();
+            $criteria = $this->functionMaterialHabisCriteria();
+            $criteria->order = 'ruangan_nama, barang_nama ASC';
+
+            return new CActiveDataProvider($this, array(
+                        'criteria' => $criteria,
+                    ));
+        }
+
+        public function searchMaterialHabisPrint() {
+            $criteria = new CDbCriteria();
+            $criteria = $this->functionMaterialHabisCriteria();
+            $criteria->order = 'ruangan_nama, barang_nama ASC';
+            $criteria->limit = -1;
+
+            return new CActiveDataProvider($this, array(
+                        'criteria' => $criteria,
+                        'pagination' => false,
+                    ));
+        }
+
+        protected function functionMaterialHabisCriteria() {
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
+
+            $criteria = new CDbCriteria;
+
+            $criteria->compare('LOWER(barang_nama)',strtolower($this->barang_nama), TRUE);
+            $criteria->compare('LOWER(barang_noseri)',strtolower($this->barang_noseri), TRUE);
+            $criteria->compare('LOWER(barang_merk)',strtolower($this->barang_merk), TRUE);
+            $criteria->compare('LOWER(barang_kode)',strtolower($this->barang_kode), TRUE);
+            
+            if ($this->stok == '0'){
+                $criteria->addCondition(" inventarisasi_stok = 0 ");
+            }elseif ($this->stok == '1'){
+                $criteria->addCondition(" inventarisasi_stok > 0 ");
+            }
+            
+            if(!empty($this->ruangan_id)){                    
+                $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+            }else{
+               if (!empty($this->instalasi_id)){
+                   $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+               }
+            }
+            
+
+
+            return $criteria;
+        }
+
+         public function searchMaterialHabisGrafik()
+         {
+                    // Warning: Please modify the following code to remove attributes that
+                    // should not be searched.
+
+                $criteria=new CDbCriteria;
+
+                $criteria->select = "count(barang_id) as jumlah , (CASE WHEN inventarisasi_stok > 0 THEN 'Stok Ada' ELSE 'Habis' END) as data";
+                
+                $criteria->compare('LOWER(barang_nama)',strtolower($this->barang_nama), TRUE);
+                $criteria->compare('LOWER(barang_noseri)',strtolower($this->barang_noseri), TRUE);
+                $criteria->compare('LOWER(barang_merk)',strtolower($this->barang_merk), TRUE);
+                $criteria->compare('LOWER(barang_kode)',strtolower($this->barang_kode), TRUE);
+                
+                if ($this->stok == '0'){
+                    $criteria->addCondition(" inventarisasi_stok = 0 ");
+                }elseif ($this->stok == '1'){
+                    $criteria->addCondition(" inventarisasi_stok > 0 ");
+                }
+                
+                if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
+                $criteria->group = 'inventarisasi_stok, ruangan_nama ';
+                $criteria->order = 'jumlah DESC';
+
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                ));
+        }        
 }
