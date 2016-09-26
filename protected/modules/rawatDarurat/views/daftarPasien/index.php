@@ -119,8 +119,14 @@
                 <td>
                      <?php echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
                      <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
-                     <?php echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik alias/nama panggilan')); ?>
+                     <?php //echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik alias/nama panggilan')); ?>
                      <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.rekam medik')); ?>
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Tindak Lanjut",'carakeluar',array('class'=>'control-label')) ?>
+                        <div class = "controls">
+                            <?php echo $form->dropDownList($model,'carakeluar', Chtml::listData(CarakeluarM::model()->findAll("carakeluar_aktif = TRUE ORDER BY carakeluar_nama ASC"), 'carakeluar_nama', 'carakeluar_nama'),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     <?php echo $form->dropDownListRow($model, 'pegawai_id', 
