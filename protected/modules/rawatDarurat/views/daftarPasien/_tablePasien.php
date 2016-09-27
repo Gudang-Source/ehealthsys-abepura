@@ -136,7 +136,7 @@
                                     
                                     return $ruangan."</br>".$kamar;
                                 }
-                                return $data->carakeluar;
+                                return $data->carakeluar.CHtml::link("<i class='icon-form-sampah'></i>", Yii::app()->createUrl(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/BatalRawatInap',array("pendaftaran_id"=>$data->pendaftaran_id)), array("title"=>"Klik Untuk Batal Proses Tindak Lanjut Pasien","target"=>"iframeBatalRawatInap", "onclick"=>"$('#dialogBatalRawatInap').dialog('open');", "rel"=>"tooltip"));
                             } else {
                                 return CHtml::link(
                                         '<icon class="icon-form-ri"></icon>', Yii::app()->createUrl("/rawatDarurat/daftarPasien/PasienPulang", array("pendaftaran_id"=>$data->pendaftaran_id,"dialog"=>true)), 
