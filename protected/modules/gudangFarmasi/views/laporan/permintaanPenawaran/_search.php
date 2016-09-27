@@ -22,7 +22,7 @@
                     <div class="row-fluid">
                         <div class="span4">
                             <?php echo CHtml::hiddenField('type', ''); ?>
-                            <?php echo CHtml::label('Tanggal Formulir', 'tglterimabahan', array('class' => 'control-label')) ?>
+                            <?php echo CHtml::label('Tanggal Permintaan', 'tglterimabahan', array('class' => 'control-label')) ?>
                             <div class="controls">
                                 <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('onchange'=>'ubahJnsPeriode();')); ?>
                             </div>
@@ -126,74 +126,28 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class = "span4">
                             <div class = "control-group">
-                                <?php echo Chtml::label("Nama Obat",'obatalkes_nama', array('class'=>'control-label')) ?>
+                                <?php echo Chtml::label("Supplier",'supplier_id', array('class'=>'control-label')) ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model,'obatalkes_nama', array('class'=>'span4 custom-only'))  ?>
+                                    <?php echo $form->dropDownList($model,'supplier_id', Chtml::listData(GFSupplierM::model()->findAll("supplier_aktif = TRUE ORDER BY supplier_nama ASC"), 'supplier_id', 'supplier_nama'),array('empty'=>'-- Pilih --')) ?>
                                 </div>
                             </div>
                             
                             <div class = "control-group">
-                                <?php echo Chtml::label("Kode",'obatalkes_nama', array('class'=>'control-label')) ?>
+                                <?php echo Chtml::label("Status Penawaran",'statuspenwaran', array('class'=>'control-label')) ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model,'obatalkes_kode', array('class'=>'span4 angkahuruf-only'))  ?>
+                                    <?php
+                                        $status = LookupM::getItems('statusrencana');
+                                      
+                                    ?>
+                                    <?php echo $form->dropDownList($model,'statuspenawaran', $status,array('empty'=>'-- Pilih --')) ?>
                                 </div>
                             </div>
                         </div>
-                        <div class="span4">
-                            <div class = "control-group">
-                                <?php echo Chtml::label("Status",'status', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                    <?php echo $form->dropDownList($model,'status', array('2'=>'Belum Kadaluarsa','1'=>'Sudah Kadaluarsa') ,array('empty'=>'-- Pilih --','class'=>'span4 angkahuruf-only'))  ?>
-                                </div>
-                            </div>
-                        </div>                        
+                               
                     </div>
-        <table width="100%" border="0">
-            <tr>
-                <td> 
-                    <div id='searching'>
-                    <fieldset>    
-                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-						'id'=>'big',
-						'slide'=>true,
-						'content'=>array(
-							'content2'=>array(
-							'header'=>'Berdasarkan Instalasi dan Ruangan',
-							'isi'=>'<table>
-                                                                    <tr>
-                                                                        <td>'.'<label>Instalasi</label></td>
-                                                                        <td>'.$form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                                                                'ajax' => array('type' => 'POST',
-                                                                                        'url' => $this->createUrl('/ActionDynamic/GetRuanganForCheckBox/', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
-                                                                                        'update' => '#ruangan',  //selector to update
-                                                                                ),
-                                                                        )).'
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                                <label>Ruangan</label>
-                                                                        </td>
-                                                                        <td>
-                                                                                <div id="ruangan">
-                                                                                        <label>Data Tidak Ditemukan</label>
-                                                                                </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                 </table>',
-							 'active'=>true
-							),
-						),
-//                                    'htmlOptions'=>array('class'=>'aw',)
-				)); ?>										
-                    </fieldset>	
-                    </div>
-                </td>                  
-            </tr>
-            </table>            
+            
        
 
 	<div class="form-actions">

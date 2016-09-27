@@ -8,7 +8,7 @@ if($caraPrint=='EXCEL')
 echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$judulLaporan, 'periode'=>'Periode : '.$periode, 'colspan'=>16)); 
 
 if ($caraPrint != 'GRAFIK')
-$this->renderPartial('obatAlkesKadaluarsa/_table', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
+$this->renderPartial('permintaanPenawaran/_table', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
 
 if ($caraPrint == 'GRAFIK')
 echo $this->renderPartial('_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint, 'grafik'=>$grafik), true); 

@@ -1,7 +1,7 @@
 
 <?php
     $this->Widget('ext.jQPlot.jQPlotWidget', array(
-        'dataProvider' =>$model->searchGrafik(),
+        'dataProvider' =>isset($grafik)?$grafik:$model->searchGrafik(),
         'id'=>'tes',
         'type' => $data['type'],
         'options' => array(

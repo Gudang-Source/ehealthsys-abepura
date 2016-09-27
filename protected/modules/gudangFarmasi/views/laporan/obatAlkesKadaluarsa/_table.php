@@ -1,11 +1,11 @@
 <?php 
     $itemCssClass = 'table table-striped table-condensed';
-    $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+    $table = 'ext.bootstrap.widgets.BootGroupGridView';
     $sort = true;
     $row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
     if (isset($caraPrint)){
         $row = '$row+1';
-        $data = $model->searchLaporanFormulirPrint();
+        $data = $model->searchObatAlkesKadaluarsaPrint();
         $template = "{items}";
         $sort = false;
         if ($caraPrint == "EXCEL"){
@@ -34,27 +34,10 @@
                     background-color: none;
                 }
             </style>";
-        $itemCssClass = 'table border';
-        $rincian = array(
-            'header' => '',
-            'value' => '""',
-            'visible' => false
-        );
+        $itemCssClass = 'table border';        
     } else{
-        $data = $model->searchLaporanFormulir();
-         $template = "{summary}\n{items}\n{pager}";
-        $rincian = array(
-                    'header' => 'Rincian',
-                    'type' => 'raw',
-                    'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-                    'value'=>'CHtml::Link("<i class=\"icon-form-formulir\"></i>","'.$this->createUrl("formulirStockOpnameObatAlkes/Print").'&formuliropname_id=$data->formuliropname_id&frame=true",
-                        array("class"=>"", 
-                              "target"=>"formulir",
-                              "onclick"=>"$(\"#dialogFormulir\").dialog(\"open\");",
-                              "rel"=>"tooltip",
-                              "title"=>"Klik untuk melihat details formulir",
-                        ))',
-                );
+        $data = $model->searchObatAlkesKadaluarsa();
+         $template = "{summary}\n{items}\n{pager}";       
     }
 ?>
 <?php $this->widget($table,array(
@@ -63,6 +46,8 @@
         'template'=>$template,
         'enableSorting'=>$sort,
         'itemsCssClass'=>$itemCssClass,
+        'mergeColumns'=>array('instalasi_nama','ruangan_nama'),
+        'extraRowColumns'=> array('instalasi_nama','ruangan_nama'),
 	'columns'=>array(
                 array(
                     'header'=>'No.',
@@ -70,27 +55,73 @@
                     'headerHtmlOptions'=>array('style'=>'text-align: left;vertical-align:middle;'),
                 ),
                 array(
-                    'header' => 'Tanggal Formulir',
+                    'header' => 'Instalasi <br/> / Ruangan',
+                    'type' => 'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-                    'value' => 'MyFormatter::formatDateTimeForUser($data->tglformulir)',
+                    'value' => '$data->instalasi_nama." <br/> / ".$data->ruangan_nama',
+                ),               
+                array(
+                    'header' => 'Kode Obat',
+                    'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
+                    'value' => '$data->obatalkes_kode'
                 ),
                 array(
-                    'header' => 'No Formulir',
+                    'header' => 'Nama Obat',
                     'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-                    'value' => '$data->noformulir'
+                    'value' => '$data->obatalkes_nama'
                 ),
                 array(
-                    'header' => 'Status Stok Opname',
+                    'header' => 'Jumlah',
                     'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-                    'value' => '(!empty($data->stokopname_id)?"Sudah Stok Opname":"Belum Stok Opname")'
+                    'value' => function($data) use (&$stok) {
+                                //$stok = StokobatalkesT::model()->findAllByAttributes(array(
+                                  //  'obatalkes_id'=>$data->obatalkes_id,
+                                    //'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                                //));
+                                $criteria = new CDbCriteria();
+                                $criteria->addCondition('obatalkes_id ='.$data->obatalkes_id);
+                                $criteria->addCondition("tglkadaluarsa = '".MyFormatter::formatDateTimeForDb($data->tglkadaluarsa)."' ");                                
+                                $criteria->addCondition("ruangan_id = ".$data->ruangan_id);                                
+                                $stok = StokobatalkesT::model()->findAll($criteria);
+                                $total = 0;
+                                foreach ($stok as $item) {
+                                    $total += $item->qtystok_in - $item->qtystok_out;
+                                }
+                                $satuan = ($data->satuankecil_nama==null)?$data->satuankecil->satuankecil_nama:$data->satuankecil_nama;
+                                return $total." ".$satuan;
+                                
+                            },
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
-                    'header' => 'Tanggal Stok Opname',
+                    'header' => 'Harga Satuan',
                     'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-                    'value' => 'MyFormatter::formatDateTimeForUser($data->tglstokopname)'
+                    'value' => 'number_format($data->harganetto,0,"",".")',
+                    'htmlOptions' => array('style'=>'text-align:right;')
+                ),                
+               array(
+                    'header' => 'Jumlah Harga',
+                    'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
+                    'value' => function ($data)  use (&$stok){
+                            $total = 0;
+                            foreach ($stok as $item) {
+                                $total += $item->qtystok_in - $item->qtystok_out;
+                            }
+                            $satuan = ($data->satuankecil_nama==null)?$data->satuankecil->satuankecil_nama:$data->satuankecil_nama;
+                            return number_format((abs($total) * $data->harganetto),0,"",".");
+                    },
+                    'htmlOptions' => array('style'=>'text-align:right;')
+                ),                
+                array(
+                    'header' => 'Tanggal Kadaluarsa',
+                    'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)',                    
                 ),
-                $rincian
-                
+                array(
+                    'header' => 'Status',
+                    'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
+                    'value' => '($data->tglkadaluarsa <= date("Y-m-d H:i:s"))?"Sudah Kadaluarsa":"Belum Kadaluarsa"'
+                ),
                 
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
