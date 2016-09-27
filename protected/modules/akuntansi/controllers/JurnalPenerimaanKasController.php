@@ -138,9 +138,10 @@ class JurnalPenerimaanKasController extends MyAuthController
                             'rekening3_id' => $val['rekening3_id'],
                             'rekening4_id' => $val['rekening4_id'],
                             'rekening5_id' => $val['rekening5_id'],
-                            'saldodebit' => $val['saldodebit'],
-                            'saldokredit' => $val['saldokredit']
+                            'saldodebit' => str_replace(".", "", $val['saldodebit']),
+                            'saldokredit' => str_replace(".", "", $val['saldokredit'])
                         );
+                        
                         $update = AKJurnaldetailT::model()->updateByPk($val['jurnaldetail_id'], $parameter);
                         $index = $val['jurnalrekening_id'];
                     }
