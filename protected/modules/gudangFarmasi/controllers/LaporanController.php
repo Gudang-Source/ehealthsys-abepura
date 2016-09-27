@@ -990,7 +990,7 @@ class LaporanController extends MyAuthController
     
     
     /* laporan formulir opname */
-     public function actionLaporanFormulirOpname() {
+     public function actionLaporanFormulirOpnameObatAlkes() {
         $model = new GFInformasiformuliropnameV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -1018,15 +1018,15 @@ class LaporanController extends MyAuthController
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
-            
+            $model->status = $_GET['GFInformasiformuliropnameV']['status'];
         }
 
-        $this->render('stockOpname/admin', array(
+        $this->render('formulirOpnameObatAlkes/admin', array(
             'model' => $model,'format'=>$format
         ));
     }
 
-    public function actionPrintLaporanFormulirOpname() {
+    public function actionPrintLaporanFormulirOpnameObatAlkes() {
         $model = new GFInformasiformuliropnameV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -1059,18 +1059,18 @@ class LaporanController extends MyAuthController
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
-            
+            $model->status = $_REQUEST['GFInformasiformuliropnameV']['status'];
         }
         
         $caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
-        $target = 'stockOpname/_printStockOpname';
+        $target = 'formulirOpnameObatAlkes/_print';
         
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-    public function actionFrameGrafikFormulirOpname() {
+    public function actionFrameGrafikFormulirOpnameObatAlkes() {
         $this->layout = '//layouts/iframe';
-        $model = new GFLaporanfarmasikopnameV('search');
+        $model = new GFInformasiformuliropnameV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
@@ -1101,6 +1101,7 @@ class LaporanController extends MyAuthController
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->status = $_GET['GFInformasiformuliropnameV']['status'];
         }
         
         $this->render('_grafik', array(
