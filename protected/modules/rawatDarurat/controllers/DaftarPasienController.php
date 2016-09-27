@@ -85,6 +85,8 @@ class DaftarPasienController extends MyAuthController {
         $tersimpan = 'tidak';
 
         if (!empty($_POST['PasienbatalpulangT'])) {
+        
+        
             $pasienPulangId = $_POST['pasienpulang_id'];
             $pendaftaran_id = $_POST['pendaftaran_id'];
             $format = new MyFormatter();
@@ -103,7 +105,8 @@ class DaftarPasienController extends MyAuthController {
                 try {
                     if ($modPasienBatalPulang->save()) {
                         $pulang = RDPasienPulangT::model()->updateByPk($pasienPulangId, array('pasienbatalpulang_id' => $modPasienBatalPulang->pasienbatalpulang_id));
-                        $pendaftaran = PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id' => null, 'statusperiksa' => 'SEDANG PERIKSA'));
+                        $pendaftaran = PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id' => null, 'statusperiksa' => "SUDAH DI PERIKSA"));
+                        
                         if ($pulang && $pendaftaran) {
                             $transaction->commit();
                             Yii::app()->user->setFlash('success', "Data berhasil disimpan");
