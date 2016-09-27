@@ -208,14 +208,14 @@ $this->endWidget();
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
     'id'=>'dialogBatalRawatInap',
     'options'=>array(
-        'title'=>'Pembatalan Rawat Inap/ Pulang Pasien Rawat Darurat',
+        'title'=>'Pembatalan Tindak Lanjut Rawat Inap / Pulang Pasien Rawat Darurat',
         'autoOpen'=>false,
         'modal'=>true,
        'minWidth'=>800,
         'minHeight'=>400,
         'resizable'=>false,
-		'close'=>"js:function(){ $.fn.yiiGridView.update('daftarpasien-v-grid', {
-                        data: $('#caripasien-form').serialize()
+		'close'=>"js:function(){ $.fn.yiiGridView.update('daftarPasien-grid', {
+                        data: $('#daftarPasien-form').serialize()
                     }); }",
     ),
 ));
