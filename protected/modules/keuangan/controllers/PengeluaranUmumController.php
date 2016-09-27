@@ -70,6 +70,7 @@ class PengeluaranUmumController extends MyAuthController {
 			$modJurnalPosting = null;
 			$format = new MyFormatter();
 			if (isset($data_parsing['KUPengeluaranumumT'])) {
+				
 				$transaction = Yii::app()->db->beginTransaction();
 				try {
 					$modBuktiKeluar = $this->saveTandaBuktiKeluar($data_parsing['KUTandabuktikeluarT']);
@@ -212,9 +213,10 @@ class PengeluaranUmumController extends MyAuthController {
 			}
 			$criteria->order = 'saldonormal ASC';
 			$model = KUJenispenerimaanrekeningV::model()->findAll($criteria);
+			
 			if ($model) {
 				echo CJSON::encode(
-						$this->renderPartial($this->path_view . '__formKodeRekening', array('model' => $model), true)
+						$this->renderPartial($this->path_view . '__formKodeRekening', array('model' => $model, 'dariDialog'=>true), true)
 				);
 			}
 			Yii::app()->end();
@@ -245,7 +247,7 @@ class PengeluaranUmumController extends MyAuthController {
 			$model = KUJenispengeluaranrekeningV::model()->findAll($criteria);
 			if ($model) {
 				echo CJSON::encode(
-						$this->renderPartial($this->path_view . '__formKodeRekening', array('model' => $model), true)
+						$this->renderPartial($this->path_view . '__formKodeRekening', array('model' => $model, 'dariDialog'=>true), true)
 				);
 			}
 			Yii::app()->end();

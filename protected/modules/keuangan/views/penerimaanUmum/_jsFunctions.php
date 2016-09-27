@@ -159,8 +159,8 @@
 		$('#KUPenerimaanUmumT_totalharga').val(formatNumber(vol * harga));
 		$('#KUTandabuktibayarT_jmlpembayaran').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
 		$('#totTagihan').val($('#KUPenerimaanUmumT_totalharga').val());
-		$('#RekeningakuntansiV_0_saldodebit').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
-		$('#RekeningakuntansiV_1_saldokredit').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
+		$('.saldodebit').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
+		$('.saldokredit').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
 	}
 
 	function bukaUraian(obj)

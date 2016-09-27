@@ -161,8 +161,8 @@ function hitungTotalHarga()
     
     $('#KUPengeluaranumumT_totalharga').val(formatNumber(vol*harga));
     $('#KUTandabuktikeluarT_jmlkaskeluar').val(formatNumber(vol*harga+biayaAdministrasi));
-	$('#RekeningakuntansiV_0_saldodebit').val(formatNumber(vol*harga+biayaAdministrasi));
-	$('#RekeningakuntansiV_1_saldokredit').val(formatNumber(vol*harga+biayaAdministrasi));
+	$('.saldodebit').val(formatNumber(vol*harga+biayaAdministrasi));
+	$('.saldokredit').val(formatNumber(vol*harga+biayaAdministrasi));
 }
 
 function hitungJmlBayar()
