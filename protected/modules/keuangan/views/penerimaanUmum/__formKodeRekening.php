@@ -2,11 +2,13 @@
     $data = array();
     foreach($model as $key=>$value)
     {
-		//if($value->rekening5_nb == 'D'){
-		//	$status = 'debit';
-		//}else if($value->rekening5_nb == 'K'){
-		//	$status = 'kredit';
-		//}
+		/*
+		if($value->rekening5_nb == 'D'){
+			$status = 'debit';
+		}else if($value->rekening5_nb == 'K'){
+			$status = 'kredit';
+		}
+		*/
 		
 		
 		
@@ -56,8 +58,8 @@
                 echo CHtml::textField("RekeningakuntansiV[$key][saldodebit]", 
                     0,
                     array(
-                        'class'=>'inputFormTabel integer2',
-                        'disabled'=>($status == 'debit' ? "" : "disabled"),
+                        'class'=>'inputFormTabel integer2'.($status == 'debit' ? " saldodebit" : ""),
+                        'disabled'=>($status == 'debit' ? false : true),
                     )
                 );
             echo '</td>';
@@ -65,8 +67,8 @@
                 echo CHtml::textField("RekeningakuntansiV[$key][saldokredit]",
                     0,
                     array(
-                        'class'=>'inputFormTabel integer2',
-                        'disabled'=>($status == 'kredit' ? "" : "disabled"),
+                        'class'=>'inputFormTabel integer2'.($status == 'kredit' ? " saldokredit" : ""),
+                        'disabled'=>($status == 'kredit' ? false : true),
                     )
                 );
             echo '</td>';
