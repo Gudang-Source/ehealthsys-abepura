@@ -20,6 +20,7 @@
 			if (data != null) {
 				$("#tblInputRekening > tbody").append(data.replace());
 				renameRowRekening();
+				hitungTotalHarga();
 			}
 		}, "json");
 	}
