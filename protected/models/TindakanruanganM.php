@@ -190,15 +190,12 @@ class TindakanruanganM extends CActiveRecord
                 return false;
             }else{
                 return true;
-            }
-                         
-                   
-            
-          
-            
-           
-            
-               
+            }     
+        }
+        
+        public function getNamaTindakan()
+        {
+            return $this->daftartindakan->daftartindakan_nama;
         }
         
        

@@ -4,7 +4,7 @@
 //print_r('aweu');
 //exit;
     $this->Widget('ext.jQPlot.jQPlotWidget', array(
-        'dataProvider' => $model->searchGrafik(),
+        'dataProvider' => isset($searchdata)?$searchdata:$model->searchGrafik(),
         'id'=>'tes',
         'type' => $data['type'],
         'options' => array(
