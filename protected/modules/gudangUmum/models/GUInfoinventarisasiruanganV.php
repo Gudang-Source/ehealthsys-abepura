@@ -100,6 +100,7 @@ class GUInfoinventarisasiruanganV extends InfoinventarisasiruanganV {
 				
 				$this->invbarang_jenis = Params::DEFAULT_JENISINVENTARISASI;
 				$criteria->compare('ruangan_id', Yii::app()->user->getState('ruangan_id'));
+				$criteria->addCondition('(t.inventarisasi_qty_in - t.inventarisasi_qty_out) > 0');
 				$criteria->limit = -1;
 				//$model = new GUForminvbarangdetR;
 				//$criteria->addCondition('formulirinvbarang_id = ' . $_GET['formulirinvbarang_id']);
