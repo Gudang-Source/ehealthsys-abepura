@@ -460,7 +460,11 @@ Class Params
         const GOLONGAN_UMUR_BALITA = 8; // 1-5thn
        
 
-
+		const ID_SIMPANAN_POKOK = 1;
+		const ID_SIMPANAN_WAJIB = 2;
+		const ID_SIMPANAN_SUKARELA = 3;
+		const ID_SIMPANAN_DEPOSITO = 4;
+		const ID_SIMPANAN_JASA_SUKARELA = 5;
         
         
 	//===   END KONSTANTA ===
