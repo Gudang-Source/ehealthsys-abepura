@@ -897,7 +897,7 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
             $model->status = $_GET['ROLaporanrekaptransaksi']['status'];
         }
-        $searchdata = $model->searchLapPembayaPeriksaRADGrafik();
+        $searchdata = $model->searchLapPemeriksaanRujukRADGrafik();
         $this->render('_grafik', array(
             'model' => $model,
             'data' => $data,
@@ -906,6 +906,139 @@ class LaporanController extends MyAuthController {
     }   
     
     // AKHIR LAPORAN Pembayaran pemeriksaan radiologi
+    
+    
+    // AWAL LAPORAN pemeriksaan rujukan radiologi
+    
+    public function actionLaporanPemeriksaanRujukanRAD()
+    {
+        $model = new ROLaporanPemeriksaanRujukanV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        if (isset($_GET['ROLaporanPemeriksaanRujukanV'])) {
+            $model->attributes = $_GET['ROLaporanPemeriksaanRujukanV'];
+            $model->jns_periode = $_GET['ROLaporanPemeriksaanRujukanV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['ROLaporanPemeriksaanRujukanV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ROLaporanPemeriksaanRujukanV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['ROLaporanPemeriksaanRujukanV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['ROLaporanPemeriksaanRujukanV']['bln_akhir']);
+            $model->thn_awal = $_GET['ROLaporanPemeriksaanRujukanV']['thn_awal'];
+            $model->thn_akhir = $_GET['ROLaporanPemeriksaanRujukanV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->namaperujuk = isset($_GET['ROLaporanPemeriksaanRujukanV']['namaperujuk'])?$_GET['ROLaporanPemeriksaanRujukanV']['namaperujuk']:null;
+        }
+         $searchdata = $model->searchLapPemeriksaanRujukRADGrafik();
+        $this->render('pemeriksaanRujukanRAD/admin',array(
+            'model'=>$model,'format'=>$format,'searchdata'=>$searchdata
+        ));
+    }
+
+    public function actionPrintLaporanPemeriksaanRujukanRAD()
+    {
+
+        $model = new ROLaporanPemeriksaanRujukanV;
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $judulLaporan = 'Laporan Pemeriksaan Rujukan Radiologi';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Pemeriksaan Rujukan Radiologi';
+        $data['type'] = isset($_GET['type'])?$_GET['type']:null;
+        if (isset($_REQUEST['ROLaporanPemeriksaanRujukanV'])) {
+                $model->attributes = $_REQUEST['ROLaporanPemeriksaanRujukanV'];
+                $model->jns_periode = $_REQUEST['ROLaporanPemeriksaanRujukanV']['jns_periode'];
+                $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['ROLaporanPemeriksaanRujukanV']['tgl_awal']);
+                $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ROLaporanPemeriksaanRujukanV']['tgl_akhir']);
+                $model->bln_awal = $format->formatMonthForDb($_REQUEST['ROLaporanPemeriksaanRujukanV']['bln_awal']);
+                $model->bln_akhir = $format->formatMonthForDb($_REQUEST['ROLaporanPemeriksaanRujukanV']['bln_akhir']);
+                $model->thn_awal = $_GET['ROLaporanPemeriksaanRujukanV']['thn_awal'];
+                $model->thn_akhir = $_GET['ROLaporanPemeriksaanRujukanV']['thn_akhir'];
+                $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+                $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+                switch($model->jns_periode){
+                    case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                    case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                    default : null;
+                }
+                $model->tgl_awal = $model->tgl_awal." 00:00:00";
+                $model->tgl_akhir = $model->tgl_akhir." 23:59:59";  
+                $model->namaperujuk = isset($_GET['ROLaporanPemeriksaanRujukanV']['namaperujuk'])?$_GET['ROLaporanPemeriksaanRujukanV']['namaperujuk']:null;
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = 'pemeriksaanRujukanRAD/_print';
+        $searchdata = $model->searchLapPemeriksaanRujukRADGrafik();
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target, $searchdata);
+    }   
+
+    public function actionFrameLaporanPemeriksaanRujukanRAD() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new ROLaporanPemeriksaanRujukanV;
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Pemeriksaan Rujukan Radiologi';
+        $data['type'] = isset($_GET['type'])?$_GET['type']:null;
+
+        if (isset($_REQUEST['ROLaporanPemeriksaanRujukanV'])) {
+            $model->attributes = $_GET['ROLaporanPemeriksaanRujukanV'];
+            $model->jns_periode = $_GET['ROLaporanPemeriksaanRujukanV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['ROLaporanPemeriksaanRujukanV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ROLaporanPemeriksaanRujukanV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['ROLaporanPemeriksaanRujukanV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['ROLaporanPemeriksaanRujukanV']['bln_akhir']);
+            $model->thn_awal = $_GET['ROLaporanPemeriksaanRujukanV']['thn_awal'];
+            $model->thn_akhir = $_GET['ROLaporanPemeriksaanRujukanV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";            
+            $model->namaperujuk = isset($_GET['ROLaporanPemeriksaanRujukanV']['namaperujuk'])?$_GET['ROLaporanPemeriksaanRujukanV']['namaperujuk']:null;
+        }
+        $searchdata = $model->searchLapPemeriksaanRujukRADGrafik();
+        $this->render('_grafik', array(
+            'model' => $model,
+            'data' => $data,
+            'searchdata'=>$searchdata,
+        ));
+    }   
+    
+    // AKHIR LAPORAN pemeriksaan rujukan radiologi
     
     protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target, $searchdata=null){
         $format = new MyFormatter();
