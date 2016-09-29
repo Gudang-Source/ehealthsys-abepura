@@ -2,7 +2,7 @@
     <td>
         <?php $row = isset($row) ? $row : 0; ?>
         <?php //echo $row; ?>
-        <?php echo CHtml::textField('noUrut', ($row+1), array('readonly'=>true, 'class'=>'span1 noUrut integer')); ?>
+        <?php echo CHtml::textField('noUrut', ($row+1), array('readonly'=>true, 'class'=>'span1 noUrut integer2')); ?>
         <?php echo CHtml::hiddenField('row', $row, array('readonly'=>true, 'class'=>'span1 row')); ?>
         <?php echo CHtml::activeHiddenField($modProduksiDetail,'['.$row.']hargasatuan', array('readonly'=>true,'class'=>'inputFormTabel lebar2')); ?>
         <?php echo CHtml::activeHiddenField($modProduksiDetail,'['.$row.']harganetto', array('readonly'=>true,'class'=>'inputFormTabel lebar2')); ?>
@@ -51,11 +51,11 @@
                     'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'required'),
         )); ?>
     </td>
-    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']dosis', array('onblur'=>'hitungQty(this);','class'=>'span1 integer','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
-    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']kemasan', array('onblur'=>'hitungQty(this);','class'=>'span1 integer','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
-    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']kekuatan', array('onblur'=>'hitungQty(this);','class'=>'span1 integer','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
-    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']qtyproduksi', array('class'=>'span1 integer','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
-    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']qtystok', array('class'=>'span1 integer','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
+    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']dosis', array('onblur'=>'hitungQty(this);','class'=>'span1 integer2','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
+    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']kemasan', array('onblur'=>'hitungQty(this);','class'=>'span1 integer2','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
+    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']kekuatan', array('onblur'=>'hitungQty(this);','class'=>'span1 integer2','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
+    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']qtyproduksi', array('class'=>'span1 integer2','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
+    <td><?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']qtystok', array('class'=>'span1 integer2','onkeypress'=>"return $(this).focusNextInputField(event);",)); ?></td>
     <td>
         <?php echo CHtml::activeHiddenField($modProduksiDetail,'['.$row.']satuankecil_id', array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeTextField($modProduksiDetail,'['.$row.']satuankecil_nama', array('readonly'=>true,'class'=>'span2')); ?>

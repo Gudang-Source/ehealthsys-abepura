@@ -1113,7 +1113,7 @@ class ActionAutoCompleteController extends Controller
                     foreach($attributes as $j=>$attribute) {
                         $returnVal[$i]["$attribute"] = $model->$attribute;
                     }
-                    $returnVal[$i]['label'] = $model->nama_pegawai;
+                    $returnVal[$i]['label'] = $model->gelardepan.' '.$model->nama_pegawai.' '.$model->gelarbelakang_nama;
                     $returnVal[$i]['value'] = $model->pegawai_id;
                 }
 

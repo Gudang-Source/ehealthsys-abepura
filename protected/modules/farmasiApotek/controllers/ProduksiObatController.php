@@ -111,6 +111,8 @@ class ProduksiObatController extends MyAuthController
                                 (empty($modObatalkesM->discountinue)?$modObatalkesM->discountinue=0:"");
                                 $modObatalkesM->tglkadaluarsa = MyFormatter::formatDateTimeForDb($_POST['FAObatalkesM']['tglkadaluarsa']);
 
+                                // var_dump($modObatalkesM->attributes); die;
+                                
                                 if($modObatalkesM->save()){
                                     $obat = $this->simpanStokObatAlkesIn2($modObatalkesM);
                                     //die;
@@ -498,7 +500,7 @@ class ProduksiObatController extends MyAuthController
                     $modProduksiDetail->harganetto = $oa->harganetto; //$stok->HPP;
                     $modProduksiDetail->hargasatuan = $oa->hargajual; //$stok->HargaJualSatuan;
                     $modProduksiDetail->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
-                    $modProduksiDetail->qtystok = 0; //$stok->qtystok_in - $stok->qtystok_out;
+                    $modProduksiDetail->qtystok = $oa->stokObatRuangan; //0; //$stok->qtystok_in - $stok->qtystok_out;
                     $modProduksiDetail->obatalkes_nama = $oa->obatalkes_nama; //$modProduksiDetail->obatalkes->obatalkes_nama;
                     $modProduksiDetail->obatalkes_kode = $oa->obatalkes_kode; //$modProduksiDetail->obatalkes->obatalkes_kode;
                     $modProduksiDetail->hpp = $oa->hpp; //$modProduksiDetail->obatalkes->hpp;

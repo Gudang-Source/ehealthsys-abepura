@@ -7,7 +7,7 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
     public $harganetto_oa;
     public $jenisobatalkes_kode;
     public $jnskelompok, $lookup_name;
-   
+    public $status;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -431,6 +431,92 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
                     return StokobatalkesT::getJumlahStok($this->obatalkes_id,$ruangan_id, $this->tglkadaluarsa);
             }
 	}
+        
+        
+        public function searchObatAlkesKadaluarsa() {
+            $criteria = new CDbCriteria();
+            $criteria = $this->functionObatAlkesKadaluarsa();
+            $criteria->order = 'instalasi_nama ASC, ruangan_nama ASC';
+
+            return new CActiveDataProvider($this, array(
+                        'criteria' => $criteria,
+                    ));
+        }
+
+        public function searchObatAlkesKadaluarsaPrint() {
+            $criteria = new CDbCriteria();
+            $criteria = $this->functionObatAlkesKadaluarsa();
+            $criteria->order = 'instalasi_nama ASC, ruangan_nama ASC, obatalkes_nama ASC';
+            $criteria->limit = -1;
+
+            return new CActiveDataProvider($this, array(
+                        'criteria' => $criteria,
+                        'pagination' => false,
+                    ));
+        }
+
+        protected function functionObatAlkesKadaluarsa() {
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.            
+            $criteria = new CDbCriteria;
+            $criteria->select = "ruangan_id,harganetto,instalasi_nama, ruangan_nama,obatalkes_id,obatalkes_nama,obatalkes_golongan,obatalkes_kategori,jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa";                        
+            $criteria->addBetweenCondition('tglkadaluarsa',$this->tgl_awal,$this->tgl_akhir,true);                                               
+            $criteria->compare("obatalkes_nama",$this->obatalkes_nama,TRUE);
+            $criteria->compare("obatalkes_kode",$this->obatalkes_kode,TRUE);
+            if(!empty($this->ruangan_id)){                    
+                $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+            }else{
+               if (!empty($this->instalasi_id)){
+                   $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+               }
+            }
+             if (!empty($this->status)){
+                    if ($this->status == '1'){
+                        $criteria->addCondition(" tglkadaluarsa <= now() ");
+                    }else{
+                        $criteria->addCondition(" tglkadaluarsa >= now() ");
+                    }
+                }
+            $criteria->group = 'ruangan_id,harganetto,instalasi_nama, ruangan_nama,obatalkes_id, obatalkes_nama,obatalkes_golongan,obatalkes_kategori, jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa';
+
+
+            return $criteria;
+        }
+
+        public function searchGrafikObatAlkesKadaluarsa()
+        {
+                    // Warning: Please modify the following code to remove attributes that
+                    // should not be searched.
+
+                $criteria=new CDbCriteria;
+
+                //$criteria->select = "count(formuliropname_id) as jumlah, (CASE WHEN stokopname_id IS NOT NULL THEN 'Sudah Stok Opname' ELSE 'Belum Stok Opname' END) as data";
+                $criteria->select = "ruangan_id,harganetto,instalasi_nama, ruangan_nama,count(obatalkes_id) as jumlah,obatalkes_nama,obatalkes_golongan,obatalkes_kategori,jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, (CASE WHEN (tglkadaluarsa <= now()) THEN 'Sudah Kadaluarsa' ELSE 'Belum Kadaluarsa' END ) as data";                        
+                $criteria->addBetweenCondition('tglkadaluarsa',$this->tgl_awal,$this->tgl_akhir,true);                           
+                $criteria->compare("obatalkes_nama",$this->obatalkes_nama,TRUE);
+                $criteria->compare("obatalkes_kode",$this->obatalkes_kode,TRUE);
+                if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }                
+                if (!empty($this->status)){
+                    if ($this->status == '1'){
+                        $criteria->addCondition(" tglkadaluarsa <= now() ");
+                    }else{
+                        $criteria->addCondition(" tglkadaluarsa >= now() ");
+                    }
+                }
+                $criteria->group = 'ruangan_id,harganetto,instalasi_nama, ruangan_nama,obatalkes_id, obatalkes_nama,obatalkes_golongan,obatalkes_kategori, jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa';
+               
+
+
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                ));
+        }        
         
 }
 

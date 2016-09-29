@@ -1009,6 +1009,8 @@ class LaporanController extends MyAuthController
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GFInformasiformuliropnameV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['GFInformasiformuliropnameV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['GFInformasiformuliropnameV']['bln_akhir']);
+            $model->thn_awal = $_GET['GFInformasiformuliropnameV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInformasiformuliropnameV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -1049,7 +1051,9 @@ class LaporanController extends MyAuthController
             $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['GFInformasiformuliropnameV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFInformasiformuliropnameV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_awal']);
-            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_akhir']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_akhir']);            
+            $model->thn_awal = $_GET['GFInformasiformuliropnameV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInformasiformuliropnameV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -1092,6 +1096,8 @@ class LaporanController extends MyAuthController
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFInformasiformuliropnameV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInformasiformuliropnameV']['bln_akhir']);
+            $model->thn_awal = $_GET['GFInformasiformuliropnameV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInformasiformuliropnameV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -1110,6 +1116,260 @@ class LaporanController extends MyAuthController
         ));
     }
     /* end laporan formulir opname */
+    
+    /* laporan Tanggal Kadaluarsa */
+     public function actionObatAlkesKadaluarsa() {
+        $model = new GFInfostokobatalkesruanganV('search');                       
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        if (isset($_GET['GFInfostokobatalkesruanganV'])) {
+            $format = new MyFormatter();            
+            $model->attributes = $_GET['GFInfostokobatalkesruanganV'];
+            $model->jns_periode = $_GET['GFInfostokobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['GFInfostokobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GFInfostokobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GFInfostokobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GFInfostokobatalkesruanganV']['bln_akhir']);            
+            $model->thn_awal = $_GET['GFInfostokobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInfostokobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";    
+            $model->status = $_GET['GFInfostokobatalkesruanganV']['status'];
+        }
+        $grafik = $model->searchGrafikObatAlkesKadaluarsa();
+        $this->render('obatAlkesKadaluarsa/admin', array(
+            'model' => $model,'format'=>$format, 'grafik'=>$grafik
+        ));
+    }
+
+    public function actionPrintObatAlkesKadaluarsa() {
+        $model = new GFInfostokobatalkesruanganV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $judulLaporan = 'Laporan Obat Alkes Kadaluarsa';
+
+        //Data Grafik       
+        $data['title'] = 'Grafik Obat Alkes Kadaluarsa';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : null);
+        if (isset($_REQUEST['GFInfostokobatalkesruanganV'])) {
+            $format = new MyFormatter();
+            $model->attributes = $_REQUEST['GFInfostokobatalkesruanganV'];
+            $model->jns_periode = $_REQUEST['GFInfostokobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['GFInfostokobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFInfostokobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFInfostokobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInfostokobatalkesruanganV']['bln_akhir']);
+            $model->thn_awal = $_GET['GFInfostokobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInfostokobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";  
+            $model->status = $_GET['GFInfostokobatalkesruanganV']['status'];
+        }
+        
+        $caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
+        $target = 'obatAlkesKadaluarsa/_print';
+        $grafik = $model->searchGrafikObatAlkesKadaluarsa();
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target, $grafik);
+    }
+
+    public function actionFrameGrafikObatAlkesKadaluarsa() {
+        $this->layout = '//layouts/iframe';
+        $model = new GFInfostokobatalkesruanganV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Obat Alkes Kadaluarsa';
+        $data['type'] = $_GET['type'];
+        if (isset($_GET['GFInfostokobatalkesruanganV'])) {
+            $model->attributes = $_GET['GFInfostokobatalkesruanganV'];
+            $format = new MyFormatter();
+            $model->jns_periode = $_REQUEST['GFInfostokobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['GFInfostokobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFInfostokobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFInfostokobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInfostokobatalkesruanganV']['bln_akhir']);
+            $model->thn_awal = $_GET['GFInfostokobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInfostokobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";    
+            $model->status = $_GET['GFInfostokobatalkesruanganV']['status'];
+        }
+        $grafik = $model->searchGrafikObatAlkesKadaluarsa();
+        $this->render('_grafik', array(
+            'model' => $model,'format'=>$format,
+            'data' => $data, 'grafik'=>$grafik
+        ));
+    }
+    /* end laporan tanggal kadaluarsa */
+    
+    /* laporan permintaan penawaran */
+     public function actionLaporanPermintaanPenawaran() {
+        $model = new GFInformasipermintaanpenawaranV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        if (isset($_GET['GFInformasipermintaanpenawaranV'])) {
+            $format = new MyFormatter();
+            $model->attributes = $_GET['GFInformasipermintaanpenawaranV'];
+            $model->jns_periode = $_GET['GFInformasipermintaanpenawaranV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['GFInformasipermintaanpenawaranV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GFInformasipermintaanpenawaranV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GFInformasipermintaanpenawaranV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GFInformasipermintaanpenawaranV']['bln_akhir']);
+            $model->thn_awal = $_GET['GFInformasipermintaanpenawaranV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInformasipermintaanpenawaranV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";            
+        }
+        $grafik = $model->searchGrafikLaporanInformasiPenawaran();
+        $this->render('permintaanPenawaran/admin', array(
+            'model' => $model,'format'=>$format, 'grafik'=>$grafik
+        ));
+    }
+
+    public function actionPrintLaporanPermintaanPenawaran() {
+        $model = new GFInformasipermintaanpenawaranV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $judulLaporan = 'Laporan Permintaan Penawaran';
+        
+        //Data Grafik       
+        $data['title'] = 'Grafik Laporan Permintaan Penawaran';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : null);
+        if (isset($_REQUEST['GFInformasipermintaanpenawaranV'])) {
+            $format = new MyFormatter();
+            $model->attributes = $_REQUEST['GFInformasipermintaanpenawaranV'];
+            $model->jns_periode = $_REQUEST['GFInformasipermintaanpenawaranV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['GFInformasipermintaanpenawaranV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFInformasipermintaanpenawaranV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFInformasipermintaanpenawaranV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInformasipermintaanpenawaranV']['bln_akhir']);            
+            $model->thn_awal = $_GET['GFInformasipermintaanpenawaranV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInformasipermintaanpenawaranV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            
+        }
+        $grafik = $model->searchGrafikLaporanInformasiPenawaran();
+        $caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
+        $target = 'permintaanPenawaran/_print';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target, $grafik);
+    }
+
+    public function actionFrameGrafikLaporanPermintaanPenawaran() {
+        $this->layout = '//layouts/iframe';
+        $model = new GFInformasipermintaanpenawaranV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Permintaan Penawaran';
+        $data['type'] = $_GET['type'];
+        if (isset($_GET['GFInformasipermintaanpenawaranV'])) {
+            $model->attributes = $_GET['GFInformasipermintaanpenawaranV'];
+            $format = new MyFormatter();
+            $model->jns_periode = $_REQUEST['GFInformasipermintaanpenawaranV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['GFInformasipermintaanpenawaranV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFInformasipermintaanpenawaranV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFInformasipermintaanpenawaranV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFInformasipermintaanpenawaranV']['bln_akhir']);
+            $model->thn_awal = $_GET['GFInformasipermintaanpenawaranV']['thn_awal'];
+            $model->thn_akhir = $_GET['GFInformasipermintaanpenawaranV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";            
+        }
+        $grafik = $model->searchGrafikLaporanInformasiPenawaran();
+        $this->render('_grafik', array(
+            'model' => $model,'format'=>$format,
+            'data' => $data, 'grafik'=>$grafik
+        ));
+    }
+    /* end laporan permintaan penawaran */
     
         public function actionLaporanPermintaanPembelian()
         {
@@ -1406,7 +1666,7 @@ class LaporanController extends MyAuthController
      * end Laporan Penerimaan Items Berdasarkan Jenis
      */
 /* ============================= Keperluan function laporan ======================================== */
-    protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target){
+    protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target, $grafik=''){
         $format = new MyFormatter();
 //        $model->tgl_awal = date('Y-m-d h:i:s',strtotime($model->tgl_awal));
 //        $model->tgl_akhir = date('Y-m-d h:i:s',strtotime($model->tgl_akhir));
@@ -1414,7 +1674,7 @@ class LaporanController extends MyAuthController
 //        var_dump($model->tgl_awal);
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
             $this->layout = '//layouts/printWindows2';
-            $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+            $this->render($target, array('grafik'=>$grafik,'model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
             $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
