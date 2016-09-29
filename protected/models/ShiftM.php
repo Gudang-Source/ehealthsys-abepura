@@ -222,13 +222,16 @@ class ShiftM extends CActiveRecord
                             
                     if ($get == 1){
                         if ( ($jam_masuk == '08:00:00') OR ($jam_masuk == '08:15:00')){
-                            return '08:15:00';
+                            //return '08:15:00';
+                            return $this->getWaktu($masuk,'masuk');
+                            
                         }else{
                             return $pecah2[0];
                         }
                     }else{
                         if ($pecah2[1]){
-                            return '14:00:00';
+                            //return '14:00:00';
+                            return $this->getWaktu($pulang,'pulang');
                         }else{
                             return $pecah2[1];
                         }
@@ -238,6 +241,7 @@ class ShiftM extends CActiveRecord
             }
             
         }
+               
         
         public function getJamMasuk($jam_masuk)
         {
@@ -278,6 +282,41 @@ class ShiftM extends CActiveRecord
                 return 'Malam / 21:00:00 s/d 08:00:00';
             }else{
                 return '-';
+            }
+        }
+        
+        
+        public function getWaktu($jam,$get=null){
+            $waktu = date('H:i:s', strtotime($jam));
+         
+            if ($get=='masuk'){                         
+                if ( ($waktu >= '03:00:00') AND ($waktu <= '06:59:59'))
+                {
+                    return '04:00:00';
+                }elseif ( ($waktu >= '07:00:00') AND ($waktu <= '12:59:59'))
+                {
+                    return '08:15:00';
+                }elseif ( ($waktu >= '13:00:00') AND ($waktu <= '19:59:59'))
+                {
+                    return '14:00:00';
+                }else{
+                       
+                    return '21:00:00';
+                }
+            }else{
+                
+                if ( ($waktu >= '04:00:00') AND ($waktu <= '08:59:59'))
+                {
+                    return '07:00:00';
+                }elseif ( ($waktu >= '09:00:00') AND ($waktu <= '15:59:59'))
+                {                    
+                    return '14:00:00';
+                }elseif ( ($waktu >= '16:00:00') AND ($waktu <= '21:59:59'))
+                {
+                    return '21:00:00';
+                }else{                    
+                    return '08:00:00';
+                }
             }
         }
         
