@@ -398,7 +398,10 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('profilrs_id',$this->profilrs_id);
 		$criteria->compare('gelarbelakang_id',$this->gelarbelakang_id);
 		$criteria->compare('suku_id',$this->suku_id);
-		$criteria->compare('kelompokpegawai_id',$this->kelompokpegawai_id);
+                if (!empty($this->kelompokpegawai_id)){
+                    $criteria->addCondition('kelompokpegawai_id ='.$this->kelompokpegawai_id);
+                }
+		
 		$criteria->compare('pendkualifikasi_id',$this->pendkualifikasi_id);
 		$criteria->compare('jabatan_id',$this->jabatan_id);
 		$criteria->compare('pendidikan_id',$this->pendidikan_id);
