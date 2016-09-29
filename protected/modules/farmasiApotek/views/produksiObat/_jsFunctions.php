@@ -1,3 +1,8 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
+
 <script type="text/javascript">
 var row_produksi_first = new String(<?php echo CJSON::encode($this->renderPartial('_rowDetailProduksi',array('form'=>$form,'modProduksiDetail'=>$modProduksiDetail,'model'=>$model, 'is_adatombolhapus'=>false),true));?>);
 var row_produksi = new String(<?php echo CJSON::encode($this->renderPartial('_rowDetailProduksi',array('form'=>$form,'modProduksiDetail'=>$modProduksiDetail, 'model'=>$model, 'is_adatombolhapus'=>true),true));?>);
@@ -50,8 +55,8 @@ function submitObat_old(obatalkes_id)
                 }
                 if(tambahkandetail){
                     $('#tblDetailProduksi > tbody').append(data.form);
-                    $("#tblDetailProduksi").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                    $("#tblDetailProduksi > tbody tr:last").find('.integer2').maskMoney(
+                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
 //                    renameInputRowObatAlkes($("#tblDetailProduksi"));                    
 //                    hitungTotal();
@@ -77,8 +82,8 @@ function submitObat_old(obatalkes_id)
 //                renameInput('FAProduksiobatdetT','qtyproduksi');
 //                renameInput('FAProduksiobatdetT','satuankecil_nama');
 //                renameInput('FAProduksiobatdetT','stokobatalkes_id');
-//                $("#tblDetailProduksi tbody").find('.integer').maskMoney({"defaultZero":true, "allowZero":true, "decimal":",", "thousands":".", "symbol":null, "precision":0});
-//                $("#tblDetailProduksi tbody").find('.float').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":2});
+//                $("#tblDetailProduksi tbody").find('.integer2').maskMoney({"defaultZero":true, "allowZero":true, "decimal":",", "thousands":".", "symbol":null, "precision":0});
+//                $("#tblDetailProduksi tbody").find('.float2').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":2});
 //                clear();
 //                
 //            }, "json");
@@ -125,10 +130,10 @@ function cekObat(){
 			}
 		
         $(".animation-loading").removeClass("animation-loading");
-        $("form").find('.float').each(function(){
+        $("form").find('.float2').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
