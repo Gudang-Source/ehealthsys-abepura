@@ -9,9 +9,9 @@ class LaporanController extends MyAuthController {
 // -- Laporan Kunjungan --//
     // -- VIEW LAPORAN -- //
     public function actionLaporanKunjunganRJ() {
-        $model = new PPInfoKunjunganRJV('searchRJ');
-        $format = new MyFormatter();
+        $model = new PPInfoKunjunganRJV('searchRJ');        
         $model->unsetAttributes();
+        $format = new MyFormatter();        
         $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
         $model->tgl_akhir = date('Y-m-d');
@@ -19,9 +19,11 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
+        
 
         if (isset($_GET['PPInfoKunjunganRJV'])) {
             $model->attributes = $_GET['PPInfoKunjunganRJV'];            
+            $format = new MyFormatter();
             $model->jns_periode = $_GET['PPInfoKunjunganRJV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRJV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInfoKunjunganRJV']['tgl_akhir']);

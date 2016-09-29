@@ -5,6 +5,15 @@ class LaporanSIRSController extends MyAuthController
     public function actionIndex()
     {
         $model = new MenumodulK('search');
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        
         $this->render('sirs', array(
             'model' => $model,
         ));
@@ -793,13 +802,31 @@ class LaporanSIRSController extends MyAuthController
     
      public function actionDataDasarRS()
     {
-        $model = new Rl1datarsV('search');
+        $model = new Rl1datarsV('search');                
+            
         if (isset($_GET['Rl1datarsjmbedV'])){
-            $model->attributes = $_GET['Rl1datarsjmbedV'];        
+            $model->attributes = $_GET['Rl1datarsjmbedV'];              
         }
+        
         $format = new MyFormatter();
-        $tgl_awal = $format->formatDateTimeForDB($_REQUEST['tgl_awal']);
-        $tgl_akhir = $format->formatDateTimeForDB($_REQUEST['tgl_akhir']);
+        $model->jns_periode = $_REQUEST['jns_periode'];
+        $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['tgl_awal']);
+        $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['tgl_akhir']);
+        $model->bln_awal = $format->formatMonthForDb($_REQUEST['bln_awal']);
+        $model->bln_akhir = $format->formatMonthForDb($_REQUEST['bln_akhir']);
+        $model->thn_awal = $_REQUEST['thn_awal'];
+        $model->thn_akhir = $_REQUEST['thn_akhir'];
+        $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+        $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+        switch($model->jns_periode){
+            case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+            case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+            default : null;
+        }
+        $model->tgl_awal = $model->tgl_awal." 00:00:00";
+        $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        $tgl_awal = $model->tgl_awal;
+        $tgl_akhir = $model->tgl_akhir;
 
         // $model->kelaspelayanan_nama = $_GET['Rl1datarsjmbedV'];
         // print_r($model->kelaspelayanan_nama);exit();
@@ -817,7 +844,7 @@ class LaporanSIRSController extends MyAuthController
         $rows = array();
         $i=0;
 
-        $table = '<table width="100%" height="100%" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' class="table table-striped table-bordered table-condensed">';
+        $table = '<table style="width:100%"  class="table border">';
         $table .= '<tbody>';
         
         $i = 0;
@@ -922,7 +949,20 @@ class LaporanSIRSController extends MyAuthController
                 $table .= '<td>'.$b['tglakreditasi'].'</td>';
             }elseif($i==29){
                 $table .= '<td></td>';
-            }
+            }elseif($i==30){//kelas awal
+                $table .= '<td></td>';
+            }elseif($i==31){
+                $table .= '<td></td>';
+            }elseif($i==32){
+                $table .= '<td></td>';
+            }elseif($i==33){
+                $table .= '<td></td>';
+            }elseif($i==34){
+                $table .= '<td></td>';
+            }elseif($i==35){
+                $table .= '<td></td>';
+            }//kelas akhir
+            
 //        foreach ($records2 as $c) {
 //                // $rows2[] = array(
 //                //     $c['kelaspelayanan_nama'], $c['kelaspelayanan_id']
@@ -1072,8 +1112,25 @@ class LaporanSIRSController extends MyAuthController
     {
         $model = new RKrl13FastempattidurV;
         $format = new MyFormatter();
-        $tgl_awal = $format->formatDateTimeForDB($_REQUEST['tgl_awal']);
-        $tgl_akhir = $format->formatDateTimeForDB($_REQUEST['tgl_akhir']);
+        $model->jns_periode = $_REQUEST['jns_periode'];
+        $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['tgl_awal']);
+        $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['tgl_akhir']);
+        $model->bln_awal = $format->formatMonthForDb($_REQUEST['bln_awal']);
+        $model->bln_akhir = $format->formatMonthForDb($_REQUEST['bln_akhir']);
+        $model->thn_awal = $_REQUEST['thn_awal'];
+        $model->thn_akhir = $_REQUEST['thn_akhir'];
+        $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+        $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+        switch($model->jns_periode){
+            case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+            case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+            default : null;
+        }
+        $model->tgl_awal = $model->tgl_awal." 00:00:00";
+        $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        $tgl_awal = $model->tgl_awal;
+        $tgl_akhir = $model->tgl_akhir;
+       
         // $sql = "
         //     SELECT jeniskasuspenyakit_id, jeniskasuspenyakit_nama, sum(jlmtt) as jlmtt FROM rl1_3_fastempattidur_v WHERE instalasi_id = ".PARAMS::INSTALASI_ID_RI." group by jeniskasuspenyakit_id, jeniskasuspenyakit_nama
         //     order by jeniskasuspenyakit_id asc";
@@ -1122,37 +1179,37 @@ class LaporanSIRSController extends MyAuthController
         {
             
             $rows[$i] = array(
-                '<td style=text-align:center;>'. ($i+1).'</td>',
+                '<td style="text-align:center;">'. ($i+1).'</td>',
                 '<td>'.$row['jeniskasuspenyakit_nama'].'</td>',
-                '<td>'.$row['jlmtt'].'</td>',
+                '<td style="text-align:right;">'.number_format($row['jlmtt'],0,"",".").'</td>',
             );
 			if(count($modKelas) > 0){
 				foreach($modKelas AS $ii => $kelas){
-					$rows[$i] = array_merge($rows[$i], array('<td>'.$row->getSumPelayanan($row['jeniskasuspenyakit_id'],$kelas->kelaspelayanan_id, PARAMS::INSTALASI_ID_RI).'</td>'));
+					$rows[$i] = array_merge($rows[$i], array('<td style="text-align:right;">'.number_format($row->getSumPelayanan($row['jeniskasuspenyakit_id'],$kelas->kelaspelayanan_id, PARAMS::INSTALASI_ID_RI),0,"",".").'</td>'));
 				}
 			}
             $total_jumlah += $row['jlmtt'];
         }
         
-        $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
-        $table .= '<thead>';
+        $table = '<table cellpadding="2" cellspacing="0" class="table border">';
+        $table .= '';
         $table .= '<tr>'. implode($header, "") .'</tr>'.'<tr>'.implode($header2,"").'</tr>';
-        $table .= '</tr>';
-        $table .= '</thead>';
+        $table .= '';
+        $table .= '';
         $table .= '<tbody>';
         $table .= '<tr>';
-        $table .= implode($tdCount, "");
+        $table .= implode($tdCount, "").'</tr>';
         foreach($rows as $xxx)
         {
-            $table .= '<tr>'. implode($xxx, '') . '<tr>';
+            $table .= '<tr>'. implode($xxx, '') . '</tr>';
         }
-        $table .= '<tr><td></td><td></td><td><b>Total</b></td>';
+        $table .= '<tr><td></td><td></td><td style="text-align:right;"><b>Total</b></td>';
 		if(count($modKelas) > 0){
 			foreach($modKelas AS $ii => $kelas){
-				$table .= '<td>'. $model->getSumTotal($kelas->kelaspelayanan_id, PARAMS::INSTALASI_ID_RI) .'</td>';
+				$table .= '<td style="text-align:right;">'. number_format($model->getSumTotal($kelas->kelaspelayanan_id, PARAMS::INSTALASI_ID_RI),0,"",".") .'</td>';
 			}
 		}
-        $table .= '</tbody>';
+        $table .= '</tr></tbody>';
         $table .= '</table>';        
         
         if($_GET['caraPrint'] == 'PDF')
@@ -1934,8 +1991,24 @@ class LaporanSIRSController extends MyAuthController
     {
         $model = new RKrl2KetenagaanV;
         $format = new MyFormatter();
-        $tgl_awal = $format->formatDateTimeForDB($_REQUEST['tgl_awal']);
-        $tgl_akhir = $format->formatDateTimeForDB($_REQUEST['tgl_akhir']);
+        $model->jns_periode = $_REQUEST['jns_periode'];
+        $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['tgl_awal']);
+        $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['tgl_akhir']);
+        $model->bln_awal = $format->formatMonthForDb($_REQUEST['bln_awal']);
+        $model->bln_akhir = $format->formatMonthForDb($_REQUEST['bln_akhir']);
+        $model->thn_awal = $_REQUEST['thn_awal'];
+        $model->thn_akhir = $_REQUEST['thn_akhir'];
+        $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+        $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+        switch($model->jns_periode){
+            case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+            case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+            default : null;
+        }
+        $model->tgl_awal = $model->tgl_awal." 00:00:00";
+        $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        $tgl_awal = $model->tgl_awal;
+        $tgl_akhir = $model->tgl_akhir;
      
         $criteria=new CDbCriteria;
         $criteria->select = 'kelompokpegawai_id, kelompokpegawai_nama, jeniskelamin, pendkualifikasi_id, pendkualifikasi_nama, jmlkeadaanskrg, jmlkeblaki, jmlkebperempuan';
@@ -2005,14 +2078,14 @@ class LaporanSIRSController extends MyAuthController
             if ($model->cekPendidikanKualifikasi($row['pendkualifikasi_id'], $row['jeniskelamin']) === true):
                 
                  $rows[] = array(
-                '<td style=text-align:center;>'.$no.'</td>',
+                '<td style="text-align:center;">'.$no.'</td>',
                 '<td>'.$row['pendkualifikasi_nama'].'</td>',
-                '<td>'.$model->getSumKeadaan($row['pendkualifikasi_id'],PARAMS::JENIS_KELAMIN_LAKI_LAKI).'</td>',
-                '<td>'.$model->getSumKeadaan($row['pendkualifikasi_id'],PARAMS::JENIS_KELAMIN_PEREMPUAN).'</td>',
-                '<td>'.$row['jmlkeblaki'].'</td>',
-                '<td>'.$row['jmlkebperempuan'].'</td>',
-                '<td>'.$totalLaki.'</td>',
-                '<td>'.$totalPerempuan.'</td>',                   
+                '<td style = "text-align:right;">'.number_format($model->getSumKeadaan($row['pendkualifikasi_id'],PARAMS::JENIS_KELAMIN_LAKI_LAKI),0,"",".").'</td>',
+                '<td style = "text-align:right;">'.number_format($model->getSumKeadaan($row['pendkualifikasi_id'],PARAMS::JENIS_KELAMIN_PEREMPUAN),0,"",".").'</td>',
+                '<td style = "text-align:right;">'.number_format($row['jmlkeblaki'],0,"",".").'</td>',
+                '<td style = "text-align:right;">'.number_format($row['jmlkebperempuan'],0,"",".").'</td>',
+                '<td style = "text-align:right;">'.number_format($totalLaki,0,"",".").'</td>',
+                '<td style = "text-align:right;">'.number_format($totalPerempuan,0,"",".").'</td>',                   
                 );
             else:    
                 $no = $no -1;
@@ -2042,24 +2115,24 @@ class LaporanSIRSController extends MyAuthController
         }
 
 
-        $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
-        $table .= '<thead>';
+        $table = '<table cellpadding="2" cellspacing="0" class="table border">';
+        $table .= '';
         $table .= '<tr>'. implode($header, "") .'</tr>'.'<tr>'.implode($header2,"").'</tr>';
-        $table .= '</tr>';
-        $table .= '</thead>';
+        $table .= '';
+        $table .= '';
         $table .= '<tbody>';
         $table .= '<tr>';
-        $table .= implode($tdCount, "");
+        $table .= implode($tdCount, "").'</tr>';
         foreach($rows as $xxx)
         {
             $table .= '<tr>'. implode($xxx, '') . '<tr>';
         }
-         $table .= '<tr><td></td><td><b>Total</b></td><td>' . $model->getSumTotal(PARAMS::JENIS_KELAMIN_LAKI_LAKI) .'</td><td>'
-                                                            . $model->getSumTotal(PARAMS::JENIS_KELAMIN_PEREMPUAN) .'</td><td>'
-                                                            . $model->getSumkebutuhanL() .'</td><td>'
-                                                            . $model->getSumkebutuhanP() .'</td><td>'
-                                                            . $kurangLaki .'</td><td>'
-                                                            . $kurangPerempuan .'</td><tr>';
+         $table .= '<tr><td></td><td style = "text-align:right;"><b>Total</b></td><td style = "text-align:right;">' . number_format($model->getSumTotal(PARAMS::JENIS_KELAMIN_LAKI_LAKI),0,"",".") .'</td><td style = "text-align:right;">'
+                                                            . number_format($model->getSumTotal(PARAMS::JENIS_KELAMIN_PEREMPUAN),0,"",".") .'</td><td style = "text-align:right;">'
+                                                            . number_format($model->getSumkebutuhanL(),0,"",".") .'</td><td style = "text-align:right;">'
+                                                            . number_format($model->getSumkebutuhanP(),0,"",".") .'</td><td style = "text-align:right;">'
+                                                            . number_format($kurangLaki,0,"",".") .'</td><td style = "text-align:right;">'
+                                                            . number_format($kurangPerempuan,0,"",".") .'</td><tr>';
         $table .= '</tbody>';
         $table .= '</table>';
         
@@ -2419,9 +2492,26 @@ class LaporanSIRSController extends MyAuthController
     
     public function actionKegiatanPelayananRS()
     {
+        $model = new MenumodulK;
         $format = new MyFormatter();
-        $tgl_awal = $format->formatDateTimeForDB($_REQUEST['tgl_awal']);
-        $tgl_akhir = $format->formatDateTimeForDB($_REQUEST['tgl_akhir']);
+        $model->jns_periode = $_GET['jns_periode'];
+        $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['tgl_awal']);
+        $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['tgl_akhir']);
+        $model->bln_awal = $format->formatMonthForDb($_REQUEST['bln_awal']);
+        $model->bln_akhir = $format->formatMonthForDb($_REQUEST['bln_akhir']);
+        $model->thn_awal = $_REQUEST['thn_awal'];
+        $model->thn_akhir = $_REQUEST['thn_akhir'];
+        $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+        $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+        switch($model->jns_periode){
+            case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+            case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+            default : null;
+        }
+        $model->tgl_awal = $model->tgl_awal." 00:00:00";
+        $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        $tgl_awal = $model->tgl_awal;
+        $tgl_akhir = $model->tgl_akhir;
         $tanggal_awal = explode('-',$tgl_awal);
         $tanggal_akhir = explode('-',$tgl_akhir);
         
@@ -2439,7 +2529,7 @@ class LaporanSIRSController extends MyAuthController
                             propinsi,
                             kabupaten,
                             profilrs_id,
-                            koders,
+                           
                             namars,
                             sum(bor) AS bor,
                             avg(los) AS los,
@@ -2451,9 +2541,9 @@ class LaporanSIRSController extends MyAuthController
                             propinsi,
                             kabupaten,
                             profilrs_id,
-                            koders,
-                            namars";
-        //$criteria->addCondition("namars = 'RSUD ABEPURA' ");
+                          
+                            namars";//  koders,
+       // $criteria->addCondition("namars = 'RSUD ABEPURA' ");
         $criteria->addBetweenCondition('tgl_laporan',$tgl_awal,$tgl_akhir);
         $records = RKRl12IndikatorpelayananrumahsakitV::model()->findAll($criteria);
 
@@ -2464,8 +2554,12 @@ class LaporanSIRSController extends MyAuthController
         $criteria2->addBetweenCondition('tgl_pendaftaran',$tgl_awal,$tgl_akhir);
         $criteria2->addCondition("pasienbatalperiksa_id IS NULL");
         $records2 = RKPendaftaranT::model()->findAll($criteria2);
-
-
+        
+        $kunjungan = array();
+        foreach ($records2 as $per){
+            $kunjungan['kunjunganperhari'] = $per->kunjunganperhari;
+        }
+        
         $header = array(
             '<th style="text-align:center;vertical-align:middle;">Tahun</th>', 
             '<th style="text-align:center;vertical-align:middle;">BOR</th>', 
@@ -2498,14 +2592,14 @@ class LaporanSIRSController extends MyAuthController
         if(count($records) > 0){
             foreach($records as $i=>$record){
                 $rows[] = array(
-                    '<td style=text-align:center;>'. $record['tahun'].'</td>',
-                    '<td style=text-align:center;>'.$record['bor'].'</td>',
+                    '<td style="text-align:center;">'. $record['tahun'].'</td>',
+                    '<td style="text-align:center;">'.$record['bor'].'</td>',
                     '<td style="text-align:center;width:100px;">'.$record['los'].'</td>',
                     '<td style="text-align:center;width:100px;">'.$record['bto'].'</td>',
                     '<td style="text-align:center;width:100px;">'.$record['toi'].'</td>',
-                    '<td style=text-align:center;>'.$record['ndr'].'</td>',
-                    '<td style=text-align:center;>'.$record['gdr'].'</td>',
-                    '<td style=text-align:center;>'.$records2[$i]['kunjunganperhari'].'</td>',                    
+                    '<td style="text-align:center;">'.$record['ndr'].'</td>',
+                    '<td style="text-align:center;">'.$record['gdr'].'</td>',
+                    '<td style="text-align:center;">'.$kunjungan['kunjunganperhari'].'</td>',                    
                 );                
             }   
         }else{
@@ -2514,14 +2608,15 @@ class LaporanSIRSController extends MyAuthController
                 );
         }
 
-        $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
+        $table = '<table   cellpadding="2" cellspacing="0" class="table border">';
         $table .= '<thead>';
         $table .= '<tr>'. implode($header, "") .'</tr>';
-        $table .= '</tr>';
+        $table .= '';
         $table .= '</thead>';
         $table .= '<tbody>';
         $table .= '<tr>';
         $table .= implode($tdCount, "");
+        $table .= '</tr>';
         foreach($rows as $row)
         {
             $table .= '<tr>'. implode($row, '') . '<tr>';
