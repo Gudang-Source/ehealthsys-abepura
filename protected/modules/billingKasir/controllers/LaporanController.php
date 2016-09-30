@@ -534,7 +534,7 @@ class LaporanController extends MyAuthController {
             $model->no_pendaftaran = $_GET['BKPembayaranpelayananT']['no_pendaftaran'];
             $model->no_rekam_medik = $_GET['BKPembayaranpelayananT']['no_rekam_medik'];
             $model->nama_pasien = $_GET['BKPembayaranpelayananT']['nama_pasien'];
-            $model->nama_bin = $_GET['BKPembayaranpelayananT']['nama_bin'];
+          //  $model->nama_bin = $_GET['BKPembayaranpelayananT']['nama_bin'];
             
             $model->jns_periode = $_GET['BKPembayaranpelayananT']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKPembayaranpelayananT']['tgl_awal']);
@@ -602,38 +602,56 @@ class LaporanController extends MyAuthController {
     }
 
     public function actionPrint()
-    {
-        $format = new MyFormatter();
+    {        
         $model = new BKPembayaranpelayananT('searchPasienSudahBayar');
+        $format = new MyFormatter();
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
         $data = array();
         if(isset($_GET['BKPembayaranpelayananT'])){
             if($_GET['filter_tab'] == 'all')
             {
                 $data['judulLaporan'] = "<h3>Laporan Pasien Sudah Bayar - Semua</h3>";
+                $judullaporan = 'Laoran Pasien Sudah Bayar - Semua';
                 $data['filter'] = "all";
             }
             else if($_GET['filter_tab'] == 'p3')
             {
                 $data['judulLaporan'] = "<h3>Laporan Pasien Sudah Bayar - P3</h3>";
+                $judullaporan = 'Laoran Pasien Sudah Bayar - P3';
                 $data['filter'] = "p3";
             }
             else if($_GET['filter_tab'] == 'umum')
             {
                 $data['judulLaporan'] = "<h3>Laporan Pasien Sudah Bayar - Umum</h3>";
+                $judullaporan = 'Laoran Pasien Sudah Bayar - Umum';
                 $data['filter'] = "umum";
             }
             $data['caraPrint'] = $_REQUEST['caraPrint'];
             $model->attributes = $_GET['BKPembayaranpelayananT'];
-            if(!empty($_GET['BKPembayaranpelayananT']['tgl_awal']))
-            {
-                $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKPembayaranpelayananT']['tgl_awal']);
+            $model->no_pendaftaran = $_GET['BKPembayaranpelayananT']['no_pendaftaran'];
+            $model->no_rekam_medik = $_GET['BKPembayaranpelayananT']['no_rekam_medik'];
+            $model->nama_pasien = $_GET['BKPembayaranpelayananT']['nama_pasien'];
+          //  $model->nama_bin = $_GET['BKPembayaranpelayananT']['nama_bin'];
+            
+            $model->jns_periode = $_GET['BKPembayaranpelayananT']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKPembayaranpelayananT']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKPembayaranpelayananT']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['BKPembayaranpelayananT']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['BKPembayaranpelayananT']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
             }
-            if(!empty($_GET['BKPembayaranpelayananT']['tgl_awal']))
-            {
-                $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKPembayaranpelayananT']['tgl_akhir']);
-            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         if($_REQUEST['caraPrint'] == 'PRINT'){
             $this->layout='//layouts/printWindows';
@@ -650,7 +668,7 @@ class LaporanController extends MyAuthController {
             $mpdf->WriteHTML($stylesheet,1);  
             $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
             $mpdf->WriteHTML($this->renderPartial('pasienSudahBayar/print',array('model'=>$model, 'data'=>$data),true));
-            $mpdf->Output();
+            $mpdf->Output($judullaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
     
