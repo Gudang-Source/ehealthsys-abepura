@@ -2184,5 +2184,19 @@ class MyGenerator
         $norujukan_baru = $prefix.(isset($rujukan['nomaksimal']) ? (str_pad($rujukan['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
         return $norujukan_baru;
 	}
+        
+        // generator nomor pengkajian perawatan pasien
+        
+        public static function noPengkajianAskep()
+        {
+            $default = "0001";
+            $prefix = "PEKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(no_pengkajian,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM pengkajianaskep_t 
+                                    WHERE no_pengkajian LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
 }
 ?>

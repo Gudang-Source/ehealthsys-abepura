@@ -92,7 +92,16 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 		'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = window.location.href;} ); return false;'));
 	?>
 	<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Intervensi', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl($this->id . '/admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
-	<?php $this->widget('UserTips', array('type' => 'create')); ?>
+    
+	<?php 
+            $tips = array(
+                '0' => 'autocomplete-search',
+                '1' => 'tambah',
+                '2' => 'kurang',
+            );
+            $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips', array('tips'=>$tips), true);
+            $this->widget('UserTips', array('type' => 'create', 'content' => $content)); 
+        ?>
 </div>
 </div>
 <?php $this->endWidget(); ?>

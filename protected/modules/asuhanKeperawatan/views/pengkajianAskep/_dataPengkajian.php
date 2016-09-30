@@ -7,7 +7,8 @@
 				<?php echo CHtml::activeHiddenField($modPengkajian, 'pemeriksaanfisik_id',array('readonly'=>true, 'class'=>'span1')); ?>
 				<?php echo CHtml::activeLabel($modPengkajian, 'no_pengkajian', array('class' => 'control-label')); ?>
 				<div class="controls">
-					<?php echo $form->textField($modPengkajian, 'no_pengkajian', array('readonly' => true, 'class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
+					<?php echo $form->hiddenField($modPengkajian, 'no_pengkajian', array('readonly' => true, 'class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
+                                        <?php echo $form->textField($modPengkajian, 'notemp', array('readonly' => true, 'class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
 				</div>
 			</div>
 		</div>

@@ -6,10 +6,12 @@ class IntervensiController extends MyAuthController {
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout = '//layouts/iframe';
+	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $simpan = true;
-	public $path_view = 'sistemAdministrator.views.intervensi.';
+	public $path_view = 'sistemAdministrator.views.intervensi.';        
+	public $path_views = 'sistemAdministrator.views.';
+        public $hasTab = false;
 
 	/**
 	 * Displays a particular model.
@@ -200,7 +202,7 @@ class IntervensiController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'Print', array('model' => $model, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 
@@ -259,7 +261,7 @@ class IntervensiController extends MyAuthController {
 	 * Mengubah status aktif
 	 * @param type $id 
 	 */
-	public function actionremoveTemporary() {
+	public function actionRemoveTemporary() {
 		$id = $_POST['id'];
 		if (isset($_POST['id'])) {
 			$update = SAIntervensidetM::model()->updateByPk($id, array('intervensidet_aktif' => false));
