@@ -122,7 +122,7 @@
         <div class = "span4">
              <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'nama_bin',array('placeholder'=>'Ketik Nama Panggilan','class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>                                
+            <?php //echo $form->textFieldRow($model,'nama_bin',array('placeholder'=>'Ketik Nama Panggilan','class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>                                
         </div>
         
         <div class = "span4">
