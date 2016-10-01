@@ -24,8 +24,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<?php echo Chtml::label('Nama Intervensi', 'intervensi_nama', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
-				echo $form->dropDownList($model, 'intervensi_nama', LookupM::getItems('intervensi_as'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
-					'class' => 'inputRequire'));
+				//echo $form->dropDownList($model, 'intervensi_nama', LookupM::getItems('intervensi_as'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+				//	'class' => 'inputRequire'));
+                                    echo $form->textField($model, 'intervensi_nama', array('class' => 'span3', 'maxlength' => 50));
 				?>
 			</div>
 		</div>
@@ -57,7 +58,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <?php //echo $form->textFieldRow($model,'lookup_urutan',array('class'=>'span5'));  ?>
 
 <div class="form-actions">
-	<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
+	<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

@@ -19,7 +19,7 @@
                         ),
                     ),
                 ));
-                    echo "</td></tr>";
+                    echo "<br/> berfungsi untuk menampilkan data, jika header di klik. </td></tr>";
             }else{
                echo '<tr><td style = "vertical-align:middle">'.$a.'</td><td style = "vertical-align:middle;">'.$petunjuk[$tips[$i]].'<td></tr>';                                   
             }

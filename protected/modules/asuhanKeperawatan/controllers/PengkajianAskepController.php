@@ -16,8 +16,9 @@ class PengkajianAskepController extends MyAuthController {
 		$modRiwayatPeriksaFisik = new ASPemeriksaanfisikT;
 		$modPengkajian = new ASPengkajianaskepT;
 		$modPenunjang = new ASDatapenunjangT;
-
-
+                
+                
+                $modPengkajian->notemp = '-- Otomatis --';
 		$nama_modul = Yii::app()->controller->module->id;
 		$nama_controller = Yii::app()->controller->id;
 		$nama_action = Yii::app()->controller->action->id;
@@ -143,8 +144,9 @@ class PengkajianAskepController extends MyAuthController {
 
 	protected function savePengkajian($post, $pendaftaran_id) {
 		$modPengkajian = new ASPengkajianaskepT;
-		$modPengkajian->attributes = $post;
+		$modPengkajian->attributes = $post;                
 		$modPengkajian->no_pengkajian = MyGenerator::noPengkajianAskep();
+                //var_dump($modPengkajian->no_pengkajian);die;
 		$modPengkajian->anamesa_id = $post['anamesa_id'];
 		$modPengkajian->pemeriksaanfisik_id = $post['pemeriksaanfisik_id'];
 		$modPengkajian->pengkajianaskep_tgl = MyFormatter::formatDateTimeForDb($post['pengkajianaskep_tgl']);
@@ -154,6 +156,7 @@ class PengkajianAskepController extends MyAuthController {
 		$modPengkajian->create_loginpemakai_id = Yii::app()->user->id;
 		$modPengkajian->ruangan_id = Yii::app()->user->ruangan_id;
 		$modPengkajian->iskeperawatan = 1;
+                
 		if ($modPengkajian->validate()) {
 			$modPengkajian->save();
 			$this->successSave = $this->successSave && true;

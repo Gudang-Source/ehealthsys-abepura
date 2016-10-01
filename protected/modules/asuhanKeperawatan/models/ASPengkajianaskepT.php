@@ -1,7 +1,7 @@
 <?php
 class ASPengkajianaskepT extends PengkajianaskepT
 {
-	public $nama_pegawai,$no_pendaftaran,$ruangan_nama;
+	public $nama_pegawai,$no_pendaftaran,$ruangan_nama, $notemp;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

@@ -8,6 +8,7 @@
         border: 1px solid black !important;
         color: black;
     }
+    
 </style>
 
 <?php
@@ -22,7 +23,7 @@ if (isset($data['caraPrint'])){
     }
     
     if($data['caraPrint'] == 'PDF'){
-        $headerDefault = $this->renderPartial('application.views.headerReport.headerLaporan', array('width'=>1024));
+        $headerDefault = $this->renderPartial('application.views.headerReport.headerLaporan');
     }
     
     if($data['caraPrint'] == 'PRINT'){
@@ -42,8 +43,8 @@ if (isset($data['caraPrint'])){
             <div>Periode : <?php echo date("d-m-Y", strtotime($model->tgl_awal)); ?> s/d <?php echo date("d-m-Y", strtotime($model->tgl_akhir)); ?></div>
         </td>
     </tr>
-    <tr>
-        <td>
+</table>
+    
             <?php
                 $dataProvider = null;
                 if($data['filter'] == 'all')
@@ -108,7 +109,7 @@ if (isset($data['caraPrint'])){
                             array(
                                 'name'=>'total_tagihan',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalbiayapelayanan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalbiayapelayanan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -117,7 +118,7 @@ if (isset($data['caraPrint'])){
                                 'header'=>'Subsidi Asuransi',
                                 'name'=>'subsidi_asuransi',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalsubsidiasuransi,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalsubsidiasuransi,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -126,7 +127,7 @@ if (isset($data['caraPrint'])){
                                  'header'=>'Subsidi Pemerintah',
                                  'name'=>'subsidi_pemerintah',
                                  'type'=>'raw',
-                                 'value'=>'"Rp. ".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
+                                 'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -135,7 +136,7 @@ if (isset($data['caraPrint'])){
                                 'header'=>'Subsidi RS',
                                 'name'=>'subsidi_rs',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalsubsidirs,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalsubsidirs,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -144,7 +145,7 @@ if (isset($data['caraPrint'])){
                                 'header'=>'Biaya',
                                 'name'=>'iur_biaya',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totaliurbiaya,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totaliurbiaya,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -161,7 +162,7 @@ if (isset($data['caraPrint'])){
                             array(
                                 'header'=>'Pembebasan',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalpembebasan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalpembebasan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -170,7 +171,7 @@ if (isset($data['caraPrint'])){
                             'header'=>'Jumlah Pembayaran',
                             'name'=>'totalbayartindakan',
                             'type'=>'raw',
-                            'value'=>'"Rp. ".number_format($data->totalbayartindakan,0,"",".")',
+                            'value'=>'"Rp".number_format($data->totalbayartindakan,0,"",".")',
                             'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -181,6 +182,3 @@ if (isset($data['caraPrint'])){
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
                 ));
             ?>            
-        </td>
-    </tr>
-</table>

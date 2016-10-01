@@ -56,6 +56,8 @@ Class Tips
                         .'<i class="icon-print icon-white"></i></div> berarti tidak dapat digunakan (tombol tidak aktif)', 
             'autocomplete-search' => 'icon ini  <i class="icon-list"></i><i class="icon-search"></i>'
                         .'  berfungsi untuk menampilkan list data sesuai dengan diketikkan dan menampilkan dialog box jika icon di klik.',
+            'autocomplete' => 'icon ini  <i class="icon-list"></i>'
+                        .'  berfungsi untuk menampilkan list data sesuai dengan diketikkan.',
             'waktutime' => 'icon ini  <i class="icon-calendar"></i><i class="icon-time"></i>'
                         .'  berfungsi untuk menentukan tanggal dan waktu.',
             'tanggal' => 'icon ini  <i class="icon-calendar"></i>'
