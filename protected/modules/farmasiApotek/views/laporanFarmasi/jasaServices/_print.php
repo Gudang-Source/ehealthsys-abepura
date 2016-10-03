@@ -13,15 +13,15 @@ if ($caraPrint != 'GRAFIK'){
 //        echo 'a';
 //        $this->renderPartial('penjualanJenisoa/_tableRincian', array('model'=>$model, 'caraPrint'=>$caraPrint, 'rincian'=>$data['rincian']));
 //    } else {
-        $this->renderPartial('jasaServices/_table', array('model'=>$model, 'caraPrint'=>$caraPrint));
+        $this->renderPartial('jasaServices/_table', array('grafik'=>$grafik,'model'=>$model, 'caraPrint'=>$caraPrint));
 //    }
 }
 if ($caraPrint == 'GRAFIK')
-echo $this->renderPartial('_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint), true); 
+echo $this->renderPartial('_grafik', array('grafik'=>$grafik,'model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint), true); 
 
 
 ?>
-
+<?php /*
 <table width="100%" style='margin-top:100px;margin-left:auto;margin-right:auto;'>
     <tr>
         <td width="50%">
@@ -33,3 +33,4 @@ echo $this->renderPartial('_grafik', array('model'=>$model, 'data'=>$data, 'cara
         </td>
     </tr>
 </table>
+*/ ?>
