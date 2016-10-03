@@ -6,13 +6,13 @@
         <tr>
             <td>
 				<?php //echo CHtml::activeLabel($modPasien, 'no_rekam_medik',array('class'=>'control-label')); ?>
-				<label class="control-label no_rek" >No. Pendaftaran</label>
+				<label class="control-label" >No. Pendaftaran <font style="color:red;">*</font></label>
             </td>
             <td>
 				<?php //echo CHtml::textField('ASPasienM[no_rekam_medik]', $modPasien->no_rekam_medik, array('readonly'=>true)); ?>
 				<?php
 				if (!empty($modPendaftaran->no_pendaftaran)) {
-					echo CHtml::textField('ASPendaftaranT[no_pendaftaran]', $modPendaftaran->no_pendaftaran, array('readonly' => true));
+					echo CHtml::textField('ASPendaftaranT[no_pendaftaran]', $modPendaftaran->no_pendaftaran, array('readonly' => true, 'class'=>'required'));
 				} else {
 					echo CHtml::hiddenField('ASPendaftaranT[pendaftaran_id]', $modPendaftaran->pendaftaran_id, array('readonly' => true));
 					echo CHtml::hiddenField('ASPendaftaranT[pasien_id]', $modPendaftaran->pasien_id, array('readonly' => true));
@@ -45,7 +45,7 @@
                                             }',
 						),
 						'tombolDialog' => array('idDialog' => 'dialogPasien', 'idTombol' => 'tombolPasienDialog'),
-						'htmlOptions' => array('class' => 'span2',
+						'htmlOptions' => array('class' => 'span2 required',
 							'placeholder' => 'Ketik No. Pendaftaran', 'onkeypress' => "return $(this).focusNextInputField(event)"),
 					));
 				}

@@ -211,7 +211,7 @@
 			}
 			?>          
             <?php //if ($model->isNewRecord) {
-             echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+             echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                                 $this->createUrl($this->id.'/index'), 
                                 array('class'=>'btn btn-danger',
 //                                      'onclick'=>'if(!confirm("Apakah anda ingin mengulang ini ?")) return false;'));

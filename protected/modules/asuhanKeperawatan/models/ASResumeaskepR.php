@@ -2,6 +2,8 @@
 class ASResumeaskepR extends ResumeaskepR
 {
 	public $diagnosakep_nama,$diagnosakep_id;
+        public $notemp;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
