@@ -67,7 +67,7 @@
 					}',
 				),
 				'htmlOptions'=>array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3'),
-				'tombolDialog'=>array('idDialog'=>'dialogPegawai', 'jsFunction'=>'tampilDialogPegawai(2, "#dialogPegawai"); return false;'),
+				'tombolDialog'=>array('idDialog'=>'dialogPegawai', 'jsFunction'=>'tampilDialogPegawai(2, "#dialogPegawaiKoperasi"); return false;'),
 			)); ?>
 		</div>
 	</div>
