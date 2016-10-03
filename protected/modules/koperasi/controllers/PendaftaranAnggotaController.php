@@ -4,7 +4,6 @@ class PendaftaranAnggotaController extends MyAuthController
 {
 	public $layout='//layouts/main';
 	// public $defaultAction = 'admin';
-	public $menuActive = array(2,1); // Default. Harap diubah sesuai menu aktif yang ada.
 
 	public function actionIndex($id = null)
 	{

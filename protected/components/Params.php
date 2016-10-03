@@ -981,6 +981,29 @@ Class Params
                     Params::INSTALASI_ID_GIZI);//gizi
             
         }
+		
+		public static function getUmur($tglLahir) {
+			$dob=$tglLahir; $today=date("Y-m-d");
+			list($y,$m,$d)=explode('-',$dob);
+			list($ty,$tm,$td)=explode('-',$today);
+			if($td-$d<0){
+				$day=($td+30)-$d;
+				$tm--;
+			}
+			else{
+				$day=$td-$d;
+			}
+			if($tm-$m<0){
+				$month=($tm+12)-$m;
+				$ty--;
+			}
+			else{
+				$month=$tm-$m;
+			}
+			$year=$ty-$y;
+
+			return str_pad($year, 2, '0', STR_PAD_LEFT); //.' Thn '. str_pad($month, 2, '0', STR_PAD_LEFT) .' Bln '. str_pad($day, 2, '0', STR_PAD_LEFT).' Hr';
+		}
         
 }
 ?>
