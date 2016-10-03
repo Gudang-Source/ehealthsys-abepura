@@ -91,12 +91,12 @@ return false;
 				array(
 					'header'=>'Print',
 					'type'=>'raw',
-					'value'=>function($data) {
+					'value'=>function($data) use (&$anggota) {
 												$anggota = KeanggotaanT::model()->findByAttributes(array(
 													'pegawai_id'=>$data->pegawai_id,
 												));
 						if (!empty($anggota)) return '-';
-						return CHtml::link('<i class="entypo-print"></i>', "#" /*Yii::app()->controller->createUrl('printSuratAnggota', array('id'=>$data->pegawai_id)) */,array(
+						return CHtml::link('<i class="icon-form-print"></i>', "#" /*Yii::app()->controller->createUrl('printSuratAnggota', array('id'=>$data->pegawai_id)) */,array(
 							"rel"=>"tooltip",
 							"title"=>"Klik untuk Mencetak Permohonan Keanggotaan",
 							"onclick"=>"print(".$data->pegawai_id."); return false;"
@@ -105,6 +105,17 @@ return false;
 					//'headerHtmlOptions'=>array('style'=>'color:#373e4a;'),
 					'htmlOptions'=>array('style'=>'text-align: center'),
 				), 
+				array(
+					'header'=>'Daftar',
+					'type'=>'raw',
+					'value'=>function($data) use (&$anggota) {
+						if (!empty($anggota)) return "-";
+						return CHtml::link('<i class="icon-form-formulir"></i>', Yii::app()->createUrl('/koperasi/pendaftaranAnggota', array('pegawai_id'=>$data->pegawai_id)),array(
+							"rel"=>"tooltip",
+							"title"=>"Klik untuk Mendaftar Pegawai menjadi Anggota"
+						));
+					}
+				),
 			),
 		)); ?>
     </div>
