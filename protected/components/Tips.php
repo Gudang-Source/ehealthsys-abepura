@@ -17,11 +17,14 @@ Class Tips
             'tambah2'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="icon-plus icon-white"></i></div> berfungsi '
                         .' untuk menambah data.',
+            'tambah3'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="icon-plus-sign icon-white"></i><i class="icon-chevron-right icon-white"></i></div> berfungsi '
+                        .' untuk menampilkan dialog box pencarian.',
             'kurang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="icon-minus-sign icon-white"></i></div> berfungsi '
                         .' untuk menghapus baris.', 
             'simpan'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
-                        .'<i class="icon-ok icon-white"></i> Simpan</div> berfungsi '
+                        .'<i class="entypo-check"></i> Simpan</div> berfungsi '
                         .' untuk menyimpan data.', 
             'ulang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="entypo-arrows-ccw"></i> Ulang</div> berfungsi '

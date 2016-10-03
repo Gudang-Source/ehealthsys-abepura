@@ -1,10 +1,10 @@
 <script type="text/javascript">
 	function cekRequired() {
 		
-		var anamesa_id = $("#<?php echo CHtml::activeId($modPengkajian, 'anamesa_id')?>").val();
-		var pemeriksaanfisik_id = $("#<?php echo CHtml::activeId($modPengkajian, 'pemeriksaanfisik_id')?>").val();
+		var anamesa_id = $("#ASPengkajianaskepT_anamesa_id").val();
+		var pemeriksaanfisik_id = $("#ASPengkajianaskepT_pemeriksaanfisik_id").val();
 		
-		if (anamesa_id == '' && pemeriksaanfisik_id == '') {
+		if ( (anamesa_id == '') || (pemeriksaanfisik_id == '') ) {
 			myAlert("Silahkan Pilih Anamesa dan Pemeriksaan Fisik!");
 		} else {
 			if (requiredCheck($("#pembayaran-form"))){
