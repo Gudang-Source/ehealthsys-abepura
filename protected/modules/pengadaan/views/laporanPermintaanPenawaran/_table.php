@@ -29,16 +29,16 @@
                         'type'=>'raw',
                         'value'=>'$data->supplier->supplier_alamat',
                     ),
+                     array(
+                        'header'=>'Tanggal Permintaan',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tglpenawaran)))',
+                    ), 
                     array(
                         'header'=>'No. Penawaran',
                         'type'=>'raw',
                         'value'=>'$data->nosuratpenawaran',
-                    ),
-                    array(
-                        'header'=>'Tanggal Permintaan',
-                        'type'=>'raw',
-                        'value'=>'date("d/m/Y H:i:s", strtotime($data->tglpenawaran))',
-                    ), 
+                    ),                   
                     array(
                         'header'=>'Total Harga Netto',
                         'type'=>'raw',
