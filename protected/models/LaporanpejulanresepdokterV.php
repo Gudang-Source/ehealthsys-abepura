@@ -365,4 +365,10 @@ class LaporanpejulanresepdokterV extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+        
+        public function getGelarBelakang($pegawai_id){
+            $gelar = FAPegawaiM::model()->findByPk($pegawai_id);
+            
+            return (count($gelar)>0)?!empty($gelar->gelarbelakang->gelarbelakang_nama)?$gelar->gelarbelakang->gelarbelakang_nama:'':'';
+        }
 }
