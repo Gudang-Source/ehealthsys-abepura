@@ -658,7 +658,7 @@ table .span12{float:none;width:924px;margin-left:0;}
 .icon-dokrekm{background-position: -173px -529px;}
 .icon-pemeriksaan{background-position: -193px -529px;}
 .icon-jinfeksi{background-position: -213px -529px;}
-//.icon-pijat{background-position: -233px -529px;}
+/*.icon-pijat{background-position: -233px -529px;}*/
 .icon-catatberkasrekm{background-position: -251px -529px;}
 .icon-pengembalianberkasrekm{background-position: -270px -529px;}
 .icon-simpanberkasbaru{background-position: 0 -548px;}
@@ -935,6 +935,43 @@ table .span12{float:none;width:924px;margin-left:0;}
 .icon-komgaji{background-position: -38px -889px;}
 .icon-golgaji{background-position: -58px -889px;}
 .icon-ptkp{background-position: -77px -889px;}
+/*koperasi*/
+.icon-kop-daftaranggota{background-position: -100px -889px;}
+/*.icon-kop-bayarangsuran{background-position: -116px -889px;}*/
+.icon-kop-mohonsimpanan{background-position: -175px -889px;}
+.icon-kop-koreksiangsuran{background-position: -194px -889px;}
+.icon-kop-pengpotongpinjam{background-position: -211px -889px;}
+.icon-kop-setujusimpanan{background-position: -232px -889px;}
+.icon-kop-terimapengpotong{background-position: -253px -889px;}
+.icon-kop-cairpinjaman{background-position: -269px -889px;}
+
+.icon-kop-asuransipinjaman{background-position: -289px -203px;}
+.icon-kop-jenissimpanan{background-position: -289px -223px;}
+.icon-kop-konfigkop{background-position: -287px -240px;}
+.icon-kop-keanggotaan{background-position: -289px -257px;}
+.icon-kop-sumberpotongan{background-position: -289px -278px;}
+.icon-kop-profilkop{background-position: -289px -298px;}
+.icon-kop-bayarangsuran{background-position: -289px -315px;}
+.icon-kop-terimasimpanan{background-position: -289px -339px;}
+.icon-kop-tariksimpanan{background-position: -289px -355px;}
+.icon-kop-potongpinjamanggota{background-position: -290px -372px;}
+.icon-kop-pinjamananggota{background-position: -290px -393px;}
+.icon-kop-simpanananggota{background-position: -290px -412px;}
+.icon-kop-potonganasuransi{background-position: -290px -448px;}
+.icon-kop-stopanggota{background-position: -290px -466px;}
+.icon-kop-bukuanggota{background-position: -290px -562px;}
+.icon-kop-kartuangsurananggota{background-position: -290px -582px;}
+
+
+
+
+
+
+
+
+
+
+
 
 [class^="icon-form-"],[class*=" icon-form-"]{width:30px;height:30px;line-height:10px;vertical-align:middle;background-image:url("../img/icon-form.png");background-position:0 0;background-repeat:no-repeat;}[class^="icon-form-"]:last-child,[class*=" icon-form-"]:last-child{*margin-left:0;}
 .icon-form-lihat{background-position: 0 0;}
@@ -1014,6 +1051,7 @@ table .span12{float:none;width:924px;margin-left:0;}
 .icon-form-terapi{background-position: -66px -132px;}
 .icon-form-goloperasi{background-position: -99px -132px;}
 .icon-form-pakaibahan{background-position: -132px -132px;}
+
 
 .dropdown{position:relative;}
 .dropdown-toggle{*margin-bottom:-3px;}
@@ -1096,7 +1134,7 @@ filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#
  {background: rgba(121, 188, 66, 1);border:1px solid rgba(121, 188, 66, 1);color: #FFFFFF;
 	/*background: -webkit-gradient(linear, left top, left bottom, from(#8ed058), to(#7bb64b));
 	background: -moz-linear-gradient(top,  #8ed058,  #7bb64b);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');*/}}
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');*/}
 .btn-danger:active,.btn-danger.active{background-color:#942a25 \9;}
 .btn-success{background-color:#5bb75b;/*background-image:-moz-linear-gradient(top, #62c462, #51a351);background-image:-ms-linear-gradient(top, #62c462, #51a351);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));background-image:-webkit-linear-gradient(top, #62c462, #51a351);background-image:-o-linear-gradient(top, #62c462, #51a351);background-image:linear-gradient(top, #62c462, #51a351);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#62c462', endColorstr='#51a351', GradientType=0);*/border:1px solid #5bb75b; filter:progid:DXImageTransform.Microsoft.gradient(enabled = false);}.btn-success:hover,.btn-success:active,.btn-success.active,.btn-success.disabled,.btn-success[disabled]{background:#51a351;border:1px solid #51a351;}
 .btn-success:active,.btn-success.active{background-color:#408140 \9;}
@@ -1408,7 +1446,7 @@ button.btn.small,input[type="submit"].btn.small{*padding-top:3px;*padding-bottom
 .proposal-open .tooltip{z-index:2070;}
 .proposal-backdrop{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1040;background-color:#000000;}.proposal-backdrop.fade{opacity:0;}
 .proposal-backdrop,.proposal-backdrop.fade.in{opacity:0.01;filter:alpha(opacity=0);}
-.proposal{position:fixed; margin-top:top:50%;left:413px;z-index:1050;width:690px;margin:-250px 0 0 -280px;background-color:#ffffff;border:1px solid #999;border:1px solid rgba(0, 0, 0, 0.3);*border:1px solid #999;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-moz-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-webkit-background-clip:padding-box;-moz-background-clip:padding-box;background-clip:padding-box;}.proposal.fade{-webkit-transition:opacity .3s linear, top .3s ease-out;-moz-transition:opacity .3s linear, top .3s ease-out;-ms-transition:opacity .3s linear, top .3s ease-out;-o-transition:opacity .3s linear, top .3s ease-out;transition:opacity .3s linear, top .3s ease-out;top:-25%;}
+.proposal{position:fixed; margin-top:50%;left:413px;z-index:1050;width:690px;margin:-250px 0 0 -280px;background-color:#ffffff;border:1px solid #999;border:1px solid rgba(0, 0, 0, 0.3);*border:1px solid #999;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-moz-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-webkit-background-clip:padding-box;-moz-background-clip:padding-box;background-clip:padding-box;}.proposal.fade{-webkit-transition:opacity .3s linear, top .3s ease-out;-moz-transition:opacity .3s linear, top .3s ease-out;-ms-transition:opacity .3s linear, top .3s ease-out;-o-transition:opacity .3s linear, top .3s ease-out;transition:opacity .3s linear, top .3s ease-out;top:-25%;}
 .proposal.fade.in{top:53%;}
 .proposal-header{  background-color:#F3EC94; background-image: -moz-linear-gradient(top, #F3EC94, #EDC558);padding:9px 15px;
 -webkit-box-shadow: 0 8px 6px -6px #AEAEAE;
@@ -1429,7 +1467,7 @@ button.btn.small,input[type="submit"].btn.small{*padding-top:3px;*padding-bottom
 .modul-open .tooltip{z-index:2070;}
 .modul-backdrop{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1040;background-color:#000000;}.modul-backdrop.fade{opacity:0;}
 .modul-backdrop,.modul-backdrop.fade.in{opacity:0.01;filter:alpha(opacity=0);}
-.modul{position:fixed; margin-top:top:50%;left:200px;z-index:1050;width:690px;margin:-250px 0 0 -280px;background-color:#ffffff;border:1px solid #999;border:1px solid rgba(0, 0, 0, 0.3);*border:1px solid #999;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-moz-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-webkit-background-clip:padding-box;-moz-background-clip:padding-box;background-clip:padding-box;}.modul.fade{-webkit-transition:opacity .3s linear, top .3s ease-out;-moz-transition:opacity .3s linear, top .3s ease-out;-ms-transition:opacity .3s linear, top .3s ease-out;-o-transition:opacity .3s linear, top .3s ease-out;transition:opacity .3s linear, top .3s ease-out;top:-25%;}
+.modul{position:fixed; margin-top:50%;left:200px;z-index:1050;width:690px;margin:-250px 0 0 -280px;background-color:#ffffff;border:1px solid #999;border:1px solid rgba(0, 0, 0, 0.3);*border:1px solid #999;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-moz-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-webkit-background-clip:padding-box;-moz-background-clip:padding-box;background-clip:padding-box;}.modul.fade{-webkit-transition:opacity .3s linear, top .3s ease-out;-moz-transition:opacity .3s linear, top .3s ease-out;-ms-transition:opacity .3s linear, top .3s ease-out;-o-transition:opacity .3s linear, top .3s ease-out;transition:opacity .3s linear, top .3s ease-out;top:-25%;}
 .modul.fade.in{top:54%;}
 .modul-header{  background-color:#F3EC94; background-image: -moz-linear-gradient(top, #F3EC94, #EDC558);padding:9px 15px;
 -webkit-box-shadow: 0 8px 6px -6px #AEAEAE;
