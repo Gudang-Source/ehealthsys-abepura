@@ -1,13 +1,15 @@
 <?php 
     $modSupir = new SupirambulansV;
     $modSupir->unsetAttributes();
+    $modSupir->ruangan_id = Params::RUANGAN_ID_AMBULANCE;
     if(isset($_GET['SupirambulansV'])){
         $modSupir->attributes = $_GET['SupirambulansV'];
+        $modSupir->ruangan_id = Params::RUANGAN_ID_AMBULANCE;
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'id'=>'supir-v-grid',
-        'dataProvider'=>$modSupir->search(),
+        'dataProvider'=>$modSupir->searchSupirAmbulans(),
         'filter'=>$modSupir,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -19,11 +21,38 @@
                                         "id" => "selectSupir",
                                         "onClick" => "inputSupir($data->pegawai_id,
                                         \'$data->nama_pegawai\');return false;"))',
+                        ),
+                   array(
+                        'header' => 'NIP',
+                        'name' => 'nomorindukpegawai',
+                        'value' => '$data->nomorindukpegawai',
+                        'filter' => Chtml::activeTextField($modSupir,'nomorindukpegawai',array('class'=>'numbers-only'))
                     ),
-                    'ruangan_nama',
-                    'nama_pegawai',       
-        ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                    array(
+                        'header' => 'Nama Pegawai',
+                        'name' => 'nama_pegawai',
+                        'value' => '$data->NamaLengkap',
+                        'filter' => Chtml::activeTextField($modSupir,'nama_pegawai',array('class'=>'hurufs-only'))
+                    ),
+                    array(
+                        'header' => 'Jabatan',
+                        'name' => 'jabatan_id',
+                        'value' => function($data){
+                            $j = JabatanM::model()->findByPk($data->jabatan_id);
+
+                            return (count($j)>0)?$j->jabatan_nama:'-';
+                        },
+                        'filter' => Chtml::activeDropDownList($modSupir,'jabatan_id', Chtml::listData(JabatanM::model()->findAll('jabatan_aktif = TRUE ORDER BY jabatan_nama ASC'), 'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --','class'=>'hurufs-only'))
+                    ),  
+                ),
+                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                . ' $(".numbers-only").keyup(function() {
+                        setNumbersOnly(this);
+                    });
+                    $(".hurufs-only").keyup(function() {
+                        setNumbersOnly(this);
+                    });'
+                . '}',
     )); 
 ?> 
     

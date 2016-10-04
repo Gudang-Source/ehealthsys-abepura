@@ -2,7 +2,9 @@
 
 class InformasiPemesananAmbulansController extends MyAuthController
 {	
-	
+	public $ambulansRS = 'PemakaianAmbulanPasienRSRD';
+        public $ambulansLuar = 'PemakaianAmbulanPasienLuarRD';
+        
 	public function actionIndex()
 	{
             $format = new MyFormatter();

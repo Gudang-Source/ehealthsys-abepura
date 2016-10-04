@@ -2,6 +2,9 @@
 Yii::import('ambulans.controllers.PemakaianAmbulanPasienRSController');
 class PemakaianAmbulanPasienLuarController extends PemakaianAmbulanPasienRSController
 {
+   public $path_view_luar = 'ambulans.views.pemakaianAmbulanPasienLuar.';
+   public $path_view = 'ambulans.views.pemakaianAmbulanPasienRS.';
+   
    public function actionIndex($pemakaian_id = '', $pendaftaran_id='', $pemesanan_id='')
     {
         $format = new MyFormatter();        
@@ -158,7 +161,7 @@ class PemakaianAmbulanPasienLuarController extends PemakaianAmbulanPasienRSContr
 		$latitude = $modPropinsi->latitude;
 		$longitude = $modPropinsi->longitude;
 		
-        $this->render('index',array('modPemakaian'=>$modPemakaian,
+        $this->render($this->path_view_luar.'index',array('modPemakaian'=>$modPemakaian,
                                         'modPasien'=>$modPasien,
                                         'modInstalasi'=>$modInstalasi,
                                         'instalasi'=>$instalasi,
@@ -176,7 +179,7 @@ class PemakaianAmbulanPasienLuarController extends PemakaianAmbulanPasienRSContr
         $format = new MyFormatter;
         $modPemakaian = AMPemakaianambulansT::model()->findByPk($pemakaianambulans_id);
         $judul_print = 'Pemakaian Ambulance Pasien Luar';
-        $this->render('printStatusAmbulan', array(
+        $this->render($this->path_view_luar.'printStatusAmbulan', array(
                             'format'=>$format,
                             'modPemakaian'=>$modPemakaian,
                             'judul_print'=>$judul_print,

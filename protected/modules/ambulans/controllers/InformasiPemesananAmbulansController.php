@@ -4,6 +4,8 @@ class InformasiPemesananAmbulansController extends MyAuthController
     public $layout='//layouts/column1';
     public $pathView = "ambulans.views.informasiPemesananAmbulans.";
     public $inisial_modul='';
+    public $ambulansRS = 'PemakaianAmbulanPasienRS';
+    public $ambulansLuar = 'PemakaianAmbulanPasienLuar';
     
     public function actionIndex(){
 		$model = new AMInformasipesanambulansV;

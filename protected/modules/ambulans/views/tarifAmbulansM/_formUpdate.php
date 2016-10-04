@@ -53,14 +53,14 @@
             </div>
             <?php echo $form->textFieldRow($model,'tarifambulans_kode',array('size'=>20,'maxlength'=>20,'class'=>'span2')); ?>
             <?php echo $form->dropDownListRow($model,'kepropinsi_nama', CHtml::listData($model->getPropinsiItems(), 'propinsi_nama', 'propinsi_nama'), 
-                      array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
+                      array('onchange'=>"setClearDropdownKecamatan();setClearDropdownKelurahan();",'empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
                             'ajax'=>array('type'=>'POST',
                                           'url'=>Yii::app()->createUrl('ActionDynamic/GetTarifKabupaten',array('encode'=>false,'namaModel'=>'TarifAmbulansM')),
                                           'update'=>'#TarifAmbulansM_kekabupaten_nama'))); ?>
         </td>
         <td>
             <?php echo $form->dropDownListRow($model,'kekabupaten_nama',CHtml::listData($model->getKabupatenItems(), 'kabupaten_nama', 'kabupaten_nama'),  
-                      array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
+                      array('onchange'=>"setClearDropdownKelurahan();",'empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
                             'ajax'=>array('type'=>'POST',
                                           'url'=>Yii::app()->createUrl('ActionDynamic/GetTarifKecamatan',array('encode'=>false,'namaModel'=>'TarifAmbulansM')),
                                           'update'=>'#TarifAmbulansM_kekecamatan_nama'))); ?>
@@ -77,7 +77,7 @@
         </td>
         <td>
             <?php  echo $form->textFieldRow($model,'jmlkilometer',array('class'=>'span1 numbers-only')); ?>
-            <?php echo $form->textFieldRow($model,'tarifperkm',array('class'=>'span2 integer')); ?>
+            <?php echo $form->textFieldRow($model,'tarifperkm',array('class'=>'span2 integer','onkeyup'=>'tarif()')); ?>
             <?php echo $form->textFieldRow($model,'tarifambulans',array('class'=>'span2 integer')); ?>
         </td>
     </tr>
@@ -174,3 +174,23 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 $this->endWidget();
 /* ------------------------------------------------------------------- endWidget BarangM ----------------------------------------------------------------- */
+?>
+<script type="text/javascript">	
+    function tarif(){
+		var km = document.getElementById("TarifAmbulansM_jmlkilometer").value;
+		var tr = document.getElementById("TarifAmbulansM_tarifperkm").value;
+		//var tkm = tr.replace(",","")*km;
+		var tkm = tr.replace(/,/gi,"")*km;		
+		document.getElementById("TarifAmbulansM_tarifambulans").value = formatNumber(tkm);		
+	}
+/** bersihkan dropdown kecamatan */
+function setClearDropdownKecamatan()
+{
+    $("#<?php echo CHtml::activeId($model,"kekecamatan_nama");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+}
+/** bersihkan dropdown kelurahan */
+function setClearDropdownKelurahan()
+{
+    $("#<?php echo CHtml::activeId($model,"kekelurahan_nama");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+}
+</script>

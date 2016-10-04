@@ -11,6 +11,9 @@ Yii::import("ambulans.models.*");
 Yii::import("ambulans.views.*");
 class InformasiPemesananAmbulansRIController extends InformasiPemesananAmbulansController {
     public $inisial_modul = 'RI';
+    
+    public $ambulansRS = 'PemakaianAmbulanPasienRSRI';
+    public $ambulansLuar = 'PemakaianAmbulanPasienLuarRI';
         /*
         public function actionIndex(){
                 $model = new AMInformasipesanambulansV;
