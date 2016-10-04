@@ -67,6 +67,7 @@ class PegmutasiR extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'pegawai'=>array(self::BELONGS_TO, 'PegawaiM','pegawai_id'),
 		);
 	}
 

@@ -7,6 +7,13 @@
 
 class KPPegmutasiR extends PegmutasiR {
 
+    
+    public $nama_pegawai;
+    public $jabatan_id;
+    public $tgl_awal;
+    public $tgl_akhir;
+    
+    
     public static function model($className = __CLASS__) {
         parent::model($className);
     }
@@ -40,6 +47,34 @@ class KPPegmutasiR extends PegmutasiR {
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchInformasi()
+        {
+            $criteria=new CDbCriteria;
+            $criteria->join =    " JOIN pegawai_m p ON p.pegawai_id = t.pegawai_id ";  
+            $criteria->addBetweenCondition('date(tglsk)', $this->tgl_awal, $this->tgl_akhir);
+            $criteria->compare('LOWER(t.nosk)', strtolower($this->nosk));
+            $criteria->compare('LOWER(p.nama_pegawai)', strtolower($this->nama_pegawai), TRUE);
+            if (!empty($this->jabatan_nama)){
+                $criteria->addCondition("t.jabatan_nama = '".$this->jabatan_nama."' ");
+            }
+            
+            if (!empty($this->jabatan_baru)){
+                $criteria->addCondition("t.jabatan_baru = '".$this->jabatan_baru."' ");
+            }
+            
+             if (!empty($this->unitkerja)){
+                $criteria->addCondition("t.unitkerja = '".$this->unitkerja."' ");
+            }
+            
+            if (!empty($this->unitkerja_baru)){
+                $criteria->addCondition("t.unitkerja_baru = '".$this->unitkerja_baru."' ");
+            }
+            
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+        }
 
 }
 

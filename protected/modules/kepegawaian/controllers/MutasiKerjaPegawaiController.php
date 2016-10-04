@@ -92,5 +92,21 @@ class MutasiKerjaPegawaiController extends MyAuthController
             $this->redirect(array('index','pegawai_id'=>$pegawai_id));
         }
     }
+    
+    public function actionInformasi(){
+        $this->layout = "//layouts/column1";
+        $model = new KPPegmutasiR();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        
+        if (isset($_GET['KPPegmutasiR'])){
+            $model->attributes = $_GET['KPPegmutasiR'];            
+            $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['KPPegmutasiR']['tgl_awal']); 
+            $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['KPPegmutasiR']['tgl_akhir']); 
+            $model->nama_pegawai = $_GET['KPPegmutasiR']['nama_pegawai']; 
+        }
+        
+        $this->render('informasi',array('model'=>$model));
+    }
 
 }
