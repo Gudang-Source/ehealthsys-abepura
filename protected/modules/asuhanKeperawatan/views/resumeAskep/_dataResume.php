@@ -5,7 +5,8 @@
 			<div class="control-group">
 				<?php echo CHtml::activeLabel($model, 'noresume', array('class' => 'control-label')); ?>
 				<div class="controls">
-					<?php echo $form->textField($model, 'noresume', array('readonly' => true, 'class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
+					<?php echo $form->hiddenField($model, 'noresume', array('readonly' => true, 'class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
+                                        <?php echo $form->textField($model, 'notemp', array('readonly' => true, 'class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
 				</div>
 			</div>
 		</div>

@@ -4,9 +4,8 @@ class PendaftaranAnggotaController extends MyAuthController
 {
 	public $layout='//layouts/main';
 	// public $defaultAction = 'admin';
-	public $menuActive = array(2,1); // Default. Harap diubah sesuai menu aktif yang ada.
 
-	public function actionIndex($id = null)
+	public function actionIndex($id = null, $pegawai_id = null)
 	{
 		$pegawai = new PegawaiM;
 		$anggota = new KeanggotaanT;
@@ -55,6 +54,17 @@ class PendaftaranAnggotaController extends MyAuthController
 				$kasmasuk->uangkembalian = MyFormatter::formatNumberForPrint($kasmasuk->uangkembalian);
 				
 			} else $simpanan = new SimpananT;
+		}
+		
+		if (!empty($pegawai_id)) {
+			$pegawai = PegawaiM::model()->findByPk($pegawai_id);
+			$anggota->pegawai_id = $pegawai_id;
+			
+			$pegawai->tgl_lahirpegawai = MyFormatter::formatDateTimeForUser($pegawai->tgl_lahirpegawai);
+			if (!empty($pegawai->jabatan_id)) $pegawai->jabatan_id = $pegawai->jabatan->jabatan_nama;
+			if (!empty($pegawai->pangkat_id)) $pegawai->pangkat_id = $pegawai->pangkat->pangkat_nama;
+			if (!empty($pegawai->pendidikan_id)) $pegawai->pendidikan_id = $pegawai->pendidikan->pendidikan_nama;
+			if (!empty($pegawai->kelompokpegawai_id)) $pegawai->kelompokpegawai_id = $pegawai->kelompokpegawai->kelompokpegawai_nama;
 		}
 
 		if (isset($_POST['ajax'])) {

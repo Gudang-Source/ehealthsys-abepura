@@ -68,7 +68,7 @@
 			<div class="control-group" style="margin-left: 50px;">
 				<?php echo CHtml::activeLabel($model, 'detaknadimasuk', array('class' => 'control-label')); ?>
 				<div class="controls">
-					<?php echo CHtml::activeTextField($model, 'detaknadimasuk', array('class' => 'span2 integer numbersOnly', 'onkeyup' => "return $(this).focusNextInputField(event);")) . ' /Menit'; ?>
+					<?php echo CHtml::activeTextField($model, 'detaknadimasuk', array('maxlength'=>4,'class' => 'span2 integer numbersOnly', 'onkeyup' => "return $(this).focusNextInputField(event);")) . ' /Menit'; ?>
 				</div>
 			</div>
 			<div class="control-group" style="margin-left: 50px;">
@@ -112,7 +112,7 @@
 			<div class="control-group" style="margin-left: 35px;">
 				<?php echo CHtml::activeLabel($model, 'detaknadiakhir', array('class' => 'control-label')); ?>
 				<div class="controls">
-					<?php echo CHtml::activeTextField($model, 'detaknadiakhir', array('class' => 'span2  integer numbersOnly', 'onkeyup' => "return $(this).focusNextInputField(event);")) . ' /Menit'; ?>
+					<?php echo CHtml::activeTextField($model, 'detaknadiakhir', array('maxlength'=>4,'class' => 'span2  integer numbersOnly', 'onkeyup' => "return $(this).focusNextInputField(event);")) . ' /Menit'; ?>
 				</div>
 			</div>
 			<div class="control-group" style="margin-left: 35px;">

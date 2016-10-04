@@ -360,8 +360,7 @@ $this->endWidget();
         myConfirm('Apakah anda yakin akan membatalkan bahan ini?','Perhatian!',
         function(r){
             if(r){
-                $(obj).parents('tr').next('tr').detach();
-                $(obj).parents('tr').detach();
+                $(obj).parents('tr').remove();
                 
                 <?php 
                 $attributes = $modProduksiDetail->attributeNames(); 

@@ -318,6 +318,7 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(kemampuanbahasa)',strtolower($this->kemampuanbahasa),true);
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
+		$criteria->compare('golonganpegawai_id', $this->golonganpegawai_id);
                 $criteria->order = 'pegawai_id ASC';
 
 		return new CActiveDataProvider($this, array(
