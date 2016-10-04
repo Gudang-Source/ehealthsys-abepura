@@ -48,7 +48,7 @@
                         setNumbersOnly(this);
                     });
                     $(".hurufs-only").keyup(function() {
-                        setNumbersOnly(this);
+                        setHurufsOnly(this);
                     });'
                 . '}',
     )); 

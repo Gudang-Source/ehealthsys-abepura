@@ -2210,5 +2210,29 @@ class MyGenerator
             $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
             return $nosetoran_baru;
         }
+        
+        public static function noRencanaKeperawatan()
+        {
+            $default = "001";
+            $prefix = "RENCASKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(no_rencana,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM rencanaaskep_t
+                                    WHERE no_rencana LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
+        
+        public static function noImplementasiKeperawatan()
+        {
+            $default = "001";
+            $prefix = "IMPASKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(no_implementasi,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM implementasiaskep_t
+                                    WHERE no_implementasi LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
 }
 ?>

@@ -16,7 +16,7 @@ class ImplementasiAskepController extends MyAuthController {
 		$modPasien = new ASInforencanaaskepV;
 
 
-
+                $model->notemp = '- Otomatis -';
 		$nama_modul = Yii::app()->controller->module->id;
 		$nama_controller = Yii::app()->controller->id;
 		$nama_action = Yii::app()->controller->action->id;
@@ -203,10 +203,10 @@ class ImplementasiAskepController extends MyAuthController {
 			$rencanadet = ASRencanaaskepdetT::model()->findAllBySql(
 					'SELECT rencanaaskepdet_t.*,diagnosakep.*,tujuan.*,kriteriahasil.*,intervensi.*
 					FROM rencanaaskepdet_t
-					JOIN diagnosakep_m AS diagnosakep ON diagnosakep.diagnosakep_id = rencanaaskepdet_t.diagnosakep_id
-					JOIN tujuan_m AS tujuan ON tujuan.tujuan_id = rencanaaskepdet_t.tujuan_id
-					JOIN kriteriahasil_m AS kriteriahasil ON kriteriahasil.kriteriahasil_id = rencanaaskepdet_t.kriteriahasil_id
-					JOIN intervensi_m AS intervensi ON intervensi.intervensi_id = rencanaaskepdet_t.intervensi_id
+					LEFT JOIN diagnosakep_m AS diagnosakep ON diagnosakep.diagnosakep_id = rencanaaskepdet_t.diagnosakep_id
+					LEFT JOIN tujuan_m AS tujuan ON tujuan.tujuan_id = rencanaaskepdet_t.tujuan_id
+					LEFT JOIN kriteriahasil_m AS kriteriahasil ON kriteriahasil.kriteriahasil_id = rencanaaskepdet_t.kriteriahasil_id
+					LEFT JOIN intervensi_m AS intervensi ON intervensi.intervensi_id = rencanaaskepdet_t.intervensi_id
 					WHERE rencanaaskepdet_t.rencanaaskep_id=' . $rencanaaskep_id);
 			$data['form'] = "";
 			$data['modPilih'] = "";
@@ -287,6 +287,7 @@ class ImplementasiAskepController extends MyAuthController {
 		$modImplementasi->create_loginpemakai_id = Yii::app()->user->id;
 		$modImplementasi->ruangan_id = Yii::app()->user->ruangan_id;
 		$modImplementasi->pegawai_id = $post['pegawai_id'];
+                
 		if ($modImplementasi->validate()) {
 			$modImplementasi->save();
 			$this->successSave = $this->successSave && true;
