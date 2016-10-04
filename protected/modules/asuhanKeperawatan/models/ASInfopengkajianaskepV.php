@@ -336,4 +336,6 @@ class ASInfopengkajianaskepV extends InfopengkajianaskepV
 			'criteria'=>$criteria,
 		));
 	}
+        
+       
 }

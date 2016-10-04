@@ -16,7 +16,7 @@ class RencanaKeperawatanController extends MyAuthController {
 		$modPasien = new ASInfopengkajianaskepV;
 
 
-
+                $model->notemp = '- Otomatis -';
 		$nama_modul = Yii::app()->controller->module->id;
 		$nama_controller = Yii::app()->controller->id;
 		$nama_action = Yii::app()->controller->action->id;
@@ -292,11 +292,11 @@ class RencanaKeperawatanController extends MyAuthController {
 				if ($row['tandagejala_id']) {
 					$this->savePilihTanda($modRencanaDetail, $row['tandagejala_id']);
 				}
-				if ($row['kriteriahasildet_id']) {
+				if (isset($row['kriteriahasil_id'])) {//kriteriahasildet_id
 					$this->savePilihKriteria($modRencanaDetail, $row['kriteriahasildet_id'], $row['rencanaaskep_ir'], $row['rencanaaskep_er']);
 				}
 
-				if ($row['intervensidet_id']) {
+				if ($row['intervensidet_id']) {//intervensidet_id
 					$this->savePilihIntervensi($modRencanaDetail, $row['intervensidet_id']);
 				}
 //					$this->savePilihRencana($row,$modRencanaDetail,$_POST['ASKriteriahasildetM'][$i]);
