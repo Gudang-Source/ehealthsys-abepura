@@ -41,7 +41,12 @@ $('.search-form form').submit(function(){
 				'value'=>'isset($data->organigramasal->pegawai->nama_pegawai) ? $data->organigramasal->pegawai->nama_pegawai : (isset($data->organigramasal->organigram_unitkerja) ? $data->organigramasal->organigram_unitkerja : "-")',
 				'filter'=>CHtml::activeTextField($model, 'atasan'),
 			),
-			'organigram_unitkerja',
+                        array(
+                            'header' => 'Unit Kerja',
+                            'name' => 'organigram_unitkerja',
+                            'value' => '$data->organigram_unitkerja',
+                            'filter' => Chtml::activeDropDownList($model, 'organigram_unitkerja', Chtml::listData(UnitkerjaM::model()->findAll(" unitkerja_aktif = TRUE ORDER BY namaunitkerja ASC "), 'namaunitkerja', 'namaunitkerja'), array('empty'=>'-- Pilih --'))
+                        ),			
 			'organigram_formasi',
 			array(
                                 'header' => 'Nama Pegawai',
