@@ -16,7 +16,7 @@ $format = new MyFormatter();
             <tr>
                 <td>
                    <div class='control-group hari'>
-                    <?php echo CHtml::label('Tanggal SK', 'dari_tanggal', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Tanggal Ditetapkan', 'dari_tanggal', array('class' => 'control-label')) ?>
                     <div class="controls">  
                         <?php $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal); ?>                     
                         <?php
@@ -55,45 +55,42 @@ $format = new MyFormatter();
                         ));
                         ?>
                         <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>                     
-                    </div> 
+                    </div>
+                    
+                </div>
+                    <div class = "control-group">
+                       <?php echo Chtml::label("No Keputusan",'nomorkeputusandiklat', array('class'=>'control-label')) ?>
+                       <div class = "controls">
+                           <?php echo $form->textField($model,'nomorkeputusandiklat',array('class'=>'custom-only')) ?>
+                       </div>
+                   </div>
                 </td>
                 <td>
+                   
+                    
+                    <div class = "control-group">
+                       <?php echo Chtml::label("Jenis Diklat",'jenisdiklat_id', array('class'=>'control-label')) ?>
+                       <div class = "controls">
+                           <?php echo $form->dropDownList($model,'jenisdiklat_id', Chtml::listData(JenisdiklatM::model()->findAll("jenisdiklat_aktif = TRUE ORDER BY jenisdiklat_nama ASC"), 'jenisdiklat_id', 'jenisdiklat_nama'),array('empty'=>'-- Pilih --')) ?>
+                       </div>
+                   </div>
+                    
                    <div class = "control-group">
-                       <?php echo Chtml::label("Nama Pegawai",'nama_pegawai', array('class'=>'control-label')) ?>
+                       <?php echo Chtml::label("Nama Pegawai",'pegawaidiklat_nama', array('class'=>'control-label')) ?>
                        <div class = "controls">
-                           <?php echo $form->textField($model,'nama_pegawai',array('class'=>'hurufs-only')) ?>
-                       </div>
-                   </div>
-                    
-                    <div class = "control-group">
-                       <?php echo Chtml::label("Jabatan Asal",'jabatan_nama', array('class'=>'control-label')) ?>
-                       <div class = "controls">
-                           <?php echo $form->dropDownList($model,'jabatan_nama', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_nama', 'jabatan_nama'),array('empty'=>'-- Pilih --')) ?>
-                       </div>
-                   </div>
-                    
-                    <div class = "control-group">
-                       <?php echo Chtml::label("Jabatan Baru",'jabatan_baru', array('class'=>'control-label')) ?>
-                       <div class = "controls">
-                           <?php echo $form->dropDownList($model,'jabatan_baru', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_nama', 'jabatan_nama'),array('empty'=>'-- Pilih --')) ?>
+                           <?php echo $form->textField($model,'pegawaidiklat_nama',array('class'=>'hurufs-only')) ?>
                        </div>
                    </div>
                    
                 </td>                
                 <td>                    
                     <div class = "control-group">
-                       <?php echo Chtml::label("Unit Asal",'unitkerja', array('class'=>'control-label')) ?>
+                       &nbsp;
                        <div class = "controls">
-                           <?php echo $form->dropDownList($model,'unitkerja', Chtml::listData($model->getRuanganItems(), 'ruangan_nama', 'ruangan_nama'),array('empty'=>'-- Pilih --')) ?>
+                           &nbsp;
                        </div>
                    </div>
-                    
-                    <div class = "control-group">
-                       <?php echo Chtml::label("Unit baru",'unitkerja_baru', array('class'=>'control-label')) ?>
-                       <div class = "controls">
-                           <?php echo $form->dropDownList($model,'unitkerja_baru', Chtml::listData($model->getRuanganItems(), 'ruangan_nama', 'ruangan_nama'),array('empty'=>'-- Pilih --')) ?>
-                       </div>
-                   </div>
+                   
                 </td>                
             </tr>
         </table>

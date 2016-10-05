@@ -83,6 +83,7 @@ class RencanadiklatT extends CActiveRecord
 			'pegawaidiklatTs' => array(self::HAS_MANY, 'PegawaidiklatT', 'rencanadiklat_id'),
 			'pegawai' => array(self::BELONGS_TO, 'PegawaiM', 'pegawai_id'),
 			'jenisdiklat' => array(self::BELONGS_TO, 'JenisdiklatM', 'jenisdiklat_id'),
+                        'diklatMenyetujui' => array(self::BELONGS_TO, 'PegawaiM', 'menyetujui_id'),
 		);
 	}
 
