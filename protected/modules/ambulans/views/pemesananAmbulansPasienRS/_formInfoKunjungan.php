@@ -309,6 +309,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                 'filter'=> CHtml::dropDownList('AMInfokunjunganrjV[jeniskelamin]',$modDialogKunjungan->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
             ),
             array(
+                'header' => 'Instalasi',
                 'name'=>'instalasi_id',
                 'value'=>'$data->instalasi_nama',
                 'type'=>'raw',

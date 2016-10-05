@@ -8,7 +8,7 @@
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
-        'id'=>'supir-t-grid',
+        'id'=>'supir1-t-grid',
         'dataProvider'=>$modPelaksana->searchSupirAmbulans(),
         'filter'=>$modPelaksana,
         'template'=>"{summary}\n{items}\n{pager}",

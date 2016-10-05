@@ -17,7 +17,8 @@ class AMInstalasiM extends InstalasiM
         public function getInstalasiPelayanans(){
             $criteria = new CDbCriteria();
             $criteria->addInCondition('instalasi_id',array(
-                        Params::INSTALASI_ID_RJ, 
+                        Params::INSTALASI_ID_ICU, 
+                        Params::INSTALASI_ID_RJ,
                         Params::INSTALASI_ID_RD, 
                         Params::INSTALASI_ID_RI) 
                     );
