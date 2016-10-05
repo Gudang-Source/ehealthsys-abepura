@@ -92,6 +92,7 @@ class PesanambulansT extends CActiveRecord
 			'pasien'=>array(self::BELONGS_TO,'PasienM','pasien_id'),
 			'mobilambulans'=>array(self::BELONGS_TO,'MobilambulansM','mobilambulans_id'),
 			'ruanganpemesan'=>array(self::BELONGS_TO,'RuanganM','ruangan_id'),
+                        'ruanganUserPemesan'=>array(self::BELONGS_TO,'RuanganM','create_ruangan'),
 			'userpemesan'=>array(self::BELONGS_TO, 'LoginpemakaiK','create_loginpemakai_id'),
 		);
 	}

@@ -387,6 +387,9 @@ class AMInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
         $criteria->compare('carabayar_id', $this->carabayar_id);
+        if (!empty($this->instalasi_id)){
+            $criteria->addCondition("instalasi_id =".$this->instalasi_id);
+        }
         $criteria->order = 'tgl_pendaftaran DESC';
         $criteria->limit = 5;
         if($this->instalasi_id == Params::INSTALASI_ID_RJ){
@@ -395,6 +398,8 @@ class AMInfokunjunganrjV extends InfokunjunganrjV {
             $model = new AMInfoKunjunganRDV;
         }else if($this->instalasi_id == Params::INSTALASI_ID_RI){
             $model = new AMPasienrawatinapV;
+        }else if($this->instalasi_id == Params::INSTALASI_ID_ICU){
+            $model = new PasienmasukpenunjangV;
         }
 
         return new CActiveDataProvider($model, array(
