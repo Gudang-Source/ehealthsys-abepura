@@ -64,8 +64,8 @@
 				</div>
 			</div>
 				
-			<?php echo $form->textFieldRow($model,'organigram_unitkerja',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-			<?php echo $form->textFieldRow($model,'organigram_formasi',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+			<?php echo $form->dropDownListRow($model,'organigram_unitkerja', Chtml::listData(UnitkerjaM::model()->findAll("unitkerja_aktif = TRUE ORDER BY namaunitkerja ASC"), 'namaunitkerja', 'namaunitkerja'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+			<?php echo $form->textFieldRow($model,'organigram_formasi',array('class'=>'span3 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
                         <div class="control-group">
 				<?php echo $form->labelEx($model,'pegawai_id',array('class'=>'control-label')) ?>
 				<div class="controls">

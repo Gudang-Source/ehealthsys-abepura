@@ -1,7 +1,9 @@
 <?php
 class ASRencanaaskepT extends RencanaaskepT
 {
-	public $nama_pegawai,$no_pengkajian,$ruangan_nama,$nama_pasien,$diagnosakep_nama;
+	public $nama_pegawai,$no_pengkajian,$ruangan_nama,$nama_pasien,$diagnosakep_nama,$notemp;
+        public $no_pendaftaran;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -93,4 +95,27 @@ class ASRencanaaskepT extends RencanaaskepT
 				'pagination'=>false
 			));
 	}
+        
+        public function searchRencanaKeperawatan()
+        {
+                $criteria=new CDbCriteria;
+                $criteria->join = " LEFT JOIN implementasiaskep_t imple ON imple.rencanaaskep_id = t.rencanaaskep_id "
+                                . " RIGHT  JOIN pengkajianaskep_t peng ON peng.pengkajianaskep_id = t.pengkajianaskep_id "
+                                . " JOIN pendaftaran_t p ON p.pendaftaran_id = peng.pendaftaran_id "                                 
+                                . " JOIN pegawai_m peg ON peg.pegawai_id = t.pegawai_id";		                
+                $criteria->addCondition(' imple.rencanaaskep_id IS NULL');		
+                $criteria->compare('LOWER(t.no_rencana)',  strtolower($this->no_rencana),true);
+                $criteria->compare('LOWER(peng.no_pengkajian)',  strtolower($this->no_pengkajian),true);
+                $criteria->compare('LOWER(peg.nama_pegawai)',  strtolower($this->nama_pegawai),true);
+                if (!empty($this->rencanaaskep_tgl)){
+                    $criteria->addCondition(" t.rencanaaskep_tgl = '".MyFormatter::formatDateTimeForDb($this->rencanaaskep_tgl)."' ");
+                }
+		if (!empty($this->ruangan_id)){
+                    $criteria->addCondition(" t.ruangan_id = '".$this->ruangan_id."' ");
+                }
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+        }
 }

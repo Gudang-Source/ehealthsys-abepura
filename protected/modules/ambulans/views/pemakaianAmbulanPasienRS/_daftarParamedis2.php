@@ -6,7 +6,7 @@
     }
     echo CHtml::hiddenField('paramedisKe','',array('readonly'=>true));
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
-        'id'=>'paramedis-t-grid',
+        'id'=>'paramedis2-t-grid',
         'dataProvider'=>$modParamedis->searchParamedis(),
         'filter'=>$modParamedis,
         'template'=>"{summary}\n{items}\n{pager}",
@@ -48,7 +48,7 @@
                         setNumbersOnly(this);
                     });
                     $(".hurufs-only").keyup(function() {
-                        setNumbersOnly(this);
+                        setHurufsOnly(this);
                     });'
                 . '}',
     )); 
