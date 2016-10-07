@@ -58,7 +58,7 @@ class DaftartindakanM extends CActiveRecord
 			array('daftartindakan_kode', 'length', 'max'=>20),
 			array('daftartindakan_nama, tindakanmedis_nama, daftartindakan_namalainnya', 'length', 'max'=>200),
 			array('daftartindakan_katakunci', 'length', 'max'=>30),
-			array('daftartindakan_karcis, daftartindakan_visite, daftartindakan_konsul, daftartindakan_akomodasi, daftartindakan_aktif', 'safe'),
+			array('jeniskegiatan_id, daftartindakan_karcis, daftartindakan_visite, daftartindakan_konsul, daftartindakan_akomodasi, daftartindakan_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('daftartindakan_id, kategoritindakan_nama, kelompoktindakan_nama, komponenunit_id, kategoritindakan_id, kelompoktindakan_nama, kelompoktindakan_id, daftartindakan_kode, daftartindakan_nama, tindakanmedis_nama, daftartindakan_namalainnya, daftartindakan_katakunci, daftartindakan_karcis, daftartindakan_visite, daftartindakan_konsul, daftartindakan_akomodasi, daftartindakan_aktif', 'safe', 'on'=>'search'),
@@ -81,6 +81,7 @@ class DaftartindakanM extends CActiveRecord
 					//'daftartindakan' => array(self::HAS_MANY, 'TariftindakanperdatotalV', 'daftartindakan_id'),
                     'tariftindakan'=>array(self::HAS_MANY,'TariftindakanM','daftartindakan_id'),
                     'pelayananrek'=>array(self::HAS_MANY,'PelayananrekM','daftartindakan_id'),
+                    'jeniskegiatan'=> array(self::BELONGS_TO, 'JeniskegiatanM', 'jeniskegiatan_id'),
 		);
 	}
 
@@ -107,6 +108,7 @@ class DaftartindakanM extends CActiveRecord
 			'daftartindakan_konsul' => 'Konsul',
 			'daftartindakan_akomodasi' => 'Akomodasi',
 			'daftartindakan_aktif' => 'Aktif',
+                        'jeniskegiatan_id' => 'Jenis Kegiatan',
 		);
 	}
 
@@ -204,6 +206,11 @@ class DaftartindakanM extends CActiveRecord
          public function getDaftarTindakanItems()
         {
             return TariftindakanperdatotalV::model()->findAll(array('order'=>'daftartindakan_nama'));
+        }
+        
+        public function getJenisKegiatanItems()
+        {
+            return JeniskegiatanM::model()->findAllByAttributes(array('jeniskegiatan_aktif'=>TRUE),array('order'=>'jeniskegiatan_nama'));
         }
         
         public function getDaftarTindakanNama($id)

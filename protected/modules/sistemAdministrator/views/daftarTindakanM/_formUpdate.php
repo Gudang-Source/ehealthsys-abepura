@@ -77,6 +77,18 @@
                             
                         </table>
                     </fieldset>
+                    
+                    <fieldset class="box">
+                        <legend class="rim">Jenis Kegiatan</legend>
+                        <table>
+                            <tr>
+                                <td>
+                                    <?php echo $form->dropDownListRow($model,'jeniskegiatan_id',  CHtml::listData($model->JenisKegiatanItems, 'jeniskegiatan_id', 'jeniskegiatan_nama'),array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>   
+                                </td>                               
+                            </tr>
+                            
+                        </table>
+                    </fieldset>
                 </td>
             </tr>
         </table>
