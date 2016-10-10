@@ -1,3 +1,6 @@
+<div class="white-container">
+    <legend class = "rim2">Lihat <b>Kamar Ruangan</b></legend>
+
 <?php
 $this->breadcrumbs=array(
 	'Sakamar Ruangan Ms'=>array('index'),
@@ -12,7 +15,7 @@ $arrMenu = array();
 //                array_push($arrMenu,array('label'=>Yii::t('mds','Delete').' Kamar Ruangan','icon'=>'trash','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->kamarruangan_id),'confirm'=>Yii::t('mds','Are you sure you want to delete this item?')))) ;
                 // (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Kamar Ruangan', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
 
-$this->menu=$arrMenu;
+//$this->menu=$arrMenu;
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
@@ -50,3 +53,4 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kamar Ruangan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
 $this->widget('UserTips',array('type'=>'view'));
 ?>
+</div>
