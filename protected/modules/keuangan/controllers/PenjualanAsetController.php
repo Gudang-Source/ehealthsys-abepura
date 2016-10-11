@@ -79,7 +79,7 @@ class PenjualanAsetController extends MyAuthController
                 foreach ($_POST['InvtanahT'] as $key => $value) {
                     if($value['is_checked']){
                         $id     = $value['invtanah_id'];
-                        $model  = InvtanahT::model()->findByPk($id);;
+                        $model  = InvtanahT::model()->findByPk($id);
                         $model->tipepenghapusan = "penjualan telah dijurnal";
                         $model->save();
                     }

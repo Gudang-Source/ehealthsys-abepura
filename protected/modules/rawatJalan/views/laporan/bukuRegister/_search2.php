@@ -227,6 +227,6 @@ $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dip
 $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
 $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaftaran_id' => ''));
 ?>
-<?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
+<?php $this->renderPartial('rawatJalan.views.laporan._jsFunctions', array('model' => $model)); ?>
 
 

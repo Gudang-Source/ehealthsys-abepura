@@ -119,11 +119,11 @@ $format = new MyFormatter();
 </div>
 <fieldset class="box search-form">
     <legend class="rim"><i class="icon-white icon-search"></i> Pencarian </legend>
-    <table class="table">
+    <table >
         <tr>
             <td>
                 <div class="control-group ">
-                    <?php echo $form->labelEx($model,'tgl_rm_awal', array('class'=>'control-label inline')) ?>
+                    <?php echo Chtml::label("Tanggal Pendaftaran",'tgl_rm_awal', array('class'=>'control-label inline')) ?>
                     <div class="controls">
                         <?php   
                                 $model->tgl_rm_awal = MyFormatter::formatDateTimeForUser($model->tgl_rm_awal);
@@ -169,8 +169,8 @@ $format = new MyFormatter();
                         <?php //echo $form->labelEx($model,'rt', array('class'=>'control-label inline')) ?>
                         
                          <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-                			<?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-              				<?php echo $form->textFieldRow($model,'alamat_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                			<?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+              				<?php echo $form->textFieldRow($model,'alamat_pasien',array('class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                			<?php // echo $form->dropDownListRow($model,'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --', 'class'=>'span3')); ?>
                			<?php /* echo $form->dropDownListRow($model, 'ruangan_id',
                				CHtml::listData(RuanganM::model()->findAll(array('condition'=>'instalasi_id in (2,3,4,8)', 'order'=>'instalasi_id, ruangan_nama')), 'ruangan_id', 'ruangan_nama'),
@@ -189,12 +189,18 @@ $format = new MyFormatter();
 </fieldset>
       
     <div class="form-actions">
-    <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
-		<?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('PencarianKaryawanSakit/'), array('class'=>'btn btn-danger')); ?>
+    <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
+		<?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), $this->createUrl('PencarianKaryawanSakit/'), array('class'=>'btn btn-danger')); ?>
                 
-<?php  
-$content = $this->renderPartial('pendaftaranPenjadwalan.views.tips.informasi',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>	
+ <?php
+          $tips = array(
+              '0' => 'tanggal',
+              '1' => 'cari',
+              '2' => 'ulang'
+          );
+          $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+          $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+    ?>
 		
 </div>
 
