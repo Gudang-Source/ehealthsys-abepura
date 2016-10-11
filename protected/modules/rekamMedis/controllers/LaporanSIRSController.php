@@ -1548,7 +1548,7 @@ class LaporanSIRSController extends MyAuthController
         $tgl_akhir = $model->tgl_akhir;
         
         $criteria =  new CDbCriteria();
-        $criteria->group = 'profilrs_id,propinsi,kabupaten,koders,namars,tgl_laporan,dtd_kode,dtd_noterperinci,golongansebabpenyakit';
+        $criteria->group = 'profilrs_id,propinsi,kabupaten, namars,dtd_kode,dtd_noterperinci,golongansebabpenyakit';
         $criteria->select = $criteria->group.', SUM ("var_0hr_6hr_l") AS "var_0hr_6hr_l",
 						SUM ("var_0hr_6hr_p") AS "var_0hr_6hr_p",
 						SUM ("var_6hr_28hr_l") AS "var_6hr_28hr_l",
@@ -1619,32 +1619,32 @@ class LaporanSIRSController extends MyAuthController
             '<th style="text-align:center;">P</th>',              
         );
         $tdCount = array(
-            '<td style="text-align:center;background-color:#AFAFAF">1</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">2</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">3</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">4</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">5</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">6</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">7</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">8</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">9</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">10</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">11</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">12</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">13</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">14</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">15</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">16</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">17</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">18</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">19</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">20</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">21</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">22</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">23</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">24</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">25</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">26</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">1</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">2</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">3</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">4</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">5</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">6</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">7</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">8</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">9</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">10</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">11</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">12</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">13</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">14</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">15</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">16</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">17</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">18</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">19</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">20</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">21</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">22</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">23</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">24</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">25</td>',
+            '<td style="text-align:center;" bgcolor = "#AFAFAF">26</td>',
         );
 
         $i=0;
@@ -1672,10 +1672,10 @@ class LaporanSIRSController extends MyAuthController
 		$total_pasienkeluarhidup = 0;
 		$total_pasienkeluarmati = 0;
 		
-        $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
-        $table .= '<thead>';
+        $table = '<table width="100%" border="1" cellpadding="2" cellspacing="0" class="table border">';
+        $table .= '';
         $table .= '<tr>'. implode($header, "") .'</tr>'.'<tr>'. implode($header2, "") .'</tr>'.'<tr>'. implode($header3, "") .'</tr>';
-        $table .= '</thead>';
+        $table .= '';
         $table .= '<tbody>'; 
         $table .= '<tr>';
         $table .= implode($tdCount, "");
@@ -1689,28 +1689,28 @@ class LaporanSIRSController extends MyAuthController
                     <td>'.$val['dtd_kode'].'</td>
                     <td>'.$val['dtd_noterperinci'].'</td>
                     <td>'.$val['golongansebabpenyakit'].'</td>
-                    <td style=text-align:center;>'.$val['var_0hr_6hr_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_0hr_6hr_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_6hr_28hr_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_6hr_28hr_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_28hr_1th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_28hr_1th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_1th_4th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_1th_4th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_4th_14th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_4th_14th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_14th_24th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_14th_24th_p'].'</td>  
-                    <td style=text-align:center;>'.$val['var_24th_44th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_24th_44th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_44th_64th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_44th_64th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_64th_keatas_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_64th_keatas_p'].'</td>
-                    <td style=text-align:center;>'.$val['pasienkeluarlakilaki'].'</td>
-                    <td style=text-align:center;>'.$val['pasienkeluarperempuan'].'</td>
-                    <td style=text-align:center;>'.$val['pasienkeluarhidup'].'</td>
-                    <td style=text-align:center;>'.$val['pasienkeluarmati'].'</td></tr>';
+                    <td style=text-align:center;>'.number_format($val['var_0hr_6hr_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_0hr_6hr_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_6hr_28hr_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_6hr_28hr_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_28hr_1th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_28hr_1th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_1th_4th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_1th_4th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_4th_14th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_4th_14th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_14th_24th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_14th_24th_p'],0,"",".").'</td>  
+                    <td style=text-align:center;>'.number_format($val['var_24th_44th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_24th_44th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_44th_64th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_44th_64th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_64th_keatas_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_64th_keatas_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['pasienkeluarlakilaki'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['pasienkeluarperempuan'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['pasienkeluarhidup'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['pasienkeluarmati'],0,"",".").'</td></tr>';
                 
 				$total_0hr_l += $val['var_0hr_6hr_l'];
 				$total_0hr_p += $val['var_0hr_6hr_p'];
@@ -1742,29 +1742,29 @@ class LaporanSIRSController extends MyAuthController
             $table .= '</tr>';
         endif;  
         
-            $table .= '<tr><td></td><td></td><td></td><td><b>Total</b></td>
-                        <td style=text-align:center;>'.$total_0hr_l.'</td>
-                        <td style=text-align:center;>'.$total_0hr_p.'</td>
-                        <td style=text-align:center;>'.$total_6hr_l.'</td>
-                        <td style=text-align:center;>'.$total_6hr_p.'</td>
-                        <td style=text-align:center;>'.$total_28hr_l.'</td>
-                        <td style=text-align:center;>'.$total_28hr_p.'</td>
-                        <td style=text-align:center;>'.$total_1th_l.'</td>
-                        <td style=text-align:center;>'.$total_1th_p.'</td>
-                        <td style=text-align:center;>'.$total_4th_l.'</td>
-                        <td style=text-align:center;>'.$total_4th_p.'</td>
-                        <td style=text-align:center;>'.$total_14th_l.'</td>
-                        <td style=text-align:center;>'.$total_14th_p.'</td>  
-                        <td style=text-align:center;>'.$total_24th_l.'</td>
-                        <td style=text-align:center;>'.$total_24th_p.'</td>
-                        <td style=text-align:center;>'.$total_44th_l.'</td>
-                        <td style=text-align:center;>'.$total_44th_p.'</td>
-                        <td style=text-align:center;>'.$total_64th_l.'</td>
-                        <td style=text-align:center;>'.$total_64th_p.'</td>'
-                    . '<td style=text-align:center;>'.$total_pasienkeluarlakilaki.'</td>'
-                    . '<td style=text-align:center;>'.$total_pasienkeluarperempuan.'</td>'
-                    . '<td style=text-align:center;>'.$total_pasienkeluarhidup.'</td>'
-                    . '<td style=text-align:center;>'.$total_pasienkeluarmati.'</td><tr>';
+            $table .= '<tr><td></td><td></td><td></td><td align="right"><b>Total</b></td>
+                        <td style=text-align:center;>'.number_format($total_0hr_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_0hr_p,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_6hr_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_6hr_p,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_28hr_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_28hr_p,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_1th_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_1th_p,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_4th_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_4th_p,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_14th_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_14th_p,0,"",".").'</td>  
+                        <td style=text-align:center;>'.number_format($total_24th_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_24th_p,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_44th_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_44th_p,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_64th_l,0,"",".").'</td>
+                        <td style=text-align:center;>'.number_format($total_64th_p,0,"",".").'</td>'
+                    . '<td style=text-align:center;>'.number_format($total_pasienkeluarlakilaki,0,"",".").'</td>'
+                    . '<td style=text-align:center;>'.number_format($total_pasienkeluarperempuan,0,"",".").'</td>'
+                    . '<td style=text-align:center;>'.number_format($total_pasienkeluarhidup,0,"",".").'</td>'
+                    . '<td style=text-align:center;>'.number_format($total_pasienkeluarmati,0,"",".").'</td><tr>';
             $table .= '</tbody>';
             $table .= '</table>';
             
@@ -1796,9 +1796,13 @@ class LaporanSIRSController extends MyAuthController
             );
             $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
+            $colspan = null;
+            $colspan1 = null;
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
             {
+                $colspan = 20;
+                $colspan1 = 12;
                 $this->layout = '//layouts/printExcel';
             }
             
@@ -1809,6 +1813,8 @@ class LaporanSIRSController extends MyAuthController
                     'title'=>'DATA KEADAAN MORBIDITAS PASIEN RAWAT INAP RUMAH SAKIT',
                     'periode'=>$periode,
                     'table'=>$table,
+                    'colspan' => $colspan,
+                    'colspan1' => $colspan1,
                     'caraPrint'=>$_GET['caraPrint']
                 )
             );            
@@ -1821,8 +1827,24 @@ class LaporanSIRSController extends MyAuthController
     {
         $model = new RKRl4bMobiditaspasienrjV();
         $format = new MyFormatter();
-        $tgl_awal = $format->formatDateTimeForDB($_REQUEST['tgl_awal']);
-        $tgl_akhir = $format->formatDateTimeForDB($_REQUEST['tgl_akhir']);
+        $model->jns_periode = $_REQUEST['jns_periode'];
+        $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['tgl_awal']);
+        $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['tgl_akhir']);
+        $model->bln_awal = $format->formatMonthForDb($_REQUEST['bln_awal']);
+        $model->bln_akhir = $format->formatMonthForDb($_REQUEST['bln_akhir']);
+        $model->thn_awal = $_REQUEST['thn_awal'];
+        $model->thn_akhir = $_REQUEST['thn_akhir'];
+        $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+        $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+        switch($model->jns_periode){
+            case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+            case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+            default : null;
+        }
+        $model->tgl_awal = $model->tgl_awal." 00:00:00";
+        $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        $tgl_awal = $model->tgl_awal;
+        $tgl_akhir = $model->tgl_akhir;
         
         $criteria =  new CDbCriteria();
         $criteria->group = 'profilrs_id,
@@ -1913,32 +1935,32 @@ class LaporanSIRSController extends MyAuthController
             '<th style="text-align:center;">P</th>',              
         );
         $tdCount = array(
-            '<td style="text-align:center;background-color:#AFAFAF">1</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">2</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">3</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">4</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">5</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">6</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">7</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">8</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">9</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">10</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">11</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">12</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">13</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">14</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">15</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">16</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">17</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">18</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">19</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">20</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">21</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">22</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">23</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">24</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">25</td>',
-            '<td style="text-align:center;background-color:#AFAFAF">26</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">1</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">2</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">3</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">4</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">5</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">6</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">7</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">8</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">9</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">10</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">11</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">12</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">13</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">14</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">15</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">16</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">17</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">18</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">19</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">20</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">21</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">22</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">23</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">24</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">25</td>',
+            '<td style="text-align:center;" bgcolor="#AFAFAF">26</td>',
         );
 
         $rows = array();
@@ -1968,10 +1990,10 @@ class LaporanSIRSController extends MyAuthController
         $datas = array();
         $dataGroup = array();
         
-        $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
-        $table .= '<thead>';
+        $table = '<table width="100%" border="1" cellpadding="2" cellspacing="0" class="table border">';
+        $table .= '';
         $table .= '<tr>'. implode($header, "") .'</tr>'.'<tr>'. implode($header2, "") .'</tr>'.'<tr>'. implode($header3, "") .'</tr>';
-        $table .= '</thead>';
+        $table .= '';
         $table .= '<tbody>'; 
         $table .= '<tr>';
         $table .= implode($tdCount, "");
@@ -1984,28 +2006,28 @@ class LaporanSIRSController extends MyAuthController
                     <td>'.$val['dtd_kode'].'</td>
                     <td>'.$val['dtd_noterperinci'].'</td>
                     <td>'.$val['golongansebabpenyakit'].'</td>
-                    <td style=text-align:center;>'.$val['var_0hr_6hr_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_0hr_6hr_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_6hr_28hr_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_6hr_28hr_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_28hr_1th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_28hr_1th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_1th_4th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_1th_4th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_4th_14th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_4th_14th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_14th_24th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_14th_24th_p'].'</td>  
-                    <td style=text-align:center;>'.$val['var_24th_44th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_24th_44th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_44th_64th_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_44th_64th_p'].'</td>
-                    <td style=text-align:center;>'.$val['var_64th_keatas_l'].'</td>
-                    <td style=text-align:center;>'.$val['var_64th_keatas_p'].'</td>
-                    <td style=text-align:center;>'.$val['kasusbaru_lakilaki'].'</td>
-                    <td style=text-align:center;>'.$val['kasusbaru_perempuan'].'</td>
-                    <td style=text-align:center;>'.$val['jumlahkasusbaru'].'</td>
-                    <td style=text-align:center;>'.$val['jumlahkunjungan'].'</td></tr>';
+                    <td style=text-align:center;>'.number_format($val['var_0hr_6hr_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_0hr_6hr_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_6hr_28hr_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_6hr_28hr_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_28hr_1th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_28hr_1th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_1th_4th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_1th_4th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_4th_14th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_4th_14th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_14th_24th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_14th_24th_p'],0,"",".").'</td>  
+                    <td style=text-align:center;>'.number_format($val['var_24th_44th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_24th_44th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_44th_64th_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_44th_64th_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_64th_keatas_l'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['var_64th_keatas_p'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['kasusbaru_lakilaki'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['kasusbaru_perempuan'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['jumlahkasusbaru'],0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($val['jumlahkunjungan'],0,"",".").'</td></tr>';
                 
                 $tot_var_0hr_6hr_l +=  $val['var_0hr_6hr_l'];
                 $tot_var_0hr_6hr_p +=  $val['var_0hr_6hr_p'];
@@ -2037,29 +2059,29 @@ class LaporanSIRSController extends MyAuthController
             
         endif;
                    
-        $table .= '<tr><td></td><td></td><td></td><td><b>Total</b></td>
-                    <td style=text-align:center;>'.$tot_var_0hr_6hr_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_0hr_6hr_p.'</td>
-                    <td style=text-align:center;>'.$tot_var_6hr_28hr_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_6hr_28hr_p.'</td>
-                    <td style=text-align:center;>'.$tot_var_28hr_1th_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_28hr_1th_p.'</td>
-                    <td style=text-align:center;>'.$tot_var_1th_4th_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_1th_4th_p.'</td>
-                    <td style=text-align:center;>'.$tot_var_4th_14th_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_4th_14th_p.'</td>
-                    <td style=text-align:center;>'.$tot_var_14th_24th_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_14th_24th_p.'</td>
-                    <td style=text-align:center;>'.$tot_var_24th_44th_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_24th_44th_p.'</td>
-                    <td style=text-align:center;>'.$tot_var_44th_64th_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_44th_64th_p.'</td>
-                    <td style=text-align:center;>'.$tot_var_64th_keatas_l.'</td>
-                    <td style=text-align:center;>'.$tot_var_64th_keatas_p.'</td>
-                    <td style=text-align:center;>'.$tot_kasusbaru_lakilaki.'</td>
-                    <td style=text-align:center;>'.$tot_kasusbaru_perempuan.'</td>
-                    <td style=text-align:center;>'.$tot_jumlahkasusbaru.'</td>
-                    <td style=text-align:center;>'.$tot_jumlahkunjungan.'</td><tr>';
+        $table .= '<tr><td></td><td></td><td></td><td align = "right"><b>Total</b></td>
+                    <td style=text-align:center;>'.number_format($tot_var_0hr_6hr_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_0hr_6hr_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_6hr_28hr_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_6hr_28hr_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_28hr_1th_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_28hr_1th_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_1th_4th_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_1th_4th_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_4th_14th_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_4th_14th_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_14th_24th_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_14th_24th_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_24th_44th_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_24th_44th_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_44th_64th_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_44th_64th_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_64th_keatas_l,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_var_64th_keatas_p,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_kasusbaru_lakilaki,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_kasusbaru_perempuan,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_jumlahkasusbaru,0,"",".").'</td>
+                    <td style=text-align:center;>'.number_format($tot_jumlahkunjungan,0,"",".").'</td><tr>';
         $table .= '</tbody>';
         $table .= '</table>';
         
@@ -2089,9 +2111,13 @@ class LaporanSIRSController extends MyAuthController
             );
             $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
+            $colspan = null;
+            $colspan1 = null;
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
             {
+                $colspan = 20;
+                $colspan1 = 12;
                 $this->layout = '//layouts/printExcel';
             }
             
@@ -2102,6 +2128,8 @@ class LaporanSIRSController extends MyAuthController
                     'title'=>'DATA KEADAAN MORBIDITAS PASIEN RAWAT JALAN RUMAH SAKIT',
                     'periode'=>$periode,
                     'table'=>$table,
+                    'colspan' => $colspan,
+                    'colspan1' => $colspan1,
                     'caraPrint'=>$_GET['caraPrint']
                 )
             );            
