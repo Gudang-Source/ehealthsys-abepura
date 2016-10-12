@@ -15,7 +15,7 @@
 			<?php echo $form->labelEx($model, 'periodeposting_id', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php 
-					echo $form->dropDownList($model, 'periodeposting_id', CHtml::listData(AKPeriodepostingM::model()->findAll(),'periodeposting_id','deskripsiperiodeposting'), array('empty' => '-- Pilih --',
+					echo $form->dropDownList($model, 'periodeposting_id', CHtml::listData(AKPeriodepostingM::model()->findAll("periodeposting_aktif = TRUE ORDER BY deskripsiperiodeposting ASC"),'periodeposting_id','deskripsiperiodeposting'), array('empty' => '-- Pilih --',
 					'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'reqForm'));
 				?>
 			</div>
