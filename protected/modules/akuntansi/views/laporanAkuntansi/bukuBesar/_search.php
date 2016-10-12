@@ -24,7 +24,7 @@ label.checkbox{
 				<?php echo $form->labelEx($modelLaporan, 'periodeposting_id', array('class' => 'control-label')); ?>
 				<div class="controls">
 					<?php 
-						echo $form->dropDownList($modelLaporan, 'periodeposting_id', CHtml::listData(AKPeriodepostingM::model()->findAll(),'periodeposting_id','deskripsiperiodeposting'), array('empty' => '-- Pilih --',
+						echo $form->dropDownList($modelLaporan, 'periodeposting_id', CHtml::listData(AKPeriodepostingM::model()->findAll("periodeposting_aktif = TRUE ORDER BY deskripsiperiodeposting ASC"),'periodeposting_id','deskripsiperiodeposting'), array('empty' => '-- Pilih --',
 						'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'reqForm'));
 					?>
 				</div>
@@ -33,7 +33,7 @@ label.checkbox{
 				<?php echo CHtml::label('Unit Kerja', 'Unit Kerja', array('class' => 'control-label')) ?>
                 <div class="controls">
                     <?php
-                        echo $form->dropDownList($modelLaporan,'ruangan_id',CHtml::listData(RuanganM::model()->findAll(),
+                        echo $form->dropDownList($modelLaporan,'ruangan_id',CHtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC"),
 							'ruangan_id','ruangan_nama'),array('class'=>'span2','style'=>'width:140px','empty'=>'-- Pilih --')); 
                     ?>
                 </div>
@@ -123,10 +123,10 @@ label.checkbox{
 	
     <div class="form-actions">
         <?php
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), 
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), 
 				array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));?>
         
-		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
 				$this->createUrl($this->id.'/LaporanBukuBesar'), 
                     array('class'=>'btn btn-danger',
                           'onclick'=>'return refreshForm(this);')); ?>

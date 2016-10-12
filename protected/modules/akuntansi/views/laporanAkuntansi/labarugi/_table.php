@@ -254,7 +254,7 @@
 			?>
 			<tr>
 				<td><strong>Laba Rugi</strong></td>
-				<td width='150px;' style='text-align:right'><?php echo number_format($labarugi); ?></td>
+				<td width='150px;' style='text-align:right'><?php echo number_format($labarugi,0,"","."); ?></td>
 			</tr>
 	    </tbody>
     </table>
