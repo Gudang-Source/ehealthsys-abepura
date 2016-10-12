@@ -84,7 +84,7 @@
         )); ?>
     </div>
     <fieldset class="box">
-        <?php $this->renderPartial('peralatanMedis/_search',array(
+        <?php $this->renderPartial($this->path_view.'peralatanMedis/_search',array(
                 'model'=>$model,
         )); ?>
     </fieldset>

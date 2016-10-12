@@ -2,7 +2,7 @@
 class InformasiPenjualanController extends MyAuthController
 {
     public $layout = '//layouts/column1';
-    public $path_view = 'manajementAset.views.informasiPenjualan.';
+    public $path_view = 'manajemenAset.views.informasiPenjualan.';
     
     public function actionTanah()
     {
@@ -17,7 +17,7 @@ class InformasiPenjualanController extends MyAuthController
             $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['MAInvtanahT']['tgl_akhir']);
         }
         
-        $this->render('tanah/index', array('model'=>$model));
+        $this->render($this->path_view.'tanah/index', array('model'=>$model));
         
     }
     
@@ -34,7 +34,7 @@ class InformasiPenjualanController extends MyAuthController
             $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['MAInvperalatanT']['tgl_akhir']);
         }
         
-        $this->render('peralatanMedis/index', array('model'=>$model));
+        $this->render($this->path_view.'peralatanMedis/index', array('model'=>$model));
         
     }
     
@@ -51,7 +51,7 @@ class InformasiPenjualanController extends MyAuthController
             $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['MAInvperalatanT']['tgl_akhir']);
         }
         
-        $this->render('peralatanNonMedis/index', array('model'=>$model));
+        $this->render($this->path_view.'peralatanNonMedis/index', array('model'=>$model));
         
     }
     
@@ -68,7 +68,7 @@ class InformasiPenjualanController extends MyAuthController
             $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['MAInvperalatanT']['tgl_akhir']);
         }
         
-        $this->render('kendaraan/index', array('model'=>$model));
+        $this->render($this->path_view.'kendaraan/index', array('model'=>$model));
         
     }
     
@@ -85,7 +85,7 @@ class InformasiPenjualanController extends MyAuthController
             $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['MAInvgedungT']['tgl_akhir']);
         }
         
-        $this->render('gedungDanBangunan/index', array('model'=>$model));
+        $this->render($this->path_view.'gedungDanBangunan/index', array('model'=>$model));
         
     }
 }
