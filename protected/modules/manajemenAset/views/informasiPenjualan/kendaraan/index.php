@@ -84,7 +84,7 @@
         )); ?>
     </div>
     <fieldset class="box">
-        <?php $this->renderPartial('kendaraan/_search',array(
+        <?php $this->renderPartial($this->path_view.'kendaraan/_search',array(
                 'model'=>$model,
         )); ?>
     </fieldset>
