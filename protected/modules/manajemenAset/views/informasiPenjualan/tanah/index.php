@@ -84,7 +84,7 @@
         )); ?>
     </div>
     <fieldset class="box">
-        <?php $this->renderPartial('tanah/_search',array(
+        <?php $this->renderPartial($this->path_view.'tanah/_search',array(
                 'model'=>$model,
         )); ?>
     </fieldset>
