@@ -249,7 +249,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 0, 5, 15, 15);
             $mpdf->tMargin = 5;
             $mpdf->WriteHTML($this->renderPartial('bukuBesar/_print', array('model' => $model, 'modelLaporan' => $modelLaporan, 'jmlRekening' => $jmlRekening, 'periode' => $periode, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 
@@ -294,7 +294,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 
@@ -366,7 +366,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 0, 5, 15, 15);
             $mpdf->tMargin = 5;
             $mpdf->WriteHTML($this->renderPartial('aruskas/_print', array('model' => $model, 'periode' => $periode, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 
@@ -457,7 +457,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 0, 5, 15, 15);
             $mpdf->tMargin = 5;
             $mpdf->WriteHTML($this->renderPartial('neraca/Print', array('model' => $model, 'modelLaporan' => $modelLaporan, 'periode' => $periode, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 
@@ -509,7 +509,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 
@@ -571,7 +571,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 
@@ -632,7 +632,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 

@@ -196,4 +196,4 @@ $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dip
   $("#content4").find("input[type=\'checkbox\']").attr("checked", "checked");
 ',  CClientScript::POS_READY);
 ?>
-<?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
+<?php $this->renderPartial('rawatJalan.views.laporan._jsFunctions', array('model' => $model)); ?>
