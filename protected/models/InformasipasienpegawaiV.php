@@ -227,7 +227,7 @@ class InformasipasienpegawaiV extends CActiveRecord
 		$criteria=new CDbCriteria;
 
                 if (!empty($this->tgl_rm_awal) && !empty($this->tgl_rm_akhir))
-                    $criteria->addBetweenCondition ('tgl_rekam_medik::date', $this->tgl_rm_awal, $this->tgl_rm_akhir);
+                    $criteria->addBetweenCondition ('tgl_pendaftaran::date', $this->tgl_rm_awal, $this->tgl_rm_akhir);
                 
 		$criteria->compare('pasien_id',$this->pasien_id);
 		$criteria->compare('jenisidentitas',$this->jenisidentitas,true);

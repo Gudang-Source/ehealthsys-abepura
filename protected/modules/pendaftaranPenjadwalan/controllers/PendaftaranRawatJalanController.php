@@ -70,9 +70,9 @@ class PendaftaranRawatJalanController extends MyAuthController
                     $model->attributes = $_POST['PPPendaftaranT'];
 					$model->keterangan_pendaftaran = $_POST['PPPendaftaranT']['keterangan_pendaftaran'];
                     $modPasien->attributes = $_POST['PPPasienM'];
-					if(!empty($modPasien->pegawai_id)){
-	                    $modPegawai->attributes = $modPasien->pegawai->attributes;
-					}
+                    if(!empty($modPasien->pegawai_id)){
+                        $modPegawai->attributes = $modPasien->pegawai->attributes;
+                    }
                     if($_POST['PPPendaftaranT']['is_adapjpasien']){
                         if(isset($_POST['PPPenanggungJawabM'])){
                             $modPenanggungJawab=new PPPenanggungJawabM;

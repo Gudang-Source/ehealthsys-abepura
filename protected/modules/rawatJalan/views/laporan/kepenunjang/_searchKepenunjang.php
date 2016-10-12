@@ -199,4 +199,4 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
         }
     }
 </script>
-<?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
+<?php $this->renderPartial('rawatJalan.views.laporan._jsFunctions', array('model' => $model)); ?>
