@@ -40,9 +40,11 @@
 				)); 
 			?>
 		</div>
-		<div class="col-md-9">
-			<?php  
-			$this->renderPartial('_map',array('dataMap'=>$dataMap,'latitude'=>$latitude,'longitude'=>$longitude)); ?>
-		</div>
+		<?php $map = Yii::app()->user->getState('mapdashboard');
+		if ($map == true) { ?>
+		    <div class="col-md-9">
+			    <?php $this->renderPartial('_map',array('dataMap'=>$dataMap)); ?>
+		    </div>
+	    <?php } ?>
 	</div>
 </div>

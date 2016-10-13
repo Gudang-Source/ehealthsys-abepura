@@ -87,8 +87,8 @@ class InvtanahTController extends MyAuthController
                 if (!empty($model->invtanah_harga) && !empty($model->invtanah_luas)) $model->invtanah_harga /= $model->invtanah_luas;
                 
                 $data['pemilikbarang_nama'] = $model->pemilik->pemilikbarang_nama;
-                $dataAsalAset['asalaset_nama'] = $model->asal->asalaset_nama;
-                $dataLokasi['lokasiaset_namalokasi'] = $model->lokasi->lokasiaset_namalokasi;
+                $dataAsalAset['asalaset_nama'] = !empty($model->asal->asalaset_nama)?$model->asal->asalaset_nama:'';
+                $dataLokasi['lokasiaset_namalokasi'] = !empty($model->lokasi->lokasiaset_namalokasi)?$model->lokasi->lokasiaset_namalokasi:'';
 //                $modBarang->pemilikbarang_nama = $model->pemilik->pemilikbarang_nama;
 
 		// Uncomment the following line if AJAX validation is needed
