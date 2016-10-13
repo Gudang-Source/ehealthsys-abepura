@@ -95,12 +95,12 @@ class LaporanImplementasiAskepController extends MyAuthController{
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
-            $mpdf->useOddEven = 2;
+                        $mpdf->mirrorMargins = 2;
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 }

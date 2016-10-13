@@ -31,6 +31,9 @@ class InformasiEvaluasiAskepController extends MyAuthController {
 		$model->attributes = $model;
 		$modImpl = ASInfoimplementasiaskepV::model()->findByAttributes(array('implementasiaskep_id'=>$model->implementasiaskep_id));
 		$modPasien = ASInfopasienmasukkamarV::model()->findByAttributes(array('no_pendaftaran' => $modImpl->no_pendaftaran));
+                if(count($modPasien) == 0){
+			$modPasien = ASPasienpulangrddanriV::model()->findByAttributes(array('no_pendaftaran' => $modImpl->no_pendaftaran));
+                }
 		$detail = new ASEvaluasiaskepdetT;
 		$criteria = new CDbCriteria();
 		$criteria->addCondition('evaluasiaskep_id ='.$evaluasiaskep_id);
@@ -51,7 +54,9 @@ class InformasiEvaluasiAskepController extends MyAuthController {
 		$model->attributes = $model;
 		$modImplementasi = ASInfoimplementasiaskepV::model()->findByAttributes(array('implementasiaskep_id' => $model->implementasiaskep_id));
 		$modPasien = ASInfopasienmasukkamarV::model()->findByAttributes(array('no_pendaftaran' => $modImplementasi->no_pendaftaran));
-
+                if(count($modPasien) == 0){
+			$modPasien = ASPasienpulangrddanriV::model()->findByAttributes(array('no_pendaftaran' => $modImplementasi->no_pendaftaran));
+		}
 		$modDetail = new ASEvaluasiaskepdetT;
 		$judulLaporan = 'Evaluasi Asuhan Keperawatan';
 		$caraPrint = $_REQUEST['caraPrint'];
@@ -65,12 +70,12 @@ class InformasiEvaluasiAskepController extends MyAuthController {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');   //Ukuran Kertas Pdf
 			$posisi = Yii::app()->user->getState('posisi_kertas');   //Posisi L->Landscape,P->Portait
 			$mpdf = new MyPDF('', $ukuranKertasPDF);
-			$mpdf->useOddEven = 2;
+			$mpdf->mirrorMargins = 2;
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'PrintDetail', array('model' => $model, 'modPasien' => $modPasien, 'modDetail' => $modDetail, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 	

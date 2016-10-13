@@ -61,6 +61,10 @@ class InformasiPengkajianKebidananController extends MyAuthController {
 		$modPersalinan = new CActiveDataProvider($persalinan, array(
 			'criteria' => $criteria,
 		));
+                
+                if ((!empty($modPemeriksaanFisik->gcs_eye)) && (!empty($modPemeriksaanFisik->gcs_verbal)) && (!empty($modPemeriksaanFisik->gcs_motorik))) {
+			$modPemeriksaanFisik->namaGCS = $modPemeriksaanFisik->gcs_eye + $modPemeriksaanFisik->gcs_verbal + $modPemeriksaanFisik->gcs_motorik;
+		}
 		
         $this->render($this->path_view.'_detail', array(
 			'modPengkajian' => $modPengkajian, 
@@ -110,6 +114,10 @@ class InformasiPengkajianKebidananController extends MyAuthController {
 		$modPersalinan = new CActiveDataProvider($persalinan, array(
 			'criteria' => $criteria,
 		));
+                
+                if ((!empty($modPemeriksaanFisik->gcs_eye)) && (!empty($modPemeriksaanFisik->gcs_verbal)) && (!empty($modPemeriksaanFisik->gcs_motorik))) {
+			$modPemeriksaanFisik->namaGCS = $modPemeriksaanFisik->gcs_eye + $modPemeriksaanFisik->gcs_verbal + $modPemeriksaanFisik->gcs_motorik;
+		}
 		
 		$judulLaporan = 'Pengkajian Kebidanan';
 		$caraPrint = $_REQUEST['caraPrint'];
@@ -139,7 +147,7 @@ class InformasiPengkajianKebidananController extends MyAuthController {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');   //Ukuran Kertas Pdf
 			$posisi = Yii::app()->user->getState('posisi_kertas');   //Posisi L->Landscape,P->Portait
 			$mpdf = new MyPDF('', $ukuranKertasPDF);
-			$mpdf->useOddEven = 2;
+			$mpdf->mirrorMargins = 2;
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
@@ -152,7 +160,7 @@ class InformasiPengkajianKebidananController extends MyAuthController {
 			'modPenunjang' => $modPenunjang,
 			'modPerkawinan' => $modPerkawinan,
 			'modPersalinan' => $modPersalinan, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 	
