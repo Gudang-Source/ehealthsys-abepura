@@ -2,7 +2,7 @@
 
 class SAIntervensidetM extends IntervensidetM
 {
-	public $intervensi_nama,$diagnosakep_id,$aktif,$diagnosakep_nama;
+	public $intervensi_nama,$diagnosakep_id,$aktif,$diagnosakep_nama, $hasTab;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.

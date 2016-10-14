@@ -6,12 +6,30 @@ class IntervensiController extends MyAuthController {
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout = '//layouts/column1';
+	public $layout = '//layouts/iframe';
 	public $defaultAction = 'admin';
 	public $simpan = true;
 	public $path_view = 'sistemAdministrator.views.intervensi.';        
 	public $path_views = 'sistemAdministrator.views.';
         public $hasTab = false;
+        
+        public function init() {
+            parent::init();
+            if (isset($_GET['tab']))
+            {                
+                $tab = $_GET['tab'];
+                if ($tab == 'frame'){                
+                    $this->layout = '//layouts/iframe';
+                    $this->hasTab = true;
+                }else{
+                    $this->layout = '//layouts/column1';
+                    $this->hasTab = false;
+                }
+            }else{
+                $this->layout = '//layouts/column1';
+                $this->hasTab = false;
+            }
+        }
 
 	/**
 	 * Displays a particular model.
@@ -113,12 +131,14 @@ class IntervensiController extends MyAuthController {
 	 */
 	public function actionAdmin() {
 		$model = new SAIntervensidetM('search');
-		$model->unsetAttributes();  // clear any default values
+                $model->unsetAttributes();  // clear any default values
+                                                		
 		if (isset($_GET['SAIntervensidetM'])) {
 			$model->attributes = $_GET['SAIntervensidetM'];
 			$model->diagnosakep_nama = isset($_GET['SAIntervensidetM']['diagnosakep_nama']) ? $_GET['SAIntervensidetM']['diagnosakep_nama'] : "";
 			$model->intervensi_nama = isset($_GET['SAIntervensidetM']['intervensi_nama']) ? $_GET['SAIntervensidetM']['intervensi_nama'] : "";
 			$model->aktif = isset($_GET['aktif']) ? $_GET['aktif'] : NULL; 
+                       
 		}
 		$this->render($this->path_view. 'admin', array(
 			'model' => $model,
