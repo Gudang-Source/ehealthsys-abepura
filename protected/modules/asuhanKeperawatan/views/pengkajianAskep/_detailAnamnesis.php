@@ -1,3 +1,28 @@
+<style>
+    .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+
+    thead th{
+        background:none;
+        color:#333;
+    }
+
+    .border {
+        box-shadow:none;
+    }
+
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+    
+    strong{
+        font-size:11px;
+    }
+</style>
 <?php 
 	echo '<p style="text-align:center;"><strong>RIWAYAT ANAMNESIS</strong></p>';
 ?>
@@ -72,7 +97,7 @@
 	</tr>
 </table>
 <br>
-<table width="100%" class="table table-striped table-bordered table-condensed">
+<table width="100%" class="table border">
 	<tr>
 		<td width="20%">
 			<strong>Keluhan Utama</strong>
