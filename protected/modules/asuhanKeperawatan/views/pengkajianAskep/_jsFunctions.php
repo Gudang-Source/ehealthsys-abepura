@@ -1,4 +1,43 @@
 <script type="text/javascript">
+        function cekPendaftaran(pendaftaran_id) {
+		if (pendaftaran_id !== undefined) {
+			$.ajax({
+				type: 'GET',
+				url: '<?php echo $this->createUrl('cekPendaftaran'); ?>',
+				data: {pendaftaran_id: pendaftaran_id},
+				dataType: "json",
+				success: function (data) {
+
+					if (data != null) {
+						myAlert("Pendaftaran sudah dipilih!");
+						return false;
+					} else {
+						$.ajax({
+							type: 'GET',
+							url: '<?php echo $this->createUrl('loadPasien'); ?>',
+							data: {pendaftaran_id: pendaftaran_id},
+							dataType: "json",
+							success: function (data) {
+								isiDataPasien(data);
+								loadPenanggungJawab(data.penanggungjawab_id);
+								loadRiwayatAnemnesa(data.pendaftaran_id);
+								loadRiwayatPeriksaFisik(data.pendaftaran_id);
+								loadTambahPenunjang(data.pendaftaran_id);
+							},
+							error: function (jqXHR, textStatus, errorThrown) {
+								console.log(errorThrown);
+							}
+						});
+						return true;
+					}
+
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(errorThrown);
+				}
+			});
+		}
+	}
 	function cekRequired() {
 		
 		var anamesa_id = $("#ASPengkajianaskepT_anamesa_id").val();
@@ -44,24 +83,34 @@
 
 	function isiDataPasien(data)
 	{
-		$('#ASPendaftaranT_tgl_pendaftaran').val(data.tgl_pendaftaran);
-		$('#ASPendaftaranT_no_pendaftaran').val(data.no_pendaftaran);
-		$('#ASPendaftaranT_umur').val(data.umur);
-		$('#ASPendaftaranT_jeniskasuspenyakit_nama').val(data.jeniskasuspenyakit);
-		$('#ASPendaftaranT_instalasi_nama').val(data.namainstalasi);
-		$('#ASPendaftaranT_ruangan_nama').val(data.namaruangan);
-		$('#ASPendaftaranT_pendaftaran_id').val(data.pendaftaran_id);
-		$('#ASPendaftaranT_pasien_id').val(data.pasien_id);
-		$('#ASPendaftaranT_pasienadmisi_id').val(data.pasienadmisi_id);
-		if (typeof data.norekammedik != 'undefined') {
-			$('#ASPasienM_no_rekam_medik').val(data.norekammedik);
-		}
-		$('#ASPasienM_jeniskelamin').val(data.jeniskelamin);
-		$('#ASPasienM_nama_pasien').val(data.namapasien);
-		$('#ASPasienM_nama_bin').val(data.namabin);
+                $("#ASPendaftaranT_pendaftaran_id").val(data.pendaftaran_id);
+		$("#ASPendaftaranT_pasien_id").val(data.pasien_id);
+		$("#ASPendaftaranT_tgl_pendaftaran").val(data.tgl_pendaftaran);
+		$("#ASPendaftaranT_no_pendaftaran").val(data.no_pendaftaran);
+		$("#ASPendaftaranT_umur").val(data.umur);
+		$("#ASPendaftaranT_jeniskasuspenyakit_nama").val(data.jeniskasuspenyakit_nama);
+		$("#ASPendaftaranT_instalasi_id").val(data.instalasi_id);
+		$("#ASPendaftaranT_instalasi_nama").val(data.instalasi_nama);
+		$("#ASPendaftaranT_ruangan_nama").val(data.ruangan_nama);
+		$("#ASPendaftaranT_pendaftaran_id").val(data.pendaftaran_id);
+		$("#ASPendaftaranT_carabayar_id").val(data.carabayar_id);
+		$("#ASPendaftaranT_penjamin_id").val(data.penjamin_id);
+		$("#ASPendaftaranT_kelaspelayanan_id").val(data.kelaspelayanan_id);
+		$("#ASPendaftaranT_kelaspelayanan_nama").val(data.kelaspelayanan_nama);
+		$("#ASPendaftaranT_pasien_id").val(data.pasien_id);
+		$("#ASTandabuktibayarUangMukaT_darinama_bkm").val(data.nama_pasien);
 
-		//$('#ASTandabuktibayarUangMukaT_jmlpembayaran').focus();
-		//$('#ASTandabuktibayarUangMukaT_jmlpembayaran').select();    
+		$("#ASPasienM_jeniskelamin").val(data.jeniskelamin);
+		$("#ASPasienM_no_rekam_medik").val(data.no_rekam_medik);
+		$("#ASPasienM_nama_pasien").val(data.nama_pasien);
+		$("#ASPasienM_pekerjaan_nama").val(data.pekerjaan_nama);
+		$("#ASPasienM_pendidikan_nama").val(data.pendidikan_nama);
+		$("#ASPasienM_alamat_pasien").val(data.alamat_pasien);
+		$("#ASPasienM_agama").val(data.agama);
+		$("#ASPendaftaranT_statusperkawinan").val(data.statusperkawinan);
+		$("#ASPendaftaranT_carabayar_nama").val(data.carabayar_nama);
+		$("#ASPendaftaranT_penjamin_nama").val(data.penjamin_nama);
+		$("#ASPendaftaranT_no_kamarbed").val(data.kamarruangan_nokamar + " / " + data.kamarruangan_nobed); 
 	}
 
 	function loadPenanggungJawab(penanggungjawab_id)
@@ -73,7 +122,17 @@
 				data: {penanggungjawab_id: penanggungjawab_id},
 				dataType: "json",
 				success: function (data) {
-					console.log(data);
+					//console.log(data);
+                                        if (data != null) {
+                                            $("#ASPenanggungJawabM_nama_pj").val(data.nama_pj);
+                                            $("#ASPenanggungJawabM_no_identitas").val(data.no_identitas);
+                                            $("#ASPenanggungJawabM_jeniskelamin").val(data.jeniskelamin);
+                                            $("#ASPenanggungJawabM_tgllahir_pj").val(data.tgllahir_pj);
+                                            $("#ASPenanggungJawabM_no_teleponpj").val(data.no_teleponpj);
+                                            $("#ASPenanggungJawabM_no_mobilepj").val(data.no_mobilepj);
+                                            $("#ASPenanggungJawabM_hubungankeluarga").val(data.hubungankeluarga);
+                                            $("#ASPenanggungJawabM_alamat_pj").val(data.alamat_pj);
+					}
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					console.log(errorThrown);

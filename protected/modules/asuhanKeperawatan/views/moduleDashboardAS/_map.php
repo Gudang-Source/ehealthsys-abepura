@@ -18,19 +18,19 @@
 
 </div>
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCKaKWoGgPIaCh-xDEeJMFoDrEaXaW9PUI&callback=initialize" async defer></script>
 <script type="text/javascript">
 var markerCount = 0;
 var map;
  
 function initialize() {
-	var longitude = <?php echo isset($modPropinsi->longitude) ? $modPropinsi->longitude : 107.6179629 ; ?>;
-	var latitude = <?php echo isset($modPropinsi->latitude) ? $modPropinsi->latitude : -6.9393914 ; ?>;
+    var longitude = <?php echo isset($longitude) ? $longitude : 140.68102769999996 ; ?>;//-6.9393914
+    var latitude = <?php echo isset($latitude) ? $latitude : -2.565139843601719; ?>;// 107.6179629
     var myLatlng = new google.maps.LatLng(latitude, longitude);
     var map_canvas = document.getElementById('googlemaps');
     var map_options = {
         center: myLatlng,
-        zoom: 12,
+        zoom: 8,
         scrollwheel: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
@@ -43,6 +43,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
  
 
 function addMarkerToMap(lat, long, htmlMarkupForInfoWindow){
+    var marker,i;
     if(lat==null&&long==null){
         alert('longitude dan latitude belum di-set!'); return false;
     }
@@ -53,9 +54,10 @@ function addMarkerToMap(lat, long, htmlMarkupForInfoWindow){
         map: map,
         animation: google.maps.Animation.DROP,
     });
+    
 
     markerCount++;
-
+    markersArray.push(marker);  
     google.maps.event.addListener(marker, 'click', (function(marker, markerCount) {
         return function() {
             infowindow.setContent(htmlMarkupForInfoWindow);
@@ -66,17 +68,16 @@ function addMarkerToMap(lat, long, htmlMarkupForInfoWindow){
         
 }
 
-function panTo(lat, long){
+function panTo(lat, long, kecamatan){
     var myLatLng = new google.maps.LatLng(lat, long);
     map.panTo(myLatLng);
+    clearOverlays()
+    addMarkerToMap(lat, long, kecamatan);
 }
-
-setTimeout(function()
-    {           
-        <?php foreach ($dataMap as $i => $map) {
-            if(isset($map['latitude']) && isset($map['longitude'])){
-        ?>
-            addMarkerToMap(<?php echo isset($map['garis_latitude']) ? $map['garis_latitude'] : $map['latitude'] ?>, <?php echo isset($map['garis_longitude']) ? $map['garis_longitude'] : $map['longitude'] ?>, '<?php echo $map['kecamatan_nama'] ?>');
-        <?php }} ?>
-    }, 6000);
+var i = 0
+function clearOverlays() {
+  for (i; i < markersArray.length; i++ ) {
+   markersArray[i].setMap(null);
+  }
+}
 </script>

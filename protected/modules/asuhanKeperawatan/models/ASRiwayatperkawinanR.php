@@ -1,7 +1,6 @@
 <?php
-class ASPemeriksaanfisikT extends PemeriksaanfisikT
+class ASRiwayatperkawinanR extends RiwayatperkawinanR
 {
-	public $isperiksafisik,$namaGCS;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
