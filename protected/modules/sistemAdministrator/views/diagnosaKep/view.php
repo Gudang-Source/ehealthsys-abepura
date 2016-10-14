@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Diagnosakep Ms'=>array('index'),
-	$model->diagnosakep_m,
+	$model->diagnosakep_id,
 );
 
 $arrMenu = array();
