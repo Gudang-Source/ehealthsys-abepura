@@ -1,6 +1,7 @@
 <?php
 
 class ASPegawaiM extends PegawaiM {
+        public $jabatan_nama;
 
 	public static function model($className = __CLASS__) {
 		return parent::model($className);
