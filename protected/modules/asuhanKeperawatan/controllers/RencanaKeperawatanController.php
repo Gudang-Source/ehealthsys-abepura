@@ -697,7 +697,8 @@ class RencanaKeperawatanController extends MyAuthController {
                                 . " JOIN pendaftaran_t p ON p.pendaftaran_id = t.pendaftaran_id "
                                 . " JOIN pegawai_m peg ON peg.pegawai_id = t.pegawai_id";		                
                         $criteria->addCondition(' renc.pengkajianaskep_id IS NULL');		
-                        $criteria->addCondition(' t.iskeperawatan IS TRUE');		
+                        $criteria->addCondition(' t.iskeperawatan IS TRUE');	
+                        $criteria->addCondition("t.ruangan_id  = '".Yii::app()->user->getState('ruangan_id')."' ");
 			$criteria->compare('LOWER(t.no_pengkajian)', strtolower($_GET['term']), true);
 			$criteria->limit = 5;
 			//$models = ASInfopengkajianaskepV::model()->findAll($criteria);
