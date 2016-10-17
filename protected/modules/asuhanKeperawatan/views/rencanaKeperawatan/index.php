@@ -20,13 +20,19 @@
 		),
 	));
 	?>
-	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+	<?php 
+            if (isset($_GET['status']))
+            {
+                Yii::app()->user->setFlash('success', "Data berhasil disimpan");
+                $this->widget('bootstrap.widgets.BootAlert'); 
+            }
+        ?>
 	<?php //echo $form->errorSummary(array($modRetur,$modBuktiKeluar)); ?>
 	<fieldset class="box">
 		<legend class="rim">Data Pengkajian</legend>
 		<?php $this->renderPartial('_dataPengkajian', array('modPengkajian' => $modPengkajian, 'form' => $form)); ?>
 	</fieldset>
-	<?php $this->renderPartial('_ringkasDataPasien', array('modPasien' => $modPasien)); ?>
+	<?php $this->renderPartial('_ringkasDataPasien', array('model'=>$model,'modPasien' => $modPasien)); ?>
 	<fieldset class="box">
 		<legend class="rim">Data Rencana</legend>
 		<?php $this->renderPartial('_dataRencana', array('model' => $model, 'form' => $form)); ?>
@@ -96,6 +102,7 @@
                         '3' => 'ulang',
                         '4' => 'print',
                         '5' => 'status_print',
+                        '6' => 'detail',
                     );
                     $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
@@ -135,7 +142,7 @@ JSCRIPT;
 $this->renderPartial('_jsFunctions', array(
 	'model'=>$model,
 	'modDetail' => $modDetail,
-	
+	'modPasien' => $modPasien,
 //	'modPenanggungJawab' => $modPenanggungJawab,
 //	'modRiwayatAnemnesa' => $modRiwayatAnemnesa,
 //	'modRiwayatPeriksaFisik' => $modRiwayatPeriksaFisik,
@@ -165,7 +172,7 @@ if (isset($_GET['ASDiagnosakepM'])) {
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	'id' => 'diagnosakep-m-grid',
-	'dataProvider' => $modDiagnosaKep->search(),
+	'dataProvider' => $modDiagnosaKep->searchDialog(),
 	'filter' => $modDiagnosaKep,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-condensed',
@@ -173,7 +180,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		array(
 			'header' => 'Pilih',
 			'type' => 'raw',
-			'value' => 'CHtml::Link("<i class=\"icon-check\"></i>",
+			'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 

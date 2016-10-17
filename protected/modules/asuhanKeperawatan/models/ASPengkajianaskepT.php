@@ -62,7 +62,7 @@ class ASPengkajianaskepT extends PengkajianaskepT
 		));
 	}
         
-         public function searchPengkajian()
+        public function searchPengkajian()
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -72,11 +72,38 @@ class ASPengkajianaskepT extends PengkajianaskepT
                                 . " JOIN pendaftaran_t p ON p.pendaftaran_id = t.pendaftaran_id "
                                 . " JOIN pegawai_m peg ON peg.pegawai_id = t.pegawai_id";		                
                 $criteria->addCondition(' renc.pengkajianaskep_id IS NULL');		
+                $criteria->addCondition(' t.iskeperawatan IS TRUE');		
                 $criteria->compare('LOWER(t.no_pengkajian)',  strtolower($this->no_pengkajian),true);
                 $criteria->compare('LOWER(p.no_pendaftaran)',  strtolower($this->no_pendaftaran),true);
                 $criteria->compare('LOWER(peg.nama_pegawai)',  strtolower($this->nama_pegawai),true);
                 if (!empty($this->pengkajianaskep_tgl)){
-                    $criteria->addCondition(" t.pengkajianaskep_tgl = '".MyFormatter::formatDateTimeForDb($this->pengkajianaskep_tgl)."' ");
+                    $criteria->addCondition(" date(t.pengkajianaskep_tgl) = '".MyFormatter::formatDateTimeForDb($this->pengkajianaskep_tgl)."' ");
+                }
+		if (!empty($this->ruangan_id)){
+                    $criteria->addCondition(" t.ruangan_id = '".$this->ruangan_id."' ");
+                }
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+        public function searchPengkajianKebidanan()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+                $criteria->join = " LEFT JOIN rencanaaskep_t renc ON renc.pengkajianaskep_id = t.pengkajianaskep_id "
+                                . " JOIN pendaftaran_t p ON p.pendaftaran_id = t.pendaftaran_id "
+                                . " JOIN pegawai_m peg ON peg.pegawai_id = t.pegawai_id";		                
+                $criteria->addCondition(' renc.pengkajianaskep_id IS NULL');		
+                $criteria->addCondition(' t.iskeperawatan IS FALSE');		
+                $criteria->compare('LOWER(t.no_pengkajian)',  strtolower($this->no_pengkajian),true);
+                $criteria->compare('LOWER(p.no_pendaftaran)',  strtolower($this->no_pendaftaran),true);
+                $criteria->compare('LOWER(peg.nama_pegawai)',  strtolower($this->nama_pegawai),true);
+                if (!empty($this->pengkajianaskep_tgl)){
+                    $criteria->addCondition(" date(t.pengkajianaskep_tgl) = '".MyFormatter::formatDateTimeForDb($this->pengkajianaskep_tgl)."' ");
                 }
 		if (!empty($this->ruangan_id)){
                     $criteria->addCondition(" t.ruangan_id = '".$this->ruangan_id."' ");

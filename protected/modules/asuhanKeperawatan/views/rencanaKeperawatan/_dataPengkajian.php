@@ -26,7 +26,7 @@
 							'value' => $modPengkajian->no_pengkajian,
 							'source' => 'js: function(request, response) {
                                                    $.ajax({
-                                                       url: "' . Yii::app()->createUrl('billingKasir/ActionAutoComplete/daftarPasienInstalasi') . '",
+                                                       url: "' . $this->createUrl('Autocompletepengkajiankep') . '",
                                                        dataType: "json",
                                                        data: {
                                                            term: request.term,
@@ -45,7 +45,7 @@
                                                 return false;
                                             }',
 								'select' => 'js:function( event, ui ) {
-                                                isiDataPasien(ui.item);
+                                                        cekPengkajianId(ui.item.pengkajianaskep_id);
                                                 return false;
                                             }',
 							),
@@ -69,7 +69,7 @@
 							'value' => $modPengkajian->no_pengkajian,
 							'source' => 'js: function(request, response) {
                                                    $.ajax({
-                                                       url: "' . Yii::app()->createUrl('billingKasir/ActionAutoComplete/daftarPasienInstalasi') . '",
+                                                       url: "' . $this->createUrl('Autocompletepengkajiankeb') . '",
                                                        dataType: "json",
                                                        data: {
                                                            term: request.term,
@@ -88,7 +88,7 @@
                                                 return false;
                                             }',
 								'select' => 'js:function( event, ui ) {
-                                                isiDataPasien(ui.item);
+                                                cekPengkajianId(ui.item.pengkajianaskep_id);
                                                 return false;
                                             }',
 							),
@@ -150,10 +150,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 ));
 $modPengkajianAskep = new ASPengkajianaskepT('searchInformasi');//ASInfopengkajianaskepV
 $modPengkajianAskep->unsetAttributes();
+$modPengkajianAskep->ruangan_id = Yii::app()->user->getState('ruangan_id');
 if (isset($_GET['ASPengkajianaskepT'])) {
 	$modPengkajianAskep->attributes = $_GET['ASPengkajianaskepT'];
         $modPengkajianAskep->no_pendaftaran = $_GET['ASPengkajianaskepT']['no_pendaftaran'];
         $modPengkajianAskep->nama_pegawai = $_GET['ASPengkajianaskepT']['nama_pegawai'];
+        $modPengkajianAskep->ruangan_id = Yii::app()->user->getState('ruangan_id');
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
@@ -170,13 +172,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                         "id" => "selectPengkajian",
                                         "onClick" => "
                                             $(\"#dialogPengkajianKep\").dialog(\"close\");
-											$(\"#ASPengkajianaskepT_pengkajianaskep_id\").val(\"$data->pengkajianaskep_id\");
-											$(\"#ASPengkajianaskepT_pengkajianaskep_id\").val(\"$data->pengkajianaskep_id\");
-											$(\"#ASPengkajianaskepT_no_pengkajian\").val(\"$data->no_pengkajian\");
-											$(\"#ASPengkajianaskepT_pengkajianaskep_tgl\").val(\"$data->pengkajianaskep_tgl\");
-											$(\"#ASPengkajianaskepT_pegawai_id\").val(\"{$data->pegawai_id}\");
-											$(\"#ASPengkajianaskepT_nama_pegawai\").val(\"{$data->pegawai->nama_pegawai}\");
-											loadPasien($data->pendaftaran_id);
+                                            cekPengkajianId($data->pengkajianaskep_id);
                                         "))',
 		),
 		array(
@@ -207,7 +203,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                 'htmlOptions' => array(
                                     'id' => 'datepicker_for_due_date',
                                     'size' => '10',
-                                    'style'=>'width:80%'
+                                    'style'=>'width:80%',                                    
                                 ),
                                 'options' => array(  // (#3)                    
                                     'dateFormat' => Params::DATE_FORMAT,                    
@@ -222,7 +218,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 			'name' => 'ruangan_id',
 			'type' => 'raw',
 			'value' => '$data->ruangan->ruangan_nama',
-                        'filter' => Chtml::activeDropDownList($modPengkajianAskep, 'ruangan_id', Chtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE Order BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --'))
+                        'filter' => Chtml::activeDropDownList($modPengkajianAskep, 'ruangan_id', Chtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE Order BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --','disable'=>TRUE))
 		),
 		array(
 			'name' => 'nama_pegawai',
@@ -245,6 +241,7 @@ $this->endWidget();
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {        
     $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+    $('#datepicker_for_due_date1').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
 }
 ");
 ////======= end pendaftaran dialog =============
@@ -263,16 +260,20 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 		'resizable' => false,
 	),
 ));
-$modPengkajianAskep = new ASInfopengkajiankebidananV('searchInformasi');
-$modPengkajianAskep->unsetAttributes();
+$modPengkajianKeb = new ASPengkajianaskepT('searchInformasi');//ASInfopengkajiankebidananV
+$modPengkajianKeb->unsetAttributes();
+$modPengkajianKeb->ruangan_id = Params::RUANGAN_ID_BERSALIN;
 if (isset($_GET['ASPengkajianaskepT'])) {
-	$modPengkajianAskep->attributes = $_GET['ASPengkajianaskepT'];
+	$modPengkajianKeb->attributes = $_GET['ASPengkajianaskepT'];
+        $modPengkajianKeb->no_pendaftaran = $_GET['ASPengkajianaskepT']['no_pendaftaran'];
+        $modPengkajianKeb->nama_pegawai = $_GET['ASPengkajianaskepT']['nama_pegawai'];
+        $modPengkajianKeb->ruangan_id = Params::RUANGAN_ID_BERSALIN;
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	'id' => 'pendaftaran1-t-grid',
-	'dataProvider' => $modPengkajianAskep->searchInformasi(),
-	'filter' => $modPengkajianAskep,
+	'dataProvider' => $modPengkajianKeb->searchPengkajianKebidanan(),
+	'filter' => $modPengkajianKeb,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 	'columns' => array(
@@ -282,44 +283,71 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 			'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
                                         "id" => "selectPengkajian",
                                         "onClick" => "
-                                            $(\"#dialogPengkajianKeb\").dialog(\"close\");
-											$(\"#ASPengkajianaskepT_pengkajianaskep_id\").val(\"$data->pengkajianaskep_id\");
-											$(\"#ASPengkajianaskepT_no_pengkajian_keb\").val(\"$data->no_pengkajian\");
-											$(\"#ASPengkajianaskepT_pengkajianaskep_tgl\").val(\"$data->pengkajianaskep_tgl\");
-											$(\"#ASPengkajianaskepT_pegawai_id\").val(\"{$data->pegawai_id}\");
-											$(\"#ASPengkajianaskepT_nama_pegawai\").val(\"{$data->nama_pegawai}\");
-											loadPasien($data->pendaftaran_id);
+                                            $(\"#dialogPengkajianKep\").dialog(\"close\");
+                                            cekPengkajianId($data->pengkajianaskep_id);
                                         "))',
 		),
 		array(
+                        'header' => 'No Pengkajian',
 			'name' => 'no_pengkajian',
 			'type' => 'raw',
 			'value' => '$data->no_pengkajian',
+                        'filter' => Chtml::activeTextField($modPengkajianKeb,'no_pengkajian', array('class'=>'angkahuruf-only'))
 		),
 		array(
+                        'header' => 'No Pendaftaran',
 			'name' => 'no_pendaftaran',
 			'type' => 'raw',
-			'value' => '$data->no_pendaftaran',
+			'value' => '$data->pendaftaran->no_pendaftaran',
+                        'filter' => Chtml::activeTextField($modPengkajianKeb,'no_pendaftaran', array('class'=>'angkahuruf-only'))
 		),
 		array(
-			'name' => 'pengkajianaskep_tgl',
+			'header' => 'Tgl Pengkajian Keperawatan',
+                        'name' => 'pengkajianaskep_tgl',
 			'type' => 'raw',
-			'value' => '$data->pengkajianaskep_tgl',
+			'value' => 'MyFormatter::formatDateTimeForUser($data->pengkajianaskep_tgl)',
+                        'filter'=>$this->widget('MyDateTimePicker', array(
+                                'model'=>$modPengkajianKeb, 
+                                'attribute'=>'pengkajianaskep_tgl', 
+                                'mode' => 'date',    
+                                //'language' => 'ja',
+                                // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                                'htmlOptions' => array(
+                                    'id' => 'datepicker_for_due_date1',
+                                    'size' => '10',
+                                    'style'=>'width:80%',                                    
+                                ),
+                                'options' => array(  // (#3)                    
+                                    'dateFormat' => Params::DATE_FORMAT,                    
+                                    'maxDate' => 'd',
+                                ),
+                               
+                            ), 
+                            true),
 		),
 		array(
-			'name' => 'ruangan_nama',
+                        'header' =>  'Ruangan',
+			'name' => 'ruangan_id',
 			'type' => 'raw',
-			'value' => '$data->ruangan_nama',
+			'value' => '$data->ruangan->ruangan_nama',
+                        'filter' => Chtml::activeDropDownList($modPengkajianKeb, 'ruangan_id', Chtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE Order BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --','disable'=>TRUE))
 		),
 		array(
 			'name' => 'nama_pegawai',
 			'type' => 'raw',
-			'value' => '$data->nama_pegawai',
+			'value' => '$data->pegawai->nama_pegawai',
+                        'filter' => Chtml::activeTextField($modPengkajianKeb,'nama_pegawai', array('class'=>'hurufs-only'))
 		),
 	),
-	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    . 'reinstallDatePicker();'
+    . '$(".hurufs-only").keyup(function() {
+        setHurufsOnly(this);        
+    });
+    $(".angkahuruf-only").keyup(function() {
+        setAngkaHurufsOnly(this);});'
+    . '}',
 ));
-
 $this->endWidget();
 ////======= end pendaftaran dialog =============
 ?>

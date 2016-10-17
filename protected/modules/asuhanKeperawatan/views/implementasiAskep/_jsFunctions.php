@@ -1,10 +1,37 @@
 <script type="text/javascript">
-	function cekPengkajian(obj) {
+        function cekRencanaId(rencanaaskep_id) {
+		if (rencanaaskep_id !== undefined) {
+			$.ajax({
+				type: 'GET',
+				url: '<?php echo $this->createUrl('cekRencanaId'); ?>',
+				data: {rencanaaskep_id: rencanaaskep_id},
+				dataType: "json",
+				success: function (data) {
+
+					if (data != null) {
+						myAlert("Rencana sudah dipilih!");
+						return false;
+					} else {
+						
+						loadPasien(rencanaaskep_id);
+						return true;
+					}
+
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(errorThrown);
+				}
+			});
+		}
+	}
+    
+        function cekRencana(obj) {
 		var rencanaaskep_id = $("#<?php echo CHtml::activeId($modRencana, 'rencanaaskep_id') ?>").val();
+		var iskeperawatan = $("#<?php echo CHtml::activeId($modRencana, 'iskeperawatan') ?>").val();
 		if (rencanaaskep_id == '') {
 			myAlert("Silahkan Pilih Rencana!");
 		} else {
-			window.open("<?php echo Yii::app()->controller->createUrl("/asuhanKeperawatan/ImplementasiAskep/DetailRencana"); ?>/&rencanaaskep_id=" + rencanaaskep_id, "", 'location=_new, width=900px, scrollbars=1');
+			window.open("<?php echo Yii::app()->controller->createUrl("/asuhanKeperawatan/ImplementasiAskep/DetailRencana"); ?>/&rencanaaskep_id=" + rencanaaskep_id + "&iskeperawatan=" + iskeperawatan, "", 'location=_new, width=900px, scrollbars=1');
 		}
 		return false;
 
@@ -21,6 +48,19 @@
 				success: function (data) {
 					console.log(data);
 					if (data !== '') {
+						$("#ASRencanaaskepT_rencanaaskep_id").val(data.rencanaaskep_id);
+						$("#ASRencanaaskepT_no_rencana").val(data.no_rencana);
+						$("#ASRencanaaskepT_rencanaaskep_tgl").val(data.rencanaaskep_tgl);
+						$("#ASRencanaaskepT_pegawai_id").val(data.pegawai_id);
+						$("#ASRencanaaskepT_nama_pegawai").val(data.nama_pegawai);
+                                                
+                                                if(data.iskeperawatan == true){
+							$("#ASRencanaaskepT_iskeperawatan").val(1);
+
+						}else{
+							$("#ASRencanaaskepT_iskeperawatan").val(0);
+						}
+						
 						$('#ASInforencanaaskepV_no_pendaftaran').val(data.no_pendaftaran);
 						$('#ASInforencanaaskepV_nama_pasien').val(data.nama_pasien);
 						$('#ASInforencanaaskepV_ruangan_nama').val(data.ruangan_nama);
@@ -29,7 +69,8 @@
 						$('#ASInforencanaaskepV_kelaspelayanan_nama').val(data.kelaspelayanan_nama);
 						$('#ASInforencanaaskepV_no_rekam_medik').val(data.no_rekam_medik);
 						$('#ASInforencanaaskepV_diagnosa_nama').val(data.diagnosa_nama);
-						$('#ASInforencanaaskepV_no_kamarbed').val((data.kamarruangan_nokamar !== null) ? data.kamarruangan_nokamar : 'a' + ' / ' + (data.kamarruangan_nobed !== null) ? data.kamarruangan_nobed : '-');
+						$('#ASInforencanaaskepV_no_kamarbed').val( ((data.kamarruangan_nokamar !== null) ? data.kamarruangan_nokamar : '-') + ' / ' + ((data.kamarruangan_nobed !== null) ? data.kamarruangan_nobed : '-'));
+						loadRencanaDet(data.rencanaaskep_id);
 					}
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
