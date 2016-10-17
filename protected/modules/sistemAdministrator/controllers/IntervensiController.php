@@ -65,7 +65,7 @@ class IntervensiController extends MyAuthController {
 
 				if ($this->simpan) {
 					$transaction->commit();
-					$this->redirect(array('admin', 'sukses' => 1));
+					$this->redirect(array('admin', 'sukses' => 1 , 'tab'=>($this->hasTab==TRUE)?'frame':null));
 				} else {
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan!');
@@ -99,7 +99,7 @@ class IntervensiController extends MyAuthController {
 //				print_r($_POST['SALookupM']);exit;
 				if ($this->simpan) {
 					$transaction->commit();
-					$this->redirect(array('admin', 'sukses' => 1));
+					$this->redirect(array('admin', 'sukses' => 1, 'tab'=>($this->hasTab==TRUE)?'frame':null));
 				} else {
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan!');

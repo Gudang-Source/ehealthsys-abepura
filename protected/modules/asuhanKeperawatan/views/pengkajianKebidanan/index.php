@@ -20,7 +20,13 @@
 		),
 	));
 	?>
-	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+	<?php 
+            if (isset($_GET['status']))
+            {
+                Yii::app()->user->setFlash('success', "Data berhasil disimpan");
+                $this->widget('bootstrap.widgets.BootAlert'); 
+            }
+        ?>
 	<?php //echo $form->errorSummary(array($modRetur,$modBuktiKeluar)); ?>
 	<?php $this->renderPartial('_ringkasDataPasien', array('modPendaftaran' => $modPendaftaran, 'modPasien' => $modPasien)); ?>
 	<?php
