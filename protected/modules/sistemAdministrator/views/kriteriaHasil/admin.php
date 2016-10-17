@@ -49,13 +49,15 @@
 				),
 				array(
 					'header' => 'Diagnosa Keperawatan',
-					'name' => 'diagnosakep_nama',
+					'name' => 'diagnosakep_id',
 					'value' => 'isset($data->diagnosakep_nama) ? $data->diagnosakep_nama : " - "',
+                                        'filter' => Chtml::activeDropDownList($model, 'diagnosakep_id',  Chtml::listData(DiagnosakepM::model()->findAll("diagnosakep_aktif = TRUE ORDER BY diagnosakep_nama ASC"), 'diagnosakep_id', 'diagnosakep_nama'),array('empty'=>'-- Pilih --'))
 				),
 				array(
 					'header' => 'Nama Kriteria Hasil',
-					'name' => 'kriteriahasil_nama',
+					'name' => 'kriteriahasil_id',
 					'value' => 'isset($data->kriteriahasil->kriteriahasil_nama) ? $data->kriteriahasil->kriteriahasil_nama : " - "',
+                                        'filter' => Chtml::activeDropDownList($model, 'kriteriahasil_id', CHtml::listData(KriteriahasilM::model()->findAll("kriteriahasil_aktif = TRUE ORDER BY kriteriahasil_nama ASC"), 'kriteriahasil_id', 'kriteriahasil_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)"))
 				),
 				array(
 					'header' => 'Indikator',
@@ -65,9 +67,9 @@
 				array(
 					'header' => 'Status',
 					'value' => '($data->kriteriahasildet_aktif == true ? \'Aktif\': \'Tidak Aktif\')',
-					'filter' => CHtml::dropDownList(
+					/*'filter' => CHtml::dropDownList(
 							'aktif', $model->aktif, array('1' => 'Aktif',
-						'0' => 'Tidak Aktif',), array('empty' => '--Pilih--'))
+						'0' => 'Tidak Aktif',), array('empty' => '--Pilih--'))*/
 				),
 				array(
 					'header' => Yii::t('zii', 'View'),
@@ -92,7 +94,7 @@
 				array(
 					'header' => '<center>Hapus</center>',
 					'type' => 'raw',
-					'value' => '($data->kriteriahasildet_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kriteriahasildet_id)",array("id"=>"$data->kriteriahasildet_id","rel"=>"tooltip","title"=>"Menonaktifkan Kriteria Hasil"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kriteriahasildet_id)",array("id"=>"$data->kriteriahasildet_id","rel"=>"tooltip","title"=>"Hapus Kriteria Hasil")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->kriteriahasildet_id)",array("id"=>"$data->kriteriahasildet_id","rel"=>"tooltip","title"=>"Hapus Kriteria Hasil"));',
+					'value' => '($data->kriteriahasildet_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kriteriahasildet_id)",array("id"=>"$data->kriteriahasildet_id","rel"=>"tooltip","title"=>"Menonaktifkan Kriteria Hasil"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kriteriahasildet_id)",array("id"=>"$data->kriteriahasildet_id","rel"=>"tooltip","title"=>"Hapus Kriteria Hasil")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kriteriahasildet_id)",array("id"=>"$data->kriteriahasildet_id","rel"=>"tooltip","title"=>"Hapus Kriteria Hasil"));',
 					'htmlOptions' => array('style' => 'text-align: center; width:80px'),
 				),
 			),

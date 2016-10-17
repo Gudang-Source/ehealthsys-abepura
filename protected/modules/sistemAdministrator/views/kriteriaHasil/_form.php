@@ -58,7 +58,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 	</div>
 	<div class="span6">
 		<div class="control-group">
-			<?php echo Chtml::label('Nama Kriteria Hasil', 'kriteriahasil_nama', array('class' => 'control-label')) ?>
+			<?php echo Chtml::label('Nama Kriteria Hasil <font style="color:red;">*</font>', 'kriteriahasil_nama', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
 				/*
@@ -67,7 +67,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 					'onchange' => 'refreshTable();'));
 				 * 
 				 */
-				echo $form->textField($model, 'kriteriahasil_nama', array('class' => 'inputRequire',
+				echo $form->textField($model, 'kriteriahasil_nama', array('class' => 'inputRequire required',
 					'onblur' => 'refreshTable();'));
 				?>
 				
@@ -89,13 +89,24 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 	</table>
 </div>
 <div class="form-actions">
-	<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)')); ?>
+	<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)')); ?>
 	<?php
-	echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), "#", array('class' => 'btn btn-danger',
-		'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = window.location.href;} ); return false;'));
+	echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="entypo-arrows-ccw"></i>')), "#", array('class' => 'btn btn-danger',
+		'onclick' => 'myConfirm("Apakah Anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = window.location.href;} ); return false;'));
 	?>
 	<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kriteria Hasil', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl($this->id . '/admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
-	<?php $this->widget('UserTips', array('type' => 'create')); ?>
+	<?php  
+            $tips = array(
+                '0' => 'autocomplete-search',
+                '1' => 'tambah',
+                '2' => 'kurang',
+                '3' => 'simpan',
+                '4' => 'ulang',
+            );
+            
+            $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips', array('tips'=>$tips), true);
+            $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
+        ?>
 </div>
 </div>
 <?php $this->endWidget(); ?>
@@ -130,7 +141,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		array(
 			'header' => 'Pilih',
 			'type' => 'raw',
-			'value' => 'CHtml::Link("<i class=\"icon-check\"></i>",
+			'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 

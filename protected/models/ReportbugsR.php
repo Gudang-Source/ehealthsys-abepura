@@ -121,7 +121,7 @@ class ReportbugsR extends CActiveRecord
 		$criteria=new CDbCriteria;
 
                 if ($this->tgl_awal != '' OR $this->tgl_akhir != ''){
-                    $criteria->addBetweenCondition('date(create_datetime)', $this->tgl_awal, $this->tgl_akhir);
+                    $criteria->addBetweenCondition('date(create_datetime)', MyFormatter::formatDateTimeForDb($this->tgl_awal), MyFormatter::formatDateTimeForDb($this->tgl_akhir));
                 }
              
 		//$criteria->compare('reportbugs_id',$this->reportbugs_id);

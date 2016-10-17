@@ -5,7 +5,7 @@
 		'Bataskarakteristik Ms' => array('index'),
 		'Manage',
 	);
-
+        $tab = $this->hasTab;
 	Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
             $('.search-form').toggle();
@@ -69,24 +69,29 @@
 					
 				),
 				array(
-					'header' => Yii::t('zii', 'View'),
-					'class' => 'bootstrap.widgets.BootButtonColumn',
-					'template' => '{view}',
-					'buttons' => array(
-						'view' => array(
-							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/view",array("id"=>$data->intervensi_id))',
-						),
-					),
+					'header' => Yii::t('zii', 'View'),                                        
+					//'class' => 'bootstrap.widgets.BootButtonColumn',
+					//'template' => '{view}',
+					//'buttons' => array(
+						//'view' => array(
+							//'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/view",array("id"=>$data->intervensi_id,"tab"=>$data->hasTab))',
+                                        'value' => function($data) use ($tab){                                                      
+                                                   echo Chtml::link("<i class='icon-form-lihat'></i>",Yii::app()->createUrl( Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/view',array('id'=>$data->intervensi_id,'tab'=>($tab==TRUE)?'frame':null)));
+                                               }
+					//),
 				),
 				array(
 					'header' => Yii::t('zii', 'Update'),
-					'class' => 'bootstrap.widgets.BootButtonColumn',
-					'template' => '{update}',
-					'buttons' => array(
-						'update' => array(
-							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/update",array("id"=>$data->intervensi_id))',
-						),
-					),
+					//'class' => 'bootstrap.widgets.BootButtonColumn',
+					//'template' => '{update}',
+					//'buttons' => array(
+					//	'update' => array(
+							//'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/update",array("id"=>$data->intervensi_id,"tab"=>$data->hasTab))',
+                                        'value' => function($data) use ($tab){                                                      
+                                                        echo Chtml::link("<i class='icon-form-ubah'></i>",Yii::app()->createUrl( Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/update',array('id'=>$data->intervensi_id,'tab'=>($tab==TRUE)?'frame':null)));
+                                                    }
+					//	),
+					//),
 				),
 				array(
 					'header' => '<center>Hapus</center>',
@@ -108,7 +113,7 @@
 		?>
     </div>
 	<?php
-	echo CHtml::link(Yii::t('mds', '{icon} Tambah Intervensi', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id . '/create', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
+	echo CHtml::link(Yii::t('mds', '{icon} Tambah Intervensi', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id . '/create', array('modul_id' => Yii::app()->session['modul_id'],'tab'=>($this->hasTab==TRUE)?'frame':null)), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
 	echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp";
 	echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp";
 	echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp";

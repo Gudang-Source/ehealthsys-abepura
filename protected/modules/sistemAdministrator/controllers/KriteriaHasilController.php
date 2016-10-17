@@ -8,7 +8,7 @@ class KriteriaHasilController extends MyAuthController {
 	 */
 	public $layout = '//layouts/iframe';
 	public $defaultAction = 'admin';
-	public $simpan = true;
+	public $simpan = false;
 	public $path_view = 'sistemAdministrator.views.kriteriaHasil.';
 
 	/**
@@ -43,13 +43,17 @@ class KriteriaHasilController extends MyAuthController {
 				
 				if (count($batkar)) {
 					$this->simpanBatasDetail($batkar->kriteriahasil_id, $_POST['SAKriteriahasildetM']);
-				} else {
-					if ($model->save()) {
-						$this->simpanBatasDetail($model->kriteriahasil_id, $_POST['SAKriteriahasildetM']);
+				} else {                     
+                                        
+					if ($model->validate()) {
+                                           // var_dump($model->attributes);die;
+                                            $model->save();
+                                            $this->simpanBatasDetail($model->kriteriahasil_id, $_POST['SAKriteriahasildetM']);
 					}
 				}
-
+                               // var_dump($this->simpan);die;
 				if ($this->simpan) {
+                                    
 					$transaction->commit();
 					$this->redirect(array('admin', 'sukses' => 1));
 				} else {
@@ -120,9 +124,10 @@ class KriteriaHasilController extends MyAuthController {
 		$model->unsetAttributes();  // clear any default values
 		if (isset($_GET['SAKriteriahasildetM'])) {
 			$model->attributes = $_GET['SAKriteriahasildetM'];
-			$model->diagnosakep_nama = isset($_GET['SAKriteriahasildetM']['diagnosakep_nama']) ? $_GET['SAKriteriahasildetM']['diagnosakep_nama'] : "";
+			//$model->diagnosakep_nama = isset($_GET['SAKriteriahasildetM']['diagnosakep_nama']) ? $_GET['SAKriteriahasildetM']['diagnosakep_nama'] : "";
 			$model->kriteriahasil_nama = isset($_GET['SAKriteriahasildetM']['kriteriahasil_nama']) ? $_GET['SAKriteriahasildetM']['kriteriahasil_nama'] : "";
-			$model->aktif = isset($_GET['aktif']) ? $_GET['aktif'] : NULL;
+                        $model->diagnosakep_id = isset($_GET['SAKriteriahasildetM']['diagnosakep_id']) ? $_GET['SAKriteriahasildetM']['diagnosakep_id'] : null;
+			//$model->aktif = isset($_GET['aktif']) ? $_GET['aktif'] : NULL;
 		}
 		$this->render($this->path_view. 'admin', array(
 			'model' => $model,
@@ -160,12 +165,12 @@ class KriteriaHasilController extends MyAuthController {
 		$model->attributes = $post;
 		$model->kriteriahasil_nama = $post['kriteriahasil_nama'];
 
-		if (!$model->save()) {
-			$this->simpan &= false;
+		if ($model->save()) {
+			$this->simpan = true;
 		}
 	}
 
-	public function simpanBatasDetail($kriteriahasil_id, $post) {
+	public function simpanBatasDetail($kriteriahasil_id, $post) {            
 		foreach ($post as $i => $row) {
 			
 			//if (!empty($row['kriteriahasildet_id'])) {
@@ -178,8 +183,10 @@ class KriteriaHasilController extends MyAuthController {
 				$model->kriteriahasil_id = $kriteriahasil_id;
 				$model->kriteriahasildet_indikator = $row['kriteriahasildet_indikator'];
 				$model->kriteriahasildet_aktif = $row['kriteriahasildet_aktif'];
-				if (!$model->save()) {
-					$this->simpan &= false;
+                                
+				if ($model->validate()) {
+                                    $model->save();                                    
+                                    $this->simpan = true;
 				}
 			//}
 		}
@@ -206,7 +213,7 @@ class KriteriaHasilController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'Print', array('model' => $model, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 
@@ -265,10 +272,10 @@ class KriteriaHasilController extends MyAuthController {
 	 * Mengubah status aktif
 	 * @param type $id 
 	 */
-	public function actionremoveTemporary() {
+	public function actionRemoveTemporary() {
 		$id = $_POST['id'];
-		if (isset($_POST['id'])) {
-			$update = SAKriteriahasildetM::model()->updateByPk($id, array('kriteriahasildet_aktif' => false));
+		if (isset($_POST['id'])) {                        
+			$update = SAKriteriahasildetM::model()->updateByPk($id, array('kriteriahasildet_aktif' => 0));
 			if ($update) {
 				if (Yii::app()->request->isAjaxRequest) {
 					echo CJSON::encode(array(

@@ -382,6 +382,7 @@ class PengkajianAskepController extends MyAuthController {
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(no_pendaftaran)', strtolower($_GET['term']), true);
 			$criteria->addCondition("instalasi_id = " . Params::INSTALASI_ID_RI);
+                        $criteria->addCondition("ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 		//	$criteria->addBetweenCondition("DATE(tglmasukkamar)",date("Y-m-d", strtotime("31 days")),date("Y-m-d"));
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
@@ -406,7 +407,8 @@ class PengkajianAskepController extends MyAuthController {
 
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['term']), true);
-			$criteria->addCondition("instalasi_id = " . Params::INSTALASI_ID_RI);			
+			$criteria->addCondition("instalasi_id = " . Params::INSTALASI_ID_RI);	
+                        $criteria->addCondition("ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
 			foreach ($models as $i => $model) {
@@ -431,6 +433,7 @@ class PengkajianAskepController extends MyAuthController {
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(nama_pasien)', strtolower($_GET['term']), true);
 			$criteria->addCondition("instalasi_id = " . Params::INSTALASI_ID_RI);
+                        $criteria->addCondition("ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
 			foreach ($models as $i => $model) {

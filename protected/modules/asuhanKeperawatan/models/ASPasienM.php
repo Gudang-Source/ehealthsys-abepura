@@ -1,7 +1,7 @@
 <?php
 
 class ASPasienM extends PasienM {
-
+        public $tgl_pendaftaran, $instalasi_id, $ruangan_id, $carabayar_id, $jabatan_nama;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -101,6 +101,9 @@ class ASPasienM extends PasienM {
 		}
 		$criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
 		$criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
+                if (!empty($this->ruangan_id)) {
+			$criteria->addCondition("ruangan_id = " . $this->ruangan_id);
+		}
 		if (!empty($this->idInstalasi)) {
 			$criteria->addCondition("instalasi_id = " . $this->idInstalasi);
 		}
@@ -190,6 +193,46 @@ class ASPasienM extends PasienM {
 
 		return new CActiveDataProvider($model, array(
 			'criteria' => $criteria,
+		));
+	}
+        
+        public function searchDialogKunjungan() {
+		$format = new MyFormatter;
+		$model = null;
+		$criteria = new CDbCriteria();
+		$criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+		if (!empty($this->tgl_pendaftaran_cari)) {
+			$this->tgl_pendaftaran_cari = $format->formatDateTimeForDb($this->tgl_pendaftaran_cari);
+			$criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_pendaftaran_cari . " 00:00:00", $this->tgl_pendaftaran_cari . " 23:59:59");
+			$criteria->order = 'tgl_pendaftaran DESC';
+		}
+		$criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
+		$criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
+		$criteria->addCondition("instalasi_id = " . Params::INSTALASI_ID_RI);
+		if (!empty($this->ruangan_id)) {
+			$criteria->addCondition("ruangan_id = " . $this->ruangan_id);
+		}
+		if (!empty($this->carabayar_id)) {
+			$criteria->addCondition("carabayar_id = " . $this->carabayar_id);
+		}
+		if (!empty($this->pendaftaran_id)) {
+			$criteria->addCondition("pendaftaran_id = " . $this->pendaftaran_id);
+		}
+		$criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
+		$criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
+		$criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
+		$criteria->limit = 10;
+		if ($this->instalasi_id == Params::INSTALASI_ID_RD) {			
+			$model = new ASInfokunjunganrdV;
+		} else if ($this->instalasi_id == Params::INSTALASI_ID_RJ) {			
+			$model = new ASInfokunjunganrjV;
+		} else {			
+			$model = new ASInfopasienmasukkamarV; //default
+		}
+		//$this->tgl_pendaftaran = $format->formatDateTimeForUser($this->tgl_pendaftaran);
+		return new CActiveDataProvider($model, array(
+			'criteria' => $criteria,
+			//'pagination' => false
 		));
 	}
 
