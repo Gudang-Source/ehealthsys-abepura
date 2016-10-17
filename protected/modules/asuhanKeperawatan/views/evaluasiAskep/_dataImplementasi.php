@@ -7,6 +7,7 @@
 				<div class="controls">
 					<?php
 					if (!empty($modImpl->rencanaaskep_id)) {
+                                                echo CHtml::hiddenField('ASImplementasiaskepT[implementasiaskep_id]', $modImpl->implementasiaskep_id, array('readonly' => true));
 						echo CHtml::textField('ASImplementasiaskepT[no_implementasi]', $modImpl->no_implementasi, array('readonly' => true));
 					} else {
 						echo CHtml::hiddenField('ASImplementasiaskepT[implementasiaskep_id]', $modImpl->implementasiaskep_id, array('readonly' => true));
@@ -15,7 +16,7 @@
 							'value' => $modImpl->no_implementasi,
 							'source' => 'js: function(request, response) {
                                                    $.ajax({
-                                                       url: "' . Yii::app()->createUrl('billingKasir/ActionAutoComplete/daftarPasienInstalasi') . '",
+                                                       url: "' . $this->createUrl('AutocompleteImplementasi') . '",
                                                        dataType: "json",
                                                        data: {
                                                            term: request.term,
@@ -34,7 +35,7 @@
                                                 return false;
                                             }',
 								'select' => 'js:function( event, ui ) {
-                                                isiDataPasien(ui.item);
+                                                cekImplementasiId(ui.item.implementasiaskep_id);
                                                 return false;
                                             }',
 							),
@@ -94,13 +95,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 ));
 $modImplAskep = new ASImplementasiaskepT('search');
 $modImplAskep->unsetAttributes();
+$modImplAskep->ruangan_id = Yii::app()->user->getState('ruangan_id');
 if (isset($_GET['ASImplementasiaskepT'])) {
 	$modImplAskep->attributes = $_GET['ASImplementasiaskepT'];
+        $modImplAskep->no_rencana = $_GET['ASImplementasiaskepT']['no_rencana'];
+	$modImplAskep->nama_pegawai = $_GET['ASImplementasiaskepT']['nama_pegawai'];
+        $modImplAskep->ruangan_id = Yii::app()->user->getState('ruangan_id');
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	'id' => 'pendaftaran-t-grid',
-	'dataProvider' => $modImplAskep->search(),
+	'dataProvider' => $modImplAskep->searchImplementasiKeperawatan(),
 	'filter' => $modImplAskep,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
@@ -112,44 +117,74 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                         "id" => "selectImpl",
                                         "onClick" => "
                                             $(\"#dialogImplKep\").dialog(\"close\");
-											$(\"#ASImplementasiaskepT_implementasiaskep_id\").val(\"$data->implementasiaskep_id\");
-											$(\"#ASImplementasiaskepT_no_implementasi\").val(\"$data->no_implementasi\");
-											$(\"#ASImplementasiaskepT_implementasiaskep_tgl\").val(\"$data->implementasiaskep_tgl\");
-											$(\"#ASImplementasiaskepT_pegawai_id\").val(\"{$data->pegawai->pegawai_id}\");
-											$(\"#ASImplementasiaskepT_nama_pegawai\").val(\"{$data->pegawai->nama_pegawai}\");
-											loadPasien($data->implementasiaskep_id);
-											loadImplDet($data->implementasiaskep_id);
+                                            cekImplementasiId($data->implementasiaskep_id);
                                         "))',
 		),
 		array(
 			'name' => 'no_implementasi',
 			'type' => 'raw',
 			'value' => '$data->no_implementasi',
+                    'filter' => Chtml::activeTextField($modImplAskep,'no_implementasi', array('class'=>'angkahuruf-only'))
 		),
 		array(
 			'name' => 'no_rencana',
 			'type' => 'raw',
 			'value' => '$data->rencanaaskep->no_rencana',
-		),
+                        'filter' => Chtml::activeTextField($modImplAskep,'no_rencana', array('class'=>'angkahuruf-only'))
+		),		              
 		array(
 			'name' => 'implementasiaskep_tgl',
 			'type' => 'raw',
-			'value' => '$data->implementasiaskep_tgl',
+			'value' => 'MyFormatter::formatDateTimeForUser($data->implementasiaskep_tgl)',
+                        'filter'=>$this->widget('MyDateTimePicker', array(
+                                'model'=>$modImplAskep, 
+                                'attribute'=>'implementasiaskep_tgl', 
+                                'mode' => 'date',    
+                                //'language' => 'ja',
+                                // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                                'htmlOptions' => array(
+                                    'id' => 'datepicker_for_due_date',
+                                    'size' => '10',
+                                    'style'=>'width:80%'
+                                ),
+                                'options' => array(  // (#3)                    
+                                    'dateFormat' => Params::DATE_FORMAT,                    
+                                    'maxDate' => 'd',
+                                ),
+                               
+                            ), 
+                            true),
 		),
 		array(
-			'name' => 'ruangan_nama',
+                        'header' =>  'Ruangan',
+			'name' => 'ruangan_id',
 			'type' => 'raw',
 			'value' => '$data->ruangan->ruangan_nama',
+                        'filter' => Chtml::activeDropDownList($modImplAskep, 'ruangan_id', Chtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE Order BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --'))
 		),
 		array(
 			'name' => 'nama_pegawai',
 			'type' => 'raw',
 			'value' => '$data->pegawai->nama_pegawai',
+                        'filter' => Chtml::activeTextField($modImplAskep,'nama_pegawai', array('class'=>'hurufs-only'))
 		),
 	),
-	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+	 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                . ' $(".angkahuruf-only").keyup(function() {
+                        setAngkaHurufsOnly(this);
+                    });
+                    $(".hurufs-only").keyup(function() {
+                        setHurufsOnly(this);
+                    });
+                    reinstallDatePicker();'
+                . '}',
 ));
 
 $this->endWidget();
 ////======= end pendaftaran dialog =============
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {        
+    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+");
 ?>

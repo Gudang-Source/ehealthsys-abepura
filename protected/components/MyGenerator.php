@@ -2234,5 +2234,17 @@ class MyGenerator
             $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
             return $nosetoran_baru;
         }
+        
+        public static function noEvaluasiKeperawatan()
+        {
+            $default = "001";
+            $prefix = "EVALASKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(no_evaluasi,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM evaluasiaskep_t
+                                    WHERE no_evaluasi LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
 }
 ?>

@@ -10,6 +10,30 @@ class ASImplementasiaskepT extends ImplementasiaskepT
 		return parent::model($className);
 	}
         
+        public function searchImplementasiKeperawatan()
+        {
+                $criteria=new CDbCriteria;
+                $criteria->join = " LEFT JOIN evaluasiaskep_t ea ON ea.implementasiaskep_id = t.implementasiaskep_id "
+                                . " JOIN rencanaaskep_t ra ON ra.rencanaaskep_id = t.rencanaaskep_id "
+                                . " JOIN pengkajianaskep_t peng ON peng.pengkajianaskep_id = ra.pengkajianaskep_id "
+                                . " JOIN pendaftaran_t p ON p.pendaftaran_id = peng.pendaftaran_id "                                 
+                                . " JOIN pegawai_m peg ON peg.pegawai_id = t.pegawai_id";		                
+                $criteria->addCondition(' ea.implementasiaskep_id IS NULL');		
+                $criteria->compare('LOWER(t.no_implementasi)',  strtolower($this->no_implementasi),true);
+                $criteria->compare('LOWER(ra.no_rencana)',  strtolower($this->no_rencana),true);
+                $criteria->compare('LOWER(peg.nama_pegawai)',  strtolower($this->nama_pegawai),true);
+                if (!empty($this->implementasiaskep_tgl)){
+                    $criteria->addCondition(" t.implementasiaskep_tgl = '".MyFormatter::formatDateTimeForDb($this->implementasiaskep_tgl)."' ");
+                }
+		if (!empty($this->ruangan_id)){
+                    $criteria->addCondition(" t.ruangan_id = '".$this->ruangan_id."' ");
+                }
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+        }
+        
         public function searchDialog() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
