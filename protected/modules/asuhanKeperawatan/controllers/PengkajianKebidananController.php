@@ -402,7 +402,8 @@ class PengkajianKebidananController extends MyAuthController {
 
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(no_pendaftaran)', strtolower($_GET['term']), true);
-			$criteria->addBetweenCondition("DATE(tglmasukkamar)",date("Y-m-d", strtotime("31 days")),date("Y-m-d"));
+                        $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
+			//$criteria->addBetweenCondition("DATE(tglmasukkamar)",date("Y-m-d", strtotime("31 days")),date("Y-m-d"));
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
 			foreach ($models as $i => $model) {
@@ -426,6 +427,7 @@ class PengkajianKebidananController extends MyAuthController {
 
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['term']), true);
+                        $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
 			foreach ($models as $i => $model) {
@@ -449,6 +451,7 @@ class PengkajianKebidananController extends MyAuthController {
 
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(nama_pasien)', strtolower($_GET['term']), true);
+                        $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
 			foreach ($models as $i => $model) {
