@@ -1,11 +1,35 @@
 <script type="text/javascript">
-	
+	function cekImplementasiId(implementasiaskep_id) {
+		if (implementasiaskep_id !== undefined) {
+			$.ajax({
+				type: 'GET',
+				url: '<?php echo $this->createUrl('cekImplementasiId'); ?>',
+				data: {implementasiaskep_id: implementasiaskep_id},
+				dataType: "json",
+				success: function (data) {
+
+					if (data != null) {
+						myAlert("Implementasi sudah dipilih!");
+						return false;
+					} else {
+						loadPasien(implementasiaskep_id);
+						return true;
+					}
+
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(errorThrown);
+				}
+			});
+		}
+	}
 	function cekImplementasi(obj) {
-		var implementasiaskep_id = $("#<?php echo CHtml::activeId($modImpl, 'implementasiaskep_id') ?>").val();
+		var implementasiaskep_id = $("#ASImplementasiaskepT_implementasiaskep_id").val();
+		var iskeperawatan = $("#ASImplementasiaskepT_iskeperawatan").val();
 		if (implementasiaskep_id == '') {
 			myAlert("Silahkan Pilih Implementasi!");
 		} else {
-			window.open("<?php echo Yii::app()->controller->createUrl("/asuhanKeperawatan/EvaluasiAskep/DetailImpl"); ?>/&implementasiaskep_id=" + implementasiaskep_id, "", 'location=_new, width=900px, scrollbars=1');
+			window.open("<?php echo Yii::app()->controller->createUrl("/asuhanKeperawatan/EvaluasiAskep/DetailImpl"); ?>/&implementasiaskep_id=" + implementasiaskep_id + "&iskeperawatan=" + iskeperawatan, "", 'location=_new, width=900px, scrollbars=1');
 		}
 		return false;
 
@@ -19,9 +43,14 @@
 				url: '<?php echo $this->createUrl('loadPasien'); ?>',
 				data: {implementasiaskep_id: implementasiaskep_id},
 				dataType: "json",
-				success: function (data) {
-					console.log(data);
+				success: function (data) {					
 					if (data !== '') {
+						$("#ASImplementasiaskepT_implementasiaskep_id").val(data.implementasiaskep_id);
+						$("#ASImplementasiaskepT_no_implementasi").val(data.no_implementasi);
+						$("#ASImplementasiaskepT_implementasiaskep_tgl").val(data.implementasiaskep_tgl);
+						$("#ASImplementasiaskepT_pegawai_id").val(data.pegawai_id);
+						$("#ASImplementasiaskepT_nama_pegawai").val(data.nama_pegawai);
+											
 						$('#ASInforencanaaskepV_no_pendaftaran').val(data.no_pendaftaran);
 						$('#ASInforencanaaskepV_nama_pasien').val(data.nama_pasien);
 						$('#ASInforencanaaskepV_ruangan_nama').val(data.ruangan_nama);
@@ -30,7 +59,8 @@
 						$('#ASInforencanaaskepV_kelaspelayanan_nama').val(data.kelaspelayanan_nama);
 						$('#ASInforencanaaskepV_no_rekam_medik').val(data.no_rekam_medik);
 						$('#ASInforencanaaskepV_diagnosa_nama').val(data.diagnosa_nama);
-						$('#ASInforencanaaskepV_no_kamarbed').val((data.kamarruangan_nokamar !== null) ? data.kamarruangan_nokamar : 'a' + ' / ' + (data.kamarruangan_nobed !== null) ? data.kamarruangan_nobed : '-');
+						$('#ASInforencanaaskepV_no_kamarbed').val(((data.kamarruangan_nokamar !== null) ? data.kamarruangan_nokamar : '-') + ' / ' + ((data.kamarruangan_nobed !== null) ? data.kamarruangan_nobed : '-'));
+						loadImplDet(implementasiaskep_id);
 					}
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
