@@ -20,7 +20,13 @@
 		),
 	));
 	?>
-	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+	<?php 
+            if (isset($_GET['status']))
+            {
+                Yii::app()->user->setFlash('success', "Data berhasil disimpan");
+                $this->widget('bootstrap.widgets.BootAlert'); 
+            }
+        ?>
 	<?php //echo $form->errorSummary(array($modRetur,$modBuktiKeluar)); ?>
 	<fieldset class="box">
 		<legend class="rim">Data Rencana</legend>
@@ -63,7 +69,7 @@
                         echo "&nbsp;";
 //			echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
 //			echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "";
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "";
 		} else {
 			echo CHtml::htmlButton(
 					Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array(
@@ -82,7 +88,7 @@
                         echo "&nbsp;";
 //			echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp";
 //			echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "";
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "";
 		}
 		?>
 		

@@ -7,16 +7,18 @@
 				<div class="controls">
 					<?php
 					if (!empty($modRencana->rencanaaskep_id)) {
+                                                echo CHtml::hiddenField('ASRencanaaskepT[iskeperawatan]', $modRencana->iskeperawatan, array('readonly' => true));
 						echo CHtml::hiddenField('ASRencanaaskepT[rencanaaskep_id]', $modRencana->rencanaaskep_id, array('readonly' => true));
 						echo CHtml::textField('ASRencanaaskepT[no_rencana]', $modRencana->no_rencana, array('readonly' => true));
 					} else {
+                                                echo CHtml::hiddenField('ASRencanaaskepT[iskeperawatan]', $modRencana->iskeperawatan, array('readonly' => true));
 						echo CHtml::hiddenField('ASRencanaaskepT[rencanaaskep_id]', $modRencana->rencanaaskep_id, array('readonly' => true));
 						$this->widget('MyJuiAutoComplete', array(
 							'name' => 'ASRencanaaskepT[no_rencana]',
 							'value' => $modRencana->no_rencana,
 							'source' => 'js: function(request, response) {
                                                    $.ajax({
-                                                       url: "' . Yii::app()->createUrl('billingKasir/ActionAutoComplete/daftarPasienInstalasi') . '",
+                                                       url: "' . $this->createUrl('AutocompleteRencana') . '",
                                                        dataType: "json",
                                                        data: {
                                                            term: request.term,
@@ -35,7 +37,7 @@
                                                 return false;
                                             }',
 								'select' => 'js:function( event, ui ) {
-                                                isiDataPasien(ui.item);
+                                                cekRencanaId(ui.item.rencanaaskep_id);
                                                 return false;
                                             }',
 							),
@@ -69,10 +71,10 @@
 			<div class="control-group">
 				<div class="controls">
 					 <?php echo CHtml::link("<i class=icon-form-detail></i>", 'javascript:void(0)', array("rel" => "tooltip",
-																						 "title" => "Klik untuk melihat detail",
-																						 "target" => "frameDetail",
-																						 "onclick" => "cekPengkajian(this);",
-																					 ));
+						"title" => "Klik untuk melihat detail",
+						"target" => "frameDetail",
+						"onclick" => "cekRencana(this);",
+					));
 //					echo CHtml::link(Yii::t('mds',array('{icon}'=>"<i class=\'icon-form-detail\'></i> ")), Yii::app()->controller->createUrl("/asuhanKeperawatan/RencanaKeperawatan/DetailPengkajian", array("pengkajianaskep_id" => $modRencana->pengkajianaskep_id)), array("target" => "frameDetail", "rel" => "tooltip", "title" => "Klik untuk Detail Pengkajian Keperawatan", "onclick" => "window.parent.$(\'#dialogDetail\').dialog(\'open\')")); ?>
 				</div>
 			</div>
@@ -95,10 +97,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 ));
 $modRencanaAskep = new ASRencanaaskepT('search');
 $modRencanaAskep->unsetAttributes();
+$modRencanaAskep->ruangan_id = Yii::app()->user->getState('ruangan_id');
 if (isset($_GET['ASRencanaaskepT'])) {
 	$modRencanaAskep->attributes = $_GET['ASRencanaaskepT'];
         $modRencanaAskep->no_pengkajian = $_GET['ASRencanaaskepT']['no_pengkajian'];
         $modRencanaAskep->nama_pegawai = $_GET['ASRencanaaskepT']['nama_pegawai'];
+        $modRencanaAskep->ruangan_id = Yii::app()->user->getState('ruangan_id');
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
@@ -115,13 +119,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                         "id" => "selectRencana",
                                         "onClick" => "
                                             $(\"#dialogRencanaKep\").dialog(\"close\");
-											$(\"#ASRencanaaskepT_rencanaaskep_id\").val(\"$data->rencanaaskep_id\");
-											$(\"#ASRencanaaskepT_no_rencana\").val(\"$data->no_rencana\");
-											$(\"#ASRencanaaskepT_rencanaaskep_tgl\").val(\"$data->rencanaaskep_tgl\");
-											$(\"#ASRencanaaskepT_pegawai_id\").val(\"{$data->pegawai->pegawai_id}\");
-											$(\"#ASRencanaaskepT_nama_pegawai\").val(\"{$data->pegawai->nama_pegawai}\");
-											loadPasien($data->rencanaaskep_id);
-											loadRencanaDet($data->rencanaaskep_id);
+                                                cekRencanaId($data->rencanaaskep_id);
                                         "))',
 		),
 		array(

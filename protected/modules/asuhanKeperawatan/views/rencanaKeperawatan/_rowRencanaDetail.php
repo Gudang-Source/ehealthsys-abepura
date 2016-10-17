@@ -155,10 +155,10 @@
 			echo '<table class="items table table-striped table-bordered table-condensed kriteria" id="' . $data['table_id'] . '">
             <thead>
                 <tr>
-					<th></th>
-                    <th>Kriteria Hasil</th>
-                    <th>IR</th>
-					<th>ER</th>
+					<th style = "background: #7FB35D"></th>
+                    <th style = "background: #7FB35D">Kriteria Hasil</th>
+                    <th style = "background: #7FB35D">IR</th>
+					<th style = "background: #7FB35D">ER</th>
                 </tr>
             </thead>
 			<tbody>';
