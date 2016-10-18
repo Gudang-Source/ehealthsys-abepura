@@ -29,4 +29,7 @@
     <td>
         <span name="riwayatPeriksaFisik[ii][kelainanpadabagtubuh]"><?php echo (!empty($modRiwayatPeriksaFisik->kelainanpadabagtubuh) ? $modRiwayatPeriksaFisik->kelainanpadabagtubuh : "") ?></span>
     </td>
+    <td style="text-align: center;">
+		<?php echo CHtml::link("<i class='icon-form-detail'></i> ",  Yii::app()->controller->createUrl("/asuhanKeperawatan/PengkajianAskep/detailPeriksaFisik",array("pemeriksaanfisik_id"=>$modRiwayatPeriksaFisik->pemeriksaanfisik_id)),array("target"=>"frameDetailFisik","rel"=>"tooltip","title"=>"Klik untuk Detail Pemeriksaan Fisik", "onclick"=>"window.parent.$('#dialogDetailFisik').dialog('open')")); ?>
+	</td>
 </tr>

@@ -23,4 +23,7 @@
     <td>
         <span name="riwayatAnemnesa[ii][riwayatmakanan]"><?php echo (!empty($modRiwayatAnemnesa->riwayatmakanan) ? $modRiwayatAnemnesa->riwayatmakanan : "") ?></span>
     </td>
+    <td style="text-align: center;">
+		<?php echo CHtml::link("<i class='icon-form-detail'></i> ",  Yii::app()->controller->createUrl("/asuhanKeperawatan/PengkajianAskep/detailAnamnesis",array("anamesa_id"=>$modRiwayatAnemnesa->anamesa_id)),array("target"=>"frameDetailAnamnesis","rel"=>"tooltip","title"=>"Klik untuk Detail Anamnesis", "onclick"=>"window.parent.$('#dialogDetailAnamnesis').dialog('open')")); ?>
+	</td>
 </tr>
