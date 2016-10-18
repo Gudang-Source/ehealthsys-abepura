@@ -29,7 +29,7 @@
                             array(
                                'header'=>'Tanggal Admisi / Masuk Kamar',
                                 'type'=>'raw',
-                                'value'=>'MyFormatter::formatDateTimeForUser($data->tglAdmisiMasukKamar)'
+                                'value'=>'$data->tglAdmisiMasukKamar'
                             ),
                     //                    'ruangan_nama',
                             array(
@@ -78,7 +78,8 @@
                             array(
                                                     'name'=>'jeniskasuspenyakit_nama',
                                 'type'=>'raw',
-                                'value'=>'CHtml::hiddenField("RIInfopasienmasukkamarV[$data->pendaftaran_id][pendaftaran_id]", $data->pendaftaran_id, array("id"=>"pendaftaran_id","onkeypress"=>"return $(this).focusNextInputField(event)","class"=>"span3"))."".CHtml::link("<i class=icon-form-ubah></i> ".$data->jeniskasuspenyakit_nama,"javascript:void(0)",array("onclick"=>"ubahKasusPenyakit(this,$data->pendaftaran_id,$data->pasienadmisi_id,$data->jeniskasuspenyakit_id);return false;","class"=>"kasus_penyakit","rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Kasus Penyakit"))',
+                                'value'=>'CHtml::hiddenField("RIInfopasienmasukkamarV[pendaftaran_id]", $data->pendaftaran_id, array("id"=>"pendaftaran_id","onkeypress"=>"return $(this).focusNextInputField(event)","class"=>"span3"))."".CHtml::link("<i class=icon-form-ubah></i> ".$data->jeniskasuspenyakit_nama,"javascript:void(0)",array("onclick"=>"ubahKasusPenyakit(this,$data->pendaftaran_id,$data->pasienadmisi_id,$data->jeniskasuspenyakit_id);return false;","class"=>"kasus_penyakit","rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Kasus Penyakit"))',
+                                //'value'=>'CHtml::hiddenField("RIInfopasienmasukkamarV[$data->pendaftaran_id][pendaftaran_id]", $data->pendaftaran_id, array("id"=>"pendaftaran_id","onkeypress"=>"return $(this).focusNextInputField(event)","class"=>"span3"))."".CHtml::link("<i class=icon-form-ubah></i> ".$data->jeniskasuspenyakit_nama,"javascript:void(0)",array("onclick"=>"ubahKasusPenyakit(this,$data->pendaftaran_id,$data->pasienadmisi_id,$data->jeniskasuspenyakit_id);return false;","class"=>"kasus_penyakit","rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Kasus Penyakit"))',
                                                     'htmlOptions'=>array(
                                                             'style'=>'text-align: center',
                                                             'class'=>'list_kasus_penyakit'
