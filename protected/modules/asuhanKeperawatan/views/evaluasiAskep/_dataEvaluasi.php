@@ -42,27 +42,39 @@
 							array('modul_key' => $this->module->id)
 					);
 					$modul_id = (isset($modul['modul_id']) ? $modul['modul_id'] : '' );
-					$this->widget('MyJuiAutoComplete', array(
-						'name' => 'nama_pegawai',
+					$this->widget('MyJuiAutoComplete',array(
+						'model'=>$model,
+						'name'=>'ASEvaluasiaskepT[nama_pegawai]',
 						'value' => isset($model->pegawai->nama_pegawai) ? $model->pegawai->nama_pegawai : "",
-						'sourceUrl' => $this->createUrl('Pegawairiwayat'),
-						'options' => array(
-							'showAnim' => 'fold',
-							'minLength' => 4,
-							'focus' => 'js:function( event, ui ) {
-                                                    $("#ASEvaluasiaskepT_pegawai_id").val( ui.item.value );
-                                                    $("#ASEvaluasiaskepT_nama_pegawai").val( ui.item.nama_pegawai );
-                                                    return false;
-                                                }',
-							'select' => 'js:function( event, ui ) {
-                                                    $("#ASEvaluasiaskepT_pegawai_id").val( ui.item.value );
-                                                    return false;
-                                                }',
+						'source'=>'js: function(request, response) {
+									   $.ajax({
+										   url: "'.$this->createUrl('Pegawairiwayat').'",
+										   dataType: "json",
+										   data: {
+											   term: request.term,
+										   },
+										   success: function (data) {
+												   response(data);
+										   }
+									   })
+									}',
+						'options'=>array(
+						   'showAnim'=>'fold',
+						   'minLength' => 2,
+						   'focus'=> 'js:function( event, ui ) {
+								$(this).val( ui.item.label);
+								return false;
+							}',
+						   'select'=>'js:function( event, ui ) {
+								$("#ASEvaluasiaskepT_pegawai_id").val(ui.item.pegawai_id); 
+								$("#ASEvaluasiaskepT_nama_pegawai").val( ui.item.nama_pegawai );
+								return false;
+							}',
+
 						),
-						'htmlOptions' => array('onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2 '),
-						'tombolDialog' => array('idDialog' => 'dialogPegawai', 'idTombol' => 'tombolPasienDialog'),
-					));
-					?>
+						'tombolDialog'=>array("idDialog"=>'dialogPegawai'),
+						'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2'),
+					)); ?>
 				</div>
 			</div>
 		</div>

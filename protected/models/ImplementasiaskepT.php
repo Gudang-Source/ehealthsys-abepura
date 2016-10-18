@@ -58,6 +58,8 @@ class ImplementasiaskepT extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'implementasikeperawatan'=>array(self::BELONGS_TO, 'ImplementasikeperawatanM', 'implementasikeperawatan_id'),
+                    'rencanaaskep' => array(self::BELONGS_TO, 'RencanaaskepT', 'rencanaaskep_id'),
+                    'ruangan' => array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
                     'pegawai'=>array(self::BELONGS_TO, 'PegawaiM', 'pegawai_id'),
                 );
 	}

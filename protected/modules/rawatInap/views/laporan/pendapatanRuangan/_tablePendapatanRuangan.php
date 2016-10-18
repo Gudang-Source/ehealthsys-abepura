@@ -53,6 +53,7 @@
                 ),
                 array(
                     'name'=>'carabayarPenjamin',
+                    'type' => 'raw',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
