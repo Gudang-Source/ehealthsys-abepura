@@ -58,13 +58,13 @@ class VerifikasiaskepT extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('ruangan_id, verifikasiaskep_tgl, verifikasiaskep_no, petugasverifikasi_nama, mengetahui_nama, create_time, create_loginpemakai_id, create_ruangan, verifikasiaskep_status, pendaftaran_id, pengkajianaskep_id', 'required'),
-			array('pegawai_id, ruangan_id, pendaftaran_id, pengkajianaskep_id, rencanaaskep_id, implementasiaskep_t, evaluasiaskep_t', 'numerical', 'integerOnly'=>true),
+			array('pegawai_id, ruangan_id, pendaftaran_id, pengkajianaskep_id, rencanaaskep_id, implementasiaskep_id, evaluasiaskep_id', 'numerical', 'integerOnly'=>true),
 			array('verifikasiaskep_no, verifikasiaskep_status', 'length', 'max'=>20),
 			array('petugasverifikasi_nama, mengetahui_nama', 'length', 'max'=>50),
 			array('verifikasiaskep_ket, update_time, update_loginpemakai_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('verifikasiaskep_id, pegawai_id, ruangan_id, verifikasiaskep_tgl, verifikasiaskep_no, verifikasiaskep_ket, petugasverifikasi_nama, mengetahui_nama, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, verifikasiaskep_status, pendaftaran_id, pengkajianaskep_id, rencanaaskep_id, implementasiaskep_t, evaluasiaskep_t', 'safe', 'on'=>'search'),
+			array('verifikasiaskep_id, pegawai_id, ruangan_id, verifikasiaskep_tgl, verifikasiaskep_no, verifikasiaskep_ket, petugasverifikasi_nama, mengetahui_nama, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, verifikasiaskep_status, pendaftaran_id, pengkajianaskep_id, rencanaaskep_id, implementasiaskep_id, evaluasiaskep_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -105,8 +105,8 @@ class VerifikasiaskepT extends CActiveRecord
 			'pendaftaran_id' => 'Pendaftaran',
 			'pengkajianaskep_id' => 'Pengkajianaskep',
 			'rencanaaskep_id' => 'Rencanaaskep',
-			'implementasiaskep_t' => 'Implementasiaskep T',
-			'evaluasiaskep_t' => 'Evaluasiaskep T',
+			'implementasiaskep_id' => 'Implementasiaskep',
+			'evaluasiaskep_id' => 'Evaluasiaskep T',
 		);
 	}
 
@@ -138,8 +138,8 @@ class VerifikasiaskepT extends CActiveRecord
 		$criteria->compare('pendaftaran_id',$this->pendaftaran_id);
 		$criteria->compare('pengkajianaskep_id',$this->pengkajianaskep_id);
 		$criteria->compare('rencanaaskep_id',$this->rencanaaskep_id);
-		$criteria->compare('implementasiaskep_t',$this->implementasiaskep_t);
-		$criteria->compare('evaluasiaskep_t',$this->evaluasiaskep_t);
+		$criteria->compare('implementasiaskep_id',$this->implementasiaskep_id);
+		$criteria->compare('evaluasiaskep_id',$this->evaluasiaskep_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
