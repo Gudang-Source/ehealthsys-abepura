@@ -12,7 +12,7 @@
 		<td style="text-align:center;" align="center"><b>PENGKAJIAN KEPERAWATAN</b></td>
 	</tr>
 </table>
-<div class="white-container">
+<div class="white-container" style="box-shadow:none;">
 	<div class="row-fluid">
 		<table width="100%">
 			<tr>

@@ -15,7 +15,7 @@ class InformasiPengkajianAskepController extends MyAuthController {
 			$model->attributes=$_GET['ASInfopengkajianaskepV'];
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ASInfopengkajianaskepV']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASInfopengkajianaskepV']['tgl_akhir']);
-			$model->ruangan_id = $_GET['ASInfopengkajianaskepV']['ruangan_id'];
+			//$model->ruangan_id = $_GET['ASInfopengkajianaskepV']['ruangan_id'];
 		}
 		
 		$this->render($this->path_view.'index',array(

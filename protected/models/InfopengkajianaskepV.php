@@ -531,4 +531,11 @@ class InfopengkajianaskepV extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getNamaLengkap()
+        {
+            $nama = PegawairuanganV::model()->find("pegawai_id = '".$this->pegawai_id."' ");
+            
+            return $nama->gelardepan.' '.$nama->nama_pegawai.' '.$nama->gelarbelakang_nama;
+        }
 }

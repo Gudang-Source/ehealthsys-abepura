@@ -337,6 +337,29 @@ class ASInfopengkajianaskepV extends InfopengkajianaskepV
 		));
 	}
         
+        public function searchInformasiKep()
+        {
+            $criteria = new CDbCriteria;
+            $criteria->select = "pengkajianaskep_id, pendaftaran_id, no_pengkajian, pengkajianaskep_tgl, no_pendaftaran, namadepan, nama_pasien, nama_pegawai, pegawai_id, ruangan_nama, kelaspelayanan_nama, ruangan_id";
+            $criteria->addBetweenCondition('pengkajianaskep_tgl', $this->tgl_awal, $this->tgl_akhir);
+            $criteria->compare("LOWER(no_pengkajian)",  strtolower($this->no_pengkajian), TRUE);
+            $criteria->compare("LOWER(no_pendaftaran)",  strtolower($this->no_pendaftaran), TRUE);
+            $criteria->compare("LOWER(nama_pasien)",  strtolower($this->nama_pasien), TRUE);
+            $criteria->compare("LOWER(nama_pegawai)",  strtolower($this->nama_pegawai), TRUE);
+            
+            $criteria->addCondition(" ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+            if (!empty($this->ruangan_id)){
+                //$criteria->addCondition(" ruangan_id = '".$this->ruangan_id."' ");
+                
+            }
+            $criteria->group = "pengkajianaskep_id, pendaftaran_id, no_pengkajian, pengkajianaskep_tgl, no_pendaftaran, namadepan, nama_pasien, nama_pegawai, pegawai_id, ruangan_nama, kelaspelayanan_nama, ruangan_id";
+            $criteria->order = "pengkajianaskep_tgl DESC";
+            
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));            
+        }
+        
        public function searchDialog()
 	{
 		// Warning: Please modify the following code to remove attributes that

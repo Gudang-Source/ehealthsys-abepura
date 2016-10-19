@@ -11,7 +11,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 <div class="row-fluid">
 	<div class="span4">
 		<div class="control-group ">
-			<?php echo CHtml::label('Dari Tanggal','pengkajianaskep_tgl', array('class'=>'control-label')) ?>
+			<?php echo CHtml::label('Tanggal Pengkajian','pengkajianaskep_tgl', array('class'=>'control-label')) ?>
 			<div class="controls">
 				<?php   
 				$model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
@@ -29,15 +29,8 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 					?> 
 			</div>
 		</div>
-		<div class="control-group ">
-			<?php echo CHtml::activeLabel($model,'nama_pegawai',array('class'=>'control-label')); ?>
-			<div class="controls">
-			   <?php echo $form->textField($model,'nama_pegawai',array('placeholder'=>'Ketik Nama Pegawai', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-			</div>
-		</div>
-	</div>
-	<div class="span4">
-		<div class="control-group ">
+            
+                <div class="control-group ">
 			<?php echo CHtml::label('Sampai Dengan','',array('class'=>'control-label')); ?>
 			<div class="controls">
 				<?php    
@@ -56,18 +49,41 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 					?>
 			</div>
 		</div>
-		<div class="control-group">
-			<?php echo CHtml::label('Ruangan', 'ruangan_id', array('class'=>'control-label')) ?>
+            
+                <div class="control-group ">
+			<?php echo CHtml::activeLabel($model,'no_pengkajian',array('class'=>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->dropDownList($model,'ruangan_id',CHtml::listData(ASRuanganM::getRuanganByInstalasi($model->instalasi_id),'ruangan_id','ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>           
+			   <?php echo $form->textField($model,'no_pengkajian',array('placeholder'=>'Ketik No. Pengkajian', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			</div>
+		</div>
+            		
+	</div>
+	<div class="span4">
+                <div class="control-group ">
+			<?php echo CHtml::activeLabel($model,'no_pendaftaran',array('class'=>'control-label')); ?>
+			<div class="controls">
+			   <?php echo $form->textField($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			</div>
+		</div>
+		<div class="control-group ">
+			<?php echo CHtml::activeLabel($model,'nama_pasien',array('class'=>'control-label')); ?>
+			<div class="controls">
+			   <?php echo $form->textField($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pegawai', 'class'=>'span3 hurufs-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			</div>
+		</div>
+            
+		<div class="control-group">
+			<?php //echo CHtml::label('Ruangan', 'ruangan_id', array('class'=>'control-label')) ?>
+			<div class="controls">
+				<?php //echo $form->dropDownList($model,'ruangan_id',CHtml::listData(ASRuanganM::getRuanganByInstalasi($model->instalasi_id),'ruangan_id','ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>           
 			</div>
 		</div>		
 	</div>
 	<div class="span4">
 		<div class="control-group ">
-			<?php echo CHtml::activeLabel($model,'no_pengkajian',array('class'=>'control-label')); ?>
+			<?php echo CHtml::label("Nama Perawat",'nama_pegawai',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'no_pengkajian',array('placeholder'=>'Ketik No. Pengkajian', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'nama_pegawai',array('placeholder'=>'Ketik Nama Pegawai', 'class'=>'span3  hurufs-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 	</div>
@@ -79,7 +95,14 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 						array('class'=>'btn btn-danger',
 							  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
 	<?php  
-		$content = $this->renderPartial($this->path_view.'tips.informasi',array(),true);
+                $tips = array(
+                    '0' => 'tanggal',
+                    '1' => 'detail',
+                    '2' => 'cari',
+                    '3' => 'ulang2',                    
+                    '4' => 'print',
+                );
+		$content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);		
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	?>  
 </div>
