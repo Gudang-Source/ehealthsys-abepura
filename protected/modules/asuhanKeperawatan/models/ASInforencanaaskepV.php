@@ -178,6 +178,32 @@ class ASInforencanaaskepV extends InforencanaaskepV
 			'pagination'=>false
 		));
 	}
+        
+        public function searchInformasiRen()
+        {           
+            $criteria=new CDbCriteria;
+            $criteria->select = "rencanaaskep_id,  no_rencana, rencanaaskep_tgl, no_pendaftaran,nama_pasien, nama_pegawai, pegawai_id, ruangan_nama, kelaspelayanan_nama, ruangan_id";
+            $criteria->addBetweenCondition('pengkajianaskep_tgl', $this->tgl_awal, $this->tgl_akhir);
+            $criteria->compare("LOWER(no_rencana)",  strtolower($this->no_rencana), TRUE);
+            $criteria->compare("LOWER(no_pendaftaran)",  strtolower($this->no_pendaftaran), TRUE);
+            $criteria->compare("LOWER(nama_pasien)",  strtolower($this->nama_pasien), TRUE);
+            $criteria->compare("LOWER(nama_pegawai)",  strtolower($this->nama_pegawai), TRUE);
+            
+            $criteria->addCondition(" ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+            if (!empty($this->ruangan_id)){
+                //$criteria->addCondition(" ruangan_id = '".$this->ruangan_id."' ");
+                
+            }
+            $criteria->group = "rencanaaskep_id, no_rencana, rencanaaskep_tgl, no_pendaftaran, nama_pasien, nama_pegawai, pegawai_id, ruangan_nama, kelaspelayanan_nama, ruangan_id";
+            $criteria->order = "rencanaaskep_tgl DESC";
+            
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));            
+        
+        }
+        
+        
 	
 	public function getNoKamar($pendaftaran_id) {
 		$no_kamar = '-';

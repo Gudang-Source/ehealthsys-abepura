@@ -14,7 +14,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 			<?php echo CHtml::label('Tanggal Pengkajian','pengkajianaskep_tgl', array('class'=>'control-label')) ?>
 			<div class="controls">
 				<?php   
-				$model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
+				$model->tgl_awal = $format->formatDateTimeForUser(date('Y-m-d',strtotime($model->tgl_awal)));
 						$this->widget('MyDateTimePicker',array(
 										'model'=>$model,
 										'attribute'=>'tgl_awal',
@@ -34,7 +34,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 			<?php echo CHtml::label('Sampai Dengan','',array('class'=>'control-label')); ?>
 			<div class="controls">
 				<?php    
-					$model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir);
+					$model->tgl_akhir = $format->formatDateTimeForUser(date('Y-m-d',strtotime($model->tgl_akhir)));
 					$this->widget('MyDateTimePicker',array(
 										'model'=>$model,
 										'attribute'=>'tgl_akhir',
