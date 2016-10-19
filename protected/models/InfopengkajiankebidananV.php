@@ -231,4 +231,19 @@ class InfopengkajiankebidananV extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getNamaLengkap()
+        {
+            $nama = PegawairuanganV::model()->find("pegawai_id = '".$this->pegawai_id."' ");
+            
+            return $nama->gelardepan.' '.$nama->nama_pegawai.' '.$nama->gelarbelakang_nama;
+        }
+        
+        public function getNamaPasien()
+        {
+            $nama =  PasienM::model()->find("pasien_id = '".$this->pasien_id."' ");
+            
+            return $nama->namadepan.' '.$nama->nama_pasien;
+        }
+
 }

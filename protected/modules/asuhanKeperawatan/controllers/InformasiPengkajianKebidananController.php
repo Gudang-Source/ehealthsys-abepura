@@ -15,7 +15,7 @@ class InformasiPengkajianKebidananController extends MyAuthController {
 			$model->attributes=$_GET['ASInfopengkajiankebidananV'];
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ASInfopengkajiankebidananV']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASInfopengkajiankebidananV']['tgl_akhir']);
-			$model->ruangan_id = $_GET['ASInfopengkajiankebidananV']['ruangan_id'];
+			//$model->ruangan_id = $_GET['ASInfopengkajiankebidananV']['ruangan_id'];
 		}
 		
 		$this->render($this->path_view.'index',array(
