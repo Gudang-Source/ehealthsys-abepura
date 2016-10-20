@@ -67,9 +67,9 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 		</div>
             
                 <div class="control-group ">
-			<?php echo CHtml::label("Petugas Verifikasi",'petugasverifikasi_nama',array('class'=>'control-label')); ?>
+			<?php echo CHtml::label("Nama pasien",'nama_pasien',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'petugasverifikasi_nama',array('placeholder'=>'Ketik Nama Pegawai', 'class'=>'span3 huruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pegawai', 'class'=>'span3 huruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 		<?php /*
@@ -84,9 +84,9 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	</div>
 	<div class="span4">
 		 <div class="control-group ">
-			<?php echo CHtml::label("Nama Perawat",'nama_pegawai',array('class'=>'control-label')); ?>
+			<?php echo CHtml::label("Petugas Verifikasi",'petugasverifikasi_nama',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'nama_pegawai',array('placeholder'=>'Ketik Nama Pegawai', 'class'=>'span3 huruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'petugasverifikasi_nama',array('placeholder'=>'Ketik Nama Pegawai', 'class'=>'span3 huruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 	</div>
