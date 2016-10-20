@@ -210,4 +210,11 @@ class PesanambulansT extends CActiveRecord
                         'pagination'=>false,
                 ));
         }
+        
+        public function getNamaPasien()
+        {
+            $nama = PasienM::model()->findByPk($this->pasien_id);
+            
+            return $nama->namadepan.' '.$nama->nama_pasien;
+        }
 }

@@ -61,7 +61,7 @@ function setKunjungan(pendaftaran_id, no_pendaftaran, no_rekam_medik, pasienadmi
             $("#nama_pasien").focus();
         },
         error: function (jqXHR, textStatus, errorThrown) { 
-            myAlert("Data kunjungan tidak ditemukan !"); 
+            myAlert("Data kunjungan tidak ditemukan atau Instalasi yang dipilih salah !"); 
             console.log(errorThrown);
             setKunjunganReset();
             $("#form-datakunjungan > div").removeClass("animation-loading");
