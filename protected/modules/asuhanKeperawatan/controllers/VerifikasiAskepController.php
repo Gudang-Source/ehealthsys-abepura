@@ -27,6 +27,7 @@ class VerifikasiAskepController extends MyAuthController {
 		$modPasien = new ASInfopengkajianaskepV;
 		$model->verifikasiaskep_tgl = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
 		$model->verifikasiaskep_no = "- Otomatis -";
+                $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
 		$nama_modul = Yii::app()->controller->module->id;
 		$nama_controller = Yii::app()->controller->id;

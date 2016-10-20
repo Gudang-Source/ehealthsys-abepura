@@ -119,7 +119,7 @@ class ASInfoimplementasiaskepV extends InfoimplementasiaskepV
 		));
 	}
         
-         public function searchInformasiImpl()
+        public function searchInformasiImpl()
         {
             $criteria = new CDbCriteria;
             $criteria->select = "implementasiaskep_id, no_implementasi, implementasiaskep_tgl, no_pendaftaran, nama_pasien, nama_pegawai, pegawai_id, ruangan_nama, kelaspelayanan_nama, ruangan_id";
