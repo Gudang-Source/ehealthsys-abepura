@@ -199,8 +199,8 @@
 										$data['table_id'] = 'table-intervensi-' . $modDetail->intervensi_id;
 										echo '<table class="items table table-striped table-bordered table-condensed intervensi" id="' . $data['table_id'] . '">
             <thead>
-                    <th>Intervensi</th>
-                    <th>Indikator Intervensi</th>
+                    <th  style = "background-color:#7FB35D">Intervensi</th>
+                    <th  style = "background-color:#7FB35D">Indikator Intervensi</th>
             </thead>
 			<tbody>';
 										echo '<tr>';
