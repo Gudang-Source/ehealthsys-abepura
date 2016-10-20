@@ -6,9 +6,12 @@
  *
  * @author Deni Hamdani <pii.deni.prg@gmail.com>
  */
-Yii::import("ambulans.controllers.InformasiPemesananAmbulansController");
-Yii::import("ambulans.models.*");
-Yii::import("ambulans.views.*");
+//Yii::import("ambulans.controllers.InformasiPemesananAmbulansController");
+//Yii::import("ambulans.models.*");
+//Yii::import("ambulans.views.*");
+Yii::import("rawatDarurat.controllers.InformasiPemesananAmbulansController");
+Yii::import("rawatDarurat.models.*");
+Yii::import("rawatDarurat.views.*");
 class InformasiPemesananAmbulansRIController extends InformasiPemesananAmbulansController {
     public $inisial_modul = 'RI';
     
