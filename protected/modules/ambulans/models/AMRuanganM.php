@@ -29,6 +29,22 @@ class AMRuanganM extends RuanganM
         $criteria->addCondition("ruangan_aktif = TRUE");
         $criteria->order = "ruangan_nama";
         return self::model()->findAll($criteria);
-    }	
+        }	
+        
+        public static function getRuanganPesanAM()
+        {
+            $criteria = new CDbCriteria();            
+            $criteria->addCondition("ruangan_aktif = TRUE");
+            $criteria->addInCondition('instalasi_id', 
+                        array(
+                            Params::INSTALASI_ID_RD,
+                            Params::INSTALASI_ID_RI,
+                            Params::INSTALASI_ID_RJ,
+                            Params::INSTALASI_ID_ICU,
+                        )
+                    );
+            $criteria->order = "ruangan_nama";
+            return self::model()->findAll($criteria);
+        }
         
 }

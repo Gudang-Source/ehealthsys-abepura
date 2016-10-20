@@ -24,16 +24,32 @@
                 //'mobilambulans_id',
                 //'pemakaianambulans_id',
                 //'pasien_id',
-
+                array(
+                    'header' => 'Tanggal Pemesanan',
+                    'name' => 'tglpemesananambulans',
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->tglpemesananambulans)'
+                ),
                 'pesanambulans_no',
                 'norekammedis',
-                'namapasien',
+                array(
+                    'header' => 'Nama Pasien',
+                    'name' => 'nama_pasien',
+                    'value' => '$data->NamaPasien'
+                ),                
                 'tempattujuan',
                 'alamattujuan',
-                'tglpemakaianambulans',
+                array(
+                    'header' => 'Tanggal Pemakaian',
+                    'name' => 'tglpemakaianambulans',
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->tglpemakaianambulans)'
+                ),                
                 'untukkeperluan',
                 'ruanganpemesan.ruangan_nama',
-                'userpemesan.nama_pemakai',
+                array(
+                    'header' => 'Nama Pemakai',
+                    'name' => 'create_login_pemakai',
+                    'value' => 'isset($data->userpemesan->nama_pemakai)?$data->userpemesan->nama_pemakai:"-"'
+                ),               
                 /*
                 'tglpemesananambulans',
                 'kelurahan_nama',
@@ -51,7 +67,7 @@
         )); ?> 
     </div>
     <fieldset class="box">
-        <?php $this->renderPartial('_searchPemesanan',array('modPemesanan'=>$modPemesanan,'format'=>$format)) ?>
+        <?php $this->renderPartial($this->path_view.'_searchPemesanan',array('modPemesanan'=>$modPemesanan,'format'=>$format)) ?>
     </fieldset>
         <?php
     //     $this->widget('bootstrap.widgets.BootButtonGroup', array(

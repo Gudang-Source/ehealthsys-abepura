@@ -50,32 +50,39 @@
                         <?php $modPemesanan->tgl_akhir = $format->formatDateTimeForDb($modPemesanan->tgl_akhir); ?>
                     </div>
                 </div>
-            </td>
-            <td>
                 <div class="control-group ">
-                    <label for="namaPasien" class="control-label">No. pesan Ambulance </label>
+                    <label for="namaPasien" class="control-label">No. Pesan Ambulance </label>
                     <div class="controls">
-                        <?php echo $form->textField($modPemesanan,'pesanambulans_no',array('placeholder'=>'No. Pesan Ambulance','class'=>'span3','maxlength'=>20)); ?>
+                        <?php echo $form->textField($modPemesanan,'pesanambulans_no',array('placeholder'=>'No. Pesan Ambulance','class'=>'span3 angkahuruf-only','maxlength'=>20)); ?>
                     </div>
                 </div>
+            </td>
+            <td>
+                
                 <div class="control-group ">
                     <label for="namaPasien" class="control-label">No. Rekam medis</label>
                     <div class="controls">
-                        <?php echo $form->textField($modPemesanan,'norekammedis',array('placeholder'=>'No. Rekam Medis','class'=>'span3','maxlength'=>10)); ?>
+                        <?php echo $form->textField($modPemesanan,'norekammedis',array('placeholder'=>'No. Rekam Medis','class'=>'span3 numbers-only','maxlength'=>10)); ?>
+                    </div>
+                </div>
+                 <div class="control-group ">
+                    <label for="namaPasien" class="control-label">Nama Pasien</label>
+                    <div class="controls">
+                        <?php echo $form->textField($modPemesanan,'namapasien',array('placeholder'=>'Nama Pasien','class'=>'span3 hurufs-only','maxlength'=>100)); ?>
+                    </div>
+                </div>
+                <div class="control-group ">
+                    <label for="namaPasien" class="control-label">Ruangan</label>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($modPemesanan,'ruangan_id', Chtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','placeholder'=>'Nama Ruangan','class'=>'span3')); ?>
                     </div>
                 </div>
             </td>
             <td>
-                <div class="control-group ">
-                    <label for="namaPasien" class="control-label">Nama Pasien</label>
+               <div class="control-group ">
+                    <label for="namaPasien" class="control-label">Nama Pemakai</label>
                     <div class="controls">
-                        <?php echo $form->textField($modPemesanan,'namapasien',array('placeholder'=>'Nama Pasien','class'=>'span3','maxlength'=>100)); ?>
-                    </div>
-                </div>
-                <div class="control-group ">
-                    <label for="namaPasien" class="control-label">Nama ruang</label>
-                    <div class="controls">
-                        <?php echo $form->textField($modPemesanan,'ruangan_nama',array('placeholder'=>'Nama Ruangan','class'=>'span3')); ?>
+                        <?php echo $form->textField($modPemesanan,'nama_pemakai',array('placeholder'=>'Nama Pemakai','class'=>'span3 angkahuruf-only','maxlength'=>10)); ?>
                     </div>
                 </div>
             </td>
@@ -84,13 +91,13 @@
     
 
     <div class="form-actions">
-        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
                             array('class'=>'btn btn-danger',
-                                  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>								
+                                  'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>								
 <?php  
-        $content = $this->renderPartial('../tips/informasi_ambulans',array(),true);
+        $content = $this->renderPartial('rawatDarurat.views.tips.informasi_ambulans',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 
 ?>
