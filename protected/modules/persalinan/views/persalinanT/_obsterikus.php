@@ -43,6 +43,16 @@
                             <?php echo $form->error($modPemeriksaan, 'obs_periksadalam'); ?>
                         </div>
                     </div>
+                    <!-- Kolom Baru portio_genitalia-->
+                    <div class="control-group ">
+                        <?php echo $form->labelEx($modPemeriksaan, 'portio_genitalia', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->textField($modPemeriksaan, 'portio_genitalia', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            ?>
+                            <?php echo $form->error($modPemeriksaan, 'portio_genitalia'); ?>
+                        </div>
+                    </div>                    
                     <div class="control-group ">
                         <?php echo $form->labelEx($modPemeriksaan, 'konsistensi', array('class' => 'control-label')) ?>
                         <div class="controls">

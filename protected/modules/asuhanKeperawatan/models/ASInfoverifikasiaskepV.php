@@ -98,4 +98,27 @@ class ASInfoverifikasiaskepV extends InfoverifikasiaskepV
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchInformasiVerif()
+        {
+            $criteria = new CDbCriteria;
+            $criteria->select = "verifikasiaskep_status,kamarruangan_nokamar, kamarruangan_nobed, petugasverifikasi_nama, mengetahui_nama, verifikasiaskep_ket,verifikasiaskep_id, verifikasiaskep_no, verifikasiaskep_tgl, no_pendaftaran, tgl_pendaftaran, nama_pasien, nama_pegawai, pegawai_id, ruangan_nama, kelaspelayanan_nama, ruangan_id";
+            $criteria->addBetweenCondition('verifikasiaskep_tgl', $this->tgl_awal, $this->tgl_akhir);
+            $criteria->compare("LOWER(verifikasiaskep_no)",  strtolower($this->verifikasiaskep_no), TRUE);
+            $criteria->compare("LOWER(no_pendaftaran)",  strtolower($this->no_pendaftaran), TRUE);
+            $criteria->compare("LOWER(nama_pasien)",  strtolower($this->nama_pasien), TRUE);
+            $criteria->compare("LOWER(petugasverifikasi_nama)",  strtolower($this->petugasverifikasi_nama), TRUE);
+            
+            $criteria->addCondition(" ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+            if (!empty($this->ruangan_id)){
+                //$criteria->addCondition(" ruangan_id = '".$this->ruangan_id."' ");
+                
+            }
+            $criteria->group = "verifikasiaskep_status,kamarruangan_nokamar, kamarruangan_nobed, petugasverifikasi_nama, mengetahui_nama, verifikasiaskep_ket,verifikasiaskep_id, verifikasiaskep_no, verifikasiaskep_tgl, no_pendaftaran, tgl_pendaftaran,nama_pasien, nama_pegawai, pegawai_id, ruangan_nama, kelaspelayanan_nama, ruangan_id";
+            $criteria->order = "verifikasiaskep_tgl DESC";
+            
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));            
+        }
 }
