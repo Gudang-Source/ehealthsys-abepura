@@ -132,6 +132,15 @@
                             <?php echo $form->error($modPemeriksaan, 'posisi_genitalia'); ?>
                         </div>
                     </div>
+                    <div class="control-group ">
+                        <?php echo CHtml::label('Imbang Fetopelvik', 'obs_fetofelvik', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->textField($modPemeriksaan, 'obs_fetofelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            ?>
+                            <?php echo $form->error($modPemeriksaan, 'obs_fetofelvik'); ?>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     <div class="control-group ">
@@ -160,16 +169,7 @@
                             ?>
                             <?php echo $form->error($modPemeriksaan, 'obs_pemeriksaan'); ?>
                         </div>
-                    </div>
-                    <div class="control-group ">
-                        <?php echo CHtml::label('Imbang Fetopelvik', 'obs_fetofelvik', array('class' => 'control-label')) ?>
-                        <div class="controls">
-                            <?php
-                            echo $form->textField($modPemeriksaan, 'obs_fetofelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                            ?>
-                            <?php echo $form->error($modPemeriksaan, 'obs_fetofelvik'); ?>
-                        </div>
-                    </div>
+                    </div>                    
                 </td>
             </tr>
         </table>

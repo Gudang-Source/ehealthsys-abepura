@@ -19,6 +19,13 @@ class PersalinanTController extends MyAuthController {
             $model->tglmulaipersalinan = MyFormatter::formatDateTimeForUser($model->tglmulaipersalinan);            
             if (!empty($model->tglselesaipersalinan)) $model->tglselesaipersalinan = MyFormatter::formatDateTimeForUser($model->tglselesaipersalinan);
             if (!empty($model->tglmelahirkan)) $model->tglmelahirkan = MyFormatter::formatDateTimeForUser($model->tglmelahirkan);
+            if (isset($model->paritaske)){
+                    if (is_numeric($model->paritaske)){
+                        $model->paritaske = (isset($model->paritaske) ? ucwords(implode('',CustomFunction::getNomorUrutText($model->paritaske,$model->paritaske))) :"-");                         
+                    }else{
+                        $model->paritaske =  (isset($model->paritaske) ?$model->paritaske:'-'); //(isset($persalinan->paritaske) ? implode('',CustomFunction::getNomorUrutText($persalinan->paritaske,$persalinan->paritaske)) :"-"); 
+                    }
+                }
         }else{
             $model = new PSPersalinanT;
             $model->tglmulaipersalinan = date('d M Y H:i:s');
