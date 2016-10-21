@@ -94,6 +94,39 @@ function setDropdownDokter(ruangan_id)
     });
 }
 
+function setRuanganRawatGabung(){
+    var ruangan_id = $("#<?php echo CHtml::activeId($modPasienAdmisi, 'ruangan_id') ?>").val();
+    var rawatgabung = $("#<?php echo CHtml::activeId($modPasienAdmisi, 'rawatgabung') ?>").prop('checked');
+    var checkbox = 'check';
+    $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('SetDropdownKamarKosong'); ?>',
+        data: {ruangan_id:ruangan_id, rawatgabung:rawatgabung, check:checkbox},
+        dataType: "json",
+        success:function(data){
+             $("#<?php echo CHtml::activeId($modPasienAdmisi,"kamarruangan_id");?>").html(data.listKamar);
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+    });
+}
+
+function setKelasPelayananIbuBayi(){
+    var ruangan_id = $("#<?php echo CHtml::activeId($modPasienAdmisi, 'ruangan_id') ?>").val();
+    var rawatgabung = $("#<?php echo CHtml::activeId($modPasienAdmisi, 'rawatgabung') ?>").prop('checked');    
+    var kamarruangan_id = $("#<?php echo CHtml::activeId($modPasienAdmisi, 'kamarruangan_id') ?>").val();
+    $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('/ActionAjax/GetKelasMasukKamar/'); ?>',
+        data: {ruangan_id:ruangan_id, rawatgabung:rawatgabung, kamarruangan_id:kamarruangan_id},
+        dataType: "json",
+        success:function(data){
+             $("#<?php echo CHtml::activeId($modPasienAdmisi,"kelaspelayanan_id");?>").val(data.kelaspelayanan_id);
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+    });
+}
+
+
 /**
  * set dropdown dokter ruangan
  * override setDropDownKelasPelayanan() di pendaftaranPenjadwalan/views/pendaftaranRawatInap/_jsFunctions.php

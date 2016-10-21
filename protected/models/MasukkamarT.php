@@ -79,14 +79,14 @@ class MasukkamarT extends CActiveRecord
 		return array(
                     'carabayar'=>array(self::BELONGS_TO, 'CarabayarM','carabayar_id'),
                     'bookingkamar' => array(self::BELONGS_TO, 'BookingkamarT', 'bookingkamar_id'),
-					'penjamin'=>array(self::BELONGS_TO, 'PenjaminpasienM','penjamin_id'),
+                    'penjamin'=>array(self::BELONGS_TO, 'PenjaminpasienM','penjamin_id'),
                     'pegawai'=>array(self::BELONGS_TO, 'PegawaiM','pegawai_id'),
                     'kelaspelayanan'=>array(self::BELONGS_TO, 'KelaspelayananM','kelaspelayanan_id'),
                     'admisi'=>array(self::BELONGS_TO, 'PasienadmisiT', 'pasienadmisi_id'),
-					'ruangan'=>array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
-					'kamarruangan'=>array(self::BELONGS_TO, 'KamarruanganM', 'kamarruangan_id'),
-					'shift' => array(self::BELONGS_TO, 'ShiftM', 'shift_id'),
-					'pindahkamar' => array(self::BELONGS_TO, 'PindahkamarT', 'pindahkamar_id'),
+                    'ruangan'=>array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
+                    'kamarruangan'=>array(self::BELONGS_TO, 'KamarruanganM', 'kamarruangan_id'),
+                    'shift' => array(self::BELONGS_TO, 'ShiftM', 'shift_id'),
+                    'pindahkamar' => array(self::BELONGS_TO, 'PindahkamarT', 'pindahkamar_id'),
 		);
 	}
 

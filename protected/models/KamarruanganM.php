@@ -182,6 +182,20 @@ class KamarruanganM extends CActiveRecord
         	}
             
         }
+        
+        public function getKamarDanTempatTidurInUse()
+        {
+                $masukkamar = MasukkamarT::model()->find("tglkeluarkamar IS NULL and kamarruangan_id = '".$this->kamarruangan_id."' ");
+                
+        	if(empty($this->keterangan_kamar)){
+        		return 'Kamar: '.$this->kamarruangan_nokamar.' - Bed: '.$this->kamarruangan_nobed.' ('.(!empty($masukkamar)?$masukkamar->admisi->pasien->namadepan.' '.$masukkamar->admisi->pasien->nama_pasien:'-').')';	
+        	}else{
+        		return 'Kamar: '.$this->kamarruangan_nokamar.' - Bed: '.$this->kamarruangan_nobed.' ('.strtoupper($this->keterangan_kamar).')'.' ('.(!empty($masukkamar)?$masukkamar->admisi->pasien->namadepan.' '.$masukkamar->admisi->pasien->nama_pasien:'-').')';	
+        	}
+            
+        }
+        
+        
         public function getKamarDanTempatTidurPolos()
         {
         	return 'Kamar: '.$this->kamarruangan_nokamar.' - Bed: '.$this->kamarruangan_nobed;	
