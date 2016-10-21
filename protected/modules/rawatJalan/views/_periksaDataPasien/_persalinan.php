@@ -126,7 +126,16 @@ foreach ($modPersalinan as $i => $persalinan){
     <tr>
         <td colspan="2">&nbsp;</td>
         <td><b>Paritas</b></td>
-        <td> <?php echo  (isset($persalinan->paritaske) ? implode('',CustomFunction::getNomorUrutText($persalinan->paritaske,$persalinan->paritaske)) :"-"); ?></td>                
+        <td> <?php 
+        
+                if (isset($persalinan->paritaske)){
+                    if (is_numeric($persalinan->paritaske)){
+                        echo (isset($persalinan->paritaske) ? implode('',CustomFunction::getNomorUrutText($persalinan->paritaske,$persalinan->paritaske)) :"-");                         
+                    }else{
+                        echo  (isset($persalinan->paritaske) ?$persalinan->paritaske:'-'); //(isset($persalinan->paritaske) ? implode('',CustomFunction::getNomorUrutText($persalinan->paritaske,$persalinan->paritaske)) :"-"); 
+                    }
+                }
+             ?></td>                
         <td><b>Tanggal Abortus</b></td>
         <td> <?php echo  (isset($persalinan->tglabortus) ? $persalinan->tglabortus :"-"); ?></td>
     </tr>
@@ -187,14 +196,13 @@ foreach ($modPersalinan as $i => $persalinan){
             <td><?php echo isset($modPemeriksaan->penurunan_genitalia)?$modPemeriksaan->penurunan_genitalia:'-'; ?></td>
             <td><b>Pemeriksaan</b></td>
             <td><?php echo isset($modPemeriksaan->obs_pemeriksaan)?$modPemeriksaan->obs_pemeriksaan:'-'; ?></td>
+            <td colspan = "2">&nbsp;</td>
         </tr>
          <tr>
             <td><b>Portio</b></td> 
             <td><?php echo isset($modPemeriksaan->portio_genitalia)?$modPemeriksaan->portio_genitalia:'-'; ?></td>            
             <td><b>Hodge</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_hodge)?$modPemeriksaan->obs_hodge:'-'; ?></td>
-            <td><b>Imbang Fetovelfik</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_fetofelvik)?$modPemeriksaan->obs_fetofelvik:'-'; ?></td>
+            <td><?php echo isset($modPemeriksaan->obs_hodge)?$modPemeriksaan->obs_hodge:'-'; ?></td>            
         </tr>
          <tr>
              <td><b>Konsistensi</b></td>
@@ -205,8 +213,10 @@ foreach ($modPersalinan as $i => $persalinan){
         </tr>
          <tr>
             <td><b>Arah</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_arah)?$modPemeriksaan->obs_arah:'-'; ?></td>            
-            <td colspan = "4">&nbsp;</td>
+            <td><?php echo isset($modPemeriksaan->obs_arah)?$modPemeriksaan->obs_arah:'-'; ?></td>  
+            <td><b>Imbang Fetovelfik</b></td>
+            <td><?php echo isset($modPemeriksaan->obs_fetofelvik)?$modPemeriksaan->obs_fetofelvik:'-'; ?></td>
+            <td colspan = "2">&nbsp;</td>
         </tr>
         <tr>
             <td nowrap><b>Ketuban</b></td>
