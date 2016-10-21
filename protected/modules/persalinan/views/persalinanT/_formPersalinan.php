@@ -104,7 +104,7 @@
                             <?php echo $form->error($model, 'masagestasi_minggu'); ?>
                         </div>
                     </div>
-                    <?php echo $form->dropDownListRow($model, 'paritaske', CustomFunction::getNomorUrutText(1,10), array('empty'=> '-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
+                    <?php echo $form->dropDownListRow($model, 'paritaske', LookupM::getItemsUrutan('paritas'), array('empty'=> '-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
                     <div class="control-group ">
                         <?php echo $form->labelEx($model, 'jmlkelahiranhidup', array('class' => 'control-label')) ?>
                         <div class="controls">

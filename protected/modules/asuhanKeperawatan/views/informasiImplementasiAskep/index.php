@@ -1,7 +1,7 @@
 <div class="white-container">
 <?php
 Yii::app()->clientScript->registerScript('search', "
-$('#asuhankeperawatan-info-search').submit(function(){
+$('#pengkajiankeperawatan-info-search').submit(function(){
 	$('#informasiasuhankeperawatan-grid').addClass('animation-loading');
 	$.fn.yiiGridView.update('informasiasuhankeperawatan-grid', {
 			data: $(this).serialize()
@@ -10,13 +10,13 @@ $('#asuhankeperawatan-info-search').submit(function(){
 });
 ");
 ?>
-	<legend class="rim2">Informasi <b>Implementasi Asuhan Keperawatan</b></legend>
+	<legend class="rim2">Informasi <b>Implementasi Keperawatan</b></legend>
  <div class="block-tabel">
-	<h6>Tabel <b>Implementasi Asuhan Keperawatan</b></h6>
+	<h6>Tabel <b>Implementasi Keperawatan</b></h6>
 		<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 		<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'id'=>'informasiasuhankeperawatan-grid',
-			'dataProvider'=>$model->search(),
+			'dataProvider'=>$model->searchInformasiImpl(),
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 			'columns'=>array(
@@ -82,7 +82,7 @@ $('#asuhankeperawatan-info-search').submit(function(){
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogDetail',
     'options' => array(
-        'title' => 'Detail Implementasi Asuhan Keperawatan',
+        'title' => 'Detail Implementasi Keperawatan',
         'autoOpen' => false,
         'modal' => true,
         'width' => 900,

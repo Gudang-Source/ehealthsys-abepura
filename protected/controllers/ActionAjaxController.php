@@ -2703,6 +2703,33 @@ class ActionAjaxController extends Controller
             }                              
         }
         
+        
+        public function actionGetKelasMasukKamar()
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $ruangan_id = (isset($_POST['ruangan_id']) ? $_POST['ruangan_id'] : null);
+                $kamarruangan_id = (isset($_POST['kamarruangan_id']) ? $_POST['kamarruangan_id'] : null);                
+                $gabung = isset($_POST['rawatgabung'])?$_POST['rawatgabung']:'';                
+                $rawatgabung = ($gabung == 'true')?'1':'0';    
+                
+                if (!empty($ruangan_id)){
+                    if ($ruangan_id == Params::RUANGAN_ID_BERSALIN){
+                        $option = '';
+                        $kelas = MasukkamarT::model()->find("tglkeluarkamar IS NULL AND ruangan_id = '".$ruangan_id."'  AND kamarruangan_id = '".$kamarruangan_id."' "); 
+                        if (!empty($kelas)){
+                            $option = $kelas->kelaspelayanan_id;
+                        }
+                         
+                        $dataList['kelaspelayanan_id'] = $option;
+                        echo json_encode($dataList);
+                    }
+                }
+                
+            }
+            
+             Yii::app()->end();
+        }
+        
        
 }
 ?>

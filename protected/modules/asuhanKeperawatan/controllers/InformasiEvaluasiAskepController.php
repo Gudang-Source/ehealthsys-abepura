@@ -6,8 +6,8 @@ class InformasiEvaluasiAskepController extends MyAuthController {
 	{
 		$format = new MyFormatter();
 		$model = new ASInfoevaluasiaskepV('search');
-		$model->tgl_awal=date("Y-m-d");
-		$model->tgl_akhir=date("Y-m-d");
+		$model->tgl_awal=date("Y-m-d 00:00:00");
+		$model->tgl_akhir=date("Y-m-d 23:59:59");
 //		$model->instalasi_id = Params::INSTALASI_ID_RI;
 		
 		if(isset($_GET['ASInfoevaluasiaskepV']))
@@ -15,7 +15,9 @@ class InformasiEvaluasiAskepController extends MyAuthController {
 			$model->attributes=$_GET['ASInfoevaluasiaskepV'];
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ASInfoevaluasiaskepV']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASInfoevaluasiaskepV']['tgl_akhir']);
-			$model->ruangan_id = $_GET['ASInfoevaluasiaskepV']['ruangan_id'];
+			//$model->ruangan_id = $_GET['ASInfoevaluasiaskepV']['ruangan_id'];
+                        $model->tgl_awal = $model->tgl_awal.' 00:00:00';
+                        $model->tgl_akhir = $model->tgl_akhir.' 23:59:59';
 		}
 		
 		$this->render($this->path_view.'index',array(
