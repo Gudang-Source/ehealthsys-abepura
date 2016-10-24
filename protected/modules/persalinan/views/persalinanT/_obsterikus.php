@@ -152,6 +152,16 @@
                             <?php echo $form->error($modPemeriksaan, 'presentasi_genitalia'); ?>
                         </div>
                     </div>
+                    <!--kolom frekuensi Auskultasi -->
+                    <div class="control-group ">
+                        <?php echo Chtml::label("Frekuensi", 'frek_auskultasi', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->textField($modPemeriksaan, 'frek_auskultasi', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 3, 'style'=>'text-align:right;')).' /menit';
+                            ?>
+                            <?php echo $form->error($modPemeriksaan, 'frek_auskultasi'); ?>
+                        </div>
+                    </div>
                     <div class="control-group ">
                         <?php echo CHtml::label('DJJ', '', array('class' => 'control-label')) ?>
                         <div class="controls">
