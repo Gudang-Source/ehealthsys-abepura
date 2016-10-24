@@ -5,50 +5,50 @@ class LaporanPengkajianAskepController extends MyAuthController{
 	public $path_view = 'asuhanKeperawatan.views.lapPengkajianAskep.';
 	
 	public function actionIndex(){
-		$model = new ASLappengkajiankepV('searchLaporan');
-        $format = new MyFormatter();
-        $model->unsetAttributes();
-        $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
-        $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
-        $model->bln_akhir = date('Y-m');
-        $model->thn_awal = date('Y');
-        $model->thn_akhir = date('Y');
-        if (isset($_GET['ASLappengkajiankepV'])) {
-            $model->attributes = $_GET['ASLappengkajiankepV'];
-            $model->jns_periode = $_GET['ASLappengkajiankepV']['jns_periode'];
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['ASLappengkajiankepV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASLappengkajiankepV']['tgl_akhir']);
-            $model->bln_awal = $format->formatMonthForDb($_GET['ASLappengkajiankepV']['bln_awal']);
-            $model->bln_akhir = $format->formatMonthForDb($_GET['ASLappengkajiankepV']['bln_akhir']);
-            $model->thn_awal = $_GET['ASLappengkajiankepV']['thn_awal'];
-            $model->thn_akhir = $_GET['ASLappengkajiankepV']['thn_akhir'];
-            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
-            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
-            switch($model->jns_periode){
-                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
-                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
-                default : null;
+            $model = new ASLappengkajiankepV('searchLaporan');
+            $format = new MyFormatter();
+            $model->unsetAttributes();
+            $model->jns_periode = "hari";
+            $model->tgl_awal = date('Y-m-d');
+            $model->tgl_akhir = date('Y-m-d');
+            $model->bln_awal = date('Y-m');
+            $model->bln_akhir = date('Y-m');
+            $model->thn_awal = date('Y');
+            $model->thn_akhir = date('Y');
+            if (isset($_GET['ASLappengkajiankepV'])) {
+                $model->attributes = $_GET['ASLappengkajiankepV'];
+                $model->jns_periode = $_GET['ASLappengkajiankepV']['jns_periode'];
+                $model->tgl_awal = $format->formatDateTimeForDb($_GET['ASLappengkajiankepV']['tgl_awal']);
+                $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASLappengkajiankepV']['tgl_akhir']);
+                $model->bln_awal = $format->formatMonthForDb($_GET['ASLappengkajiankepV']['bln_awal']);
+                $model->bln_akhir = $format->formatMonthForDb($_GET['ASLappengkajiankepV']['bln_akhir']);
+                $model->thn_awal = $_GET['ASLappengkajiankepV']['thn_awal'];
+                $model->thn_akhir = $_GET['ASLappengkajiankepV']['thn_akhir'];
+                $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+                $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+                switch($model->jns_periode){
+                    case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                    case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                    default : null;
+                }
+                $model->tgl_awal = $model->tgl_awal." 00:00:00";
+                $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
             }
-            $model->tgl_awal = $model->tgl_awal." 00:00:00";
-            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
-        }
         $this->render($this->path_view.'admin',array(
             'model'=>$model,'format'=>$format
         ));
 	}
 	
-	public function actionPrint()
+    public function actionPrint()
     {
 
         $model = new ASLappengkajiankepV('searchLaporanPrint');
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
@@ -80,7 +80,51 @@ class LaporanPengkajianAskepController extends MyAuthController{
         $target = $this->path_view.'print';
 
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
-    }   
+    }
+    
+    public function actionFrameGrafik() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new ASLappengkajiankepV('searchGrafik');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Pengkajian Keperawatan';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['ASLappengkajiankepV'])) {
+            $model->attributes = $_GET['ASLappengkajiankepV'];
+            $model->jns_periode = $_GET['ASLappengkajiankepV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['ASLappengkajiankepV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASLappengkajiankepV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['ASLappengkajiankepV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['ASLappengkajiankepV']['bln_akhir']);
+            $model->thn_awal = $_GET['ASLappengkajiankepV']['thn_awal'];
+            $model->thn_akhir = $_GET['ASLappengkajiankepV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->path_view.'_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
 	
 	protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target){
         $format = new MyFormatter();
