@@ -4,6 +4,7 @@
 class ASLapevaluasikepV extends LapevaluasikepV
 {
 	public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
+        public $data, $tick, $jumlah;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -56,33 +57,12 @@ class ASLapevaluasikepV extends LapevaluasikepV
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		
-		$format = new MyFormatter();
-		$bln_awal = explode('-',$this->bln_awal);
-		$bln_akhir = explode('-',$this->bln_akhir);
-		$tgl_awal = '';
-		$tgl_akhir = '';
-		if(isset($_GET['ASLapevaluasikepV'])){
-			$tgl_awal = $format->formatDateTimeForDb($_GET['ASLapevaluasikepV']['tgl_awal']);
-			$tgl_akhir = $format->formatDateTimeForDb($_GET['ASLapevaluasikepV']['tgl_akhir']);
-			$tgl_awal = $tgl_awal." 00:00:00";
-			$tgl_akhir = $tgl_akhir." 23:59:59";
-		}
-		if($this->jns_periode == "hari"){
-			$criteria->addBetweenCondition('DATE(evaluasiaskep_tgl)',$this->tgl_awal,$this->tgl_akhir);
-		}
-		if($this->jns_periode == "bulan"){
-			$criteria->addBetweenCondition("date_part('month',evaluasiaskep_tgl)",$bln_awal[1],$bln_akhir[1]);
-			$criteria->addBetweenCondition("date_part('year',evaluasiaskep_tgl)",$this->thn_awal,$this->thn_akhir);
-		}
-		if($this->jns_periode == "tahun"){
-			$criteria->addBetweenCondition("date_part('year',evaluasiaskep_tgl)",$this->thn_awal,$this->thn_akhir);
-		}
-		
+				
+                $criteria->addBetweenCondition('evaluasiaskep_tgl', $this->tgl_awal, $this->tgl_akhir);
 		$criteria->compare('evaluasiaskep_id',$this->evaluasiaskep_id);
 		$criteria->compare('pegawai_id',$this->pegawai_id);
 		$criteria->compare('implementasiaskep_id',$this->implementasiaskep_id);
-		$criteria->compare('ruangan_id',$this->ruangan_id);
+		$criteria->compare('ruangan_id',Yii::app()->user->getState('ruangan_id'));
 		$criteria->compare('no_evaluasi',$this->no_evaluasi,true);
 //		$criteria->compare('evaluasiaskep_tgl',$this->evaluasiaskep_tgl,true);
 		$criteria->compare('create_time',$this->create_time,true);
@@ -133,6 +113,22 @@ class ASLapevaluasikepV extends LapevaluasikepV
 		// should not be searched.
 
 		$criteria=$this->criteriaSearch();
+		$criteria->limit=-1;
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				'pagination'=>false,
+		));
+	}
+        
+        public function searchLaporanGrafik()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=$this->criteriaSearch();
+                $criteria->select = "count(evaluasiaskep_id) as jumlah, kelaspelayanan_nama as data";
+                $criteria->group = "kelaspelayanan_nama";
 		$criteria->limit=-1;
 
 		return new CActiveDataProvider($this, array(

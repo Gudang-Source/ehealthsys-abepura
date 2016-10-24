@@ -41,6 +41,9 @@ Class Tips
             'print'    => 'Gunakan tombol ini  <div class="btn btn-info">'
                         .'<i class="entypo-print"></i> Cetak</div> berfungsi '
                         .' untuk mencetak data.', 
+            'grafik'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="entypo-print"></i> Grafik</div> berfungsi '
+                        .' untuk mencetak grafik.', 
             'masterPRINT'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="entypo-print"></i> Cetak</div> berfungsi '
                         .' untuk mencetak data.', 
