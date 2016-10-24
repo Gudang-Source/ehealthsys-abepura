@@ -186,23 +186,24 @@ foreach ($modPersalinan as $i => $persalinan){
             <td><?php echo ($letakjanin!='')?$letakjanin:'-'; ?></td>
             <td><b>Warna Ketuban</b></td>
             <td><?php echo isset($modPemeriksaan->obs_warnaketuban)?$modPemeriksaan->obs_warnaketuban:'-'; ?></td>
-            <td><b>Denyut Jantung Janin</b></td>
-            <td><?php echo isset($modPemeriksaan->denyutjantung_janin)?$modPemeriksaan->denyutjantung_janin:'-'; ?></td>
+            <td><b>Frekuensi</b></td>
+            <td><?php echo isset($modPemeriksaan->frek_auskultasi)?$modPemeriksaan->frek_auskultasi.' /menit':'-'; ?></td>            
         </tr>
          <tr>
              <td><b>Pemeriksaan Dalam</b></td>
              <td><?php echo isset($modPemeriksaan->obs_periksadalam)?MyFormatter::formatDateTimeForUser($modPemeriksaan->obs_periksadalam):'-'; ?></td>
             <td><b>Warna Ketuban</b></td>
-            <td><?php echo isset($modPemeriksaan->penurunan_genitalia)?$modPemeriksaan->penurunan_genitalia:'-'; ?></td>
-            <td><b>Pemeriksaan</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_pemeriksaan)?$modPemeriksaan->obs_pemeriksaan:'-'; ?></td>
-            <td colspan = "2">&nbsp;</td>
+            <td><?php echo isset($modPemeriksaan->penurunan_genitalia)?$modPemeriksaan->penurunan_genitalia:'-'; ?></td>            
+            <td><b>Denyut Jantung Janin</b></td>
+            <td><?php echo isset($modPemeriksaan->denyutjantung_janin)?$modPemeriksaan->denyutjantung_janin:'-'; ?></td>
         </tr>
          <tr>
             <td><b>Portio</b></td> 
             <td><?php echo isset($modPemeriksaan->portio_genitalia)?$modPemeriksaan->portio_genitalia:'-'; ?></td>            
             <td><b>Hodge</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_hodge)?$modPemeriksaan->obs_hodge:'-'; ?></td>            
+            <td><?php echo isset($modPemeriksaan->obs_hodge)?$modPemeriksaan->obs_hodge:'-'; ?></td>                 
+            <td><b>Pemeriksaan</b></td>
+            <td><?php echo isset($modPemeriksaan->obs_pemeriksaan)?$modPemeriksaan->obs_pemeriksaan:'-'; ?></td>
         </tr>
          <tr>
              <td><b>Konsistensi</b></td>
