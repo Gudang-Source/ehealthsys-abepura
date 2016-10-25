@@ -5,19 +5,43 @@ class LaporanAkuntansiController extends MyAuthController {
     public function actionLaporanJurnal() {
         $model = new AKLaporanJurnalV;
         $model->unsetAttributes();
-        $model->tgl_awal = date('d M Y 00:00:00');
-        $model->tgl_akhir = date('d M Y H:i:s');
+        $format = new MyFormatter();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+            
         if (isset($_GET['AKLaporanJurnalV'])) {
             $model->attributes = $_GET['AKLaporanJurnalV'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_GET['AKLaporanJurnalV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         $this->render('jurnal/admin', array('model' => $model));
     }
 
     public function actionPrintLaporanJurnal() {
         $model = new AKLaporanJurnalV('searchPrint');
+        $format = new MyFormatter();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
         $judulLaporan = 'Laporan Jurnal';
 
         //Data Grafik       
@@ -25,9 +49,20 @@ class LaporanAkuntansiController extends MyAuthController {
         $data['type'] = $_REQUEST['type'];
         if (isset($_REQUEST['AKLaporanJurnalV'])) {
             $model->attributes = $_REQUEST['AKLaporanJurnalV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['AKLaporanJurnalV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['AKLaporanJurnalV']['tgl_akhir']);
+            $model->jns_periode = $_GET['AKLaporanJurnalV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
@@ -39,17 +74,33 @@ class LaporanAkuntansiController extends MyAuthController {
     public function actionFrameGrafikLaporanJurnal() {
         $this->layout = '//layouts/iframe';
         $model = new AKLaporanJurnalV('search');
-        $model->tgl_awal = date('d M Y 00:00:00');
-        $model->tgl_akhir = date('d M Y H:i:s');
+        $format = new MyFormatter();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Jurnal Berdasarkan Jenis Jurnal';
         $data['type'] = $_GET['type'];
         if (isset($_GET['AKLaporanJurnalV'])) {
             $model->attributes = $_GET['AKLaporanJurnalV'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_GET['AKLaporanJurnalV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render('_grafik', array(
