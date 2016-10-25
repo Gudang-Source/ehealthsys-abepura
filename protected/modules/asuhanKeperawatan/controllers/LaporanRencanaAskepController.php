@@ -9,9 +9,9 @@ class LaporanRencanaAskepController extends MyAuthController{
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
@@ -46,9 +46,9 @@ class LaporanRencanaAskepController extends MyAuthController{
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
@@ -81,6 +81,50 @@ class LaporanRencanaAskepController extends MyAuthController{
 
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }   
+    
+    public function actionFrameGrafik() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new ASLaprencanakepV('searchGrafik');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Rencana Keperawatan';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['ASLaprencanakepV'])) {
+            $model->attributes = $_GET['ASLaprencanakepV'];
+            $model->jns_periode = $_GET['ASLaprencanakepV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['ASLaprencanakepV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASLaprencanakepV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['ASLaprencanakepV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['ASLaprencanakepV']['bln_akhir']);
+            $model->thn_awal = $_GET['ASLaprencanakepV']['thn_awal'];
+            $model->thn_akhir = $_GET['ASLaprencanakepV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->path_view.'_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
 	
 	protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target){
         $format = new MyFormatter();

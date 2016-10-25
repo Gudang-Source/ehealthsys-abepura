@@ -1,8 +1,4 @@
-<style>
-    .nav-tabs li {
-        cursor:pointer;
-    }
-</style>
+
 <h6><b>Grafik</b></h6>
 <?php 
 $this->widget('bootstrap.widgets.BootMenu', array(

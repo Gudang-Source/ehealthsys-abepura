@@ -174,9 +174,9 @@ class AKLaporanJurnalV extends LaporanjurnalV
     
     public static function criteriaGrafikJurnal($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
-        $criteria->select = 'count(jenisjurnal_id) as jumlah';
-        $criteria->select .= ',saldokredit as '.$type.', saldodebit as '.$type;
-        $criteria->group .= 'saldodebit,saldokredit';
+        $criteria->select = 'SUM(saldokredit) as jumlah';
+        $criteria->select .= ',jenisjurnal_nama as '.$type.' ';// saldodebit as '.$type
+        $criteria->group .= 'jenisjurnal_nama';
         if (count($addCols) > 0){
             if (is_array($addCols)){
                 foreach ($addCols as $i => $v){
