@@ -196,7 +196,8 @@ class LaporanAkuntansiController extends MyAuthController {
         $format = new MyFormatter();
         $modelLaporan = new AKLaporanbukubesarV('searchLaporan');
         $modelLaporan->unsetAttributes();
-        $lap = AKLaporanbukubesarV::model()->getTglPeriode();
+        $periodeposting_id = AKLaporanbukubesarV::model()->getTglPeriode();
+        $modelLaporan->periodeposting_id = isset($periodeposting_id->periodeposting_id)?$periodeposting_id->periodeposting_id:null;
         if (!empty($lap)) $modelLaporan->periodeposting_id = $lap->periodeposting_id;
         $criteria = new CDbCriteria;
         if (isset($_GET['AKLaporanbukubesarV'])) {
@@ -206,7 +207,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $modelLaporan->periodeposting_id = $_GET['AKLaporanbukubesarV']['periodeposting_id'];
 
             $criteria->compare('rekeningjurnal5_nama', $_GET['AKLaporanbukubesarV']['namarekening']);
-            $criteria->compare('kdrekening5', $_GET['AKLaporanbukubesarV']['koderekening']);
+            $criteria->compare('kdrekeningdetail5', $_GET['AKLaporanbukubesarV']['koderekening']);
             if (!empty($modelLaporan->periodeposting_id)) {
                 $criteria->addCondition('periodeposting_id = ' . $modelLaporan->periodeposting_id);
             }
@@ -219,7 +220,7 @@ class LaporanAkuntansiController extends MyAuthController {
             if (empty($_GET['AKLaporanbukubesarV']['koderekening'])) {
                 $qr_kdrekening5 = null;
             } else {
-                $qr_kdrekening5 = "AND kdrekening5 = '" . $_GET['AKLaporanbukubesarV']['koderekening'] . "'";
+                $qr_kdrekening5 = "AND kdrekeningdetail5 = '" . $_GET['AKLaporanbukubesarV']['koderekening'] . "'";
             }
         } else {
             $qr_rekeningjurnal5_nama = null;
@@ -253,7 +254,7 @@ class LaporanAkuntansiController extends MyAuthController {
         if (empty($_GET['AKLaporanbukubesarV']['koderekening'])) {
             $qr_kdrekening5 = null;
         } else {
-            $criteria2->addCondition("kdrekening5 = '" . $_GET['AKLaporanbukubesarV']['koderekening'] . "'");
+            $criteria2->addCondition("kdrekeningdetail5 = '" . $_GET['AKLaporanbukubesarV']['koderekening'] . "'");
         }
         $criteria2->group = 'rekeningjurnal1_id, rekeningjurnal2_id, rekeningjurnal3_id, rekeningjurnal4_id, rekeningjurnal5_id,rekeningjurnal5_nama';
         $jmlRekening = AKLaporanbukubesarV::model()->findAll($criteria2);

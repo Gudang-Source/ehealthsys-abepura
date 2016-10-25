@@ -1,181 +1,246 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
 <div class="search-form" style="">
-	<?php
-	$form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
-		'action' => Yii::app()->createUrl($this->route),
-		'method' => 'get',
-		'type' => 'horizontal',
-		'id' => 'searchLaporan',
-		'htmlOptions' => array( 'onKeyPress' => 'return disableKeyPress(event)'),
-	));
-	?>
-	<style>
+<?php
+    $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
+        'action' => Yii::app()->createUrl($this->route),
+        'method' => 'get',
+        'type' => 'horizontal',
+        'id' => 'searchLaporan',
+        'htmlOptions' => array('enctype' => 'multipart/form-data', 'onKeyPress' => 'return disableKeyPress(event)'),
+    ));
+?>
+<style>
 
-		label.checkbox{
-			width:150px;
-			display:inline-block;
-		}
-	</style>
-	<fieldset class='box'>
-		<legend class="rim"><i class='icon-white icon-search'></i> Pencarian</legend>
-		<div class="row-fluid">
-			<div class="span6">
-				<div class="control-group ">
-					<?php echo CHtml::label('Periode Posting', 'periodeposting_id', array('class' => 'control-label')); ?>
-					<div class="controls">
-						<?php
-						echo $form->dropDownList($modelLaporan, 'periodeposting_id', CHtml::listData(AKPeriodepostingM::model()->findAll(), 'periodeposting_id', 'deskripsiperiodeposting'), array('empty' => '-- Pilih --',
-							'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'reqForm'));
-						?>
-					</div>
+label.checkbox{
+        width:150px;
+        display:inline-block;
+}
+</style>
+<fieldset class='box'>
+    <legend class="rim"><i class='icon-white icon-search'></i> Pencarian</legend>
+	<div class="row-fluid">
+		<div class="span6">
+			<!-- LNG-5705 -->
+<!--			<div class="control-group ">
+				<?php // echo $form->labelEx($modelLaporan, 'periodeposting_id', array('class' => 'control-label')); ?>
+				<div class="controls">
+					<?php 
+//						echo $form->dropDownList($modelLaporan, 'periodeposting_id', CHtml::listData(AKPeriodepostingM::model()->findAll(),'periodeposting_id','periodeposting_nama'), array('empty' => '-- Pilih --',
+//						'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'reqForm'));
+					?>
+				</div>
+			</div>-->
+			<div class="control-group">
+				<label class = 'control-label'>
+					<?php echo CHtml::activeCheckBox($modelLaporan,'is_tglposting',array('onClick'=>'cekTanggal()','rel'=>'tooltip','data-original-title'=>'Cek untuk pencarian berdasarkan tanggal posting')); ?>
+					Tgl. Posting
+				</label>
+				<div class="controls">  
+					<?php
+					$modelLaporan->tgl_posting_awal = isset($modelLaporan->tgl_posting_awal) ? MyFormatter::formatDateTimeForUser($modelLaporan->tgl_posting_awal) : date('d M Y');
+					$this->widget('MyDateTimePicker', array(
+						'model' => $modelLaporan,
+						'attribute' => 'tgl_posting_awal',
+						'mode' => 'date',
+	//                                          'maxDate'=>'d',
+						'options' => array(
+							'dateFormat' => Params::DATE_FORMAT,
+						),
+						'htmlOptions' => array('readonly' => true,'class'=>'dtPicker2',
+							'onkeypress' => "return $(this).focusNextInputField(event)"),
+					));
+					?>
 				</div>
 			</div>
-			<div class="span6">
-				<div class='control-group'>
-					<?php echo CHtml::label('Nama Rekening', 'namarekening', array('class' => 'control-label')) ?>
-					<?php echo $form->hiddenField($modelLaporan, 'rekening5_id'); ?>
-					<div class="controls">
-						<?php
+
+			<div class="control-group">
+				<label class = 'control-label'>
+					<?php echo CHtml::activeCheckBox($modelLaporan,'is_tgltransaksi',array('onClick'=>'cekTanggal()','rel'=>'tooltip','data-original-title'=>'Cek untuk pencarian berdasarkan tanggal transaksi')); ?>
+					Tgl. Transaksi
+				</label>
+				<div class="controls">  
+					<?php
+					$modelLaporan->tgl_transaksi_awal = isset($modelLaporan->tgl_transaksi_awal) ? MyFormatter::formatDateTimeForUser($modelLaporan->tgl_transaksi_awal) : date('d M Y');
+					$this->widget('MyDateTimePicker', array(
+						'model' => $modelLaporan,
+						'attribute' => 'tgl_transaksi_awal',
+						'mode' => 'date',
+	//                                          'maxDate'=>'d',
+						'options' => array(
+							'dateFormat' => Params::DATE_FORMAT,
+						),
+						'htmlOptions' => array('readonly' => true,'class'=>'dtPicker2',
+							'onkeypress' => "return $(this).focusNextInputField(event)"),
+					));
+					?>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<?php echo CHtml::label('Unit Kerja', 'Unit Kerja', array('class' => 'control-label')) ?>
+                <div class="controls">
+                    <?php
+                        echo $form->dropDownList($modelLaporan,'ruangan_id', CHtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC"),'ruangan_id', 'ruangan_nama'),array('class'=>'span2','style'=>'width:140px','empty'=>'-- Pilih --')); 
+                    ?>
+                </div>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="control-group">
+				<?php echo CHtml::label('Sampai Dengan','',array('class'=>'control-label')); ?>
+				<div class="controls">  
+					<?php
+					$modelLaporan->tgl_posting_akhir = isset($modelLaporan->tgl_posting_akhir) ? MyFormatter::formatDateTimeForUser($modelLaporan->tgl_posting_akhir) : date('d M Y');
+					$this->widget('MyDateTimePicker', array(
+						'model' => $modelLaporan,
+						'attribute' => 'tgl_posting_akhir',
+						'mode' => 'date',
+	//                                          'maxDate'=>'d',
+						'options' => array(
+							'dateFormat' => Params::DATE_FORMAT,
+						),
+						'htmlOptions' => array('readonly' => true,'class'=>'dtPicker2',
+							'onkeypress' => "return $(this).focusNextInputField(event)"),
+					));
+					?>
+				</div>
+			</div>
+                
+			<div class="control-group">
+				<?php echo CHtml::label('Sampai Dengan','',array('class'=>'control-label')); ?>
+				<div class="controls">  
+					<?php
+					$modelLaporan->tgl_transaksi_akhir = isset($modelLaporan->tgl_transaksi_akhir) ? MyFormatter::formatDateTimeForUser($modelLaporan->tgl_transaksi_akhir) : date('d M Y');
+					$this->widget('MyDateTimePicker', array(
+						'model' => $modelLaporan,
+						'attribute' => 'tgl_transaksi_akhir',
+						'mode' => 'date',
+	//                                          'maxDate'=>'d',
+						'options' => array(
+							'dateFormat' => Params::DATE_FORMAT,
+						),
+						'htmlOptions' => array('readonly' => true,'class'=>'dtPicker2',
+							'onkeypress' => "return $(this).focusNextInputField(event)"),
+					));
+					?>
+				</div>
+			</div>
+                    
+			<div class='control-group'>
+				<?php echo CHtml::label('Kode Rekening','koderekening', array('class'=>'control-label')) ?>
+				<div class="controls">
+					<?php 
 						$this->widget('MyJuiAutoComplete', array(
 							'model' => $modelLaporan,
-							'attribute' => 'namarekening',
-							'name' => 'namarekening',
-							'sourceUrl' => $this->createUrl('rekeningAkuntansi'),
+							'attribute' => 'koderekening',
+							'sourceUrl' => $this->createUrl('AutocompleteKodeRekening'),
 							'options' => array(
 								'showAnim' => 'fold',
 								'minLength' => 2,
+								'focus' => 'js:function( event, ui ) {
+										$(this).val(ui.item.koderekening);
+										return false;
+								}',
 								'select' => 'js:function( event, ui ) {
 									$(this).val(ui.item.value);
-									  return false;
+									$("#' . CHtml::activeId($modelLaporan, 'kdrekening1') . '").val(ui.item.kdrekening1);
+									$("#' . CHtml::activeId($modelLaporan, 'kdrekening2') . '").val(ui.item.kdrekening2);
+									$("#' . CHtml::activeId($modelLaporan, 'kdrekening3') . '").val(ui.item.kdrekening3);
+									$("#' . CHtml::activeId($modelLaporan, 'kdrekening4') . '").val(ui.item.kdrekening4);
+									$("#' . CHtml::activeId($modelLaporan, 'kdrekening5') . '").val(ui.item.kdrekening5);
+									return false;             
 								}'
 							),
 							'htmlOptions' => array(
 								'onkeypress' => "return $(this).focusNextInputField(event)",
-								'placeholder' => 'Ketikan Nama Rekening',
-								'class' => 'span3',
-								'style' => 'width:150px;',
+								'placeholder'=>'Ketikan Kode Rekening',
+								'class'=>'span3',
+								'style'=>'width:150px;',
 							),
-							'tombolDialog' => array('idDialog' => 'dialogRek'),
 						));
-						?>
-					</div>
+					?>
+					<?php echo $form->hiddenField($modelLaporan,'kdrekening1',array('readonly'=>true,'class'=>'span3'));?>
+					<?php echo $form->hiddenField($modelLaporan,'kdrekening2',array('readonly'=>true,'class'=>'span3'));?>
+					<?php echo $form->hiddenField($modelLaporan,'kdrekening3',array('readonly'=>true,'class'=>'span3'));?>
+					<?php echo $form->hiddenField($modelLaporan,'kdrekening4',array('readonly'=>true,'class'=>'span3'));?>
+					<?php echo $form->hiddenField($modelLaporan,'kdrekening5',array('readonly'=>true,'class'=>'span3'));?>
+				</div>
+			</div>
+			
+			<div class='control-group'>
+				<?php echo CHtml::label('Nama Rekening','namarekening', array('class'=>'control-label')) ?>
+				<div class="controls">
+					<?php
+						$this->widget('MyJuiAutoComplete', array(
+							'model' => $modelLaporan,
+							'attribute' => 'namarekening',
+							'name'=>'namarekening',
+							'sourceUrl' => $this->createUrl('AutocompleteNamaRekening'),
+							'options' => array(
+								'showAnim' => 'fold',
+								'minLength' => 2,
+								'focus' => 'js:function( event, ui ){
+									return false;
+								}',
+								'select' => 'js:function( event, ui ){
+									$(this).val(ui.item.value);  
+									return false;
+								}'
+							),
+							'htmlOptions' => array(
+								'onkeypress' => "return $(this).focusNextInputField(event)",
+								'placeholder'=>'Ketikan Nama Rekening',
+								'class'=>'span3',
+								'style'=>'width:150px;',
+							),
+						));
+					?>
 				</div>
 			</div>
 		</div>
-
-		<div class="form-actions">
-			 <?php
+	</div>
+	
+    <div class="form-actions">
+        <?php
 			echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), 
 				array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));?>
-
-			<?php
-			echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/Index'), array('class' => 'btn btn-danger',
-				'onclick' => 'return refreshForm(this);'));
-			?>
-		</div>
+        
+		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+				$this->createUrl($this->id.'/Index'), 
+                    array('class'=>'btn btn-danger',
+                          'onclick'=>'return refreshForm(this);')); ?>
+    </div>
 </div>  
 <?php
-$this->endWidget();
-$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
-$module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+    $this->endWidget();
+    $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
+    $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
 ?>
-<?php Yii::app()->clientScript->registerScript('cekAll', '
+<?php Yii::app()->clientScript->registerScript('cekAll','
   $("#content4").find("input[type=\'checkbox\']").attr("checked", "checked");
-', CClientScript::POS_READY);
+',  CClientScript::POS_READY);
 ?>
-<?php
-//========= Dialog buat cari data Rekening Debit =========================
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
-	'id' => 'dialogRek',
-	'options' => array(
-		'title' => 'Rekening',
-		'autoOpen' => false,
-		'modal' => true,
-		'width' => 800,
-		'height' => 500,
-		'resizable' => false,
-	),
-));
-
-$modRekeningDebit = new AKRekeningakuntansiV('search');
-$modRekeningDebit->unsetAttributes();
-if (isset($_GET['AKRekeningakuntansiV'])) {
-	$modRekeningDebit->attributes = $_GET['AKRekeningakuntansiV'];
-	$modRekeningDebit->rekening5_nb = $_GET['rekening5_nb'];
-}
-
-$this->widget('ext.bootstrap.widgets.BootGridView', array(
-	'id' => 'rekeningdebit-m-grid',
-	'dataProvider' => $modRekeningDebit->search(),
-	'filter' => $modRekeningDebit,
-	'template' => "{summary}\n{items}\n{pager}",
-	'itemsCssClass' => 'table table-striped table-condensed',
-	'columns' => array(
-		array(
-			'header' => 'Pilih',
-			'type' => 'raw',
-			'value' => 'CHtml::Link("<i class=\"icon-check\"></i>",
-                                "#",
-                                array(
-                                    "class"=>"btn-small", 
-                                    "id" => "selectRekDebit",
-                                    "onClick" => "
-                                    $(\"#AKLaporanbukubesarV_rekening5_id\").val(\'$data->rekening5_id\');
-                                    $(\"#namarekening\").val(\'$data->nmrekening5\');
-
-                                    $(\'#dialogRek\').dialog(\'close\');
-                                    return false;"))'
-		),
-		array(
-			'header' => 'No. Urut',
-			'name' => 'nourutrek',
-			'value' => '$data->nourutrek',
-		),
-		array(
-			'header' => 'Rek. 1',
-			'name' => 'kdrekening1',
-			'value' => '$data->kdrekening1',
-		),
-		array(
-			'header' => 'Rek. 2',
-			'name' => 'kdrekening2',
-			'value' => '$data->kdrekening2',
-		),
-		array(
-			'header' => 'Rek. 3',
-			'name' => 'kdrekening3',
-			'value' => '$data->kdrekening3',
-		),
-		array(
-			'header' => 'Rek. 4',
-			'name' => 'kdrekening4',
-			'value' => '$data->kdrekening4',
-		),
-		array(
-			'header' => 'Rek. 5',
-			'name' => 'kdrekening5',
-			'value' => '$data->kdrekening5',
-		),
-		array(
-			'header' => 'Nama Rekening',
-			'type' => 'raw',
-			'name' => 'nmrekening5',
-			'value' => '($data->nmrekening5 == "" ? $data->nmrekening4 : ($data->nmrekening4 == "" ? $data->nmrekening3 : ($data->nmrekening3 == "" ? $data->nmrekening2 : ($data->nmrekening2 == "" ? $data->nmrekening1 : ($data->nmrekening1 == "" ? "-" : $data->nmrekening5)))))',
-		),
-		array(
-			'header' => 'Nama Lain',
-			'name' => 'nmrekeninglain5',
-			'value' => '($data->nmrekeninglain5 == "" ? $data->nmrekeninglain4 : ($data->nmrekeninglain4 == "" ? $data->nmrekeninglain3 : ($data->nmrekeninglain3 == "" ? $data->nmrekeninglain2 : ($data->nmrekeninglain2 == "" ? $data->nmrekeninglain1 : ($data->nmrekeninglain1 == "" ? "-" : $data->nmrekeninglain5)))))',
-		),
-		array(
-			'header' => 'Saldo Normal',
-			'value' => '($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
-			'filter' => CHtml::dropDownList(
-					'rekening5_nb', $modRekeningDebit->rekening5_nb, array('D' => 'Debit',
-				'K' => 'Kredit',), array('empty' => '--Pilih--'))
-		),
-	),
-	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
-));
-
-$this->endWidget();
-?>
+<script>
+cekTanggal();
+function cekTanggal(){
+    var is_tglposting = $('#<?php echo CHtml::activeId($modelLaporan,'is_tglposting'); ?>');
+	var is_tgltransaksi = $('#<?php echo CHtml::activeId($modelLaporan,'is_tgltransaksi'); ?>');
+    var pilih_tglposting = is_tglposting.attr('checked');
+    var pilih_tgltransaksi = is_tgltransaksi.attr('checked');
+    if(is_tglposting.is(":checked")){
+		is_tglposting.attr('checked',true);
+		$('#<?php echo CHtml::activeId($modelLaporan,'tgl_posting_awal'); ?>_date').attr("style","display:block;");
+		$('#<?php echo CHtml::activeId($modelLaporan,'tgl_posting_akhir'); ?>_date').attr("style","display:block;");
+		is_tgltransaksi.removeAttr('checked',true);
+		$('#<?php echo CHtml::activeId($modelLaporan,'tgl_transaksi_awal'); ?>_date').attr("style","display:none;");
+		$('#<?php echo CHtml::activeId($modelLaporan,'tgl_transaksi_akhir'); ?>_date').attr("style","display:none;");
+    }else{
+        is_tglposting.removeAttr('checked',true);
+		$('#<?php echo CHtml::activeId($modelLaporan,'tgl_posting_awal'); ?>_date').attr("style","display:none;");
+		$('#<?php echo CHtml::activeId($modelLaporan,'tgl_posting_akhir'); ?>_date').attr("style","display:none;");
+		is_tgltransaksi.attr('checked',true);
+		$('#<?php echo CHtml::activeId($modelLaporan,'tgl_transaksi_awal'); ?>_date').attr("style","display:block;");
+		$('#<?php echo CHtml::activeId($modelLaporan,'tgl_transaksi_akhir'); ?>_date').attr("style","display:block;");
+    }
+}    
+</script>
