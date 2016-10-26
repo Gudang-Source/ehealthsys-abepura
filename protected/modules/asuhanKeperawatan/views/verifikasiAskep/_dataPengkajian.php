@@ -111,7 +111,7 @@
 		</div>
 		<div class="span4">
 			<div class="control-group">
-				<?php echo CHtml::label('Nama Pegawai', 'nama_pegawai', array('class' => 'control-label')) ?>
+				<?php echo CHtml::label('Nama Perawat', 'nama_pegawai', array('class' => 'control-label')) ?>
 				<div class="controls">
 					<?php echo CHtml::activeHiddenField($modPengkajian, 'pegawai_id', array('readonly' => true)) ?>
 					<?php if (!empty($modPengkajian->pengkajianaskep_id)) {
