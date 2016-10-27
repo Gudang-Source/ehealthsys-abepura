@@ -34,7 +34,7 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Nama Supplier',
                 'type'=>'raw',
-                'value'=>'(isset($data->pembelianbarang->supplier_id) ? $data->pembelianbarang->supplier->supplier_nama : "")',
+                'value'=>'(isset($data->supplier->supplier_id) ? $data->supplier->supplier_nama : "")',
             ),
             array(
                  'header'=>'No. Pembelian',
