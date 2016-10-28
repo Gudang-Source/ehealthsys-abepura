@@ -576,7 +576,7 @@ class LaporanAkuntansiController extends MyAuthController {
         if (isset($_GET['AKLaporanperubahanmodalV'])) {
             $model->attributes = $_GET['AKLaporanperubahanmodalV'];
             $model->periodeposting_id = (isset($_GET['AKLaporanperubahanmodalV']['periodeposting_id']) ? $_GET['AKLaporanperubahanmodalV']['periodeposting_id'] : NULL);
-            $model->ruangan_id = $_GET['AKLaporanperubahanmodalV']['ruangan_id'];
+            $model->ruangan_id = (isset($_GET['AKLaporanperubahanmodalV']['ruangan_id']) ? $_GET['AKLaporanperubahanmodalV']['ruangan_id'] : NULL);
         }
 
         $this->render('perubahanmodal/admin', array(
@@ -598,7 +598,7 @@ class LaporanAkuntansiController extends MyAuthController {
         if (isset($_REQUEST['AKLaporanperubahanmodalV'])) {
             $model->attributes = $_REQUEST['AKLaporanperubahanmodalV'];
             $model->periodeposting_id = $_GET['AKLaporanperubahanmodalV']['periodeposting_id'];
-            $model->ruangan_id = $_GET['AKLaporanperubahanmodalV']['ruangan_id'];
+          //  $model->ruangan_id = $_GET['AKLaporanperubahanmodalV']['ruangan_id'];
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
@@ -610,10 +610,10 @@ class LaporanAkuntansiController extends MyAuthController {
 
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
             $this->layout = '//layouts/printWindows';
-            $this->render($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+            $this->render($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'format'=>$format));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
-            $this->render($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+            $this->render($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'format'=>$format));
         } else if ($_REQUEST['caraPrint'] == 'PDF') {
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
@@ -622,7 +622,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
-            $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
+            $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'format'=>$format), true));
             $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }

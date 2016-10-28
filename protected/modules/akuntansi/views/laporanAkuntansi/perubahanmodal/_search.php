@@ -30,24 +30,27 @@ label.checkbox{
 					</div>
 				</div>
 			</div>
+                    <?php /*
 			<div class="span6">
 				<div class="control-group">
-					<?php echo CHtml::label('Unit Kerja', 'Unit Kerja', array('class' => 'control-label')) ?>
+					<?php echo //CHtml::label('Unit Kerja', 'Unit Kerja', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                            echo $form->dropDownList($model,'ruangan_id',CHtml::listData(RuanganM::model()->findAll(),
-								'ruangan_id','ruangan_nama'),array('class'=>'span2','style'=>'width:140px','empty'=>'-- Pilih --')); 
+                           // echo $form->dropDownList($model,'ruangan_id',CHtml::listData(RuanganM::model()->findAll(),
+							//	'ruangan_id','ruangan_nama'),array('class'=>'span2','style'=>'width:140px','empty'=>'-- Pilih --')); 
                         ?>
 					</div>
 				</div>
 			</div>
+                     * 
+                     */ ?>
 		</div>
         <div class="form-actions">
             <?php
-				echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), 
+				echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), 
 					array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));?>
 
-            <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+            <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                     $this->createUrl($this->id.'/LaporanPerubahanModal'), 
                     array('class'=>'btn btn-danger',
                           'onclick'=>'return refreshForm(this);')); ?>
