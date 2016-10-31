@@ -308,8 +308,11 @@ class RencanaKeperawatanController extends MyAuthController {
 					$this->savePilihTanda($modRencanaDetail, $row['tandagejala_id']);
 				}
 				if (isset($row['kriteriahasil_id'])) {//kriteriahasildet_id
-                                    
+                                    //var_dump($row['kriteriahasil_id']);die;
+                                    if (!empty($row['kriteriahasil_id']))
+                                    {
 					$this->savePilihKriteria($modRencanaDetail, $row['kriteriahasildet_id'], $row['rencanaaskep_ir'], $row['rencanaaskep_er']);
+                                    }
 				}
 
 				if ($row['intervensidet_id']) {//intervensidet_id
