@@ -12,14 +12,16 @@ class ASPegawaiM extends PegawaiM {
 		// should not be searched.
 
 		$criteria = new CDbCriteria;		
-		$criteria->compare('kelompokpegawai_id', 2);		
+                $criteria->with = array('ruanganpegawai');
+		$criteria->compare('t.kelompokpegawai_id', 2);		
                 if (!empty($this->jabatan_id)){
-                    $criteria->addCondition('jabatan_id ='.$this->jabatan_id);
+                    $criteria->addCondition('t.jabatan_id ='.$this->jabatan_id);
                 }
-                $criteria->compare('LOWER(nomorindukpegawai)', strtolower($this->nomorindukpegawai), TRUE);
-                $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), TRUE);
-		$criteria->addCondition('pegawai_aktif = TRUE');
-		$criteria->order = 'pegawai_id ASC';
+                $criteria->addCondition(" ruanganpegawai.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+                $criteria->compare('LOWER(t.nomorindukpegawai)', strtolower($this->nomorindukpegawai), TRUE);
+                $criteria->compare('LOWER(t.nama_pegawai)', strtolower($this->nama_pegawai), TRUE);
+		$criteria->addCondition('t.pegawai_aktif = TRUE');
+		$criteria->order = 't.pegawai_id ASC';
 		$criteria->limit = 10;
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

@@ -147,9 +147,9 @@ if (isset($caraPrint)) {
 				} elseif ($details->rekening5_nb == 'K') {
 					$totSaldo = $totKredit - $totDebit;
 				}
-
+                                $tgl_transaksi = !empty($details->tgl_transaksi)?MyFormatter::formatDateTimeId(date("Y-m-d",strtotime($details->tgl_transaksi))):'-';
 				echo "<tr>
-					<td width='150px;'>" . MyFormatter::formatDateTimeId(date("Y-m-d",strtotime($details->tgl_transaksi))) . "</td>
+					<td width='150px;'>" . $tgl_transaksi . "</td>
 					<td width='150px;'>" . MyFormatter::formatDateTimeId($details->tglbukubesar) . "</td>
 					<td width='150px;'>" . $details->jenisjurnal_nama . "</td>".
 					// <td width='40px;' style='text-align:center'>".$details->no_referensi . "</td>
@@ -278,10 +278,10 @@ if (isset($caraPrint)) {
 				} elseif ($details->rekening5_nb == 'K') {
 					$totSaldo = $totKredit - $totDebit;
 				}
-				
-				if($details->saldodebit != 0){
+				$tgl_transaksi = !empty($details->tgl_transaksi)?MyFormatter::formatDateTimeForUser($details->tgl_transaksi):'-';
+				if($details->saldodebit != 0){                                        
 					echo "<tr>
-						<td width='150px;'>" . MyFormatter::formatDateTimeId(date("Y-m-d",strtotime($details->tgl_transaksi))) . "</td>
+						<td width='150px;'>" .  $tgl_transaksi. "</td>
 						<td width='150px;'>" . MyFormatter::formatDateTimeId($details->tglbukubesar) . "</td>
 						<td width='150px;'>" . $details->jenisjurnal_nama . "</td>
 						<td width='150px;'>" . $details->nobuktijurnal . "</td>
@@ -294,7 +294,7 @@ if (isset($caraPrint)) {
 				}
 				if($details->saldokredit != 0){
 					echo "<tr>
-						<td width='150px;'>" . MyFormatter::formatDateTimeId(date("Y-m-d", strtotime($details->tgl_transaksi))) . "</td>
+						<td width='150px;'>" . $tgl_transaksi . "</td>
 						<td width='150px;'>" . MyFormatter::formatDateTimeId($details->tglbukubesar) . "</td>
 						<td width='150px;'>" . $details->jenisjurnal_nama . "</td>
 						<td width='40px;' style='text-align:center'>".$details->no_referensi . "</td>

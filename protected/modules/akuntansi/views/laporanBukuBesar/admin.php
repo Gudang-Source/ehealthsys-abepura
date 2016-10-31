@@ -33,7 +33,16 @@
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Cetak',array('{icon}'=>'<i class="entypo-print"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
 
-	$content = $this->renderPartial('akuntansi.views.tips/tips',array(),true);
+        $tips = array(
+            '0' => 'tanggal',
+            '1' => 'autocomplete',
+            '2' => 'cari',
+            '3' => 'ulang2',
+            '4' => 'masterPDF',
+            '5' => 'masterEXCEL',
+            '6' => 'masterPRINT',
+        );
+	$content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
 	$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	?>
 </div>
