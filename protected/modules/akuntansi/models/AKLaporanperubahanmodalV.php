@@ -84,10 +84,6 @@ class AKLaporanperubahanmodalV extends LaporanperubahanmodalV
 		if(!empty($this->bukubesar_id)){
 			$criteria->addCondition('bukubesar_id = '.$this->bukubesar_id);
 		}
-		$criteria->compare('labarugi',$this->labarugi);
-		$criteria->compare('ekuitas',$this->ekuitas);
-		$criteria->compare('prive',$this->prive);
-		$criteria->compare('modal',$this->modal);
 		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
 		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
 		if(!empty($this->create_loginpemakai_id)){
