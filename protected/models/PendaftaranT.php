@@ -434,8 +434,23 @@ class PendaftaranT extends CActiveRecord
                     'condition'=>'pasienbatalpulang_id is null',
                 ));
                 
+                $pj = PasienmasukpenunjangT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$this->pendaftaran_id,
+                    'ruangan_id' => Yii::app()->user->getState('ruangan_id'),
+                    'pasienkirimkeunitlain_id' => NULL,
+                ),array('order'=>'pasienmasukpenunjang_id DESC'));
+                                   
+                
                 if (empty($a) && empty($p)) {
-                    $this->statusperiksa = $status;
+                    
+                    $this->statusperiksa = $status;                    
+                    
+                    if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_FISIOTERAPI){                                                
+                        if (count($pj)>0){                            
+                            $updateStatusPeriksa=PasienmasukpenunjangT::model()->updateByPk($pj->pasienmasukpenunjang_id,array('statusperiksa'=>$status));
+                        }
+                    }
+                    
                     return $this->save();
                 }
                 

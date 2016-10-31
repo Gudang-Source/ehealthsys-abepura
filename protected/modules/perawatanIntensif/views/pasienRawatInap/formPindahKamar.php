@@ -297,7 +297,7 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
         if(isset($modPindahKamar->pindahkamar_id)){
     ?>
         var params = [];
-        params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'Pindah Kamar', isinotifikasi:'<?php echo $modPasienRIV->nama_pasien; ?> dengan <?php echo $modPasienRIV->no_rekam_medik; ?> telah pindah kamar pada <?php echo $modPindahKamar->tglpindahkamar ?> dari <?php echo $modPindahKamar->ruangan->ruangan_nama ?>'}; // 16 
+        params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'Pindah Kamar', isinotifikasi:'<?php echo $modPasienRIV->nama_pasien; ?> dengan No. RM <?php echo $modPasienRIV->no_rekam_medik; ?> telah pindah kamar pada <?php echo $modPindahKamar->tglpindahkamar ?> ke <?php echo $modPindahKamar->ruangan->ruangan_nama ?>'}; // 16 
         insert_notifikasi(params);
     <?php            
         }
