@@ -51,7 +51,7 @@ class EvaluasiAskepController extends MyAuthController {
 				}
 
 				$successSave = $this->successSave;
-
+                                DIE;    
 				if ($successSave) {
 					Yii::app()->user->setFlash('success', "Data berhasil disimpan");
 					$transaction->commit();

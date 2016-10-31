@@ -34,7 +34,7 @@
 		</div>
 		<div class="span4">
 			<div class="control-group">
-				<?php echo CHtml::label('Nama Perawat', 'nama_pegawai', array('class' => 'control-label')) ?>
+				<?php echo CHtml::label('Nama Perawat <font style="color:red;">*</font>', 'nama_pegawai', array('class' => 'control-label')) ?>
 				<div class="controls">
 					<?php echo $form->hiddenField($model, 'pegawai_id', array('readonly' => true)) ?>
 					<?php
@@ -73,7 +73,7 @@
 
 						),
 						'tombolDialog'=>array("idDialog"=>'dialogPegawai'),
-						'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2'),
+						'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2 required'),
 					)); ?>
 				</div>
 			</div>
@@ -111,7 +111,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                             "id" => "selectPasien",
                             "onClick" => "
 								$(\"#ASEvaluasiaskepT_pegawai_id\").val(\"$data->pegawai_id\");
-								$(\"#nama_pegawai\").val(\"$data->nama_pegawai\");
+								$(\"#ASEvaluasiaskepT_nama_pegawai\").val(\"$data->nama_pegawai\");
 								$(\"#dialogPegawai\").dialog(\"close\");    
                                 return false;
                                 "))',

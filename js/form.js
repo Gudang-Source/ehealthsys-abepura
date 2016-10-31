@@ -284,11 +284,11 @@ function setAngkaHurufsOnly(obj){
 	
 	var value = $(obj).val();
 	var orignalValue = value;
-	value = value.replace(/[a-zA-Z0-9]*/g, "");
+	value = value.replace(/[ a-zA-Z 0-9]*/g, "");
 	var msg = "Only Alphabet Values allowed.";
 
 	if (value != '') {
-		orignalValue = orignalValue.replace(/([^a-zA-Z0-9].*)/g, "")
+		orignalValue = orignalValue.replace(/([^a-zA-Z 0-9].*)/g, "")
 		$(obj).val(orignalValue);
 	}
 }
