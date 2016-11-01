@@ -34,6 +34,7 @@ class PinjamanPegTController extends MyAuthController
         	$model = KPPinjamanPegT::model()->findByPk($id);
         	$modPegawai = KPPegawaiM::model()->findByPk($model->pegawai_id);
         	$modPinjamDetail = KPPinjamPegDetT::model()->findAllbyAttributes(array('pinjamanpeg_id'=>$id));
+                $modPegawai->tgl_lahirpegawai = MyFormatter::formatDateTimeForUser($modPegawai->tgl_lahirpegawai);
         }
 
         $format = new MyFormatter();
@@ -67,16 +68,21 @@ class PinjamanPegTController extends MyAuthController
                     foreach ($angsuranke as $angsuran => $data) {
                         $modPinjamDetail = new KPPinjamPegDetT();
                         $tgl[$i]            = $_POST['tglakanbayar'][$i];
+                        //var_dump($_POST['tglakanbayar'][$i]);
+                        //die;
                         $cicilan[$i]        = $_POST['jmlcicilan'][$i];
                         $modPinjamDetail->angsuranke        = $data;
-                        $tgla                               = date_create($tgl[$i]);
-                        $tgl_db                             = date_format($tgla, 'Y-m-d');
+                        //$tgla                               = date_create($tgl[$i]);
+                        //$tgla                               = date_create($tgl[$i]);
+                        $tgl_db                             = date("Y-m-d", strtotime($tgl[$i]));
+                        
                         $modPinjamDetail->tglakanbayar      = $tgl_db;
                         $modPinjamDetail->jmlcicilan        = $cicilan[$i];  
                         $modPinjamDetail->pinjamanpeg_id    = $model->pinjamanpeg_id;
                         $modPinjamDetail->bulan             = substr($tgl_db, 5,2);
-                        $modPinjamDetail->tahun             = substr($tgl[$i], 11,4);
-
+                        //$modPinjamDetail->tahun             = substr($tgl[$i], 11,4);
+                        $modPinjamDetail->tahun             = substr($tgl_db, 0,4);
+                        //var_dump($tgla);die;
                         $modPinjamDetail->save();
                         $i++;
                     }
@@ -247,8 +253,8 @@ class PinjamanPegTController extends MyAuthController
                 'nomorindukpegawai'=>$data->nomorindukpegawai,
                 'pegawai_id'=>$data->pegawai_id,
                 'nama_pegawai'=>$data->nama_pegawai,
-                'tempatlahir_pegawai'=>$data->tempatlahir_pegawai,
-                'tgl_lahirpegawai' => $data->tgl_lahirpegawai,
+                'tempatlahir_pegawai'=>  $data->tempatlahir_pegawai,
+                'tgl_lahirpegawai' => MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai),
                 'jabatan_nama'=> (isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : ''),
                 'pangkat_nama'=> (isset($data->pangkat->pangkat_nama) ? $data->pangkat->pangkat_nama : ''),
                 'kategoripegawai'=>$data->kategoripegawai,
