@@ -326,6 +326,25 @@ class PegawaiM extends CActiveRecord
                   		));
 	}
         
+        public function searchPegawai()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+                $criteria->compare('LOWER(nomorindukpegawai)', strtolower($this->nomorindukpegawai), TRUE);
+                $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), TRUE);
+                if ($this->jabatan_id){
+                    $criteria->addCondition(" jabatan_id = '".$this->jabatan_id."' ");
+                }
+                $criteria->addCondition(" pegawai_aktif = TRUE ");
+                $criteria->order = 'nama_pegawai ASC';
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                  		));
+	}
+        
 	public function searchByDokter()
 	{
 		// Warning: Please modify the following code to remove attributes that

@@ -3,7 +3,7 @@
     <div class="row-fluid">
         <div class="span4">
                 <div class="control-group">
-                    <?php echo CHtml::label('NIP','nomorindukpegawai',array('class'=>'control-label')) ?>
+                    <?php echo CHtml::label('NIP <font style="color:red;">*</font>','nomorindukpegawai',array('class'=>'control-label')) ?>
                     <div class="controls">
                             <?php
                             
@@ -30,13 +30,13 @@
                                             }',
 
                                         ),
-                                        'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2 '),
+                                        'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2 required numbers-only', 'maxlength'=>18),
                                         'tombolDialog'=>array('idDialog'=>'dialogPegawai','idTombol'=>'tombolPasienDialog'),
                             )); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::label('Nama pegawai','namapegawai',array('class'=>'control-label')) ?>
+                    <?php echo CHtml::label('Nama Pegawai <font style="color:red;">*</font>','namapegawai',array('class'=>'control-label')) ?>
                     <div class="controls">
                             <?php echo $form->hiddenField($model,'pegawai_id',array('readonly'=>true,'id'=>'pegawai_id')) ?>
                             <?php
@@ -64,7 +64,7 @@
                                             }',
 
                                         ),
-                                        'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2 '),
+                                        'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2 required hurufs-only'),
                                         'tombolDialog'=>array('idDialog'=>'dialogPegawai','idTombol'=>'tombolPasienDialog'),
                             )); ?>
                     </div>
@@ -108,7 +108,7 @@ if (isset($_GET['PegawaiM']))
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawai-m-grid',
-    'dataProvider'=>$modPegawai->search(),
+    'dataProvider'=>$modPegawai->searchPegawai(),
     'filter'=>$modPegawai,
     'template'=>"{summary}\n{items}\n{pager}",
     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -124,19 +124,33 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                           return false;
                                 "))',
         ),
-        'nomorindukpegawai',
-        'nama_pegawai',
-        'tempatlahir_pegawai',
-        'tgl_lahirpegawai',
-        'jeniskelamin',
-        'statusperkawinan',
+        array(
+            'header' => 'NIP',
+            'name' => 'nomorindukpegawai',
+            'value' => '$data->nomorindukpegawai',
+            'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))            
+        ),        
+        array(
+            'header' => 'Nama Pegawai',
+            'name' => 'nama_pegawai',
+            'value' => '$data->namaLengkap',
+            'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only')),            
+        ),                  
         array(
             'header'=>'Jabatan',
+            'name' => 'jabatan_id',
             'value'=>'(isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : "-")',
-        ),
-        'alamat_pegawai',
+            'filter' => CHtml::activeDropDownList($modPegawai, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+        ),        
     ),
-    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+    . ' $(".numbers-only").keyup(function() {
+            setNumbersOnly(this);
+        });
+        $(".hurufs-only").keyup(function() {
+            setHurufsOnly(this);
+        });'
+    . '}',
 ));
 
 $this->endWidget();
