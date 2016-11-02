@@ -11,8 +11,15 @@
         $totTarif = 0;
 
         foreach($modTotal as $key=>$totals){
-           if($totals->carapembayaran == "PIUTANG" && $totals->carabayar_id = 2 || $totals->carapembayaran == "TUNAI" ){
-               $totTarif += $totals->totalsubsidiasuransi;
+           $cekStatus = CarabayarM::model()->findByPk($totals->carabayar_id);
+           if($totals->carapembayaran == "PIUTANG" && ($totals->carabayar_id != Params::CARABAYAR_ID_MEMBAYAR || $totals->carapembayaran == "TUNAI" ) ){
+               if ($cekStatus->issubsidiasuransi == TRUE){
+                    $totTarif += $totals->totalsubsidiasuransi;
+               }elseif($cekStatus->issubsidipemerintah == TRUE){
+                    $totTarif += $totals->totalsubsidipemerintah;
+               }else{
+                $totTarif = 0;
+               }
            }else{
                $totTarif = 0;
            }

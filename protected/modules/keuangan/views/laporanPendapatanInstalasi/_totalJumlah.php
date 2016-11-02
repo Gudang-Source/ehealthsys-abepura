@@ -11,8 +11,12 @@
         $totTarif = 0;
 
         foreach($modTotal as $key=>$totals){
-           if($totals->carapembayaran == "TUNAI" && $totals->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR){
-               $totTarif += $totals->totaliurbiaya;
+           if($totals->carapembayaran == "HUTANG" || $totals->carapembayaran == "CICILAN" || $totals->carapembayaran =="PIUTANG"){
+               if($totals->carapembayaran =="PIUTANG"){
+                   $totTarif += $totals->totaliurbiaya;
+               }else{
+                   $totTarif += $totals->totalsisatagihan ;
+               }               
            }else{
                $totTarif = 0;
            }
