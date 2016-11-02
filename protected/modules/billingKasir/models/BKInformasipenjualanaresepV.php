@@ -21,8 +21,8 @@ class BKInformasipenjualanaresepV extends InformasipenjualanaresepV
          */
         public function criteriaGroupByPenjualan(){
             $criteria = new CDbCriteria();
-            $criteria->group = 'pendaftaran_id,pasien_id, pasienpegawai_id,no_rekam_medik, namadepan, nama_pasien, nama_bin, jeniskelamin, tempat_lahir, tanggal_lahir, alamat_pasien, rt, rw, penjualanresep_id, jenispenjualan,'
-                    . ' agama, golongandarah, photopasien, alamatemail, tglresep, noresep, carabayar_id, penjamin_id, ruanganasal_nama, carabayar_nama, penjamin_nama, tglpenjualan, instalasiasal_nama';
+            $criteria->group = 't.pendaftaran_id,t.pasien_id, t.pasienpegawai_id,t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin, t.jeniskelamin, t.tempat_lahir, t.tanggal_lahir, t.alamat_pasien, t.rt, t.rw, t.penjualanresep_id, t.jenispenjualan,'
+                    . ' t.agama, t.golongandarah, t.photopasien, t.alamatemail, t.tglresep, t.noresep, t.carabayar_id, t.penjamin_id, t.ruanganasal_nama, t.carabayar_nama, t.penjamin_nama, t.tglpenjualan, t.instalasiasal_nama';
             $criteria->select = $criteria->group;
             return $criteria;
         }
@@ -35,15 +35,15 @@ class BKInformasipenjualanaresepV extends InformasipenjualanaresepV
         public function searchDialog(){
             $format = new MyFormatter();
             $criteria = $this->criteriaGroupByPenjualan();
-            $criteria->compare('LOWER(noresep)', strtolower($this->noresep), true);
-            $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
-            $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
-            $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
-            $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
-            $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
-            $criteria->compare('LOWER(jenispenjualan)', strtolower($this->jenispenjualan), true);
-            $criteria->addCondition("(true <> (lower(instalasiasal_nama) ilike '%rawat jalan%' and penjamin_id = 1))");
-            $criteria->order = 'tglpenjualan DESC';
+            $criteria->compare('LOWER(t.noresep)', strtolower($this->noresep), true);
+            $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
+            $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
+            $criteria->compare('LOWER(t.jeniskelamin)', strtolower($this->jeniskelamin), true);
+            $criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
+            $criteria->compare('LOWER(t.penjamin_nama)', strtolower($this->penjamin_nama), true);
+            $criteria->compare('LOWER(t.jenispenjualan)', strtolower($this->jenispenjualan), true);
+            $criteria->addCondition("(true <> (lower(t.instalasiasal_nama) ilike '%rawat jalan%' and t.penjamin_id = 1))");
+            $criteria->order = 't.tglpenjualan DESC';
             //$criteria->limit = 5;
             
             return new CActiveDataProvider($this, array(
@@ -51,6 +51,38 @@ class BKInformasipenjualanaresepV extends InformasipenjualanaresepV
                         //'pagination'=>false,
                 ));
         }
+        
+        public function searchDialogPenjualanResep(){
+            $format = new MyFormatter();
+            $criteria = $this->criteriaGroupByPenjualan();
+            //$criteria->join = "LEFT JOIN pembayaranpelayanan_t pp ON t.pembayaranpelayanan_id = pp.pembayaranpelayanan_id";
+            $criteria->compare('LOWER(t.noresep)', strtolower($this->noresep), true);
+            $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
+            $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
+            $criteria->compare('LOWER(t.jeniskelamin)', strtolower($this->jeniskelamin), true);
+            if (!empty($this->tglpenjualan)){
+                $criteria->addBetweenCondition("t.tglpenjualan",MyFormatter::formatDateTimeForDb($this->tglpenjualan).' 00:00:00', MyFormatter::formatDateTimeForDb($this->tglpenjualan).' 23:59:59');
+            }
+            //$criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
+            //$criteria->compare('LOWER(t.penjamin_nama)', strtolower($this->penjamin_nama), true);
+            if (!empty($this->carabayar_id))
+            {
+                $criteria->addCondition(" t.carabayar_id = '".$this->carabayar_id."' ");
+            }
+            $criteria->compare('LOWER(t.jenispenjualan)', strtolower($this->jenispenjualan), true);
+            $criteria->addCondition("(true <> (lower(t.instalasiasal_nama) ilike '%rawat jalan%' and t.penjamin_id = 1))");            
+            //$criteria->addCondition(" ( pp.statusbayar = '".Params::STATUSBAYAR_BELUM_LUNAS."' OR pp.statusbayar IS NULL) ");
+            $criteria->addCondition(" t.tandabuktibayar_id IS NULL ");
+            $criteria->order = 't.tglpenjualan DESC';
+            //$criteria->limit = 5;
+            
+            return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                        //'pagination'=>false,
+                ));
+        }
+        
+        
         /**
          * menampilkan terakhir masuk penunjang
          */
