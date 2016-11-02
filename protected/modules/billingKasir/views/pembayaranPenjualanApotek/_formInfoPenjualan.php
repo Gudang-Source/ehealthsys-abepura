@@ -246,7 +246,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'datapenjualan-grid',
-            'dataProvider'=>$modDialogPenjualan->searchDialog(),
+            'dataProvider'=>$modDialogPenjualan->searchDialogPenjualanResep(),
             'filter'=>$modDialogPenjualan,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -262,34 +262,74 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                             setPenjualan($data->penjualanresep_id, \"\", \"\", \"\");
                                             $(\"#dialogPenjualan\").dialog(\"close\");
                                         "))',
+                    ),                    
+                    array(
+                        'header' => 'No. Penjualan',
+                        'name' => 'noresep',
+                        'value' => '$data->noresep',
+                        'filter' => Chtml::activeTextField($modDialogPenjualan, 'noresep', array('class'=>'angkahuruf-only'))
                     ),
-                    'noresep',
                     array(
                         'name'=>'tglpenjualan',
                         'type'=>'raw',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tglpenjualan)',
-                        'filter'=>CHtml::activeHiddenField($modDialogPenjualan,'jenispenjualan', array('readonly'=>true)),//instalasi_id untuk pencarian ruangan_id
+                        'filter'=>$this->widget('MyDateTimePicker', array(
+                            'model'=>$modDialogPenjualan, 
+                            'attribute'=>'tglpenjualan', 
+                            'mode' => 'date',    
+                            //'language' => 'ja',
+                            // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                            'htmlOptions' => array(
+                                'id' => 'datepicker_for_due_date',
+                                'size' => '10',
+                                'style'=>'width:80%'
+                            ),
+                            'options' => array(  // (#3)                    
+                                'dateFormat' => Params::DATE_FORMAT,                    
+                                'maxDate' => 'd',
+                            ),
+                            
+                        ), 
+                        true),
                     ),
                     array(
                         'name'=>'no_rekam_medik',
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
+                        'filter' => CHtml::activeHiddenField($modDialogPenjualan,'jenispenjualan', array('readonly'=>true)).Chtml::activeTextField($modDialogPenjualan, 'no_rekam_medik', array('class'=>'numbers-only'))
                     ),
                     array(
                         'name'=>'nama_pasien',
-                        'value'=>'$data->namadepan.$data->nama_pasien',
+                        'value'=>'$data->namadepan." ".$data->nama_pasien',
+                        'filter' => Chtml::activeTextField($modDialogPenjualan, 'nama_pasien', array('class'=>'hurufs-only'))
                     ),
-                    array(
-                        'name'=>'jeniskelamin',
-                        'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
-                    ),
-                    'carabayar_nama',
-                    'penjamin_nama',
+                   array(
+                       'header' => 'Cara Bayar / Penjamin',
+                       'name' => 'carabayar_id',
+                       'type' => 'raw',
+                       'value' => '$data->carabayar_nama." <br/> / ".$data->penjamin_nama',
+                       'filter' => Chtml::activeDropDownList($modDialogPenjualan, 'carabayar_id', Chtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_aktif ASC"), 'carabayar_id', 'carabayar_nama'),array('empty' => '-- Pilih --'))
+                   ),                    
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . '$(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });
+            $(".angkahuruf-only").keyup(function() {
+            setAngkaHurufsOnly(this);
+            });
+            reinstallDatePicker();'
+        . '}',
     ));
 
 $this->endWidget();
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {        
+    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+");
 ////======= end pendaftaran dialog =============
 ?>

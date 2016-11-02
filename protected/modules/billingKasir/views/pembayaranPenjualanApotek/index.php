@@ -42,14 +42,14 @@
         <div class="form-actions">
                 <?php 
                     if($model->isNewRecord){
-                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'setVerifikasi();', 'onkeypress'=>'setVerifikasi();')); //formSubmit(this,event)
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'setVerifikasi();', 'onkeypress'=>'setVerifikasi();')); //formSubmit(this,event)
                     }else{
-                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'return false', 'onkeypress'=>'return false', 'disabled'=>true, 'style'=>'cursor:not-allowed;')); 
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'return false', 'onkeypress'=>'return false', 'disabled'=>true, 'style'=>'cursor:not-allowed;')); 
                     }
                 ?>
                 <?php
                     if(!isset($_GET['frame'])){
-                        echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                        echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                             $this->createUrl($this->id.'/index'), 
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'return refreshForm(this);'));
@@ -57,13 +57,13 @@
                 ?>
                 <?php
                     if($model->isNewRecord){
-                        echo CHtml::link(Yii::t('mds', '{icon} Print Rincian', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printRincian(\"PRINT\");return false",'disabled'=>TRUE  ));
+                        echo CHtml::link(Yii::t('mds', '{icon} Print Rincian', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printRincian(\"PRINT\");return false",'disabled'=>TRUE  ));
                         echo "&nbsp;";
-                        echo CHtml::link(Yii::t('mds', '{icon} Print BKM', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;'));
+                        echo CHtml::link(Yii::t('mds', '{icon} Print BKM', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;'));
                     }else{
-                        echo CHtml::link(Yii::t('mds', '{icon} Print Rincian', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printRincian(\"PRINT\");return false",'disabled'=>FALSE  ));
+                        echo CHtml::link(Yii::t('mds', '{icon} Print Rincian', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printRincian(\"PRINT\");return false",'disabled'=>FALSE  ));
                         echo "&nbsp;";
-                        echo CHtml::link(Yii::t('mds', '{icon} Print BKM', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printBkm(\"PRINT\");return false",'disabled'=>FALSE  ));
+                        echo CHtml::link(Yii::t('mds', '{icon} Print BKM', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printBkm(\"PRINT\");return false",'disabled'=>FALSE  ));
                     }
                 ?>
                 <?php 

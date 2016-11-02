@@ -10,6 +10,25 @@
         text-align: center;
         width: 50%;
     }
+     .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+
+    thead th{
+        background:none;
+        color:#333;
+    }
+
+    .border {
+        box-shadow:none;
+    }
+
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
 </style>
 <?php $format = new MyFormatter;?>
 <?php if(!empty($caraPrint)){
@@ -69,7 +88,7 @@
         <td>: <?php echo MyFormatter::formatDateTimeForUser($modPenjualan->tglresep);?></td>
     </tr>
 </table><br/>
-<table width="100%">
+<table width="100%" class = "table border">
     <thead style='border:1px solid;'>
         <th style='text-align: center;'>No.</th>
         <th style='text-align: center;'>Kode</th>
@@ -97,23 +116,30 @@
         $totalAdmin +=  ($tampilData->biayaservice + $tampilData->biayakonseling + $tampilData->biayaadministrasi);//$tampilData->jasadokterresep + << TIDAK DICANTUMKAN KARENA SUDAH TERMASUK KE DALAM OBAT
         endforeach;
     }
-    ?>
-</table>
-<table width="100%">
+    ?>    
     <tr>
-        <td width ="50%" rowspan="6"></td>
-        <td width ="50%" colspan="2"></td>
+        <td style="text-align:right;" colspan = "5" width ="25%">Total</td><td style="text-align:right;" width ="25%">Rp. <?php echo number_format($total,0,"",".") ?></td>
     </tr>
-    <tr><td width ="25%">Total</td><td style="text-align:right;" width ="25%">Rp. <?php echo number_format($total,0,"",".") ?></td></tr>
-    <tr><td>Biaya Racik, dll.</td><td style="text-align:right;">Rp. <?php echo number_format($totalAdmin,0,"","."); ?></td></tr>
+    <tr>
+        <td  style="text-align:right;" colspan = "5" >Biaya Racik, dll.</td><td style="text-align:right;">Rp. <?php echo number_format($totalAdmin,0,"","."); ?></td>
+    </tr>
     <?php if(empty($modPenjualan->NoFaktur)){?>
-        <tr><td>Total Transaksi</td><td style="text-align:right;">Rp. <?php echo number_format(($total + $totalAdmin),0,"","."); ?></td></tr>
+        <tr>
+            <td  style="text-align:right;" colspan = "5" >Total Transaksi</td><td style="text-align:right;">Rp. <?php echo number_format(($total + $totalAdmin),0,"","."); ?></td>
+        </tr>
     <?php }else{?>
-        <tr><td>Total Transaksi</td><td style="text-align:right;">Rp. <?php echo number_format($tandabukti->jmlpembayaran,0,"","."); ?></td></tr>
-        <tr><td>Bayar</td><td style="text-align:right;">Rp. <?php echo number_format($tandabukti->uangditerima,0,"","."); ?></td></tr>
-        <tr><td>Kembalian</td><td style="text-align:right;">Rp. <?php echo number_format($tandabukti->uangkembalian,0,"","."); ?></td></tr>
+        <tr>
+            <td  style="text-align:right;" colspan = "5" >Total Transaksi</td><td style="text-align:right;">Rp. <?php echo number_format($tandabukti->jmlpembayaran,0,"","."); ?></td>
+        </tr>
+        <tr>
+            <td  style="text-align:right;" colspan = "5" >Bayar</td><td style="text-align:right;">Rp. <?php echo number_format($tandabukti->uangditerima,0,"","."); ?></td>
+        </tr>
+        <tr>
+            <td  style="text-align:right;" colspan = "5" >Kembalian</td><td style="text-align:right;">Rp. <?php echo number_format($tandabukti->uangkembalian,0,"","."); ?></td>
+        </tr>
     <?php } ?>
-</table><br>
+</table>
+<br>
 <?php if(empty($caraPrint)){ 
     
 }else{
