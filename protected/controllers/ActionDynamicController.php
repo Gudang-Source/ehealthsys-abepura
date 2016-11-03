@@ -1126,6 +1126,8 @@ class ActionDynamicController extends Controller
         Yii::app()->end();
     }
     
+   
+    
     public function actionGetNamaRujukanForCheckBox($encode=false,$namaModel=''){
           if(Yii::app()->request->isAjaxRequest) {
            $asalrujukan_id = $_POST["$namaModel"]['asalrujukan_id'];

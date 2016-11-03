@@ -30,7 +30,7 @@ class GZPesanmenudietT extends PesanmenudietT{
 		$criteria=new CDbCriteria;
                 
 		$criteria->addBetweenCondition('DATE(tglpesanmenu)', $this->tgl_awal, $this->tgl_akhir);
-		$criteria->addCondition('kirimmenudiet_id is null');
+		//$criteria->addCondition('kirimmenudiet_id is null');
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
 		}

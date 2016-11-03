@@ -188,7 +188,7 @@ function formSubmit(obj,evt)
 }
 
 function cekAngsuran()
-{
+{    
     $('.currency').each(
         function(){
             this.value = unformatNumber(this.value)
@@ -201,6 +201,7 @@ function cekAngsuran()
         $('#BKBayarAngsuranPelayananT_jmlbayarangsuran').focus();
         return false;
     }
+    
     return true;
 }
 
@@ -214,9 +215,11 @@ function hitungSisaAngsuran()
     if ((sisa - angsuran) < 0){
         myAlert("Jumlah bayar angsuran tidak boleh lebih dari sisa angsuran");
         $("#BKBayarAngsuranPelayananT_jmlbayarangsuran").val(formatInteger(sisa));
+        $("#BKTandabuktibayarT_jmlpembayaran").val(formatInteger(sisa));
+        $("#BKTandabuktibayarT_uangditerima").val(formatInteger(sisa));
     }
     $('#BKBayarAngsuranPelayananT_sisaangsuran').val(formatInteger(sisaAngsuran));
-    $('#BKTandabuktibayarT_jmlpembayaran').val(formatInteger(angsuran));
+    //$('#BKTandabuktibayarT_jmlpembayaran').val(formatInteger(angsuran));
     hitungKembalian();
 }
 

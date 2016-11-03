@@ -35,7 +35,11 @@
                     'barang_warna',
                     'barang_statusregister',
                     'barang_ekonomis_thn',
-                    'barang_satuan',
+                    'barang_satuan',                    
+                    array(
+                        'label' => 'Harga Netto',
+                        'value' => 'Rp'.number_format($model->barang_harganetto,0,"",".")
+                    ),
                     'barang_jmldlmkemasan',
                     'barang_image',
                     'barang_aktif',

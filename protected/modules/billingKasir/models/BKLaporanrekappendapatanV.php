@@ -3,6 +3,9 @@ class BKLaporanrekappendapatanV extends LaporanrekappendapatanV
 {
 	public $totaliurbiaya,$totalsubsidiasuransi;
 	public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
+        public $instalasi_id, $jumlah, $tick, $data, $ruangan_id;
+        
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -26,8 +29,29 @@ class BKLaporanrekappendapatanV extends LaporanrekappendapatanV
                                      sum(totalbiayaoa) as totalbiayaoa';
                 $criteria->group = 'pendaftaran_id,pasien_id,nama_pasien,no_rekam_medik,carapembayaran,nama_pemakai,penjamin_nama,tglpembayaran';
                 
-                $criteria->addBetweenCondition('tglpembayaran',$this->tgl_awal,$this->tgl_akhir);
-
+                $criteria->addBetweenCondition('tglpembayaran',$this->tgl_awal.' 00:00:00',$this->tgl_akhir.' 23:59:59');                
+                if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruanganpelakhir_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $ruangan = RuanganM::model()->findAll("instalasi_id = '".$this->instalasi_id."' AND ruangan_aktif = TRUE ");
+                        $r = array();
+                        foreach($ruangan as $ruang){
+                            $r[] = $ruang->ruangan_id; 
+                        }
+                        
+                        $criteria->addInCondition('ruangan_id', $r);
+                   }
+                }
+                                
+                if (!empty($this->carabayar_id)){
+                    $criteria->addCondition(" carabayar_id = '".$this->carabayar_id."' ");
+                }else{
+                    if (!empty($this->penjamin_id)){
+                        $criteria->addCondition(" penjamin_id = '".$this->penjamin_id."' ");
+                    }
+                }
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -52,6 +76,27 @@ class BKLaporanrekappendapatanV extends LaporanrekappendapatanV
                 $criteria->group = 'pendaftaran_id,pasien_id,nama_pasien,no_rekam_medik,carapembayaran,nama_pemakai,penjamin_nama,tglpembayaran';
                 
                 $criteria->addBetweenCondition('tglpembayaran',$this->tgl_awal,$this->tgl_akhir);
+                if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruanganpelakhir_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $ruangan = RuanganM::model()->findAll("instalasi_id = '".$this->instalasi_id."' AND ruangan_aktif = TRUE ");
+                        $r = array();
+                        foreach($ruangan as $ruang){
+                            $r[] = $ruang->ruangan_id; 
+                        }
+                        
+                        $criteria->addInCondition('ruangan_id', $r);
+                   }
+                }
+                
+                if (!empty($this->carabayar_id)){
+                    $criteria->addCondition(" carabayar_id = '".$this->carabayar_id."' ");
+                }else{
+                    if (!empty($this->penjamin_id)){
+                        $criteria->addCondition(" penjamin_id = '".$this->penjamin_id."' ");
+                    }
+                }
                 $criteria->limit = -1;
 
 		return new CActiveDataProvider($this, array(
@@ -176,6 +221,57 @@ class BKLaporanrekappendapatanV extends LaporanrekappendapatanV
                         'pagination'=>false,
 		));
 	}
+        
+        public function searchGrafik()
+	{
+		$criteria=new CDbCriteria;
+
+		$criteria->select = 'sum(totalbayartindakan) as jumlah, penjamin_nama as data';
+                $criteria->addBetweenCondition('tglpembayaran',$this->tgl_awal,$this->tgl_akhir);
+                if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruanganpelakhir_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $ruangan = RuanganM::model()->findAll("instalasi_id = '".$this->instalasi_id."' AND ruangan_aktif = TRUE ");
+                        $r = array();
+                        foreach($ruangan as $ruang){
+                            $r[] = $ruang->ruangan_id; 
+                        }
+                        
+                        $criteria->addInCondition('ruangan_id', $r);
+                   }
+                }
+                
+                if (!empty($this->carabayar_id)){
+                    $criteria->addCondition(" carabayar_id = '".$this->carabayar_id."' ");
+                }else{
+                    if (!empty($this->penjamin_id)){
+                        $criteria->addCondition(" penjamin_id = '".$this->penjamin_id."' ");
+                    }
+                }
+                
+                $criteria->group = 'penjamin_nama';
+                $criteria->order = 'jumlah DESC, penjamin_nama ASC';
+                  
+                $criteria->limit = 10;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>false,
+		));
+	} 
+        
+        public function getNamaModel()
+        {
+            return __CLASS__;
+        }
+        
+        public function getCaraBayarItems()
+        {
+            return CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC");
+        }
+        
+       
 
 }
 ?>
