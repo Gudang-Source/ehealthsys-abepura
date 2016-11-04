@@ -460,7 +460,7 @@ class PesanmenudietTController extends MyAuthController
             
             if(isset($idPesan))
             {
-               $update = PesanmenudietT::model()->updateByPk($idPesan,array('status_terima'=>TRUE));
+               $update = PesanmenudietT::model()->updateByPk($idPesan,array('status_terima'=>TRUE,'update_loginpemakai_id'=>Yii::app()->user->getState('pegawai_id'), 'update_time'=>date('Y-m-d H:i:s')));
                if($update)
                 {
                     if (Yii::app()->request->isAjaxRequest)

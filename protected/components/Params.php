@@ -1006,6 +1006,13 @@ Class Params
 
 			return str_pad($year, 2, '0', STR_PAD_LEFT); //.' Thn '. str_pad($month, 2, '0', STR_PAD_LEFT) .' Bln '. str_pad($day, 2, '0', STR_PAD_LEFT).' Hr';
 		}
+                
+                public static function getStatusTerima(){
+                    return array(
+                        1 => 'Sudah Diterima',
+                        2 => 'Belum Diterima '
+                    );
+                }
         
 }
 ?>
