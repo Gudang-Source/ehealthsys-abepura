@@ -128,27 +128,15 @@
                         </div>
                         
                         <div class = "span4">
-                            <div class = "control-group">
-                                <?php echo Chtml::label("Nama Obat",'obatalkes_nama', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                    <?php echo $form->textField($model,'obatalkes_nama', array('class'=>'span4 custom-only'))  ?>
-                                </div>
-                            </div>
-                            
-                            <div class = "control-group">
-                                <?php echo Chtml::label("Kode",'obatalkes_nama', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                    <?php echo $form->textField($model,'obatalkes_kode', array('class'=>'span4 angkahuruf-only'))  ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class = "control-group">
+                           <div class = "control-group">
                                 <?php echo Chtml::label("Status",'status', array('class'=>'control-label')) ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($model,'status', array('2'=>'Belum Kadaluarsa','1'=>'Sudah Kadaluarsa') ,array('empty'=>'-- Pilih --','class'=>'span4 angkahuruf-only'))  ?>
                                 </div>
                             </div>
+                        </div>
+                        <div class="span4">
+                            
                         </div>                        
                     </div>
         <table width="100%" border="0">
