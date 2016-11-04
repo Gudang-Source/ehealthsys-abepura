@@ -29,6 +29,7 @@ class MAInfoInventarisasiRuanganV extends InfoinventarisasiruanganV
         $criteria->compare('LOWER(barang_kode)', strtolower($this->barang_kode), TRUE);        
         $criteria->compare('LOWER(barang_thnbeli)', strtolower($this->barang_thnbeli), TRUE);        
         $criteria->compare('LOWER(inventarisasi_keadaan)', strtolower($this->inventarisasi_keadaan), TRUE);        
+        $criteria->addCondition(" LOWER(barang_type) ilike '%Aset%' ");
         if (!empty($this->ruangan_id)){
             $criteria->addCondition("ruangan_id = '".$this->ruangan_id."' ");
         }
