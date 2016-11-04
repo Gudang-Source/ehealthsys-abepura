@@ -184,10 +184,15 @@ class PengajuanKlaimPiutangController extends MyAuthController
         
 	protected function sortPilih($data){
 		$result = array();
+                
 		foreach ($data as $i=>$row){
-			if ($row['cekList'] == 1){
-				$result[] = $row['pembayaranpelayanan_id'];
-			}
+                        if (isset($row['cekList']))
+                        {
+                            if ($row['cekList'] == 1){
+                                
+                                    $result[] = $row['pembayaranpelayanan_id'];
+                            }                        
+                        }
 		}
 
 		return $result;
@@ -195,19 +200,22 @@ class PengajuanKlaimPiutangController extends MyAuthController
     
     protected function validasiTabular($modPengajuanKlaim, $data) {
         foreach ($data as $i => $row) {
-            if($row['cekList'] == 1){
-                $modDetails[$i] = new BKPengajuanklaimdetailT();
-                $modDetails[$i]->attributes = $row;                
-                $modDetails[$i]->pendaftaran_id = $row['pendaftaran_id'];
-                $modDetails[$i]->pasien_id = $row['pasien_id'];
-                $modDetails[$i]->pengajuanklaimpiutang_id = $modPengajuanKlaim->pengajuanklaimpiutang_id;
-                $modDetails[$i]->pembayaranpelayanan_id = $row['pembayaranpelayanan_id'];
-                $modDetails[$i]->tandabuktibayar_id = $row['tandabuktibayar_id'];
-                $modDetails[$i]->jmlpiutang = $row['jmlpiutang']; //-$row['jmlbayar'];
-                $modDetails[$i]->jumlahbayar = $row['jmlbayar'];
-                $modDetails[$i]->jmltelahbayar = $row['jmlbayar'];
-                $modDetails[$i]->jmlsisapiutang = $row['jmlsisatagihan'];
-                $modDetails[$i]->validate();
+            if (isset($row['cekList']))
+            {
+                if($row['cekList'] == 1){
+                    $modDetails[$i] = new BKPengajuanklaimdetailT();
+                    $modDetails[$i]->attributes = $row;                
+                    $modDetails[$i]->pendaftaran_id = $row['pendaftaran_id'];
+                    $modDetails[$i]->pasien_id = $row['pasien_id'];
+                    $modDetails[$i]->pengajuanklaimpiutang_id = $modPengajuanKlaim->pengajuanklaimpiutang_id;
+                    $modDetails[$i]->pembayaranpelayanan_id = $row['pembayaranpelayanan_id'];
+                    $modDetails[$i]->tandabuktibayar_id = $row['tandabuktibayar_id'];
+                    $modDetails[$i]->jmlpiutang = $row['jmlpiutang']; //-$row['jmlbayar'];
+                    $modDetails[$i]->jumlahbayar = $row['jmlbayar'];
+                    $modDetails[$i]->jmltelahbayar = $row['jmlbayar'];
+                    $modDetails[$i]->jmlsisapiutang = $row['jmlsisatagihan'];
+                    $modDetails[$i]->validate();
+                }
             }
         }
         return $modDetails;
