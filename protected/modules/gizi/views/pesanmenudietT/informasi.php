@@ -19,32 +19,47 @@
         <?php
 		
 		$artab = array(
-			'nopesanmenu',
-			'jenispesanmenu',
-			'nama_pemesan',
-			array(
-				'header'=>'Instalasi / Ruangan',
-				'type'=>'raw',
-				'value'=>'$data->ruangan->instalasi->instalasi_nama." / ".$data->ruangan->ruangan_nama',
-				'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:left;')
-			),
-//                'ruangan.instalasi.instalasi_nama',
-//                'ruangan.ruangan_nama',                
-			array(
+                        array(
+                                'header' => 'Tanggal Pesan',
 				'name'=>'tglpesanmenu',
 				'type'=>'raw',
 				'value'=>'MyFormatter::formatDateTimeForUser($data->tglpesanmenu)'
 			),
-			'bahandiet.bahandiet_nama',
-			'jenisdiet.jenisdiet_nama',
+                        array(
+                            'header' => 'No Pesan',
+                            'name' => 'nopesanmenu',                            
+                        ),
+                    );
+                 if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GIZI) {
+			array_push($artab, array(
+				'header'=>'Instalasi / Ruangan',
+				'type'=>'raw',
+				'value'=>'$data->ruangan->instalasi->instalasi_nama." / ".$data->ruangan->ruangan_nama',
+				'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:left;')
+			));
+                    }
+                        array_push($artab, array(
+                            'header' => 'Jenis Pesanan',
+                            'name' => 'jenispesanmenu',                            
+                        ),		                        			
+			'nama_pemesan',
+                        array(
+                            'header' => 'Jenis Diet',
+                            'name' => 'jenisdiet.jenisdiet_nama',
+                        ),
+                        array(
+                            'header' => 'Bahan Diet',
+                            'name' => 'bahandiet.bahandiet_nama',
+                        ),			
 			'adaalergimakanan',
 			'keterangan_pesan',
 			array(
 				'header'=>'Rincian',
 				'type'=>'raw',
 				'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/PesanmenudietT/detailPesanMenuDiet",array("id"=>$data->pesanmenudiet_id)),array("id"=>"$data->pesanmenudiet_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk rincian pemesanan menu diet", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));','htmlOptions'=>array('style'=>'text-align: left')
-			),
-		);
+			));
+                
+               
 		
 		if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GIZI) {
 			array_push($artab, array(

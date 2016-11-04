@@ -26,6 +26,7 @@ class PesanmenudietT extends CActiveRecord
 {
         public $tgl_awal;
         public $tgl_akhir;
+        public $instalasi_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -56,7 +57,7 @@ class PesanmenudietT extends CActiveRecord
 			array('ruangan_id, bahandiet_id,kirimmenudiet_id, jenisdiet_id, bahandiet_id, totalpesan_org', 'numerical', 'integerOnly'=>true),
 			array('jenispesanmenu, nopesanmenu', 'length', 'max'=>50),
 			array('adaalergimakanan, nama_pemesan', 'length', 'max'=>100),
-			array('keterangan_pesan, update_time, update_loginpemakai_id', 'safe'),
+			array('status_terima,keterangan_pesan, update_time, update_loginpemakai_id', 'safe'),
 			array('create_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
 			array('update_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),
                         
@@ -105,6 +106,8 @@ class PesanmenudietT extends CActiveRecord
 			'create_ruangan' => 'Create Ruangan',
 			'carabayar_id' => 'Cara Bayar',
 			'penjamin_id' => 'Penjamin',
+                        'status_terima' => 'Status Terima',
+                        'instalasi_id' => 'Instalasi'
 		);
 	}
 
