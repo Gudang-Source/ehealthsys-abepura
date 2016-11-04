@@ -35,7 +35,9 @@ class LaporanPendapatanPenjaminController extends MyAuthController{
                 default : null;
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
-            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";            
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";   
+            $model->ruangan_id = isset($_GET['KULaporanrekappendapatanV']['ruangan_id'])?$_GET['KULaporanrekappendapatanV']['ruangan_id']:null;
+            $model->instalasi_id = $_GET['KULaporanrekappendapatanV']['instalasi_id'];
         }
 
         $this->render('index', array(
@@ -75,6 +77,8 @@ class LaporanPendapatanPenjaminController extends MyAuthController{
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->ruangan_id = isset($_GET['KULaporanrekappendapatanV']['ruangan_id'])?$_GET['KULaporanrekappendapatanV']['ruangan_id']:null;
+            $model->instalasi_id = $_GET['KULaporanrekappendapatanV']['instalasi_id'];
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
@@ -115,6 +119,8 @@ class LaporanPendapatanPenjaminController extends MyAuthController{
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->ruangan_id = isset($_GET['KULaporanrekappendapatanV']['ruangan_id'])?$_GET['KULaporanrekappendapatanV']['ruangan_id']:null;
+            $model->instalasi_id = $_GET['KULaporanrekappendapatanV']['instalasi_id'];
         }
 
         $this->render('_grafik', array(
