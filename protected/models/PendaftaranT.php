@@ -456,4 +456,33 @@ class PendaftaranT extends CActiveRecord
                 
                 return true;
         }
+        
+        public function getColumn(){
+            $sql = " select column_name from information_schema.columns where column_name ilike 'nopendaftaran_%' AND table_name = 'konfigsystem_k' ORDER BY column_name ASC";
+            $column = Yii::app()->db->createCommand($sql)->queryAll();
+            $totCol = count($column);
+            
+            
+            $col = "";
+            $col2 = array();
+            foreach ($column as $data){
+                $col .= $data['column_name'].', ';
+                $col2[]=$data['column_name']; 
+            }
+            $col = rtrim($col, ', ');
+            
+            $criteria = new CDbCriteria();
+            $criteria->select  = " ".$col." ";
+            $hasil = KonfigsystemK::model()->find($criteria);
+                      
+            $value = array();
+            for($i=0; $i<$totCol;$i++){
+              
+                $value[$hasil->$col2[$i]]= $hasil->$col2[$i];
+                
+            }
+            
+            return $value;
+            
+        }
 }
