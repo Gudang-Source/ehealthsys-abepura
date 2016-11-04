@@ -14,13 +14,17 @@
            if($totals->carapembayaran == "HUTANG" || $totals->carapembayaran == "CICILAN"){
                $totTarif += $totals->totalsisatagihan;
            }else{
-               $totTarif = 0;
+               $totTarif += 0;
            }
        }
        if(isset($caraPrint)){
            echo $totTarif;
        }else{
-        echo number_format($totTarif,0,"",".");
+           if (!empty($footer)){
+                echo $totTarif;
+           }else{
+               echo number_format($totTarif,0,"",".");
+           }
        }
     }
     

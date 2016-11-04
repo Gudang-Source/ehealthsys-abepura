@@ -27,7 +27,11 @@
        if(isset($caraPrint)){
            echo $totTarif;
        }else{
-        echo number_format($totTarif,0,"",".");
+            if (!empty($footer)){
+                echo    $totTarif;
+           }else{
+                echo number_format($totTarif,0,"",".");
+           }
        }
     }
     

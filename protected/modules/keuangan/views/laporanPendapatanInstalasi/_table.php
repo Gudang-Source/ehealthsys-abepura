@@ -1,5 +1,5 @@
 <?php 
-$table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+$table = 'ext.bootstrap.widgets.MergeHeaderGroupGridView';
 $data = $model->searchTable();
 $template = "{summary}\n{items}\n{pager}";
 $sort = true;
@@ -12,6 +12,24 @@ if (isset($caraPrint)){
   
   }
   
+}
+
+$totalTagihan = 0;
+$bayarTunai = 0;
+$p3 = 0;
+$piutangPasien = 0;
+$totalJumlah = 0;
+
+foreach($data->data as $item){
+    $totalTagihan += $item->totalbiayapelayanan;
+        
+    $bayarTunai += $this->renderPartial('_totalKas', array('pendaftaran_id'=>$item->pendaftaran_id, 'tglpembayaran'=>$item->tglpembayaran, 'footer'=>'footer'), true);
+    
+    $p3 += $this->renderPartial("_totalP3",array("pendaftaran_id"=>$item->pendaftaran_id ,"tglpembayaran"=>$item->tglpembayaran, 'footer'=>'footer'),true);
+    
+    $piutangPasien += $this->renderPartial("_totalPiutang",array("pendaftaran_id"=>$item->pendaftaran_id ,"tglpembayaran"=>$item->tglpembayaran, 'footer'=>'footer'),true);
+    
+    $totalJumlah += $this->renderPartial("_totalJumlah",array("pendaftaran_id"=>$item->pendaftaran_id ,"tglpembayaran"=>$item->tglpembayaran, 'footer'=>'footer'),true);
 }
 ?>
 <?php $this->widget($table,array(
@@ -55,6 +73,8 @@ if (isset($caraPrint)){
                 'type'=>'raw',
                 'value'=>'$data->namadepan." ".$data->nama_pasien',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
+                'footer'=>'<b>TOTAL</b>',                
+                'footerHtmlOptions'=>array('colspan'=>4, 'style'=>'text-align:right;'),
             ),
             array(
                 'header'=>'Total Tagihan',
@@ -62,6 +82,8 @@ if (isset($caraPrint)){
                 'value'=>'number_format($data->totalbiayapelayanan,0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
+                'footer'=> number_format($totalTagihan,0,"","."),
+                'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             ),
             array(
                 'header'=>'<center>Bayar Tunai</center>',
@@ -69,6 +91,8 @@ if (isset($caraPrint)){
                 'value'=>'$this->grid->owner->renderPartial("_totalKas",array("pendaftaran_id"=>$data->pendaftaran_id,"tglpembayaran"=>$data->tglpembayaran),true)',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
+                'footer'=> number_format($bayarTunai,0,"","."),      
+                'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             ),
             array(
                 'header'=>'<center>Bank</center>',
@@ -76,7 +100,8 @@ if (isset($caraPrint)){
                 'value'=>'$this->grid->owner->renderPartial("_totalBank",array("pendaftaran_id"=>$data->pendaftaran_id,"tglpembayaran"=>$data->tglpembayaran),true)',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
-               
+                'footer'=>'0',      
+                'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             ),
             array(
                 'header'=>'<center>Giro</center>',
@@ -84,6 +109,8 @@ if (isset($caraPrint)){
                 'value'=>'$this->grid->owner->renderPartial("_totalGiro",array("pendaftaran_id"=>$data->pendaftaran_id,"tglpembayaran"=>$data->tglpembayaran),true)',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
+                'footer'=>'0',      
+                'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             ),
             array(
                 'header'=>'<center>Piutang P3</center>',
@@ -91,6 +118,8 @@ if (isset($caraPrint)){
                 'value'=>'$this->grid->owner->renderPartial("_totalP3",array("pendaftaran_id"=>$data->pendaftaran_id,"tglpembayaran"=>$data->tglpembayaran),true)',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
+                'footer' => number_format($p3,0,"","."),    
+                'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             ),
             array(
                 'header'=>'<center>Piutang Pasien</center>',
@@ -98,6 +127,8 @@ if (isset($caraPrint)){
                 'value'=>'$this->grid->owner->renderPartial("_totalPiutang",array("pendaftaran_id"=>$data->pendaftaran_id,"tglpembayaran"=>$data->tglpembayaran),true)',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
+                'footer'=> number_format($piutangPasien,0,"","."),    //$piutangPasien      
+                'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             ),
             array(
                 'header'=>'<center>Jumlah</center>',
@@ -105,14 +136,16 @@ if (isset($caraPrint)){
                 'value'=>'$this->grid->owner->renderPartial("_totalJumlah",array("pendaftaran_id"=>$data->pendaftaran_id,"tglpembayaran"=>$data->tglpembayaran),true)',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
+                'footer'=>  number_format($totalJumlah,0,"","."),         
+                'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             ),
-            array(
+            /*array(
                 'header'=>'<center>User <br/> Name</center>',
                 'type'=>'raw',
                 'value'=>'($data->nama_pemakai != null) ? "$data->nama_pemakai":"-"',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:center;'),
-            ),
+            ),*/
             array(
                 'header'=>'<center> Instalasi <br/> / Ruangan   </center>',
                 'type'=>'raw',
@@ -122,6 +155,7 @@ if (isset($caraPrint)){
                 },
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:center;'),
+                'footer' => ' '
             ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
