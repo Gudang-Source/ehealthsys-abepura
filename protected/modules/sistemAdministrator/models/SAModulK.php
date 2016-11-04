@@ -43,7 +43,7 @@ class SAModulK extends ModulK
             $criteria->compare('LOWER(icon_modul)',strtolower($this->icon_modul),true);
             $criteria->compare('LOWER(modul_key)',strtolower($this->modul_key),true);
             $criteria->compare('modul_urutan',$this->modul_urutan);
-            $criteria->compare('modul_aktif',$this->modul_aktif);
+            $criteria->compare('modul_aktif',isset($this->modul_aktif)?$this->modul_aktif:true);
             $criteria->compare('LOWER(modul_kategori)',strtolower($this->modul_kategori),true);
             $criteria->with = array('kelompokmodul');
 
