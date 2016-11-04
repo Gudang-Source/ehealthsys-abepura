@@ -103,12 +103,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     </div>
     <div class="span4">
         <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('placeholder'=>'Ketik No. Rekam Medik','class' => 'span3', 'maxlength' => 10)); ?>
-                <div class="control-group ">
-                    <?php echo CHtml::activeLabel($model, 'no_pendaftaran', array('class' => 'control-label')) ?>
-                    <div class="controls">
-                       <?php echo $form->textField($model, 'no_pendaftaran', array('placeholder'=>'Ketik No. Pendaftaran','class' => 'span3', 'maxlength' => 50)); ?>                                    
-                    </div>
-                </div> 
+            <div class = "control-group">
+                    <?php echo Chtml::label("No Pendaftaran",'no_pendaftaran', array('class'=>'control-label')) ?>
+                <div class = "controls">
+                    <?php echo $form->dropDownList($model,'prefix_pendaftaran', PendaftaranT::model()->getColumn(),array('empty'=>'-- Pilih --','class'=>'numbers-only span1')); ?>
+                    <?php echo $form->textField($model, 'no_pendaftaran', array('class' => 'span3 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>
+                </div>
+            </div>
         <?php echo $form->textFieldRow($model, 'nama_pasien', array('placeholder'=>'Ketik Nama Pasien','class' => 'span3', 'maxlength' => 50)); ?>
         <?php echo $form->textFieldRow($model,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
     </div>

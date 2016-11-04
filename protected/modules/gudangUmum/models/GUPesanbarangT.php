@@ -39,6 +39,7 @@ class GUPesanbarangT extends PesanbarangT {
 		if(!empty($this->pegmengetahui_id)){
 			$criteria->addCondition("pegmengetahui_id = ".$this->pegmengetahui_id);			
 		}
+                $criteria->order = "tglpesanbarang DESC";
                                 
 		
 		return new CActiveDataProvider($this, array(
@@ -94,6 +95,7 @@ class GUPesanbarangT extends PesanbarangT {
 		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
 		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
+                $criteria->order = "tglpesanbarang DESC";
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

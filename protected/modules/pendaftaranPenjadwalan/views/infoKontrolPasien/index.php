@@ -96,12 +96,17 @@ input[readonly]{
                                     'pendaftaran_id'=>$data->pendaftaran_id,
                                     'jenissurat_id'=>Params::SURAT_KETERANGAN_KONTROL,
                                 ));
-                                return CHtml::link('<i class="icon-form-rj"></i> ', 
-                                        Yii::app()->createUrl('/pendaftaranPenjadwalan/PendaftaranRawatJalan/index', array(
-                                            'pasien_id'=>$data->pasien_id,
-                                            'sk_id'=>$sk->suratketerangan_id,
-                                        )),array("id"=>"$data->pasien_id",
-                                    "title"=>"Klik Untuk Mendaftarkan ke Rawat Jalan","rel"=>"tooltip"));
+                                
+                                if (count($sk)){
+                                    return CHtml::link('<i class="icon-form-rj"></i> ', 
+                                            Yii::app()->createUrl('/pendaftaranPenjadwalan/PendaftaranRawatJalan/index', array(
+                                                'pasien_id'=>$data->pasien_id,
+                                                'sk_id'=>$sk->suratketerangan_id,
+                                            )),array("id"=>"$data->pasien_id",
+                                        "title"=>"Klik Untuk Mendaftarkan ke Rawat Jalan","rel"=>"tooltip"));
+                                }else{
+                                    return '-';
+                                }
                             },
                             'htmlOptions'=>array('style'=>'text-align:left;'),
                         ),

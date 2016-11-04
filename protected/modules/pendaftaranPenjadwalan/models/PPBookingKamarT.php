@@ -33,6 +33,7 @@ class PPBookingKamarT extends BookingkamarT{
     public $ruanganInap;
     public $noRekamMedik;
     public $tgl_awal,$tgl_akhir;
+    public $prefix_pendaftaran;
     
     public static function model($className=__CLASS__)
     {
@@ -45,7 +46,8 @@ class PPBookingKamarT extends BookingkamarT{
 
 		$criteria=new CDbCriteria;
                 
-		$criteria->with=array('kelaspelayanan','pendaftaran','kamarruangan','pasien','ruangan','pasienadmisi');
+		$criteria->with=array('kelaspelayanan','kamarruangan','pasien','ruangan','pasienadmisi');
+                $criteria->join = "LEFT JOIN pendaftaran_t pendaftaran ON pendaftaran.pendaftaran_id = t.pendaftaran_id";
 		$criteria->addBetweenCondition('DATE(tgltransaksibooking)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->bookingkamar_id)){
 			$criteria->addCondition("t.bookingkamar_id = ".$this->bookingkamar_id); 			
@@ -79,10 +81,11 @@ class PPBookingKamarT extends BookingkamarT{
 		if(!empty($this->update_loginpemakai_id)){
 			$criteria->addCondition("t.update_loginpemakai_id = ".$this->update_loginpemakai_id); 			
 		}
-		$criteria->compare('LOWER(t.create_ruangan)',strtolower($this->create_ruangan),true);
-		$criteria->compare('LOWER(pendaftaran.no_pendaftaran)',strtolower($this->no_pendaftaran));
+		$criteria->compare('LOWER(t.create_ruangan)',strtolower($this->create_ruangan),true);                
+		$criteria->compare('LOWER(pendaftaran.no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
 		$criteria->compare('LOWER(t.statuskonfirmasi)',strtolower($this->statuskonfirmasi),true);
 		$criteria->compare('LOWER(pasien.no_rekam_medik)', strtolower($this->noRekamMedik));
+                $criteria->order = "tgltransaksibooking DESC";
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
