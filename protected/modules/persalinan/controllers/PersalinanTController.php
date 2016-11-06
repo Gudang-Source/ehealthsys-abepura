@@ -30,6 +30,7 @@ class PersalinanTController extends MyAuthController {
             $model = new PSPersalinanT;
             $model->tglmulaipersalinan = date('d M Y H:i:s');
             $model->tglabortus = date('d M Y H:i:s');
+            $model->pegawai_id = $modPendaftaran->pegawai_id;
         }
         
         if (empty($modPemeriksaan)) {
