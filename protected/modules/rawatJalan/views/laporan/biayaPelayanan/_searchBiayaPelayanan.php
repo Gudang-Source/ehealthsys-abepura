@@ -24,7 +24,7 @@
                       <div class="span4">
                     <?php $format = new MyFormatter(); ?>
                     <?php echo CHtml::hiddenField('type', ''); ?>
-                    <?php echo CHtml::label('Tanggal Pelayanan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
                     </div>
@@ -128,6 +128,7 @@
                  
                 </div>
         </div>
+        </div>
             <table width="100%" border="0">
                 <tr>
                 <td> 
@@ -198,10 +199,13 @@
             </table>
             
     <div class="form-actions">
-        <?php
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan', 'ajax' => array(
+          <?php
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary',
+                'type' => 'submit', 'id' => 'btn_simpan', 
+                
+                'ajax' => array(
                  'type' => 'GET', 
-                 'url' => array("/".$this->route), 
+                 'url' => array("/".$this->route),
                  'update' => '#tableLaporan',
                  'beforeSend' => 'function(){
                                       $("#tableLaporan").addClass("animation-loading");
@@ -209,9 +213,7 @@
                  'complete' => 'function(){
                                       $("#tableLaporan").removeClass("animation-loading");
                                   }',
-             )
-            )
-        );
+             ) ));
         ?>
 	<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
@@ -220,6 +222,7 @@
     </div>
     <?php //$this->widget('UserTips', array('type' => 'create')); ?>    
 </div>    
+
 <?php
 $this->endWidget();
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
