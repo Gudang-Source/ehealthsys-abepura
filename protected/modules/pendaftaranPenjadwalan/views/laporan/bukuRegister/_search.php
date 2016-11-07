@@ -23,7 +23,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 
 <div class="row-fluid">
     <div class="span4">
-        <?php echo CHtml::label('Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
+        <?php echo CHtml::label('Periode Laporan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
         <div class="controls">
             <?php echo $form->dropDownList($modPPInfoKunjunganV, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
         </div>
@@ -218,7 +218,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 												<label>Ruangan</label>
 											</td>
 											<td>
-												<div id="ruangan">
+												<div margin id="ruangan">
 													<label>Data Tidak Ditemukan</label>
 												</div>
 											</td>
