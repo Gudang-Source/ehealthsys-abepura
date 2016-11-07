@@ -11,7 +11,7 @@ class PPLaporankunjunganbydokterV extends LaporankunjunganbydokterV
      public function searchTable() {
         $criteria = new CDbCriteria();
         $criteria = $this->functionCriteria();
-        $criteria->order = 'instalasi_nama, ruangan_nama';
+        $criteria->order = 'tgl_pendaftaran DESC, instalasi_nama ASC, ruangan_nama ASC';
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -21,7 +21,7 @@ class PPLaporankunjunganbydokterV extends LaporankunjunganbydokterV
      public function searchPrint() {
         $criteria = new CDbCriteria();
         $criteria = $this->functionCriteria();
-        $criteria->order = 'instalasi_nama, ruangan_nama';
+        $criteria->order = 'tgl_pendaftaran DESC, instalasi_nama ASC, ruangan_nama ASC';
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -118,8 +118,8 @@ class PPLaporankunjunganbydokterV extends LaporankunjunganbydokterV
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->select = 'count(pasien_id) as jumlah, dokter_nama as data';
-		$criteria->group = 'dokter_nama';
+		$criteria->select = "count(pasien_id) as jumlah, CONCAT_WS(' ', gelardokter,dokter_nama) as data";
+		$criteria->group = 'dokter_nama, gelardokter';
 //                $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
 		$criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
 		

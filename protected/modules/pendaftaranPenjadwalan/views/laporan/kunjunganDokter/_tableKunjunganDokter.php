@@ -55,17 +55,34 @@
           'value'=>'(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1',
           'type'=>'raw',
         ),
-       'instalasi_nama',
-       'ruangan_nama',
-        'dokter_nama',
         array(
-          'header'=>'Tanggal Pendaftaran',
-          'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+          'header'=>'Tanggal Pendaftaran <br/> / No Pendaftaran',
+          'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)." <br/> / ".$data->no_pendaftaran',
           'type'=>'raw',
         ),
         array(
-          'header'=>'No. Rekam Medis'."/"."<br/>".'No. Pendaftaran',
-          'value'=>'$data->no_rekam_medik."<br/>".$data->no_pendaftaran',
+            'header' => 'Instalasi',
+            'name' =>'instalasi_nama',
+            'value'=> '$data->instalasi_nama'
+        ),       
+        array(
+            'header' => 'Ruangan',
+            'name' =>'ruangan_nama',
+            'value'=> '$data->ruangan_nama'
+        ),              
+        array(
+            'header' => 'Dokter',
+            'value' => function ($data){
+                $dokter = PegawaiM::model()->findByPk($data->dokter_id);
+                
+                echo $dokter->namaLengkap;                
+            }
+        ),
+      //  'dokter_nama',
+        
+        array(
+          'header'=>'No. Rekam Medis',
+          'value'=>'$data->no_rekam_medik',
           'type'=>'raw',
         ),
         array(
