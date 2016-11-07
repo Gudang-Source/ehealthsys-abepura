@@ -44,3 +44,4 @@
     $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
     ?>
 </div>
+<?php $this->renderPartial('pendaftaranPenjadwalan.views.laporan.bukuRegister/_jsFunctions', array('model'=>$model));?>
