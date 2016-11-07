@@ -2,6 +2,7 @@
 
 class PPPendaftaranT extends PendaftaranT
 {
+        public $prefix_pendaftaran;
         public $is_adapjpasien = 0;
         public $is_pasienrujukan = 0;
         public $is_adakarcis = 0;
@@ -311,9 +312,11 @@ class PPPendaftaranT extends PendaftaranT
 		if($this->ceklis == 1)
 		{
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
+                        $criteria->order = "tgl_pendaftaran DESC";
 			
 		}else{
 			$criteria->addBetweenCondition('tglrenkontrol::date',$this->tgl_awalrenkon,$this->tgl_akhirrenkon);
+                        $criteria->order = "tglrenkontrol DESC";
 		}
 		
 		if(!empty($this->pendaftaran_id)){
@@ -388,7 +391,7 @@ class PPPendaftaranT extends PendaftaranT
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition("ruangan_id= ".$this->ruangan_id);			
 		}
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
 		$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
 		$criteria->compare('LOWER(no_urutantri)',strtolower($this->no_urutantri),true);
 		$criteria->compare('LOWER(transportasi)',strtolower($this->transportasi),true);
@@ -416,6 +419,7 @@ class PPPendaftaranT extends PendaftaranT
 		$criteria->compare('LOWER(pasien.nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(pasien.alamat_pasien)',strtolower($this->alamat_pasien),true);
 		$criteria->compare('statusfarmasi',$this->statusfarmasi);
+                
 
 		$criteria->limit=10;
 		

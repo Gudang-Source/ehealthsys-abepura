@@ -26,6 +26,7 @@ class InfoKontrolPasienController extends MyAuthController
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPendaftaranT']['tgl_akhir']);
             $model->tgl_awalrenkon = $format->formatDateTimeForDb($_GET['PPPendaftaranT']['tgl_awalrenkon']);
             $model->tgl_akhirrenkon = $format->formatDateTimeForDb($_GET['PPPendaftaranT']['tgl_akhirrenkon']);
+            $model->prefix_pendaftaran = $_GET['PPPendaftaranT']['prefix_pendaftaran'];
 			
             $model->ceklis = $_REQUEST['PPPendaftaranT']['ceklis'];
         }

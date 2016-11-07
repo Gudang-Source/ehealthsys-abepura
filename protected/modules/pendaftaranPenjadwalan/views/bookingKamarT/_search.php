@@ -51,12 +51,13 @@
                 <?php $model->tgl_akhir= $format->formatDateTimeForDb($model->tgl_akhir); ?>
             </div>
         </div>
-        <div class="control-group ">
-            <?php echo CHtml::activeLabel($model,'no_pendaftaran',array('class'=>'control-label')); ?>
-            <div class="controls">
-               <?php echo $form->textField($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3')); ?>
+        <div class = "control-group">
+                <?php echo Chtml::label("No Pendaftaran",'no_pendaftaran', array('class'=>'control-label')) ?>
+            <div class = "controls">
+                <?php echo $form->dropDownList($model,'prefix_pendaftaran', PendaftaranT::model()->getColumn(),array('empty'=>'-- Pilih --','class'=>'numbers-only span1')); ?>
+                <?php echo $form->textField($model, 'no_pendaftaran', array('class' => 'span3 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>
             </div>
-        </div> 
+        </div>
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model,'statusbooking',array('class'=>'control-label')); ?>
             <div class="controls">
