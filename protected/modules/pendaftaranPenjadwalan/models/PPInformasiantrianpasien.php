@@ -138,7 +138,7 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
         
         //$criteria->addCondition('t.antrian_id is not null');
         
-        $criteria->order = 't.tglantrian';
+        $criteria->order = 't.tglantrian DESC';
         
         return $criteria;
     }
