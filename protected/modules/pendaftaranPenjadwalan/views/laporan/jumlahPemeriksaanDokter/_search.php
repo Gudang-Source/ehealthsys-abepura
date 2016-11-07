@@ -28,7 +28,7 @@
         <legend class="rim"><i class="icon-white icon-search"></i> Pencarian</legend>
         <div class="row-fluid">
             <div class="span4">
-                <?php echo CHtml::label('Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
+                <?php echo CHtml::label('Periode Laporan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
                 <?php echo CHtml::hiddenField('type','',array()); ?>
                 <div class="controls">
                     <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>

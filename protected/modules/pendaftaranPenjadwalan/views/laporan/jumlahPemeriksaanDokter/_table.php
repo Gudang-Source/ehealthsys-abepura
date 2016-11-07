@@ -75,7 +75,11 @@
         ),
         array(
           'header'=>'Nama Pasien',
-          'value'=>'$data->nama_pasien',
+          'value'=>function($data){
+            $pasien = PendaftaranT::model()->find(" no_pendaftaran = '".$data->no_pendaftaran."' ");
+            
+            echo $pasien->pasien->namadepan.' '.$pasien->pasien->nama_pasien;            
+          },
           'type'=>'raw',
         ),
         array(
@@ -85,15 +89,10 @@
         ),
        
           array(
-          'header'=>'Instalasi',
-          'value'=>'$data->instalasi_nama',
+          'header'=>'Instalasi <br/> / Ruangan',
+          'value'=>'$data->instalasi_nama." <br/> / ".$data->ruangan_nama',
           'type'=>'raw',
-        ),
-        array(
-          'header'=>'Ruangan',
-          'value'=>'$data->ruangan_nama',
-          'type'=>'raw',
-        ),
+        ),        
          array(
           'header'=>'Jenis Pelayanan',
           'value'=>'$data->daftartindakan_nama',
@@ -101,7 +100,7 @@
         ),
         array(
           'header'=>'Tarif',
-          'value'=>'MyFormatter::formatNumberForPrint($data->tarif_tindakan)',
+          'value'=>'"Rp".number_format($data->tarif_tindakan,0,"",".")',
           'type'=>'raw',
           'htmlOptions'=>array(
               'style'=>'text-align: right',

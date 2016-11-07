@@ -64,8 +64,8 @@ class PPLaporanJumlahPemeriksaanDokterV extends LaporanjumlahpemeriksaandokterV
                 // should not be searched.
 
                 $criteria=new CDbCriteria;
-                $criteria->select = 'count(nama_pasien) as jumlah, dokter_nama as data';
-                $criteria->group = 'dokter_nama';
+                $criteria->select = "count(nama_pasien) as jumlah, CONCAT_WS(' ',gelardepan , dokter_nama, gelarbelakang_nama) as data";
+                $criteria->group = 'dokter_nama, gelardepan, gelarbelakang_nama';
 //                $criteria->addBetweenCondition('tgl_pendaftaran', $this->tglAwal, $this->tglAkhir);
                 $criteria->addBetweenCondition('tgl_tindakan', $this->tgl_awal, $this->tgl_akhir);
            $criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
