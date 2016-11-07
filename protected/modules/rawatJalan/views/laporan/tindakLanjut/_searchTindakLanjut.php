@@ -9,18 +9,17 @@
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'onKeyPress' => 'return disableKeyPress(event)'),
             ));
     ?>
-    <style>
-       label.checkbox{
-            width: 100px;
+     <style>
+        label.checkbox{
+            width: 250px;
             display:inline-block;
         }
     </style>
-	
     <div class="row-fluid">
         <div class="span4">
             <?php $format = new MyFormatter(); ?>
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Pasien Pulang', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -129,30 +128,22 @@
                 <td> 
                     <div id='searching'>
                     <fieldset>                 
-                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-                            'id'=>'kunjungan',
-                            'slide'=>true,
-                                                                'content'=>array(
-                                'content2'=>array(
-                                    'header'=>'Berdasarkan Tindak Lanjut',
-                                    'isi'=>'<table><tr>      
-                                                <td>Berdasarkan Tindak Lanjut &nbsp; '.CHtml::checkBox('cek_all', true, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).'<td></tr></table>
-                                                <table id="tindak_lanjut_tbl">
-						<tr>
-							<td>'.
-								$form->checkBoxList($model, 'carakeluar', LookupM::getItems('carakeluar'), array(
-									'value'=>'pengunjung',
-									'empty' => '-- Pilih --',
-									'onkeypress' => "return $(this).focusNextInputField(event)")
-								)
-							.'</td>
-						</tr>
-						</table>',            
-                                        'active'=>true,
-                                    ),
-                            ),
-//                                    'htmlOptions'=>array('class'=>'aw',)
-                    )); ?>
+                        <?php
+                        $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
+                            'id' => 'big',
+//                            'parent'=>false,
+//                            'disabled'=>true,
+//                            'accordion'=>false, //default
+                            'content' => array(
+                                'content1' => array(
+                                    'header' => 'Berdasarkan Tindak Lanjut',
+                                    'isi' => '<table>'
+                                    . '<td>'.CHtml::checkBox('cek_all', true, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).' Pilih Semua</td></tr></table>'
+                                    . '        <table style = "width:100%;" id="tindak_lanjut_tbl"> <tr><td>' .$form->checkBoxList($model, 'carakeluar', CarakeluarM::model()->getCaraKeluar(), array('value' => 'pengunjung', 'empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")).'</td></tr></table>'
+                                   , 'active' => false,  )
+                              )  )
+                            );
+                        ?>
                     </fieldset>					
 			</td>
                 </tr>
