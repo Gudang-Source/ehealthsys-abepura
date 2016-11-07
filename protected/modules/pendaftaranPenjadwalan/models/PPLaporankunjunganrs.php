@@ -97,7 +97,7 @@ class PPLaporankunjunganrs extends LaporankunjunganrsV {
     public function searchTable() {
         $criteria = new CDbCriteria();
         $criteria = $this->functionCriteria();
-        $criteria->order = 'instalasi_nama, ruangan_nama';
+        $criteria->order = 'tgl_pendaftaran ASC';
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -147,7 +147,7 @@ class PPLaporankunjunganrs extends LaporankunjunganrsV {
     {
         $criteria = new CDbCriteria();
         $criteria = $this->functionCriteria();
-        $criteria->order = 'instalasi_nama, ruangan_nama';
+        $criteria->order = 'tgl_pendaftaran ASC';
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,

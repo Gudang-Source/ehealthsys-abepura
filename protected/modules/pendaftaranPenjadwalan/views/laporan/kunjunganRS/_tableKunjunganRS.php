@@ -59,9 +59,9 @@
             'header' => 'Nama Pasien',
             'value' => '$data->namadepan." ".$data->nama_pasien'
         ),
-        'nama_pasien',
+     //   'nama_pasien',
         'alamat_pasien',
-        'jeniskelamin',
+       // 'jeniskelamin',
         'umur',
         array(
             'header' => 'Instalasi <br> / Ruangan',

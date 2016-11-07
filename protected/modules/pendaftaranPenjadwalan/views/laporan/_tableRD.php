@@ -127,15 +127,23 @@ if (isset($caraPrint)){
             array(
                'header'=>'Nama Dokter UGD',
                'type'=>'raw',
-               'value'=>'$data->nama_pegawai',
+               'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),
-            array(
-               'header'=>'Ket. Pulang',
-               'type'=>'raw',
-               'value'=>'$data->nama_pegawai',
-               'htmlOptions'=>array('style'=>'text-align: center')
-            ),
+         array(
+                   'header'=>'Ket. Pulang',
+                   'type'=>'raw',
+                   //'value'=>'$data->nama_pegawai',
+                    'value' => function ($data){
+                        $cek = PasienpulangT::model()->find(" pendaftaran_id  = '".$data->pendaftaran_id."' ");
+                        if (count($cek)>0){
+                            echo $cek->keterangankeluar;
+                        }else{
+                            echo "-";
+                        }
+                    },
+                   'htmlOptions'=>array('style'=>'text-align: center')
+                ),
             array(
                'name'=>'statusperiksa',
                'type'=>'raw',

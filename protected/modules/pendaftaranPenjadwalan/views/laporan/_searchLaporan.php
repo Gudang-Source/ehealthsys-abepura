@@ -48,7 +48,7 @@
                      
                     <?php echo CHtml::hiddenField('type', ''); ?>
                       <div class="control-group ">
-                            <?php echo Chtml::label('Tgl. Kunjungan', 'tglKunjungan', array('class' => 'control-label')) ?>
+                            <?php echo Chtml::label('Periode Laporan', 'tglKunjungan', array('class' => 'control-label')) ?>
                             <div class="controls">
                                 <?php
                                 $this->widget('MyDateTimePicker', array(

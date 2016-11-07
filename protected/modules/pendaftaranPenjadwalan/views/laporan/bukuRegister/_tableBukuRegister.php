@@ -61,7 +61,7 @@
         ),
 //        'NamaNamaBIN',        
         'umur',
-        'jeniskelamin',
+      //  'jeniskelamin',
         'nama_perujuk',
         array(
                'header'=>'CaraBayar / <br/> Penjamin',
