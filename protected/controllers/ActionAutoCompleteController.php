@@ -2895,4 +2895,31 @@ class ActionAutoCompleteController extends Controller
             
 	}
         
+        public function actionJenisKegiatan()
+	{
+            if(Yii::app()->request->isAjaxRequest) {                
+                
+                $criteria = new CDbCriteria();
+                $criteria->compare('LOWER(jeniskegiatan_nama)', strtolower($_GET['term']), true);                
+                $criteria->order = 'jeniskegiatan_nama';
+                $criteria->limit = 10;
+                $models = JeniskegiatanM::model()->findAll($criteria);
+                
+                foreach($models as $i=>$model)
+                {
+                    $attributes = $model->attributeNames();
+                    foreach($attributes as $j=>$attribute) {
+                        $returnVal[$i]["$attribute"] = $model->$attribute;
+                    }
+                    $returnVal[$i]['label'] = $model->jeniskegiatan_nama.' - '.$model->jeniskegiatan_ruangan;
+                    $returnVal[$i]['value'] = $model->jeniskegiatan_nama;
+                }
+
+                echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
+            
+            
+	}
+        
 }

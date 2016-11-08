@@ -67,7 +67,8 @@
                             'header' => 'Ruangan Jenis Kegiatan',
                             'name' => 'jeniskegiatan_ruangan',
                             'value' => '$data->jeniskegiatan_ruangan',
-                            'filter' => Chtml::activeTextField($model, 'jeniskegiatan_ruangan', array('class'=>'custom-only'))
+                            //'filter' => Chtml::activeTextField($model, 'jeniskegiatan_ruangan', array('class'=>'custom-only'))
+                            'filter' => Chtml::activeDropDownList($model, 'jeniskegiatan_ruangan', LookupM::getItems('jeniskegiatan'), array('empty'=>'-- Pilih --'))
                     ),                    
                     array(
                         'header'=>'<center>Status</center>',
