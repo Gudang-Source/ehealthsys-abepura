@@ -209,9 +209,10 @@ class InfostokobatalkesruanganV extends CActiveRecord
 		$criteria=new CDbCriteria;                
                 $criteria->select = "obatalkes_nama, obatalkes_id";
 		$criteria->compare('ruangan_id',Yii::app()->user->ruangan_id);		
-                $criteria->compare('LOWER(obatalkes_golongan)',$this->obatalkes_golongan, TRUE);		
-                $criteria->compare('LOWER(obatalkes_kategori)',$this->obatalkes_golongan, TRUE);
-                $criteria->compare('jenisobatalkes_id',$this->jenisobatalkes_id);
+                $criteria->compare('LOWER(obatalkes_golongan)', strtolower($this->obatalkes_golongan), TRUE);		
+                $criteria->compare('LOWER(obatalkes_kategori)', strtolower($this->obatalkes_golongan), TRUE);
+                $criteria->compare('LOWER(obatalkes_nama)', strtolower($this->obatalkes_nama), TRUE);
+                $criteria->compare('jenisobatalkes_id',$this->jenisobatalkes_id);//obatalkes_nama
                 $criteria->group = "obatalkes_nama, obatalkes_id";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
