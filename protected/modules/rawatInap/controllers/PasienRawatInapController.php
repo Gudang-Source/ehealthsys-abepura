@@ -778,7 +778,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
             $modPasienRIV = new RIPasienRawatInapV;
             $modMasukKamar = new RIMasukKamarT;
 
-            $modPindahKamar->tglpindahkamar = date('Y-m-d');
+            $modPindahKamar->tglpindahkamar = date('d M Y');
             $modPindahKamar->jampindahkamar = date('H:i:s');
             $tersimpan = 'Tidak';
 
@@ -809,6 +809,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                     $this->refresh();
                 }else{
                     $modPindahKamar->attributes = $_POST['RIPindahkamarT'];
+                    $modPindahKamar->tglpindahkamar = $format->formatDateTimeForDb($_POST['RIPindahkamarT']['tglpindahkamar'])." ".$modPindahKamar->jampindahkamar;
                     $pendaftaran_id = ((isset($_POST['RIPindahkamarT']['pendaftaran_id'])) ? $_POST['RIPindahkamarT']['pendaftaran_id'] : null);
                     $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
 
@@ -864,6 +865,13 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                         
                         /* update_masuk_kamar lama*/
                         $modMasukKamar->pindahkamar_id = $modPindahKamar->pindahkamar_id;
+                        $modMasukKamar->tglkeluarkamar = $modPindahKamar->tglpindahkamar;
+                        $modMasukKamar->jamkeluarkamar = $modPindahKamar->jampindahkamar;
+
+                        $selisihHari = CustomFunction::hitungHari($modMasukKamar->tglmasukkamar, $modMasukKamar->tglkeluarkamar);
+
+                        $modMasukKamar->lamadirawat_kamar = $selisihHari;
+                        
                         if($modMasukKamar->save())
                         {
                             /* update_pasien_admisi */
@@ -892,6 +900,8 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
 									$is_simpan = true;
 
 									/* update_kamar_ruangan */
+                                                                        //update masukkamar_id (baru) pada pindahkamar_t
+									$modPindahKamar->updateByPk($modPindahKamar->pindahkamar_id, array('masukkamar_id'=>$mod_masuk_kamar->masukkamar_id)); 
 									if(!empty($modPindahKamar->kamarruangan_id)){
 										KamarruanganM::model()->updateByPk(
 											$modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>false,'keterangan_kamar'=>Params::KETERANGANKAMAR_DIGUNAKAN)//'IN USE'

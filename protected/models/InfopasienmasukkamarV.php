@@ -545,4 +545,39 @@ class InfopasienmasukkamarV extends CActiveRecord
         {
             return CaramasukM::model()->findAllByAttributes(array('caramasuk_aktif'=>true),array('order'=>'caramasuk_nama'));
         }
+        
+        public function getFormatTanggalPendaftaran()
+        {
+            if (!empty($this->tgl_pendaftaran)){
+                return MyFormatter::formatDateTimeForUser($this->tgl_pendaftaran);
+            }else{
+                return '-';
+            }
+        }
+        
+        public function getFormatTanggalAdmisi()
+        {
+            if (!empty($this->tgladmisi)){
+                return MyFormatter::formatDateTimeForUser($this->tgladmisi);
+            }else{
+                return '-';
+            }
+        }
+        
+        public function getFormatTanggalMasukKamar()
+        {
+            if (!empty($this->tglmasukkamar)){
+                return MyFormatter::formatDateTimeForUser($this->tglmasukkamar);
+            }else{
+                return '-';
+            }
+        }
+        
+        public function getNoKamarRuangan()
+        {
+            $kamarKosong = KamarruanganM::model()->findByAttributes(
+                array('kamarruangan_id'=>$this->kamarruangan_id, 'kamarruangan_aktif'=>true)
+            );
+            return (isset($kamarKosong->kamarruangan_nokamar ) ? $kamarKosong->kamarruangan_nokamar : ""). ' - ' . (isset($kamarKosong->kamarruangan_nobed) ? $kamarKosong->kamarruangan_nobed : "");
+        } 
 }
