@@ -646,11 +646,11 @@ public function actionTerimaDokumen() {
                if($modelPulangNew->save()){      
 //                   ini digunakan untuk mengupdate masukkamar ruangan_id=>menjadi null dan kamarruangan_m  status menjadi true
                 $kamarruangan_status = true;
-                $keterangan_kamar = 'OPEN';
+                $keterangan_kamar = Params::KETERANGANKAMAR_TERSEDIA;//'OPEN'
                 $modBookingkamar = BookingkamarT::model()->findByAttributes(array('kamarruangan_id'=>$masukKamar->kamarruangan_id, 'statuskonfirmasi'=>'SUDAH KONFIRMASI', 'pasienadmisi_id'=>null));
                 if(count($modBookingkamar)>0){ 
                   $kamarruangan_status = false;
-                  $keterangan_kamar = 'BOOKING';
+                  $keterangan_kamar = Params::KETERANGANKAMAR_DIPESAN;//'BOOKING'
                 }
 				
 				// var_dump($kamarruangan_status, $keterangan_kamar); die;
@@ -687,7 +687,7 @@ public function actionTerimaDokumen() {
             $modPasienRIV = new RIPasienRawatInapV;
             $modMasukKamar = new RIMasukKamarT;
 
-            $modPindahKamar->tglpindahkamar = date('Y-m-d');
+            $modPindahKamar->tglpindahkamar = date('d M Y');
             $modPindahKamar->jampindahkamar = date('H:i:s');
             $tersimpan = 'Tidak';
 
@@ -718,6 +718,7 @@ public function actionTerimaDokumen() {
                     $this->refresh();
                 }else{
                     $modPindahKamar->attributes = $_POST['RIPindahkamarT'];
+                    $modPindahKamar->tglpindahkamar = $format->formatDateTimeForDb($_POST['RIPindahkamarT']['tglpindahkamar'])." ".$modPindahKamar->jampindahkamar;
                     $pendaftaran_id = ((isset($_POST['RIPindahkamarT']['pendaftaran_id'])) ? $_POST['RIPindahkamarT']['pendaftaran_id'] : null);
                     $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
 
@@ -767,12 +768,19 @@ public function actionTerimaDokumen() {
                         };
 						if(!empty($modPasienAdmisi->kamarruangan_id)){
 							KamarruanganM::model()->updateByPk(
-								$modPasienAdmisi->kamarruangan_id, array('kamarruangan_status'=>true,'keterangan_kamar'=>'OPEN')
+								$modPasienAdmisi->kamarruangan_id, array('kamarruangan_status'=>true,'keterangan_kamar'=>Params::KETERANGANKAMAR_TERSEDIA)//'OPEN'
 							);
 						}
                         
                         /* update_masuk_kamar lama*/
                         $modMasukKamar->pindahkamar_id = $modPindahKamar->pindahkamar_id;
+                        $modMasukKamar->tglkeluarkamar = $modPindahKamar->tglpindahkamar;
+                        $modMasukKamar->jamkeluarkamar = $modPindahKamar->jampindahkamar;
+
+                        $selisihHari = CustomFunction::hitungHari($modMasukKamar->tglmasukkamar, $modMasukKamar->tglkeluarkamar);
+
+                        $modMasukKamar->lamadirawat_kamar = $selisihHari;
+                        
                         if($modMasukKamar->save())
                         {
                             /* update_pasien_admisi */
@@ -801,9 +809,11 @@ public function actionTerimaDokumen() {
 									$is_simpan = true;
 
 									/* update_kamar_ruangan */
+                                                                        //update masukkamar_id (baru) pada pindahkamar_t
+									$modPindahKamar->updateByPk($modPindahKamar->pindahkamar_id, array('masukkamar_id'=>$mod_masuk_kamar->masukkamar_id)); 
 									if(!empty($modPindahKamar->kamarruangan_id)){
 										KamarruanganM::model()->updateByPk(
-											$modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>false,'keterangan_kamar'=>'IN USE')
+											$modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>false,'keterangan_kamar'=>Params::KETERANGANKAMAR_DIGUNAKAN)//'IN USE'
 										);
 									}
 								}else{
@@ -1043,6 +1053,12 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
 						$modPindahKamar->masukkamar_id = null; //ini di isi masukkamar baru nanti
 						if($modPindahKamar->save()){
 							$modMasukKamar->pindahkamar_id = $modPindahKamar->pindahkamar_id;
+                                                        $modMasukKamar->tglkeluarkamar = $modPindahKamar->tglpindahkamar;
+                                                        $modMasukKamar->jamkeluarkamar = $modPindahKamar->jampindahkamar;
+                                                                                                                
+                                                        $selisihHari = CustomFunction::hitungHari($modMasukKamar->tglmasukkamar, $modMasukKamar->tglkeluarkamar);
+                                                        
+                                                        $modMasukKamar->lamadirawat_kamar = $selisihHari;
 						}else{
 							$modMasukKamar->pindahkamar_id = null;
 						}
@@ -1052,12 +1068,12 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
 						if(!empty($modPasienAdmisi->kamarruangan_id)){
 							//echo "Kick1"; die;
 							KamarruanganM::model()->updateByPk(
-								$modPasienAdmisi->kamarruangan_id, array('kamarruangan_status'=>true,'keterangan_kamar'=>'OPEN')
+								$modPasienAdmisi->kamarruangan_id, array('kamarruangan_status'=>true,'keterangan_kamar'=>Params::KETERANGANKAMAR_TERSEDIA)//'OPEN'
 							);
 						} else if (!empty($mk) && !empty($mk->kamarruangan_id)) {
 							//echo "Kick2"; die;
 							KamarruanganM::model()->updateByPk(
-								$mk->kamarruangan_id, array('kamarruangan_status'=>true,'keterangan_kamar'=>'OPEN')
+								$mk->kamarruangan_id, array('kamarruangan_status'=>true,'keterangan_kamar'=>Params::KETERANGANKAMAR_TERSEDIA)//'OPEN'
 							);
 						}
 						//die;
@@ -1100,7 +1116,7 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
 									if(!empty($modPindahKamar->kamarruangan_id)){
 										/* update_kamar_ruangan */
 										KamarruanganM::model()->updateByPk(
-											$modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>false,'keterangan_kamar'=>'IN USE')
+											$modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>false,'keterangan_kamar'=>Params::KETERANGANKAMAR_DIGUNAKAN)//'IN USE'
 										);
 									}
 
@@ -1587,11 +1603,11 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
                             
                             $bookingKamar = BookingkamarT::model()->findByAttributes(array('pasienadmisi_id'=>$admisi_id));
 
-                            $keterangan_kamar = 'OPEN';
+                            $keterangan_kamar = Params::KETERANGANKAMAR_TERSEDIA;//'OPEN'
                             $kamarruangan_status = true;
                             if($bookingKamar){
                               BookingkamarT::model()->updateByPk($bookingKamar->bookingkamar_id, array('pasienadmisi_id'=>null));
-                              $keterangan_kamar = 'BOOKING';
+                              $keterangan_kamar = Params::KETERANGANKAMAR_DIGUNAKAN;//'BOOKING'
                               $kamarruangan_status = false;
                             }
 
@@ -1711,7 +1727,7 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
                         if($update){
 							$kamarUpdate = true;
                             if(!empty($modelAdmisi->kamarruangan_id)){
-                                $kamarUpdate = KamarruanganM::model()->updateByPk($modelAdmisi->kamarruangan_id,array('keterangan_kamar'=>'RENCANA PULANG'));
+                                $kamarUpdate = KamarruanganM::model()->updateByPk($modelAdmisi->kamarruangan_id,array('keterangan_kamar'=>Params::KETERANGANKAMAR_RENCANA_PULANG));//'RENCANA PULANG'
                             }
                             if($kamarUpdate){
                                 $transaction->commit();
@@ -1808,13 +1824,13 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
                    PasienadmisiT::model()->updateByPk($cekidkamar->pasienadmisi_id, array('kamarruangan_id'=>$kamarruanganidupdate));
 				   // var_dump($modDataPasien->kamarruangan_id); die;
                    if(!empty($modDataPasien->kamarruangan_id)){
-						KamarruanganM::model()->updateByPk($modDataPasien->kamarruangan_id,array('kamarruangan_status'=>true, 'keterangan_kamar'=>'OPEN'));
+						KamarruanganM::model()->updateByPk($modDataPasien->kamarruangan_id,array('kamarruangan_status'=>true, 'keterangan_kamar'=>Params::KETERANGANKAMAR_TERSEDIA));//'OPEN'
 				   }
             //}
             if($modMasukKamar->save())
             {
 				if(!empty($kamarruanganidupdate)){
-					KamarruanganM::model()->updateByPk($kamarruanganidupdate, array('kamarruangan_status'=>false, 'keterangan_kamar'=>'IN USE'));
+					KamarruanganM::model()->updateByPk($kamarruanganidupdate, array('kamarruangan_status'=>false, 'keterangan_kamar'=>Params::KETERANGANKAMAR_DIGUNAKAN));//'IN USE'
 				}
                 
 				// die;
