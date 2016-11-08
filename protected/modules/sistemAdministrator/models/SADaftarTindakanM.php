@@ -5,6 +5,7 @@ class SADaftarTindakanM extends DaftartindakanM
 	
 	public $kategoritindakan_nama; //untuk pencarian / filter
 	public $kelompoktindakan_nama; //untuk pencarian / filter
+        public $jeniskegiatan_nama;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
