@@ -49,7 +49,7 @@
             array('label'=>'Kab. / Kota', 'url'=>$this->createAbsoluteUrl($controller.'/laporanKabKotaKunjunganRI'),),
             array('label'=>'Cara Masuk', 'url'=>$this->createAbsoluteUrl($controller.'/laporanCaraMasukKunjunganRI'),),
             array('label'=>'Rujukan', 'url'=>$this->createAbsoluteUrl($controller.'/laporanRujukanKunjunganRI'),),
-            array('label'=>'Rekam Medik', 'url'=>$this->createAbsoluteUrl($controller.'/laporanRKKunjunganRI'),),
+            //array('label'=>'Rekam Medik', 'url'=>$this->createAbsoluteUrl($controller.'/laporanRKKunjunganRI'),),
             array('label'=>'Kamar Ruangan', 'url'=>$this->createAbsoluteUrl($controller.'/laporanKamarRuanganKunjunganRI'),),
             array('label'=>'Keterangan Pulang', 'url'=>$this->createAbsoluteUrl($controller.'/laporanKetPulangKunjunganRI'),),
             array('label'=>'Alasan Pulang', 'url'=>$this->createAbsoluteUrl($controller.'/laporanAlasanPulangKunjunganRI'),'active'=>true),
