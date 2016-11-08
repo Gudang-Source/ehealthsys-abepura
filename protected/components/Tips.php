@@ -29,6 +29,9 @@ Class Tips
             'ulang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="entypo-arrows-ccw"></i> Ulang</div> berfungsi '
                         .' untuk mengulang kembali inputan.', 
+            'batalDialog'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
+                        .'<i class="entypo-block"></i> Batal</div> berfungsi '
+                        .' untuk membatalkan/menutup dialog box.', 
             'ulang2'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="entypo-arrows-ccw"></i> Ulang</div> berfungsi '
                         .' untuk mengulang kembali pencarian.', 
