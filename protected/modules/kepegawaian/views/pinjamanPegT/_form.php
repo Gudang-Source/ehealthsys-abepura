@@ -75,7 +75,7 @@
                         <?php echo $form->error($model, 'tgljatuhtempo'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model,'nopinjam',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model,'nopinjam',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=> TRUE)); ?>
                 
         </div>
         <div class="span4">

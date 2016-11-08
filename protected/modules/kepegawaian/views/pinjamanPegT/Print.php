@@ -94,7 +94,7 @@ $table = 'ext.bootstrap.widgets.BootGridView';
 	<tr>
 		<td><b>Tgl. Peminjaman</b></td>
 		<td>:</td>
-		<td><?php echo $format->formatDateTimeId($model->tglpinjampeg); ?></td>
+		<td><?php echo $format->formatDateTimeId(date("Y-m-d",strtotime($model->tglpinjampeg))); ?></td>
 		<td><b>Lama Pinjam</b></td>
 		<td>:</td>
 		<td><?php echo $model->lamapinjambln.' Bulan'; ?></td>
