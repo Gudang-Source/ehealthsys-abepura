@@ -1,3 +1,4 @@
+
 <div class="white-container">
     <legend class="rim2">Informasi <b>Pinjaman Pegawai</b></legend>
     <?php
@@ -20,7 +21,7 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <div class="block-tabel">
-        <h6>Tabel <b>Pinjaman Pegawai<b></h6>
+        <h6>Tabel <b>Pinjaman Pegawai</b></h6>
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'kppenggajianpeg-t-grid',
             'dataProvider'=>$model->searchTabel(),
@@ -40,11 +41,11 @@
                     'nopinjam',
                     array(
                             'name'=>'tglpinjampeg',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglpinjampeg)',
+                            'value'=>'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($data->tglpinjampeg)))',
                     ),
                     array(
                             'name'=>'tgljatuhtempo',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglpinjampeg)',
+                            'value'=>'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($data->tglpinjampeg)))',
                     ),
                     array(
                             'header'=>'Rincian Pinjaman',

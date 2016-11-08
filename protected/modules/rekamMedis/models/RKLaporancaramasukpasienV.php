@@ -217,12 +217,11 @@ class RKLaporancaramasukpasienV extends LaporancaramasukpasienV
 
        $criteria = new CDbCriteria;
         if (isset($_GET['filter'])){
-            
             if (is_array($_GET['filter'])){
-                //foreach ($_GET['filter'] as $v){
-                  //  $v = strtolower(str_replace('_',' ', $v));
-                    $criteria->addInCondition('statusmasuk', $_GET['filter']);
-                //}
+                foreach ($_GET['filter'] as $v){
+                    $v = strtolower(str_replace('_',' ', $v));
+                    $criteria->compare('LOWER(statusmasuk)', $v, false, ' or ');
+                }
             }else{
                 $criteria->compare('LOWER(statusmasuk)', strtolower($_GET['filter']));
             }
@@ -328,12 +327,11 @@ class RKLaporancaramasukpasienV extends LaporancaramasukpasienV
 
         $criteria = new CDbCriteria;
         if (isset($_GET['filter'])){
-            
             if (is_array($_GET['filter'])){
-                //foreach ($_GET['filter'] as $v){
-                  //  $v = strtolower(str_replace('_',' ', $v));
-                    $criteria->addInCondition('statusmasuk', $_GET['filter']);
-                //}
+                foreach ($_GET['filter'] as $v){
+                    $v = strtolower(str_replace('_',' ', $v));
+                    $criteria->compare('LOWER(statusmasuk)', $v, false, ' or ');
+                }
             }else{
                 $criteria->compare('LOWER(statusmasuk)', strtolower($_GET['filter']));
             }

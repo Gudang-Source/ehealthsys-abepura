@@ -98,9 +98,16 @@
 	    </div>
 	</div>
 	<div class="span4">
-		<?php echo $form->textFieldRow($model,'nopinjam',array('class'=>'span3')); ?>
-		<?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'span3')); ?>
-		<?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3')); ?>
+		<?php echo $form->textFieldRow($model,'nopinjam',array('class'=>'span3 angkahuruf-only')); ?>
+            
+                <div class = "control-group">
+                        <?php echo Chtml::label("NIP", 'nomorindukpegawai', array('class'=>'control-label')) ?>
+                    <div class = "controls">
+                        <?php echo $form->textField($model,'nomorindukpegawai',array('class'=>'span3 numbers-only', 'maxlength'=>18)); ?>
+                    </div>
+                </div>
+                       
+		<?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3 hurufs-only')); ?>
 	</div>
 
 </div>
