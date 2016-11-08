@@ -112,14 +112,14 @@ if (isset($caraPrint)){
               
            ),
             array(
-               'name'=>'CaraBayar/Penjamin',
+               'header'=>'Cara Bayar <br/> / Penjamin',
                'type'=>'raw',
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),            
             array(
                'header'=>'Instalasi <br/> / Ruangan',
-               'name'=>'ruangan_nama',
+            //   'name'=>'ruangan_nama',
                'type'=>'raw',
                'value'=>'$data->instalasi_nama." <br/> /".$data->ruangan_nama',
                'htmlOptions'=>array('style'=>'text-align: center')
@@ -145,7 +145,7 @@ if (isset($caraPrint)){
                    'htmlOptions'=>array('style'=>'text-align: center')
                 ),
             array(
-               'name'=>'statusperiksa',
+               'header'=>'Status Periksa',
                'type'=>'raw',
                'value'=>'$data->statusperiksa',
                'htmlOptions'=>array('style'=>'text-align: center')
