@@ -8,7 +8,7 @@
             <tr>
                 <td>
                     <?php echo $form->textFieldRow($model,'jeniskegiatan_kode',array('class'=>'span3 custom-only','maxlength'=>25)); ?>
-                    <?php echo $form->textFieldRow($model,'jeniskegiatan_ruangan',array('class'=>'span3 custom-only','maxlength'=>25)); ?>
+                    <?php echo $form->dropDownListRow($model,'jeniskegiatan_ruangan', LookupM::getItems('jeniskegiatan'),array('empty' => '-- Pilih --')); ?>
                 </td>
                 <td>
                     <?php echo $form->textFieldRow($model,'jeniskegiatan_nama',array('class'=>'span3 custom-only','maxlength'=>100)); ?>

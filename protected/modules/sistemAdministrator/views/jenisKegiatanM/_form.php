@@ -18,7 +18,7 @@
                     <?php echo $form->textFieldRow($model,'jeniskegiatan_nama',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($model,'jeniskegiatan_ruangan',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php echo $form->dropDownListRow($model,'jeniskegiatan_ruangan', LookupM::getItems('jeniskegiatan'),array('empty'=>'-- Pilih --','class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                 </td>
                 
             </tr>            
