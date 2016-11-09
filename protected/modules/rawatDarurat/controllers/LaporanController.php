@@ -1225,6 +1225,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->nama_pegawai = isset($_GET['RDLaporanjasainstalasi']['nama_pegawai'])?$_GET['RDLaporanjasainstalasi']['nama_pegawai']:null;
         }
         if (Yii::app()->request->isAjaxRequest) {
                     echo $this->renderPartial('rawatDarurat.views.laporan.jasaInstalasi._tableJasaInstalasi', array('model'=>$model),true);
@@ -1271,6 +1272,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->nama_pegawai = isset($_GET['RDLaporanjasainstalasi']['nama_pegawai'])?$_GET['RDLaporanjasainstalasi']['nama_pegawai']:null;
         }
         
         $caraPrint = $_REQUEST['caraPrint'];
@@ -1314,6 +1316,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->nama_pegawai = isset($_GET['RDLaporanjasainstalasi']['nama_pegawai'])?$_GET['RDLaporanjasainstalasi']['nama_pegawai']:null;
         }
                 
         $this->render('_grafik', array(
@@ -1484,6 +1487,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->kondisikeluar_id = $_GET['RDLaporanpasienmeninggalV']['kondisikeluar_id'];
         }
 
          if (Yii::app()->request->isAjaxRequest) {
@@ -1531,6 +1535,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->kondisikeluar_id = $_GET['RDLaporanpasienmeninggalV']['kondisikeluar_id'];
         }
                
         $caraPrint = $_REQUEST['caraPrint'];
@@ -1575,6 +1580,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->kondisikeluar_id = $_GET['RDLaporanpasienmeninggalV']['kondisikeluar_id'];
         }
         
         $this->render('_grafik', array(
@@ -1775,10 +1781,10 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y'); 
-        $judulLaporan = 'Laporan Pasien Meninggal';
+        $judulLaporan = 'Laporan Pasien Dirujuk';
 
         //Data Grafik
-        $data['title'] = 'Grafik Laporan Pasien Meninggal';
+        $data['title'] = 'Grafik Laporan Pasien Dirujuk';
         $data['type'] = $_REQUEST['type'];
         if (isset($_REQUEST['RDLaporanpasiendirujukV'])) {
             $model->attributes = $_REQUEST['RDLaporanpasiendirujukV'];

@@ -1122,6 +1122,32 @@ class ActionAutoCompleteController extends Controller
             Yii::app()->end();
 	}
         
+        public function actionDaftarAllDokter()
+	{
+            if(Yii::app()->request->isAjaxRequest) {
+                $criteria = new CDbCriteria();
+                $criteria->select = " pegawai_id,gelardepan, nama_pegawai, gelarbelakang_nama ";
+                $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+                $criteria->compare('ruangan_id', Yii::app()->user->getState('ruangan_id'));
+                $criteria->order = 'nama_pegawai';
+                $criteria->limit=10;
+                $criteria->group = " pegawai_id,gelardepan, nama_pegawai, gelarbelakang_nama ";
+                $models = DokterV::model()->findAll($criteria);
+                foreach($models as $i=>$model)
+                {
+                    $attributes = $model->attributeNames();
+                    foreach($attributes as $j=>$attribute) {
+                        $returnVal[$i]["$attribute"] = $model->$attribute;
+                    }
+                    $returnVal[$i]['label'] = $model->gelardepan.' '.$model->nama_pegawai.' '.$model->gelarbelakang_nama;
+                    $returnVal[$i]['value'] = $model->pegawai_id;
+                }
+
+                echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
+	}
+        
         public function actionGetDaftarTindakanVisite()
 	{
             if(Yii::app()->request->isAjaxRequest) {

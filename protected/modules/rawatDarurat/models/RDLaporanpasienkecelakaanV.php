@@ -34,6 +34,7 @@ class RDLaporanpasienkecelakaanV extends LaporanpasienkecelakaanV
     public function searchTable(){
         $criteria=new CDbCriteria;
         $criteria = $this->functionCriteria();
+        $criteria->order = "tgl_pendaftaran ASC";
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
         ));
@@ -76,7 +77,7 @@ class RDLaporanpasienkecelakaanV extends LaporanpasienkecelakaanV
         $criteria=new CDbCriteria;
 
         $criteria = $this->functionCriteria();
-
+        $criteria->order = "tgl_pendaftaran ASC";
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
         ));

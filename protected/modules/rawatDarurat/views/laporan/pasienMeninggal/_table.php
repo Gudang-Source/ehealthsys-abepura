@@ -1,4 +1,5 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $template="{summary}\n{items}\n{pager}";
 $sort = true;
@@ -7,8 +8,35 @@ if (isset($caraPrint)){
   $sort = false;
   $template = "{items}";
   $data = $model->searchPrint();
-  if ($caraPrint == 'EXCEL')
+  if ($caraPrint == 'EXCEL'){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
 }
   $data = $model->searchTables();
 ?>
@@ -29,7 +57,7 @@ if (isset($caraPrint)){
 //                'end'=>16, //indeks kolom 4
 //            ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                 array(
                     'header' => 'No',
@@ -42,19 +70,19 @@ if (isset($caraPrint)){
 //                        'filter'=>false,
 //                ),s
             array(
-                    'header'=>'Tanggal Pendaftaran/<br/>Tanggal Meninggal',
+                    'header'=>'Tanggal Pendaftaran  <br/> / No Pendaftaran',
                     'type'=>'raw',
-                    'value'=>'$data->Tanggal',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)." <br/> /  ".$data->no_pendaftaran',
                 ),
             array(
-                    'header'=>'No. Pendaftaran/<br/>No. Rekam Medis',
+                    'header'=>'Tanggal Meninggal',
                     'type'=>'raw',
-                    'value'=>'$data->RM',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_meninggal)',
                 ),
             array(
-                    'header'=>'Nama Pasien /<br/>Bin/Binti ',
+                    'header'=>'Nama Pasien',
                     'type'=>'raw',
-                    'value'=>'$data->Nama',
+                    'value'=>'$data->namadepan." ".$data->nama_pasien',
                 ),
             array( 
                     'header'=>'Alamat /<br/>RT/RW ',
@@ -62,14 +90,14 @@ if (isset($caraPrint)){
                     'value'=>'$data->Alamat',
                 ),
             array(
-                    'header'=>'Jenis Kelamin /<br/>Umur ',
+                    'header'=>'Umur ',
                     'type'=>'raw',
-                    'value'=>'$data->Umur',
+                    'value'=>'$data->umur',
                 ),
             array(
-                    'header'=>'Agama /<br/>Golongan Umur ',
+                    'header'=>'Golongan Umur ',
                     'type'=>'raw',
-                    'value'=>'$data->Agama',
+                    'value'=>'$data->golonganumur_nama',
                 ),
              'kondisipulang',
             array(

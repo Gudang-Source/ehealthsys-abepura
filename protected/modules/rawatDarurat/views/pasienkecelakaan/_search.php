@@ -29,7 +29,7 @@
         
         .checkbox input[type="checkbox"] {
             float: none;
-            margin-left: -18px;
+            margin-left: 18px;
         }
 
     </style>
@@ -37,7 +37,7 @@
 		<div class="span4">
             <?php $format = new MyFormatter(); ?>
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Kunjungan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -200,7 +200,7 @@
                                         'onkeypress' => "return $(this).focusNextInputField(event)"
                                     )) . '</td></tr><tr><td><label>Kelurahan</label></td><td>' .
                                     $form->dropDownList($model, 'kelurahan_id', array(), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")) . '</td></tr></table>',
-                                    'active' => true,
+                                    'active' => false,
                                 ),),
                         ));
                         ?> 
@@ -212,7 +212,7 @@
 	
     <div class="form-actions">
         <?php
-            echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan',
+            echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan',
                 'ajax' => array(
                  'type' => 'GET', 
                  'url' => array("/".$this->route), 
@@ -227,10 +227,10 @@
             )); 
              
             ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                         Yii::app()->createUrl($this->module->id.'/pasienkecelakaan/PasienKecelakaan'), 
                         array('class'=>'btn btn-danger',
-                              'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  
+                              'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  
              ?>
     </div>
 </div>    
