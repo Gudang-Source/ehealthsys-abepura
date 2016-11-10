@@ -1,4 +1,5 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.BootGridView';
 $template = "{summary}\n{items}\n{pager}";
 if (isset($caraPrint)){
@@ -6,6 +7,33 @@ if (isset($caraPrint)){
   if ($caraPrint=='EXCEL') {
     $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
+  
 } else{
   $data = $model->searchTable();
 }
@@ -15,7 +43,7 @@ if (isset($caraPrint)){
     'dataProvider'=>$data,
 //    'filter'=>$model,
 	'template'=>$template,
-	'itemsCssClass'=>'table table-striped table-condensed',
+	'itemsCssClass'=>$itemCssClass,
     'columns'=>array(
         array(
             'header' => 'No',
@@ -23,23 +51,27 @@ if (isset($caraPrint)){
         ),
 		array(
             'header' => 'Tanggal Di Rujuk',
-            'value' => '$data->tgldirujuk',
+            'value' => 'MyFormatter::formatDateTimeForUser($data->tgldirujuk)',
 		),
         array(
-            'header' => 'No.Pendaftaran/ No.Rekam Medik',
-            'value' => '$data->NoPenNoRM',
+            'header' => 'No Pendaftaran',
+            'value' => '$data->no_pendaftaran',
+		),
+        array(
+            'header' => 'No Rekam Medik',
+            'value' => '$data->no_rekam_medik',
 		),
         array(
             'header' => 'Nama Pasien',
-            'value' => '$data->NamaBin',
+            'value' => '$data->namadepan." ".$data->nama_pasien',
 		),
         array(
-            'header' => 'Alamat RT/RW',
-            'value' => '$data->alamatRtRw',
+            'header' => 'Alamat',
+            'value' => '$data->alamat_pasien',
 		),
         array(
-            'header' => 'Jenis kelamin / Umur',
-            'value' => '$data->jenisKelaminUmur',
+            'header' => 'Umur',
+            'value' => '$data->umur',
 		),
         array(
             'header' => 'Cara bayar/ Penjamin',

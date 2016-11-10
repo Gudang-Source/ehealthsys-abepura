@@ -12,6 +12,13 @@ class PersalinanTController extends MyAuthController {
             'condition'=>'pasienadmisi_id is null'
         ));
         $modPersalinan = PSPersalinanT::model()->with(array('pendaftaran','pegawai'))->findAllByAttributes(array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id, 'pasien_id'=>$modPasien->pasien_id));
+        $modGinekologi = PSPemeriksaanginekologiT::model()->findByAttributes(array(
+            'pendaftaran_id'=>$id,
+        ), array(
+            'condition'=>'pasienadmisi_id is null'
+        ));
+        $modDetails = null;
+        
         $format = new MyFormatter;
 
         if (count($modPersalinan) > 0) {
@@ -30,6 +37,7 @@ class PersalinanTController extends MyAuthController {
             $model = new PSPersalinanT;
             $model->tglmulaipersalinan = date('d M Y H:i:s');
             $model->tglabortus = date('d M Y H:i:s');
+            $model->pegawai_id = $modPendaftaran->pegawai_id;
         }
         
         if (empty($modPemeriksaan)) {
@@ -37,6 +45,15 @@ class PersalinanTController extends MyAuthController {
         } else {
             if (!empty($modPemeriksaan->obs_periksadalam)) $modPemeriksaan->obs_periksadalam = MyFormatter::formatDateTimeForUser($modPemeriksaan->obs_periksadalam);
             if (!empty($modPemeriksaan->plasenta_lahir)) $modPemeriksaan->plasenta_lahir = MyFormatter::formatDateTimeForUser($modPemeriksaan->plasenta_lahir);
+        }
+        
+        if (empty($modGinekologi)){
+            $modGinekologi = new PSPemeriksaanginekologiT;
+            $modRiwayatKelahiran = null;
+            
+            $modGinekologi->tglperiksaobgyn = date("d M Y H:i:s");
+        }else{
+            $modRiwayatKelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");            
         }
 
 
@@ -104,7 +121,14 @@ class PersalinanTController extends MyAuthController {
             }
             
         }
-        $this->render('index', array('format'=>$format,'model' => $model, 'modPendaftaran'=>$modPendaftaran, 'modPasien'=>$modPasien, 'modPersalinan'=>$modPersalinan, 'modPemeriksaan'=>$modPemeriksaan));
+        $this->render('index', array('format'=>$format,'model' => $model, 
+            'modPendaftaran'=>$modPendaftaran, 
+            'modPasien'=>$modPasien, 
+            'modPersalinan'=>$modPersalinan, 
+            'modPemeriksaan'=>$modPemeriksaan,
+            'modGinekologi'=>$modGinekologi,
+            'modRiwayatKelahiran'=>$modRiwayatKelahiran
+                ));
     }
     
 }

@@ -19,7 +19,7 @@
         <div class="span4">
             <?php $format = new MyFormatter(); ?>
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Pasien Pulang', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -135,7 +135,7 @@
                                 'content2'=>array(
                                     'header'=>'Berdasarkan Tindak Lanjut',
                                     'isi'=>'<table><tr>      
-                                                <td>Berdasarkan Tindak Lanjut &nbsp; '.CHtml::checkBox('cek_all', true, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).'<td></tr></table>
+                                                <td>Pilih Semua &nbsp; '.CHtml::checkBox('cek_all', true, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).'<td></tr></table>
                                                 <table id="tindak_lanjut_tbl">
 						<tr>
 							<td>'.
@@ -158,7 +158,7 @@
               </table>
     <div class="form-actions">
         <?php
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan',
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan',
             'ajax' => array(
                  'type' => 'GET', 
                  'url' => array("/".$this->route), 
@@ -171,7 +171,7 @@
                                   }',
              ))); 
         ?>
-            <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+            <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>

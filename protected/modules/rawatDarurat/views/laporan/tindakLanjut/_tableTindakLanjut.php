@@ -1,4 +1,5 @@
 <?php 
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.BootGridView';
 $data = $model->searchTable();
 $sort = true;
@@ -7,8 +8,35 @@ if (isset($caraPrint)){
   $sort = false;
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
 }
 ?>
 
@@ -17,7 +45,7 @@ if (isset($caraPrint)){
         'enableSorting'=>$sort,
 	'dataProvider'=>$data,
         'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=> $itemCssClass,
 	'columns'=>array(
 //            'instalasi_nama',
 //            'carakeluar',
@@ -26,11 +54,16 @@ if (isset($caraPrint)){
                 'type'=>'raw',
                 'value'=>'(empty($data->pasienpulang_id))?"PULANG":$data->carakeluar',
             ),
-            'no_rekam_medik',
-            'nama_pasien',
             'no_pendaftaran',
+            'no_rekam_medik',
+            array(
+                'header' => 'Nama Pasien',
+                'value' => '$data->namadepan." ".$data->nama_pasien'
+            ),
+        //    'nama_pasien',
+            
             'umur',
-            'jeniskelamin',
+            //'jeniskelamin',
              array(
                 'header'=>'Nama Diagnosa',
                 'type'=>'raw',

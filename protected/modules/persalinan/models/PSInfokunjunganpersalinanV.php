@@ -40,7 +40,7 @@ class PSInfokunjunganpersalinanV extends InfokunjunganpersalinanV
 		$criteria->compare('LOWER(t.alamat_pasien)',strtolower($this->alamat_pasien),true);
 		if(!empty($this->propinsi_id)){
 			$criteria->addCondition('t.propinsi_id ='.$this->propinsi_id);
-		}
+		}                
                 $criteria->compare('t.pegawai_id', $this->pegawai_id);
                 $criteria->compare('t.kelaspelayanan_id', $this->kelaspelayanan_id);
 		$criteria->compare('LOWER(t.propinsi_nama)',strtolower($this->propinsi_nama),true);
@@ -70,6 +70,7 @@ class PSInfokunjunganpersalinanV extends InfokunjunganpersalinanV
 		$criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
 		$criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+                $criteria->addCondition(" t.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 		$criteria->order='t.tgl_pendaftaran DESC';
 
 

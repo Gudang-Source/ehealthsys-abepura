@@ -3,6 +3,7 @@
 class BKLaporanpembebasantarifV extends LaporanpembebasantarifV {
 
     public $jumlah, $tick, $data, $jns_periode, $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir;
+    public $dokter_nama;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -51,6 +52,7 @@ class BKLaporanpembebasantarifV extends LaporanpembebasantarifV {
         if(!empty($this->pegawai_id)){
                 $criteria->addCondition('pegawai_id = '.$this->pegawai_id);
         }
+        $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), TRUE);
         //$criteria->compare('ruangan_id', $this->ruangan_id);
         $criteria->compare('create_ruangan', $this->ruangan_id);
         $criteria->addBetweenCondition('tgl_tindakan', $format->formatDateTimeForDb($this->tgl_awal), $format->formatDateTimeForDb($this->tgl_akhir));
