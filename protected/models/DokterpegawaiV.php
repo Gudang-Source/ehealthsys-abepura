@@ -31,6 +31,8 @@
  */
 class DokterpegawaiV extends CActiveRecord
 {
+        public $ruangan_id;
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -194,6 +196,9 @@ class DokterpegawaiV extends CActiveRecord
                 if (!empty($this->jabatan_id)){
                     $criteria->addCondition(" t.jabatan_id = '".$this->jabatan_id."' ");
                 }
+                if (!empty($this->ruangan_id)){
+                    $criteria->addCondition(" pr.ruangan_id = '".$this->ruangan_id."' ");
+                }                
                 $criteria->group = "t.nama_pegawai,t.pegawai_id, t.jabatan_id, t.nomorindukpegawai, t.gelardepan, t.gelarbelakang_nama";
                 $criteria->order = "t.nama_pegawai ASC";
                 
