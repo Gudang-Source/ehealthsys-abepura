@@ -33,7 +33,7 @@ class PersalinanTController extends MyAuthController {
                         $model->paritaske =  (isset($model->paritaske) ?$model->paritaske:'-'); //(isset($persalinan->paritaske) ? implode('',CustomFunction::getNomorUrutText($persalinan->paritaske,$persalinan->paritaske)) :"-"); 
                     }
                 }
-        }else{
+        }else{                        
             $model = new PSPersalinanT;
             $model->tglmulaipersalinan = date('d M Y H:i:s');
             $model->tglabortus = date('d M Y H:i:s');
@@ -46,14 +46,27 @@ class PersalinanTController extends MyAuthController {
             if (!empty($modPemeriksaan->obs_periksadalam)) $modPemeriksaan->obs_periksadalam = MyFormatter::formatDateTimeForUser($modPemeriksaan->obs_periksadalam);
             if (!empty($modPemeriksaan->plasenta_lahir)) $modPemeriksaan->plasenta_lahir = MyFormatter::formatDateTimeForUser($modPemeriksaan->plasenta_lahir);
         }
+                
         
         if (empty($modGinekologi)){
-            $modGinekologi = new PSPemeriksaanginekologiT;
-            $modRiwayatKelahiran = null;
             
-            $modGinekologi->tglperiksaobgyn = date("d M Y H:i:s");
-        }else{
-            $modRiwayatKelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");            
+            $modGinekologi = PSPemeriksaanginekologiT::model()->findByAttributes(array(
+            'pendaftaran_id'=>$id, 'pasienadmisi_id' => $modPendaftaran->pasienadmisi_id
+            ));
+            
+            if (empty($modGinekologi)){
+                $modGinekologi = new PSPemeriksaanginekologiT;
+                $modRiwayatKelahiran = null;
+
+                $modGinekologi->tglperiksaobgyn = date("d M Y H:i:s");
+            }else{
+                $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForUser($modGinekologi->tglperiksaobgyn);
+                $modRiwayatKelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");            
+            }
+                       
+        }else{           
+            $modRiwayatKelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");                        
+            $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForUser($modGinekologi->tglperiksaobgyn);
         }
 
 
@@ -104,12 +117,85 @@ class PersalinanTController extends MyAuthController {
                         $modPemeriksaan->plasenta_lahir = (empty($modPemeriksaan->plasenta_lahir)?null:$format->formatDateTimeForDb($modPemeriksaan->plasenta_lahir));
                         $modPemeriksaan->obs_periksadalam = (empty($modPemeriksaan->obs_periksadalam)?null:$format->formatDateTimeForDb($modPemeriksaan->obs_periksadalam));
                     }
+                                      
                     
                     // var_dump($modPemeriksaan->attributes, $modPemeriksaan->validate(), $modPemeriksaan->errors); die;
                     if ($modPemeriksaan->save()) {
-                        $trans->commit();
-                        Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
-                        $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                        
+                         //Pemeriksaan Ginekologi
+                        foreach ($_POST['PSPemeriksaanginekologiT'] as $key=>$val) {
+                            $modGinekologi[$key] = $val;
+                        }
+                    
+                         
+                        if ($modGinekologi->isNewRecord) {
+                            $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForDb($modGinekologi->tglperiksaobgyn);
+                            $modGinekologi->pasien_id = $modPendaftaran->pasien_id;
+                            $modGinekologi->pendaftaran_id = $modPendaftaran->pendaftaran_id;  
+                            if (!empty($modPendaftaran->pasienadmisi_id)){
+                                $modGinekologi->pasienadmisi_id = $modPendaftaran->pasienadmisi_id; 
+                            }
+                            $modGinekologi->create_time = date('Y-m-d H:i:s');
+                            $modGinekologi->create_loginpemakai_id = Yii::app()->user->id;
+                            $modGinekologi->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                        }else{
+                            $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForDb($modGinekologi->tglperiksaobgyn);
+                            $modGinekologi->update_time = date('Y-m-d H:i:s');
+                            $modGinekologi->update_loginpemakai_id = Yii::app()->user->id;
+                        }
+                        
+                        //$successRiwayatKelahiran = false;
+                        if ($modGinekologi->save()){
+                            
+                            //Riwayat Kelahiran
+                            if (isset($_POST['PSRiwayatkelahiranT'])){
+                                $cekRiwayatkelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+                                
+                                //if ( count($_POST['PSRiwayatkelahiranT']) != count($cekRiwayatkelahiran) ){
+                                    $hapusRiwayatKelahiran = PSRiwayatkelahiranT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
+                                    foreach($_POST['PSRiwayatkelahiranT'] as $i=>$item)
+                                    {
+                                        if(is_integer($i)) {
+                                            $modRiwayatKelahiran=new PSRiwayatkelahiranT;
+                                            if(isset($_POST['PSRiwayatkelahiranT'][$i])){
+                                                $modRiwayatKelahiran->attributes=$_POST['PSRiwayatkelahiranT'][$i];                                           
+                                                $modRiwayatKelahiran->pemeriksaanginekologi_id = $modGinekologi->pemeriksaanginekologi_id;                                            
+
+                                                if($modRiwayatKelahiran->save()) {                                                                                                
+                                                   $successRiwayatKelahiran = true;
+                                                } else {
+                                                   $successRiwayatKelahiran = false; 
+                                                }
+
+                                            }
+                                        }
+                                    }
+
+                                    if ($successRiwayatKelahiran){                                                                
+                                        $trans->commit();
+                                        Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                                        $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                                    }else{
+                                        $trans->rollback();
+                                        Yii::app()->user->setFlash('error',"Data Riwayat Persalinan gagal disimpan ");
+                                    }
+                              /*  }else{
+                                    $trans->commit();
+                                    Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                                    $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                                }*/
+                                
+                            }else{
+                                $trans->commit();
+                                Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                                $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                            }
+                        
+                            
+                        }else{
+                            $trans->rollback();
+                            Yii::app()->user->setFlash('error',"Data Pemeriksaan Ginekologi gagal disimpan ");
+                        }
                     }else {
                         $trans->rollback();
                         Yii::app()->user->setFlash('error',"Data gagal disimpan ");
