@@ -67,12 +67,12 @@
                     <div class="control-group ">
                         <?php echo Chtml::label(" Riwayat Kelahiran ", 'anak_ke', array('class' => 'control-label')) ?>
                         <div class="controls">
-                            <?php
-                            echo Chtml::textField('tambah_anak_ke', '', array('style'=>'text-align:right;', 'class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 4));
+                            <?php                            
+                            echo Chtml::textField('tambah_anak_ke', '', array('style'=>'text-align:right;', 'class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 2));
                             echo ' Keterangan '.Chtml::textField('tambah_keterangan', '', array('class'=>'span4 angkahuruf-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             echo ' &nbsp; ';
                             echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', 
-                                array('onclick' => 'inputRiwayatkelahiran();return false;',
+                                array('onclick' => 'inputRiwayatKelahiran();',
                                     'class' => 'btn btn-primary',
                                     'onkeypress' => "return $(this).focusNextInputField(event)",
                                     'rel' => "tooltip",
@@ -122,7 +122,7 @@
                         <?php echo $form->labelEx($modGinekologi, 'gin_siklushaid_hari', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modGinekologi, 'gin_siklushaid_hari', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 4)).' Hari';
+                            echo $form->textField($modGinekologi, 'gin_siklushaid_hari', array('style'=>'text-align:right;','class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 4)).' Hari';
                             ?> 
                             <?php echo $form->error($modGinekologi, 'gin_siklushaid_hari'); ?>
                         </div>
@@ -203,6 +203,21 @@
 <script>
     function inputRiwayatKelahiran()
     {
-        
+       var tambah_anak_ke = $("#tambah_anak_ke").val();
+       var tambah_keterangan = $("#tambah_keterangan").val(); 
+       var no = $("#riwayatkelahiran tbody").find("tr").length;              
+       
+       $('#riwayatkelahiran tbody').append("<tr>\n\
+                                                <td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkelahiranT_"+(no+1)+"_anak_ke' name = 'PSRiwayatkelahiranT["+(no+1)+"][anak_ke]' value = '"+tambah_anak_ke+"' >"+tambah_anak_ke+"</td>"+
+                                               "<td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkelahiranT_"+(no+1)+"_keterangan' name = 'PSRiwayatkelahiranT["+(no+1)+"][keterangan]' value = '"+tambah_keterangan+"' >"+tambah_keterangan+"</td>\n\
+                                            </tr>");
+    
+       resetRiwayat();
+    }
+    
+    function resetRiwayat()
+    {
+        $("#tambah_anak_ke").val('');
+        $("#tambah_keterangan").val('');
     }
 </script>
