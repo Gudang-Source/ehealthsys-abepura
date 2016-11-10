@@ -110,7 +110,8 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
        // $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('t.instalasi_id = '.Yii::app()->user->getState('instalasi_id'));        
-        $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));        
+        $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id')); 
+        $criteria->addCondition(" t.statusperiksa != '".Params::STATUSPERIKSA_SUDAH_PULANG."' ");
         $criteria->with = array('pendaftaran');
 
         //$criteria->condition = 'pasienpulang.pendaftaran_id = t.pendaftaran_id';
@@ -268,7 +269,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
 		if(!empty($this->kelaspelayanan_id)){
 			$criteria->addCondition("kelaspelayanan_id = ".$this->kelaspelayanan_id);		
 		}
-        $criteria->compare('LOWER(kelaspelayanan_nama)', strtolower($this->kelaspelayanan_nama), true);
+        $criteria->compare('LOWER(kelaspelayanan_nama)', strtolower($this->kelaspelayanan_nama), true);        
         $criteria->order = 'tgl_pendaftaran ASC';
 
         return new CActiveDataProvider($this, array(
