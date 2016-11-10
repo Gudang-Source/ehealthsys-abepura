@@ -147,12 +147,19 @@ class PersalinanTController extends MyAuthController {
                         //$successRiwayatKelahiran = false;
                         if ($modGinekologi->save()){
                             
+                            $cekRiwayatkelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+                                                            
+                            if (!empty($cekRiwayatkelahiran)){
+                                $hapusRiwayatKelahiran = PSRiwayatkelahiranT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
+                            }
                             //Riwayat Kelahiran
                             if (isset($_POST['PSRiwayatkelahiranT'])){
-                                $cekRiwayatkelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+                                    $cekRiwayatkelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
                                 
-                                //if ( count($_POST['PSRiwayatkelahiranT']) != count($cekRiwayatkelahiran) ){
-                                    $hapusRiwayatKelahiran = PSRiwayatkelahiranT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
+                                    //if ( count($_POST['PSRiwayatkelahiranT']) != count($cekRiwayatkelahiran) ){
+                                    if (!empty($cekRiwayatkelahiran)){
+                                        $hapusRiwayatKelahiran = PSRiwayatkelahiranT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
+                                    }
                                     foreach($_POST['PSRiwayatkelahiranT'] as $i=>$item)
                                     {
                                         if(is_integer($i)) {
