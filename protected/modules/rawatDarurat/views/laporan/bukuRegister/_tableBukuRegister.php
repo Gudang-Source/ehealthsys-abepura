@@ -1,4 +1,5 @@
 <?php 
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.BootGridView';
 $data = $model->searchTable();
 $sort=true;
@@ -9,6 +10,33 @@ if (isset($caraPrint)){
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
+  
 }
 ?>
 
@@ -17,31 +45,32 @@ if (isset($caraPrint)){
 	'enableSorting'=>$sort,
 	'dataProvider'=>$data,
 	'template'=>$template,
-	'itemsCssClass'=>'table table-striped table-condensed',
+	'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
 //            'instalasi_nama',
+                array(
+			'header'=>'No. Pendaftaran',
+			'value'=>'$data->no_pendaftaran',
+		),
 		array(
 			'header'=>'No. Rekam Medik',
 			'value'=>'$data->no_rekam_medik',
 		),
 			// 'NamaNamaBIN',
 		array(
-			   'header'=>'Nama / Nama Bin',
-			   'value'=>'$data->NamaNamaBIN',
+			   'header'=>'Nama',
+			   //'value'=>'$data->NamaNamaBIN',
+                           'value' => '$data->namadepan." ".$data->nama_pasien'
 
-		),  
-		array(
-			'header'=>'No. Pendaftaran',
-			'value'=>'$data->no_pendaftaran',
-		),
+		),  		
 		array(
 			'header'=>'Umur',
 			'value'=>'$data->umur',
 		),
-		array(
+		/*array(
 			'header'=>'Jenis Kelamin',
 			'value'=>'$data->jeniskelamin',
-		),
+		),*/
 		array(
 			'header'=>'Nama Perujuk',
 			'value'=>'$data->nama_perujuk',

@@ -44,6 +44,7 @@ if($sukses > 0)
         <div class="white">
     <?php echo $this->renderPartial('_formPersalinan', array('model' => $model, 'form'=>$form), true); ?>
     <?php echo $this->renderPartial('_obsterikus', array('model'=>$model,'modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
+    <?php echo $this->renderPartial('_ginekologi', array('form'=>$form, 'modRiwayatKelahiran'=>$modRiwayatKelahiran, 'modGinekologi'=>$modGinekologi), true); ?>
         </div>
     </div>
     
@@ -89,10 +90,16 @@ if($sukses > 0)
         $("#tabber li").removeClass("active");
         $(obj).addClass("active");
         if (v == 1) {
+            $("#panel-ginekologi").hide();
             $("#panel-obs").hide();
             $("#panel-persalinan").show();
         } else if (v == 2) {
+            $("#panel-ginekologi").hide();
             $("#panel-obs").show();
+            $("#panel-persalinan").hide();
+        } else if (v == 3) {
+            $("#panel-ginekologi").show();
+            $("#panel-obs").hide();
             $("#panel-persalinan").hide();
         }
     }

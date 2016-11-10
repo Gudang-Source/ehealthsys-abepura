@@ -86,11 +86,15 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'pemeriksa', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
+                            $pegawai = new CDbCriteria();
+                            $pegawai->with = array('ruanganpegawai');
+                            $pegawai->addCondition("t.pegawai_aktif = TRUE ");
+                            $pegawai->addCondition("ruanganpegawai.ruangan_id = ".Yii::app()->user->getState('ruangan_id')); 
+                            $pegawai->addCondition('t.kelompokpegawai_id IN ('.Params::KELOMPOKPEGAWAI_ID_BIDAN.','.Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK.') ');
+                            $pegawai->order = 't.nama_pegawai ASC';
+                            
                             echo $form->dropDownList($modPemeriksaan, 'obs_pemeriksa', 
-                                    CHtml::listData(DokterV::model()->findAllByAttributes(array(
-                                        'pegawai_aktif'=>true,
-                                        'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
-                                    ), array('order'=>'nama_pegawai')), 'namaLengkap', 'namaLengkap'),
+                                    CHtml::listData(PSPegawaiM::model()->findAll($pegawai), 'namaLengkap', 'namaLengkap'),
                                     array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, 'obs_pemeriksa'); ?>

@@ -471,6 +471,9 @@ Class Params
         
         const TIPE_PENGHAAPUSAN_PENJUALAN = 'penjualan';
         
+        const STATUS_PERKAWINAN_KAWIN = 'KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
+        const STATUS_PERKAWINAN_TIDAK_KAWIN = 'TIDAK KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
+        
         
 	//===   END KONSTANTA ===
         

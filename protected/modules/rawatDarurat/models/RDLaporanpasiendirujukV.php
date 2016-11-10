@@ -12,7 +12,7 @@ class RDLaporanpasiendirujukV extends LaporanpasiendirujukV{
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
         $criteria->select = 'count(tgl_pendaftaran) as jumlah, rumahsakitrujukan as data';
-        $criteria->group = 'tgl_pendaftaran, rumahsakitrujukan';
+        $criteria->group = 'rumahsakitrujukan';
         
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -22,6 +22,7 @@ class RDLaporanpasiendirujukV extends LaporanpasiendirujukV{
 
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
+        $criteria->order = "tgl_pendaftaran ASC";
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'pagination'=>false,
@@ -31,6 +32,7 @@ class RDLaporanpasiendirujukV extends LaporanpasiendirujukV{
 
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
+        $criteria->order = "tgl_pendaftaran ASC";
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
