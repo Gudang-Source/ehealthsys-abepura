@@ -4,6 +4,7 @@
             <tr>
                 <th style = "text-align:center;"> Anak Ke - </th>
                 <th style = "text-align:center;"> Keterangan </th>
+                <th style = "text-align:center;"> Batal </th>
             </tr>
         </thead>
         <tbody>
@@ -15,6 +16,7 @@
             <tr>   
                 <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']anak_ke', array('class'=>'', 'readonly'=>TRUE)); echo $detail->anak_ke; ?> </td>       
                 <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']keterangan', array('class'=>'', 'readonly'=>TRUE )); echo $detail->keterangan;  ?> </td>       
+                <td style = "text-align:center;"> <?php echo CHtml::link('<i class="icon-form-silang"></i>', '#', array('onclick'=>'delRow(this); return false;')) ?> </td>
             </tr>   
         <?php }
         }

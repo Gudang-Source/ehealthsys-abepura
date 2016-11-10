@@ -203,6 +203,7 @@
 <script>
     function inputRiwayatKelahiran()
     {
+       var buttonMinus = '<?php echo CHtml::link('<i class="icon-form-silang"></i>', '#', array('onclick'=>'delRow(this); return false;')) ?>'; 
        var tambah_anak_ke = $("#tambah_anak_ke").val();
        var tambah_keterangan = $("#tambah_keterangan").val(); 
        var no = $("#riwayatkelahiran tbody").find("tr").length;              
@@ -210,7 +211,8 @@
        $('#riwayatkelahiran tbody').append("<tr>\n\
                                                 <td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkelahiranT_"+(no+1)+"_anak_ke' name = 'PSRiwayatkelahiranT["+(no+1)+"][anak_ke]' value = '"+tambah_anak_ke+"' >"+tambah_anak_ke+"</td>"+
                                                "<td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkelahiranT_"+(no+1)+"_keterangan' name = 'PSRiwayatkelahiranT["+(no+1)+"][keterangan]' value = '"+tambah_keterangan+"' >"+tambah_keterangan+"</td>\n\
-                                            </tr>");
+                                                <td style='text-align:center;'>"+buttonMinus+"</td>\n\
+</tr>");
     
        resetRiwayat();
     }
@@ -219,5 +221,15 @@
     {
         $("#tambah_anak_ke").val('');
         $("#tambah_keterangan").val('');
+    }
+    
+    function delRow(obj)
+    {
+         myConfirm('Apakah Anda yakin ingin menghapus data riwayat kelahiran ini ?','Perhatian!',function(r){
+            if (r){
+                $(obj).parent().parent().remove();
+           }
+        });
+        
     }
 </script>
