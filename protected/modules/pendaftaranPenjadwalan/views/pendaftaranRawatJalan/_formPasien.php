@@ -210,7 +210,7 @@
             <?php echo $form->error($modPasien,'no_identitas_pasien'); ?>
         </div>
     </div>
-    <div class="control-group ">
+    <div class="control-group" style="margin-bottom:0px;">
         <?php echo $form->labelEx($modPasien,'nama_pasien', array('class'=>'control-label')) ?>
         <div class="controls">
             <?php echo $form->dropDownList($modPasien,'namadepan', LookupM::getItems('namadepan'),  
@@ -246,11 +246,16 @@
                                 ),
                                 'htmlOptions'=>array('placeholder'=>'Nama Lengkap Pasien','rel'=>'tooltip','title'=>'Ketik Nama untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'hurufs-only span3 '.$nama_kapital, 'onblur'=>'cekJamkespa(); $("#pemilikasuransisesuai").change();'),
                             )); 
-            ?>
-            <?php echo $form->error($modPasien,'namadepan'); ?>
-            <?php echo $form->error($modPasien,'nama_pasien'); ?>
+            ?>                        
+            <?php //echo $form->error($modPasien,'namadepan'); ?>
+            <?php //echo $form->error($modPasien,'nama_pasien'); ?>
         </div>
     </div>
+    
+   <div class="control-group " style="text-align:right">
+        <p style = "color:red;font-size:11px;">Keterangan : Sesuai Identitas Diri (tanpa tanda baca dan gelar)</p>        
+    </div>
+    
     <?php echo $form->textFieldRow($modPasien,'nama_bin',array('placeholder'=>'Alias / Nama Panggilan Pasien','class'=>'hurufs-only span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     <?php echo $form->textFieldRow($modPasien,'tempat_lahir',array('placeholder'=>'Kota/Kabupaten Kelahiran','class'=>'span3 all-caps hurufs-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
     <div class="control-group ">
