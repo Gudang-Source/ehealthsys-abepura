@@ -26,10 +26,10 @@ class PSInfokunjunganpersalinanV extends InfokunjunganpersalinanV
 
                 $criteria->addCondition('date(t.tgl_pendaftaran)::date BETWEEN \''.$this->tgl_awal.'\'::date AND \''.$this->tgl_akhir.'\'::date');
 
-                $criteria->join = 'left join pasienadmisi_t a on a.pendaftaran_id = t.pendaftaran_id';
-                
-                
-                $criteria->compare('a.kamarruangan_id', $this->kamarruangan_id);
+                if (!empty($this->kamarruangan_id)){
+                    $criteria->join = 'join pasienadmisi_t a on a.pendaftaran_id = t.pendaftaran_id';                                
+                    $criteria->compare('a.kamarruangan_id', $this->kamarruangan_id);
+                }
 		$criteria->compare('LOWER(t.tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
 		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
 		$criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
