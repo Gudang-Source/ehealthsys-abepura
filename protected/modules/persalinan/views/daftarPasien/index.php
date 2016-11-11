@@ -253,11 +253,11 @@
                                     'class'=>'bootstrap.widgets.BootButtonColumn',
                                     'template'=>'{lihat}',
                                     'buttons'=>array(
-                                                                    'lihat' => array (
-                                                                                    'label'=>"<i class='icon-form-persalinan'></i>",
-                                                                                    'options'=>array('title'=>'Persalinan'),
-                                                                                    'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
-                                                                            ),
+                                            'lihat' => array (
+                                                            'label'=>"<i class='icon-form-persalinan'></i>",
+                                                            'options'=>array('title'=>'Persalinan'),
+                                                            'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
+                                                    ),
                                             ),
                             ),
                             array(
@@ -371,15 +371,19 @@
                             ),
                             array(
                                     'header'=>'Persalinan',
-                                    'class'=>'bootstrap.widgets.BootButtonColumn',
+                                    /*'class'=>'bootstrap.widgets.BootButtonColumn',
                                     'template'=>'{lihat}',
                                     'buttons'=>array(
-                                                                    'lihat' => array (
-                                                                                    'label'=>"<i class='icon-form-persalinan'></i>",
-                                                                                    'options'=>array('title'=>'Persalinan'),
-                                                                                    'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
-                                                                            ),
-                                            ),
+                                        'lihat' => array (
+                                                        'label'=>"<i class='icon-form-persalinan'></i>",
+                                                        'options'=>array('title'=>'Persalinan'),
+                                                        'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
+                                                ),
+                                    ),*/
+                                    'type' => 'raw',
+                                    'value' => function($data){
+                                        return CHtml::link("<i class = 'icon-form-persalinan'></i>",Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id")),array('onclick'=>'return cekPegawai(); return false;'));
+                                    }
                             ),
                             array(
                                     'header'=>'Kelahiran',
@@ -808,5 +812,17 @@ function ubahDokterPeriksa(pendaftaran_id,pasienadmisi_id)
         'cache':false
     });
     return false; 
+}
+
+
+function cekPegawai(){
+    var pegawai_id = "<?php echo Yii::app()->user->getState('pegawai_id');  ?>";
+    
+    if (pegawai_id != ''){
+        return true
+    }else{
+        myAlert("Maaf, <b>Nama Pemakai (user login)</b> Anda tidak bisa untuk melakukan transaksi ini. <br> <b>'Mohon untuk menghubungi Sistem Administrator'</b>");
+        return false;
+    }
 }
 </script>
