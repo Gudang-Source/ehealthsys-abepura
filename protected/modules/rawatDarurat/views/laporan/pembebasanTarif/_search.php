@@ -128,7 +128,7 @@
                     </div>
         </div>
            
-               <table width = "100%">     
+        <table width = "100%">     
         <tr>           
             <td>
                 <div id='searching'>
@@ -254,8 +254,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
     $pegawai = new DokterpegawaiV('searchByDokter');
+    $pegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
     if (isset($_GET['DokterpegawaiV'])){
         $pegawai->attributes = $_GET['DokterpegawaiV'];
+        $pegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
