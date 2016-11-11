@@ -2,6 +2,8 @@
 
 class InformasiPembebasanTarifController extends MyAuthController{
     
+    public $path_view = "rawatJalan.views.informasiPembebasanTarif.";
+    
     public function actionIndex(){
         $model = new RJInformasipembebasantarifV('searchInformasi');
         $format = new MyFormatter();
@@ -19,7 +21,7 @@ class InformasiPembebasanTarifController extends MyAuthController{
         }
         
         
-        $this->render('index',array('model'=>$model));
+        $this->render($this->path_view.'index',array('model'=>$model));
     }
 }
 ?>
