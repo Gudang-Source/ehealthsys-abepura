@@ -10,6 +10,7 @@
             <tr>
                 <th rowspan="2">Tgl. Kunjungan/<br/>No.Pendaftaran</th>
                 <th colspan ="2"><center>Persalinan</center></th>  
+                <th colspan ="2"><center>Ginekologi</center></th>
                 <th colspan ="2"><center>Kelahiran</center></th>  
                 <th colspan ="2"><center>Anamnesis</center></th>  
                 <th rowspan ="2"><center>Pemeriksaan Fisik</center></th>  
@@ -22,6 +23,7 @@
                 <th valign='middle' rowspan="2"><center>Dirujuk Keluar</center></th>  
             </tr>
             <tr>
+                <th colspan="2"><center>&nbsp;</center></th>  
                 <th colspan="2"><center>&nbsp;</center></th>  
                 <th colspan="4"><center>&nbsp;</center></th>  
                 <th><center>Ke penunjang</center></th>  
@@ -42,6 +44,14 @@
                     <?php
                     echo CHtml::link("<i class='icon-form-persalinan'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailPersalinan",
                             array("id"=>$modKunjungan->pendaftaran_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"detailDialog","rel"=>"tooltip","title"=>"Klik untuk Detail Persalinan", "onclick"=>"var text = $(this).attr('dialog-text'); window.parent.$('#ui-dialog-title-dialogDetailData').text(text);window.parent.$('#dialogDetailData').dialog('open');", "dialog-text"=>"Riwayat Pelayanan/Persalinan")); 
+                    
+                    ?>
+                </td>
+                <td  colspan="2">
+                    <?php
+                    //var_dump(Yii::app()->controller->module->id);
+                    echo CHtml::link("<i class='icon-form-periksa'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailGinekologi",
+                            array("id"=>$modKunjungan->pendaftaran_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"detailDialog","rel"=>"tooltip","title"=>"Klik untuk Detail Ginekologi", "onclick"=>"var text = $(this).attr('dialog-text'); window.parent.$('#ui-dialog-title-dialogDetailData').text(text);window.parent.$('#dialogDetailData').dialog('open');", "dialog-text"=>"Riwayat Pelayanan/Ginekologi")); 
                     
                     ?>
                 </td>

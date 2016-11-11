@@ -332,6 +332,30 @@ class DaftarPasienController extends MyAuthController
                         'modPersalinanSearch'=>$modPersalinanSearch,
                         'modPasien'=>$modPasien));
         }
+        
+        /*awal detail riwayat pemeriksaan ginekologi        
+         */
+        public function actionDetailGinekologi($id){
+            $this->layout='//layouts/iframe';
+            $modPendaftaran = RJPendaftaranT::model()->with('carabayar','penjamin')->findByPk($id);
+            $modGinekologi = PemeriksaanginekologiT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
+            $ginekologi_id = PemeriksaanginekologiT::model()->findByAttributes(array('pendaftaran_id'=>$id));
+            if (count($ginekologi_id)>0){
+                $modRiwayatKelahiran = RiwayatkelahiranT::model()->findAllByAttributes(array('pemeriksaanginekologi_id'=>$ginekologi_id->pemeriksaanginekologi_id));
+            }else{
+                $modRiwayatKelahiran = array();
+            }
+                                                                        
+            $modPasien = RJPasienM::model()->findByPK($modPendaftaran->pasien_id);
+            $this->render('/_periksaDataPasien/_ginekologi', 
+                    array('modPendaftaran'=>$modPendaftaran, 
+                        'modGinekologi'=>$modGinekologi,
+                        'modRiwayatKelahiran'=>$modRiwayatKelahiran,                        
+                        'modPasien'=>$modPasien));
+        }
+        
+        /*akhir detail riwayat pemeriksaan ginekologi*/
+        
 	
         /**
         * actionDetailKelahiran = menampilkan detail riwayat kelahiran bayi pasien

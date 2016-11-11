@@ -102,7 +102,7 @@ class PersalinanTController extends MyAuthController {
                     $modGinekologi->update_time = date('Y-m-d H:i:s');
                     $modGinekologi->update_loginpemakai_id = Yii::app()->user->id;
                 }
-
+                $modGinekologi->gin_keluhan = isset($_POST['PSPemeriksaanginekologiT']['gin_keluhan']) ? ((count($_POST['PSPemeriksaanginekologiT']['gin_keluhan'])>0) ? implode(', ', $_POST['PSPemeriksaanginekologiT']['gin_keluhan']) : '') : '';
                 //$successRiwayatKelahiran = false;
                 if ($modGinekologi->save()){
 
@@ -210,7 +210,7 @@ class PersalinanTController extends MyAuthController {
                         foreach ($_POST['PemeriksaanfisikT'] as $key=>$val) {
                             $modPemeriksaan[$key] = $val;
                         }
-
+                        
                         if ($modPemeriksaan->isNewRecord) {
                             $modPemeriksaan->pendaftaran_id = $modPendaftaran->pendaftaran_id;
                             $modPemeriksaan->pegawai_id = $modPendaftaran->pegawai_id;
@@ -260,6 +260,24 @@ class PersalinanTController extends MyAuthController {
             'modGinekologi'=>$modGinekologi,
             'modRiwayatKelahiran'=>$modRiwayatKelahiran
                 ));
+    }
+    
+    public function actionRiwayatKelahiranKeluhan() 
+    {
+        if (Yii::app()->request->isAjaxRequest){
+            $criteria = new CDbCriteria;
+            $criteria->compare('LOWER(gin_keluhan)', strtolower($_GET['tag']),true);
+            $criteria->order = "gin_keluhan ASC";
+            $keluhans = RiwayatkelahiranT::model()->findAll($criteria);
+            $data = array();
+            foreach ($keluhans as $i => $keluhan) {
+                $data[$i] = array('key'=>$keluhan->gin_keluhan,
+                                  'value'=>$keluhan->gin_keluhan);
+            }
+
+            echo CJSON::encode($data);
+        }
+        Yii::app()->end();
     }
     
 }

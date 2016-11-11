@@ -24,7 +24,7 @@
                             <?php echo $form->error($modGinekologi, 'obs_periksadalam'); ?>
                         </div>
                     </div>
-                    
+                    <?php /*
                     <div class="control-group ">
                         <?php echo $form->labelEx($modGinekologi, 'gin_keluhan', array('class' => 'control-label')) ?>
                         <div class="controls">
@@ -32,6 +32,34 @@
                             echo $form->textField($modGinekologi, 'gin_keluhan', array('style'=>'width:215px;','class'=>'angkahuruf-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?> 
                             <?php echo $form->error($modGinekologi, 'gin_keluhan'); ?>
+                        </div>
+                    </div>
+                    */ ?>
+                    
+                    <div class="control-group ">
+                        <?php echo $form->labelEx($modGinekologi, 'gin_keluhan', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                                $this->widget('application.extensions.FCBKcomplete.FCBKcomplete',array(
+                                    'model'=>$modGinekologi,
+                                    'attribute'=>'gin_keluhan',
+                                    'data'=> explode(',', $modGinekologi->gin_keluhan),   
+                                    'debugMode'=>true,
+                                    'options'=>array(
+                                        //'bricket'=>false,
+                                        'json_url'=>$this->createUrl('RiwayatKelahiranKeluhan'),
+                                        'addontab'=> true, 
+                                        'maxitems'=> 10,
+                                        'input_min_size'=> 0,
+                                        'cache'=> true,
+                                        'newel'=> true,
+                                        'addoncomma'=>true,
+                                        'select_all_text'=> "", 
+                                        'autoFocus'=>true,
+                                    ),
+                                ));
+                            ?>
+                            <?php echo $form->error($modGinekologi, 'keluhanutama'); ?>
                         </div>
                     </div>
                     
