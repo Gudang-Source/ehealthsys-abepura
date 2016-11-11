@@ -128,7 +128,7 @@
                     </div>
         </div>
            
-        <table width = "100%">     
+          <table width = "100%">     
         <tr>           
             <td>
                 <div id='searching'>
@@ -217,6 +217,7 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
 ?>
 
 <script type="text/javascript">
+     
     $(document).ready(function(){
         jQuery('#dokternama').autocomplete({'showAnim':'fold','minLength':2,'focus':function( event, ui ) {
         $("#idSupplier").val( ui.item.pegawai_id);
@@ -283,11 +284,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'header' => 'NIP',
                         'name' => 'nomorindukpegawai',
+                        'filter' => Chtml::activeTextField($pegawai, 'nomorindukpegawai',array('class'=>'numbers-only'))
                     ),
                     array(
                         'name'=>'nama_pegawai',
                         'header'=>'Nama Dokter',
-                        'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama'
+                        'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                        'filter' => Chtml::activeTextField($pegawai, 'nama_pegawai',array('class'=>'hurufs-only'))
                     ),                    
                     array(
                         'header' => 'Jabatan',
@@ -304,7 +307,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter' => Chtml::activeDropDownList($pegawai, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll(" jabatan_aktif = TRUE ORDER BY jabatan_nama ASC "), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --')),                        
                     ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                                . '$(".numbers-only").keyup(function() {
+                                    setNumbersOnly(this);
+                                });
+                                $(".angkahuruf-only").keyup(function() {
+                                    setAngkaHuruOnly(this);
+                                });'
+                                . ''
+                                . '}',
     ));
 
 $this->endWidget();

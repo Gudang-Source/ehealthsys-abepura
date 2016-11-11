@@ -207,7 +207,16 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
             jQuery(\'#RJInfokunjunganrjV_tgl_pendaftaran\').datepicker(jQuery.extend({showMonthAfterYear:false}, jQuery.datepicker.regional[\'id\'], {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
                 \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
-                \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'}));
+                $(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
+            $(".angkahuruf-only").keyup(function() {
+                setAngkaHuruOnly(this);
+            });
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });
         }',
 ));
 
