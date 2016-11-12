@@ -22,8 +22,8 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
             <td><?php echo CHtml::activeTextField($modPasienRIV, 'tgl_pendaftaran', array('readonly'=>true)); ?></td>
             
             <td>  <div class="control-label"> <?php echo CHtml::label('No. Rekam Medik <font style = "color:red">*</font>', 'no_rekam_medik',array('class'=>'')); ?> </div></td>
-            <td>
-                <?php $this->widget('MyJuiAutoComplete',array(
+            <td> <?php echo CHtml::activeTextField($modPasienRIV, 'no_rekam_medik', array('readonly'=>true)); ?>
+                <?php /*$this->widget('MyJuiAutoComplete',array(
                         'model'=>$modPasienRIV,
                         'attribute'=>'no_rekam_medik',
                         'value'=>'',
@@ -79,7 +79,7 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
                             'onkeypress'=>"return $(this).focusNextInputField(event);",
                         ),
                         'tombolDialog'=>array('idDialog'=>'dialogDaftarPasien','idTombol'=>'tombolPasienDialog'),
-                 )); ?>
+                 ));*/ ?>
             </td>
         </tr>
         <tr>
@@ -316,8 +316,13 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
         if(isset($modPindahKamar->pindahkamar_id)){
     ?>
         var params = [];
-        params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'Pindah Kamar', isinotifikasi:'<?php echo $modPasienRIV->nama_pasien; ?> dengan No. RM <?php echo $modPasienRIV->no_rekam_medik; ?> telah pindah kamar pada <?php echo $modPindahKamar->tglpindahkamar ?> ke <?php echo $modPindahKamar->ruangan->ruangan_nama ?>'}; // 16 
-        insert_notifikasi(params);
+        //params = {instalasi_id:<?php //echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php //echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'Pindah Kamar', isinotifikasi:'<?php //echo $modPasienRIV->nama_pasien; ?> dengan No. RM <?php //echo $modPasienRIV->no_rekam_medik; ?> telah pindah kamar pada <?php //echo $modPindahKamar->tglpindahkamar ?> ke <?php //echo $modPindahKamar->ruangan->ruangan_nama ?>'}; // 16         
+      //  params = {
+       //             instalasi_id:[<?php //echo Yii::app()->user->getState("instalasi_id"); ?>]
+      //          ,   modul_id:<?php //echo Yii::app()->session['modul_id']; ?>, 
+       //             judulnotifikasi:'PASIEN PINDAH KAMAR', isinotifikasi:'<?php //echo $modPasienRIV->no_rekam_medik.' '.$modPasienRIV->namadepan.' '.$modPasienRIV->nama_pasien; ?>, <?php //echo $modMasukKamar->kamarruangan->kamarruangan_nokamar.' '.$modMasukKamar->kamarruangan->kamarruangan_nobed.' - '.$modPindahKamar->kamarruangan->kamarruangan_nokamar.' '.$modPindahKamar->kamarruangan->kamarruangan_nobed; ?>  <br/>\n\
+     //               <?php //echo MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($modPindahKamar->masukkamar->create_time))).' '.LoginpemakaiK::model()->findByPk($modPindahKamar->masukkamar->create_loginpemakai_id)->nama_pemakai ?>'}; // 16         
+      //  insert_notifikasi(params);
     <?php            
         }
     ?>

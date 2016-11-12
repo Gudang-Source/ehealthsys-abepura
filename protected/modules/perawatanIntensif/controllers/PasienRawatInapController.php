@@ -948,6 +948,8 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
 			$modMasukKamar = RIMasukKamarT::model()->findByPk(
 				$modPasienRIV->masukkamar_id
 			);
+                        
+                        $kamar_asal = (count($modMasukKamar)>0)?$modMasukKamar->kamarruangan->kamarruangan_nokamar.' '.$modMasukKamar->kamarruangan->kamarruangan_nobed:'-';
 
 			$modPindahKamar->pasien_id=$modPasienRIV->pasien_id;
 			$modPindahKamar->pendaftaran_id=$modPasienRIV->pendaftaran_id;
@@ -1150,6 +1152,40 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
 						if($is_simpan)
 						{
 							$tersimpan = 'Ya';
+                                                        
+                                                        //notifikasi pindah kamar ke ruangan tujuan
+                                                        $nama_pemakai = LoginpemakaiK::model()->findByPk($mod_masuk_kamar->create_loginpemakai_id);
+                                                        $tujuan = RuanganM::model()->findByPk($modPindahKamar->ruangan_id);
+                                                        $modul = ModulK::model()->find(" modul_nama ilike '%".$tujuan->instalasi->instalasi_nama."%' ");
+                                                        
+                                                        if ($modPindahKamar->ruangan_id != Yii::app()->user->getState('ruangan_id')){
+                                                            $judul = 'PASIEN PINDAH KAMAR';
+                                                            $isi = $modPasienRIV->no_rekam_medik.' '.$modPasienRIV->namadepan.' '.$modPasienRIV->nama_pasien.', '.strtoupper($kamar_asal.' - '.$modPindahKamar->kamarruangan->kamarruangan_nokamar.' '.$modPindahKamar->kamarruangan->kamarruangan_nobed).'<br/>'
+                                                                    . MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($mod_masuk_kamar->create_time))).', '.$nama_pemakai->nama_pemakai;
+                                                            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                                                                array(  'instalasi_id'=>$tujuan->instalasi_id, 
+                                                                        'ruangan_id'=> $tujuan->ruangan_id , 
+                                                                        'modul_id'=>$modul->modul_id ),                                    
+                                                            ));  
+                                                            
+                                                            $judul = 'PASIEN PINDAH KAMAR';
+                                                            $isi = $modPasienRIV->no_rekam_medik.' '.$modPasienRIV->namadepan.' '.$modPasienRIV->nama_pasien.', '.strtoupper($kamar_asal.' - '.$modPindahKamar->kamarruangan->kamarruangan_nokamar.' '.$modPindahKamar->kamarruangan->kamarruangan_nobed).'<br/>'
+                                                                    . MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($mod_masuk_kamar->create_time))).', '.$nama_pemakai->nama_pemakai;
+                                                            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                                                                array(  'instalasi_id'=> Yii::app()->user->getState('instalasi_id'), 
+                                                                        'ruangan_id'=> Yii::app()->user->getState('ruangan_id') , 
+                                                                        'modul_id'=> Yii::app()->session['modul_id'] ),                                    
+                                                            ));  
+                                                        }else{
+                                                           $judul = 'PASIEN PINDAH KAMAR';
+                                                            $isi = $modPasienRIV->no_rekam_medik.' '.$modPasienRIV->namadepan.' '.$modPasienRIV->nama_pasien.', '.strtoupper($kamar_asal.' - '.$modPindahKamar->kamarruangan->kamarruangan_nokamar.' '.$modPindahKamar->kamarruangan->kamarruangan_nobed).'<br/>'
+                                                                    . MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($mod_masuk_kamar->create_time))).', '.$nama_pemakai->nama_pemakai;
+                                                            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                                                                array(  'instalasi_id'=> Yii::app()->user->getState('instalasi_id'), 
+                                                                        'ruangan_id'=> Yii::app()->user->getState('ruangan_id') , 
+                                                                        'modul_id'=> Yii::app()->session['modul_id'] ),                                    
+                                                            ));  
+                                                        }
 
 							// SMS GATEWAY
 							/*
@@ -1786,13 +1822,15 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
         $ruangan_id = Yii::app()->user->getState('ruangan_id');
         if(isset($masukkamar_id)){
             $modMasukKamar = MasukkamarT::model()->findByPk($masukkamar_id);
+            $cekMasukKamar = MasukkamarT::model()->findByPk($masukkamar_id);
         }else{
             $modMasukKamar = new MasukkamarT();
         }
         $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
         $modPasienAdmisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
 
-        $modMasukKamar->ruangan_id = (isset($kamarruangan_id) ? $modMasukKamar->ruangan_id : $ruangan_id);
+        $modMasukKamar->ruangan_id = (!empty($modMasukKamar->ruangan_id) ? $modMasukKamar->ruangan_id : $ruangan_id);//$kamarruangan_id
+        
         $modMasukKamar->tglmasukkamar = date('Y-m-d H:i:s');
         $modMasukKamar->jammasukkamar = date('H:i:s');
 
@@ -1810,9 +1848,16 @@ public function actionPindahKamarPasienRI($pendaftaran_id)
             $modMasukKamar->kelaspelayanan_id = $modPasienAdmisi->kelaspelayanan_id;
             $modMasukKamar->nomasukkamar = MyGenerator::noMasukKamar($modMasukKamar->ruangan_id);
             $modMasukKamar->shift_id = Yii::app()->user->getState('shift_id');
-            $modMasukKamar->create_time = date('Y-m-d H:i:s');
-            $modMasukKamar->create_loginpemakai_id = Yii::app()->user->id;
-            $modMasukKamar->create_ruangan = Yii::app()->user->getState('ruangan_id');
+            if (count($cekMasukKamar)>0){
+                $modMasukKamar->update_time = date('Y-m-d H:i:s');
+                $modMasukKamar->update_loginpemakai_id = Yii::app()->user->id;
+            }else{
+                $modMasukKamar->create_time = date('Y-m-d H:i:s');
+                $modMasukKamar->create_loginpemakai_id = Yii::app()->user->id;
+                $modMasukKamar->create_ruangan = Yii::app()->user->getState('ruangan_id');                
+            }
+            $modMasukKamar->tglmasukkamar = (!empty($cekMasukKamar->kamarruangan_id))?$cekMasukKamar->tglmasukkamar:date('Y-m-d H:i:s');
+            $modMasukKamar->jammasukkamar = (!empty($cekMasukKamar->kamarruangan_id))?$cekMasukKamar->jammasukkamar:date('Y-m-d H:i:s');
 
             $kamarruanganidupdate = isset($_POST['MasukkamarT']['kamarruangan_id']) ? $_POST['MasukkamarT']['kamarruangan_id'] : null;
 //            $cekidkamar = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
