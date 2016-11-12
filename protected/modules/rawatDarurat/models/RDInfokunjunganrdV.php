@@ -650,7 +650,8 @@ class RDInfokunjunganrdV extends InfokunjunganrdV {
         $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
        // $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('t.instalasi_id = '.Yii::app()->user->getState('instalasi_id'));        
-        $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));        
+        $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));   
+        $criteria->addCondition(" t.statusperiksa != '".Params::STATUSPERIKSA_SUDAH_PULANG."' ");
         $criteria->with = array('pendaftaran');
 
         //$criteria->condition = 'pasienpulang.pendaftaran_id = t.pendaftaran_id';

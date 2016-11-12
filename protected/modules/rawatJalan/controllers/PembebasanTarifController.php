@@ -259,6 +259,7 @@ class PembebasanTarifController extends MyAuthController
                     $criteria = new CDbCriteria();
                     $criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['term']), true);
                     $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+                    $criteria->addCondition(" statusperiksa != '".Params::STATUSPERIKSA_SUDAH_PULANG."' ");
                     $criteria->order = 'tgl_pendaftaran DESC';
                     $models = RJInfokunjunganrjV::model()->findAll($criteria);
                     foreach($models as $i=>$model)

@@ -55,7 +55,8 @@ class BKLaporanpembebasantarifV extends LaporanpembebasantarifV {
         $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), TRUE);
         //$criteria->compare('ruangan_id', $this->ruangan_id);
         $criteria->compare('create_ruangan', $this->ruangan_id);
-        $criteria->addBetweenCondition('tgl_tindakan', $format->formatDateTimeForDb($this->tgl_awal), $format->formatDateTimeForDb($this->tgl_akhir));
+        //var_dump($this->tgl_akhir);
+        $criteria->addBetweenCondition('tglpembebasan', $format->formatDateTimeForDb(date("Y-m-d", strtotime($this->tgl_awal))).' 00:00:00', $format->formatDateTimeForDb(date("Y-m-d", strtotime($this->tgl_akhir))).' 23:59:59');
 
         return $criteria;
     }
