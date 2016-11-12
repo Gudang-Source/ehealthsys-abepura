@@ -94,7 +94,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        $criteria->join = "LEFT JOIN pembayaranpelayanan_t pp ON pp.pembayaranpelayanan_id = t.pembayaranpelayanan_id";
 //        $criteria->addBetweenCondition('t.tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
@@ -105,13 +105,17 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(t.penjamin_nama)', strtolower($this->penjamin_nama), true);
         $criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
         if (isset($this->tgl_pendaftaran)){  
-            $criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_pendaftaran." 00:00:00", $this->tgl_pendaftaran." 23:59:59");
+            //$criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_pendaftaran." 00:00:00", $this->tgl_pendaftaran." 23:59:59");
         }
+        
         $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
        // $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('t.instalasi_id = '.Yii::app()->user->getState('instalasi_id'));        
         $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id')); 
-        $criteria->addCondition(" t.statusperiksa != '".Params::STATUSPERIKSA_SUDAH_PULANG."' ");
+        $criteria->addCondition(" t.statusperiksa = '".Params::STATUSPERIKSA_SUDAH_DIPERIKSA."' ");
+        $criteria->addBetweenCondition("t.tgl_pendaftaran", date('Y-m-d').' 00:00:00', date('Y-m-d').' 23:59:59');
+        $criteria->addCondition(" t.penjamin_id = '".Params::PENJAMIN_ID_UMUM."' ");//pembayaranpelayanan_id        
+        $criteria->addCondition(" (LOWER(pp.statusbayar) ilike  '%".Params::STATUSBAYAR_BELUM_LUNAS."%') OR (t.pembayaranpelayanan_id IS NULL) ");
         $criteria->with = array('pendaftaran');
 
         //$criteria->condition = 'pasienpulang.pendaftaran_id = t.pendaftaran_id';
