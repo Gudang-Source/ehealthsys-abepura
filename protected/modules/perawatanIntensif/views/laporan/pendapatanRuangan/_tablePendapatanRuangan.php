@@ -28,6 +28,8 @@
 
                 .border {
                     box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
                 }
 
                 .table tbody tr:hover td, .table tbody tr:hover th {
@@ -52,7 +54,7 @@
             array(
                 'name'=>'<center>Tarif</center>',
                 'start'=>7, //indeks kolom 3
-                'end'=>8, //indeks kolom 4
+                'end'=>12, //indeks kolom 4
             ),
         ),        
 	'columns'=>array(
@@ -62,19 +64,29 @@
                     'value' =>$pagination,
                 ),
                 array(
-                    'name'=>'no_rekam_medik',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
-                    'name'=>'nama_pasien',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
                     'name'=>'no_pendaftaran',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
-                    'name'=>'nama_pegawai',
+                    'name'=>'no_rekam_medik',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                ),
+                array(
+                    'header'=>'Nama Pasien',
+                    'value' => '$data->namadepan." ".$data->nama_pasien',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                ),                
+                array(
+                    'header'=>'Dokter',
+                    'value' => function($data){
+                        $p = PegawaiM::model()->findByPk($data->dokterpemeriksa1_id);
+                        
+                        if (count($p)>0){
+                            return $p->namaLengkap;
+                        }else{
+                            return '-';
+                        }
+                    },
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(

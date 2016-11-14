@@ -122,7 +122,7 @@ public function actionTerimaDokumen() {
                       
                        // 'modPasien'=>$modPasien,
                         'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                    $mpdf->Output();
+                    $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
                 }                       
          }
 

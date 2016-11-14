@@ -20,7 +20,7 @@ class RILaporanpendapatanruangan extends LaporanpendapatanruanganV {
         $criteria = new CDbCriteria;
         
         $criteria = $this->functionCriteria();
-        
+        $criteria->order = 'tgl_pendaftaran ASC';
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
