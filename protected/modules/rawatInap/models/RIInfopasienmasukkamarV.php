@@ -45,7 +45,7 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
                 }
 		//if($this->ceklis == 1)
 		//{
-			//$criteria->addBetweenCondition('tglmasukkamar::date',$this->tgl_awal,$this->tgl_akhir);
+			$criteria->addBetweenCondition('tglmasukkamar::date',$this->tgl_awal,$this->tgl_akhir);
 		//}
                 $criteria->order = "tgl_pendaftaran DESC";
 		return new CActiveDataProvider($this, array(
