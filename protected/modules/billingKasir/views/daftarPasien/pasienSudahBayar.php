@@ -263,7 +263,8 @@
                      array(
                         'header'=>'Pegawai Kasir',                        
                         'type'=>'raw',
-                        'value'=>'$data->getNamaUsername($data->petugasadministrasi_id)',
+                       // 'value'=>'$data->getNamaUsername($data->petugasadministrasi_id)',
+                         'value'=>'$data->petugasadministrasi_nama',
                         'htmlOptions'=>array('style'=>'text-align:left; width:40px'),
                     ),
                     array(

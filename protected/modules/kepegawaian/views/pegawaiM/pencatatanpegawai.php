@@ -795,8 +795,8 @@ function cekSubmit()
  * posisi script ini harus tetap dibawah
  */
 $( document ).ready(function(){
-setClearDropdownKelurahan();
-setClearDropdownKecamatan();
-cekValidasiNIP();
+//setClearDropdownKelurahan();
+//setClearDropdownKecamatan();
+//cekValidasiNIP();
 });
 </script>

@@ -33,6 +33,7 @@ class RILaporanpasienmeninggalriV extends LaporanpasienmeninggalriV {
     public function searchTable(){
         $criteria=new CDbCriteria;
         $criteria = $this->functionCriteria();
+        $criteria->order = 'tglpasienpulang ASC';
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
         ));

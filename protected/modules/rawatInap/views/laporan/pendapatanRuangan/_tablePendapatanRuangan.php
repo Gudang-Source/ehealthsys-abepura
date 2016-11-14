@@ -1,4 +1,5 @@
 <?php 
+    $itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
     $sort = true;
     $pagination = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
@@ -7,8 +8,36 @@
         $data = $model->searchPrint();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        
+        echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
+        
     } else{
         $data = $model->searchTable();
          $template = "{summary}\n{items}\n{pager}";
@@ -25,10 +54,10 @@
             array(
                 'name'=>'<center>Tarif</center>',
                 'start'=>7, //indeks kolom 3
-                'end'=>8, //indeks kolom 4
+                'end'=>12, //indeks kolom 4
             ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                 array(
                     'header' => 'No',
@@ -36,19 +65,29 @@
                     'value' =>$pagination,
                 ),
                 array(
-                    'name'=>'no_rekam_medik',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
-                    'name'=>'nama_pasien',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
                     'name'=>'no_pendaftaran',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
-                    'name'=>'nama_pegawai',
+                    'name'=>'no_rekam_medik',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                ),
+                array(
+                    'header'=>'Nama Pasien',
+                    'value' => '$data->namadepan." ".$data->nama_pasien',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                ),                
+                array(
+                    'header'=>'Dokter',
+                    'value' => function($data){
+                        $p = PegawaiM::model()->findByPk($data->dokterpemeriksa1_id);
+                        
+                        if (count($p)>0){
+                            return $p->namaLengkap;
+                        }else{
+                            return '-';
+                        }
+                    },
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
