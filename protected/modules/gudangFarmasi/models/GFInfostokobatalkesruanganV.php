@@ -228,32 +228,56 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->select = 'count(obatalkes_kode) as jumlah, obatalkes_nama as data';
-		$criteria->group = 'obatalkes_nama,obatalkes_kode';
-		if(!empty($this->jenisobatalkes_id)){
-			$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
-		}
-		$criteria->compare('LOWER(jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);
-		$criteria->compare('LOWER(obatalkes_kode)',strtolower($this->obatalkes_kode),true);
-		if(!empty($this->satuankecil_id)){
-			$criteria->addCondition('satuankecil_id = '.$this->satuankecil_id);
-		}
-		$criteria->compare('LOWER(satuankecil_nama)',strtolower($this->satuankecil_nama),true);
-		$criteria->compare('LOWER(obatalkes_nama)',strtolower($this->obatalkes_nama),true);
-		$criteria->compare('hargajual',$this->hargajual);
-		$criteria->compare('minimalstok',$this->minimalstok);
-		$criteria->compare('qtystok_in',$this->qtystok_in);
-		$criteria->compare('qtystok_out',$this->qtystok_out);
+                    
+                $filter = isset($_REQUEST['filter'])?$_REQUEST['filter']:null;
+                if ($filter == 'jenis'){
+                    $criteria->select = "(SUM(qtystok_in) - SUM(qtystok_out)) as jumlah, ( CASE WHEN jenisobatalkes_nama = '' THEN 'Jenis Obat Tidak Diketahui' ELSE jenisobatalkes_nama END) as data";
+                    $criteria->group = 'jenisobatalkes_nama';
+                }elseif ($filter == 'kategori'){
+                    $criteria->select = "(SUM(qtystok_in) - SUM(qtystok_out)) as jumlah, ( CASE WHEN obatalkes_kategori = '' THEN 'Kategori Obat Tidak Diketahui' ELSE obatalkes_kategori END) as data";
+                    $criteria->group = 'obatalkes_kategori';
+                }elseif ($filter == 'golongan'){
+                    $criteria->select = "(SUM(qtystok_in) - SUM(qtystok_out)) as jumlah, ( CASE WHEN obatalkes_golongan = '' THEN 'Golongan Obat Tidak Diketahui' ELSE obatalkes_golongan END) as data";
+                    $criteria->group = 'obatalkes_golongan';
+                }else{
+                    $criteria->select = "(SUM(qtystok_in) - SUM(qtystok_out)) as jumlah, ( CASE WHEN jenisobatalkes_nama = '' THEN 'Jenis Obat Tidak Diketahui' ELSE jenisobatalkes_nama END) as data";
+                    $criteria->group = 'jenisobatalkes_nama';
+                }
+                
+                
+		if (!empty($this->jenisobatalkes_id)){
+                    $criteria->addInCondition(" jenisobatalkes_id ", $this->jenisobatalkes_id);
+                }
+                if (!empty($this->obatalkes_kategori)){
+                    $criteria->addInCondition(" obatalkes_kategori ", $this->obatalkes_kategori);
+                }
+
+                if (!empty($this->obatalkes_golongan)){
+                    $criteria->addInCondition(" obatalkes_golongan ", $this->obatalkes_golongan);
+                }
+
+
+                $criteria->addCondition('ruangan_id = '.Yii::app()->user->ruangan_id);
+
+                if($this->qtystok_in == true){
+                    $criteria->addCondition("qtystok_in = 0 ");          
+                }
+
+                if($this->qtystok_out == true){
+                    $criteria->addCondition('qtystok_out = 0');
+
+                }
 //		$criteria->compare('qtystok_current',$this->qtystok_current);
 		$criteria->compare('LOWER(ruangan_id)',strtolower($this->ruangan_id),true);
 //                $criteria->addBetweenCondition('tglstok_in',$this->tgl_awal, $this->tgl_akhir);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                // $criteria->limit=-1; 
                // if($this->qtystok_in == null)
-                $criteria->addCondition('qtystok_in != 0');
+              //  $criteria->addCondition('qtystok_in != 0');
             
-                if($this->qtystok_out == null)
-                $criteria->addCondition('qtystok_out != 0');
+               // if($this->qtystok_out == null)
+              //  $criteria->addCondition('qtystok_out != 0');
+                $criteria->order = "jumlah DESC";
 
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$this->criteria(),
@@ -293,21 +317,32 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
             $criteria=new CDbCriteria;
 //            $criteria->with=array('obatalkes');
 //            $criteria->join = 'LEFT JOIN obatalkes_m ON obatalkes_m.obatalkes_id=stokobatalkes_t.obatalkes_id';
-            $criteria->select = 'jenisobatalkes_nama, obatalkes_kode,  obatalkes_nama, SUM(qtystok_in) AS qty_in, SUM(qtystok_out) AS qty_out, 
+            $criteria->select = 'obatalkes_kategori, obatalkes_golongan,satuankecil_nama,jenisobatalkes_nama, obatalkes_kode,  obatalkes_nama, SUM(qtystok_in) AS qty_in, SUM(qtystok_out) AS qty_out, 
                                 (SUM(hargajual) * SUM(qtystok_in)) AS totalharga, (SUM(qtystok_in) - SUM(qtystok_out)) AS qty_current';
-            $criteria->group = 'obatalkes_kode,  obatalkes_nama,jenisobatalkes_nama';//hargajual,
-			if(!empty($this->jenisobatalkes_id)){
-				$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
-			}
-            $criteria->compare('LOWER(obatalkes_nama)',strtolower($this->obatalkes_nama),true);
-            $criteria->compare('LOWER(obatalkes_kode)',strtolower($this->obatalkes_kode),true);
+            $criteria->group = 'obatalkes_kategori, obatalkes_golongan,satuankecil_nama,obatalkes_kode,  obatalkes_nama,jenisobatalkes_nama';//hargajual,
+			
+            if (!empty($this->jenisobatalkes_id)){
+                $criteria->addInCondition(" jenisobatalkes_id ", $this->jenisobatalkes_id);
+            }
+            if (!empty($this->obatalkes_kategori)){
+                $criteria->addInCondition(" obatalkes_kategori ", $this->obatalkes_kategori);
+            }
+            
+            if (!empty($this->obatalkes_golongan)){
+                $criteria->addInCondition(" obatalkes_golongan ", $this->obatalkes_golongan);
+            }
+            
+            
             $criteria->addCondition('ruangan_id = '.Yii::app()->user->ruangan_id);
             
-            if($this->qtystok_in == null)
-                $criteria->addCondition('qtystok_in != 0');
+            if($this->qtystok_in == true){
+                $criteria->addCondition("qtystok_in = 0 ");          
+            }
             
-            if($this->qtystok_out == null)
-                $criteria->addCondition('qtystok_out != 0');
+            if($this->qtystok_out == true){
+                $criteria->addCondition('qtystok_out = 0');
+                
+            }
             
             return $criteria;
         }

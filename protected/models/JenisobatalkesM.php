@@ -144,7 +144,7 @@ class JenisobatalkesM extends CActiveRecord
         }
         
         public function getItemsFarmasi(){
-            $model = $this->model()->findAllByAttributes(array('jenisobatalkes_aktif'=>true, 'jenisobatalkes_farmasi'=>true));
+            $model = $this->model()->findAllByAttributes(array('jenisobatalkes_aktif'=>true, 'jenisobatalkes_farmasi'=>true), array('order'=>'jenisobatalkes_nama ASC'));
             if(count($model) > 0){
                 return $model;
             }else{
