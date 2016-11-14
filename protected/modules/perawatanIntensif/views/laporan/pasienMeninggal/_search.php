@@ -15,12 +15,21 @@
             width: 190px;
             display:inline-block;
         }
+        
+        #penjamin label.checkbox{
+            width: 100px;
+            display:inline-block;
+        }
+        label.checkbox{
+                width:200px;
+                display:inline-block;
+        }  
 
     </style>
         <div class="row-fluid">
             <div class="span4">
                 <?php echo CHtml::hiddenField('type', ''); ?>
-                <?php echo CHtml::label('Tanggal Pasien Pulang', 'tglpasienpulang', array('class' => 'control-label')) ?>
+                <?php echo CHtml::label('Periode Laporan', 'tglpasienpulang', array('class' => 'control-label')) ?>
                 <div class="controls">
                     <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
                 </div>
@@ -135,7 +144,7 @@
 						'content2'=>array(
 							'header'=>'Berdasarkan Cara Masuk',
 							'isi'=>'<table>'
-                                                                . '<td>'.CHtml::checkBox('cek_all', false, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).' Pilih Semua</td></tr></table>
+                                                                . '<td>'.CHtml::hiddenField('filter', 'caramasuk').CHtml::checkBox('cek_all', true, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).' Pilih Semua</td></tr></table>
                                                             <table id="caramasuk"><tr>								
 								<td>'.$form->checkBoxList($model, 'caramasuk_id', CHtml::listData(CaramasukM::model()->findAll('caramasuk_aktif = true'), 'caramasuk_id', 'caramasuk_nama'), array('onkeypress' => "return $(this).focusNextInputField(event)")).'</td>
 									</tr></table>',           
@@ -146,16 +155,37 @@
                            
                         </fieldset>
                     </div>
-                </td>
+            </td>              
+                <td>
+                     <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan1',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content4'=>array(
+                                'header'=>'Berdasarkan Kondisi Pulang',
+                                'isi'=>  CHtml::hiddenField('filter', 'kondisipulang').CHtml::checkBox('cek_all', true, array("id"=>"checkSemuaid",'value'=>'cek', "onclick"=>"checkSemua()")).'Pilih Semua <br\>                                             
+                                            <table class="kondisipulang">                                            
+                                            <tr>
+                                                    <td>'.
+                                                           $form->checkBoxList($model, 'kondisikeluar_id', CHtml::listData(KondisiKeluarM::model()->findAll(" kondisikeluar_aktif = TRUE AND carakeluar_id = '".Params::CARAKELUAR_ID_MENINGGAL."' ORDER BY kondisikeluar_nama ASC"), 'kondisikeluar_id', 'kondisikeluar_nama'))
+                                                    .'</td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>false,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>	                    
+                </td>                              
             </tr>
         </table>
         <div class="form-actions">
             <?php
-            echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
+            echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
             ?>
             <?php
-            echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . ''), array('class' => 'btn btn-danger',
-                'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
+            echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="entypo-arrows-ccw"></i>')), Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . ''), array('class' => 'btn btn-danger',
+                'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
             ?>
         </div>
 </div>    
@@ -178,6 +208,22 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
         }else{
             $("#caramasuk").find("input[type=\'checkbox\']").attr("checked", false);
         }
+    }        
+    
+    function checkSemua() {
+            if ($("#checkSemuaid").is(":checked")) {
+                $('.kondisipulang input[name*="RILaporanpasienmeninggalriV"]').each(function(){
+                   $(this).attr('checked',true);
+                })
+            } else {
+               $('.kondisipulang input[name*="RILaporanpasienmeninggalriV"]').each(function(){
+                   $(this).removeAttr('checked');
+                })
+            }
+            //setAll();
     }
+    
+    cek_all_tindakan($("#cek_all"));
+    checkSemua();
 </script>
 <?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
