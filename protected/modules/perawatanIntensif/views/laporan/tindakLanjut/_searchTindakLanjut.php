@@ -18,7 +18,7 @@
     <div class="row-fluid">
         <div class="span4">
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Pasien Pulang', 'tgl_pasienpulang', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tgl_pasienpulang', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -139,7 +139,7 @@
                                     'isi' => '<table>'
                                     . '<td>'.CHtml::checkBox('cek_all', true, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).' Pilih Semua</td></tr></table>'
                                     . '        <table style = "width:100%;" id="tindak_lanjut_tbl"> <tr><td>' .$form->checkBoxList($model, 'carakeluar', CarakeluarM::model()->getCaraKeluar(), array('value' => 'pengunjung', 'empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")).'</td></tr></table>'
-                                   , 'active' => false,  )
+                                   , 'active' => true,  )
                               )  )
                             );
                         ?>      </fieldset>
