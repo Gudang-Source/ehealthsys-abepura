@@ -435,6 +435,12 @@ Class Params
         const STATUSKEHADIRAN_DINAS = 4;
         const STATUSKEHADIRAN_ALPHA = 5;
         
+        const STATUSKEHADIRAN_NAMA_HADIR = 'HADIR';
+        const STATUSKEHADIRAN_NAMA_SAKIT = 'SAKIT';
+        const STATUSKEHADIRAN_NAMA_IZIN = 'IZIN';
+        const STATUSKEHADIRAN_NAMA_DINAS = 'DINAS';
+        const STATUSKEHADIRAN_NAMA_ALPHA = 'ALPA';
+        
         const STATUSSCAN_MASUK = 1;
         const STATUSSCAN_PULANG = 2;
         const STATUSSCAN_DATANG = 4;

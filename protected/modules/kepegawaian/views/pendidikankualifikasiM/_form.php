@@ -38,14 +38,14 @@
             <div class="control-group">
                     <?php echo $form->labelEx($model,'jmlkeblaki', array('class'=>'control-label')) ?>
                     <div class="controls">
-                            <?php echo $form->textField($model,'jmlkeblaki',array('class'=>'span1 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                            <?php echo $form->textField($model,'jmlkeblaki',array('class'=>'span1 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
                              <?php echo CHtml::label('Orang','Orang') ?>
                     </div>
             </div>
             <div class="control-group">
-                    <?php echo CHtml::label('Jumlah Kebutuhan Perempuan','Jumlah Kebutuhan Perempuan', array('class'=>'control-label')) ?>
+                    <?php echo $form->labelEx($model,'jmlkebperempuan', array('class'=>'control-label')) ?>
                     <div class="controls">
-                            <?php echo $form->textField($model,'jmlkebperempuan',array('class'=>'span1 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> 
+                            <?php echo $form->textField($model,'jmlkebperempuan',array('class'=>'span1 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event);" , 'style'=>'text-align:right;')); ?> 
                             <?php echo CHtml::label('Orang','Orang') ?>
                     </div>
             </div>

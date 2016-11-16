@@ -382,16 +382,16 @@
                             if (count($pr4)>0){
                                 $waktu = date('H:i:s', strtotime($pr4->tglpresensi));
                                 if ( ($waktu >= '09:00:00') AND ($waktu <= '10:00:00')){
-                                    return StatuskehadiranM::model()->findByPk(Params::STATUSKEHADIRAN_ALPHA)->statuskehadiran_nama;
+                                    echo PresensiT::model()->getWarnaKehadiran(StatuskehadiranM::model()->findByPk(Params::STATUSKEHADIRAN_ALPHA)->statuskehadiran_nama);
                                 }else{
-                                    return $pr4->statuskehadiran->statuskehadiran_nama;
+                                    echo PresensiT::model()->getWarnaKehadiran($pr4->statuskehadiran->statuskehadiran_nama);
                                 }
                                 
                             }else{
                                 if (count($pr5)){
-                                    return $pr5->statuskehadiran->statuskehadiran_nama;
+                                    echo PresensiT::model()->getWarnaKehadiran($pr5->statuskehadiran->statuskehadiran_nama);
                                 }else{
-                                    return '-';
+                                    echo '-';
                                 }
                             }
                         }
