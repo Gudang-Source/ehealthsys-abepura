@@ -26,7 +26,7 @@
          <div class="row-fluid">
          <div class="span4">
              <?php echo CHtml::hiddenField('type', ''); ?>
-             <?php echo CHtml::label('Tanggal Pemeriksaan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Periode Laporan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($modPPInfoKunjunganV,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -153,7 +153,7 @@
         
          <div class="span12 form-actions">
             <?php
-            echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
+            echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
             ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                                         Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 

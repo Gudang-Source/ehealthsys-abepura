@@ -434,11 +434,55 @@ class PendaftaranT extends CActiveRecord
                     'condition'=>'pasienbatalpulang_id is null',
                 ));
                 
+                $pj = PasienmasukpenunjangT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$this->pendaftaran_id,
+                    'ruangan_id' => Yii::app()->user->getState('ruangan_id'),
+                    'pasienkirimkeunitlain_id' => NULL,
+                ),array('order'=>'pasienmasukpenunjang_id DESC'));
+                                   
+                
                 if (empty($a) && empty($p)) {
-                    $this->statusperiksa = $status;
+                    
+                    $this->statusperiksa = $status;                    
+                    
+                    if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_FISIOTERAPI){                                                
+                        if (count($pj)>0){                            
+                            $updateStatusPeriksa=PasienmasukpenunjangT::model()->updateByPk($pj->pasienmasukpenunjang_id,array('statusperiksa'=>$status));
+                        }
+                    }
+                    
                     return $this->save();
                 }
                 
                 return true;
+        }
+        
+        public function getColumn(){
+            $sql = " select column_name from information_schema.columns where column_name ilike 'nopendaftaran_%' AND table_name = 'konfigsystem_k' ORDER BY column_name ASC";
+            $column = Yii::app()->db->createCommand($sql)->queryAll();
+            $totCol = count($column);
+            
+            
+            $col = "";
+            $col2 = array();
+            foreach ($column as $data){
+                $col .= $data['column_name'].', ';
+                $col2[]=$data['column_name']; 
+            }
+            $col = rtrim($col, ', ');
+            
+            $criteria = new CDbCriteria();
+            $criteria->select  = " ".$col." ";
+            $hasil = KonfigsystemK::model()->find($criteria);
+                      
+            $value = array();
+            for($i=0; $i<$totCol;$i++){
+              
+                $value[$hasil->$col2[$i]]= $hasil->$col2[$i];
+                
+            }
+            
+            return $value;
+            
         }
 }

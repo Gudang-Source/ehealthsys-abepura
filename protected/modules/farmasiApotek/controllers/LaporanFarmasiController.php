@@ -10,22 +10,54 @@ class LaporanFarmasiController extends MyAuthController
     {
         $model = new FALaporanpejulanresepdokterV();
         $model->unsetAttributes();
-        $model->tgl_awal = date('d M Y');
-        $model->tgl_akhir = date('d M Y');
-        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');        
+        $format = new MyFormatter();        
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');      
+        
         if(isset($_GET['FALaporanpejulanresepdokterV']))
         {
             $model->attributes = $_GET['FALaporanpejulanresepdokterV'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_GET['FALaporanpejulanresepdokterV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['FALaporanpejulanresepdokterV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FALaporanpejulanresepdokterV']['tgl_akhir']);            
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FALaporanpejulanresepdokterV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['FALaporanpejulanresepdokterV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['FALaporanpejulanresepdokterV']['bln_akhir']);
+            $model->thn_awal = $_GET['FALaporanpejulanresepdokterV']['thn_awal'];
+            $model->thn_akhir = $_GET['FALaporanpejulanresepdokterV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
         }
-        $this->render('jasaServices/admin',array('model'=>$model));
+        $grafik = $model->searchFrameGrafikJasaServices();
+        $this->render('jasaServices/admin',array('model'=>$model, 'grafik'=>$grafik));
     }
     
     public function actionPrintLaporanJasaServices()
     {
         $model = new FALaporanpejulanresepdokterV();
+        $format = new MyFormatter();        
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id'); 
+        
         $judulLaporan = 'Laporan Jasa Services';
 
         //Data Grafik       
@@ -33,10 +65,24 @@ class LaporanFarmasiController extends MyAuthController
         $data['type'] = $_REQUEST['type'];
         $data['nama_pegawai']=LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai->nama_pegawai;
         if (isset($_REQUEST['FALaporanpejulanresepdokterV'])) {
-           $model->attributes = $_REQUEST['FALaporanpejulanresepdokterV'];
-            $format = new MyFormatter();
+            $model->attributes = $_REQUEST['FALaporanpejulanresepdokterV'];
+            $model->jns_periode = $_GET['FALaporanpejulanresepdokterV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['FALaporanpejulanresepdokterV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FALaporanpejulanresepdokterV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['FALaporanpejulanresepdokterV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['FALaporanpejulanresepdokterV']['bln_akhir']);
+            $model->thn_awal = $_GET['FALaporanpejulanresepdokterV']['thn_awal'];
+            $model->thn_akhir = $_GET['FALaporanpejulanresepdokterV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
         }
         
         $caraPrint = $_REQUEST['caraPrint'];
@@ -45,33 +91,53 @@ class LaporanFarmasiController extends MyAuthController
             $data['rincian']= true;
         }
         $target = 'jasaServices/_print';
+        $grafik = $model->searchFrameGrafikJasaServices();
         
-        $this->newPrintFunction($model, $data, $caraPrint, $judulLaporan, $target);
+        $this->newPrintFunction($model, $data, $caraPrint, $judulLaporan, $target, $grafik);
     }
     
     public function actionFrameGrafikLaporanJasaServices() {
         $this->layout = '//layouts/iframe';
-        $model = new FAPenjualanResepT();
-        $model->tgl_awal = date($this->tgl_awal);
-        $model->tgl_akhir = date($this->tgl_akhir);
+        $model = new FALaporanpejulanresepdokterV();//FAPenjualanResepT
+        $format = new MyFormatter();        
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id'); 
         
         $data['title'] = 'Grafik Laporan Jasa Services';
         $data['type'] = $_GET['type'];
         $nilai = 1;
         if(isset($_GET['FAPenjualanResepT']))
         {
-            $model->attributes = $_GET['FAPenjualanResepT'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['FAPenjualanResepT']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FAPenjualanResepT']['tgl_akhir']);
-            $model->no_rekam_medik = $_GET['FAPenjualanResepT']['no_rekam_medik'];
-            $model->nama_pasien = trim($_GET['FAPenjualanResepT']['nama_pasien']);
-            $model->no_pendaftaran = trim($_GET['FAPenjualanResepT']['no_pendaftaran']);
+            $model->attributes = $_GET['FALaporanpejulanresepdokterV'];
+            $model->jns_periode = $_GET['FALaporanpejulanresepdokterV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['FALaporanpejulanresepdokterV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FALaporanpejulanresepdokterV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['FALaporanpejulanresepdokterV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['FALaporanpejulanresepdokterV']['bln_akhir']);
+            $model->thn_awal = $_GET['FALaporanpejulanresepdokterV']['thn_awal'];
+            $model->thn_akhir = $_GET['FALaporanpejulanresepdokterV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
             
         }
+        $grafik = $model->searchFrameGrafikJasaServices();
         $this->render('_grafik', array(
             'model' => $model,
-            'data' => $data, 'nilai'=>$nilai
+            'data' => $data, 'nilai'=>$nilai, 'grafik'=>$grafik
         ));
     }
     
@@ -957,11 +1023,11 @@ class LaporanFarmasiController extends MyAuthController
     }
     /* end laporan stock opname */
      /* ============================= Keperluan function laporan ======================================== */
-    protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target){
+    protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target, $grafik=null){
         $format = new MyFormatter();
         $periode = $format->formatDateTimeForUser($model->tgl_awal).' s/d '.$format->formatDateTimeForUser($model->tgl_akhir);
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
-            $this->layout = '//layouts/printWindows';
+            $this->layout = '//layouts/printWindows2';
             $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
@@ -971,6 +1037,12 @@ class LaporanFarmasiController extends MyAuthController
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
             $mpdf->useOddEven = 2;
+            $footer = '<table width="100%"><tr>'
+                    . '<td style = "text-align:left;font-size:8px;"><i><b>Generated By Ehealthsys</b></i></td>'
+                    . '<td style = "text-align:right;font-size:8px;"><i><b>Print Count :</b></i></td>'
+                    . '</tr></table>';
+            $mpdf->SetHtmlFooter($footer,'E');
+            $mpdf->SetHtmlFooter($footer,'O');
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
@@ -979,13 +1051,13 @@ class LaporanFarmasiController extends MyAuthController
         }
     }
 
-    protected function newPrintFunction($model, $data, $caraPrint, $judulLaporan, $target){
+    protected function newPrintFunction($model, $data, $caraPrint, $judulLaporan, $target, $grafik=null){
         $format = new MyFormatter();
         $periode = $format->formatDateTimeId($model->tgl_awal).' s/d '.$format->formatDateTimeId($model->tgl_akhir);
 
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
-            $this->layout = '//layouts/printWindows';
-            $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+            $this->layout = '//layouts/printWindows2';
+            $this->render($target, array('grafik'=>$grafik,'model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
             $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
@@ -994,6 +1066,12 @@ class LaporanFarmasiController extends MyAuthController
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
             $mpdf->useOddEven = 2;
+            $footer = '<table width="100%"><tr>'
+                    . '<td style = "text-align:left;font-size:8px;"><i><b>Generated By Ehealthsys</b></i></td>'
+                    . '<td style = "text-align:right;font-size:8px;"><i><b>Print Count :</b></i></td>'
+                    . '</tr></table>';
+            $mpdf->SetHtmlFooter($footer,'E');
+            $mpdf->SetHtmlFooter($footer,'O');
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);

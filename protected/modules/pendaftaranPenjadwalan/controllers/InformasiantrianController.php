@@ -122,6 +122,8 @@ class InformasiantrianController extends MyAuthController
                         $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
                         $model->loket_id = $_GET['PPInformasiantrianpasien']['loket_id'];
                         $model->statusdaftar = $_GET['PPInformasiantrianpasien']['statusdaftar'];
+                        $model->noantrian_loket = $_GET['PPInformasiantrianpasien']['noantrian_loket'];
+                        $model->prefix_pendaftaran = $_GET['PPInformasiantrianpasien']['prefix_pendaftaran'];
                         //echo $model->tgl_awal;
                         //echo $model->tgl_akhir;
                 }

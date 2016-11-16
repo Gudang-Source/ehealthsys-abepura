@@ -22,7 +22,7 @@
 		<div class="span4">
                     <?php $format = new MyFormatter(); ?>
                     <?php echo CHtml::hiddenField('type', ''); ?>
-                    <?php echo CHtml::label('Tanggal Pemakaian', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
                     </div>
@@ -196,4 +196,4 @@ $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dip
   $("#content4").find("input[type=\'checkbox\']").attr("checked", "checked");
 ',  CClientScript::POS_READY);
 ?>
-<?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
+<?php $this->renderPartial('rawatJalan.views.laporan._jsFunctions', array('model' => $model)); ?>

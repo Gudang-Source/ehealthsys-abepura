@@ -93,7 +93,7 @@
 				}
 //                    echo $form->dropDownListRow($model,'rekperiod_id', RekperiodM::items(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'reqForm'));
 				?>
-				<?php echo $form->textFieldRow($model, 'noreferensi', array('class' => 'span3 reqForm numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
+				<?php echo $form->textFieldRow($model, 'noreferensi', array('class' => 'span3 reqForm numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
             </td>
             <td>
 				<?php echo $form->textFieldRow($model, 'nobku', array('class' => 'span3 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>

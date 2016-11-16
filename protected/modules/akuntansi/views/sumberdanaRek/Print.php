@@ -26,7 +26,7 @@ $table = 'ext.bootstrap.widgets.BootGridView';
 
 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'sumberdanarek-m-grid',
-	'dataProvider'=>$model->searchIndex('print'),
+	'dataProvider'=>$model->searchPrint(),
 //	'filter'=>$model,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -37,7 +37,7 @@ $table = 'ext.bootstrap.widgets.BootGridView';
 		),
 		array(
 			'header'=>'Sumber Dana',
-			'value'=>'$data->sumberdana->sumberdana_nama',  
+			'value'=>'$data->sumberdana_nama',  
 		),
 		array(
 			'header'=>'Rekening Debit',

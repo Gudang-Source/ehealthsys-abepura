@@ -13,7 +13,7 @@ class JurnalRekPenjaminController extends MyAuthController
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{$this->layout='//layouts/iframe';
                 $model=AKPenjaminRekM::model()->findByAttributes(array('penjamin_id'=>$id));
                 
 		$this->render('view',array(
@@ -26,7 +26,7 @@ class JurnalRekPenjaminController extends MyAuthController
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
+	{$this->layout='//layouts/iframe';
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
                 
                 $model=new AKPenjaminRekM();       
@@ -101,7 +101,7 @@ class JurnalRekPenjaminController extends MyAuthController
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{$this->layout='//layouts/iframe';
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
                 $modPenjamin = AKPenjaminpasienM::model()->findByPk($id);
                 $amodel=AKPenjaminRekM::model()->findAllByAttributes(array('penjamin_id'=>$id), array('order'=>'debitkredit'));
@@ -231,7 +231,9 @@ class JurnalRekPenjaminController extends MyAuthController
 		{
 			// we only allow deletion via POST request
                         //if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+                    
                         $model = AKPenjaminRekM::model()->deleteAllByAttributes(array('penjamin_id'=>$id));
+                      //  $this->loadDelete($id)->delete();
                         
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
@@ -256,7 +258,7 @@ class JurnalRekPenjaminController extends MyAuthController
 	 * Manages all models.
 	 */
 	public function actionAdmin($id='')
-	{
+	{$this->layout='//layouts/iframe';
                 if ($id == 1):
                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                 endif;

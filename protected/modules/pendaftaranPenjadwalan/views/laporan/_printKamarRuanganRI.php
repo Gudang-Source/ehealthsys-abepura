@@ -8,8 +8,9 @@ if($caraPrint=='EXCEL')
 }
 echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$judulLaporan, 'periode'=>$periode));  
 
-if ($caraPrint != 'GRAFIK')
+if ($caraPrint != 'GRAFIK'){
 $this->renderPartial('pendaftaranPenjadwalan.views.laporan.rawatInap._tableKamarRuanganRI', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
+}
 
 if ($caraPrint == 'GRAFIK')
 echo $this->renderPartial('pendaftaranPenjadwalan.views.laporan._grafikKamarRuanganRI', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint, 'colspan'=>9), true); 

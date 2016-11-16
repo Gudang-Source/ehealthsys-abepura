@@ -6,8 +6,8 @@ class InformasiVerifikasiAskepController extends MyAuthController {
 	{
 		$format = new MyFormatter();
 		$model = new ASInfoverifikasiaskepV('search');
-		$model->tgl_awal=date("Y-m-d");
-		$model->tgl_akhir=date("Y-m-d");
+		$model->tgl_awal=date("Y-m-d 00:00:00");
+		$model->tgl_akhir=date("Y-m-d 23:59:59");                
 //		$model->instalasi_id = Params::INSTALASI_ID_RI;
 		
 		if(isset($_GET['ASInfoverifikasiaskepV']))
@@ -15,7 +15,9 @@ class InformasiVerifikasiAskepController extends MyAuthController {
 			$model->attributes=$_GET['ASInfoverifikasiaskepV'];
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ASInfoverifikasiaskepV']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASInfoverifikasiaskepV']['tgl_akhir']);
-			$model->ruangan_id = $_GET['ASInfoverifikasiaskepV']['ruangan_id'];
+                        $model->tgl_awal = $model->tgl_awal.' 00:00:00';
+                        $model->tgl_akhir = $model->tgl_akhir.' 23:59:59';
+			//$model->ruangan_id = $_GET['ASInfoverifikasiaskepV']['ruangan_id'];
 		}
 		
 		$this->render($this->path_view.'index',array(

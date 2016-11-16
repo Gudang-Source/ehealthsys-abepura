@@ -1,15 +1,4 @@
 <?php
-$table = 'ext.bootstrap.widgets.HeaderGroupGridView';
-$sort = true;
-if (isset($caraPrint)) {
-	$data = $model->searchLaporanPrint();
-	$template = "{items}";
-	$sort = false;
-	if ($caraPrint == "EXCEL")
-		$table = 'ext.bootstrap.widgets.BootExcelGridView';
-} else {
-	
-}
 $dataArray = array();
 $header = true;
 $format = new MyFormatter();
@@ -17,17 +6,10 @@ $mergeTanggal = array();
 foreach ($models AS $row => $data) {
 	$dataArray["$data->tglperiodeposting_awal"] = $data->tglperiodeposting_awal;
 }
-$criteria = new CDbCriteria;
-		$criteria->group = 'rekening1_id,nmrekening1,kdrekening1';
-		$criteria->select = $criteria->group . " ,sum(jumlah) as jumlah";
-		$criteria->order = 'rekening1_id,nmrekening1,kdrekening1';
-		$modelLaporan = AKLaporanlabarugiV::model()->findAll($criteria);
 ?>
-
-<div id="tableLaporan" class="grid-view">
-	<table width="100%" border="1">
-		<thead>
-			<?php
+<table class="table" border="1px;">
+    <thead>
+		<?php
 		$jmlKolom = 0;
 		$jenisWaktus = array();
 		$tglKirims = array();
@@ -48,6 +30,7 @@ $criteria = new CDbCriteria;
 			} else {
 				if (!empty($models) || !empty($data)) {
 					$tglKirims[$jmlKolom]['tglperiodeposting_awal'] = $data;
+
 					echo "<th style='text-align:center'>";
 					echo MyFormatter::formatMonthForUser(date("Y-m-d", strtotime($data)));
 					echo "</th>";
@@ -60,14 +43,15 @@ $criteria = new CDbCriteria;
 		}
 		echo "</tr>";
 		?>
-		</thead>
-		<tbody>
-			<?php
-//		$criteria = new CDbCriteria;
-//		$criteria->group = 'rekening1_id,nmrekening1,kdrekening1';
-//		$criteria->select = $criteria->group . " ,sum(jumlah) as jumlah";
-//		$criteria->order = 'rekening1_id,nmrekening1,kdrekening1';
-//		$modelLaporan = AKLaporanlabarugiV::model()->findAll($criteria);
+
+    </thead>
+    <tbody>
+		<?php
+		$criteria = new CDbCriteria;
+		$criteria->group = 'rekening1_id,nmrekening1,kdrekening1';
+		$criteria->select = $criteria->group . " ,sum(jumlah) as jumlah";
+		$criteria->order = 'rekening1_id,nmrekening1,kdrekening1';
+		$modelLaporan = AKLaporanlabarugiV::model()->findAll($criteria);
 		$spasi1 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		$spasi2 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		$spasi3 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -95,15 +79,13 @@ $criteria = new CDbCriteria;
 					$kdrekening1 = '-';
 				}
 
-				echo "
-									<tr>
-										  <td colspan=2><b><i>" . $nmrekening1 . "</i></b></td>";
+				echo "<tr>
+					  	<td colspan=2><b><i>" . $nmrekening1 . "</i></b></td>";
 				for ($i = 0; $i < $jmlKolom - 1; $i++) {
 					echo "<td>";
 					echo "</td>";
 				}
-				echo " </tr>
-								";
+				echo " </tr>";
 
 				$criteria2 = new CDbCriteria;
 				$termId1 = $rekening1_id;
@@ -138,7 +120,8 @@ $criteria = new CDbCriteria;
 						} else {
 							$kdrekening2 = '-';
 						}
-
+						//	LNG-4071
+						//	LNG-5015 (dimunculin lagi)
 						echo "
 									<tr>
 										  <td colspan=2><b><i>" . $spasi1 . $nmrekening2 . "</i></b></td>";
@@ -179,7 +162,8 @@ $criteria = new CDbCriteria;
 								} else {
 									$kdrekening3 = '-';
 								}
-
+//	LNG-4071
+								//	LNG-5015 (dimunculin lagi)
 								echo "
 									<tr>
 										  <td colspan=2><b><i>" . $spasi2 . $nmrekening3 . "</i></b></td>";
@@ -238,7 +222,10 @@ $criteria = new CDbCriteria;
 
 
 											$result = Yii::app()->db->createCommand($sql)->queryRow();
+//	LNG-4071			                    
+											//	LNG-5015 (dimunculin lagi)
 											echo "<td width='150px;' style='text-align:right'>" . number_format($result['jumlah']) . "</td>";
+											// echo "<td width='150px;' style='text-align:right'></td>";
 										}
 
 
@@ -322,7 +309,7 @@ $criteria = new CDbCriteria;
 
 
 					$result = Yii::app()->db->createCommand($sql)->queryRow();
-					echo "<td width='150px;' style='text-align:right'>" . number_format($result['jumlah']) . "</td>";
+					echo "<td width='150px;' style='text-align:right'><strong>" . number_format($result['jumlah']) . "</strong></td>";
 				}
 
 
@@ -342,28 +329,40 @@ $criteria = new CDbCriteria;
 
 				for ($i = 0; $i <= $jmlKolom - 1; $i++) {
 
+//					$sql = "
+//							SELECT 
+//							coalesce(sum(jumlah),0) as jumlah
+//							FROM laporanlabarugi_v
+//							WHERE kelrekening_id = 4 AND date(tglperiodeposting_awal) = '" . $tglKirims[$i]['tglperiodeposting_awal'] . "'";
+//					LNG-3546
 					$sql = "
 							SELECT 
 							coalesce(sum(jumlah),0) as jumlah
 							FROM laporanlabarugi_v
-							WHERE kelrekening_id = 4 AND date(tglperiodeposting_awal) = '" . $tglKirims[$i]['tglperiodeposting_awal'] . "'";
-
-
+							WHERE rekening1_id = 3 AND date(tglperiodeposting_awal) = '" . $tglKirims[$i]['tglperiodeposting_awal'] . "'";
+//					-----
 					$pendapatan = Yii::app()->db->createCommand($sql)->queryRow();
+					
+//					$sql2 = "
+//							SELECT 
+//							coalesce(sum(jumlah),0) as jumlah
+//							FROM laporanlabarugi_v
+//							WHERE kelrekening_id = 5 AND date(tglperiodeposting_awal) = '" . $tglKirims[$i]['tglperiodeposting_awal'] . "'";
+//					LNG-3546
 					$sql2 = "
-												SELECT 
-												coalesce(sum(jumlah),0) as jumlah
-												FROM laporanlabarugi_v
-												WHERE kelrekening_id = 5 AND date(tglperiodeposting_awal) = '" . $tglKirims[$i]['tglperiodeposting_awal'] . "'";
-
-
+							SELECT 
+							coalesce(sum(jumlah),0) as jumlah
+							FROM laporanlabarugi_v
+							WHERE rekening1_id = 5 AND date(tglperiodeposting_awal) = '" . $tglKirims[$i]['tglperiodeposting_awal'] . "'";
+//					-----
+					
 					$beban = Yii::app()->db->createCommand($sql2)->queryRow();
 					$labarugi = $pendapatan['jumlah'] - $beban['jumlah'];
 					if ($labarugi < 0) {
 //						$labarugi = "(" . abs($labarugi) . ")";
-						echo "<td width='150px;' style='text-align:right'>(" . number_format(abs($labarugi)) . ")</td>";
+						echo "<td width='150px;' style='text-align:right'>(<strong>" . number_format(abs($labarugi)) . "</strong>)</td>";
 					} else {
-						echo "<td width='150px;' style='text-align:right'>" . number_format($labarugi) . "</td>";
+						echo "<td width='150px;' style='text-align:right'><strong>" . number_format($labarugi) . "</strong></td>";
 					}
 					
 					
@@ -375,6 +374,6 @@ $criteria = new CDbCriteria;
 
 
 		?>
-		</tbody>
-    </table>
-</div>
+    </tbody>
+
+</table>

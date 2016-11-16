@@ -6,8 +6,8 @@ class InformasiRencanaKeperawatanController extends MyAuthController {
 	{
 		$format = new MyFormatter();
 		$model = new ASInforencanaaskepV('search');
-		$model->tgl_awal=date("Y-m-d");
-		$model->tgl_akhir=date("Y-m-d");
+		$model->tgl_awal=date("Y-m-d 00:00:00");
+		$model->tgl_akhir=date("Y-m-d 23:59:59");
 //		$model->instalasi_id = Params::INSTALASI_ID_RI;
 		
 		if(isset($_GET['ASInforencanaaskepV']))
@@ -15,7 +15,9 @@ class InformasiRencanaKeperawatanController extends MyAuthController {
 			$model->attributes=$_GET['ASInforencanaaskepV'];
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ASInforencanaaskepV']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASInforencanaaskepV']['tgl_akhir']);
-			$model->ruangan_id = $_GET['ASInforencanaaskepV']['ruangan_id'];
+                        $model->tgl_awal = $model->tgl_awal.' 00:00:00';
+                        $model->tgl_akhir = $model->tgl_akhir.' 23:59:59';
+			//$model->ruangan_id = $_GET['ASInforencanaaskepV']['ruangan_id'];
 		}
 		
 		$this->render($this->path_view.'index',array(
@@ -30,7 +32,13 @@ class InformasiRencanaKeperawatanController extends MyAuthController {
 		$model = ASInforencanaaskepV::model()->findByAttributes(array('rencanaaskep_id'=>$rencanaaskep_id));
 		$model->attributes = $model;
 
-		$modPasien = ASInfopengkajianaskepV::model()->findByAttributes(array('pengkajianaskep_id' => $model->pengkajianaskep_id));
+		$modPengkajian = ASPengkajianaskepT::model()->findByPk($model->pengkajianaskep_id);
+		
+		if($modPengkajian->iskeperawatan == 1){
+			$modPasien = ASInfopengkajianaskepV::model()->findByAttributes(array('pengkajianaskep_id' => $model->pengkajianaskep_id));
+		}else{
+			$modPasien = ASInfopengkajiankebidananV::model()->findByAttributes(array('pengkajianaskep_id' => $model->pengkajianaskep_id));
+		}
 		
         $this->render($this->path_view.'_detail', array(
 			'model' => $model, 
@@ -39,10 +47,18 @@ class InformasiRencanaKeperawatanController extends MyAuthController {
 	}
 	
 	public function actionPrintDetail() {
-		$model = ASRencanaaskepT::model()->findByPk($_REQUEST['rencanaaskep_id']);
+		//$model = ASRencanaaskepT::model()->findByPk($_REQUEST['rencanaaskep_id']);
+                $model = ASInforencanaaskepV::model()->findByAttributes(array('rencanaaskep_id'=>$_REQUEST['rencanaaskep_id']));
 		$model->attributes = $model;
-//		$modPengkajian = ASPengkajianaskepT::model()->findByPk($model->pengkajianaskep_id);
-		$modPasien = ASInfopengkajianaskepV::model()->findByAttributes(array('pengkajianaskep_id'=>$model->pengkajianaskep_id));
+                $modPengkajian = ASPengkajianaskepT::model()->findByPk($model->pengkajianaskep_id);
+		
+		if($modPengkajian->iskeperawatan == 1){
+			$modPasien = ASInfopengkajianaskepV::model()->findByAttributes(array('pengkajianaskep_id' => $model->pengkajianaskep_id));
+		}else{
+			$modPasien = ASInfopengkajiankebidananV::model()->findByAttributes(array('pengkajianaskep_id' => $model->pengkajianaskep_id));
+		}
+                
+                
 
 		$modDetail = new ASRencanaaskepdetT;
 		$judulLaporan = 'Rencana Keperawatan';
@@ -57,7 +73,7 @@ class InformasiRencanaKeperawatanController extends MyAuthController {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');   //Ukuran Kertas Pdf
 			$posisi = Yii::app()->user->getState('posisi_kertas');   //Posisi L->Landscape,P->Portait
 			$mpdf = new MyPDF('', $ukuranKertasPDF);
-			$mpdf->useOddEven = 2;
+			$mpdf->mirrorMargins = 2;
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);

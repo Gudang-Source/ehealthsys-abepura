@@ -53,7 +53,7 @@
 		</div>
 		<?php echo $form->textFieldRow($model,'tarifambulans_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 		<?php echo $form->dropDownListRow($model,'kepropinsi_nama', CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
-				  array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3',
+				  array('onchange'=>'setClearDropdownKecamatan();setClearDropdownKelurahan()','empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3',
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownKabupaten',array('encode'=>false,'model_nama'=>get_class($model))),
                                             'update'=>"#".CHtml::activeId($model, 'kekabupaten_nama'),
@@ -61,22 +61,22 @@
                                 'onchange'=>"setClearDropdownKelurahan();setClearDropdownKecamatan();",));?>
 	</div>
 	<div class='span4'>
-		<?php echo $form->dropDownListRow($model,'kekabupaten_nama', CHtml::listData($model->getKabupatenItems($model->kepropinsi_nama), 'kabupaten_id', 'kabupaten_nama'),
-				  array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3',
+		<?php echo $form->dropDownListRow($model,'kekabupaten_nama', array() ,//CHtml::listData($model->getKabupatenItems($model->kepropinsi_nama), 'kabupaten_id', 'kabupaten_nama')
+				  array('onchange'=>'setClearDropdownKelurahan();','empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3',
 						'ajax'=>array('type'=>'POST',
 									'url'=>$this->createUrl('SetDropdownKecamatan',array('encode'=>false,'model_nama'=>get_class($model))),
 									'update'=>"#".CHtml::activeId($model, 'kekecamatan_nama'),
 						),
 						'onchange'=>"setClearDropdownKelurahan();",));?>
 
-		<?php echo $form->dropDownListRow($model,'kekecamatan_nama',CHtml::listData($model->getKecamatanItems($model->kekabupaten_nama), 'kecamatan_id', 'kecamatan_nama'), 
+		<?php echo $form->dropDownListRow($model,'kekecamatan_nama', array(), //CHtml::listData($model->getKecamatanItems($model->kekabupaten_nama), 'kecamatan_id', 'kecamatan_nama')
 				  array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
 						'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownKelurahan',array('encode'=>false,'model_nama'=>get_class($model))),
                                             'update'=>"#".CHtml::activeId($model, 'kekelurahan_nama')))); ?>
 
 		<?php $model->kekelurahan_nama = (!empty($model->kekelurahan_nama))?$model->kekelurahan_nama:Yii::app()->user->getState('kekelurahan_nama');?>
-		<?php echo $form->dropDownListRow($model,'kekelurahan_nama', CHtml::listData($model->getKelurahanItems($model->kekecamatan_nama), 'kelurahan_id', 'kelurahan_nama'),
+		<?php echo $form->dropDownListRow($model,'kekelurahan_nama', array(),//CHtml::listData($model->getKelurahanItems($model->kekecamatan_nama), 'kelurahan_id', 'kelurahan_nama')
 				  array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3'
 					   )); ?>
 	</div>
@@ -112,7 +112,7 @@
 		var tr = document.getElementById("TarifAmbulansM_tarifperkm").value;
 		//var tkm = tr.replace(",","")*km;
 		var tkm = tr.replace(/,/gi,"")*km;		
-		document.getElementById("TarifAmbulansM_tarifambulans").value = tkm;		
+		document.getElementById("TarifAmbulansM_tarifambulans").value = formatNumber(tkm);		
 	}
 	/** bersihkan dropdown kecamatan */
 	function setClearDropdownKecamatan()
@@ -193,3 +193,16 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 $this->endWidget();
 /* ------------------------------------------------------------------- endWidget BarangM ----------------------------------------------------------------- */
+?>
+<script type="text/javascript">	
+/** bersihkan dropdown kecamatan */
+function setClearDropdownKecamatan()
+{
+    $("#<?php echo CHtml::activeId($model,"kekecamatan_nama");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+}
+/** bersihkan dropdown kelurahan */
+function setClearDropdownKelurahan()
+{
+    $("#<?php echo CHtml::activeId($model,"kekelurahan_nama");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+}
+</script>

@@ -151,7 +151,7 @@ class PesanbarangTController extends MyAuthController
                                   //  die;
                                     if ($success == true){
                                         $transaction->commit();
-                                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                       // Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                                         $this->redirect(array('index','id'=>$model->pesanbarang_id,'sukses'=>1));
                                     }
                                     else{

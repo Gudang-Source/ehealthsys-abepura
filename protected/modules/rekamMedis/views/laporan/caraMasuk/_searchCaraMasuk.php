@@ -20,7 +20,7 @@
     <div class="row-fluid">
          <div class="span4">
              <?php echo CHtml::hiddenField('type', ''); ?>
-             <?php echo CHtml::label('Tanggal Kunjungan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Periode Laporan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -247,5 +247,15 @@ $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dip
             $("#rujukan").find("input[type=\'checkbox\']").attr("checked", false);
         }
     }
-    
+    function checkAll(){
+        if($('#checkAllRuangan').is(':checked')){
+           $('#searchLaporan input[name*="ruangan_id"]').each(function(){
+                $(this).attr('checked',true);
+           });
+        }else{
+             $('#searchLaporan input[name*="ruangan_id"]').each(function(){
+                $(this).removeAttr('checked');
+           });
+        }
+    }
 </script>

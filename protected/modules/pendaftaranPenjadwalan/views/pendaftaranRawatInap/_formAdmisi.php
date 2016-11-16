@@ -59,8 +59,9 @@
                                 array('empty'=>'-- Pilih --',
                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
                                     'class'=>'span2',
+                                    'onchange'=>'setKelasPelayananIbuBayi(this.value);'
                                   )); ?>
-                <?php echo $form->checkBox($modPasienAdmisi,'rawatgabung', array('onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->checkBox($modPasienAdmisi,'rawatgabung', array('onchange'=>'setRuanganRawatGabung(this.value)','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                 <?php echo $form->LabelEx($modPasienAdmisi,'rawatgabung');?>
             </div>
         </div>

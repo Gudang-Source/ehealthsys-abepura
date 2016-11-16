@@ -17,15 +17,18 @@ class BSLaporantindakankomponenV extends LaporantindakankomponenV
 
 		$criteria=new CDbCriteria;
                 
-		$criteria->group = 'nama_pasien,ruangan_id,ruangan_nama,no_rekam_medik,no_pendaftaran,tgl_pendaftaran,tgl_keluar,kelaspelayanan_nama,nama_pegawai,daftartindakan_nama,tarif_tindakankomp';
+		$criteria->group = 't.nama_pasien,t.ruangan_id,t.ruangan_nama,t.no_rekam_medik,t.no_pendaftaran,t.tgl_pendaftaran,t.tgl_keluar,t.kelaspelayanan_nama,t.nama_pegawai,t.daftartindakan_nama,t.tarif_tindakankomp';
 		$criteria->select = $criteria->group;
-		$criteria->addBetweenCondition('date(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
-		$criteria->compare("komponentarif_id", Params::KOMPONENTARIF_ID_PELAYANAN);                
+		$criteria->addBetweenCondition('date(t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
+		//$criteria->compare("t.komponentarif_id", Params::KOMPONENTARIF_ID_JASA_MEDIS);   
+		$criteria->compare("p.kelompokkomponentarif_id", 1);
+		$criteria->join = "join persenkelkomponentarif_m p on p.komponentarif_id = t.komponentarif_id";
+		
                 if(!empty($this->pegawai_id)){
-			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
+			$criteria->addCondition('t.pegawai_id = '.$this->pegawai_id);
 		}
                 if (!empty($this->ruangan_id)){
-                    $criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+                    $criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
                 }
 
 		return new CActiveDataProvider($this, array(
@@ -39,16 +42,20 @@ class BSLaporantindakankomponenV extends LaporantindakankomponenV
 
 		$criteria=new CDbCriteria;
                 
-		$criteria->group = 'nama_pasien,ruangan_id,ruangan_nama,no_rekam_medik,no_pendaftaran,tgl_pendaftaran,tgl_keluar,kelaspelayanan_nama,nama_pegawai,daftartindakan_nama,tarif_tindakankomp';
+		$criteria->group = 't.nama_pasien,t.ruangan_id,t.ruangan_nama,t.no_rekam_medik,t.no_pendaftaran,t.tgl_pendaftaran,t.tgl_keluar,t.kelaspelayanan_nama,t.nama_pegawai,t.daftartindakan_nama,t.tarif_tindakankomp';
 		$criteria->select = $criteria->group;
-		$criteria->addBetweenCondition('date(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
+		$criteria->addBetweenCondition('date(t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
 		if(!empty($this->pegawai_id)){
-			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
+			$criteria->addCondition('t.pegawai_id = '.$this->pegawai_id);
 		}
-                $criteria->compare("komponentarif_id", Params::KOMPONENTARIF_ID_PELAYANAN);
-                if (!empty($this->ruangan_id)){
-                    $criteria->addCondition('ruangan_id = '.$this->ruangan_id);
-                }
+		// $criteria->compare("t.komponentarif_id", Params::KOMPONENTARIF_ID_JASA_MEDIS);
+		
+		$criteria->compare("p.kelompokkomponentarif_id", 1);
+		$criteria->join = "join persenkelkomponentarif_m p on p.komponentarif_id = t.komponentarif_id";
+		
+		if (!empty($this->ruangan_id)){
+			$criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
+		}
 		$criteria->limit = -1;
 
 		return new CActiveDataProvider($this, array(
@@ -63,14 +70,19 @@ class BSLaporantindakankomponenV extends LaporantindakankomponenV
 
 		$criteria=new CDbCriteria;
                 
-		$criteria->group = 'nama_pasien,ruangan_id,ruangan_nama,no_rekam_medik,no_pendaftaran,tgl_pendaftaran,tgl_keluar,kelaspelayanan_nama,nama_pegawai,daftartindakan_nama,tarif_tindakankomp';
+		$criteria->group = 't.nama_pasien,t.ruangan_id,t.ruangan_nama,t.no_rekam_medik,t.no_pendaftaran,t.tgl_pendaftaran,t.tgl_keluar,t.kelaspelayanan_nama,t.nama_pegawai,t.daftartindakan_nama,t.tarif_tindakankomp';
 		$criteria->select = $criteria->group;
-		$criteria->addBetweenCondition('date(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
-                if (!empty($this->ruangan_id)){
-                    $criteria->addCondition('ruangan_id = '.$this->ruangan_id);
-                }
+		$criteria->addBetweenCondition('date(t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
+		
+		$criteria->compare("p.kelompokkomponentarif_id", 1);
+		$criteria->join = "join persenkelkomponentarif_m p on p.komponentarif_id = t.komponentarif_id";
+		
+		
+		if (!empty($this->ruangan_id)){
+			$criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
+		}
 		if(!empty($this->pegawai_id)){
-			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
+			$criteria->addCondition('t.pegawai_id = '.$this->pegawai_id);
 		}
 		$criteria->limit = -1;
 

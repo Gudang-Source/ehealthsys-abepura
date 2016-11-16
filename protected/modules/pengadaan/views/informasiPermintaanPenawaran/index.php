@@ -64,7 +64,7 @@ $('#divSearch-form form').submit(function(){
 										"<a rel=\'tooltip\' title=\'Tidak dapat diubah karena sudah disetujui oleh pegawai menyetujui\'><icon class=\'icon-form-ubah\' style=\'opacity: 0.3\'></icon></a> "
 									:
 										(($data->statuspenawaran != "DITOLAK")?
-											CHtml::link("<icon class=\'icon-form-ubah\'></icon> ", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/permintaanPenawaran'.$this->suffix.'/index", array("permintaanpenawaran_id"=>$data->permintaanpenawaran_id,"ubah"=>true)), array("target"=>"BLANK","rel"=>"tooltip", "title"=>"Klik untuk mengubah data"))
+											CHtml::link("<icon class=\'icon-form-ubah\'></icon> ", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.$this->path_penawaran.'/index", array("permintaanpenawaran_id"=>$data->permintaanpenawaran_id,"ubah"=>true)), array("target"=>"BLANK","rel"=>"tooltip", "title"=>"Klik untuk mengubah data"))
 										:
 											"<a rel=\'tooltip\' title=\'Tidak dapat diubah karena sudah ditolak\'><icon class=\'icon-form-ubah\' style=\'opacity: 0.3\'></icon></a> "
 										)
@@ -75,12 +75,19 @@ $('#divSearch-form form').submit(function(){
                     array(
                         'header'=>'Permintaan Pembelian',
                         'type'=>'raw',
-                        'value'=>'((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui)) ?
-									CHtml::Link("<i class=\"icon-form-mintabeli\"></i>","'.$this->createUrl("PermintaanPembelian".$this->suffix."/Index").'&penawaran_id=$data->permintaanpenawaran_id",
-										array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Pembelian",)) :
-									"<a rel=\'tooltip\' title=\'Tombol akan aktif jika permintaan sudah disetujui dan diketahui\'><icon class=\'icon-form-mintabeli\' style=\'opacity: 0.3\'></icon></a> "
-									)
-						',
+                        'value'=> function($data){
+                            $cek = GFPermintaanPembelianT::model()->find('permintaanpenawaran_id = '.$data->permintaanpenawaran_id);
+                                                        
+                            if ((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui))){
+                                if (count($cek)>0){
+                                    return CHtml::Link("<i class='icon-form-mintabeli'></i>",'', array('disabled'=>true,'style'=>'opacity: 0.3',"class"=>"", "rel"=>"tooltip","title"=>"Permintaan Penawaran Sudah ".$cek->statuspembelian));
+                                }else{
+                                    return   CHtml::Link("<i class='icon-form-mintabeli'></i>",$this->createUrl($this->path_permintaan."/Index").'&penawaran_id='.$data->permintaanpenawaran_id, array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Pembelian"));
+                                }
+                            }else{                                
+                                return   CHtml::Link("<i class='icon-form-mintabeli'></i>",'', array('disabled'=>true,'style'=>'opacity: 0.3',"class"=>"", "rel"=>"tooltip","title"=>"Tombol akan aktif jika permintaan sudah disetujui dan diketahui"));
+                            }
+                        },						
                         'htmlOptions'=>array('style'=>'text-align:center;'),
                     ),
                     array(

@@ -5,6 +5,8 @@ class InformasiPermintaanPenawaranController extends MyAuthController
         public $defaultAction ='index';
         public $path_view = 'pengadaan.views.informasiPermintaanPenawaran.';
         public $suffix = '';
+        public $path_permintaan = 'PermintaanPembelian';    
+        public $path_penawaran = 'PermintaanPenawaran';
         
         public function actionIndex()
         {

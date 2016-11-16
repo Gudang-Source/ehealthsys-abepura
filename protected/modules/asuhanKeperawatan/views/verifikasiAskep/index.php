@@ -20,9 +20,19 @@
 		),
 	));
 	?>
-	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+	<?php 
+            if (isset($_GET['status']))
+            {
+                Yii::app()->user->setFlash('success', "Data berhasil disimpan");
+                $this->widget('bootstrap.widgets.BootAlert'); 
+            }
+        ?>
 	<?php //echo $form->errorSummary(array($modRetur,$modBuktiKeluar)); ?>
-	<?php $this->renderPartial('_ringkasDataPasien', array('modPendaftaran' => $modPendaftaran, 'modPasien' => $modPasien)); ?>
+        <fieldset class="box">
+		<legend class="rim">Data Pengkajian</legend>
+		<?php $this->renderPartial('_dataPengkajian', array('modPengkajian' => $modPengkajian, 'form' => $form)); ?>
+	</fieldset>
+	<?php $this->renderPartial('_ringkasDataPasien', array('model' => $model, 'modPasien' => $modPasien)); ?>
 	<?php
 	$this->Widget('ext.bootstrap.widgets.BootAccordion', array(
 		'id' => 'penanggungjawab',
@@ -53,8 +63,9 @@
                                                 <th>Riwayat Penyakit Terdahulu</th>
                                                 <th>Riwayat Penyakit Keluarga</th>
                                                 <th>Riwayat Imunisasi</th>
-												<th>Riwayat Alergi Obat</th>
-												<th>Riwayat Makanan</th>
+                                                <th>Riwayat Alergi Obat</th>
+                                                <th>Riwayat Makanan</th>
+                                                <th>Detail</th>
                                             </thead>
                                             <tbody>
                                                 <tr><td colspan=9>Data tidak ditemukan</td></tr>
@@ -80,10 +91,11 @@
                                                 <th>Tinggi Badan (cm)</th>
                                                 <th>Tekanan Darah</th>
                                                 <th>Detak Nadi</th>
-												<th>Suhu Tubuh</th>
-												<th>Pernapasan</th>
-												<th>Kesadaran / GCS (Eye / Verbal / Motorik)</th>
-												<th>Kelainan Pada Bag. Tubuh</th>
+                                                <th>Suhu Tubuh</th>
+                                                <th>Pernapasan</th>
+                                                <th>Kesadaran / GCS (Eye / Verbal / Motorik)</th>
+                                                <th>Kelainan Pada Bag. Tubuh</th>
+                                                <th>Detail</th>
                                             </thead>
                                             <tbody>
                                                 <tr><td colspan=11>Data tidak ditemukan</td></tr>
@@ -150,30 +162,51 @@
     <div class="form-actions">
 		<?php
 		if ($modPengkajian->isNewRecord) {
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
-			echo "&nbsp;&nbsp;";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+			echo "&nbsp;";
+                        echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
+                                $this->createUrl($this->id.'/index'), 
+                                array('class'=>'btn btn-danger',
+//                                      'onclick'=>'if(!confirm("Apakah anda ingin mengulang ini ?")) return false;'));
+                                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "'.$this->createUrl($this->id.'/index').'";}); return false;'));
+			//echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
+			//echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
+                        echo "&nbsp;";
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "";
 		} else {
 			echo CHtml::htmlButton(
-					Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array(
+					Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array(
 				'class' => 'btn btn-primary',
 				'type' => 'submit',
 				'onKeypress' => 'return formSubmit(this,event)',
 				'disabled' => true
 					)
 			);
-			echo "&nbsp;&nbsp;";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp";
+			echo "&nbsp;";
+                        echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
+                                $this->createUrl($this->id.'/index'), 
+                                array('class'=>'btn btn-danger',
+//                                      'onclick'=>'if(!confirm("Apakah anda ingin mengulang ini ?")) return false;'));
+                                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "'.$this->createUrl($this->id.'/index').'";}); return false;'));
+			//echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp";
+			//echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp";
+                        echo "&nbsp;";
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "";
 		}
 		?>
-		<?php
-		echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), Yii::app()->createUrl($this->module->id . '/verifikasiAskep/index'), array('class' => 'btn btn-danger',
-			'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
-		?>
+		 <?php
+                    $tips = array(
+                        '0' => 'autocomplete-search',                        
+                        '1' => 'waktutime',                                               
+                        '2' => 'simpan',
+                        '3' => 'ulang',
+                        '4' => 'print',
+                        '5' => 'status_print',
+                        '6' => 'detail',
+                    );
+                    $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                    ?>
 		<?php
 		/*
 		  echo CHtml::htmlButton(
@@ -219,8 +252,9 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 ));
 
 $modPegawai = new ASPegawaiM;
-if (isset($_GET['PegawaiM']))
+if (isset($_GET['PegawaiM'])){
 	$modPegawai->attributes = $_GET['PegawaiM'];
+}
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	'id' => 'pegawai-m-grid',
@@ -271,14 +305,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 	),
 ));
 
-$modPegawai = new ASPegawaiM;
-if (isset($_GET['PegawaiM']))
-	$modPegawai->attributes = $_GET['PegawaiM'];
+$modPegawaiRencana = new ASPegawaiM;
+if (isset($_GET['PegawaiM'])){
+	$modPegawaiRencana->attributes = $_GET['PegawaiM'];
+}
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
-	'id' => 'pegawai-m-grid',
-	'dataProvider' => $modPegawai->searchPerawat(),
-	'filter' => $modPegawai,
+	'id' => 'pegawai-rencana-grid',
+	'dataProvider' => $modPegawaiRencana->searchPerawat(),
+	'filter' => $modPegawaiRencana,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 	'columns' => array(
@@ -297,16 +332,49 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		'nomorindukpegawai',
 		'nama_pegawai',
 		'tempatlahir_pegawai',
-		'tgl_lahirpegawai',
-		'jeniskelamin',
-		'statusperkawinan',
 		array(
-			'header' => 'Jabatan',
-			'value' => '(isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : "-")',
+			'name' => 'tgl_lahirpegawai',
+			'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)',
+			'filter' => $this->widget('MyDateTimePicker', array(
+				'model' => $modPegawaiRencana,
+				'attribute' => 'tgl_lahirpegawai',
+				'mode' => 'date',
+				'options' => array(
+					'dateFormat' => Params::DATE_FORMAT,
+				),
+				'htmlOptions' => array('readonly' => false, 'class' => 'dtPicker3', 'id' => 'tgl_lahirpegawai_rencana', 'placeholder' => '23 Jan 1993'),
+					), true
+			),
+		),
+		array(
+			'name' => 'jeniskelamin',
+			'value' => '$data->jeniskelamin',
+			'filter'=> LookupM::model()->getItems('jeniskelamin'),
+		),
+		array(
+			'name' => 'statusperkawinan',
+			'value' => '$data->statusperkawinan',
+			'filter'=> LookupM::model()->getItems('statusperkawinan'),
+		),
+		array(
+			'name' => 'jabatan_nama',
+			'type' => 'raw',
+			'filter' => CHtml::activeDropDownList($modPegawaiRencana, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll('jabatan_aktif=TRUE'), 'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)"))
 		),
 		'alamat_pegawai',
 	),
-	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+	'afterAjaxUpdate' => 'function(id, data){
+                 jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});
+                 jQuery(\'#tgl_lahirpegawai_rencana\').datepicker(jQuery.extend({
+                        showMonthAfterYear:false}, 
+                        jQuery.datepicker.regional[\'id\'], 
+                       {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
+                       \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
+                       \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                jQuery(\'#tgl_lahirpegawai_rencana_date\').on(\'click\', function(){jQuery(\'#tgl_lahirpegawai_rencana\').datepicker(\'show\');});
+                
+            
+            }',
 ));
 
 $this->endWidget();
@@ -324,14 +392,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 	),
 ));
 
-$modPegawai = new ASPegawaiM;
-if (isset($_GET['PegawaiM']))
-	$modPegawai->attributes = $_GET['PegawaiM'];
+$modPegawaiImplementasi = new ASPegawaiM;
+if (isset($_GET['PegawaiM'])){
+	$modPegawaiImplementasi->attributes = $_GET['PegawaiM'];
+}
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	'id' => 'pegawai-m-grid',
-	'dataProvider' => $modPegawai->searchPerawat(),
-	'filter' => $modPegawai,
+	'dataProvider' => $modPegawaiImplementasi->searchPerawat(),
+	'filter' => $modPegawaiImplementasi,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 	'columns' => array(
@@ -350,16 +419,49 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		'nomorindukpegawai',
 		'nama_pegawai',
 		'tempatlahir_pegawai',
-		'tgl_lahirpegawai',
-		'jeniskelamin',
-		'statusperkawinan',
 		array(
-			'header' => 'Jabatan',
-			'value' => '(isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : "-")',
+			'name' => 'tgl_lahirpegawai',
+			'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)',
+			'filter' => $this->widget('MyDateTimePicker', array(
+				'model' => $modPegawaiImplementasi,
+				'attribute' => 'tgl_lahirpegawai',
+				'mode' => 'date',
+				'options' => array(
+					'dateFormat' => Params::DATE_FORMAT,
+				),
+				'htmlOptions' => array('readonly' => false, 'class' => 'dtPicker3', 'id' => 'tgl_lahirpegawai_impl', 'placeholder' => '23 Jan 1993'),
+					), true
+			),
+		),
+		array(
+			'name' => 'jeniskelamin',
+			'value' => '$data->jeniskelamin',
+			'filter'=> LookupM::model()->getItems('jeniskelamin'),
+		),
+		array(
+			'name' => 'statusperkawinan',
+			'value' => '$data->statusperkawinan',
+			'filter'=> LookupM::model()->getItems('statusperkawinan'),
+		),
+		array(
+			'name' => 'jabatan_nama',
+			'type' => 'raw',
+			'filter' => CHtml::activeDropDownList($modPegawaiImplementasi, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll('jabatan_aktif=TRUE'), 'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)"))
 		),
 		'alamat_pegawai',
 	),
-	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+	'afterAjaxUpdate' => 'function(id, data){
+                 jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});
+                 jQuery(\'#tgl_lahirpegawai_impl\').datepicker(jQuery.extend({
+                        showMonthAfterYear:false}, 
+                        jQuery.datepicker.regional[\'id\'], 
+                       {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
+                       \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
+                       \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                jQuery(\'#tgl_lahirpegawai_impl_date\').on(\'click\', function(){jQuery(\'#tgl_lahirpegawai_impl\').datepicker(\'show\');});
+                
+            
+            }',
 ));
 
 $this->endWidget();
@@ -372,19 +474,19 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 		'autoOpen' => false,
 		'modal' => true,
 		'width' => 900,
-		'height' => 600,
+		'height' => 420,
 		'resizable' => false,
 	),
 ));
 
-$modPegawai = new ASPegawaiM;
-if (isset($_GET['PegawaiM']))
-	$modPegawai->attributes = $_GET['PegawaiM'];
-
+$modPegawaiEvaluasi = new ASPegawaiM;
+if (isset($_GET['ASPegawaiM'])){
+	$modPegawaiEvaluasi->attributes = $_GET['ASPegawaiM'];
+}
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
-	'id' => 'pegawai-m-grid',
-	'dataProvider' => $modPegawai->searchPerawat(),
-	'filter' => $modPegawai,
+	'id' => 'pegawai-evaluasi-grid',
+	'dataProvider' => $modPegawaiEvaluasi->searchPerawat(),
+	'filter' => $modPegawaiEvaluasi,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 	'columns' => array(
@@ -403,16 +505,49 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		'nomorindukpegawai',
 		'nama_pegawai',
 		'tempatlahir_pegawai',
-		'tgl_lahirpegawai',
-		'jeniskelamin',
-		'statusperkawinan',
 		array(
-			'header' => 'Jabatan',
-			'value' => '(isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : "-")',
+			'name' => 'tgl_lahirpegawai',
+			'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)',
+			'filter' => $this->widget('MyDateTimePicker', array(
+				'model' => $modPegawaiEvaluasi,
+				'attribute' => 'tgl_lahirpegawai',
+				'mode' => 'date',
+				'options' => array(
+					'dateFormat' => Params::DATE_FORMAT,
+				),
+				'htmlOptions' => array('readonly' => false, 'class' => 'dtPicker3', 'id' => 'tgl_lahirpegawai_ev', 'placeholder' => '23 Jan 1993'),
+					), true
+			),
+		),
+		array(
+			'name' => 'jeniskelamin',
+			'value' => '$data->jeniskelamin',
+			'filter'=> LookupM::model()->getItems('jeniskelamin'),
+		),
+		array(
+			'name' => 'statusperkawinan',
+			'value' => '$data->statusperkawinan',
+			'filter'=> LookupM::model()->getItems('statusperkawinan'),
+		),
+		array(
+			'name' => 'jabatan_nama',
+			'type' => 'raw',
+			'filter' => CHtml::activeDropDownList($modPegawaiEvaluasi, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll('jabatan_aktif=TRUE'), 'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)"))
 		),
 		'alamat_pegawai',
 	),
-	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+	'afterAjaxUpdate' => 'function(id, data){
+                 jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});
+                 jQuery(\'#tgl_lahirpegawai_ev\').datepicker(jQuery.extend({
+                        showMonthAfterYear:false}, 
+                        jQuery.datepicker.regional[\'id\'], 
+                       {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
+                       \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
+                       \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                jQuery(\'#tgl_lahirpegawai_ev_date\').on(\'click\', function(){jQuery(\'#tgl_lahirpegawai_ev\').datepicker(\'show\');});
+                
+            
+            }',
 ));
 
 $this->endWidget();
@@ -430,14 +565,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 	),
 ));
 
-$modPegawai = new ASPegawaiM;
-if (isset($_GET['PegawaiM']))
-	$modPegawai->attributes = $_GET['PegawaiM'];
-
+$modPegawaiVerifikasi = new ASPegawaiM;
+if (isset($_GET['ASPegawaiM'])){
+	$modPegawaiVerifikasi->attributes = $_GET['ASPegawaiM'];
+}
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
-	'id' => 'pegawai-m-grid',
-	'dataProvider' => $modPegawai->searchPerawat(),
-	'filter' => $modPegawai,
+	'id' => 'pegawai-verifikasi-grid',
+	'dataProvider' => $modPegawaiVerifikasi->searchPerawat(),
+	'filter' => $modPegawaiVerifikasi,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 	'columns' => array(
@@ -455,16 +590,49 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		'nomorindukpegawai',
 		'nama_pegawai',
 		'tempatlahir_pegawai',
-		'tgl_lahirpegawai',
-		'jeniskelamin',
-		'statusperkawinan',
 		array(
-			'header' => 'Jabatan',
-			'value' => '(isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : "-")',
+			'name' => 'tgl_lahirpegawai',
+			'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)',
+			'filter' => $this->widget('MyDateTimePicker', array(
+				'model' => $modPegawaiVerifikasi,
+				'attribute' => 'tgl_lahirpegawai',
+				'mode' => 'date',
+				'options' => array(
+					'dateFormat' => Params::DATE_FORMAT,
+				),
+				'htmlOptions' => array('readonly' => false, 'class' => 'dtPicker3', 'id' => 'tgl_lahirpegawai_v', 'placeholder' => '23 Jan 1993'),
+					), true
+			),
+		),
+		array(
+			'name' => 'jeniskelamin',
+			'value' => '$data->jeniskelamin',
+			'filter'=> LookupM::model()->getItems('jeniskelamin'),
+		),
+		array(
+			'name' => 'statusperkawinan',
+			'value' => '$data->statusperkawinan',
+			'filter'=> LookupM::model()->getItems('statusperkawinan'),
+		),
+		array(
+			'name' => 'jabatan_nama',
+			'type' => 'raw',
+			'filter' => CHtml::activeDropDownList($modPegawaiVerifikasi, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll('jabatan_aktif=TRUE'), 'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)"))
 		),
 		'alamat_pegawai',
 	),
-	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+	'afterAjaxUpdate' => 'function(id, data){
+                 jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});
+                 jQuery(\'#tgl_lahirpegawai_v\').datepicker(jQuery.extend({
+                        showMonthAfterYear:false}, 
+                        jQuery.datepicker.regional[\'id\'], 
+                       {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
+                       \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
+                       \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                jQuery(\'#tgl_lahirpegawai_v_date\').on(\'click\', function(){jQuery(\'#tgl_lahirpegawai_v\').datepicker(\'show\');});
+                
+            
+            }',
 ));
 
 $this->endWidget();
@@ -482,14 +650,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 	),
 ));
 
-$modPegawai = new ASPegawaiM;
-if (isset($_GET['PegawaiM']))
-	$modPegawai->attributes = $_GET['PegawaiM'];
-
+$modPegawaiMengetahui = new ASPegawaiM;
+if (isset($_GET['ASPegawaiM'])){
+	$modPegawaiMengetahui->attributes = $_GET['ASPegawaiM'];
+}
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
-	'id' => 'pegawai-m-grid',
-	'dataProvider' => $modPegawai->searchPerawat(),
-	'filter' => $modPegawai,
+	'id' => 'pegawai-mengetahui-grid',
+	'dataProvider' => $modPegawaiMengetahui->searchPerawat(),
+	'filter' => $modPegawaiMengetahui,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 	'columns' => array(
@@ -507,16 +675,49 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		'nomorindukpegawai',
 		'nama_pegawai',
 		'tempatlahir_pegawai',
-		'tgl_lahirpegawai',
-		'jeniskelamin',
-		'statusperkawinan',
 		array(
-			'header' => 'Jabatan',
-			'value' => '(isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : "-")',
+			'name' => 'tgl_lahirpegawai',
+			'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)',
+			'filter' => $this->widget('MyDateTimePicker', array(
+				'model' => $modPegawaiMengetahui,
+				'attribute' => 'tgl_lahirpegawai',
+				'mode' => 'date',
+				'options' => array(
+					'dateFormat' => Params::DATE_FORMAT,
+				),
+				'htmlOptions' => array('readonly' => false, 'class' => 'dtPicker3', 'id' => 'tgl_lahirpegawai_m', 'placeholder' => '23 Jan 1993'),
+					), true
+			),
+		),
+		array(
+			'name' => 'jeniskelamin',
+			'value' => '$data->jeniskelamin',
+			'filter'=> LookupM::model()->getItems('jeniskelamin'),
+		),
+		array(
+			'name' => 'statusperkawinan',
+			'value' => '$data->statusperkawinan',
+			'filter'=> LookupM::model()->getItems('statusperkawinan'),
+		),
+		array(
+			'name' => 'jabatan_nama',
+			'type' => 'raw',
+			'filter' => CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll('jabatan_aktif=TRUE'), 'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)"))
 		),
 		'alamat_pegawai',
 	),
-	'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+	'afterAjaxUpdate' => 'function(id, data){
+                 jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});
+                 jQuery(\'#tgl_lahirpegawai_m\').datepicker(jQuery.extend({
+                        showMonthAfterYear:false}, 
+                        jQuery.datepicker.regional[\'id\'], 
+                       {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
+                       \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
+                       \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                jQuery(\'#tgl_lahirpegawai_m_date\').on(\'click\', function(){jQuery(\'#tgl_lahirpegawai_m\').datepicker(\'show\');});
+                
+            
+            }',
 ));
 
 $this->endWidget();
@@ -530,20 +731,21 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 		'autoOpen' => false,
 		'modal' => true,
 		'width' => 800,
-		'height' => 500,
+		'height' => 420,
 		'resizable' => false,
 	),
 ));
 
-$modDiagnosaKep = new ASDiagnosakepM('search');
+$modDiagnosaKep = new ASDiagnosakepM('searchDialog');
 $modDiagnosaKep->unsetAttributes();
 if (isset($_GET['ASDiagnosakepM'])) {
 	$modDiagnosaKep->attributes = $_GET['ASDiagnosakepM'];
+	$modDiagnosaKep->diagnosakep_aktif = $_GET['diagnosakep_aktif'];
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	'id' => 'diagnosakep-m-grid',
-	'dataProvider' => $modDiagnosaKep->search(),
+	'dataProvider' => $modDiagnosaKep->searchDialog(),
 	'filter' => $modDiagnosaKep,
 	'template' => "{summary}\n{items}\n{pager}",
 	'itemsCssClass' => 'table table-striped table-condensed',
@@ -557,7 +759,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                     "class"=>"btn-small", 
                                     "id" => "selectDiagnosa",
                                     "onClick" => "
-									setDiagnosaAuto($data->diagnosakep_id);
+									setDiagnosaAutoDialog($data->diagnosakep_id);
 									"))'
 		),
 		array(
@@ -590,6 +792,25 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 $this->endWidget();
 ?>
 <?php
+//========= Dialog untuk Melihat detail Pemakaian Barang =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+    'id' => 'dialogDetail',
+    'options' => array(
+        'title' => 'Detail Pengkajian Keperawatan / Kebidanan',
+        'autoOpen' => false,
+        'modal' => true,
+        'width' => 900,
+        'height' => 600,
+        'resizable' => false,
+    ),
+));
+
+echo '<iframe src="" name="frameDetail" width="100%" height="500">
+</iframe>';
+
+$this->endWidget();
+?>
+<?php
 $this->renderPartial('_jsFunctions', array(
 	'model' => $model,
 	'modPengkajian' => $modPengkajian,
@@ -609,4 +830,41 @@ $this->renderPartial('_jsFunctions', array(
 	'modPasien' => $modPasien,
 	'form' => $form));
 ?>
+<?php
+//========= Dialog untuk Melihat detail Pemakaian Barang =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+    'id' => 'dialogDetailAnamnesis',
+    'options' => array(
+        'title' => 'Detail Riwayat Anamnesis',
+        'autoOpen' => false,
+        'modal' => true,
+        'width' => 750,
+        'height' => 600,
+        'resizable' => false,
+    ),
+));
 
+echo '<iframe src="" name="frameDetailAnamnesis" width="100%" height="500">
+</iframe>';
+
+$this->endWidget();
+?>
+<?php
+//========= Dialog untuk Melihat detail Pemakaian Barang =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+    'id' => 'dialogDetailFisik',
+    'options' => array(
+        'title' => 'Detail Riwayat Pemeriksaan Fisik',
+        'autoOpen' => false,
+        'modal' => true,
+        'width' => 900,
+        'height' => 600,
+        'resizable' => false,
+    ),
+));
+
+echo '<iframe src="" name="frameDetailFisik" width="100%" height="500">
+</iframe>';
+
+$this->endWidget();
+?>

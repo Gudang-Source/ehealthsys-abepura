@@ -12,7 +12,7 @@ echo CHtml::css('#isiScroll{max-height:500px;overflow-y:scroll;margin-bottom:10p
 
 $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     'id'=>'barang-m-grid',
-    'dataProvider'=>$modBarang->searchBarang(),
+    'dataProvider'=>$modBarang->searchBarangFormulirInventarisasi(),
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
@@ -52,17 +52,27 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 		array(
 			'header'=>'HPP (Rp)',
 			'type'=>'raw',
-			'value'=>'CHtml::textField("GUBarangV[".$data->barang_id."][harga_netto]", number_format(isset($data->barang_hpp) ? $data->barang_hpp : $data->barang_harganetto), array("class"=>"span1 netto integer", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
+			'value'=>'CHtml::textField("GUBarangV[".$data->barang_id."][harga_netto]", MyFormatter::formatNumberForPrint((isset($data->barang_hpp) && !empty($data->barang_hpp) && $data->barang_hpp != 0) ? $data->barang_hpp : $data->barang_harganetto), array("class"=>"span1 netto integer2", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
 		),
 		array(
 			'header'=>'Inventarisasi Sistem',
 			'type'=>'raw',
-			'value'=> 'CHtml::textField("GUBarangV[".$data->barang_id."][volume_inventaris]", 0, array("class"=>"stok span1 integer", "readonly"=>true))',
+			'value'=> function($data) {
+				$stok = InventarisasiruanganT::model()->findAllByAttributes(array(
+					'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+					'barang_id'=>$data->barang_id,
+				));
+				$total = 0;
+				foreach ($stok as $item) {
+					$total += $item->inventarisasi_qty_skrg;
+				}
+				return CHtml::textField("GUBarangV[".$data->barang_id."][volume_inventaris]", $total, array("class"=>"stok span1 integer2", "readonly"=>true));
+			},
 		),
     ),
 	'afterAjaxUpdate'=>'function(id, data){
 		jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
-		$("#barang-m-grid .integer").maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0,"symbol":null})
+		$("#barang-m-grid .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null})
 		$("#barang-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
 		getTotal();
 			}',

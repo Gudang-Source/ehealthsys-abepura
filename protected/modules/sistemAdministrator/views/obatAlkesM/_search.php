@@ -7,15 +7,22 @@
 <table width='100%'>
     <tr>
         <td>
-            <?php echo $form->dropDownListRow($model,'satuankecil_id',CHtml::listData($model->getSatuankecilItems(),'satuankecil_id','satuankecil_nama'),array('class'=>'span3','empty'=>'-- Pilih --')); ?>
-            <?php echo CHtml::hiddenfield('SAObatalkesM[harganetto]');?>
+            <?php echo $form->dropDownListRow($model,'sumberdana_id',CHtml::listData(SumberdanaM::model()->findAll("sumberdana_aktif = TRUE ORDER BY sumberdana_nama ASC"),'sumberdana_id','sumberdana_nama'),array('class'=>'span3','empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model, 'jnskelompok', LookupM::getItems('jnskelompok'), array('empty'=>'-- Pilih --'));  ?>
+            <?php echo $form->textFieldRow($model,'harganetto',array('class'=>'span3 numbers-only','maxlength'=>20, 'style'=>'text-align:right;')); ?>  
+            <?php //echo $form->dropDownListRow($model,'satuankecil_id',CHtml::listData($model->getSatuankecilItems(),'satuankecil_id','satuankecil_nama'),array('class'=>'span3','empty'=>'-- Pilih --')); ?>
+            <?php //echo CHtml::hiddenfield('SAObatalkesM[harganetto]');?>
             <?php echo CHtml::hiddenfield('SAObatalkesM[hargajual]');?>
         </td>
         <td>
             <?php echo $form->dropDownListRow($model,'jenisobatalkes_id',CHtml::listData($model->getJenisobatalkesItems(),'jenisobatalkes_id','jenisobatalkes_nama'),array('class'=>'span3','empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model, 'obatalkes_kategori', ObatAlkesKategori::items(), array('empty'=>'-- Pilih --'));  ?>
+            <?php echo $form->textFieldRow($model,'obatalkes_kode',array('class'=>'span3 custom-only','maxlength'=>200)); ?>            
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3','maxlength'=>200)); ?>
+            <?php echo $form->dropDownListRow($model, 'obatalkes_golongan', ObatAlkesGolongan::items(), array('empty'=>'-- Pilih --')) ?>
+            <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3 custom-only','maxlength'=>200)); ?>
+            
         </td>
     </tr>
     <tr>

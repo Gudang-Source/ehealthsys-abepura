@@ -53,15 +53,16 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                     'template' => $template,
                     'itemsCssClass' => 'table table-striped table-condensed',
                     'mergeHeaders' => array(
+						/*
                         array(
                             'name' => '<center>Dokter</center>',
                             'start' => 7, //indeks kolom 3
                             'end' => 9, //indeks kolom 4
-                        ),
+                        ), */
                         array(
                             'name' => '<center>Bedah</center>',
-                            'start' => 12, //indeks kolom 3
-                            'end' => 15, //indeks kolom 4
+                            'start' => 11, //indeks kolom 3
+                            'end' => 13, //indeks kolom 4
                         ),
                     ),
                     'columns' => array(
@@ -97,23 +98,24 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                         array(
                             'header' => 'Jumlah',
                             'type' => 'raw',
-                            'value' => '$data->qty_tindakan',
-                        ),
+                            'value' => '$this->grid->owner->renderPartial("bedahSentral.views.laporan/jasaDokter/_qty",array("pendaftaran_id"=>"$data->pendaftaran_id","ruangan_id"=>"$data->ruangan_id","tgl_pendaftaran"=>"$data->tgl_pendaftaran"),true)',
+                            'htmlOptions' => array('style' => 'text-align:right;'),
+                        ), /*
                         array(
                             'header' => 'Gelar Depan',
                             'type' => 'raw',
-                            'value' => '(empty($data->gelardepan) ? "-" : "$data->gelardepan" )',
-                        ),
+                            'value' => '',
+                        ), */
                         array(
-                            'header' => 'Nama Dokter',
+                            'header' => 'Dokter',
                             'type' => 'raw',
-                            'value' => '(empty($data->nama_pegawai) ? "-" : "$data->nama_pegawai" )',
-                        ),
+                            'value' => '(empty($data->gelardepan) ? "-" : "$data->gelardepan" ).(empty($data->nama_pegawai) ? "-" : "$data->nama_pegawai" ).", ".(empty($data->gelarbelakang_nama) ? "" : ", $data->gelarbelakang_nama" )',
+                        ), /*
                         array(
                             'header' => 'Gelar Belakang',
                             'type' => 'raw',
-                            'value' => '(empty($data->gelarbelakang_nama) ? "-" : "$data->gelarbelakang_nama" )',
-                        ),
+                            'value' => '(empty($data->gelarbelakang_nama) ? "" : "$data->gelarbelakang_nama" )',
+                        ), */
                         array(
                             'header' => 'Visite',
                             'type' => 'raw',

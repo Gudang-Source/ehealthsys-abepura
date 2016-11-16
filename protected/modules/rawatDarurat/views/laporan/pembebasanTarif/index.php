@@ -2,7 +2,7 @@
     <legend class="rim2">Laporan <b>Pembebasan Tarif</b></legend>
     <?php
 
-    $url = Yii::app()->createUrl('billingKasir/laporan/FrameGrafikLaporanPembebasanTarif&id=1');
+    $url = Yii::app()->createUrl('rawatDarurat/laporan/FrameGrafikLaporanPembebasanTarif&id=1');
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();

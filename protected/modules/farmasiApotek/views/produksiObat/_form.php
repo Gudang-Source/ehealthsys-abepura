@@ -6,6 +6,7 @@
             <td>
                 <?php echo $form->textFieldRow($model,'tglproduksiobt',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->textFieldRow($model,'noproduksiobt',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20,'disabled'=>true)); ?>
+                <?php /*
                 <div class="control-group">
                     <label class="control-label">Nama Obat</label>
                     <div class="controls">
@@ -48,41 +49,27 @@
                         <?php echo CHtml::checkBox('berdasarkanDokter', false,array('onclick'=>'setValue();', 'title'=>'Filter Obat Berdasarkan Dokter', 'onkeypress'=>"return $(this).focusNextInputField(event)")) ?>
                         <?php echo $form->label($model,'Cek jika ingin menampilakan obat produksi berdasarkan dokter'); ?>
                     </div> -->
-                </div>
+                </div> */ ?>
             </td>
-            <td>
-                <div class="control-group ">
-                    <?php echo CHtml::label("Tanggal Kadaluarsa<font color='red'> *</font>",'tglkadaluarsa', array('class'=>'control-label inline')) ?>
-                    <div class="controls">
-			<?php $format = new MyFormatter(); ?>
-                        <?php $modObatalkesM->tglkadaluarsa = $format->formatDateTimeForUser($modObatalkesM->tglkadaluarsa); ?>
-                        <?php   
-                            $this->widget('MyDateTimePicker',array(
-                                    'model'=>$modObatalkesM,
-                                    'attribute'=>'tglkadaluarsa',
-                                    'mode'=>'date',
-                                    'options'=> array(
-                                        'dateFormat'=>Params::DATE_FORMAT,
-                                        'minDate' => 'd',
-                                    ),
-                                    'htmlOptions'=>array('class'=>'dtPicker2', 'onkeypress'=>"return $(this).focusNextInputField(event)"
-                                    ),
-                            )); ?>
-                        <?php $modObatalkesM->tglkadaluarsa = $format->formatDateTimeForDb($modObatalkesM->tglkadaluarsa); ?>
-                    </div>
-                </div>
-                <?php 
-                    $criteria = new CDbCriteria();
-                    $criteria->addInCondition('kelompokpegawai_id', array(1,3));
-                    $criteria->order = 'nama_pegawai';
-                    
-                    echo $form->dropDownListRow($model,'pegawai_id',CHtml::listData(PegawaiM::model()->findAll($criteria), 'pegawai_id', 'NamaLengkap'),array('onchange'=>'setValue();','empty'=>'-- Pilih Dokter --','class'=>'span3 pegawai_id', 'onkeypress'=>"return $(this).focusNextInputField(event);")); 
-                    echo CHtml::hiddenField('dokter_id','',array());
-                ?>
-            </td>
-	    <td>
-                <?php echo $form->textAreaRow($model,'keternganprdobat',array('rows'=>3, 'cols'=>50, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-	    </td>
+			<td>
+				<?php 
+					$criteria = new CDbCriteria();
+					$criteria->addInCondition('kelompokpegawai_id', array(1,3));
+					$criteria->order = 'nama_pegawai';
+				?>
+				<div class="control-group">
+					<?php echo CHtml::label('Dokter', '', array('class'=>'control-label')); ?>
+					<div class="controls">
+					<?php
+						echo $form->dropDownList($model,'pegawai_id',CHtml::listData(PegawaiM::model()->findAll($criteria), 'pegawai_id', 'NamaLengkap'),array('onchange'=>'setValue();','empty'=>'-- Pilih --','class'=>'span3 pegawai_id', 'onkeypress'=>"return $(this).focusNextInputField(event);")); 
+						echo CHtml::hiddenField('dokter_id','',array());
+					?>
+					</div>
+				</div>
+			</td>
+			<td>
+					<?php echo $form->textAreaRow($model,'keternganprdobat',array('rows'=>3, 'cols'=>50, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+			</td>
         </tr>
     </table>
 </fieldset>   
@@ -363,8 +350,8 @@ $this->endWidget();
                                                                                             }
                                                                                 });   
                                                                                 
-        $(obj).parents('table').find('.integer').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0});
-        $(obj).parents('table').find('.float').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":2});
+        $(obj).parents('table').find('tbody tr:last .integer2').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0});
+        $(obj).parents('table').find('tbody tr:last .float').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":2});
 //        renameInputRowObatAlkes($("#tblDetailProduksi"));    
     }
  
@@ -373,8 +360,7 @@ $this->endWidget();
         myConfirm('Apakah anda yakin akan membatalkan bahan ini?','Perhatian!',
         function(r){
             if(r){
-                $(obj).parents('tr').next('tr').detach();
-                $(obj).parents('tr').detach();
+                $(obj).parents('tr').remove();
                 
                 <?php 
                 $attributes = $modProduksiDetail->attributeNames(); 
@@ -458,9 +444,9 @@ $this->endWidget();
     }    
     
     function hitungQty(obj){
-        var dosis = unformatNumber(parseFloat($(obj).parents('tr').find('input[name$="[dosis]"]').val()));
-        var kemasan = unformatNumber(parseFloat($(obj).parents('tr').find('input[name$="[kemasan]"]').val()));
-        var kekuatan = unformatNumber(parseFloat($(obj).parents('tr').find('input[name$="[kekuatan]"]').val()));
+        var dosis = parseFloat(unformatNumber($(obj).parents('tr').find('input[name$="[dosis]"]').val()));
+        var kemasan = parseFloat(unformatNumber($(obj).parents('tr').find('input[name$="[kemasan]"]').val()));
+        var kekuatan = parseFloat(unformatNumber($(obj).parents('tr').find('input[name$="[kekuatan]"]').val()));
         if(kekuatan > 0)
             var qty = dosis * kemasan / kekuatan;
         else

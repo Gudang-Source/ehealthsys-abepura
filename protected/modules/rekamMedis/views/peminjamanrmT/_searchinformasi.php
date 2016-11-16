@@ -161,13 +161,20 @@
 
 	<div class="form-actions">
                     <?php
-                        echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit'));
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit'));
                         echo "&nbsp;";
-                        echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                        echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                                                 Yii::app()->createUrl($this->module->id.'/peminjamanrmT/informasi'), 
                                                 array('class'=>'btn btn-danger',
-                                                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); 
-                        $content = $this->renderPartial('../tips/informasi',array(),true);
+                                                      'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); 
+                        
+                        
+                        $tips = array(
+                            '0' => 'tanggal',
+                            '1' => 'cari',
+                            '2' => 'ulang2',
+                        );
+                        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
                         echo "&nbsp;";
                         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
                     ?>

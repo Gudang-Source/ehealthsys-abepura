@@ -1196,7 +1196,7 @@ class LaporanController extends MyAuthController {
         if (isset($_GET['RJLaporanbiayapelayanan'])) {
             $model->attributes = $_GET['RJLaporanbiayapelayanan'];
             $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
-            $model->jns_periode = $_REQUEST['RJLaporanbiayapelayanan']['jns_periode'];
+            $model->jns_periode = $_GET['RJLaporanbiayapelayanan']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['RJLaporanbiayapelayanan']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RJLaporanbiayapelayanan']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['RJLaporanbiayapelayanan']['bln_awal']);
@@ -1607,7 +1607,7 @@ class LaporanController extends MyAuthController {
         $data['type'] = $_GET['type'];
         if (isset($_GET['BKLaporanpembebasantarifV'])) {
             $model->attributes = $_GET['BKLaporanpembebasantarifV'];
-            $$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
             $model->jns_periode = $_REQUEST['BKLaporanpembebasantarifV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKLaporanpembebasantarifV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKLaporanpembebasantarifV']['tgl_akhir']);

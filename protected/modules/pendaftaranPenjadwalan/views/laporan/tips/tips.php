@@ -27,7 +27,7 @@ Ulang
     <td>4. </td>
     <td>Gunakan tombol ini <a class="btn btn-primary" >
 <i class="icon-print icon-white"></i>
-Print
+Cetak
 </a> untuk mencetak data.</td>
   </tr>
   <tr>

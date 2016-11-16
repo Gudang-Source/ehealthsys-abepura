@@ -33,7 +33,11 @@ if(!empty($pasienAdmisi)){
         'focus'=>'#',
 ));
 $this->widget('bootstrap.widgets.BootAlert'); 
-echo $form->errorSummary(array($modPasienBatalPulang)); ?>
+echo $form->errorSummary(array($modPasienBatalPulang));
+
+$modPendaftaran->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran);
+
+?>
 
 	<div class="row-fluid">
 <fieldset>
@@ -69,10 +73,13 @@ echo $form->errorSummary(array($modPasienBatalPulang)); ?>
         <tr>
             <td><?php //echo CHtml::activeLabel($modPendaftaran, 'jeniskasuspenyakit_nama',array('class'=>'control-label')); 
                       echo CHtml::label('Jenis Kasus Penyakit','jeniskasuspenyakit_nama', array('class'=>'control-label') ) ; ?></td>
-            <td><?php echo CHtml::activeTextField($modPendaftaran, 'jeniskasuspenyakit_nama', array('readonly'=>true)); ?></td>
+            <td><?php 
             
-            <td><?php echo CHtml::activeLabel($modPasien, 'nama_bin',array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasien, 'nama_bin', array('readonly'=>true)); ?></td>
+            $modPendaftaran->jeniskasuspenyakit_nama = $modPendaftaran->jeniskasuspenyakit->jeniskasuspenyakit_nama;	
+            echo CHtml::activeTextField($modPendaftaran, 'jeniskasuspenyakit_nama', array('readonly'=>true)); ?></td>
+            
+            <td><?php //echo CHtml::activeLabel($modPasien, 'nama_bin',array('class'=>'control-label')); ?></td>
+            <td><?php //echo CHtml::activeTextField($modPasien, 'nama_bin', array('readonly'=>true)); ?></td>
         </tr>
     </table>
 </fieldset>
@@ -83,7 +90,8 @@ echo $form->errorSummary(array($modPasienBatalPulang)); ?>
         <div class="control-group ">
             <?php echo $form->labelEx($modPasienBatalPulang,'tglpembatalan', array('class'=>'control-label')) ?>
             <div class="controls">
-                <?php 
+				<?php echo $form->textField($modPasienBatalPulang, 'tglpembatalan', array('class'=>'realtime')); ?>
+                <?php /*
                 $this->widget('MyDateTimePicker',array(
                                 'model'=>$modPasienBatalPulang,
                                 'attribute'=>'tglpembatalan',
@@ -96,7 +104,7 @@ echo $form->errorSummary(array($modPasienBatalPulang)); ?>
                                                  'class'=>'dtPicker3',
                                                  'onkeypress'=>"return $(this).focusNextInputField(event);",
                                                  ),
-                )); ?>
+                )); */ ?>
             </div>
         </div>
         <?php echo $form->textAreaRow($modPasienBatalPulang, 'alasanpembatalan'); ?>

@@ -12,7 +12,12 @@
                 echo CHtml::hiddenField('instalasi_id',$modKunjungan->instalasi_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
                 echo CHtml::textField('instalasi_nama',$modKunjungan->instalasi_nama,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
             }else{
-                echo CHtml::dropDownList('instalasi_id',$modKunjungan->instalasi_id,CHtml::listData(AMInstalasiM::model()->getInstalasiPelayanans(),'instalasi_id','instalasi_nama'),array('onchange'=>'setKunjunganReset();refreshDialogKunjungan();','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)",)); 
+                if (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_AMBULAN){
+                    $ins = Params::INSTALASI_ID_RJ;
+                }else{
+                    $ins = Yii::app()->user->getState('instalasi_id');
+                }
+                echo CHtml::dropDownList('instalasi_id',$ins,CHtml::listData(AMInstalasiM::model()->getInstalasiPelayanans(),'instalasi_id','instalasi_nama'),array('onchange'=>'setKunjunganReset();refreshDialogKunjungan();','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)",)); 
             }
             ?>
         </div>
@@ -247,6 +252,8 @@
 </div>
 
 <?php 
+ $item = LookupM::getItems('statusperiksa');
+unset($item['BATAL PERIKSA']);
 //========= Dialog buat cari data pendaftaran / kunjungan =========================
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogKunjungan',
@@ -261,15 +268,16 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 ));
     $modDialogKunjungan = new AMInfokunjunganrjV('searchDialogKunjungan');
     $modDialogKunjungan->unsetAttributes();
-    $modDialogKunjungan->instalasi_id = Params::INSTALASI_ID_RJ;
+    $modDialogKunjungan->instalasi_id = Yii::app()->user->getState('instalasi_id');//Params::INSTALASI_ID_RJ
+    $modDialogKunjungan->ruangan_id = Yii::app()->user->getState('ruangan_id');
     if(isset($_GET['AMInfokunjunganrjV'])) {
         $modDialogKunjungan->attributes = $_GET['AMInfokunjunganrjV'];
-        $modDialogKunjungan->instalasi_id = $_GET['AMInfokunjunganrjV']['instalasi_id'];
+       // $modDialogKunjungan->instalasi_id = $_GET['AMInfokunjunganrjV']['instalasi_id'];
         $modDialogKunjungan->no_pendaftaran = (isset($_GET['AMInfokunjunganrjV']['no_pendaftaran']) ? $_GET['AMInfokunjunganrjV']['no_pendaftaran'] : "");
         $modDialogKunjungan->no_rekam_medik = (isset($_GET['AMInfokunjunganrjV']['no_rekam_medik']) ? $_GET['AMInfokunjunganrjV']['no_rekam_medik'] : "");
         $modDialogKunjungan->nama_pasien = (isset($_GET['AMInfokunjunganrjV']['nama_pasien']) ? $_GET['AMInfokunjunganrjV']['nama_pasien'] : "");
         $modDialogKunjungan->carabayar_nama = (isset($_GET['AMInfokunjunganrjV']['carabayar_nama']) ? $_GET['AMInfokunjunganrjV']['carabayar_nama'] : "");
-        $modDialogKunjungan->ruangan_nama = (isset($_GET['AMInfokunjunganrjV']['ruangan_nama']) ? $_GET['AMInfokunjunganrjV']['ruangan_nama'] : "");
+       // $modDialogKunjungan->ruangan_nama = (isset($_GET['AMInfokunjunganrjV']['ruangan_nama']) ? $_GET['AMInfokunjunganrjV']['ruangan_nama'] : "");
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -308,21 +316,31 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                 'type'=>'raw',
                 'filter'=> CHtml::dropDownList('AMInfokunjunganrjV[jeniskelamin]',$modDialogKunjungan->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
             ),
-            array(
+           /* array(
+                'header' => 'Instalasi',
                 'name'=>'instalasi_id',
                 'value'=>'$data->instalasi_nama',
                 'type'=>'raw',
                 'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
-            ),
+            ),*/
             array(
-                'name'=>'ruangan_nama',
+                'header'=>'Ruangan',
+                'name' => 'ruangan_id',
                 'type'=>'raw',
+                'value' => '$data->ruangan_nama',
+                'filter' => Chtml::activeDropDownList($modDialogKunjungan, 'ruangan_id', Chtml::listData(AMRuanganM::getRuanganPesanAM(), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --'))
             ),
             array(
                 'name'=>'carabayar_id',
                 'type'=>'raw',
                 'value'=>'$data->carabayar_nama',
                 'filter'=> CHtml::dropDownList('AMInfokunjunganrjV[carabayar_id]',$modDialogKunjungan->carabayar_id,CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif IS TRUE ORDER BY carabayar_nama ASC"),'carabayar_id','carabayar_nama'),array('empty'=>'--Pilih--'))
+            ),
+            array(
+                'header' => 'Status Periksa',
+                'name' => 'statusperiksa',
+                'value' => '$data->statusperiksa',
+                'filter' => Chtml::dropDownList('AMInfokunjunganrjV[statusperiksa]', $modDialogKunjungan->statusperiksa, $item, array('empty'=>'-- Pilih --'))
             ),
         ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

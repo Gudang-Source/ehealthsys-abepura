@@ -9,6 +9,7 @@ class PeminjamanrmTController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        public $path_view = 'rekamMedis.views.peminjamanrmT.';
 
 	/**
 	 * Displays a particular model.
@@ -243,7 +244,7 @@ class PeminjamanrmTController extends MyAuthController
 		   $model->tgl_awal  = $format->formatDateTimeForDb($_GET['RKInformasipeminjamanrmV']['tgl_awal']);
 		   $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RKInformasipeminjamanrmV']['tgl_akhir']);                   
 		}
-		$this->render('informasi',array(
+		$this->render($this->path_view.'informasi',array(
 			'model'=>$model,
 		));
 	}

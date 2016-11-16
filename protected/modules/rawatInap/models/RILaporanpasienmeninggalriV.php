@@ -33,6 +33,7 @@ class RILaporanpasienmeninggalriV extends LaporanpasienmeninggalriV {
     public function searchTable(){
         $criteria=new CDbCriteria;
         $criteria = $this->functionCriteria();
+        $criteria->order = 'tglpasienpulang ASC';
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
         ));
@@ -52,8 +53,18 @@ class RILaporanpasienmeninggalriV extends LaporanpasienmeninggalriV {
         $criteria=new CDbCriteria;
         $criteria = $this->functionCriteria();
         
-        $criteria->select = 'count(pendaftaran_id) as jumlah, caramasuk_nama as data, caramasuk_nama as tick';
-        $criteria->group = 'caramasuk_nama';
+        $filter = isset($_REQUEST['filter'])?$_REQUEST['filter']:null;
+        
+        if ($filter == 'caramasuk'){
+            $criteria->select = 'count(pendaftaran_id) as jumlah, caramasuk_nama as data, caramasuk_nama as tick';
+            $criteria->group = 'caramasuk_nama';
+        }elseif ($filter == 'kondisipulang'){
+            $criteria->select = 'count(pendaftaran_id) as jumlah, kondisipulang as data, kondisipulang as tick';
+            $criteria->group = 'kondisipulang';
+        }else{
+            $criteria->select = 'count(pendaftaran_id) as jumlah, caramasuk_nama as data, caramasuk_nama as tick';
+            $criteria->group = 'caramasuk_nama';
+        }
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
@@ -142,14 +153,18 @@ class RILaporanpasienmeninggalriV extends LaporanpasienmeninggalriV {
 			$criteria->addCondition("ruangan_id = ".$this->ruangan_id); 	
 		}
         $criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
-		if(!empty($this->caramasuk_id)){
-			$criteria->addInCondition("caramasuk_id",$this->caramasuk_id); 	
-			if (is_array($this->caramasuk_id)){
-				$criteria->addInCondition("caramasuk_id",$this->caramasuk_id); 	
-			}else{
-				$criteria->addCondition("caramasuk_id = ".$this->caramasuk_id); 	
-			}
-		}
+            if(!empty($this->caramasuk_id)){
+                    $criteria->addInCondition("caramasuk_id",$this->caramasuk_id); 	
+                    if (is_array($this->caramasuk_id)){
+                            $criteria->addInCondition("caramasuk_id",$this->caramasuk_id); 	
+                    }else{
+                            $criteria->addCondition("caramasuk_id = ".$this->caramasuk_id); 	
+                    }
+            }
+            
+            if (!empty($this->kondisikeluar_id)){
+                $criteria->addInCondition("kondisikeluar_id",$this->kondisikeluar_id); 	
+            }
         $criteria->compare('LOWER(caramasuk_nama)',strtolower($this->caramasuk_nama),true);
         $criteria->compare('LOWER(transportasi)',strtolower($this->transportasi),true);
         $criteria->compare('LOWER(kondisipulang)',strtolower($this->kondisipulang),true);

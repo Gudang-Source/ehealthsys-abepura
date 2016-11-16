@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Ubah <b>Rekening Penjamin</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Ubah <b>Rekening Penjamin</b></legend>-->
+<fieldset class ="box">
+    <legend class = "rim">Ubah Rekening Penjamin</legend>
 <?php
 /*
 $this->breadcrumbs=array(
@@ -17,4 +19,5 @@ $this->menu=$arrMenu;
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo $this->renderPartial('_formUpdate',array('model'=>$model, 'modPenjamin'=>$modPenjamin)); ?>
-</div>
+<!--</div>-->
+</fieldset>

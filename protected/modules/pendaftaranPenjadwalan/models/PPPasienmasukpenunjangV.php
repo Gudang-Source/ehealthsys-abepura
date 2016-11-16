@@ -159,7 +159,7 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
          */
         public static function criteriaGrafik($model, $type='data', $addCols = array()){
             $criteria = new CDbCriteria;
-            $criteria->select = 'count(pendaftaran_id) as jumlah';
+            $criteria->select = 'count(t.pendaftaran_id) as jumlah';
             if ($_GET['filter'] == 'carabayar') {
                 if (!empty($model->penjamin_id)) {
                     $criteria->select .= ', penjamin_nama as '.$type;
@@ -214,7 +214,8 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 			$criteria = $this->criteriaGrafik($this, 'data', array('tick'=>'ruangan_nama'));
                         
 			//$criteria->order = 'ruangan_nama';
-
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 			if(!empty($this->propinsi_id)){
 				$criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
@@ -232,9 +233,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -254,7 +259,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
                
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, agama as data, agama as tick';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, agama as data, agama as tick';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'agama';
 			$criteria->order = 'agama';
 
@@ -276,9 +283,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -289,6 +300,7 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = " jumlah DESC ";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -298,7 +310,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, golonganumur_nama as data';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, golonganumur_nama as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'golonganumur_nama';
 			$criteria->order = 'golonganumur_nama';
 
@@ -320,9 +334,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -333,6 +351,7 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                        $criteria->order = " jumlah DESC ";
 	//		                
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -342,7 +361,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, jeniskelamin as data';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, jeniskelamin as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'jeniskelamin';
 			$criteria->order = 'jeniskelamin';
 
@@ -364,9 +385,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -386,7 +411,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, statuspasien as data';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, statuspasien as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'statuspasien';
 			$criteria->order = 'statuspasien';
 
@@ -407,9 +434,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -429,7 +460,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
                
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, pekerjaan_nama as data';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, pekerjaan_nama as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'pekerjaan_nama';
 			$criteria->order = 'jumlah DESC';
 
@@ -451,9 +484,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -473,7 +510,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = "count(pendaftaran_id) as jumlah, (CASE statusperkawinan WHEN '' THEN 'TIDAK DIKETAHUI' ELSE statusperkawinan END ) as data";
+			$criteria->select = "count(t.pendaftaran_id) as jumlah, (CASE statusperkawinan WHEN '' THEN 'TIDAK DIKETAHUI' ELSE statusperkawinan END ) as data";
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'statusperkawinan';
 			$criteria->order = 'statusperkawinan';
 
@@ -494,9 +533,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -516,7 +559,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, kecamatan_nama as data';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, kecamatan_nama as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'kecamatan_nama';
 			$criteria->order = 'kecamatan_nama';
 
@@ -538,9 +583,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -560,7 +609,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, kabupaten_nama as data';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, kabupaten_nama as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'kabupaten_nama';
 			$criteria->order = 'kabupaten_nama';
 
@@ -582,9 +633,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -604,7 +659,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, caramasuk_nama as data';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, caramasuk_nama as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'caramasuk_nama';
 			$criteria->order = 'caramasuk_nama';
 
@@ -626,9 +683,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -648,8 +709,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, nama_pegawai as data';
-			
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, nama_pegawai as data';
+			$criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 			
@@ -669,9 +731,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -695,7 +761,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
                 $criteria=new CDbCriteria;
                
-                $criteria->select = 'count(pendaftaran_id) as jumlah, penjamin_nama as data';
+                $criteria->select = 'count(t.pendaftaran_id) as jumlah, penjamin_nama as data';
+                $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
                 $criteria->group = 'penjamin_nama';
                 $criteria->order = 'penjamin_nama';
                 
@@ -717,9 +785,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 					$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 				}
 				$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-				if(!empty($this->instalasi_id)){
-					$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-				}
+				if(!empty($this->ruangan_id)){                    
+                                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                                }else{
+                                   if (!empty($this->instalasi_id)){
+                                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                                   }
+                                }
 				$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 				if(!empty($this->carabayar_id)){
 					$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -739,7 +811,9 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, ruangan_nama as data';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, ruangan_nama as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			$criteria->group = 'ruangan_nama';
 			$criteria->order = 'ruangan_nama';
 
@@ -761,9 +835,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -783,9 +861,11 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, statusperiksa as data';
-			$criteria->group = 'statusperiksa';
-			$criteria->order = 'statusperiksa';
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, t.statusperiksa as data';
+                        $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
+			$criteria->group = 't.statusperiksa';
+			$criteria->order = 't.statusperiksa';
 
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);$criteria->addCondition('tgl_pendaftaran BETWEEN \''.$this->tgl_awal.'\' and \''.$this->tgl_akhir.'\'');
 			
@@ -805,9 +885,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -827,95 +911,109 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
                 $criteria=new CDbCriteria;
                
-                $criteria->select = 'count(pendaftaran_id) as jumlah, alamat_pasien as data';
+                $criteria->select = 'count(t.pendaftaran_id) as jumlah, alamat_pasien as data';
+                $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
                 $criteria->group = 'alamat_pasien';
                 $criteria->order = 'jumlah DESC';
                 
                 $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-				if(!empty($this->propinsi_id)){
-					$criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
-				}
-				$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
-				if(!empty($this->kabupaten_id)){
-					$criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
-				}
-				$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
-				if(!empty($this->kecamatan_id)){
-					$criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
-				}
-				$criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
-				if(!empty($this->kelurahan_id)){
-					$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
-				}
-				$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-				if(!empty($this->instalasi_id)){
-					$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-				}
-				$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-				if(!empty($this->carabayar_id)){
-					$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
-				}
-				$criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
-				if(!empty($this->penjamin_id)){
-					$criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
-				}
-				$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-				$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
-		//		                
-				return new CActiveDataProvider($this, array(
-					'criteria'=>$criteria,
-				));
+                if(!empty($this->propinsi_id)){
+                        $criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
+                }
+                $criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
+                if(!empty($this->kabupaten_id)){
+                        $criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
+                }
+                $criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
+                if(!empty($this->kecamatan_id)){
+                        $criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
+                }
+                $criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
+                if(!empty($this->kelurahan_id)){
+                        $criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
+                }
+                $criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
+                if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
+                $criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+                if(!empty($this->carabayar_id)){
+                        $criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
+                }
+                $criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
+                if(!empty($this->penjamin_id)){
+                        $criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
+                }
+                $criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+                $criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+//		                
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                ));
         }
         public function searchGrafikRujukan(){
             
-			$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, nama_perujuk as data';
-			$criteria->group = 'nama_perujuk';
-			$criteria->order = 'nama_perujuk';
+            $criteria->select = 'count(t.pendaftaran_id) as jumlah, nama_perujuk as data';
+            $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+            $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
+            $criteria->group = 'nama_perujuk';
+            $criteria->order = 'nama_perujuk';
 
-			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);$criteria->addCondition('tgl_pendaftaran BETWEEN \''.$this->tgl_awal.'\' and \''.$this->tgl_akhir.'\'');
-			
-			if(!empty($this->propinsi_id)){
-				$criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
-			}
-			$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
-			if(!empty($this->kabupaten_id)){
-				$criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
-			}
-			$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
-			if(!empty($this->kecamatan_id)){
-				$criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
-			}
-			$criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
-			if(!empty($this->kelurahan_id)){
-				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
-			}
-			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
-			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-			if(!empty($this->carabayar_id)){
-				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
-			}
-			$criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
-			if(!empty($this->penjamin_id)){
-				$criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
-			}
-			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
-	//		                
-			return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-			));
+            $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);$criteria->addCondition('tgl_pendaftaran BETWEEN \''.$this->tgl_awal.'\' and \''.$this->tgl_akhir.'\'');
+
+            if(!empty($this->propinsi_id)){
+                    $criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
+            }
+            $criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
+            if(!empty($this->kabupaten_id)){
+                    $criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
+            }
+            $criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
+            if(!empty($this->kecamatan_id)){
+                    $criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
+            }
+            $criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
+            if(!empty($this->kelurahan_id)){
+                    $criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
+            }
+            $criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
+            if(!empty($this->ruangan_id)){                    
+                $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+            }else{
+               if (!empty($this->instalasi_id)){
+                   $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+               }
+            }
+            $criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+            if(!empty($this->carabayar_id)){
+                    $criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
+            }
+            $criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
+            if(!empty($this->penjamin_id)){
+                    $criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
+            }
+            $criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+            $criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+            $criteria->order = " jumlah DESC";
+//		                
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
         }
         public function searchGrafikPemeriksaan(){
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, ruangan_nama as data';
-			
+			$criteria->select = 'count(t.pendaftaran_id) as jumlah, ruangan_nama as data';
+			$criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                        $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 			
 
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
@@ -936,9 +1034,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 				$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 			}
 			$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
+			if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -965,7 +1067,8 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
                 // should not be searched.
 
                 $criteria=new CDbCriteria;
-                
+                $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
 		$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 		$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
@@ -991,9 +1094,13 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
 		}
 		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-		}
+		if(!empty($this->ruangan_id)){                    
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        }else{
+                           if (!empty($this->instalasi_id)){
+                               $criteria->addCondition("instalasi_id = '".$this->instalasi_id."' ");
+                           }
+                        }
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
@@ -1022,48 +1129,54 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-                
-		$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-		$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-		$criteria->compare('LOWER(statusperiksa)',strtolower($this->statusperiksa),true);
-		$criteria->compare('LOWER(statusmasuk)',strtolower($this->statusmasuk),true);
-		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
-		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
+                $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
+		$criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
+		//$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
+		$criteria->compare('LOWER(t.statusmasuk)',strtolower($this->statusmasuk),true);
+		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+		$criteria->compare('LOWER(t.alamat_pasien)',strtolower($this->alamat_pasien),true);
 		if(!empty($this->propinsi_id)){
-			$criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
+			$criteria->addCondition("t.propinsi_id = ".$this->propinsi_id);			
 		}
-		$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
+		$criteria->compare('LOWER(t.propinsi_nama)',strtolower($this->propinsi_nama),true);
 		if(!empty($this->kabupaten_id)){
-			$criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
+			$criteria->addCondition("t.kabupaten_id = ".$this->kabupaten_id);			
 		}
-		$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
+		$criteria->compare('LOWER(t.kabupaten_nama)',strtolower($this->kabupaten_nama),true);
 		if(!empty($this->kecamatan_id)){
-			$criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);			
+			$criteria->addCondition("t.kecamatan_id = ".$this->kecamatan_id);			
 		}
-		$criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
+		$criteria->compare('LOWER(t.kecamatan_nama)',strtolower($this->kecamatan_nama),true);
 		if(!empty($this->kelurahan_id)){
-			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
+			$criteria->addCondition("t.kelurahan_id = ".$this->kelurahan_id);			
 		}
-		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-		}
-		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+		$criteria->compare('LOWER(t.kelurahan_nama)',strtolower($this->kelurahan_nama),true);
+		if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('t.ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("t.instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
+		$criteria->compare('LOWER(t.ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
-			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
+			$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);			
 		}
-		$criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
+		$criteria->compare('LOWER(t.carabayar_nama)',strtolower($this->carabayar_nama),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
+			$criteria->addCondition("t.penjamin_id = ".$this->penjamin_id);			
 		}
-		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-		$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+		$criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
+		$criteria->compare('LOWER(t.status_konfirmasi)',strtolower($this->status_konfirmasi),true);
 		//$criteria->compare('LOWER(kelompokumur_nama)',strtolower($this->kelompokumur_nama),true);
-		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
-		$criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+		$criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
+		$criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+                
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -1076,61 +1189,64 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 		if(isset($this->tgl_awal) && isset($this->tgl_akhir)){
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 		}
-		$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-		$criteria->compare('LOWER(statusperiksa)',strtolower($this->statusperiksa),true);
-		$criteria->compare('LOWER(statusmasuk)',strtolower($this->statusmasuk),true);
-		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+                $criteria->join = " JOIN pasienmasukpenunjang_t pmp ON pmp.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id";
+                $criteria->addCondition(" pmp.pasienkirimkeunitlain_id IS NULL ");
+		$criteria->compare('LOWER(t.tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
+		$criteria->compare('LOWER(t.statusmasuk)',strtolower($this->statusmasuk),true);
+		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		if(!empty($this->pasien_id)){
-			$criteria->addCondition("pasien_id = ".$this->pasien_id);			
+			$criteria->addCondition("t.pasien_id = ".$this->pasien_id);			
 		}
-		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
-		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
+		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+		$criteria->compare('LOWER(t.alamat_pasien)',strtolower($this->alamat_pasien),true);
 		if(!empty($this->propinsi_id)){
-			$criteria->addCondition("propinsi_id = ".$this->propinsi_id);			
+			$criteria->addCondition("t.propinsi_id = ".$this->propinsi_id);			
 		}
-		$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
+		$criteria->compare('LOWER(t.propinsi_nama)',strtolower($this->propinsi_nama),true);
 		if(!empty($this->kabupaten_id)){
-			$criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);			
+			$criteria->addCondition("t.kabupaten_id = ".$this->kabupaten_id);			
 		}
-		$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
+		$criteria->compare('LOWER(t.kabupaten_nama)',strtolower($this->kabupaten_nama),true);
 		if(!empty($this->kelurahan_id)){
-			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);			
+			$criteria->addCondition("t.kelurahan_id = ".$this->kelurahan_id);			
 		}
-		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-		}
-		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+		$criteria->compare('LOWER(t.kelurahan_nama)',strtolower($this->kelurahan_nama),true);		
+		$criteria->compare('LOWER(t.ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
-			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);			
+			$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);			
 		}
-		$criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
-		$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+		$criteria->compare('LOWER(t.carabayar_nama)',strtolower($this->carabayar_nama),true);
+		$criteria->compare('LOWER(t.status_konfirmasi)',strtolower($this->status_konfirmasi),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
+			$criteria->addCondition("t.penjamin_id = ".$this->penjamin_id);			
 		}
-		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+		$criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
 		// $criteria->compare('DATE_PART(MONTH,tgl_pendaftaran)',($this->bulan));
-		if(!empty($this->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);			
-		}
-		$criteria->compare('LOWER(nama_pegawai)',($this->nama_pegawai));
+		if(!empty($this->ruangan_id)){                    
+                    $criteria->addInCondition('t.ruangan_id', $this->ruangan_id);
+                }else{
+                   if (!empty($this->instalasi_id)){
+                       $criteria->addCondition("t.instalasi_id = '".$this->instalasi_id."' ");
+                   }
+                }
+		$criteria->compare('LOWER(t.nama_pegawai)',($this->nama_pegawai));
 		//$criteria->compare('LOWER(kelompokumur_nama)',strtolower($this->kelompokumur_nama),true);
-		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
-		$criteria->compare('LOWER(pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
+		$criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
+		$criteria->compare('LOWER(t.pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
 //		$criteria->compare('DATE_PART(MONTH,tgl_pendaftaran)',$this->bulan,true);
 //		$criteria->compare('LOWER(pendidikan_nama)',strtolower($this->pendidikan_nama),true);
 //		$criteria->compare('LOWER(suku_nama)',strtolower($this->suku_nama),true);
-		$criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+		$criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
 		// $criteria->order = 'tgl_pendaftaran DESC';
 		return $criteria;
 	}
         
 	    public function searchUmur(){
 	        $criteria = $this->criteriaSearch();
-	        $criteria->order = 'golonganumur_nama';    
+	        $criteria->order = 't.golonganumur_nama';    
                 
 	        return new CActiveDataProvider($this, array(
 	                'criteria'=>$criteria,

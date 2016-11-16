@@ -132,10 +132,10 @@ class InfokunjunganrdV extends CActiveRecord
 			array('statusrekammedis, no_rekam_medik, gelardepan, no_rujukan', 'length', 'max'=>10),
 			array('no_urutantri', 'length', 'max'=>6),
 			array('gelarbelakang_nama', 'length', 'max'=>15),
-			array('tanggal_lahir, alamat_pasien, tgl_rekam_medik, status_konfirmasi, tgl_konfirmasi, tgl_pendaftaran, alihstatus, byphone, kunjunganrumah, create_time, create_loginpemakai_id, create_ruangan, tanggal_rujukan, diagnosa_rujukan, pegawai_id', 'safe'),
+			array('carakeluar, tanggal_lahir, alamat_pasien, tgl_rekam_medik, status_konfirmasi, tgl_konfirmasi, tgl_pendaftaran, alihstatus, byphone, kunjunganrumah, create_time, create_loginpemakai_id, create_ruangan, tanggal_rujukan, diagnosa_rujukan, pegawai_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('statusBayar, pilihanx, tgl_awal, pendidikan_id, suku_id,  tgl_akhir, pasien_id, status_konfirmasi, tgl_konfirmasi, jenisidentitas, no_identitas_pasien, namadepan, nama_pasien, nama_bin, jeniskelamin, tempat_lahir, tanggal_lahir, alamat_pasien, rt, rw, agama, golongandarah, photopasien, alamatemail, statusrekammedis, statusperkawinan, no_rekam_medik, tgl_rekam_medik, propinsi_id, propinsi_nama, kabupaten_id, kabupaten_nama, kelurahan_id, kelurahan_nama, kecamatan_id, kecamatan_nama, pendaftaran_id, pekerjaan_id, pekerjaan_nama, no_pendaftaran, tgl_pendaftaran, no_urutantri, transportasi, keadaanmasuk, statusperiksa, statuspasien, kunjungan, alihstatus, byphone, kunjunganrumah, statusmasuk, umur, no_asuransi, namapemilik_asuransi, nopokokperusahaan, create_time, create_loginpemakai_id, create_ruangan, gelardepan, nama_pegawai, gelarbelakang_nama, carabayar_id, carabayar_nama, penjamin_id, penjamin_nama, caramasuk_id, caramasuk_nama, shift_id, golonganumur_id, golonganumur_nama, no_rujukan, nama_perujuk, tanggal_rujukan, diagnosa_rujukan, asalrujukan_id, asalrujukan_nama, penanggungjawab_id, pengantar, hubungankeluarga, nama_pj, ruangan_id, ruangan_nama, instalasi_id, instalasi_nama, jeniskasuspenyakit_id, jeniskasuspenyakit_nama, kelaspelayanan_id, kelaspelayanan_nama, pegawai_id', 'safe', 'on'=>'search'),
+			array('carakeluar, statusBayar, pilihanx, tgl_awal, pendidikan_id, suku_id,  tgl_akhir, pasien_id, status_konfirmasi, tgl_konfirmasi, jenisidentitas, no_identitas_pasien, namadepan, nama_pasien, nama_bin, jeniskelamin, tempat_lahir, tanggal_lahir, alamat_pasien, rt, rw, agama, golongandarah, photopasien, alamatemail, statusrekammedis, statusperkawinan, no_rekam_medik, tgl_rekam_medik, propinsi_id, propinsi_nama, kabupaten_id, kabupaten_nama, kelurahan_id, kelurahan_nama, kecamatan_id, kecamatan_nama, pendaftaran_id, pekerjaan_id, pekerjaan_nama, no_pendaftaran, tgl_pendaftaran, no_urutantri, transportasi, keadaanmasuk, statusperiksa, statuspasien, kunjungan, alihstatus, byphone, kunjunganrumah, statusmasuk, umur, no_asuransi, namapemilik_asuransi, nopokokperusahaan, create_time, create_loginpemakai_id, create_ruangan, gelardepan, nama_pegawai, gelarbelakang_nama, carabayar_id, carabayar_nama, penjamin_id, penjamin_nama, caramasuk_id, caramasuk_nama, shift_id, golonganumur_id, golonganumur_nama, no_rujukan, nama_perujuk, tanggal_rujukan, diagnosa_rujukan, asalrujukan_id, asalrujukan_nama, penanggungjawab_id, pengantar, hubungankeluarga, nama_pj, ruangan_id, ruangan_nama, instalasi_id, instalasi_nama, jeniskasuspenyakit_id, jeniskasuspenyakit_nama, kelaspelayanan_id, kelaspelayanan_nama, pegawai_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -481,9 +481,9 @@ class InfokunjunganrdV extends CActiveRecord
         public function getNamaNamaBIN()
         {
         	if (!empty($this->nama_bin)) {
-        		return $this->nama_pasien.' alias '.$this->nama_bin;
+        		return $this->namadepan." ".$this->nama_pasien.' alias '.$this->nama_bin;
         	} else {
-       			return $this->nama_pasien;
+       			return $this->namadepan." ".$this->nama_pasien;
        		}
         }
         

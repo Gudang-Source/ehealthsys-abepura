@@ -209,4 +209,22 @@ class ParamedisV extends CActiveRecord
         public function getNamaLengkap(){
             return $this->gelardepan." ".$this->nama_pegawai." ".$this->gelarbelakang_nama;
         }
+        
+        public function searchParamedis()
+        {
+            $criteria=new CDbCriteria;
+            
+            if (!empty($this->ruangan_id)){
+                $criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+            }
+            $criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
+            $criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
+            if (!empty($this->jabatan_id)){
+                $criteria->addCondition('jabatan_id = '.$this->jabatan_id);
+            }
+            return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                        
+                ));
+        }
 }

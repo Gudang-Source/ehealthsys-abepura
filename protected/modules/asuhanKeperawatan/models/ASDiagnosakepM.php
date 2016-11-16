@@ -38,9 +38,9 @@ class ASDiagnosakepM extends DiagnosakepM
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('diagnosakep_id',$this->diagnosakep_id);
-		$criteria->compare('diagnosakep_kode',$this->diagnosakep_kode,true);
-		$criteria->compare('diagnosakep_nama',$this->diagnosakep_nama,true);
-		$criteria->compare('diagnosakep_deskripsi',$this->diagnosakep_deskripsi,true);
+		$criteria->compare('LOWER(diagnosakep_kode)',strtolower($this->diagnosakep_kode),true);
+		$criteria->compare('LOWER(diagnosakep_nama)',strtolower($this->diagnosakep_nama),true);
+		$criteria->compare('LOWER(diagnosakep_deskripsi)',strtolower($this->diagnosakep_deskripsi),true);
 		$criteria->compare('diagnosakep_aktif',$this->diagnosakep_aktif);
 		if (!empty($this->aktif)) {
 			if ($this->aktif == 1) {
@@ -79,6 +79,19 @@ class ASDiagnosakepM extends DiagnosakepM
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
 			'pagination' => false,
+		));
+	}
+        
+        public function searchDialog() {
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria = $this->criteriaSearch();
+		$criteria->limit = 5;
+
+		return new CActiveDataProvider($this, array(
+			'criteria' => $criteria,
+			'pagination' => false
 		));
 	}
 }

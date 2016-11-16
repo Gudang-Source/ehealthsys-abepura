@@ -1,7 +1,7 @@
 <div class="white-container">
 <?php
 Yii::app()->clientScript->registerScript('search', "
-$('#asuhankeperawatan-info-search').submit(function(){
+$('#pengkajiankeperawatan-info-search').submit(function(){
 	$('#informasiasuhankeperawatan-grid').addClass('animation-loading');
 	$.fn.yiiGridView.update('informasiasuhankeperawatan-grid', {
 			data: $(this).serialize()
@@ -16,7 +16,7 @@ $('#asuhankeperawatan-info-search').submit(function(){
 		<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 		<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'id'=>'informasiasuhankeperawatan-grid',
-			'dataProvider'=>$model->search(),
+			'dataProvider'=>$model->searchInformasiEval(),
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 			'columns'=>array(

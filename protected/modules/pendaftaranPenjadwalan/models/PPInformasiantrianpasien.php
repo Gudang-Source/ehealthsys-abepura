@@ -3,6 +3,9 @@
 class PPInformasiantrianpasien extends InformasiantrianpasienV {
 
     public $tgl_awal,$tgl_akhir;
+    public $noantrian_loket;
+    public $prefix_pendaftaran;
+    
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -69,8 +72,9 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
         $criteria->compare('LOWER(t.kecamatan_nama)', strtolower($this->kecamatan_nama), true);
 		if(!empty($this->pendaftaran_id)){
 			$criteria->addCondition("t.pendaftaran_id' = ".$this->pendaftaran_id);			
-		}
-        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+		}        
+        $criteria->compare('LOWER(t.noantrian_loket)', strtolower($this->noantrian_loket), true);
+        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->prefix_pendaftaran.$this->no_pendaftaran), true);
         $criteria->compare('LOWER(t.no_urutantri)', strtolower($this->no_urutantri), true);
         $criteria->compare('LOWER(t.transportasi)', strtolower($this->transportasi), true);
         $criteria->compare('LOWER(t.keadaanmasuk)', strtolower($this->keadaanmasuk), true);
@@ -134,7 +138,7 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
         
         //$criteria->addCondition('t.antrian_id is not null');
         
-        $criteria->order = 't.tglantrian';
+        $criteria->order = 't.tglantrian DESC';
         
         return $criteria;
     }

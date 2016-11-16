@@ -30,7 +30,7 @@
         <?php echo $form->dropDownListRow($modMasukKamar,'kamarruangan_id', CHtml::listData($modMasukKamar->getKamarKosongItems($modMasukKamar->ruangan_id), 'kamarruangan_id', 'KamarDanTempatTidur') ,
                                   array('empty'=>'-- Pilih --',
                                         'onkeypress'=>"return $(this).focusNextInputField(event)",
-                                        'class'=>'span2')); ?>
+                                        'class'=>'span6')); ?>
 
         <div class="control-group ">
             <?php echo $form->labelEx($modMasukKamar,'tglmasukkamar', array('class'=>'control-label')) ?>

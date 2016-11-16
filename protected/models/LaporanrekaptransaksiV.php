@@ -460,4 +460,34 @@ class LaporanrekaptransaksiV extends CActiveRecord
                 ));
         }
         
+        public function getNamaPasien()
+        {
+            return $this->namadepan.' '.$this->nama_pasien;
+        }
+        
+        public function getNamaDokterLengkap()
+        {
+            return $this->gelardepan." ".$this->nama_pegawai." ".$this->gelarbelakang_nama;
+        }
+        
+        public function getCaraBayarPenjamin()
+        {
+            return $this->carabayar_nama." <br/> / ".$this->penjamin_nama;
+        }
+        
+        public function getTanggalNoPendaftaran()
+        {
+            return MyFormatter::formatDateTimeForUser($this->tgl_pendaftaran)." <br/> / ".$this->no_pendaftaran;
+        }
+        
+        public function getCaraBayarItems()
+        {
+            return CarabayarM::model()->findAll('carabayar_aktif=TRUE ORDER BY carabayar_nama ASC') ;
+        }
+        
+        public function getPenjaminItems()
+        {
+            return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE ORDER BY penjamin_nama ASC');
+        }
+        
 }

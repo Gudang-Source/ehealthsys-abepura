@@ -355,7 +355,7 @@ class ActionDynamicController extends Controller
             elseif ($namaModel !== '' && $attr !== '') {
                 $asalrujukan_id = $_POST["$namaModel"]["$attr"];
             }
-            $namarujukan = RujukandariM::model()->findAll('asalrujukan_id='.asalrujukan_id.'');
+            $namarujukan = RujukandariM::model()->findAll('asalrujukan_id='.$asalrujukan_id.'');
             $namarujukan = CHtml::listData($namarujukan,'namaperujuk','namaperujuk');
             
             if($encode){
@@ -1125,6 +1125,45 @@ class ActionDynamicController extends Controller
         }
         Yii::app()->end();
     }
+    
+   
+    
+    public function actionGetNamaRujukanForCheckBox($encode=false,$namaModel=''){
+          if(Yii::app()->request->isAjaxRequest) {
+           $asalrujukan_id = $_POST["$namaModel"]['asalrujukan_id'];
+           if($encode){
+                echo CJSON::encode($ruangan);
+           } else {
+                if(empty($asalrujukan_id)){
+                    $rujukan = RujukandariM::model()->findAll('asalrujukan_id=9999');
+                } else {
+                    $rujukan = RujukandariM::model()->findAll('asalrujukan_id='.$asalrujukan_id.' ORDER BY namaperujuk ASC');
+                }
+                $rujukan = CHtml::listData($rujukan,'namaperujuk','namaperujuk');
+                echo CHtml::hiddenField(''.$namaModel.'[namaperujuk]');
+                $i = 0;
+                if (count($rujukan) > 0){
+                      echo "<div  >".CHtml::checkBox('checkAllRujukan',true, array('onkeypress'=>"return $(this).focusNextInputField(event)",
+                                'class'=>'checkbox-column','onclick'=>'checkAllPerujuk()','checked'=>'checked'))." Pilih Semua";
+                      echo "</div>";
+                    foreach($rujukan as $value=>$name) {
+
+//                        echo '<label class="checkbox">';
+//                        echo CHtml::checkBox(''.$namaModel."[ruangan_id][]", true, array('value'=>$value));
+//                        echo '<label for="'.$namaModel.'_ruangan_id_'.$i.'">'.$name.'</label>';
+//                        echo '</label>';
+                        $selects[] = $value;
+                        $i++;
+                    }
+                    echo CHtml::checkBoxList(''.$namaModel."[namaperujuk]", $selects, $rujukan);
+                }
+                else{
+                    echo '<label>Data Tidak Ditemukan</label>';
+                }
+           }
+        }
+        Yii::app()->end();
+      }
     
     public function actionGetBidang($encode=false,$model_nama='',$attr='')
         {

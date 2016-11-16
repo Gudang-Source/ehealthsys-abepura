@@ -7,6 +7,9 @@
     );
 
     $url = Yii::app()->createUrl('pendaftaranPenjadwalan/laporan/frameGrafikDokterPemeriksaRJ&id=1');
+    if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_REKAM_MEDIS){
+        $url = Yii::app()->createUrl('rekamMedis/laporan/frameGrafikDokterPemeriksaRJ&id=1');
+    }
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();
@@ -65,7 +68,7 @@
     </div>
     <div class="block-tabel">
         <?php $this->renderPartial('pendaftaranPenjadwalan.views.laporan._tab'); ?>
-        <iframe src="" id="Grafik" width="100%" height='0' onload="javascript:resizeIframe(this);">
+        <iframe class="biru" src="" id="Grafik" width="100%" height='0' onload="javascript:resizeIframe(this);">
         </iframe>        
     </div>
     <?php

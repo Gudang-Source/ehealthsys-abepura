@@ -1,7 +1,7 @@
 	<br>
 	<?php echo '<p style="text-align:center;"><strong>PENGKAJIAN AWAL KEPERAWATAN</strong></p>'; ?>
 	<?php echo '<p style="text-align:center;">(Dilengkapi dalam waktu 24 jam pertama pasien masuk rawat inap)</p>'; ?>
-	<table width="100%" class="table-alergi table-condensed">
+	<table width="100%" class="table-alergi">
 		<tr>
 			<th colspan="2" style="text-align: center; ">ALERGI / REAKSI</th>
 		</tr>
@@ -51,7 +51,7 @@
 		</tr>
 	</table>
 	<br>
-	<table width="100%">
+	<table width="100%" >
 		<tr>
 			<td>
 				<strong>ALASAN MASUK RUMAH SAKIT (Keluhan utama) : </strong>

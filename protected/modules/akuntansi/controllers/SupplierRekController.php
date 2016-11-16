@@ -14,7 +14,8 @@ class SupplierRekController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
-        $model= SupplierrekM::model()->findByAttributes(array('supplier_id'=>$id));
+            $this->layout='//layouts/iframe';
+        $model= SupplierM::model()->findByAttributes(array('supplier_id'=>$id));
 
 		$this->render('view',array(
 			'model'=>$model,
@@ -27,6 +28,7 @@ class SupplierRekController extends MyAuthController
 	 */
 	public function actionCreate()
 	{
+            $this->layout='//layouts/iframe';
         //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new AKSupplierRekM();
                 
@@ -103,6 +105,7 @@ class SupplierRekController extends MyAuthController
 	 */
 	public function actionUpdate($id)
 	{
+            $this->layout='//layouts/iframe';
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
                 $modSupplier = SupplierM::model()->findByPk($id);
                 $modeld = AKSupplierRekM::model()->findByAttributes(array('supplier_id'=>$id, 'debitkredit'=>'D'));
@@ -257,7 +260,7 @@ class SupplierRekController extends MyAuthController
 			// we only allow deletion via POST request
             //if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 			$model=AKSupplierRekM::model()->deleteAll('supplier_id=:supplier_id', array(':supplier_id'=>$id));
-
+                      //  $this->loadModel($id)->delete();
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
@@ -282,6 +285,7 @@ class SupplierRekController extends MyAuthController
 	 */
 	public function actionAdmin($id='')
 	{
+            $this->layout='//layouts/iframe';
                 if ($id==1):
                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                 endif;

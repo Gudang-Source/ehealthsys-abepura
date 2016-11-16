@@ -2,7 +2,7 @@
 
 class SAIntervensidetM extends IntervensidetM
 {
-	public $intervensi_nama,$diagnosakep_id,$aktif,$diagnosakep_nama;
+	public $intervensi_nama,$diagnosakep_id,$aktif,$diagnosakep_nama, $hasTab;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -43,15 +43,8 @@ class SAIntervensidetM extends IntervensidetM
 		$criteria->compare('LOWER(intervensi.intervensi_nama)',strtolower($this->intervensi_nama),true);
 		$criteria->compare('intervensidet_id',$this->intervensidet_id,true);
 		$criteria->compare('LOWER(intervensidet_indikator)',strtolower($this->intervensidet_indikator),true);
-		$criteria->compare('intervensidet_aktif',$this->intervensidet_aktif);
-		if (!empty($this->aktif)) {
-			if ($this->aktif == 1) {
-				$criteria->addCondition('t.intervensidet_aktif = TRUE');
-			}
-			if ($this->aktif == 0) {
-				$criteria->addCondition('t.intervensidet_aktif = FALSE');
-			} 
-		}
+		$criteria->compare('intervensidet_aktif',isset($this->intervensidet_aktif)?$this->intervensidet_aktif:true);
+		
 		return $criteria;
 	}
 	

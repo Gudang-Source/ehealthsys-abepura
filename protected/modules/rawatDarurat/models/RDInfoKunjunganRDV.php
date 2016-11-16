@@ -31,7 +31,7 @@
 class RDInfoKunjunganRDV extends InfokunjunganrdV
 {
          public $ceklis = false;
-         public $tgl_awal,$tgl_akhir;
+         public $tgl_awal,$tgl_akhir;         
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -51,8 +51,7 @@ class RDInfoKunjunganRDV extends InfokunjunganrdV
                 
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
 		$criteria->compare('LOWER(statusperiksa)',strtolower($this->statusperiksa),true);
-		$criteria->compare('LOWER(statusmasuk)',strtolower($this->statusmasuk),true);
-		$criteria->compare('LOWER(carakeluar)',strtolower($this->carakeluar ),true);
+		$criteria->compare('LOWER(statusmasuk)',strtolower($this->statusmasuk),true);		
 		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
@@ -68,7 +67,11 @@ class RDInfoKunjunganRDV extends InfokunjunganrdV
 		$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
 		if(!empty($this->kecamatan_id)){
 			$criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);				
-		}
+		}                                
+                
+                if (!empty($this->carakeluar)){
+                    $criteria->addCondition("LOWER(carakeluar) = '".strtolower($this->carakeluar)."' ");
+                }
                 
 		if($this->ceklis)
 		{

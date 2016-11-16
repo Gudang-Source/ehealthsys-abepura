@@ -35,14 +35,14 @@
                 array(
                     'header'=>'Pemakaian Ambulans',
                     'type'=>'raw',
-                    'value'=>'(empty($data->pemakaianambulans_id)) ? (isset($data->pendaftaran_id)? 
-                    CHtml::Link("<i class=\"icon-form-pakaiambulans\"></i>",
-                    Yii::app()->controller->createUrl("PemakaianAmbulanPasienRS/index",array("pemesanan_id"=>$data->pesanambulans_t,"pendaftaran_id"=>$data->pendaftaran_id,
-                    "modul_id"=>Yii::app()->session["modul_id"])),array("class"=>"btn-small","rel"=>"tooltip","title"=>"Klik untuk Pemakaian Ambulans")): 
-                    CHtml::Link("<i class=\"icon-form-pakaiambulans\"></i>",
-                    Yii::app()->controller->createUrl("PemakaianAmbulanPasienLuar/index",array("pemesanan_id"=>$data->pesanambulans_t,
-                    "modul_id"=>Yii::app()->session["modul_id"])),array("class"=>"btn-small","rel"=>"tooltip","title"=>"Klik untuk Pemakaian Ambulans"))
-                    ) : ""',
+                    'value'=>function ($data){
+                    return    (empty($data->pemakaianambulans_id)) ? (isset($data->pendaftaran_id)? 
+                        CHtml::Link("<i class='icon-form-pakaiambulans'></i>",Yii::app()->controller->createUrl($this->ambulansRS."/index",array("pemesanan_id"=>$data->pesanambulans_t,"pendaftaran_id"=>$data->pendaftaran_id,
+                            "modul_id"=>Yii::app()->session["modul_id"])),array("class"=>"btn-small","rel"=>"tooltip","title"=>"Klik untuk Pemakaian Ambulans")): 
+                        CHtml::Link("<i class=\"icon-form-pakaiambulans\"></i>",Yii::app()->controller->createUrl($this->ambulansLuar."/index",array("pemesanan_id"=>$data->pesanambulans_t,
+                        "modul_id"=>Yii::app()->session["modul_id"])),array("class"=>"btn-small","rel"=>"tooltip","title"=>"Klik untuk Pemakaian Ambulans"))
+                        ) : "";
+                    },
                     
                     'htmlOptions'=>array('style'=>'text-align:center;')
                 )

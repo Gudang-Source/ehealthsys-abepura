@@ -318,7 +318,27 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(kemampuanbahasa)',strtolower($this->kemampuanbahasa),true);
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
+		$criteria->compare('golonganpegawai_id', $this->golonganpegawai_id);
                 $criteria->order = 'pegawai_id ASC';
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                  		));
+	}
+        
+        public function searchPegawai()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+                $criteria->compare('LOWER(nomorindukpegawai)', strtolower($this->nomorindukpegawai), TRUE);
+                $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), TRUE);
+                if ($this->jabatan_id){
+                    $criteria->addCondition(" jabatan_id = '".$this->jabatan_id."' ");
+                }
+                $criteria->addCondition(" pegawai_aktif = TRUE ");
+                $criteria->order = 'nama_pegawai ASC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -398,7 +418,10 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('profilrs_id',$this->profilrs_id);
 		$criteria->compare('gelarbelakang_id',$this->gelarbelakang_id);
 		$criteria->compare('suku_id',$this->suku_id);
-		$criteria->compare('kelompokpegawai_id',$this->kelompokpegawai_id);
+                if (!empty($this->kelompokpegawai_id)){
+                    $criteria->addCondition('kelompokpegawai_id ='.$this->kelompokpegawai_id);
+                }
+		
 		$criteria->compare('pendkualifikasi_id',$this->pendkualifikasi_id);
 		$criteria->compare('jabatan_id',$this->jabatan_id);
 		$criteria->compare('pendidikan_id',$this->pendidikan_id);

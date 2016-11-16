@@ -15,6 +15,7 @@
                                $cr4->addCondition('statusscan_id=:p1');
                                $cr4->params[':p1'] = Params::STATUSSCAN_MASUK;
                                $pr4 = PresensiT::model()->find($cr4);
+                               
 
                                $cr5 = new CDbCriteria();
                                $cr5->compare('tglpresensi::date', $datepresensi);
@@ -22,11 +23,16 @@
                                $cr5->addCondition('statusscan_id=:p1');
                                $cr5->params[':p1'] = Params::STATUSSCAN_PULANG;
                                $pr5 = PresensiT::model()->find($cr5);
-
+                               
                                if (count($pr4)>0){
-                                   echo $pr4->statuskehadiran->statuskehadiran_nama;
+                                   $waktu = date('H:i:s', strtotime($pr4->tglpresensi));
+                                   if ( ($waktu >= '09:00:00') AND ($waktu <= '10:00:00')){
+                                        echo StatuskehadiranM::model()->findByPk(Params::STATUSKEHADIRAN_ALPHA)->statuskehadiran_nama;
+                                    }else{
+                                        echo $pr4->statuskehadiran->statuskehadiran_nama;
+                                    }                                    
                                }else{
-                                   if (count($pr5)){
+                                   if (count($pr5)){                                       
                                        echo $pr5->statuskehadiran->statuskehadiran_nama;
                                    }else{
                                        echo '-';

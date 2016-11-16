@@ -16,8 +16,12 @@ class PengkajianAskepController extends MyAuthController {
 		$modRiwayatPeriksaFisik = new ASPemeriksaanfisikT;
 		$modPengkajian = new ASPengkajianaskepT;
 		$modPenunjang = new ASDatapenunjangT;
-
-
+                
+                
+                $modPengkajian->pengkajianaskep_tgl = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
+		$modPengkajian->no_pengkajian = "- Otomatis -";
+		$modInfoPengkajian = new ASInfopengkajianaskepV;
+                
 		$nama_modul = Yii::app()->controller->module->id;
 		$nama_controller = Yii::app()->controller->id;
 		$nama_action = Yii::app()->controller->action->id;
@@ -27,6 +31,7 @@ class PengkajianAskepController extends MyAuthController {
 				Yii::app()->controller->module->id . '/' . Yii::app()->controller->id
 		);
 
+                /*
 		if (isset($_GET['pendaftaran_id'])) {
 			$modPendaftaran = ASPendaftaranT::model()->findByPk($_GET['pendaftaran_id']);
 			$modPasien = ASPasienM::model()->findByPk($modPendaftaran->pasien_id);
@@ -35,6 +40,15 @@ class PengkajianAskepController extends MyAuthController {
 		if(isset($_GET['pengkajianaskep_id'])){
 			
 		}
+                 * */
+                 
+                if (isset($_GET['pengkajianaskep_id'])) {
+			$modPengkajian = ASPengkajianaskepT::model()->findByPk($_GET['pengkajianaskep_id']);
+			$modPendaftaran = ASPendaftaranT::model()->findByPk($modPengkajian->pendaftaran_id);
+			$modPasien = ASPasienM::model()->findByPk($modPendaftaran->pasien_id);
+			$modInfoPengkajian = ASInfopengkajianaskepV::model()->findByAttributes(array('pengkajianaskep_id'=>$_GET['pengkajianaskep_id']));
+		}
+                
 		$successSave = false;
 		
 		if (isset($_POST['ASPengkajianaskepT']) && !empty($_POST['ASPendaftaranT']['pendaftaran_id'])) {
@@ -54,7 +68,7 @@ class PengkajianAskepController extends MyAuthController {
 				if ($successSave) {
 					Yii::app()->user->setFlash('success', "Data berhasil disimpan");
 					$transaction->commit();
-//                    $this->redirect(array('index','status'=>1,'returbayarpelayanan_id'=>$modRetur->returbayarpelayanan_id,'pendaftaran_id'=>$_POST['BKPendaftaranT']['pendaftaran_id'],'smspasien'=>$smspasien)); 
+                                        $this->redirect(array('index','status'=>1,'pengkajianaskep_id'=>$modPengkajian->pengkajianaskep_id)); 
 				} else {
 					Yii::app()->user->setFlash('error', "Data gagal disimpan ");
 					$transaction->rollback();
@@ -80,9 +94,36 @@ class PengkajianAskepController extends MyAuthController {
 	}
 
 	public function actionLoadPenanggungJawab($penanggungjawab_id) {
-		if (isset($penanggungjawab_id)) {
-			return ASPenanggungjawabM::model()->findByPk($penanggungjawab_id);
+            if (Yii::app()->request->isAjaxRequest) {
+                    $data = '';
+                    if (isset($penanggungjawab_id)) {
+                            $data = ASPenanggungjawabM::model()->findByPk($penanggungjawab_id);
+                    }
+                    echo CJSON::encode($data);
+            }
+            Yii::app()->end();
+	}
+        
+        public function actionCekPendaftaran($pendaftaran_id) {
+		if (Yii::app()->request->isAjaxRequest) {
+			$data = '';
+			if (isset($pendaftaran_id)) {
+				$data = ASPengkajianaskepT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
+			}
+			echo CJSON::encode($data);
 		}
+		Yii::app()->end();
+	}
+	
+	public function actionLoadPasien($pendaftaran_id) {
+		if (Yii::app()->request->isAjaxRequest) {
+			$data = '';
+			if (isset($pendaftaran_id)) {
+				$data = ASInfopasienmasukkamarV::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
+			}
+			echo CJSON::encode($data);
+		}
+		Yii::app()->end();
 	}
 
 	public function actionLoadRiwayatAnemnesa() {
@@ -143,8 +184,9 @@ class PengkajianAskepController extends MyAuthController {
 
 	protected function savePengkajian($post, $pendaftaran_id) {
 		$modPengkajian = new ASPengkajianaskepT;
-		$modPengkajian->attributes = $post;
+		$modPengkajian->attributes = $post;                
 		$modPengkajian->no_pengkajian = MyGenerator::noPengkajianAskep();
+                //var_dump($modPengkajian->no_pengkajian);die;
 		$modPengkajian->anamesa_id = $post['anamesa_id'];
 		$modPengkajian->pemeriksaanfisik_id = $post['pemeriksaanfisik_id'];
 		$modPengkajian->pengkajianaskep_tgl = MyFormatter::formatDateTimeForDb($post['pengkajianaskep_tgl']);
@@ -154,6 +196,7 @@ class PengkajianAskepController extends MyAuthController {
 		$modPengkajian->create_loginpemakai_id = Yii::app()->user->id;
 		$modPengkajian->ruangan_id = Yii::app()->user->ruangan_id;
 		$modPengkajian->iskeperawatan = 1;
+                
 		if ($modPengkajian->validate()) {
 			$modPengkajian->save();
 			$this->successSave = $this->successSave && true;
@@ -215,12 +258,12 @@ class PengkajianAskepController extends MyAuthController {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');   //Ukuran Kertas Pdf
 			$posisi = Yii::app()->user->getState('posisi_kertas');   //Posisi L->Landscape,P->Portait
 			$mpdf = new MyPDF('', $ukuranKertasPDF);
-			$mpdf->useOddEven = 2;
+			$mpdf->mirrorMargins = 2;
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'Print', array('modPengkajian' => $modPengkajian, 'modPendaftaran' => $modPendaftaran, 'modPasien' => $modPasien, 'modDiagnosa' => $modDiagnosa, 'modPenanggungJawab' => $modPenanggungJawab, 'modAnamnesa' => $modAnamnesa, 'modPeriksaFisik' => $modPeriksaFisik, 'modPenunjang' => $modPenunjang, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 
@@ -279,10 +322,11 @@ class PengkajianAskepController extends MyAuthController {
 		$anamnesa = new ASAnamnesaT;
 		$criteria = new CDbCriteria();
 		$criteria->select = 't.*,pasien.*,pendaftaran.*,pegawai.*,kelaspelayanan.*';
-		$criteria->join = 'JOIN pasien_m AS pasien ON pasien.pasien_id = t.pasien_id
-						   JOIN pendaftaran_t AS pendaftaran ON pendaftaran.pendaftaran_id = t.pendaftaran_id
-						   JOIN pegawai_m AS pegawai ON pegawai.pegawai_id = t.pegawai_id
-						   JOIN kelaspelayanan_m AS kelaspelayanan ON kelaspelayanan.kelaspelayanan_id = pendaftaran.kelaspelayanan_id';
+		$criteria->join = 'LEFT JOIN pasien_m AS pasien ON pasien.pasien_id = t.pasien_id
+						   LEFT JOIN pendaftaran_t AS pendaftaran ON pendaftaran.pendaftaran_id = t.pendaftaran_id
+						   LEFT JOIN pegawai_m AS pegawai ON pegawai.pegawai_id = t.pegawai_id
+						   LEFT JOIN kelaspelayanan_m AS kelaspelayanan ON kelaspelayanan.kelaspelayanan_id = pendaftaran.kelaspelayanan_id
+                                                   LEFT JOIN gelarbelakang_m AS gelarbelakang ON gelarbelakang.gelarbelakang_id = pegawai.gelarbelakang_id';
 		$criteria->addCondition('anamesa_id =' . $anamesa_id);
 
 		$modAnamnesa = ASAnamnesaT::model()->find($criteria);
@@ -296,7 +340,8 @@ class PengkajianAskepController extends MyAuthController {
 	 * @param type $pendaftaran_id
 	 */
 	public function actionDetailPeriksaFisik($pemeriksaanfisik_id) {
-		$this->layout = '//layouts/printWindows';
+		//$this->layout = '//layouts/printWindows';
+                $this->layout = '//layouts/iframe';
 		$format = new MyFormatter;
 		$criteria = new CdbCriteria();
 		$criteria->with = array('pegawai');
@@ -311,6 +356,7 @@ class PengkajianAskepController extends MyAuthController {
 		$modPemeriksaanGambar = ASPemeriksaangambarT::model()->findAllByAttributes(array('pendaftaran_id' => $modPemeriksaanFisik->pendaftaran_id));
 		$modGambarTubuh = new ASGambartubuhM();
 		$modBagianTubuh = new ASBagiantubuhM();
+                
 		if ((!empty($modPemeriksaanFisik->gcs_eye)) && (!empty($modPemeriksaanFisik->gcs_verbal)) && (!empty($modPemeriksaanFisik->gcs_motorik))) {
 			$modPemeriksaanFisik->namaGCS = $modPemeriksaanFisik->gcs_eye + $modPemeriksaanFisik->gcs_verbal + $modPemeriksaanFisik->gcs_motorik;
 		}
@@ -327,5 +373,112 @@ class PengkajianAskepController extends MyAuthController {
 			'modBagianTubuh' => $modBagianTubuh
 		));
 	}
+        
+        public function actionAutocompletenopendaftaran() {
+		if (Yii::app()->request->isAjaxRequest) {
+			$format = new MyFormatter();
+			$returnVal = array();
+
+			$criteria = new CDbCriteria();
+			$criteria->compare('LOWER(no_pendaftaran)', strtolower($_GET['term']), true);
+			$criteria->addCondition("instalasi_id = " . Params::INSTALASI_ID_RI);
+                        $criteria->addCondition("ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+		//	$criteria->addBetweenCondition("DATE(tglmasukkamar)",date("Y-m-d", strtotime("31 days")),date("Y-m-d"));
+			$criteria->limit = 5;
+			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
+			foreach ($models as $i => $model) {
+				$attributes = $model->attributeNames();
+				foreach ($attributes as $j => $attribute) {
+					$returnVal[$i]["$attribute"] = $model->$attribute;
+				}
+				$returnVal[$i]['label'] = $model->no_pendaftaran . ' - ' . $model->no_rekam_medik . ' - ' . $model->nama_pasien . (!empty($model->nama_bin) ? "(" . $model->nama_bin . ")" : "");
+				$returnVal[$i]['value'] = $model->no_pendaftaran;
+			}
+
+			echo CJSON::encode($returnVal);
+		}
+		Yii::app()->end();
+	}
+
+	public function actionAutocompletenorekammedik() {
+		if (Yii::app()->request->isAjaxRequest) {
+			$format = new MyFormatter();
+			$returnVal = array();
+
+			$criteria = new CDbCriteria();
+			$criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['term']), true);
+			$criteria->addCondition("instalasi_id = " . Params::INSTALASI_ID_RI);	
+                        $criteria->addCondition("ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+			$criteria->limit = 5;
+			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
+			foreach ($models as $i => $model) {
+				$attributes = $model->attributeNames();
+				foreach ($attributes as $j => $attribute) {
+					$returnVal[$i]["$attribute"] = $model->$attribute;
+				}
+				$returnVal[$i]['label'] = $model->no_pendaftaran . ' - ' . $model->no_rekam_medik . ' - ' . $model->nama_pasien . (!empty($model->nama_bin) ? "(" . $model->nama_bin . ")" : "");
+				$returnVal[$i]['value'] = $model->no_rekam_medik;
+			}
+
+			echo CJSON::encode($returnVal);
+		}
+		Yii::app()->end();
+	}
+
+	public function actionAutocompletenamapasien() {
+		if (Yii::app()->request->isAjaxRequest) {
+			$format = new MyFormatter();
+			$returnVal = array();
+
+			$criteria = new CDbCriteria();
+			$criteria->compare('LOWER(nama_pasien)', strtolower($_GET['term']), true);
+			$criteria->addCondition("instalasi_id = " . Params::INSTALASI_ID_RI);
+                        $criteria->addCondition("ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+			$criteria->limit = 5;
+			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
+			foreach ($models as $i => $model) {
+				$attributes = $model->attributeNames();
+				foreach ($attributes as $j => $attribute) {
+					$returnVal[$i]["$attribute"] = $model->$attribute;
+				}
+				$returnVal[$i]['label'] = $model->no_pendaftaran . ' - ' . $model->no_rekam_medik . ' - ' . $model->nama_pasien . (!empty($model->nama_bin) ? "(" . $model->nama_bin . ")" : "");
+				$returnVal[$i]['value'] = $model->nama_pasien;
+			}
+
+			echo CJSON::encode($returnVal);
+		}
+		Yii::app()->end();
+	}
+	
+	public function actionPegawairiwayat()
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $criteria = new CDbCriteria();
+                $criteria->with = array('ruanganpegawai');
+                $criteria->addCondition(" ruanganpegawai.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+                $criteria->compare('t.kelompokpegawai_id', 2);	
+                $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);                
+                $criteria->order = 'nama_pegawai';
+                $criteria->limit=5;
+                $models = PegawaiM::model()->findAll($criteria);
+                
+                
+                foreach($models as $i=>$model)
+                {
+                    $attributes = $model->attributeNames();
+                    foreach($attributes as $j=>$attribute) {
+                        $returnVal[$i]["$attribute"] = $model->$attribute;
+                    }
+                    $returnVal[$i]['label'] = $model->nomorindukpegawai.' - '.$model->nama_pegawai.' - '.$model->jeniskelamin;
+                    $returnVal[$i]['nama_pegawai'] = $model->nama_pegawai;
+                    $returnVal[$i]['value'] = $model->pegawai_id;
+                    $returnVal[$i]['jabatan_nama'] = (isset($model->jabatan->jabatan_nama) ? $model->jabatan->jabatan_nama : '-');
+                }
+
+                echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
+
+        }
 
 }

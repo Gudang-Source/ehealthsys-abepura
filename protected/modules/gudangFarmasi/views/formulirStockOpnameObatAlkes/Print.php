@@ -19,40 +19,56 @@ echo CHtml::css('.control-label{
     td .uang{
         text-align:right;
     }
-    .border{
-        border:1px solid;
+     .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+
+    thead th{
+        background:none;
+        color:#333;
+    }
+
+    .table {
+        box-shadow:none;
+    }
+
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
     }
 ');  
 if (!isset($_GET['frame'])){
     echo $this->renderPartial($this->path_view.'_headerPrint'); 
 }
 ?>
-<table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+<table class="table" style="margin:0px;" cellpadding="0" cellspacing="0">
     <tr>
-        <td align="center" valig="middle" colspan="3">
+        <td style ="text-align:center;" valig="middle" colspan="6">
             <b><?php echo $judulLaporan ?></b>
         </td>
     </tr>
     <tr>
-        <td>No. Formulir Opname</td>
+        <td><b>No. Formulir Opname</b></td>
         <td>:</td>
-        <td><?php echo $model->noformulir; ?></td>
+        <td> <?php echo $model->noformulir; ?></td>
 
-        <td>Total Volume</td>
+        <td><b>Total Volume</b></td>
         <td>:</td>
-        <td><?php echo $format->formatNumberForPrint($model->totalvolume); ?></td>
+        <td> <?php echo $format->formatNumberForPrint($model->totalvolume); ?></td>
     </tr>
     <tr>
-        <td>Tanggal Formulir Opname</td>
+        <td><b>Tanggal Formulir Opname</b></td>
         <td>:</td>
-        <td><?php echo $format->formatDateTimeForUser($model->tglformulir); ?></td>
+        <td> <?php echo $format->formatDateTimeForUser($model->tglformulir); ?></td>
 
-        <td>Total Harga</td>
+        <td><b>Total Harga</b></td>
         <td>:</td>
-        <td><?php echo $format->formatNumberForPrint($model->totalharga); ?></td>
+        <td> <?php echo $format->formatNumberForPrint($model->totalharga); ?></td>
     </tr>
-    </table><br/>
-<table class="table table-bordered table-condensed middle-center">
+</table><br/>
+<table class="table border">
     <thead>
         <tr>
             <th>No.</th>
@@ -65,7 +81,7 @@ if (!isset($_GET['frame'])){
             <th>Stok Sistem</th>
             <th>Stok Fisik</th>
             <th>Kondisi Obat</th>
-            <th>Tanggal</th>
+            <th>Tanggal Periksa Fisik</th>
         </tr>
     </thead>
     <tbody>
@@ -80,17 +96,17 @@ if (!isset($_GET['frame'])){
             <td><?php echo $obat->obatalkes->obatalkes_golongan."</br>".$obat->obatalkes->obatalkes_kategori; ?></td>
             <td><?php echo (isset( $obat->obatalkes->satuankecil->satuankecil_nama) ? $obat->obatalkes->satuankecil->satuankecil_nama : ""); ?></td>
             <td style="text-align:right;"><?php echo $format->formatNumberForPrint($obat->obatalkes->hargaaverage); ?></td>
-            <td><?php echo StokobatalkesT::getJumlahStok($obat->obatalkes_id); ?></td>
-            <td><?php echo "" ?></td>
-            <td><?php echo "" ?></td>
-            <td><?php echo "" ?></td>
+            <td><?php echo !empty($obat->stokopnamedet->volume_sistem)?$obat->stokopnamedet->volume_sistem:'-';//StokobatalkesT::getJumlahStok($obat->obatalkes_id); ?></td>
+            <td><?php echo !empty($obat->stokopnamedet->volume_fisik)?$obat->stokopnamedet->volume_fisik:'-'; ?></td>
+            <td><?php echo !empty($obat->stokopnamedet->kondisibarang)?$obat->stokopnamedet->kondisibarang:'-'; ?></td>
+            <td><?php echo !empty($obat->stokopnamedet->tglperiksafisik)?MyFormatter::formatDateTimeForUser($obat->stokopnamedet->tglperiksafisik):"-" ?></td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
 <?php
 if (isset($_GET['frame'])){
-    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"))."&nbsp;";
     echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
 ?>
     <script type='text/javascript'>

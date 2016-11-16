@@ -41,10 +41,18 @@ $this->widget($table,array(
                     'value'=>'$data->obatalkes_nama',
                 ),
 		array(
-                    'header'=>'Asal Barang',
+                    'header'=>'Sumber Dana',
                     'name'=>'sumberdanaNama',
                     'value'=>'$data->sumberdana->sumberdana_nama',
                 ),
+                array(
+                        'header' => 'Jenis Kelompok',
+                        'name' => 'jnskelompok',
+                        'value' => function($data){
+                            return $data->getNameLookup($data->jnskelompok);
+                        },
+                       // 'filter' => Chtml::activeDropDownList($model, 'jnskelompok', LookupM::getItems('jnskelompok'), array('empty'=>'-- Pilih --'))
+                    ),
 		array(
                     'header'=>'Jenis Obat',
                     'name'=>'jenisobatalkes_id',
@@ -63,7 +71,7 @@ $this->widget($table,array(
                 array(
                     'header'=>'Tgl. Kadaluarsa',
                     'name'=>'tglkadaluarsa',
-                    'value'=>'$data->tglkadaluarsa',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)',
                 ),
 		array(
                     'header'=>'Isi Kemasan  / <br> Min. Stok',
@@ -74,21 +82,21 @@ $this->widget($table,array(
                     'header'=>'Harga Netto',
                     'name'=>'harganetto',
                     'type'=>'raw',
-                    'value'=>'MyFormatter::formatUang($data->harganetto)',
+                    'value'=>'"Rp".number_format($data->harganetto,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
                 array(
                     'header'=>'HJA Resep',
                     'name'=>'hjaresep',
                     'type'=>'raw',
-                    'value'=>'MyFormatter::formatUang($data->hjaresep)',
+                    'value'=>'"Rp".number_format($data->hjaresep,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
                 array(
                     'header'=>'HJA Non-Resep',
                     'name'=>'hjanonresep',
                     'type'=>'raw',
-                    'value'=>'MyFormatter::formatUang($data->hjanonresep)',
+                    'value'=>'"Rp".number_format($data->hjanonresep,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
                  array(

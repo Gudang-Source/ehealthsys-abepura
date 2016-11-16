@@ -61,7 +61,7 @@ class MasterDiagnosaKeperawatanASController extends MasterDiagnosaKeperawatanCon
 	 * @return type
 	 */
 	public function getUrlIntervensi(){
-		return $this->module->id.'/IntervensiAS/admin';
+		return $this->module->id.'/IntervensiAS/admin&tab=frame';
 	}
 	
 	/**

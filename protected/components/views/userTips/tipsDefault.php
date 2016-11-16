@@ -1,4 +1,4 @@
-<?php echo CHtml::link(Yii::t('mds','{icon} Instruction',array('{icon}'=>'<i class="icon-info-sign icon-white"></i>')), '#', array('class'=>'btn btn-info','id'=>'instruction_button')); ?>
+<?php echo CHtml::link(Yii::t('mds','{icon} Instruction',array('{icon}'=>'<i class="entypo-info-circled"></i>')), '#', array('class'=>'btn btn-info','id'=>'instruction_button')); ?>
 
 <div id="instruction_form" class="well" style="display:none;">
 	<?php

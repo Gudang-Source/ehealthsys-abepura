@@ -452,7 +452,7 @@ function formatInteger(number)
  */
 function formatFloat(number)
 {
-    return accounting.formatMoney(number,'',2,'.',',');
+    return accounting.formatMoney(number,'',2,'',',');
 }
 /**
  * untuk unformat number semua (class: float / integer)

@@ -86,7 +86,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id'=>'dialogRekamedik',
     'options'=>array(
-        'title'=>'No. Rekamedik',
+        'title'=>'Pencarian Pasien',
         'autoOpen'=>false,
         'resizable'=>false,
         'width'=>870,
@@ -106,17 +106,22 @@ $dataProvider = new CActiveDataProvider('InfokunjunganrjV',array(
 
 $modDataPasien = new RJInfokunjunganrjV('searchPasienPembebasanTarif');
 
-$modDataPasien->statusperiksa = "SEDANG PERIKSA";
+$modDataPasien->statusperiksa = Params::STATUSPERIKSA_SUDAH_DIPERIKSA;
 //$modDataPasien->tgl_pendaftaran = date('Y-m-d');
 //$modDataPasien->unsetAttributes();
 if(isset($_GET['RJInfokunjunganrjV'])){
     $modDataPasien->attributes = $_GET['RJInfokunjunganrjV'];
     $format = new MyFormatter();    
     $modDataPasien->tgl_pendaftaran  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_pendaftaran']);
-    $modDataPasien->statusperiksa  = $_REQUEST['RJInfokunjunganrjV']['statusperiksa'];
+    //$modDataPasien->statusperiksa  = $_REQUEST['RJInfokunjunganrjV']['statusperiksa'];
+    $modDataPasien->statusperiksa = Params::STATUSPERIKSA_SUDAH_DIPERIKSA;
     // $modDataPasien->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_awal']);
     // $modDataPasien->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_akhir']);
 }
+
+$statusperiksa =  LookupM::getItems('statusperiksa');
+unset($statusperiksa[Params::STATUSPERIKSA_SUDAH_PULANG]);
+unset($statusperiksa[Params::STATUSPERIKSA_BATAL_PERIKSA]);
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'rjrekamedik-alkes-m-grid',
@@ -136,14 +141,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         return false;
                                     "))',
             ),
-
-            'no_rekam_medik',     
+               
             //'ruangan_id',
                 //'tgl_pendaftaran',
                 array(
                     'name'=>'tgl_pendaftaran',
-                    'value'=>'$data->tgl_pendaftaran',
-                    'filter'=>$this->widget('MyDateTimePicker',array(
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                   /* 'filter'=>$this->widget('MyDateTimePicker',array(
                     'model'=>$modDataPasien,
                     'attribute'=>'tgl_pendaftaran',
                     'mode'=>'date',
@@ -152,20 +156,42 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     ),
                         'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3'),
                     ),true
-                    ),
+                    ),*/
+                    'filter' =>false,
                     'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
                 ),
-                 'no_pendaftaran',
-                 'nama_pasien', 
-                 'alamat_pasien',
+                array(
+                    'header' => 'No Pendaftaran',
+                    'name' => 'no_pendaftaran',
+                    'value' => '$data->no_pendaftaran',
+                    'filter' => Chtml::activeTextField($modDataPasien, 'no_pendaftaran',array('class'=>'angkahuruf-only'))
+                ),                                 
+                array(
+                    'header' => 'No Rekam Medik',
+                    'name' => 'no_rekam_medik',
+                    'value' => '$data->no_rekam_medik',
+                    'filter' => Chtml::activeTextField($modDataPasien, 'no_rekam_medik',array('class'=>'numbers-only'))
+                ),                   
+                array(
+                    'header' => 'Nama Pasien',
+                    'name' => 'nama_pasien',
+                    'value' => '$data->namadepan." ".$data->nama_pasien',
+                    'filter' => Chtml::activeTextField($modDataPasien, 'nama_pasien',array('class'=>'hurufs-only'))
+                ),                 
+               //  'alamat_pasien',
                  //'penjamin_nama',
                  array(
                    'name' => 'penjamin_nama',
-                   'header' => 'Nama Penjamin',
+                   'header' => 'Penjamin',
                    'value' => '$data->penjamin_nama',
                    'filter'   => CHtml::dropDownList('RJInfokunjunganrjV[penjamin_nama]',$modDataPasien->penjamin_nama,CHtml::listData(PenjaminpasienM::model()->findAll("penjamin_aktif = TRUE ORDER BY penjamin_nama ASC"), 'penjamin_nama', 'penjamin_nama'),array('empty'=>'--Pilih--'))
                  ),
-                 'nama_pegawai',
+                 array(
+                     'header' => 'Dokter',
+                     'name' => 'nama_pegawai',
+                     'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                     'filter' => Chtml::activeTextField($modDataPasien, 'nama_pegawai',array('class'=>'hurufs-only'))
+                 ),                 
                  'jeniskasuspenyakit_nama',
 
                 array(
@@ -174,8 +200,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->statusperiksa',
                     //'filter' => false,
                     // 'filter' => CHtml::listData(RJInfokunjunganrjV::model()->findAll(),'statusperiksa', 'statusperiksa'),
-                    // 'filter' =>CHtml::activeDropDownList($modDataPasien,'statusperiksa',
-                    //     LookupM::getItems('statusperiksa'),array('options' => array('SEDANG PERIKSA'=>array('selected'=>true)))),
+                     'filter' =>CHtml::activeDropDownList($modDataPasien,'statusperiksa',
+                        $statusperiksa,array('empty'=> '-- Pilih --', 'disabled'=>TRUE)),//'options' => array('SEDANG PERIKSA'=>array('selected'=>true)))
                 ),
     ),
         'afterAjaxUpdate'=>'function(id, data){
@@ -183,7 +209,16 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
             jQuery(\'#RJInfokunjunganrjV_tgl_pendaftaran\').datepicker(jQuery.extend({showMonthAfterYear:false}, jQuery.datepicker.regional[\'id\'], {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
                 \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
-                \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'}));
+            $(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
+            $(".angkahuruf-only").keyup(function() {
+                setAngkaHuruOnly(this);
+            });
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });
         }',
 ));
 
@@ -232,6 +267,9 @@ function isiDataPasien_fungsi(params, pendaftaran_id)
             $('#RJPasienM_nama_pasien').val(data.nama_pasien);
             $('#RJPasienM_nama_bin').val(data.nama_bin);             
             $('#RJPasienM_no_rekam_medik').val(params);
+            
+            $('#RJPembebasantarifT_pegawai_nama').val(data.dokter_nama);
+            $('#RJPembebasantarifT_pegawai_id').val(data.dokter_id);
         }, "json");
 
     $.post('<?php echo Yii::app()->createUrl('rawatJalan/PembebasanTarif/loadTindakanKomponenPasien');?>', {pendaftaran_id:pendaftaran_id}, function(data){

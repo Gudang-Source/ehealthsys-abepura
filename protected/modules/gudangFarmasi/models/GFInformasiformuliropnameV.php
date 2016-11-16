@@ -2,6 +2,13 @@
 class GFInformasiformuliropnameV extends InformasiformuliropnameV
 {
         public $tgl_awal,$tgl_akhir;
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
+        public $jns_periode;
+        public $jumlah, $data, $tick;
+        public $status;
+        
+        
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -83,5 +90,75 @@ class GFInformasiformuliropnameV extends InformasiformuliropnameV
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchLaporanFormulir() {
+            $criteria = new CDbCriteria();
+            $criteria = $this->functionLaporanFormulirCriteria();
+            $criteria->order = 'tglformulir DESC';
+
+            return new CActiveDataProvider($this, array(
+                        'criteria' => $criteria,
+                    ));
+        }
+
+        public function searchLaporanFormulirPrint() {
+            $criteria = new CDbCriteria();
+            $criteria = $this->functionLaporanFormulirCriteria();
+            $criteria->order = 'tglformulir DESC';
+            $criteria->limit = -1;
+
+            return new CActiveDataProvider($this, array(
+                        'criteria' => $criteria,
+                        'pagination' => false,
+                    ));
+        }
+
+        protected function functionLaporanFormulirCriteria() {
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
+
+            $criteria = new CDbCriteria;
+            
+            $criteria->addBetweenCondition('tglformulir',$this->tgl_awal,$this->tgl_akhir,true);                       
+            $criteria->compare("LOWER(noformulir)", strtolower($this->noformulir));
+            
+            if (!empty($this->status)){                                
+                if ($this->status=='1'){
+                    $criteria->addCondition(" stokopname_id IS NOT NULL ");
+                }elseif ($this->status=='2'){
+                    $criteria->addCondition(" stokopname_id IS NULL ");
+                }
+            }
+
+            
+
+
+            return $criteria;
+        }
+
+         public function searchGrafik()
+         {
+                    // Warning: Please modify the following code to remove attributes that
+                    // should not be searched.
+
+                $criteria=new CDbCriteria;
+
+                $criteria->select = "count(formuliropname_id) as jumlah, (CASE WHEN stokopname_id IS NOT NULL THEN 'Sudah Stok Opname' ELSE 'Belum Stok Opname' END) as data";
+                $criteria->group = 'stokopname_id';
+                $criteria->addBetweenCondition('tglformulir',$this->tgl_awal,$this->tgl_akhir,true);                       
+                $criteria->compare("LOWER(noformulir)", strtolower($this->noformulir));
+            if (!empty($this->status)){
+                if ($this->status=='1'){
+                    $criteria->addCondition(" stokopname_id IS NOT NULL ");
+                }elseif ($this->status=='0'){
+                    $criteria->addCondition(" stokopname_id IS NULL ");
+                }
+            }
+
+
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                ));
+        }        
 
 }

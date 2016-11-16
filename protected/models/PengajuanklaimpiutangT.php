@@ -54,8 +54,11 @@ class PengajuanklaimpiutangT extends CActiveRecord
 			array('carabayar_id, penjamin_id, tglpengajuanklaimanklaim, nopengajuanklaimanklaim', 'required'),
 			array('carabayar_id, penjamin_id', 'numerical', 'integerOnly'=>true),
 			array('totalpiutang, totalsisapiutang', 'numerical'),
-			array('nopengajuanklaimanklaim', 'length', 'max'=>50),
+			array('nopengajuanklaimanklaim', 'length', 'max'=>50),                        
 			array('create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe'),
+                        array('create_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
+                        array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'),'on'=>'insert'),
+                        array('create_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'insert'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('pengajuanklaimpiutang_id, carabayar_id, penjamin_id, tglpengajuanklaimanklaim, nopengajuanklaimanklaim, totalpiutang, totalsisapiutang, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),

@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/fileupload/fileupload.js'); ?>
 <?php
 /*
@@ -19,7 +21,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
         'htmlOptions'=>array('enctype'=>'multipart/form-data',
-			'onKeyPress'=>'return disableKeyPress(event)','onsubmit'=>'return requiredCheck(this);'),
+			'onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return cekSubmit();'),
         'focus'=>'#',
 )); ?>
 
@@ -43,7 +45,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                * 
                */?>
             <?php echo $form->hiddenField($model,'unit_perusahaan',array('class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai','maxlength'=>20, 'readonly',true,'value'=> LookupM::getNama('unit_perusahaan'))); ?>
-            <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'required','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai', 'maxlength' => 18, 'class'=>'numbers-only')); ?>
+            <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('onblur'=>'cekLengthNIP();','class'=>'required','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai', 'maxlength' => 18, 'class'=>'numbers-only')); ?>
 
             <div class="control-group">
                     <?php echo CHtml::label('No. Identitas','jenisidentitas',array('class'=>'control-label')); ?>
@@ -305,11 +307,38 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php echo $form->dropDownListRow($model,'jeniswaktukerja',LookupM::getItems('jeniswaktukerja'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
 
-            <?php echo $form->dropDownListRow($model,'pendidikan_id',  CHtml::listData($model->getPendidikanItems(), 'pendidikan_id', 'pendidikan_nama'), 
-                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php //echo $form->dropDownListRow($model,'pendidikan_id',  CHtml::listData($model->getPendidikanItems(), 'pendidikan_id', 'pendidikan_nama'), 
+                       // array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 
-            <?php echo $form->dropDownListRow($model,'pendkualifikasi_id',  CHtml::listData($model->getPendidikanKualifikasiItems(), 'pendkualifikasi_id', 'pendkualifikasi_nama'), 
-                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>                 
+            <?php //echo $form->dropDownListRow($model,'pendkualifikasi_id',  CHtml::listData($model->getPendidikanKualifikasiItems(), 'pendkualifikasi_id', 'pendkualifikasi_nama'), 
+                       // array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>                 
+        
+            <div class="control-group ">
+                    <?php echo $form->labelEx($model,'pendidikan_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'pendidikan_id', CHtml::listData($model->getPendidikanItems(), 'pendidikan_id', 'pendidikan_nama'), 
+                                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownPendKualifikasi',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'pendkualifikasi_id'),
+                                            ),
+                                            'onchange'=>"setClearDropdownKelompokPegawai();",));?>
+                        <?php echo $form->error($model, 'pendidikan_id'); ?>
+                    </div>
+                </div>
+                <div class="control-group ">
+                    <?php echo $form->labelEx($model,'pendkualifikasi_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'pendkualifikasi_id', CHtml::listData($model->getPendKualifikasiItems($model->pendidikan_id), 'pendkualifikasi_id', 'pendkualifikasi_nama'), 
+                                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownKelompokPegawai',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'kelompokpegawai_id'),
+                                            )));?>
+                        <?php echo $form->error($model, 'pendkualifikasi_id'); ?>
+                    </div>
+                </div>
+        
         
             <div class='control-group'>
                 <?php echo $form->labelEx($model,'tglditerima', array('class'=>'control-label')) ?>
@@ -482,4 +511,153 @@ JS;
 Yii::app()->clientScript->registerScript('caraAmbilPhoto212',$js,CClientScript::POS_BEGIN);
 ?>
 <?php //$this->widget('UserTips',array('type'=>'create'));?>
-<?php echo $this->renderPartial('_jsFunctions', array('model'=>$model)); ?>        
+<?php echo $this->renderPartial('_jsFunctions', array('model'=>$model)); ?>      
+<script>
+    function cekValidasiNIP()
+{
+    if ($("#KPPegawaiM_kategoripegawai").val().trim().toLowerCase() == "pns") {
+        //NIP
+        $("#KPPegawaiM_nomorindukpegawai").addClass("required");
+        $("label[for=KPPegawaiM_nomorindukpegawai]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_nomorindukpegawai").removeClass('error').addClass('inputnotrequired');   
+        
+        //golongan
+        $("#KPPegawaiM_golonganpegawai_id").addClass("required");
+        $("label[for=KPPegawaiM_golonganpegawai_id]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_golonganpegawai_id").removeClass('error').addClass('inputnotrequired');  
+        
+        //jabatan
+        $("#KPPegawaiM_jabatan_id").addClass("required");
+        $("label[for=KPPegawaiM_jabatan_id]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_jabatan_id").removeClass('error').addClass('inputnotrequired'); 
+        
+        //pangkat
+        $("#KPPegawaiM_pangkat_id").addClass("required");
+        $("label[for=KPPegawaiM_pangkat_id]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_pangkat_id").removeClass('error').addClass('inputnotrequired');
+        
+        //kelompok  jabatan
+        $("#KPPegawaiM_kelompokjabatan").addClass("required");
+        $("label[for=KPPegawaiM_kelompokjabatan]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_kelompokjabatan").removeClass('error').addClass('inputnotrequired');
+        
+    } else {
+        $(".control-group").removeClass('error').addClass('notrequired');
+        
+        //nip
+        $("#KPPegawaiM_nomorindukpegawai").removeClass("required");                
+        $("#KPPegawaiM_nomorindukpegawai").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_nomorindukpegawai]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_nomorindukpegawai]").removeClass('error required').addClass('notrequired');
+        
+        //golongan
+        $("#KPPegawaiM_golonganpegawai_id").removeClass("required");                
+        $("#KPPegawaiM_golonganpegawai_id").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_golonganpegawai_id]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_golonganpegawai_id]").removeClass('error required').addClass('notrequired');
+        
+        //jabatan
+        $("#KPPegawaiM_jabatan_id").removeClass("required");                
+        $("#KPPegawaiM_jabatan_id").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_jabatan_id]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_jabatan_id]").removeClass('error required').addClass('notrequired');
+        
+        //pangkat
+        $("#KPPegawaiM_pangkat_id").removeClass("required");                
+        $("#KPPegawaiM_pangkat_id").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_pangkat_id]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_pangkat_id]").removeClass('error required').addClass('notrequired');
+        
+        //kelompok jabatan
+        $("#KPPegawaiM_kelompokjabatan").removeClass("required");                
+        $("#KPPegawaiM_kelompokjabatan").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_kelompokjabatan]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_kelompokjabatan]").removeClass('error required').addClass('notrequired');
+    }
+}
+
+function cekKalompokPegawai()
+{
+    var kelpeg = <?php echo Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK; ?>
+    
+    if ($("#KPPegawaiM_kelompokpegawai_id").val() == kelpeg) {
+        $("#KPPegawaiM_suratizinpraktek").addClass("required");                
+        $("label[for=KPPegawaiM_suratizinpraktek]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_suratizinpraktek").removeClass('error').addClass('inputnotrequired');            
+        
+        $("#KPPegawaiM_surattandaregistrasi").addClass("required");
+        $("label[for=KPPegawaiM_surattandaregistrasi]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_surattandaregistrasi").removeClass('error').addClass('inputnotrequired');   
+    } else {     
+        $(".control-group").removeClass('error').addClass('notrequired');
+        
+        $("#KPPegawaiM_suratizinpraktek").removeClass("required");                
+        $("#KPPegawaiM_suratizinpraktek").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_suratizinpraktek]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_suratizinpraktek]").removeClass('error required').addClass('notrequired');
+        
+        $("#KPPegawaiM_surattandaregistrasi").removeClass("required");
+        $("#KPPegawaiM_surattandaregistrasi").removeClass('error').addClass('inputnotrequired');
+        $("label[for=KPPegawaiM_surattandaregistrasi]").find($("span[class=required]")).remove();         
+        $("label[for=KPPegawaiM_surattandaregistrasi]").removeClass('error required').addClass('notrequired');
+    }
+}
+    
+/** bersihkan dropdown kecamatan */
+function setClearDropdownKecamatan()
+{
+    $("#<?php echo CHtml::activeId($model,"kecamatan_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+}
+/** bersihkan dropdown kelurahan */
+function setClearDropdownKelurahan()
+{
+    $("#<?php echo CHtml::activeId($model,"kelurahan_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+}
+
+function setClearDropdownKelompokPegawai()
+{
+    $("#<?php echo CHtml::activeId($model,"kelompokpegawai_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+}
+
+function cekLengthNIP()
+{
+    nip = $("#<?php echo CHtml::activeId($model,"nomorindukpegawai");?>").val();
+    
+    if (nip != '')
+    {
+        if (nip.length < 18){
+            myAlert("Maaf jumlah <b>NIP</b> tidak boleh kurang dari <b>18 digit</b>",'Perhatian');
+            return false;
+        }
+    }
+}
+
+function cekSubmit()
+{
+    nip = $("#<?php echo CHtml::activeId($model,"nomorindukpegawai");?>").val();
+    
+    if (nip != '')
+    {
+        if (nip.length < 18){
+            myAlert("Maaf jumlah <b>NIP</b> tidak boleh kurang dari <b>18 digit</b>",'Perhatian');
+            return false;
+        }else{
+            return requiredCheck($("#sapegawai-m-form"));
+        }
+    }else{
+        return requiredCheck($("#sapegawai-m-form"));
+    }
+}
+
+/**
+ * javascript yang di running setelah halaman ready / load sempurna
+ * posisi script ini harus tetap dibawah
+ */
+$( document ).ready(function(){
+//setClearDropdownKelurahan();
+//setClearDropdownKecamatan();
+//cekValidasiNIP();
+});
+    
+    
+</script>

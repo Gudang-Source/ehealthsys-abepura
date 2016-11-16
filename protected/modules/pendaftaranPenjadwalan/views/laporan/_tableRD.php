@@ -21,9 +21,9 @@ if (isset($caraPrint)){
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
            array(
-              'header'=>'Tanggal Pendaftaran',
+              'header'=>'Tanggal Pendaftaran <br/> / No Pendaftaran',
               'type'=>'raw',
-              'value'=>'date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran))',
+              'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran)))." <br/> / ".$data->no_pendaftaran',
             ),
             array(
               'header'=>'No. Pendaftaran',
@@ -112,32 +112,40 @@ if (isset($caraPrint)){
               
            ),
             array(
-               'name'=>'CaraBayar/Penjamin',
+               'header'=>'Cara Bayar <br/> / Penjamin',
                'type'=>'raw',
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),            
             array(
-               'header'=>'Nama Ruangan',
-               'name'=>'ruangan_nama',
+               'header'=>'Instalasi <br/> / Ruangan',
+            //   'name'=>'ruangan_nama',
                'type'=>'raw',
-               'value'=>'$data->ruangan_nama',
+               'value'=>'$data->instalasi_nama." <br/> /".$data->ruangan_nama',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),
             array(
                'header'=>'Nama Dokter UGD',
                'type'=>'raw',
-               'value'=>'$data->nama_pegawai',
+               'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),
+         array(
+                   'header'=>'Ket. Pulang',
+                   'type'=>'raw',
+                   //'value'=>'$data->nama_pegawai',
+                    'value' => function ($data){
+                        $cek = PasienpulangT::model()->find(" pendaftaran_id  = '".$data->pendaftaran_id."' ");
+                        if (count($cek)>0){
+                            echo $cek->keterangankeluar;
+                        }else{
+                            echo "-";
+                        }
+                    },
+                   'htmlOptions'=>array('style'=>'text-align: center')
+                ),
             array(
-               'header'=>'Ket. Pulang',
-               'type'=>'raw',
-               'value'=>'$data->nama_pegawai',
-               'htmlOptions'=>array('style'=>'text-align: center')
-            ),
-            array(
-               'name'=>'statusperiksa',
+               'header'=>'Status Periksa',
                'type'=>'raw',
                'value'=>'$data->statusperiksa',
                'htmlOptions'=>array('style'=>'text-align: center')

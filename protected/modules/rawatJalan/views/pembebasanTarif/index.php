@@ -74,7 +74,7 @@
                         <?php echo $form->labelEx($model,'tglpembebasan', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <?php   
-                                    $this->widget('MyDateTimePicker',array(
+                                    /*$this->widget('MyDateTimePicker',array(
                                                     'model'=>$model,
                                                     'attribute'=>'tglpembebasan',
                                                     'mode'=>'datetime',
@@ -82,9 +82,11 @@
                                                         'dateFormat'=>Params::DATE_FORMAT,
                                                         'maxDate' => 'd',
                                                     ),
-                                                    'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2-5'),
-                            )); 
+                                                    'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2-5 realtime'),
+                            )); */
+                                echo $form->textField($model,'tglpembebasan', array('class'=>'realtime span2', 'readonly'=>TRUE));
                                      ?>
+                            
                         </div>
                     </div>
                 </th>
@@ -132,7 +134,7 @@
             'autoOpen'=>false,
             'resizable'=>true,
             'modal'=>true,
-            'width'=>570,
+            'width'=>640,
         ),
     ));
 
@@ -170,13 +172,38 @@
                                         "))',
                 ),
                 array(
-                    'header'=>'Gelar Depan',
-                    'value'=>'$data->gelardepan',
-                    'filter'=>Chtml::dropDownList('RJDokterV[gelardepan]', $modDokter->gelardepan, LookupM::getItems('gelardepan'),array('empty'=>'-- Pilih --'))
+                    'header' => 'NIP',
+                    'name' => 'nomorindukpegawai',
+                    'value' => '$data->nomorindukpegawai',
+                    'filter' => Chtml::activeTextField($modDokter, 'nomorindukpegawai', array('class'=>'numbers-only'))
                 ),
-                'nama_pegawai',
-        )
-    ));
+                array(
+                    'header'=>'Nama Pegawai',
+                    'name' => 'nama_pegawai',
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                    'filter' => Chtml::activeTextField($modDokter, 'nama_pegawai', array('class'=>'hurufs-only'))
+                ),
+                array(
+                    'header'=>'Jabatan',
+                    'name' => 'jabatan_id',
+                    'value'=> function($data){
+                        $j = JabatanM::model()->findByPk($data->jabatan_id);
+                        
+                        if (count($j)>0){
+                            return $j->jabatan_nama;
+                        }else{
+                            return '-';
+                        }
+                    },
+                    'filter' => Chtml::activeDropDownList($modDokter, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll(" jabatan_aktif = TRUE ORDER BY jabatan_nama ASC "), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+                ),
+                ),
+     'afterAjaxUpdate'=>'function(id, data){            
+            $(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });            
+        }',
+));
 
     $this->endWidget('ext.bootstrap.widgets.BootGridView');
 

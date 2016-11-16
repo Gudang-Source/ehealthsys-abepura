@@ -287,8 +287,10 @@ class DaftarTindakanMController extends MyAuthController
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
-                  $modRuangan=TindakanruanganM::model()->findAll('daftartindakan_id='.$id.'');
-
+                $modRuangan=TindakanruanganM::model()->findAll('daftartindakan_id='.$id.'');
+                if (!empty($model->jeniskegiatan_id)){
+                    $model->jeniskegiatan_nama = $model->jeniskegiatan->jeniskegiatan_nama;
+                }
 		// Uncomment the following line if AJAX validation is needed
 		
 //

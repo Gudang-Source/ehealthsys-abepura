@@ -9,7 +9,27 @@ class IntervensiController extends MyAuthController {
 	public $layout = '//layouts/iframe';
 	public $defaultAction = 'admin';
 	public $simpan = true;
-	public $path_view = 'sistemAdministrator.views.intervensi.';
+	public $path_view = 'sistemAdministrator.views.intervensi.';        
+	public $path_views = 'sistemAdministrator.views.';
+        public $hasTab = false;
+        
+        public function init() {
+            parent::init();
+            if (isset($_GET['tab']))
+            {                
+                $tab = $_GET['tab'];
+                if ($tab == 'frame'){                
+                    $this->layout = '//layouts/iframe';
+                    $this->hasTab = true;
+                }else{
+                    $this->layout = '//layouts/column1';
+                    $this->hasTab = false;
+                }
+            }else{
+                $this->layout = '//layouts/column1';
+                $this->hasTab = false;
+            }
+        }
 
 	/**
 	 * Displays a particular model.
@@ -45,7 +65,7 @@ class IntervensiController extends MyAuthController {
 
 				if ($this->simpan) {
 					$transaction->commit();
-					$this->redirect(array('admin', 'sukses' => 1));
+					$this->redirect(array('admin', 'sukses' => 1 , 'tab'=>($this->hasTab==TRUE)?'frame':null));
 				} else {
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan!');
@@ -79,7 +99,7 @@ class IntervensiController extends MyAuthController {
 //				print_r($_POST['SALookupM']);exit;
 				if ($this->simpan) {
 					$transaction->commit();
-					$this->redirect(array('admin', 'sukses' => 1));
+					$this->redirect(array('admin', 'sukses' => 1, 'tab'=>($this->hasTab==TRUE)?'frame':null));
 				} else {
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan!');
@@ -111,12 +131,14 @@ class IntervensiController extends MyAuthController {
 	 */
 	public function actionAdmin() {
 		$model = new SAIntervensidetM('search');
-		$model->unsetAttributes();  // clear any default values
+                $model->unsetAttributes();  // clear any default values
+                                                		
 		if (isset($_GET['SAIntervensidetM'])) {
 			$model->attributes = $_GET['SAIntervensidetM'];
 			$model->diagnosakep_nama = isset($_GET['SAIntervensidetM']['diagnosakep_nama']) ? $_GET['SAIntervensidetM']['diagnosakep_nama'] : "";
 			$model->intervensi_nama = isset($_GET['SAIntervensidetM']['intervensi_nama']) ? $_GET['SAIntervensidetM']['intervensi_nama'] : "";
 			$model->aktif = isset($_GET['aktif']) ? $_GET['aktif'] : NULL; 
+                       
 		}
 		$this->render($this->path_view. 'admin', array(
 			'model' => $model,
@@ -200,7 +222,7 @@ class IntervensiController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'Print', array('model' => $model, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 
@@ -259,7 +281,7 @@ class IntervensiController extends MyAuthController {
 	 * Mengubah status aktif
 	 * @param type $id 
 	 */
-	public function actionremoveTemporary() {
+	public function actionRemoveTemporary() {
 		$id = $_POST['id'];
 		if (isset($_POST['id'])) {
 			$update = SAIntervensidetM::model()->updateByPk($id, array('intervensidet_aktif' => false));

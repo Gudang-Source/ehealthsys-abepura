@@ -29,7 +29,7 @@
 	<?php echo CHtml::hiddenField('type','',array()); ?>
         <div class="row-fluid">
          <div class="span4">
-             <?php echo CHtml::label('Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Periode Laporan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($modPPInfoKunjunganV,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -194,6 +194,43 @@
 							  </fieldset>
       </td>
   </tr>
+  <tr>
+      <td>
+          <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                                    'id'=>'big',
+                                    'slide'=>false,
+                                    'content'=>array(
+                                        'content2'=>array(
+                                        'header'=>'Berdasarkan Instalasi dan Ruangan',
+                                        'isi'=>'<table>
+                                                    <tr>
+                                                        <td><label>Instalasi</label></td>
+                                                        <td>'.$form->dropDownList($modPPInfoKunjunganV, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll("instalasi_aktif = true AND instalasi_id = '".Params::INSTALASI_ID_RD."' ORDER BY instalasi_nama ASC"), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                                            'ajax' => array('type' => 'POST',
+                                                                'url' => Yii::app()->createUrl('ActionDynamic/GetRuanganForCheckBox', array('encode' => false, 'namaModel' => ''.get_class($modPPInfoKunjunganV).'')),
+                                                                'update' => '#ruangan',  //selector to update
+                                                            ),
+                                                        )).'
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label>Ruangan</label>
+                                                        </td>
+                                                        <td>
+                                                            <div id="ruangan">
+                                                                <label>Data Tidak Ditemukan</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                 </table>',
+                                         'active'=>true
+                                        ),
+                                    ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>
+      </td>
+  </tr>
 </table>
     <div class="form-actions">
         <?php
@@ -248,5 +285,19 @@ Yii::app()->clientScript->registerScript('setPeriode',$js,CClientScript::POS_HEA
                 ;
             }
         }
+</script>
+<script>
+     function checkAll() {
+    if ($("#checkAllRuangan").is(":checked")) {
+        $('#ruangan input[name*="ruangan_id"]').each(function(){
+           $(this).attr('checked',true);
+        })
+//        myAlert('Checked');
+    } else {
+       $('#ruangan input[name*="ruangan_id"]').each(function(){
+           $(this).removeAttr('checked');
+        })
+    }
+}   
 </script>
 

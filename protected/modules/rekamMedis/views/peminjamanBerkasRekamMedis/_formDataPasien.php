@@ -6,7 +6,7 @@
 		<?php echo $form->hiddenField($model,'pengirimanrm_id',array('class'=>'span3', 'readonly'=>true,'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 		<?php echo CHtml::hiddenField('ruangan_id','',array('class'=>'span3', 'readonly'=>true,'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 		<div class="control-group ">
-			<?php echo CHtml::activeLabel($model, 'no_rekam_medik', array('class' => 'control-label')); ?>
+			<?php echo CHtml::label(" No Rekam Medik <font style='color:red'>*</font> ", 'no_rekam_medik', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php
 				$this->widget('MyJuiAutoComplete', array(
@@ -40,6 +40,8 @@
 					'htmlOptions'=>array(
 						'onkeypress'=>'return $(this).focusNextInputField(event)',
 						'disabled'=>($model->isNewRecord)?'':'disabled', 
+                                                'class' => 'required numbers-only',
+                                                'maxlength' => 6
 					),
 					'tombolDialog'=>array('idDialog'=>'dialogRekamMedik'),
 

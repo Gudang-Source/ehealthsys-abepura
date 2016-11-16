@@ -91,7 +91,7 @@ class RJLaporanjasainstalasi extends LaporanjasainstalasiV {
 			$criteria->addCondition("t.kelaspelayanan_id = ".$this->kelaspelayanan_id);		
 		}
         $criteria->compare('LOWER(t.kelaspelayanan_nama)', strtolower($this->kelaspelayanan_nama), true);
-        $criteria->addCondition('t.instalasi_id = '.Yii::app()->user->getState('instalasi_id'));
+        $criteria->addCondition('t.instalasikc_id = '.Yii::app()->user->getState('instalasi_id'));
         $criteria->compare('LOWER(t.instalasi_nama)', strtolower($this->instalasi_nama), true);
         $criteria->compare('LOWER(t.ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(t.tgl_tindakan)', strtolower($this->tgl_tindakan), true);
@@ -145,7 +145,7 @@ class RJLaporanjasainstalasi extends LaporanjasainstalasiV {
         }
         
         if (!empty($this->ruangan_id)){
-            $criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
+            $criteria->addCondition('(t.ruangankc_id) = '.$this->ruangan_id);
         }
         
         if(!empty($this->shift_id)){

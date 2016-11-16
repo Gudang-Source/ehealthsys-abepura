@@ -59,9 +59,12 @@ class RDLaporanpasienmeninggalV extends LaporanpasienmeninggalV {
                 $criteria->group = 'propinsi_nama';
             }
         }    
-        else {
+        elseif($_GET['filter'] == 'golonganumur') {
             $criteria->select .= ', golonganumur_nama as data';
             $criteria->group .= 'golonganumur_nama';
+        }else{
+            $criteria->select .= ', kondisipulang as data';
+            $criteria->group .= 'kondisipulang';
         }
         
 
@@ -157,12 +160,12 @@ class RDLaporanpasienmeninggalV extends LaporanpasienmeninggalV {
         $criteria->compare('LOWER(transportasi)',strtolower($this->transportasi),true);
         $criteria->compare('LOWER(kondisipulang)',strtolower($this->kondisipulang),true);
         $criteria->compare('LOWER(carakeluar)',strtolower($this->carakeluar),true);
-		if(!empty($this->pasienpulang_id)){
-			$criteria->addCondition("pasienpulang_id = ".$this->pasienpulang_id);				
-		}
-		if(!empty($this->pasienadmisi_id)){
-			$criteria->addCondition("pasienadmisi_id = ".$this->pasienadmisi_id);				
-		}
+        if(!empty($this->pasienpulang_id)){
+                $criteria->addCondition("pasienpulang_id = ".$this->pasienpulang_id);				
+        }
+        if(!empty($this->pasienadmisi_id)){
+                $criteria->addCondition("pasienadmisi_id = ".$this->pasienadmisi_id);				
+        }
         $criteria->compare('LOWER(tglpasienpulang)',strtolower($this->tglpasienpulang),true);
         $criteria->compare('rt',$this->rt);
         $criteria->compare('rw',$this->rw);
@@ -177,7 +180,10 @@ class RDLaporanpasienmeninggalV extends LaporanpasienmeninggalV {
         $criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
         $criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
         $criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
-
+        //var_dump($this->kondisikeluar_id);
+        if (!empty($this->kondisikeluar_id)){
+            $criteria->addInCondition('kondisikeluar_id', $this->kondisikeluar_id);
+        }
         return $criteria;
     }
         public function getNamaModel(){

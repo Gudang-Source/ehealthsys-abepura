@@ -1,12 +1,40 @@
 <?php 
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.BootGridView';
 $data = $model->searchTable();
 $template = "{summary}\n{items}\n{pager}";
 if (isset($caraPrint)){
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  
+   echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
 }
 ?>
 
@@ -14,29 +42,31 @@ if (isset($caraPrint)){
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
 	'template'=>$template,
-	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
             array(
                 'header' => 'No',
                 'value' => '$row+1'
             ),
-			array(
-                'name'=>'NamaNamaBIN',
-                'value'=>'$data->NamaNamaBIN',
-            ),
-            array(
+             array(
 				'header'=>'No. Rekam Medik',
                 'value'=>'$data->no_rekam_medik',
             ),
+		array(
+                'header'=>'Nama Pasien',
+               // 'name'=>'nama_pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
+            ),
+           
 //            'alamat_pasien',
 			array(
 				'header'=>'Umur',
                 'value'=>'$data->umur',
             ),
-			array(
+	/*		array(
 				'header'=>'Jenis Kelamin',
                 'value'=>'$data->jeniskelamin',
-            ),
+            ),*/
 			array(
 				'header'=>'Alamat Pasien',
                 'value'=>'$data->alamat_pasien',

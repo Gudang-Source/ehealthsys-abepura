@@ -93,5 +93,26 @@ class PSPendaftaranT extends PendaftaranT
                     'criteria'=>$criteria,
             ));
     }
+    
+    public function getRuanganItems($instalasi_id=null)
+    {
+            if($instalasi_id==null){
+                    return RuanganM::model()->findAllByAttributes(array(),array('order'=>'ruangan_nama'));
+            }else{
+                    return RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id),array('order'=>'ruangan_nama'));   
+            }
+    }
+    
+    public function getDokterItems($ruangan_id='')
+    {
+            $criteria = new CdbCriteria();
+            if(!empty($ruangan_id)){
+                    $criteria->addCondition("ruangan_id = ".$ruangan_id);		
+            }
+            $criteria->addCondition('pegawai_aktif = true');
+            $criteria->order = "nama_pegawai, gelardepan";
+            $modDokter = DokterV::model()->findAll($criteria);
+            return $modDokter;
+    }
 }
 ?>

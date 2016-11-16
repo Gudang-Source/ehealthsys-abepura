@@ -41,7 +41,8 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 				'onclick'=>'return refreshForm(this);'));  ?> 
         <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-info', 'type'=>'button','onclick'=>'print()', 'disabled'=>($model->isNewRecord ? 'disabled' : '')))."";  ?>
         <?php 
-            $content = $this->renderPartial('tips/peminjamanrm',array(),true);
+            
+            $content = $this->renderPartial('rekamMedis.views.peminjamanBerkasRekamMedis.tips/peminjamanrm',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
         ?>	
     </div>
@@ -165,14 +166,30 @@ if (isset($_GET['RKDokumenpasienrmlamaV'])){
             'type'=>'raw',
             'value'=>'$this->grid->getOwner()->renderPartial(\''.$this->path_view.'_warnaDokumen\', array(\'warnadokrm_id\'=>$data->warnadokrm_id), true)',
         ),
-        'no_rekam_medik',
+        array(
+            'header' => 'No Rekam Medik',
+            'name' => 'no_rekam_medik',
+            'value' => '$data->no_rekam_medik',
+            'filter' => Chtml::activeTextField($modDokumenPasienLama, 'no_rekam_medik', array('class'=>'numbers-only', 'maxlength'=>6))
+        ),        
         //'tgl_pendaftaran',
         array(
             'header' => 'Tanggal Pendaftaran',
             'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+           
             ),
-        'no_pendaftaran',
-        'nama_pasien',
+        array(
+            'header' => 'No Pendaftaran',
+            'name' => 'no_pendaftaran',
+            'value' => '$data->no_pendaftaran',
+            'filter' => Chtml::activeTextField($modDokumenPasienLama, 'no_pendaftaran', array('class'=>'angkahuruf-only', 'maxlength'=>12))
+        ),           
+        array(
+            'header' => 'Nama Pasien',
+            'name' => 'nama_pasien',
+            'value' => '$data->nama_pasien',
+            'filter' => Chtml::activeTextField($modDokumenPasienLama, 'nama_pasien', array('class'=>'hurufs-only', 'maxlength'=>20))
+        ),        
         //array(
           //  'name'=>'tanggal_lahir',
           //  'filter'=>false,
@@ -217,10 +234,26 @@ if (isset($_GET['RKDokumenpasienrmlamaV'])){
 			var colors = jQuery(\'input[rel="colorPicker"]\').attr(\'colors\').split(\',\');
 			jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
 			jQuery(\'input[rel="colorPicker"]\').colorPicker({colors:colors});
+                        $(".numbers-only").keyup(function() {
+                            setNumbersOnly(this);
+                        });
+                        $(".hurufs-only").keyup(function() {
+                            setHurufsOnly(this);
+                        });
+                        $(".angkahuruf-only").keyup(function() {
+                            setAngkaHurufOnly(this);
+                        });
+                    
 	}',
-)); ?>
+)); 
 
-<?php $this->endWidget(); ?>
+
+?>
+
+<?php $this->endWidget(); 
+
+
+?>
 <!-- =============================== endWidget Dialog Rekam Medik ============================ -->
 
-<?php echo $this->renderPartial('_jsFunctions',array('model'=>$model)); ?>
+<?php echo $this->renderPartial('rekamMedis.views.peminjamanBerkasRekamMedis._jsFunctions',array('model'=>$model)); ?>

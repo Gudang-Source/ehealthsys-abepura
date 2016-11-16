@@ -7,7 +7,15 @@ class GUInfoinventarisasibarangV extends InfoinventarisasibarangV
 	 * @return InfoinventarisasibarangV the static model class
 	 */
 	public $checklist,$invbarang_jenis,$tgl_awal,$tgl_akhir,$qtystok,$lookup_type,$lookup_name,$lookup_value;
-	public static function model($className=__CLASS__)
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
+        public $jns_periode;
+        public $data;
+        public $jumlah;
+        public $tick;
+
+
+        public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -191,4 +199,69 @@ class GUInfoinventarisasibarangV extends InfoinventarisasibarangV
 				'criteria'=>$criteria,
 		));
 	}
+        
+        
+        public function searchMaterialRusakTable() {
+            $criteria = new CDbCriteria();
+            $criteria = $this->functionMaterialRusakCriteria();
+            $criteria->order = 'invbarang_tgl DESC';
+
+            return new CActiveDataProvider($this, array(
+                        'criteria' => $criteria,
+                    ));
+        }
+
+        public function searchMaterialRusakPrint() {
+            $criteria = new CDbCriteria();
+            $criteria = $this->functionMaterialRusakCriteria();
+            $criteria->order = 'invbarang_tgl DESC';
+            $criteria->limit = -1;
+
+            return new CActiveDataProvider($this, array(
+                        'criteria' => $criteria,
+                        'pagination' => false,
+                    ));
+        }
+
+        protected function functionMaterialRusakCriteria() {
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
+
+            $criteria = new CDbCriteria;
+
+            $criteria->addBetweenCondition('invbarang_tgl',$this->tgl_awal,$this->tgl_akhir,true);                       
+            $criteria->addCondition(" kondisi_barang <> 'Baik' ");
+
+            if (!empty($this->kondisi_barang))
+            {
+                $criteria->addInCondition('kondisi_barang', $this->kondisi_barang);
+            }
+
+
+            return $criteria;
+        }
+
+         public function searchMaterialRusakGrafik()
+         {
+                    // Warning: Please modify the following code to remove attributes that
+                    // should not be searched.
+
+                $criteria=new CDbCriteria;
+
+                $criteria->select = 'count(invbarang_id) as jumlah, kondisi_barang as data';
+                $criteria->group = 'invbarang_id, kondisi_barang';
+                $criteria->addBetweenCondition('invbarang_tgl',$this->tgl_awal,$this->tgl_akhir,true);                       
+                $criteria->addCondition(" kondisi_barang <> 'Baik' ");
+
+                if (!empty($this->kondisi_barang))
+                {
+                    $criteria->addInCondition('kondisi_barang', $this->kondisi_barang);
+                }
+
+
+
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                ));
+        }        
 }

@@ -20,10 +20,10 @@
         </td>
         <td>
             <div class="control-group">
-                <?php echo CHtml::label('Rekening Debit','', array('class'=>'control-label')) ?>
+                <?php //echo CHtml::label('Rekening Debit','', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php   
-                        echo $form->textField($model,'rekDebit',array('class'=>'span3'));
+                        //echo $form->textField($model,'rekDebit',array('class'=>'span3'));
                     ?>
                     
                 </div>
@@ -31,10 +31,10 @@
         </td>
         <td>
             <div class="control-group">
-                <?php echo CHtml::label('Rekening Kredit','', array('class'=>'control-label')) ?>
+                <?php //echo CHtml::label('Rekening Kredit','', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php   
-                        echo $form->textField($model,'rekKredit',array('class'=>'span3'));
+                        //echo $form->textField($model,'rekKredit',array('class'=>'span3'));
                     ?>
                     
                 </div>

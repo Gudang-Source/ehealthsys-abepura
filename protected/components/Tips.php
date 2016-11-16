@@ -14,29 +14,41 @@ Class Tips
             'tambah'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="icon-plus-sign icon-white"></i></div> berfungsi '
                         .' untuk menambah baris.',
+            'tambah2'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="icon-plus icon-white"></i></div> berfungsi '
+                        .' untuk menambah data.',
+            'tambah3'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="icon-plus-sign icon-white"></i><i class="icon-chevron-right icon-white"></i></div> berfungsi '
+                        .' untuk menampilkan dialog box pencarian.',
             'kurang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="icon-minus-sign icon-white"></i></div> berfungsi '
                         .' untuk menghapus baris.', 
             'simpan'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
-                        .'<i class="icon-ok icon-white"></i> Simpan</div> berfungsi '
+                        .'<i class="entypo-check"></i> Simpan</div> berfungsi '
                         .' untuk menyimpan data.', 
             'ulang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
-                        .'<i class="icon-refresh icon-white"></i> Ulang</div> berfungsi '
+                        .'<i class="entypo-arrows-ccw"></i> Ulang</div> berfungsi '
                         .' untuk mengulang kembali inputan.', 
+            'batalDialog'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
+                        .'<i class="entypo-block"></i> Batal</div> berfungsi '
+                        .' untuk membatalkan/menutup dialog box.', 
             'ulang2'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
-                        .'<i class="icon-refresh icon-white"></i> Ulang</div> berfungsi '
+                        .'<i class="entypo-arrows-ccw"></i> Ulang</div> berfungsi '
                         .' untuk mengulang kembali pencarian.', 
             'masterUlang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
-                        .'<i class="icon-refresh icon-white"></i> Ulang</div> berfungsi '
+                        .'<i class="entypo-arrows-ccw"></i> Ulang</div> berfungsi '
                         .' untuk membersihkan inputan pencarian lebih lanjut.', 
             'cari'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
-                        .'<i class="icon-search icon-white"></i> Cari</div> berfungsi '
+                        .'<i class="entypo-search"></i> Cari</div> berfungsi '
                         .' untuk mencari data.', 
             'print'    => 'Gunakan tombol ini  <div class="btn btn-info">'
-                        .'<i class="icon-print icon-white"></i> Print</div> berfungsi '
+                        .'<i class="entypo-print"></i> Cetak</div> berfungsi '
                         .' untuk mencetak data.', 
+            'grafik'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="entypo-print"></i> Grafik</div> berfungsi '
+                        .' untuk mencetak grafik.', 
             'masterPRINT'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
-                        .'<i class="icon-print icon-white"></i> Print</div> berfungsi '
+                        .'<i class="entypo-print"></i> Cetak</div> berfungsi '
                         .' untuk mencetak data.', 
             'masterPDF'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="icon-book icon-white"></i> PDF</div> berfungsi '
@@ -53,9 +65,13 @@ Class Tips
                         .'<i class="icon-print icon-white"></i></div> berarti tidak dapat digunakan (tombol tidak aktif)', 
             'autocomplete-search' => 'icon ini  <i class="icon-list"></i><i class="icon-search"></i>'
                         .'  berfungsi untuk menampilkan list data sesuai dengan diketikkan dan menampilkan dialog box jika icon di klik.',
+            'autocomplete' => 'icon ini  <i class="icon-list"></i>'
+                        .'  berfungsi untuk menampilkan list data sesuai dengan diketikkan.',
             'waktutime' => 'icon ini  <i class="icon-calendar"></i><i class="icon-time"></i>'
                         .'  berfungsi untuk menentukan tanggal dan waktu.',
             'tanggal' => 'icon ini  <i class="icon-calendar"></i>'
+                        .'  berfungsi untuk menentukan waktu.',
+            'time' => 'icon ini  <i class="icon-time"></i>'
                         .'  berfungsi untuk menentukan tanggal.',
             'lihat' => 'icon ini  <i class="icon-form-lihat"></i>'
                         .'  berfungsi untuk melihat data.',

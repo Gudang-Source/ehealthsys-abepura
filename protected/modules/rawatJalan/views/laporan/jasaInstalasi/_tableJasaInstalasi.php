@@ -1,4 +1,5 @@
 <?php 
+    $itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.MergeHeaderGroupGridView';
     $sort = true;
     $row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
@@ -7,8 +8,35 @@
         $data = $model->searchPrint();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        
+        echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
     } else{
         $data = $model->searchTable();
          $template = "{summary}\n{items}\n{pager}";
@@ -22,32 +50,36 @@
         'mergeHeaders'=>array(
             array(
                 'name'=>'<center>Tindakan</center>',
-                'start'=>6, //indeks kolom 3
-                'end'=>11, //indeks kolom 4
+                'start'=>8, //indeks kolom 3
+                'end'=>13, //indeks kolom 4
             ),
             array(
                 'name'=>'<center>Karcis</center>',
-                'start'=>13, //indeks kolom 3
-                'end'=>16, //indeks kolom 4
+                'start'=>14, //indeks kolom 3
+                'end'=>18, //indeks kolom 4
             ),
         ),
         'mergeColumns'=>array('nama_pasien','no_rekam_medik'),
-        'itemsCssClass'=>'table table-striped table-condensed',
+          'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
 		array(
 			'header'=>'No.',
 			'value' => $row,
 		),
-		array(
-			'header'=>'No. Rekam Medik/<br/>Nama Pasien',
-			'value'=> '$data->noRMNamaPasien',
+                array(
+			'header' => 'No.Pendaftaran',
+			'value'=>'$data->no_pendaftaran',
 			'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
 		),
 		array(
-			'header' => 'No.Pendaftaran/<br/> Kelas Pelayanan',
-			'value'=>'$data->NoPendaftaranKelas',
+			'header'=>'No. Rekam Medik',
+			'value'=> '$data->no_rekam_medik',
 			'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
 		),
+                array(
+                    'header' => 'Nama Pasien',
+                    'value' => '$data->namadepan." ".$data->nama_pasien'
+                ),		
                 array(
                     'header' => 'Dokter',
                     'value' => function($data){
@@ -61,6 +93,10 @@
                             return '-';
                         }
                     }
+                ),
+                array(
+                    'header' => 'Kelas Pelayanan',
+                    'value' => '$data->kelaspelayanan_nama'
                 ),
 		array(
 			'header'=>'Cara Bayar Penjamin',
@@ -106,7 +142,7 @@
 			'name'=>'subtotal',
 			'type'=>'raw',
 			'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-			'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->qty_tindakan*($data->tarif_rsakomodasi+$data->tarif_medis+$data->tarif_paramedis+$data->tarif_bhp),0,"",".") : \'\'',
+			'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format(($data->tarif_rsakomodasi+$data->tarif_medis+$data->tarif_paramedis+$data->tarif_bhp),0,"",".") : \'\'',
                         'htmlOptions' => array('style'=>'text-align:right;'),
 		),
 		array(

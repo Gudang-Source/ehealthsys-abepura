@@ -20,7 +20,13 @@
 		),
 	));
 	?>
-	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+	<?php 
+            if (isset($_GET['status']))
+            {
+                Yii::app()->user->setFlash('success', "Data berhasil disimpan");
+                $this->widget('bootstrap.widgets.BootAlert'); 
+            }
+        ?>
 	<?php //echo $form->errorSummary(array($modRetur,$modBuktiKeluar)); ?>
 	<?php $this->renderPartial('_ringkasDataPasien', array('modPendaftaran' => $modPendaftaran, 'modPasien' => $modPasien)); ?>
 	<?php
@@ -135,30 +141,49 @@
     <div class="form-actions">
 		<?php
 		if ($modPengkajian->isNewRecord) {
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit'));
-			echo "&nbsp;&nbsp;";
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit'));
+			
+                ?>
+                        <?php 
+        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="entypo-arrows-ccw"></i>')), $this->createUrl($this->id . '/index'), array('class' => 'btn btn-danger',
+            'onclick' => 'myConfirm("Apakah Anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index') . '";}); return false;'));
+        ?>
+                <?php
 //			echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
 //			echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp&nbsp";
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'return false', 'disabled' => true)) . "&nbsp;";
 		} else {
 			echo CHtml::htmlButton(
-					Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array(
+					Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array(
 				'class' => 'btn btn-primary',
 				'type' => 'submit',
 				'onKeypress' => 'return formSubmit(this,event)',
 				'disabled' => true
 					)
-			);
-			echo "&nbsp;&nbsp;";
+			).'&nbsp;';
+                         echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="entypo-arrows-ccw"></i>')), $this->createUrl($this->id . '/index'), array('class' => 'btn btn-danger',
+            'onclick' => 'myConfirm("Apakah Anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index') . '";}); return false;')).'&nbsp;';
+			
 //			echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp";
 //			echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp";
-			echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp";
+			echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')).'&nbsp;' ;
 		}
 		?>
-		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                    Yii::app()->createUrl($this->module->id.'/pengkajianAskep/index'), 
-                    array('class'=>'btn btn-danger',
-                          'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
+		
+                 <?php
+                    $tips = array(
+                        '0' => 'autocomplete-search',
+                        '1' => 'autocomplete',
+                        '2' => 'waktutime',
+                        '3' => 'bootaccordion',
+                        '4' => 'simpan',
+                        '5' => 'ulang',
+                        '6' => 'print',
+                        '7' => 'status_print',
+                    );
+                    $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                    ?>
 		<?php
 		/*
 		  echo CHtml::htmlButton(

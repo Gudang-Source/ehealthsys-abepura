@@ -54,7 +54,7 @@ $format = new MyFormatter();
                     <div class="control-group ">
                             <?php echo CHtml::activeLabel($model,'nomutasibrg',array('class'=>'control-label')); ?>
                         <div class="controls">
-                           <?php echo $form->textField($model,'nomutasibrg',array('placeholder'=>'Ketik No. Mutasi Barang', 'class'=>'span3', 'maxlength'=>20)); ?>
+                           <?php echo $form->textField($model,'nomutasibrg',array('placeholder'=>'Ketik No. Mutasi Barang', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20)); ?>
                         </div>
                     </div>
                     <div class="control-group ">

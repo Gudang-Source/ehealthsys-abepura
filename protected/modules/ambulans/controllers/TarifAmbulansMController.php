@@ -41,10 +41,10 @@ class TarifAmbulansMController extends MyAuthController
 		{
 			$model->attributes=$_POST['TarifAmbulansM'];
                          
-                        $model->kepropinsi_nama = isset($model->kepropinsi_nama)?PropinsiM::model()->findByPk($model->kepropinsi_nama)->propinsi_nama:null;
-                        $model->kekabupaten_nama = isset($model->kekabupaten_nama)?KabupatenM::model()->findByPk($model->kekabupaten_nama)->kabupaten_nama:null;
-                        $model->kekecamatan_nama = isset($model->kekecamatan_nama)?KecamatanM::model()->findByPk($model->kekecamatan_nama)->kecamatan_nama:null;
-                        $model->kekelurahan_nama = isset($model->kekelurahan_nama)?KelurahanM::model()->findByPk($model->kekelurahan_nama)->kelurahan_nama:null;                       
+                        $model->kepropinsi_nama = !empty($model->kepropinsi_nama)?PropinsiM::model()->findByPk($model->kepropinsi_nama)->propinsi_nama:null;
+                        $model->kekabupaten_nama = !empty($model->kekabupaten_nama)?KabupatenM::model()->findByPk($model->kekabupaten_nama)->kabupaten_nama:null;
+                        $model->kekecamatan_nama = !empty($model->kekecamatan_nama)?KecamatanM::model()->findByPk($model->kekecamatan_nama)->kecamatan_nama:null;
+                        $model->kekelurahan_nama = !empty($model->kekelurahan_nama)?KelurahanM::model()->findByPk($model->kekelurahan_nama)->kelurahan_nama:null;                       
                        // $valid = $model->validate();                        
 			if($model->save()){
                             //$model->save();

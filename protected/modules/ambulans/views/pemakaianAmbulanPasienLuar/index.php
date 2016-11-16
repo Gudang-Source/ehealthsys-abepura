@@ -21,7 +21,7 @@
         <p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
         <legend class="rim"><span class='judul'>Pemakaian Ambulan </span><span class='tombol' style='display:none;'><?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini','onclick'=>'setKunjunganReset();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk mengulang data kunjungan')); ?></span></legend>
         <div class="row-fluid">
-            <?php $this->renderPartial('_formPemesananAmbulan', array('form'=>$form,'modPemakaian'=>$modPemakaian,'instalasi'=>$instalasi,'modInstalasi'=>$modInstalasi,'format'=>$format,'modObatAlkesPasien'=>$modObatAlkesPasien,'latitude'=>$latitude,'longitude'=>$longitude)); ?>
+            <?php $this->renderPartial($this->path_view_luar.'_formPemesananAmbulan', array('form'=>$form,'modPemakaian'=>$modPemakaian,'instalasi'=>$instalasi,'modInstalasi'=>$modInstalasi,'format'=>$format,'modObatAlkesPasien'=>$modObatAlkesPasien,'latitude'=>$latitude,'longitude'=>$longitude)); ?>
         </div>
     </fieldset>       
             
@@ -150,7 +150,7 @@
                     echo CHtml::link(Yii::t('mds', '{icon} Print Status', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printStatus();return false"));
                 }
             ?>
-            <?php $content = $this->renderPartial('../tips/transaksi_pemakaian',array(),true);
+            <?php $content = $this->renderPartial('ambulans.views.tips.transaksi_pemakaian',array(),true);
                   $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
         </div>
     </div>

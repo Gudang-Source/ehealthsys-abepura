@@ -12,7 +12,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<div class="control-group">
 				<?php echo Chtml::label('Diagnosa Keperawatan', 'diagnosakep_nama', array('class' => 'control-label')) ?>
 				<div class="controls">
-					<?php echo $form->textField($model, 'diagnosakep_nama', array('class' => 'span3', 'maxlength' => 50)); ?>
+					<?php echo $form->dropDownList($model, 'diagnosakep_id', CHtml::listData(DiagnosakepM::model()->findAll("diagnosakep_aktif = TRUE ORDER BY diagnosakep_nama ASC"), 'diagnosakep_id', 'diagnosakep_nama'),array('class' => 'span3', 'maxlength' => 50,'empty'=>'-- Pilih --')); ?>
 				</div>
 			</div>
         </td>
@@ -24,7 +24,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<?php echo Chtml::label('Nama Kriteria Hasil', 'kriteriahasil_nama', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
-				echo $form->dropDownList($model, 'kriteriahasil_nama', LookupM::getItems('kriteriahas_as'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+				echo $form->dropDownList($model, 'kriteriahasil_id', CHtml::listData(KriteriahasilM::model()->findAll("kriteriahasil_aktif = TRUE ORDER BY kriteriahasil_nama ASC"), 'kriteriahasil_id', 'kriteriahasil_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
 					'class' => 'inputRequire'));
 				?>
 			</div>
