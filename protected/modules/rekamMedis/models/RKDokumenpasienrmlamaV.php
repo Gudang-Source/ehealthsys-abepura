@@ -12,7 +12,7 @@ class RKDokumenpasienrmlamaV extends DokumenpasienrmlamaV {
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+                $format = new MyFormatter();
 //		$criteria->with = array('subrak', 'pendaftaran', 'pengiriman');
 		//$criteria->addCondition('t.peminjamanrm_id is null or (t.peminjamanrm_id is not null and t.kembalirm_id is not null)');
 		if (!empty($this->no_rekam_medik_akhir)){
@@ -20,6 +20,10 @@ class RKDokumenpasienrmlamaV extends DokumenpasienrmlamaV {
 		} else {
 			$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		}
+                
+                if (!empty($this->tgl_pendaftaran)){
+                    $criteria->addBetweenCondition('tgl_pendaftaran', $format->formatDateTimeForDb($this->tgl_pendaftaran).' 00:00:00', $format->formatDateTimeForDb($this->tgl_pendaftaran).' 23:59:59');
+                }
 
 		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
 		
