@@ -86,6 +86,6 @@ $('#rmpeminjamanrm-t-search').submit(function(){
     </div>
     <fieldset class="box search-form">
         <legend class="rim"><i class="icon-search icon-white"></i> Pencarian</legend>
-        <?php $this->renderPartial('_searchinformasi',array('model'=>$model)); ?>
+        <?php $this->renderPartial($this->path_view.'_searchinformasi',array('model'=>$model)); ?>
     </fieldset>
 </div>
