@@ -281,6 +281,10 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                         array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
                     ));     
                     
+					$smspasien = 1;
+					$smsdokter = 1;
+					$smspenanggungjawab = 1;
+					
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->tindakanpelayanantersimpan && $this->komponentindakantersimpan && $this->pasienpenunjangtersimpan && $this->asuransipasientersimpan){
                         if (Yii::app()->user->getState('issmsgateway')) {
 							// SMS GATEWAY

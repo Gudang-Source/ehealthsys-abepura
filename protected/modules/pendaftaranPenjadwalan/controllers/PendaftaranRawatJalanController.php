@@ -440,7 +440,9 @@ class PendaftaranRawatJalanController extends MyAuthController
                         
                         //Di set di form >> Yii::app()->user->setFlash('success', "Data pasien berhasil disimpan !");
 //                      RND-666 >>>  $this->redirect(array('view','id'=>$model->pendaftaran_id,'sukses'=>1));
-
+						$smspasien = 1;
+						$smsdokter = 1;
+						$smspenanggungjawab = 1;
 						if (Yii::app()->user->getState('issmsgateway')) {
 							// SMS GATEWAY
 							$modPegawai = $model->pegawai;

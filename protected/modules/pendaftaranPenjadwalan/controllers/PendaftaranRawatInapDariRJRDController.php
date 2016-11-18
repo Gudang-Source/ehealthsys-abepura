@@ -231,6 +231,10 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                         $model->alihstatus = true;
 						$model->save();
 
+						$smspasien = 1;
+						$smsdokter = 1;
+						$smspenanggungjawab = 1;
+						
 						if (Yii::app()->user->getState('issmsgateway')) {
 							// SMS GATEWAY
 							$modPegawai = $model->pegawai;

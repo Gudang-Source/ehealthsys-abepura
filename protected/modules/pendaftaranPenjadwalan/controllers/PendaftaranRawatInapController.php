@@ -270,6 +270,9 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
                     
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->komponentindakantersimpan && $this->admisitersimpan && $this->masukkamartersimpan && $this->asuransipasientersimpan){
                         
+						$smspasien = 1;
+						$smsdokter = 1;
+						$smspenanggungjawab = 1;
 						
 						if (Yii::app()->user->getState('issmsgateway')) {
 							// SMS GATEWAY
