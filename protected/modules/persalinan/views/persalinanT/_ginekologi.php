@@ -47,7 +47,7 @@
                                     'debugMode'=>true,
                                     'options'=>array(
                                         //'bricket'=>false,
-                                        'json_url'=>$this->createUrl('RiwayatKelahiranKeluhan'),
+                                        'json_url'=>$this->createUrl('RiwayatKehamilanKeluhan'),
                                         'addontab'=> true, 
                                         'maxitems'=> 10,
                                         'input_min_size'=> 0,
@@ -100,7 +100,7 @@
                             echo ' Keterangan '.Chtml::textField('tambah_keterangan', '', array('class'=>'span4 angkahuruf-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             echo ' &nbsp; ';
                             echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', 
-                                array('onclick' => 'inputRiwayatKelahiran();',
+                                array('onclick' => 'inputRiwayatKehamilan();',
                                     'class' => 'btn btn-primary',
                                     'onkeypress' => "return $(this).focusNextInputField(event)",
                                     'rel' => "tooltip",
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                                                             
-                        <?php $this->renderPartial('_riwayatkelahiran', array('modRiwayatKelahiran' => $modRiwayatKelahiran)); ?>
+                        <?php $this->renderPartial('_riwayatkelahiran', array('modRiwayatKehamilan' => $modRiwayatKehamilan)); ?>
                     
                     <!--akhir riwayat kelahiran-->
                     
@@ -229,7 +229,7 @@
    
 </fieldset>
 <script>
-    function inputRiwayatKelahiran()
+    function inputRiwayatKehamilan()
     {
        var buttonMinus = '<?php echo CHtml::link('<i class="icon-form-silang"></i>', '#', array('onclick'=>'delRow(this); return false;')) ?>'; 
        var tambah_anak_ke = $("#tambah_anak_ke").val();
@@ -237,8 +237,8 @@
        var no = $("#riwayatkelahiran tbody").find("tr").length;              
        
        $('#riwayatkelahiran tbody').append("<tr>\n\
-                                                <td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkelahiranT_"+(no+1)+"_anak_ke' name = 'PSRiwayatkelahiranT["+(no+1)+"][anak_ke]' value = '"+tambah_anak_ke+"' >"+tambah_anak_ke+"</td>"+
-                                               "<td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkelahiranT_"+(no+1)+"_keterangan' name = 'PSRiwayatkelahiranT["+(no+1)+"][keterangan]' value = '"+tambah_keterangan+"' >"+tambah_keterangan+"</td>\n\
+                                                <td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkehamilanT_"+(no+1)+"_anak_ke' name = 'PSRiwayatkehamilanT["+(no+1)+"][anak_ke]' value = '"+tambah_anak_ke+"' >"+tambah_anak_ke+"</td>"+
+                                               "<td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkehamilanT_"+(no+1)+"_keterangan' name = 'PSRiwayatkehamilanT["+(no+1)+"][keterangan]' value = '"+tambah_keterangan+"' >"+tambah_keterangan+"</td>\n\
                                                 <td style='text-align:center;'>"+buttonMinus+"</td>\n\
 </tr>");
     

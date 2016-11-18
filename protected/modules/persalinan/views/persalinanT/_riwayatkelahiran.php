@@ -9,9 +9,9 @@
         </thead>
         <tbody>
         <?php 
-        if (!empty($modRiwayatKelahiran)){
+        if (!empty($modRiwayatKehamilan)){
        
-        foreach ($modRiwayatKelahiran as $i=>$detail){?>    
+        foreach ($modRiwayatKehamilan as $i=>$detail){?>    
             
             <tr>   
                 <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']anak_ke', array('class'=>'', 'readonly'=>TRUE)); echo $detail->anak_ke; ?> </td>       
