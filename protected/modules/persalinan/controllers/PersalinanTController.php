@@ -56,16 +56,16 @@ class PersalinanTController extends MyAuthController {
             
             if (empty($modGinekologi)){
                 $modGinekologi = new PSPemeriksaanginekologiT;
-                $modRiwayatKelahiran = null;
+                $modRiwayatKehamilan = null;
 
                 $modGinekologi->tglperiksaobgyn = date("d M Y H:i:s");
             }else{
                 $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForUser($modGinekologi->tglperiksaobgyn);
-                $modRiwayatKelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");            
+                $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");            
             }
                        
         }else{           
-            $modRiwayatKelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");                        
+            $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");                        
             $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForUser($modGinekologi->tglperiksaobgyn);
         }
 
@@ -103,34 +103,36 @@ class PersalinanTController extends MyAuthController {
                     $modGinekologi->update_loginpemakai_id = Yii::app()->user->id;
                 }
                 $modGinekologi->gin_keluhan = isset($_POST['PSPemeriksaanginekologiT']['gin_keluhan']) ? ((count($_POST['PSPemeriksaanginekologiT']['gin_keluhan'])>0) ? implode(', ', $_POST['PSPemeriksaanginekologiT']['gin_keluhan']) : '') : '';
-                //$successRiwayatKelahiran = false;
+                //$successRiwayatKehamilan = false;
                 if ($modGinekologi->save()){
 
-                    $cekRiwayatkelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+                    $cekRiwayatkehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
 
-                    if (!empty($cekRiwayatkelahiran)){
-                        $hapusRiwayatKelahiran = PSRiwayatkelahiranT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
+                    if (!empty($cekRiwayatkehamilan)){
+                        $hapusRiwayatKehamilan = PSRiwayatkehamilanT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
                     }
-                    //Riwayat Kelahiran
-                    if (isset($_POST['PSRiwayatkelahiranT'])){
-                            $cekRiwayatkelahiran = PSRiwayatkelahiranT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+                    //Riwayat Kehamilan
+                    if (isset($_POST['PSRiwayatkehamilanT'])){
+                            $cekRiwayatkehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
 
-                            //if ( count($_POST['PSRiwayatkelahiranT']) != count($cekRiwayatkelahiran) ){
-                            if (!empty($cekRiwayatkelahiran)){
-                                $hapusRiwayatKelahiran = PSRiwayatkelahiranT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
+                            //if ( count($_POST['PSRiwayatkehamilanT']) != count($cekRiwayatkehamilan) ){
+                            if (!empty($cekRiwayatkehamilan)){
+                                $hapusRiwayatKehamilan = PSRiwayatkehamilanT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
                             }
-                            foreach($_POST['PSRiwayatkelahiranT'] as $i=>$item)
+                            foreach($_POST['PSRiwayatkehamilanT'] as $i=>$item)
                             {
                                 if(is_integer($i)) {
-                                    $modRiwayatKelahiran=new PSRiwayatkelahiranT;
-                                    if(isset($_POST['PSRiwayatkelahiranT'][$i])){
-                                        $modRiwayatKelahiran->attributes=$_POST['PSRiwayatkelahiranT'][$i];                                           
-                                        $modRiwayatKelahiran->pemeriksaanginekologi_id = $modGinekologi->pemeriksaanginekologi_id;                                            
-
-                                        if($modRiwayatKelahiran->save()) {                                                                                                
-                                           $successRiwayatKelahiran = true;
+                                    $modRiwayatKehamilan=new PSRiwayatkehamilanT;
+                                    if(isset($_POST['PSRiwayatkehamilanT'][$i])){
+                                        $modRiwayatKehamilan->attributes=$_POST['PSRiwayatkehamilanT'][$i];                                           
+                                        $modRiwayatKehamilan->pemeriksaanginekologi_id = $modGinekologi->pemeriksaanginekologi_id;                                            
+                                        
+                                        if($modRiwayatKehamilan->save()) {                                                                                                
+                                            //var_dump($modRiwayatKehamilan);die;
+                                           $successRiwayatKehamilan = true;
                                         } else {
-                                           $successRiwayatKelahiran = false; 
+                                            
+                                           $successRiwayatKehamilan = false; 
                                         }
 
                                     }
@@ -139,7 +141,7 @@ class PersalinanTController extends MyAuthController {
 
 
                                 if ( (empty($_POST['PSPersalinanT']['paritaske'])) OR  (empty($_POST['PSPersalinanT']['jeniskegiatanpersalinan'])) ){
-                                    if ($successRiwayatKelahiran){                                                                
+                                    if ($successRiwayatKehamilan){                                                                
                                         $trans->commit();
                                         Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
                                         $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
@@ -258,17 +260,17 @@ class PersalinanTController extends MyAuthController {
             'modPersalinan'=>$modPersalinan, 
             'modPemeriksaan'=>$modPemeriksaan,
             'modGinekologi'=>$modGinekologi,
-            'modRiwayatKelahiran'=>$modRiwayatKelahiran
+            'modRiwayatKehamilan'=>$modRiwayatKehamilan
                 ));
     }
     
-    public function actionRiwayatKelahiranKeluhan() 
+    public function actionRiwayatKehamilanKeluhan() 
     {
         if (Yii::app()->request->isAjaxRequest){
             $criteria = new CDbCriteria;
             $criteria->compare('LOWER(gin_keluhan)', strtolower($_GET['tag']),true);
             $criteria->order = "gin_keluhan ASC";
-            $keluhans = RiwayatkelahiranT::model()->findAll($criteria);
+            $keluhans = PSPemeriksaanginekologiT::model()->findAll($criteria);
             $data = array();
             foreach ($keluhans as $i => $keluhan) {
                 $data[$i] = array('key'=>$keluhan->gin_keluhan,

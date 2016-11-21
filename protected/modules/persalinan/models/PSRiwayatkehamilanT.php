@@ -1,6 +1,6 @@
 <?php
 
-class PSRiwayatkelahiranT extends RiwayatkelahiranT
+class PSRiwayatkehamilanT extends RiwayatkehamilanT
 {
         public $tambah_anak_ke;
         public $tambah_keterangan;
