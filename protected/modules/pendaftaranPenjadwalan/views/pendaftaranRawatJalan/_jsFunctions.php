@@ -2289,5 +2289,58 @@ $( document ).ready(function(){
     setTimeout(function() {$(".f_rm:first").focus();}, 500);
 });
 
+//verifikasi sidik jari
+function setVerifikasiFP(){
+    //$("#content-riwayatpasien > .accordion-inner").addClass("animation-loading");
+    $(".rb_rm").eq(1).click();
+    
+    $("#verifikasiFP").prop("disabled", true );    
+    $("#verifikasiFP").hide();
+    $("#pesanVerifikasi").html("Silahkan, untuk membuka aplikasi verifikasi sidik jari pasien");
+    $("#loading").addClass("animation-loading");
+    
+    $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('VerifikasiFP'); ?>',
+        data: {},
+        dataType: "json",
+        success:function(data){           
+            if(data.pesan =='gagal'){
+                $("#verifikasiFP").show();
+                $("#verifikasiFP").prop("disabled", false );  
+                $("#loading").removeClass("animation-loading");
+                $("#pesanVerifikasi").html("");
+                myAlert("Silahkan, periksa konfigurasi ip client pada aplikasi sidik jari");                
+                return false;//konfigurasi ip java                
+            }else if(data.pesan =='sukses'){                //
+                setPasienLama(data.pasien_id);   
+                $("#verifikasiFP").show();
+                $("#verifikasiFP").prop("disabled", false );  
+                $("#loading").removeClass("animation-loading");
+                $("#pesanVerifikasi").html("");//"Nofingerprint = <b>"+data.nofingerprint+"</b>"
+                return false;
+            }else if(data.pesan =='clientclose'){
+                $("#verifikasiFP").show();
+                $("#verifikasiFP").prop("disabled", false );  
+                $("#loading").removeClass("animation-loading");
+                $("#pesanVerifikasi").html("");
+                myAlert("Maaf, aplikasi verifikasi ditutup sebelum melakukan scan sidik jari");   
+            }else{
+                if (data.sukses == '0'){
+                    $("#verifikasiFP").show();
+                    $("#verifikasiFP").prop("disabled", false );  
+                    $("#loading").removeClass("animation-loading");
+                    $("#pesanVerifikasi").html("");
+                    myAlert(data.pesan);
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);
+            
+    }
+    });
+                
+}
+
 </script>
     
