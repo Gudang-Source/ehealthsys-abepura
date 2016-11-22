@@ -31,6 +31,14 @@
                 </div>
             </div>
         </div> 
+        <div class="span6">
+            <div class =" control-group">
+                <?php //echo CHtml::button("Verifikasi Sidik Jari",array('id'=>'verifikasiFP','onclick' => 'setVerifikasiFP();', 'class'=>'btn btn-primary')); ?>
+                <?php //echo CHtml::button("Batal",array('id'=>'batalVerifFP','onclick' => 'removeAllClients();', 'class'=>'btn btn-primary')); ?>
+                <div id = "loading" style = "width:50px;height:50px;"></div>
+                <div id = "pesanVerifikasi"></div>
+            </div>
+        </div>
     </div>
     <?php endif; ?>
     <fieldset class="box" id="form-pasien">
