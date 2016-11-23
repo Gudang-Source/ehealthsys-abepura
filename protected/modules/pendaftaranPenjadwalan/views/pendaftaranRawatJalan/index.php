@@ -33,9 +33,10 @@
         </div> 
         <div class="span6">
             <div class =" control-group">
-                <?php //echo CHtml::button("Verifikasi Sidik Jari",array('id'=>'verifikasiFP','onclick' => 'setVerifikasiFP();', 'class'=>'btn btn-primary')); ?>
-                <?php //echo CHtml::button("Batal",array('id'=>'batalVerifFP','onclick' => 'removeAllClients();', 'class'=>'btn btn-primary')); ?>
                 <div id = "loading" style = "width:50px;height:50px;"></div>
+                <?php //echo CHtml::button("Pendaftaran Sidik Jari",array('id'=>'pendaftaranFP','onclick' => 'setPendaftaranFP();', 'class'=>'btn btn-primary')); ?>
+                <?php //echo CHtml::button("Verifikasi Sidik Jari",array('id'=>'verifikasiFP','onclick' => 'setVerifikasiFP();', 'class'=>'btn btn-primary')); ?>
+                <?php //echo CHtml::button("Batal",array('id'=>'batalVerifFP','onclick' => 'batalVerifikasiFP();', 'class'=>'btn btn-primary')); ?>                
                 <div id = "pesanVerifikasi"></div>
             </div>
         </div>
