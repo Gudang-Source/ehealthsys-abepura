@@ -1290,6 +1290,9 @@ class PendaftaranRawatJalanController extends MyAuthController
                     }
                 }
                 
+                $returnVal['listDaftar']['pasien']['fingerprint_data'] = null;
+                
+                
                 
                 
                 
@@ -1337,6 +1340,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                 foreach($attributes as $j=>$attribute) {
                     $returnVal["$attribute"] = $model->$attribute;
                 }
+                $returnVal["fingerprint_data"] = null;
                 $returnVal["tanggal_lahir"] = date("d/m/Y",strtotime($model->tanggal_lahir));
 				if(!empty($model->pegawai_id)){
 					$returnVal['nomorindukpegawai'] = $model->pegawai->nomorindukpegawai;
@@ -1347,6 +1351,7 @@ class PendaftaranRawatJalanController extends MyAuthController
 					$returnVal['jabatan_nama'] = isset($model->pegawai->jabatan->jabatan_nama) ? $model->pegawai->jabatan->jabatan_nama : "";
 					$returnVal["nomorindukpegawai"] = $model->pegawai->nomorindukpegawai;
 				}
+                                
                 echo CJSON::encode($returnVal);
             }
             Yii::app()->end();
@@ -2603,4 +2608,70 @@ class PendaftaranRawatJalanController extends MyAuthController
 				print_r(CJSON::encode($res));
 			}
 		}
+                
+    public function actionVerifikasiFP()
+    {        
+        if(Yii::app()->request->isAjaxRequest) { 
+                if (!empty($_SERVER["HTTP_CLIENT-IP"])) 
+                {
+                    $ip = $_SERVER["HTTP_CLIENT_IP"]; 
+                    
+                }elseif(!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) 
+                {
+                    $ip = $_SERVER["HTTP_X_FORWARDED_FOR"]; 
+                    
+                }
+                else
+                {
+                    $ip = $_SERVER["REMOTE_ADDR"];                    
+                }
+
+                    
+                    $host = Yii::app()->user->getState('telnet_host');  
+                    $port = Yii::app()->user->getState('telnet_port');	
+                    set_time_limit(0); 	                                        
+                    
+
+                    // create socket
+                    $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
+                    if (!socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1)) {
+                            echo socket_strerror(socket_last_error($socket));
+                            exit;
+                    }
+                    // bind socket to port
+                    $result = socket_bind($socket, $host, $port) or die("Could not bind to socket\n");
+                    // start listening for connections
+                    $result = socket_listen($socket, SOMAXCONN) or die("Could not set up socket listener\n");
+                    // accept incoming connections
+                    // spawn another socket to handle communication
+                    $spawn = socket_accept($socket) or die("Could not accept incoming connection\n");
+                    // read client input
+                    
+                    
+                        if (false ===  ($buf = @socket_read($spawn, 10000, PHP_NORMAL_READ)))
+                        {
+                            $data['pesan'] = 'clientclose';
+
+                        }else{
+                          //  $input = socket_read($spawn, 10000, PHP_NORMAL_READ) or die("Could not read input\n");
+                            $input = trim($buf); //(pasien_id[0] /// no rekam medik[1] /// nofingerprint[2] /// ip[3])
+                            $ipfinger = explode(" /// ", $input); 
+                            $data = array();
+                            if($ipfinger[3] == $ip) {	
+                                    $data['no_rekam_medik'] = $ipfinger[1]; 
+                                    $data['pasien_id'] = $ipfinger[0]; 
+                                    $data['nofingerprint'] = $ipfinger[2]; 
+                                    $data['pesan'] = 'sukses';
+                            }
+                            else { $data['pesan'] = 'gagal';}
+
+                        }
+                    
+                    socket_close($spawn);
+                    socket_close($socket);
+            
+            echo json_encode($data);
+            Yii::app()->end();
+        }        
+    }
 }
