@@ -138,7 +138,7 @@
             <?php echo $form->textFieldRow($model, 'nama_pemesan', array('readonly'=>TRUE,'placeholder'=>'Ketik Nama Pemesan','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php //echo $form->textFieldRow($model,'tglpesanmenu',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             <?php echo $form->hiddenField($model, 'totalpesan_org'); ?>
-            <?php echo $form->textFieldRow($model, 'adaalergimakanan', array('placeholder'=>'Ket. Alergi Makanan','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+            <?php echo $form->textFieldRow($model, 'adaalergimakanan', array('placeholder'=>'Ket. Alergi Makanan','class' => 'span3 custom-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
         </td>
         <td>
             <?php echo $form->textAreaRow($model, 'keterangan_pesan', array('placeholder'=>'Ket. Pemesanan Menu Diet','rows' => 4, 'cols' => 50, 'class' => 'span5', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
