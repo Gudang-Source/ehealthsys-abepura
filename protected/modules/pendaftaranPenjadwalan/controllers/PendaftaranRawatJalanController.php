@@ -2626,9 +2626,11 @@ class PendaftaranRawatJalanController extends MyAuthController
                     $ip = $_SERVER["REMOTE_ADDR"];                    
                 }
 
+                
                     
                     $host = Yii::app()->user->getState('telnet_host');  
-                    $port = Yii::app()->user->getState('telnet_port');
+                    $port = CustomFunction::incPortFinger($ip);                    
+                                        
                     $batal = isset($_POST['batal'])?$_POST['batal']:null;
                     set_time_limit(0); 	                                        
                     
@@ -2668,7 +2670,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                                     $data['nofingerprint'] = $ipfinger[2]; 
                                     $data['pesan'] = 'sukses';
                             }
-                            else { $data['pesan'] = 'gagal';}
+                            else { $data['pesan'] = 'gagal';                            
+                            }
 
                         }
                     
@@ -2697,7 +2700,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             
             $no_rm = isset($_POST['no_rekam_medik'])?$_POST['no_rekam_medik']:null;
             $host    = $ip;
-            $port    = Yii::app()->user->getState('telnet_port');
+            $port    = CustomFunction::incPortFinger($ip);
             
             if ($no_rm == null){
                 $data['pesan'] = 'gagal-norm';

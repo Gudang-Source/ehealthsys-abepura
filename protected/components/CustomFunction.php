@@ -572,6 +572,44 @@ class CustomFunction
 			}
 		}
 	}
+        
+        public static function incPortFinger($ip){
+            $split = explode('.', $ip); // pecah ip contoh 192.168.0.52,  192 = [0], 168 = [1], 0 = [2],  52 = [3]            
+            $length = strlen($split[3]);
+            $port = Yii::app()->user->getState('telnet_port'); // contoh port 6000
+            $satuan = substr($port, 0, 1); // dari port yang diambil menjadi 6
+            $puluhan = substr($port, 0, 2); // dari port yang diambil menjadi 60
+            $ratusan = substr($port, 0, 3); // dari port yang diambil menjadi 600
+            
+            $portBaru = '';
+            
+            if ($length == 1){
+                $portBaru = $ratusan.$split[3];
+            }elseif ($length == 2){
+                if ($split[3] > 63){
+                    $k = $split[3]-63;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
+                }
+            }elseif ($length == 3){                
+                if ( ($split[3] > 99) && ($split[3] <= 126) ){
+                    $k = $split[3]-63;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
+                }elseif ( ($split[3] >= 127) && ($split[3] <= 190) ){
+                    $k = $split[3]-127;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
+                }elseif ( ($split[3] >= 191 ) && ($split[3] <= 253) ) {
+                    $k = $split[3]-190;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
+                }else{
+                    $k = $split[3]-253;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
+                }
+            }
+            
+            return $portBaru;
+                
+        }
+                
     
 }
 ?>
