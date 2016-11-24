@@ -593,16 +593,16 @@ class CustomFunction
             }elseif ($length == 3){                
                 if ( ($split[3] > 99) && ($split[3] <= 126) ){
                     $k = $split[3]-63;
-                    $portBaru = $satuan.strlen($k==1)?'0'.$k:$k;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
                 }elseif ( ($split[3] >= 127) && ($split[3] <= 190) ){
                     $k = $split[3]-127;
-                    $portBaru = $satuan.strlen($k==1)?'0'.$k:$k;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
                 }elseif ( ($split[3] >= 191 ) && ($split[3] <= 253) ) {
                     $k = $split[3]-190;
-                    $portBaru = $satuan.strlen($k==1)?'0'.$k:$k;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
                 }else{
                     $k = $split[3]-253;
-                    $portBaru = $ratusan.strlen($k==1)?'0'.$k:$k;
+                    $portBaru = $puluhan.strlen($k==1)?'0'.$k:$k;
                 }
             }
             
