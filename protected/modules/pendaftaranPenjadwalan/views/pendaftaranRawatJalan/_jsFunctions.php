@@ -95,6 +95,12 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
                 $("#<?php echo CHtml::activeId($modPasien,"pekerjaan_id");?>").val(data.pekerjaan_id);
                 $("#<?php echo CHtml::activeId($modPasien,"agama");?>").val(data.agama);
                 $("#<?php echo CHtml::activeId($modPasien,"warga_negara");?>").val(data.warga_negara);
+                if (data.nofingerprint != null){
+                    $("#pesanVerifikasi").html("Pasien Sudah Melakukan Pendaftaran Sidik Jari "+data.nofingerprint)
+                }else{
+                    $("#pesanVerifikasi").html("Pasien Belum Melakukan Pendaftaran Sidik jari ")
+                }
+                
 				if(data.pegawai_id !== "" && data.pegawai_id !== null){
 					$("#<?php echo CHtml::activeId($modPasien,'pegawai_id');?>").val(data.pegawai_id);
 					$("#<?php echo CHtml::activeId($modPegawai,'nomorindukpegawai');?>").val(data.nomorindukpegawai);
@@ -2412,6 +2418,61 @@ function setPendaftaranFP(){
                     $("#pendaftaranFP").prop("disabled", false );  
                     $("#loading").removeClass("animation-loading");
                     $("#pesanVerifikasi").html("");
+                    myAlert(data.pesan);
+                    return false;
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);
+            
+    }
+    });
+                
+}
+
+//pendaftaran sidik jari
+function setRegisFP(no_rm){
+    
+        
+    $("#regisFP").prop("disabled", true );    
+    $("#regisFP").hide();
+    $("#pesanRegis").html("Menunggu Proses Pendaftaran ..... Silahkan Buka Aplikasi Pendaftaran Sidik Jari");
+    $("#regisLoading").addClass("animation-loading");
+    
+    var no_rm = no_rm;
+        
+    
+    $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('PendaftaranFP'); ?>',
+        data: {no_rekam_medik:no_rm},
+        dataType: "json",
+        success:function(data){           
+            if(data.pesan =='gagal-norm'){               
+                $("#regisFP").show();
+                $("#regisFP").prop("disabled", false );  
+                $("#regisLoading").removeClass("animation-loading");
+                $("#pesanRegis").html("");
+                myAlert("Maaf, Nomor Rekam Medik belum diisi");                
+                return false;//nomor rekam medik belum diisi          
+            }else if(data.pesan =='sukses'){                //                
+                $("#regisFP").show();
+                $("#regisFP").prop("disabled", false );   
+                $("#regisLoading").removeClass("animation-loading");
+                $("#pesanRegis").html(data.nama_pasien+" mendapatkan nofingerprint = "+data.nofingerprint);//"Nofingerprint = <b>"+data.nofingerprint+"</b>"
+                return false;
+            }else if(data.pesan =='kirim'){    
+                $("#regisFP").show();
+                $("#regisFP").prop("disabled", false );  
+                $("#regisLoading").removeClass("animation-loading");
+                $("#pesanRegis").html("No Rekam medik, berhasil dikirim ke aplikasi pendaftaran sidik jari.<br> Silahkan pasien melakukan scan sidik jari sebanyak 4 kali    ");                //No Rekam medik, berhasil dikirim ke aplikasi pendaftaran sidik jari. <br> Silahkan pasien melakukan scan sidik jari sebanyak 4 kali                
+                return false;
+            }else{
+                if (data.sukses == '0'){
+                    $("#regisFP").show();
+                    $("#regisFP").prop("disabled", false );  
+                    $("#regisLoading").removeClass("animation-loading");
+                    $("#pesanRegis").html("");
                     myAlert(data.pesan);
                     return false;
                 }
