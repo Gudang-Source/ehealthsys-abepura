@@ -92,6 +92,7 @@
                                 ),
                                 'htmlOptions' => array(
                                     'onkeypress' => "return $(this).focusNextInputField(event)",
+                                    'class' => 'hurufs-only'
                                 ),
                                 'tombolDialog' => array('idDialog' => 'dialogPasien', 'jsFunction'=>'dialogMenuPasien()'),
                             ));
@@ -137,7 +138,7 @@
                                 ),
                                 'htmlOptions' => array(
                                     'onkeypress' => "return $(this).focusNextInputField(event)",
-                                    'class'=>'span2',
+                                    'class'=>'span2 custom-only',
                                 ),
                                 'tombolDialog' => array('idDialog' => 'dialogMenuDiet'),
                             ));
