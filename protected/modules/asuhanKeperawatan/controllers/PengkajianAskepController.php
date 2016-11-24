@@ -454,7 +454,10 @@ class PengkajianAskepController extends MyAuthController {
         {
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
-                $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+                $criteria->with = array('ruanganpegawai');
+                $criteria->addCondition(" ruanganpegawai.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+                $criteria->compare('t.kelompokpegawai_id', 2);	
+                $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);                
                 $criteria->order = 'nama_pegawai';
                 $criteria->limit=5;
                 $models = PegawaiM::model()->findAll($criteria);

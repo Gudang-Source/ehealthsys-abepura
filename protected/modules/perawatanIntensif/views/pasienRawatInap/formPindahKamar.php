@@ -21,9 +21,9 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
             <td><?php echo CHtml::label('Tanggal Pendaftaran', 'tgl_pendaftaran',array('class'=>'control-label')); ?></td>
             <td><?php echo CHtml::activeTextField($modPasienRIV, 'tgl_pendaftaran', array('readonly'=>true)); ?></td>
             
-            <td>  <div class="control-label"> <?php echo CHtml::activeLabel($modPasienRIV, 'no_rekam_medik',array('class'=>'no_rek')); ?> </div></td>
-            <td>
-                <?php $this->widget('MyJuiAutoComplete',array(
+            <td>  <div class="control-label"> <?php echo CHtml::label('No. Rekam Medik <font style = "color:red">*</font>', 'no_rekam_medik',array('class'=>'')); ?> </div></td>
+            <td> <?php echo CHtml::activeTextField($modPasienRIV, 'no_rekam_medik', array('readonly'=>true)); ?>
+                <?php /*$this->widget('MyJuiAutoComplete',array(
                         'model'=>$modPasienRIV,
                         'attribute'=>'no_rekam_medik',
                         'value'=>'',
@@ -75,16 +75,19 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
                             'readonly'=>false,
                             'placeholder'=>'No. Rekam Medik',
                             'size'=>20,
-                            'class'=>'span3',
+                            'class'=>'span3 numbers-only',
                             'onkeypress'=>"return $(this).focusNextInputField(event);",
                         ),
                         'tombolDialog'=>array('idDialog'=>'dialogDaftarPasien','idTombol'=>'tombolPasienDialog'),
-                 )); ?>
+                 ));*/ ?>
             </td>
         </tr>
         <tr>
             <td><?php echo CHtml::label('Tanggal Admisi', 'tgl_admisi',array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasienRIV, 'pasienadmisi_id', array('readonly'=>true)); ?></td>
+            <td>
+                <?php echo CHtml::activeHiddenField($modPasienRIV, 'pasienadmisi_id', array('readonly'=>true)); ?>
+                <?php echo CHtml::activeTextField($modPasienRIV, 'tgladmisi', array('readonly'=>true)); ?>
+            </td>
 
 
             <td><?php echo CHtml::activeLabel($modPasienRIV, 'umur',array('class'=>'control-label')); ?></td>
@@ -250,8 +253,8 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
          <?php
             echo CHtml::htmlButton(
                 $modPindahKamar->isNewRecord ? 
-                    Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
-                    Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+                    Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="entypo-check"></i>')) : 
+                    Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),
                 array(
                     'class'=>'btn btn-primary',
                     'type'=>'submit',
@@ -260,15 +263,31 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
             );
         ?>
         <?php
+            if (isset($_GET['pendaftaran_id'])){
             echo CHtml::htmlButton(
-                Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
+                Yii::t('mds','{icon} Batal',array('{icon}'=>'<i class="entypo-block"></i>')),
                 array(
                     'class'=>'btn btn-danger','onclick'=>'konfirmasi()'
                 )
             );
+              $ulang = 'batalDialog';
+            }else{
+                echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
+                            '', 
+                            array('class'=>'btn btn-danger',
+                                  'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
+                $ulang = 'ulang';
+            }
         ?>
         <?php
-            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit5',array(),true);
+            $tips = array(
+                '0' => 'autocomplete-search',
+                '1' => 'tanggal',
+                '2' => 'time',
+                '3' => 'simpan',
+                '4' => $ulang
+            );
+            $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips' => $tips),true);
             $this->widget('UserTips',array('type'=>'admin','content'=>$content));
         ?>
     </div>
@@ -297,8 +316,13 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
         if(isset($modPindahKamar->pindahkamar_id)){
     ?>
         var params = [];
-        params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'Pindah Kamar', isinotifikasi:'<?php echo $modPasienRIV->nama_pasien; ?> dengan <?php echo $modPasienRIV->no_rekam_medik; ?> telah pindah kamar pada <?php echo $modPindahKamar->tglpindahkamar ?> dari <?php echo $modPindahKamar->ruangan->ruangan_nama ?>'}; // 16 
-        insert_notifikasi(params);
+        //params = {instalasi_id:<?php //echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php //echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'Pindah Kamar', isinotifikasi:'<?php //echo $modPasienRIV->nama_pasien; ?> dengan No. RM <?php //echo $modPasienRIV->no_rekam_medik; ?> telah pindah kamar pada <?php //echo $modPindahKamar->tglpindahkamar ?> ke <?php //echo $modPindahKamar->ruangan->ruangan_nama ?>'}; // 16         
+      //  params = {
+       //             instalasi_id:[<?php //echo Yii::app()->user->getState("instalasi_id"); ?>]
+      //          ,   modul_id:<?php //echo Yii::app()->session['modul_id']; ?>, 
+       //             judulnotifikasi:'PASIEN PINDAH KAMAR', isinotifikasi:'<?php //echo $modPasienRIV->no_rekam_medik.' '.$modPasienRIV->namadepan.' '.$modPasienRIV->nama_pasien; ?>, <?php //echo $modMasukKamar->kamarruangan->kamarruangan_nokamar.' '.$modMasukKamar->kamarruangan->kamarruangan_nobed.' - '.$modPindahKamar->kamarruangan->kamarruangan_nokamar.' '.$modPindahKamar->kamarruangan->kamarruangan_nobed; ?>  <br/>\n\
+     //               <?php //echo MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($modPindahKamar->masukkamar->create_time))).' '.LoginpemakaiK::model()->findByPk($modPindahKamar->masukkamar->create_loginpemakai_id)->nama_pemakai ?>'}; // 16         
+      //  insert_notifikasi(params);
     <?php            
         }
     ?>
@@ -422,24 +446,24 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                                     "onClick" => "
                                         $(\"#dialogDaftarPasien\").dialog(\"close\");
 
-                                        $(\"#RIPasienrawatinapV_tgl_pendaftaran\").val(\"$data->tgl_pendaftaran\");
+                                        $(\"#RIPasienrawatinapV_tgl_pendaftaran\").val(\"$data->FormatTanggalPendaftaran\");
                                         $(\"#RIPasienrawatinapV_no_pendaftaran\").val(\"$data->no_pendaftaran\");
                                         $(\"#RIPasienrawatinapV_umur\").val(\"$data->umur\");
-                                        $(\"#RIPasienrawatinapV_pasienadmisi_id\").val(\"$data->tgladmisi \");
-                                        $(\"#RIPasienrawatinapV_tglmasukkamar\").val(\"$data->tglmasukkamar \");
+                                        $(\"#RIPasienrawatinapV_tgladmisi\").val(\"$data->FormatTanggalAdmisi \");
+                                        $(\"#RIPasienrawatinapV_tglmasukkamar\").val(\"$data->FormatTanggalMasukKamar \");
                                         $(\"#RIPasienrawatinapV_jeniskasuspenyakit_nama\").val(\"$data->jeniskasuspenyakit_nama\");
 
                                         $(\"#RIPasienrawatinapV_jeniskelamin\").val(\"$data->jeniskelamin\");
                                         $(\"#RIPasienrawatinapV_no_rekam_medik\").val(\"$data->no_rekam_medik\");
                                         $(\"#RIPasienrawatinapV_nama_pasien\").val(\"$data->nama_pasien\"); 
                                         $(\"#RIPasienrawatinapV_nama_bin\").val(\"$data->nama_bin\");
-                                        $(\"#RIPindahkamarT_tglpindahkamar\").val(\"$data->tglmasukkamar\");
+                                       // $(\"#RIPindahkamarT_tglpindahkamar\").val(\"$data->tglmasukkamar\");
                                         $(\"#RIPindahkamarT_masukkamar_id\").val(\"$data->masukkamar_id \");
                                         $(\"#RIPindahkamarT_pendaftaran_id\").val(\"$data->pendaftaran_id \");
 
                                         $(\"#RIPindahkamarT_pasien_id\").val(\"$data->pasien_id \");
                                         $(\"#RIPindahkamarT_pasienadmisi_id\").val(\"$data->pasienadmisi_id \");
-
+                                        //$(\"#RIPindahkamarT_kelaspelayanan_id\").val(\"$data->kelaspelayanan_id \");
                                         
                                         $(\"#RIPindahkamarT_ruangan_id\").val(\"$data->ruangan_nama \");
 
@@ -448,40 +472,89 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                                         $(\"#RIMasukKamarT_penjamin_id\").val(\"$data->penjamin_nama \");
                                         $(\"#RIMasukKamarT_kelaspelayanan_id\").val(\"$data->kelaspelayanan_nama \");
                                         $(\"#RIMasukKamarT_pegawai_id\").val(\"$data->nama_pegawai \");
-                                        $(\"#RIMasukKamarT_kelaspelayanan_id\").val(\"$data->kelaspelayanan_nama \");
+                                        $(\"#RIMasukKamarT_kamarruangan_id\").val(\"$data->NoKamarRuangan \");
                                       
 
                                     "))',
                     
                 ),
-                'no_rekam_medik',   
-                'tgl_pendaftaran',
-                'no_pendaftaran',
-                'nama_pasien',
                 array(
+                    'header' => 'Tgl Pendaftaran',
+                    'name' => 'tgl_pendaftaran',
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                    'filter' => $this->widget('MyDateTimePicker', array(
+                    'model'=>$modPasienDialog, 
+                    'attribute'=>'tgl_pendaftaran', 
+                    'mode' => 'date',    
+                    //'language' => 'ja',
+                    // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                    'htmlOptions' => array(
+                        'id' => 'datepicker_for_due_date',
+                        'size' => '10',
+                        'style'=>'width:80%'
+                    ),
+                    'options' => array(  // (#3)                    
+                        'dateFormat' => Params::DATE_FORMAT,                    
+                        'maxDate' => 'd',
+                    ),                    
+                ), 
+                true),
+                ),  
+                array(
+                    'header' => 'No Pendaftaran',
+                    'name' => 'no_pendaftaran',
+                    'filter' => Chtml::activeTextField($modPasienDialog, 'no_pendaftaran', array('class'=>'angkahuruf-only'))
+                ),                 
+                array(
+                    'header' => 'No Rekam Medik',
+                    'name' => 'no_rekam_medik',
+                    'filter' => Chtml::activeTextField($modPasienDialog, 'no_rekam_medik', array('class'=>'numbers-only'))
+                ),  
+                array(
+                    'header' => 'Nama Pasien',
+                    'name' => 'nama_pasien',
+                    'filter' => Chtml::activeTextField($modPasienDialog, 'nama_pasien', array('class'=>'hurufs-only'))
+                ),                 
+                /*array(
                     'header'=>'Nama Alias',
                     'type'=>'raw',
                     'value'=>'"$data->nama_bin"',
-                ),
+                ),*/
                 array(
-                    'header'=>'Penjamin'.' /<br/>'.'Cara Bayar',
+                    'header'=>'Cara Bayar '.' / <br/>'.' Penjamin',
                     'type'=>'raw',
-                    'name'=>'penjamin_id',
-                    'value'=>'"$data->penjamin_nama"."<br/>"."$data->carabayar_nama"',
-                    'filter'=>Chtml::dropDownList('RIInfopasienmasukkamarV[penjamin_id]', $modPasienDialog->penjamin_id, Chtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif = TRUE ORDER BY penjamin_nama ASC'), 'penjamin_id', 'penjamin_nama'),array('empty'=>'-- Pilih --'))
+                    'value'=>'"$data->carabayar_nama"." / <br/>"."$data->penjamin_nama"',
+                    'filter' => Chtml::activeDropDownList($modPasienDialog, 'carabayar_id', Chtml::listData(CarabayarM::model()->findAll(" carabayar_aktif = TRUE ORDER BY carabayar_nama ASC "), 'carabayar_id', 'carabayar_nama'), array('empty'=>'-- Pilih --'))
                 ),
                 array(
-                    'header'=>'Nama Dokter',
+                    'header'=>'Dokter',
                     'type'=>'raw',
                     'name'=>'nama_pegawai',
-                    'value'=>'"$data->nama_pegawai"',
-                ),                
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                    'filter' => Chtml::activeTextField($modPasienDialog, 'nama_pegawai', array('class'=>'hurufs-only'))
+                ),  
+                array(
+                    'header' => 'Jenis Kasus Penyakit',
+                    'name' => 'jeniskasuspenyakit_nama',
+                    'filter' => Chtml::activeTextField($modPasienDialog, 'jeniskasuspenyakit_nama', array('class'=>'hurufs-only'))
+                ), 
                 // 'ruangan_nama',
-        'jeniskasuspenyakit_nama',
+        //'jeniskasuspenyakit_nama',
         // 'statusperiksa',
                 
     ),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . '$(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
+            $(".angkahuruf-only").keyup(function() {
+                setAngkaHurufsOnly(this);
+            });
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });
+            reinstallDatePicker();'
+        . '}',
     )); 
 
 $this->endWidget('zii.widgets.jui.CJuiDialog');

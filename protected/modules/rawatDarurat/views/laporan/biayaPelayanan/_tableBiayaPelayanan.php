@@ -1,4 +1,5 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $template = "{summary}\n{items}\n{pager}";
 if (isset($caraPrint)){
@@ -7,6 +8,32 @@ if (isset($caraPrint)){
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
 } else{
   $data = $model->searchTable();
 }
@@ -18,21 +45,21 @@ $sort=true;
 	'dataProvider'=>$data,
         'template'=>$template,
         'enableSorting'=>$sort,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
             array(
                     'header' => 'No',
                     'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
             ),
+            'no_pendaftaran',
             'no_rekam_medik',
             array(
-                'header'=>'Nama Pasien / Bin',
-                'value'=>'$data->NamaNamaBIN',
+                'header'=>'Nama Pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
             ),
-//            'NamaNamaBIN',
-            'no_pendaftaran',
+//            'NamaNamaBIN',            
             'umur',
-            'jeniskelamin',
+          //  'jeniskelamin',
             array(
                 'header'=>'Jenis Kasus Penyakit',
                 'value'=>'$data->jeniskasuspenyakit_nama',

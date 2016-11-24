@@ -183,7 +183,7 @@ class ASInforencanaaskepV extends InforencanaaskepV
         {           
             $criteria=new CDbCriteria;
             $criteria->select = "rencanaaskep_id,  no_rencana, rencanaaskep_tgl, no_pendaftaran,nama_pasien, nama_pegawai, pegawai_id, ruangan_nama, kelaspelayanan_nama, ruangan_id";
-            $criteria->addBetweenCondition('pengkajianaskep_tgl', $this->tgl_awal, $this->tgl_akhir);
+            $criteria->addBetweenCondition('rencanaaskep_tgl', $this->tgl_awal, $this->tgl_akhir);
             $criteria->compare("LOWER(no_rencana)",  strtolower($this->no_rencana), TRUE);
             $criteria->compare("LOWER(no_pendaftaran)",  strtolower($this->no_pendaftaran), TRUE);
             $criteria->compare("LOWER(nama_pasien)",  strtolower($this->nama_pasien), TRUE);

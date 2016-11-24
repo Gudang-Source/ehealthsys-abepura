@@ -12,7 +12,7 @@ if ($caraPrint != 'GRAFIK')
 $this->renderPartial($this->path_view.'_table', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
 
 if ($caraPrint == 'GRAFIK')
-echo $this->renderPartial($this->path_view.'_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint, 'searchdata'=>$model->searchReturpenerimaangrafik()), true); 
+echo $this->renderPartial($this->path_view.'_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint), true); 
 
 
 ?>

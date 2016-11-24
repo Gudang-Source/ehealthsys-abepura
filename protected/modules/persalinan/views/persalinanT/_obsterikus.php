@@ -43,6 +43,16 @@
                             <?php echo $form->error($modPemeriksaan, 'obs_periksadalam'); ?>
                         </div>
                     </div>
+                    <!-- Kolom Baru portio_genitalia-->
+                    <div class="control-group ">
+                        <?php echo $form->labelEx($modPemeriksaan, 'portio_genitalia', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->textField($modPemeriksaan, 'portio_genitalia', array('class'=>'span3 angkahuruf-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            ?>
+                            <?php echo $form->error($modPemeriksaan, 'portio_genitalia'); ?>
+                        </div>
+                    </div>                    
                     <div class="control-group ">
                         <?php echo $form->labelEx($modPemeriksaan, 'konsistensi', array('class' => 'control-label')) ?>
                         <div class="controls">
@@ -76,11 +86,15 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'pemeriksa', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
+                            $pegawai = new CDbCriteria();
+                            $pegawai->with = array('ruanganpegawai');
+                            $pegawai->addCondition("t.pegawai_aktif = TRUE ");
+                            $pegawai->addCondition("ruanganpegawai.ruangan_id = ".Yii::app()->user->getState('ruangan_id')); 
+                            $pegawai->addCondition('t.kelompokpegawai_id IN ('.Params::KELOMPOKPEGAWAI_ID_BIDAN.','.Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK.') ');
+                            $pegawai->order = 't.nama_pegawai ASC';
+                            
                             echo $form->dropDownList($modPemeriksaan, 'obs_pemeriksa', 
-                                    CHtml::listData(DokterV::model()->findAllByAttributes(array(
-                                        'pegawai_aktif'=>true,
-                                        'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
-                                    ), array('order'=>'nama_pegawai')), 'namaLengkap', 'namaLengkap'),
+                                    CHtml::listData(PSPegawaiM::model()->findAll($pegawai), 'namaLengkap', 'namaLengkap'),
                                     array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, 'obs_pemeriksa'); ?>
@@ -122,6 +136,15 @@
                             <?php echo $form->error($modPemeriksaan, 'posisi_genitalia'); ?>
                         </div>
                     </div>
+                    <div class="control-group ">
+                        <?php echo CHtml::label('Imbang Fetopelvik', 'obs_fetofelvik', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->textField($modPemeriksaan, 'obs_fetofelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            ?>
+                            <?php echo $form->error($modPemeriksaan, 'obs_fetofelvik'); ?>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     <div class="control-group ">
@@ -131,6 +154,16 @@
                             echo $form->textField($modPemeriksaan, 'presentasi_genitalia', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, 'presentasi_genitalia'); ?>
+                        </div>
+                    </div>
+                    <!--kolom frekuensi Auskultasi -->
+                    <div class="control-group ">
+                        <?php echo Chtml::label("Frekuensi", 'frek_auskultasi', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->textField($modPemeriksaan, 'frek_auskultasi', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 3, 'style'=>'text-align:right;')).' /menit';
+                            ?>
+                            <?php echo $form->error($modPemeriksaan, 'frek_auskultasi'); ?>
                         </div>
                     </div>
                     <div class="control-group ">
@@ -150,16 +183,7 @@
                             ?>
                             <?php echo $form->error($modPemeriksaan, 'obs_pemeriksaan'); ?>
                         </div>
-                    </div>
-                    <div class="control-group ">
-                        <?php echo CHtml::label('Imbang Fetopelvik', 'obs_fetofelvik', array('class' => 'control-label')) ?>
-                        <div class="controls">
-                            <?php
-                            echo $form->textField($modPemeriksaan, 'obs_fetofelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                            ?>
-                            <?php echo $form->error($modPemeriksaan, 'obs_fetofelvik'); ?>
-                        </div>
-                    </div>
+                    </div>                    
                 </td>
             </tr>
         </table>

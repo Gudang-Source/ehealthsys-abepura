@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div class="control-group ">
-			<?php echo CHtml::activeLabel($model, 'namapeminjam', array('class' => 'control-label')); ?>
+			<?php echo CHtml::label('Nama Peminjaman <font style="color:red">*</font>', 'namapeminjam', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php
 				$this->widget('MyJuiAutoComplete', array(
@@ -58,6 +58,7 @@
 					'htmlOptions'=>array(
 						'onkeypress'=>'return $(this).focusNextInputField(event)',
 						'disabled'=>($model->isNewRecord)?'':'disabled', 
+                                                'class' => 'required'
 					),
 					'tombolDialog'=>array('idDialog'=>'dialogNamaPeminjam'),
 				));
@@ -67,12 +68,12 @@
 	</div>
 	<div class="span4">
 		<?php
-			echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,'style'=>'width:200px;',
+			echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,'style'=>'width:200px;',
 				'ajax' => array('type' => 'POST',
 					'url' => $this->createUrl('SetDropdownRuangan', array('encode' => false, 'model_nama' => get_class($model))),
 					'update' => '#' . CHtml::activeId($model, 'ruangan_id') . ''),));
 		?>
-		<?php echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id' => $model->instalasi_id, 'ruangan_aktif' => true)), 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --', 'class' => 'span2','style'=>'width:200px;', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+		<?php echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id' => $model->instalasi_id, 'ruangan_aktif' => true), array('order'=>'ruangan_nama ASC')), 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --', 'class' => 'span2','style'=>'width:200px;', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
 		<?php echo $form->textFieldRow($model,'untukkepentingan',array('disabled'=>($model->isNewRecord)?'':'disabled', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=>'Alasan peminjaman', 'autofocus'=>true)); ?>
 	</div>
 	<div class="span4">

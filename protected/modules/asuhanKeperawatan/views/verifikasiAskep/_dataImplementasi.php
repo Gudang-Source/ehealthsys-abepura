@@ -14,7 +14,7 @@
 		</div>
 		<div class="span4">
 			<div class="control-group">
-				<?php echo CHtml::activeLabelEx($modImplementasi, 'implementasiaskep_tgl', array('class' => 'control-label inline')) ?>
+				<?php echo CHtml::label('Tanggal Implementasi', 'implementasiaskep_tgl', array('class' => 'control-label inline')) ?>
 				<div class="controls">
 					<?php
 					$this->widget('MyDateTimePicker', array(
@@ -35,7 +35,7 @@
 		</div>
 		<div class="span4">
 			<div class="control-group">
-				<?php echo CHtml::label('Nama pegawai', 'nama_pegawai', array('class' => 'control-label')) ?>
+				<?php echo CHtml::label('Nama Perawat', 'nama_pegawai', array('class' => 'control-label')) ?>
 				<div class="controls">
 					<?php echo CHtml::activeHiddenField($modImplementasi, 'pegawai_id', array('readonly' => true)) ?>
 					<?php

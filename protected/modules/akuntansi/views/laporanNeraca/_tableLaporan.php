@@ -139,16 +139,6 @@ $criteria = new CDbCriteria;
 							$kdrekening2 = '-';
 						}
 
-						echo "
-									<tr>
-										  <td colspan=2><b><i>" . $spasi1 . $nmrekening2 . "</i></b></td>";
-						for ($i = 0; $i < $jmlKolom - 1; $i++) {
-							echo "<td>";
-							echo "</td>";
-						}
-						echo " </tr>
-								";
-
 						$criteria3 = new CDbCriteria;
 						$term2 = $nmrekening2;
 						$termKode2 = $kdrekening2;
@@ -165,6 +155,11 @@ $criteria = new CDbCriteria;
 						$criteria3->order = 'rekening1_id,nmrekening1,kdrekening1,rekening2_id,nmrekening2,kdrekening2,rekening3_id,nmrekening3,kdrekening3 ASC';
 
 						$detail2 = AKlaporanneracaV::model()->findAll($criteria3);
+						if(count($detail2) > 0){
+							echo "
+									<tr>
+										  <td colspan=2><b><i>" . $spasi1 . $nmrekening2 . "</i></b></td></tr>";
+						}
 						$nmrekening3_temp = "";
 						foreach ($detail2 as $key => $rekening3) {
 							if ($rekening3->nmrekening3) {
@@ -224,9 +219,6 @@ $criteria = new CDbCriteria;
 											$kdrekening4 = '-';
 										}
 
-										echo "
-													<tr>
-														<td width='200px;'><b>" . $spasi3 . $nmrekening4 . "</b></td>";
 
 										for ($i = 0; $i <= $jmlKolom - 1; $i++) {
 
@@ -238,7 +230,7 @@ $criteria = new CDbCriteria;
 
 
 											$result = Yii::app()->db->createCommand($sql)->queryRow();
-											echo "<td width='150px;' style='text-align:right'>" . number_format($result['jumlah']) . "</td>";
+
 										}
 
 
@@ -277,18 +269,17 @@ $criteria = new CDbCriteria;
 											echo "
 													<tr>
 														<td width='200px;'>" . $spasi4 . $nmrekening5 . "</td>";
-
 											for ($i = 0; $i <= $jmlKolom - 1; $i++) {
 
+												
 												$sql = "
-												SELECT 
-												sum(jumlah) as jumlah
+												SELECT jumlah as jumlah
 												FROM laporanneraca_v
-												WHERE rekening5_id =" . $rekening5_id . " AND date(tglperiodeposting_awal) = '" . $tglKirims[$i]['tglperiodeposting_awal'] . "'";
-
+												WHERE rekening5_id =" . $rekening5_id . " AND date(tglperiodeposting_awal) = '" . $tglKirims[$i]['tglperiodeposting_awal'] . "' order by laporanneraca_id desc";
 
 												$result = Yii::app()->db->createCommand($sql)->queryRow();
 												echo "<td width='150px;' style='text-align:right'>" . number_format($result['jumlah']) . "</td>";
+
 											}
 
 

@@ -34,6 +34,8 @@
                              <?php //echo CHtml::hiddenField('instalasi_id'); ?>
                             <?php //echo CHtml::hiddenField('ruangan_id'); ?>
                             <?php
+                            //$model->ruangan_id = !empty($model->ruangan_id)?$model->ruangan_id:Yii::app()->user->getState('ruangan_id');
+                           // $model->instalasi_id = !empty($model->instalasi_id)?$model->instalasi_id:Yii::app()->user->getState('instalasi_id');
                             echo $form->dropDownList($model, 'instalasi_id', CHtml::listData($model->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
                                 'ajax' => array('type' => 'POST',
                                     'url' => $this->createUrl('setDropdownRuangan', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
@@ -90,6 +92,7 @@
                                 ),
                                 'htmlOptions' => array(
                                     'onkeypress' => "return $(this).focusNextInputField(event)",
+                                    'class' => 'hurufs-only'
                                 ),
                                 'tombolDialog' => array('idDialog' => 'dialogPasien', 'jsFunction'=>'dialogMenuPasien()'),
                             ));
@@ -135,7 +138,7 @@
                                 ),
                                 'htmlOptions' => array(
                                     'onkeypress' => "return $(this).focusNextInputField(event)",
-                                    'class'=>'span2',
+                                    'class'=>'span2 custom-only',
                                 ),
                                 'tombolDialog' => array('idDialog' => 'dialogMenuDiet'),
                             ));

@@ -698,7 +698,9 @@ class BookingKamarTController extends MyAuthController
                     $model->attributes=$_GET['PPBookingKamarT'];
                     $model->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['PPBookingKamarT']['tgl_awal']);
                     $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPBookingKamarT']['tgl_akhir']);
-					$model->noRekamMedik = $_REQUEST['PPBookingKamarT']['noRekamMedik'];
+                    $model->noRekamMedik = $_REQUEST['PPBookingKamarT']['noRekamMedik'];
+                    $model->prefix_pendaftaran= $_GET['PPBookingKamarT']['prefix_pendaftaran'];
+                    $model->no_pendaftaran= $_GET['PPBookingKamarT']['no_pendaftaran'];
                 }                
                 
                 $this->render($this->path_view.'admin',array(

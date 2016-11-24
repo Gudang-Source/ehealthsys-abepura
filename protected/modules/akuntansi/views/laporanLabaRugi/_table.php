@@ -41,6 +41,7 @@ foreach ($models AS $row => $data) {
 				$jmlKolom ++;
 			}
 		}
+                echo "<th>Total</th>";
 		echo "</tr>";
 		?>
 
@@ -60,7 +61,11 @@ foreach ($models AS $row => $data) {
 		$totSaldo = 0;
 		$labarugi = 0;
 		$pendapatan = 0;
+                $pendapatan1 = 0; 
+		$pendapatan2 = 0; 
 		$beban = 0;
+                $beban1 = 0; 
+		$beban2 = 0; 
 		foreach ($modelLaporan as $i => $data) {
 
 			if ($data->nmrekening1) {
@@ -79,9 +84,8 @@ foreach ($models AS $row => $data) {
 					$kdrekening1 = '-';
 				}
 
-				echo "
-									<tr>
-										  <td colspan=2><b><i>" . $nmrekening1 . "</i></b></td>";
+				echo "<tr class='segmen1'>
+					  	<td colspan=2><b><i>" . $nmrekening1 . "</i></b></td>";
 				for ($i = 0; $i < $jmlKolom - 1; $i++) {
 					echo "<td>";
 					echo "</td>";
@@ -123,7 +127,7 @@ foreach ($models AS $row => $data) {
 							$kdrekening2 = '-';
 						}
 
-						echo "
+						/*echo "
 									<tr>
 										  <td colspan=2><b><i>" . $spasi1 . $nmrekening2 . "</i></b></td>";
 						for ($i = 0; $i < $jmlKolom - 1; $i++) {
@@ -131,7 +135,7 @@ foreach ($models AS $row => $data) {
 							echo "</td>";
 						}
 						echo " </tr>
-								";
+								";*/
 
 						$criteria3 = new CDbCriteria;
 						$term2 = $nmrekening2;

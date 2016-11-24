@@ -104,7 +104,15 @@ $('#daftarPasien-form').submit(function(){
                                 array(
                     'header'=>'Status Periksa',
                     'type'=>'raw',
-                    'value'=>'$data->getStatus($data->statusperiksa,$data->pendaftaran_id,$data)',
+                    'value'=> function($data){
+                            $p = RMPasienmasukpenunjangT::model()->findByPk($data->pasienmasukpenunjang_id);
+                            $pasienkirimkeunitlain_id = empty($p->pasienkirimkeunitlain_id)?'':$p->pasienkirimkeunitlain_id;
+                            if (empty($p->pasienkirimkeunitlain_id)){
+                                echo $data->getStatusRM($data->statusperiksa,$data->pendaftaran_id,$pasienkirimkeunitlain_id, $data);                                
+                            }else{
+                                echo $data->getStatus($data->statusperiksa,$data->pendaftaran_id, $data);                                
+                            }
+                    }
                 ),
                 //'nama_pegawai',
     //            'kelaspelayanan_nama',
@@ -415,13 +423,16 @@ $('#daftarPasien-form').submit(function(){
     });
 } 
 
-function setStatus(obj,status,pendaftaran_id){
+
+
+function setStatus(obj,status,pendaftaran_id, pasienkirimkeunitlain_id){
     var status = status;
     var pendaftaran_id = pendaftaran_id;
+    var pasienkirimkeunitlain_id = pasienkirimkeunitlain_id;
     
-    myConfirm(' Yakin Akan Merubah Status Periksa Pasien? ', 'Perhatian!', function(r){
+    myConfirm(' Apakah Anda Yakin Ingin Merubah Status Periksa Pasien? ', 'Perhatian!', function(r){
         if(r){
-            $.post('<?php echo $this->createUrl('UbahStatusPeriksaPasien');?>', {status:status ,pendaftaran_id:pendaftaran_id}, function(data){
+            $.post('<?php echo $this->createUrl('UbahStatusPeriksaPasien');?>', {status:status ,pendaftaran_id:pendaftaran_id, pasienkirimkeunitlain_id:pasienkirimkeunitlain_id}, function(data){
                 if(data.status == 'proses_form'){
 					$('#dialogUbahStatusPasien div.divForForm').html(data.div);
 					$.fn.yiiGridView.update('daftarpasien-v-grid');

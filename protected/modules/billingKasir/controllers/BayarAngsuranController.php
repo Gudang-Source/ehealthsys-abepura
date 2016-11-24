@@ -11,7 +11,7 @@ class BayarAngsuranController extends PembayaranTagihanPasienController
             
             if(isset($_GET['frame']) && !empty($_GET['idPembayaran']))
             {
-                $this->layout = 'iframe';
+                $this->layout = '//layouts/iframe';
                 $idPembayaran = $_GET['idPembayaran'];
                 
                 $modPembayaran = BKPembayaranpelayananT::model()->findByPk($idPembayaran);
@@ -27,13 +27,13 @@ class BayarAngsuranController extends PembayaranTagihanPasienController
                 $modAngsuran->sisaangsuran = $modPembayaran->totalsisatagihan;
                 $modAngsuran->tglbayarangsuran = date('d M Y H:i:s');
                 $modAngsuran->jmlbayarangsuran = 0;
-                
+              //  var_dump($modAngsuran->tandabuktibayar_id);
                 $modTandaBukti = new BKTandabuktibayarT;
                 $modTandaBukti->attributes = $tandaBukti->attributes;
                 $modTandaBukti->carapembayaran = 'CICILAN';
-                $modTandaBukti->jmlpembayaran = 0;
-                $modTandaBukti->uangditerima = 0;
-                $modTandaBukti->uangkembalian = 0;
+                //$modTandaBukti->jmlpembayaran = $modPembayaran->totalsisatagihan;
+                //$modTandaBukti->uangditerima = $modPembayaran->totalsisatagihan;
+                $modTandaBukti->uangkembalian = '0';
                 
                 if(!empty($model))
                 {
@@ -43,12 +43,12 @@ class BayarAngsuranController extends PembayaranTagihanPasienController
             }
             
             if(isset($_POST['BKBayarAngsuranPelayananT']))
-            {
+            {   
                 $transaction = Yii::app()->db->beginTransaction();
                 try {
                     $tandaBukti = $this->saveTandabuktiBayarAngsuran($_POST['BKTandabuktibayarT'],$idPembayaran);
                     $modAngsuran = $this->saveBayarAngsuran($_POST['BKBayarAngsuranPelayananT'], $tandaBukti);
-                    $this->updatePembayaran($idPembayaran, $_POST['BKBayarAngsuranPelayananT']['sisaangsuran']);
+                    $this->updatePembayaran($idPembayaran, $_POST['BKBayarAngsuranPelayananT']['sisaangsuran'], $_POST['BKBayarAngsuranPelayananT']['jmlbayarangsuran']);
                     $this->updateTindakanSudahBayar($idPembayaran, $tandaBukti);
                     $this->updateOASudahBayar($idPembayaran, $tandaBukti);
                     
@@ -91,6 +91,10 @@ class BayarAngsuranController extends PembayaranTagihanPasienController
             $modTandaBukti->nourutkasir = MyGenerator::noUrutKasir($modTandaBukti->ruangan_id);
             $modTandaBukti->nobuktibayar = MyGenerator::noBuktiBayar();
             $modTandaBukti->pembayaranpelayanan_id = $idPembayaran;
+            $modTandaBukti->create_time=date('Y-m-d H:i:s');
+            $modTandaBukti->create_loginpemakai_id=Yii::app()->user->id;
+            $modTandaBukti->create_ruangan=Yii::app()->user->getState('ruangan_id');
+            $modTandaBukti->shift_id=Yii::app()->user->getState('shift_id');
                         
             if($modTandaBukti->validate())
             {
@@ -109,6 +113,7 @@ class BayarAngsuranController extends PembayaranTagihanPasienController
             $modAngsuran = new BKBayarAngsuranPelayananT;
             $modAngsuran->attributes = $postAngsuran;
             $modAngsuran->tandabuktibayar_id = $modTandaBukti->tandabuktibayar_id;
+            
             if($modAngsuran->validate())
             {
                 if($modAngsuran->save())
@@ -118,13 +123,16 @@ class BayarAngsuranController extends PembayaranTagihanPasienController
             return $modAngsuran;
         }
 
-        protected function updatePembayaran($idPembayaran,$sisaTagihan)
+        protected function updatePembayaran($idPembayaran,$sisaTagihan, $jmlbayar)
         {
+            $updateTotal = PembayaranpelayananT::model()->findByPk($idPembayaran);
             $statusBayar = $this->cekStatusBayar($sisaTagihan);
+            
             BKPembayaranpelayananT::model()->updateByPk(
                 $idPembayaran,
                 array(
                     'totalsisatagihan'=>$sisaTagihan,
+                    'totalbayartindakan' => $jmlbayar + $updateTotal->totalbayartindakan,
                     'statusbayar'=>$statusBayar
                 )
             );

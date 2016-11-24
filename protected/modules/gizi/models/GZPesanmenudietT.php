@@ -1,8 +1,10 @@
 <?php
 class GZPesanmenudietT extends PesanmenudietT{
-    public $instalasi_id,$kelaspelayanan_id,$ruangna_id;
+    public $kelaspelayanan_id,$ruangan_id;
 	public $carabayar_id,$penjamin_id;
         public $temp_no;
+            
+        
     
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -30,7 +32,7 @@ class GZPesanmenudietT extends PesanmenudietT{
 		$criteria=new CDbCriteria;
                 
 		$criteria->addBetweenCondition('DATE(tglpesanmenu)', $this->tgl_awal, $this->tgl_akhir);
-		$criteria->addCondition('kirimmenudiet_id is null');
+		//$criteria->addCondition('kirimmenudiet_id is null');
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
 		}
@@ -40,6 +42,15 @@ class GZPesanmenudietT extends PesanmenudietT{
 		$criteria->compare('LOWER(keterangan_pesan)',strtolower($this->keterangan_pesan),true);
 		$criteria->compare('LOWER(nama_pemesan)',strtolower($this->nama_pemesan),true);
 		$criteria->compare('totalpesan_org',$this->totalpesan_org);
+              //  var_dump($this->status_terima);
+                if (!empty($this->status_terima)){
+                    if ($this->status_terima == '1'){                        
+                        $criteria->addCondition(" status_terima IS TRUE ");
+                    }elseif ($this->status_terima == '2'){
+                        var_dump($this->status_terima);
+                        $criteria->addCondition(" status_terima IS FALSE ");
+                    }
+                }
 		$criteria->order='tglpesanmenu DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -99,12 +110,21 @@ class GZPesanmenudietT extends PesanmenudietT{
 	* @return array
 	*/
        public function getInstalasiItems(){
+            
 	   $criteria = new CDbCriteria();
-	   $criteria->addInCondition('instalasi_id',array(
-		       Params::INSTALASI_ID_RJ, 
-		       Params::INSTALASI_ID_RD, 
-		       Params::INSTALASI_ID_RI) 
+           if (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_GIZI){
+               $criteria->addInCondition('instalasi_id',array(
+                      //Params::INSTALASI_ID_RJ, 
+                      //Params::INSTALASI_ID_RD, 
+                      Params::INSTALASI_ID_RI,
+                      Params::INSTALASI_ID_ICU)
 		   );
+           }else{
+                $criteria->addInCondition('instalasi_id',array(
+                Yii::app()->user->getState('instalasi_id'))
+		   );
+           }
+	   
 	   $criteria->addCondition('instalasi_aktif = true');
            $criteria->order = "instalasi_nama ASC";
 	   $modInstalasis = InstalasiM::model()->findAll($criteria);

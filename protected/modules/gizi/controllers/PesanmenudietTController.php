@@ -167,7 +167,7 @@ class PesanmenudietTController extends MyAuthController
 		$model->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
 		$model->penjamin_id = Params::PENJAMIN_ID_UMUM;
 		//$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		//$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
 		$nama_modul = Yii::app()->controller->module->id;
         $nama_controller = Yii::app()->controller->id;
@@ -453,6 +453,34 @@ class PesanmenudietTController extends MyAuthController
 			'model'=>$model,
 		));
 	}
+        
+        public function actionTerimaKonfirmasi()
+        {
+            $idPesan = $_POST['idPesan'];               
+            
+            if(isset($idPesan))
+            {
+               $update = PesanmenudietT::model()->updateByPk($idPesan,array('status_terima'=>TRUE,'update_loginpemakai_id'=>Yii::app()->user->getState('pegawai_id'), 'update_time'=>date('Y-m-d H:i:s')));
+               if($update)
+                {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'sukses', 
+                            ));
+                        exit;               
+                    }
+                 }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'gagal', 
+                            ));
+                        exit;               
+                    }
+            }
+        }
         
 	public function actionDetailPesanMenuDiet($id){
 		$this->layout = '//layouts/iframe';

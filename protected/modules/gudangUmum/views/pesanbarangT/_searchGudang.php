@@ -54,7 +54,7 @@
                        <?php echo CHtml::activeLabel($model, 'nopemesanan', array('class'=>'control-label')); ?>
                       </label>
                     <div class="controls">
-                           <?php echo $form->textField($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan', 'class'=>'span3', 'maxlength'=>20)); ?>
+                           <?php echo $form->textField($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20)); ?>
                         </div>
                     </div>
                     

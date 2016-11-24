@@ -182,7 +182,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 $modDialogKunjungan = new ASPasienM('searchDialogKunjungan');
 $modDialogKunjungan->unsetAttributes();
 $modDialogKunjungan->instalasi_id = Yii::app()->user->getState('instalasi_id');
-$modDialogKunjungan->ruangan_id = Params::RUANGAN_ID_BERSALIN;
+if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_BERSALIN ){
+    $modDialogKunjungan->ruangan_id = Params::RUANGAN_ID_BERSALIN;
+}else{
+    $modDialogKunjungan->ruangan_id = 9999;
+}
 if (isset($_GET['ASPasienM'])) {
 	$modDialogKunjungan->attributes = $_GET['ASPasienM'];
         $modDialogKunjungan->instalasi_id = Yii::app()->user->getState('instalasi_id');

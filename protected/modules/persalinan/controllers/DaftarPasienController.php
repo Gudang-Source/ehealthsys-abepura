@@ -15,6 +15,7 @@ class DaftarPasienController extends MyAuthController
         $model = new PSInfokunjunganpersalinanV;
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
+        
         if(isset ($_REQUEST['PSInfokunjunganpersalinanV'])){
             $model->attributes=$_REQUEST['PSInfokunjunganpersalinanV'];
             $model->kamarruangan_id = $_REQUEST['PSInfokunjunganpersalinanV']['kamarruangan_id'];
@@ -386,4 +387,136 @@ class DaftarPasienController extends MyAuthController
                 'pasien_id'=>Yii::app()->session['pasien_id']));
         
     }
+    
+   public function actionUbahDokterPeriksa()
+   {
+	   $model = new PSPendaftaranT();           
+	   $modAdmisi = new PSPasienAdmisiT();
+	   $modUbahDokter = new PSUbahdokterR;
+	   $menu = (isset($_REQUEST['menu']) ? $_REQUEST['menu'] : "");
+	   if(isset($_POST['PSPendaftaranT']))
+	   {
+		   if($_POST['PSPendaftaranT']['pegawai_id'] != "")
+		   {
+                       
+				$model->attributes = $_POST['PSPendaftaranT'];
+				$modUbahDokter->attributes = $_POST['PSUbahdokterR'];
+				$modUbahDokter->pendaftaran_id = $_POST['PSPendaftaranT']['pendaftaran_id'];
+				$modUbahDokter->dokterbaru_id = $_POST['PSPendaftaranT']['pegawai_id'];
+				$modUbahDokter->tglubahdokter = date('Y-m-d H:i:s');
+				$modUbahDokter->create_time = date('Y-m-d H:i:s');
+				$modUbahDokter->create_loginpemakai_id = Yii::app()->user->id;
+				$modUbahDokter->create_ruangan = Yii::app()->user->getState('ruangan_id');
+			   $transaction = Yii::app()->db->beginTransaction();
+			   try {
+				    $attributes = array('pegawai_id' => $_POST['PSPendaftaranT']['pegawai_id']);
+                                    $cekPersalinan = PSPersalinanT::model()->find(" pendaftaran_id = '".$_POST['PSPendaftaranT']['pendaftaran_id']."' ");
+                                  
+                                    if (count($cekPersalinan)>1){
+                                        $save = PSPendaftaranT::model()->updateByPk($_POST['PSPendaftaranT']['pendaftaran_id'], $attributes);
+                                        $savePersalinan = PSPersalinanT::model()->updateByPk($cekPersalinan->persalinan_id, $attributes);
+                                    }else{                                        
+                                        $save = PSPendaftaranT::model()->updateByPk($_POST['PSPendaftaranT']['pendaftaran_id'], $attributes);
+                                    }
+
+                                    if ($save) {                                        
+                                        $modUbahDokter->save();
+                                        $transaction->commit();
+                                        echo CJSON::encode(array(
+                                            'status' => 'proses_form',
+                                            'div' => "<div class='flash-success'>Berhasil merubah Dokter Periksa.</div>",
+                                        ));
+                                    } else {
+                                        echo CJSON::encode(array(
+                                            'status' => 'proses_form',
+                                            'div' => "<div class='flash-error'>Data gagal disimpan.</div>",
+                                        ));
+                                    }				   
+				   exit;
+			   }catch(Exception $exc) {
+				   $transaction->rollback();
+			   }                
+		   }else{
+			   echo CJSON::encode(
+				   array(
+					   'status'=>'proses_form',
+					   'div'=>"<div class='flash-error'>Data gagal disimpan, dokter baru belum dipilih.</div>",
+				   )
+			   );
+			   exit;
+		   }
+	   }
+
+	   if (Yii::app()->request->isAjaxRequest)
+	   {
+		   echo CJSON::encode(array(
+			   'status'=>'create_form', 
+			   'div'=>$this->renderPartial('_formUbahDokterPeriksa', array('model'=>$model,'modAdmisi'=>$modAdmisi,'modUbahDokter'=>$modUbahDokter,'menu'=>$menu), true)));
+		   exit;               
+	   }
+   }
+   
+   public function actionGetDataPendaftaranPS()
+   {
+	   if (Yii::app()->request->isAjaxRequest){
+		   $id_pendaftaran = $_POST['pendaftaran_id'];                   
+                   $persalinan_id = PersalinanT::model()->find(" pendaftaran_id = '".$id_pendaftaran."' ");                   
+		   $pasienadmisi_id = !empty($_POST['pasienadmisi_id']) ? $_POST['pasienadmisi_id'] : null;
+                   
+                   if (count($persalinan_id)>0){
+                       $modPasienAdmisi = PendaftaranT::model()->findByPk($id_pendaftaran);       
+                   }else{
+                       $modPasienAdmisi = PendaftaranT::model()->findByPk($id_pendaftaran);       
+                   }
+                   
+                   /*if (!empty($pasienadmisi_id)){
+                        $model = InfopasienmasukkamarV::model()->findByAttributes(array('pendaftaran_id'=>$id_pendaftaran,'pasienadmisi_id'=>$pasienadmisi_id));
+                        $modPasienAdmisi = PasienadmisiT::model()->findByPk($pasienadmisi_id);
+                   }else{                       
+                        $model = InfopasienmasukkamarV::model()->findByAttributes(array('pendaftaran_id'=>$id_pendaftaran));
+                        $modPasienAdmisi = PendaftaranT::model()->findByPk($id_pendaftaran);                        
+                   }*/
+		 //  var_dump($modPasienAdmisi->pegawai_id);
+		   $attributes = $modPasienAdmisi->attributeNames();
+		   foreach($attributes as $j=>$attribute) {
+			   $returnVal["$attribute"] = $modPasienAdmisi->$attribute;
+			   $returnVal["gelarbelakang_nama"] = isset($modPasienAdmisi->pegawai->gelarbelakang->gelarbelakang_nama) ? $modPasienAdmisi->pegawai->gelarbelakang->gelarbelakang_nama : "";
+			   $returnVal["gelardepan"] = isset($modPasienAdmisi->pegawai->gelardepan) ? $modPasienAdmisi->pegawai->gelardepan : "";
+			   $returnVal["pegawai_id"] = isset($modPasienAdmisi->pegawai_id) ? $modPasienAdmisi->pegawai_id : null;
+                           $returnVal["nama_pasien"] = $modPasienAdmisi->pasien->namadepan.' '.$modPasienAdmisi->pasien->nama_pasien;
+                           $returnVal["nama_pegawai"] = $modPasienAdmisi->pegawai->nama_pegawai;
+		   }
+                   $returnVal['pesan'] = 0;
+		   echo json_encode($returnVal);
+		   Yii::app()->end();
+	   }
+   }
+   
+    public function actionListDokterRuangan()
+    {
+	   if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+		   if(!empty($_POST['idRuangan'])){
+			   $idRuangan = $_POST['idRuangan'];
+			   $data = DokterV::model()->findAllByAttributes(array('ruangan_id'=>$idRuangan),array('order'=>'nama_pegawai'));
+			   $data = CHtml::listData($data,'pegawai_id','namaLengkap');
+
+			   if(empty($data)){
+				   $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+			   }else{
+				   $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+				   foreach($data as $value=>$name) {
+						   $option .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+				   }
+			   }
+
+			   $dataList['listDokter'] = $option;
+		   } else {
+			   $dataList['listDokter'] = $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+		   }
+                   $dataList['pesan'] = 0;
+		   echo json_encode($dataList);
+		   Yii::app()->end();
+	   }
+    }
+   
 }

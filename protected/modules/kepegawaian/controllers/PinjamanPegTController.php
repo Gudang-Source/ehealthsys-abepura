@@ -27,13 +27,15 @@ class PinjamanPegTController extends MyAuthController
 	public function actionCreate($id = null)
 	{
         //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-		$model=new KPPinjamanPegT;
+        $model=new KPPinjamanPegT;
         $modPegawai = new KPPegawaiM();
         $modPinjamDetail = new KPPinjamPegDetT();
+        $model->nopinjam = '-- Otomatis --';
         if(!empty($id)){
         	$model = KPPinjamanPegT::model()->findByPk($id);
         	$modPegawai = KPPegawaiM::model()->findByPk($model->pegawai_id);
         	$modPinjamDetail = KPPinjamPegDetT::model()->findAllbyAttributes(array('pinjamanpeg_id'=>$id));
+                $modPegawai->tgl_lahirpegawai = MyFormatter::formatDateTimeForUser($modPegawai->tgl_lahirpegawai);
         }
 
         $format = new MyFormatter();
@@ -41,61 +43,68 @@ class PinjamanPegTController extends MyAuthController
 		if(isset($_POST['KPPinjamanPegT']))
 		{
 			$model->attributes=$_POST['KPPinjamanPegT'];
-            $model->pegawai_id = $_POST['KPPegawaiM']['pegawai_id'];
-            $idpegawai = $_POST['KPPegawaiM']['pegawai_id'];
-            $model->tglpinjampeg = $format->formatDateTimeForDb($_POST['KPPinjamanPegT']['tglpinjampeg']);
+                        $model->pegawai_id = $_POST['KPPegawaiM']['pegawai_id'];
+                        $idpegawai = $_POST['KPPegawaiM']['pegawai_id'];
+                        $model->tglpinjampeg = $format->formatDateTimeForDb($_POST['KPPinjamanPegT']['tglpinjampeg']);
 			$model->tgljatuhtempo = $format->formatDateTimeForDb($_POST['KPPinjamanPegT']['tgljatuhtempo']);
-            //$modPegawai = KPPegawaiM::model()->findByPk($idpegawai);
+                        $model->nopinjam = MyGenerator::noPinjamPegawai();
+                        //var_dump($model->nopinjam);die;
+                        //$modPegawai = KPPegawaiM::model()->findByPk($idpegawai);
 
-            $model->sisapinjaman = 0;
-            $params['komponengaji_id'] = Params::KOMPONENGAJI_ID_PINJAMAN;
-            $model->komponengaji_id = $params['komponengaji_id'];
-            
-            $model->lamapinjambln = $_POST['KPPinjamanPegT']['lamapinjambln'];
-            $angsuranke     = $_POST['angsuranke'];
+                        $model->sisapinjaman = 0;
+                        $params['komponengaji_id'] = Params::KOMPONENGAJI_ID_PINJAMAN;
+                        $model->komponengaji_id = $params['komponengaji_id'];
 
-            // echo"<pre>";
-            // print_r($model->attributes);
-            // exit();
-            
-            if(empty($_POST['angsuranke'])){
-                Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Anda belum men-generate tabel angsuran pembayaran.');
-            }else{
+                        $model->lamapinjambln = $_POST['KPPinjamanPegT']['lamapinjambln'];
+                        $angsuranke     = $_POST['angsuranke'];
 
-    			if($model->save()){
-                    $i = 1;
-                    foreach ($angsuranke as $angsuran => $data) {
-                        $modPinjamDetail = new KPPinjamPegDetT();
-                        $tgl[$i]            = $_POST['tglakanbayar'][$i];
-                        $cicilan[$i]        = $_POST['jmlcicilan'][$i];
-                        $modPinjamDetail->angsuranke        = $data;
-                        $tgla                               = date_create($tgl[$i]);
-                        $tgl_db                             = date_format($tgla, 'Y-m-d');
-                        $modPinjamDetail->tglakanbayar      = $tgl_db;
-                        $modPinjamDetail->jmlcicilan        = $cicilan[$i];  
-                        $modPinjamDetail->pinjamanpeg_id    = $model->pinjamanpeg_id;
-                        $modPinjamDetail->bulan             = substr($tgl_db, 5,2);
-                        $modPinjamDetail->tahun             = substr($tgl[$i], 11,4);
+                        // echo"<pre>";
+                        // print_r($model->attributes);
+                        // exit();
 
-                        $modPinjamDetail->save();
-                        $i++;
-                    }
+                        if(empty($_POST['angsuranke'])){
+                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Anda belum men-generate tabel angsuran pembayaran.');
+                        }else{
 
-                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-    				$model->isNewRecord = False;
-    				$this->redirect(array('create','id'=>$model->pinjamanpeg_id));
-                } else {
-                	Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
-                }
-            }
-		}
-                if (!isset($modPinjamDetail)){
-                    $modPinjamDetail = null;
-                }
+                                if($model->save()){
+                                    $i = 1;
+                                    foreach ($angsuranke as $angsuran => $data) {
+                                        $modPinjamDetail = new KPPinjamPegDetT();
+                                        $tgl[$i]            = $_POST['tglakanbayar'][$i];
+                                        //var_dump($_POST['tglakanbayar'][$i]);
+                                        //die;
+                                        $cicilan[$i]        = $_POST['jmlcicilan'][$i];
+                                        $modPinjamDetail->angsuranke        = $data;
+                                        //$tgla                               = date_create($tgl[$i]);
+                                        //$tgla                               = date_create($tgl[$i]);
+                                        $tgl_db                             = date("Y-m-d", strtotime($tgl[$i]));
 
-		$this->render('create',array(
-			'model'=>$model, 'modPegawai'=>$modPegawai, 'modPinjamDetail'=>$modPinjamDetail,
-		));
+                                        $modPinjamDetail->tglakanbayar      = $tgl_db;
+                                        $modPinjamDetail->jmlcicilan        = $cicilan[$i];  
+                                        $modPinjamDetail->pinjamanpeg_id    = $model->pinjamanpeg_id;
+                                        $modPinjamDetail->bulan             = substr($tgl_db, 5,2);
+                                        //$modPinjamDetail->tahun             = substr($tgl[$i], 11,4);
+                                        $modPinjamDetail->tahun             = substr($tgl_db, 0,4);
+                                        //var_dump($tgla);die;
+                                        $modPinjamDetail->save();
+                                        $i++;
+                                    }
+
+                                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                                $model->isNewRecord = False;
+                                                $this->redirect(array('create','id'=>$model->pinjamanpeg_id));
+                                } else {
+                                        Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                }
+                            }
+                        }
+                        if (!isset($modPinjamDetail)){
+                            $modPinjamDetail = null;
+                        }
+
+                        $this->render('create',array(
+                                'model'=>$model, 'modPegawai'=>$modPegawai, 'modPinjamDetail'=>$modPinjamDetail,
+                        ));
 	}
 
 	
@@ -247,8 +256,8 @@ class PinjamanPegTController extends MyAuthController
                 'nomorindukpegawai'=>$data->nomorindukpegawai,
                 'pegawai_id'=>$data->pegawai_id,
                 'nama_pegawai'=>$data->nama_pegawai,
-                'tempatlahir_pegawai'=>$data->tempatlahir_pegawai,
-                'tgl_lahirpegawai' => $data->tgl_lahirpegawai,
+                'tempatlahir_pegawai'=>  $data->tempatlahir_pegawai,
+                'tgl_lahirpegawai' => MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai),
                 'jabatan_nama'=> (isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : ''),
                 'pangkat_nama'=> (isset($data->pangkat->pangkat_nama) ? $data->pangkat->pangkat_nama : ''),
                 'kategoripegawai'=>$data->kategoripegawai,

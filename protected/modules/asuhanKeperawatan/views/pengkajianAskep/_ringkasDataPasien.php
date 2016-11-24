@@ -61,7 +61,7 @@
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'tgl_pendaftaran', array('class' => 'control-label')); ?></td>
             <td><?php echo CHtml::textField('ASPendaftaranT[tgl_pendaftaran]', $modPendaftaran->tgl_pendaftaran, array('readonly' => true)); ?></td>
 
-			<td><?php echo CHtml::activeLabel($modPasien, 'pekerjaan_nama', array('class' => 'control-label')); ?></td>
+			<td><?php echo CHtml::label('Nama Pekerjaan', 'pekerjaan_nama', array('class' => 'control-label')); ?></td>
             <td><?php echo CHtml::textField('ASPasienM[pekerjaan_nama]', $modPasien->pekerjaan_nama, array('readonly' => true)); ?></td>
 
 			<td><?php echo CHtml::activeLabel($modPendaftaran, 'ruangan_id', array('class' => 'control-label')); ?></td>
@@ -107,7 +107,7 @@
                     }
 				?></td>
 
-			<td><?php echo CHtml::activeLabel($modPasien, 'pendidikan_nama', array('class' => 'control-label')); ?></td>
+			<td><?php echo CHtml::label('Nama Pendidikan', 'pendidikan_nama', array('class' => 'control-label')); ?></td>
             <td><?php echo CHtml::textField('ASPasienM[pendidikan_nama]', isset($modPasien->pendidikan->pendidikan_nama) ? $modPasien->pendidikan->pendidikan_nama : '-', array('readonly' => true)); ?></td>
 
             <td><?php echo CHtml::label('Kelas Pelayanan', 'kelaspelayanan_nama', array('class' => 'control-label')); ?></td>

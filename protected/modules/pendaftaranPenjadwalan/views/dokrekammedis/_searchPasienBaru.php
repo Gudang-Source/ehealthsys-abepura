@@ -49,24 +49,24 @@
                     <?php $model->tgl_rekam_medik_akhir = $format->formatDateTimeForDb($model->tgl_rekam_medik_akhir); ?>
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3', 'maxlength' => 10,'placeholder'=>'Ketik No. Rekam Medik Awal')); ?>
+            <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3 numbers-only', 'maxlength' => 6,'placeholder'=>'Ketik No. Rekam Medik Awal')); ?>
             <div class="control-group ">    
 				<label class="control-label">Sampai dengan</label>
 				<div class="controls">
-				<?php echo $form->textField($model, 'no_rekam_medik_akhir', array('class' => 'span3', 'maxlength' => 10,'placeholder'=>'Ketik No. Rekam Medik Akhir')); ?>
+				<?php echo $form->textField($model, 'no_rekam_medik_akhir', array('class' => 'span3 numbers-only', 'maxlength' => 6,'placeholder'=>'Ketik No. Rekam Medik Akhir')); ?>
 				</div>
             </div>
             <?php //echo $form->textFieldRow($model, 'instalasi_nama', array('class' => 'span3', 'maxlength' => 50)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model, 'nama_pasien', array('class' => 'span3', 'maxlength' => 50,'placeholder'=>'Ketik Nama Pasien')); ?>
+            <?php echo $form->textFieldRow($model, 'nama_pasien', array('class' => 'span3 hurufs-only', 'maxlength' => 50,'placeholder'=>'Ketik Nama Pasien')); ?>
             <?php echo $form->dropDownListRow($model, 'statusrekammedis', LookupM::getItems('statusrekammedis')
                     , array('empty'=>'-- Pilih --', 'class' => 'span3', 'maxlength' => 10)); ?>
             <?php echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll("instalasi_aktif = TRUE ORDER BY instalasi_nama"), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onchange'=>'getRuangan();')); ?>
         </td>
         <td>
             <?php echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama"), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'maxlength' => 50)); ?>
-            <?php echo $form->textFieldRow($model, 'no_pendaftaran', array('class' => 'span3', 'maxlength' => 20,'placeholder'=>'Ketik No. Pendaftaran')); ?>
+            <?php echo $form->textFieldRow($model, 'no_pendaftaran', array('class' => 'span3 angkahuruf-only', 'maxlength' => 20,'placeholder'=>'Ketik No. Pendaftaran')); ?>
             
         </td>
     </tr>
@@ -116,7 +116,7 @@
 <?php //echo $form->textFieldRow($model,'pendaftaran_id',array('class'=>'span5')); ?>
 
     <div class="form-actions">
-                        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+                        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
     </div>
 
 <?php $this->endWidget(); ?>

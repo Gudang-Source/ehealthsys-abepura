@@ -1,6 +1,7 @@
 <?php
 class AKLaporanneracaV extends LaporanneracaV
 {
+        public $tgl_awal, $tgl_akhir, $thn_awal, $bulan;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -124,6 +125,229 @@ class AKLaporanneracaV extends LaporanneracaV
 		));
 	}
 	
+        public function searchLaporan() {
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria = new CDbCriteria;
+
+		if (!empty($this->rekperiod_id)) {
+			$criteria->addCondition('rekperiod_id = ' . $this->rekperiod_id);
+		}
+		$criteria->compare('LOWER(perideawal)', strtolower($this->perideawal), true);
+		$criteria->compare('LOWER(sampaidgn)', strtolower($this->sampaidgn), true);
+		$criteria->compare('LOWER(deskripsi)', strtolower($this->deskripsi), true);
+		$criteria->compare('isclosing', $this->isclosing);
+		
+		if (!empty($this->periodeposting_id)) {
+			$criteria->addCondition('periodeposting_id = ' . $this->periodeposting_id);
+		}
+		$criteria->compare('LOWER(periodeposting_nama)', strtolower($this->periodeposting_nama), true);
+		$criteria->compare('LOWER(tglperiodeposting_awal)', strtolower($this->tglperiodeposting_awal), true);
+		$criteria->compare('LOWER(tglperiodeposting_akhir)', strtolower($this->tglperiodeposting_akhir), true);
+		$criteria->compare('LOWER(deskripsiperiodeposting)', strtolower($this->deskripsiperiodeposting), true);
+		$criteria->compare('periodeposting_aktif', $this->periodeposting_aktif);
+		
+		if (!empty($this->laporansaldoakhirberjalan_id)) {
+			$criteria->addCondition('laporansaldoakhirberjalan_id = ' . $this->laporansaldoakhirberjalan_id);
+		}
+		
+		if (!empty($this->laporansaldoakhirberjalandetail_id)) {
+			$criteria->addCondition('laporansaldoakhirberjalandetail_id = ' . $this->laporansaldoakhirberjalandetail_id);
+		}
+		
+		if (!empty($this->rekening1_id)) {
+			$criteria->addCondition('rekening1_id = ' . $this->rekening1_id);
+		}
+		$criteria->compare('LOWER(kdrekening1)', strtolower($this->kdrekening1), true);
+		$criteria->compare('LOWER(nmrekening1)', strtolower($this->nmrekening1), true);
+		if (!empty($this->rekening2_id)) {
+			$criteria->addCondition('rekening2_id = ' . $this->rekening2_id);
+		}
+		$criteria->compare('LOWER(kdrekening2)', strtolower($this->kdrekening2), true);
+		$criteria->compare('LOWER(nmrekening2)', strtolower($this->nmrekening2), true);
+		if (!empty($this->rekening3_id)) {
+			$criteria->addCondition('rekening3_id = ' . $this->rekening3_id);
+		}
+		$criteria->compare('LOWER(kdrekening3)', strtolower($this->kdrekening3), true);
+		$criteria->compare('LOWER(nmrekening3)', strtolower($this->nmrekening3), true);
+		if (!empty($this->rekening4_id)) {
+			$criteria->addCondition('rekening4_id = ' . $this->rekening4_id);
+		}
+		$criteria->compare('LOWER(kdrekening4)', strtolower($this->kdrekening4), true);
+		$criteria->compare('LOWER(nmrekening4)', strtolower($this->nmrekening4), true);
+		if (!empty($this->rekening5_id)) {
+			$criteria->addCondition('rekening5_id = ' . $this->rekening5_id);
+		}
+		$criteria->compare('LOWER(kdrekening5)', strtolower($this->kdrekening5), true);
+		$criteria->compare('LOWER(nmrekening5)', strtolower($this->nmrekening5), true);
+		$criteria->compare('LOWER(rekening5_nb)', strtolower($this->rekening5_nb), true);
+		$criteria->compare('LOWER(keterangan)', strtolower($this->keterangan), true);
+		if (!empty($this->nourutrek)) {
+			$criteria->addCondition('nourutrek = ' . $this->nourutrek);
+		}
+		$criteria->compare('LOWER(kelompokrek)', strtolower($this->kelompokrek), true);
+		$criteria->compare('sak', $this->sak);
+		$criteria->compare('saldodebit', $this->saldodebit);
+		$criteria->compare('saldokredit', $this->saldokredit);
+		if (!empty($this->bukubesar_id)) {
+			$criteria->addCondition('bukubesar_id = ' . $this->bukubesar_id);
+		}
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+//		$criteria->compare('LOWER(keterangansaldoakhirberjalan)', strtolower($this->keterangansaldoakhirberjalan), true);
+		$criteria->compare('jumlah', $this->jumlah);
+
+		$criteria->limit = 10;
+
+		return new CActiveDataProvider($this, array(
+			'criteria' => $criteria,
+		));
+	}
+
+	public function searchLaporanPrint() {
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria = new CDbCriteria;
+
+
+
+		if (!empty($this->periodeposting_id)) {
+			$criteria->addCondition('periodeposting_id = ' . $this->periodeposting_id);
+		}
+
+		if (!empty($this->rekening1_id)) {
+			$criteria->addCondition('rekening1_id = ' . $this->rekening1_id);
+		}
+		$criteria->compare('LOWER(kdrekening1)', strtolower($this->kdrekening1), true);
+		$criteria->compare('LOWER(nmrekening1)', strtolower($this->nmrekening1), true);
+		if (!empty($this->rekening2_id)) {
+			$criteria->addCondition('rekening2_id = ' . $this->rekening2_id);
+		}
+		$criteria->compare('LOWER(kdrekening2)', strtolower($this->kdrekening2), true);
+		$criteria->compare('LOWER(nmrekening2)', strtolower($this->nmrekening2), true);
+		if (!empty($this->rekening3_id)) {
+			$criteria->addCondition('rekening3_id = ' . $this->rekening3_id);
+		}
+		$criteria->compare('LOWER(kdrekening3)', strtolower($this->kdrekening3), true);
+		$criteria->compare('LOWER(nmrekening3)', strtolower($this->nmrekening3), true);
+		if (!empty($this->rekening4_id)) {
+			$criteria->addCondition('rekening4_id = ' . $this->rekening4_id);
+		}
+		$criteria->compare('LOWER(kdrekening4)', strtolower($this->kdrekening4), true);
+		$criteria->compare('LOWER(nmrekening4)', strtolower($this->nmrekening4), true);
+		if (!empty($this->rekening5_id)) {
+			$criteria->addCondition('rekening5_id = ' . $this->rekening5_id);
+		}
+		$criteria->compare('LOWER(kdrekening5)', strtolower($this->kdrekening5), true);
+		$criteria->compare('LOWER(nmrekening5)', strtolower($this->nmrekening5), true);
+		$criteria->compare('LOWER(rekening5_nb)', strtolower($this->rekening5_nb), true);
+		if (!empty($this->nourutrek)) {
+			$criteria->addCondition('nourutrek = ' . $this->nourutrek);
+		}
+
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+		$criteria->compare('jumlah', $this->jumlah);
+
+		$criteria->limit = 10;
+
+		return new CActiveDataProvider($this, array(
+			'criteria' => $criteria,
+		));
+	}
+        
+        public function getLabaRugi($periodeposting_id, $rekening1_id = null, $kolom = null) {
+		$format = new MyFormatter();
+		$criteria = new CDbCriteria;
+		$criteria->group = 'periodeposting_id,rekening1_id';
+		$criteria->select = $criteria->group . ', sum(jumlah) as jumlah';
+
+		if (!empty($periodeposting_id)) {
+			$criteria->addCondition('periodeposting_id = ' . $periodeposting_id);
+		}
+
+		if ($kolom == 'aktiva') {
+			$criteria->addCondition("nmrekening1 = 'Aktiva'");
+		} else if ($kolom == 'pasiva') {
+			$criteria->addCondition("nmrekening1 = 'Pasiva'");
+		} else {
+			$criteria->addCondition('rekening1_id = ' . $rekening1_id);
+		}
+		$modLabaRugi = AKLaporanlabarugiV::model()->findAll($criteria);
+
+		$jml = 0;
+		foreach ($modLabaRugi as $saldo) {
+			$jml += $saldo->jumlah;
+		}
+		return $jml;
+	}
+
+	
+
+	
+
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function criteriaSearch() {
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria = new CDbCriteria;
+//		if(isset($this->thn_awal)) {
+//			$criteria->addCondition('tglperiodeposting_awal', $this->thn_awal);
+//		}
+		if (!empty($this->bulan)) {
+			if (is_array($this->bulan)) {
+				$tgl_awal = array();
+				foreach ($this->bulan as $data) {
+					$temp_tgl = $this->thn_awal . '-' . $data . '-01';
+					array_push($tgl_awal, $temp_tgl);
+				}
+//			echo json_encode($tgl_awal);exit;
+				$criteria->addInCondition('tglperiodeposting_awal', $tgl_awal);
+			} else {
+				$tgl_awal = $this->thn_awal . '-' . $this->bulan . '-01';
+				$criteria->compare('tglperiodeposting_awal', $tgl_awal);
+			}
+		}else{
+			$tgl_awal = $this->thn_awal . '-01-01';
+			$criteria->compare('tglperiodeposting_awal', $tgl_awal);
+		}
+		return $criteria;
+	}
+
+	public function searchLaporan2() {
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria = $this->criteriaSearch();
+		$criteria->group = "tglperiodeposting_awal";
+		$criteria->select = $criteria->group;
+		//LNG-5813
+//		$criteria->order = "tglperiodeposting_awal DESC";
+		$criteria->order = "tglperiodeposting_awal ASC";	
+		// end
+		return $criteria;
+	}
+        
 	public function getSaldoNeraca($periodeposting_id = null, $ruangan_id = null, $kelompokneraca){
 		$kolom = '';
 		if($kelompokneraca == 'ACTIVA'){
@@ -184,18 +408,20 @@ class AKLaporanneracaV extends LaporanneracaV
         
         return $rekening_id;
     }
-	
-	public function getNamaRekening(){
-        if(!empty($this->rekening5_id)){
+    
+    public function getNamaRekening() {
+		if (!empty($this->rekening5_id)) {
 			$nama_rekening = $this->nmrekening5;
-		}else if(!empty($this->rekening4_id)){
+		} else if (!empty($this->rekening4_id)) {
 			$nama_rekening = $this->nmrekening4;
-		}else if(!empty($this->rekening3_id)){
+		} else if (!empty($this->rekening3_id)) {
 			$nama_rekening = $this->nmrekening3;
-		}else if(!empty($this->rekening2_id)){
+		} else if (!empty($this->rekening2_id)) {
 			$nama_rekening = $this->nmrekening2;
 		}
-        
-        return $nama_rekening;
-    }
+
+		return $nama_rekening;
+	}
+	
+	
 }

@@ -39,12 +39,15 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
-                $criteria->compare('kamarruangan_id', $this->kamarruangan_id);
+                $criteria->compare('kamarruangan_id', $this->kamarruangan_id);                
+                if (!empty($this->tgl_pendaftaran)){
+                    $criteria->addCondition(" DATE(tgl_pendaftaran) = '".MyFormatter::formatDateTimeForDb($this->tgl_pendaftaran)."' ");
+                }
 		//if($this->ceklis == 1)
 		//{
-			//$criteria->addBetweenCondition('tglmasukkamar::date',$this->tgl_awal,$this->tgl_akhir);
+			$criteria->addBetweenCondition('tglmasukkamar::date',$this->tgl_awal,$this->tgl_akhir);
 		//}
-
+                $criteria->order = "tgl_pendaftaran DESC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -498,6 +501,8 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 		}		
 		return $status_dokumen;
    }
+   
+   
 	        
 }
 ?>

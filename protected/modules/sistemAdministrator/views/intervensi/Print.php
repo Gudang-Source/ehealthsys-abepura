@@ -32,6 +32,9 @@ if (isset($caraPrint)) {
 
                 .border {
                     box-shadow:none;
+                    padding:2px;
+                    border-spacing: 0px;
+                    
                 }
 
                 .table tbody tr:hover td, .table tbody tr:hover th {

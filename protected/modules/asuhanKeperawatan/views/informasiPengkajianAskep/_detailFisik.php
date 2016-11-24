@@ -28,35 +28,11 @@
 		text-align: center;
 	}
     
-    border th, .border td{
-        border:1px solid #000;
-    }
-    .table thead:first-child{
-        border-top:1px solid #000;        
-    }
-
-    
-
-    .border {
-        box-shadow:none;
-    }
-
-    .table tbody tr:hover td, .table tbody tr:hover th {
-        background-color: none;
-    }
-    
-    strong{
-        font-size:11px;
-    }
-    
-    b{
-        font-size:11px;
-    }
-
+   
 </style>
 <?php // echo $this->renderPartial($this->path_view.'_headerPrint'); ?>
 
-<table width="100%" border="1" class="content table border">
+<table width="100%" border="1" class="content table border">       
     <tr>
         <td align="center" valign="middle" colspan="4" style="font-weight:bold"><strong>PERIKSA FISIK</strong></td>
     </tr>

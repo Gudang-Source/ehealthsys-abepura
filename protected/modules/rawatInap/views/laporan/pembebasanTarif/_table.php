@@ -1,5 +1,6 @@
 <?php 
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+$itemCssClass = 'table table-striped table-condensed';
 $data = $model->searchTable();
 $template = "{summary}\n{items}\n{pager}";
 $sort = true;
@@ -7,8 +8,34 @@ if (isset($caraPrint)){
     $sort = false;
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
 }
 ?>
 <?php $this->widget($table,array(
@@ -20,15 +47,9 @@ if (isset($caraPrint)){
             'style'=>'font-size',
             
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
-                 array(
-                    'header'=>'Nama Dokter',
-                    // 'name'=>'nobuktibayar',
-                    'type'=>'raw',
-                    'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
-                    'htmlOptions'=>array('style'=>'font-size:10px;'),
-                ),
+               
 // //                'nobuktibayar',
                 array(
                     'header'=>'Tanggal <br> Pembebasan',
@@ -43,15 +64,28 @@ if (isset($caraPrint)){
                     'htmlOptions'=>array('style'=>'font-size:10px;'),
                 ),
                 array(
-                    'header'=>'No. RM <br> No. Pendaftaran',
+                    'header'=>'No. Pendaftaran',
                     'type'=>'raw',
-                    'value'=>'$data->no_rekam_medik ."<br>".$data->no_pendaftaran',
+                    'value'=>'$data->no_pendaftaran',
+                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                ),
+                array(
+                    'header'=>'No. Rekam Medik',
+                    'type'=>'raw',
+                    'value'=>'$data->no_rekam_medik',
                     'htmlOptions'=>array('style'=>'font-size:10px;'),
                 ),
                 array(
                     'header'=>'Nama Pasien',
                     'type'=>'raw',
-                    'value'=>'$data->namadepan.$data->nama_pasien',
+                    'value'=>'$data->namadepan." ".$data->nama_pasien',
+                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                ),
+                  array(
+                    'header'=>'Nama Dokter',
+                    // 'name'=>'nobuktibayar',
+                    'type'=>'raw',
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                     'htmlOptions'=>array('style'=>'font-size:10px;'),
                 ),
                 array(

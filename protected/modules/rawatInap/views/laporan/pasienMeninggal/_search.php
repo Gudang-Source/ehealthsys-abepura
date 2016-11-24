@@ -18,7 +18,7 @@
         <div class="row-fluid">
             <div class="span4">
                 <?php echo CHtml::hiddenField('type', ''); ?>
-                <?php echo CHtml::label('Tanggal Pasien Pulang', 'tglpasienpulang', array('class' => 'control-label')) ?>
+                <?php echo CHtml::label('Periode Laporan', 'tglpasienpulang', array('class' => 'control-label')) ?>
                 <div class="controls">
                     <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
                 </div>
@@ -149,6 +149,27 @@
                     )); ?>
                     </fieldset>					
 			</td>
+                        <td>
+                     <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan1',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content4'=>array(
+                                'header'=>'Berdasarkan Kondisi Pulang',
+                                'isi'=>  CHtml::hiddenField('filter', 'kondisipulang').CHtml::checkBox('cek_all', true, array("id"=>"checkSemuaid",'value'=>'cek', "onclick"=>"checkSemua()")).'Pilih Semua <br\>                                             
+                                            <table class="kondisipulang">                                            
+                                            <tr>
+                                                    <td>'.
+                                                           $form->checkBoxList($model, 'kondisikeluar_id', CHtml::listData(KondisiKeluarM::model()->findAll(" kondisikeluar_aktif = TRUE AND carakeluar_id = '".Params::CARAKELUAR_ID_MENINGGAL."' ORDER BY kondisikeluar_nama ASC"), 'kondisikeluar_id', 'kondisikeluar_nama'))
+                                                    .'</td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>false,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>	                    
+                </td>          
                 </tr>
         </table>
        
@@ -182,5 +203,21 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
             $("#tindak_lanjut_tbl").find("input[type=\'checkbox\']").attr("checked", false);
         }
     }
+    
+     function checkSemua() {
+            if ($("#checkSemuaid").is(":checked")) {
+                $('.kondisipulang input[name*="RILaporanpasienmeninggalriV"]').each(function(){
+                   $(this).attr('checked',true);
+                })
+            } else {
+               $('.kondisipulang input[name*="RILaporanpasienmeninggalriV"]').each(function(){
+                   $(this).removeAttr('checked');
+                })
+            }
+            //setAll();
+    }
+    
+    cek_all_tindakan($("#cek_all"));
+    checkSemua();
 </script>
 <?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>

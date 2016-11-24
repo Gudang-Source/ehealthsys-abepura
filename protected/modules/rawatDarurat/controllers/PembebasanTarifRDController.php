@@ -24,6 +24,8 @@ class PembebasanTarifRDController extends PembebasanTarifController
                     'statusperkawinan'=>$data->statusperkawinan,
                     'nama_pasien'=>$data->nama_pasien,
                     'nama_bin'=>$data->nama_bin,
+                    'dokter_nama'=>$data->gelardepan.' '.$data->nama_pegawai.' '.$data->gelarbelakang_nama,
+                    'dokter_id'=>$data->pegawai_id,
                 );
                 echo CJSON::encode($post);
                 Yii::app()->end();
@@ -34,9 +36,14 @@ class PembebasanTarifRDController extends PembebasanTarifController
         {
             if(Yii::app()->request->isAjaxRequest) {
                     $criteria = new CDbCriteria();
-                    $criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['term']), true);
-                    $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
-                    $criteria->order = 'tgl_pendaftaran DESC';
+                    $criteria->join = "LEFT JOIN pembayaranpelayanan_t pp ON pp.pembayaranpelayanan_id = t.pembayaranpelayanan_id";
+                    $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($_GET['term']), true);
+                    $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+                    $criteria->addCondition(" t.statusperiksa = '".Params::STATUSPERIKSA_SUDAH_DIPERIKSA."' ");
+                    $criteria->addBetweenCondition("t.tgl_pendaftaran", date('Y-m-d').' 00:00:00', date('Y-m-d').' 23:59:59');
+                    $criteria->addCondition(" t.penjamin_id = '".Params::PENJAMIN_ID_UMUM."' ");//pembayaranpelayanan_id        
+                    $criteria->addCondition(" (LOWER(pp.statusbayar) ilike  '%".Params::STATUSBAYAR_BELUM_LUNAS."%') OR (t.pembayaranpelayanan_id IS NULL) ");
+                    $criteria->order = 't.tgl_pendaftaran DESC';
                     $models = RDInfokunjunganrdV::model()->findAll($criteria);
                     foreach($models as $i=>$model)
                     {

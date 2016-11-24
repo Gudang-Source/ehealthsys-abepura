@@ -1,7 +1,4 @@
-<?php 
-	echo '<p style="text-align:center;"><strong>RIWAYAT ANAMNESIS</strong></p>';
-?>
-<table width="100%">
+<table width="100%" class="border table">        
 	<tr>
 		<td width="20%">
 			<strong>Nama Pasien</strong>
@@ -72,7 +69,7 @@
 	</tr>
 </table>
 <br>
-<table width="100%" class="table table-striped table-bordered table-condensed">
+<table width="100%" class="table border">
 	<tr>
 		<td width="20%">
 			<strong>Keluhan Utama</strong>

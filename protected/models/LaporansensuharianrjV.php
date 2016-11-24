@@ -411,8 +411,13 @@ class LaporansensuharianrjV extends CActiveRecord
             return $this->nama_pasien.' bin '.$this->nama_bin;
         }
         
+        public function getNamaSapaan()
+        {
+            return $this->namadepan.' '.$this->nama_pasien;
+        }
+        
         public function getCaraBayarPenjamin()
         {
-                return $this->carabayar_nama.'/'.$this->penjamin_nama;
+                return $this->carabayar_nama.' <br/> / '.$this->penjamin_nama;
         }
 }

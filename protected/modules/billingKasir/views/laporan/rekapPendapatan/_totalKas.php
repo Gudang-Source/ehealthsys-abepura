@@ -11,7 +11,7 @@
         $totTarif = 0;
 
         foreach($modTotal as $key=>$totals){
-           if($totals->carapembayaran == "TUNAI" && $totals->carabayar_id != 2){
+           if($totals->carapembayaran == "TUNAI" && $totals->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR){
                $totTarif += $totals->totaliurbiaya;
            }else{
                $totTarif = 0;

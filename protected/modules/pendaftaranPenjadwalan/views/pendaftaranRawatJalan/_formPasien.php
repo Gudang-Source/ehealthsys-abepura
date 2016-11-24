@@ -210,7 +210,7 @@
             <?php echo $form->error($modPasien,'no_identitas_pasien'); ?>
         </div>
     </div>
-    <div class="control-group ">
+    <div class="control-group" style="margin-bottom:0px;">
         <?php echo $form->labelEx($modPasien,'nama_pasien', array('class'=>'control-label')) ?>
         <div class="controls">
             <?php echo $form->dropDownList($modPasien,'namadepan', LookupM::getItems('namadepan'),  
@@ -246,11 +246,16 @@
                                 ),
                                 'htmlOptions'=>array('placeholder'=>'Nama Lengkap Pasien','rel'=>'tooltip','title'=>'Ketik Nama untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'hurufs-only span3 '.$nama_kapital, 'onblur'=>'cekJamkespa(); $("#pemilikasuransisesuai").change();'),
                             )); 
-            ?>
-            <?php echo $form->error($modPasien,'namadepan'); ?>
-            <?php echo $form->error($modPasien,'nama_pasien'); ?>
+            ?>                        
+            <?php //echo $form->error($modPasien,'namadepan'); ?>
+            <?php //echo $form->error($modPasien,'nama_pasien'); ?>
         </div>
     </div>
+    
+   <div class="control-group " style="text-align:right">
+        <p style = "color:red;font-size:11px;">Keterangan : Sesuai Identitas Diri (tanpa tanda baca dan gelar)</p>        
+    </div>
+    
     <?php echo $form->textFieldRow($modPasien,'nama_bin',array('placeholder'=>'Alias / Nama Panggilan Pasien','class'=>'hurufs-only span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     <?php echo $form->textFieldRow($modPasien,'tempat_lahir',array('placeholder'=>'Kota/Kabupaten Kelahiran','class'=>'span3 all-caps hurufs-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
     <div class="control-group ">
@@ -337,7 +342,7 @@
     <div class="control-group ">
         <?php echo $form->labelEx($modPasien,'kabupaten_id', array('class'=>'control-label')) ?>
         <div class="controls">
-            <?php echo $form->dropDownList($modPasien,'kabupaten_id', CHtml::listData($modPasien->getKabupatenItems($modPasien->propinsi_id), 'kabupaten_id', 'kabupaten_nama'), 
+            <?php echo $form->dropDownList($modPasien,'kabupaten_id', empty($modPasien->propinsi_id)?array():CHtml::listData($modPasien->getKabupatenItems($modPasien->propinsi_id), 'kabupaten_id', 'kabupaten_nama'), 
                         array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownKecamatan',array('encode'=>false,'model_nama'=>get_class($modPasien))),
@@ -354,7 +359,7 @@
     <div class="control-group ">
         <?php echo $form->labelEx($modPasien,'kecamatan_id', array('class'=>'control-label')) ?>
         <div class="controls">
-            <?php echo $form->dropDownList($modPasien,'kecamatan_id', CHtml::listData($modPasien->getKecamatanItems($modPasien->kabupaten_id), 'kecamatan_id', 'kecamatan_nama'), 
+            <?php echo $form->dropDownList($modPasien,'kecamatan_id', empty($modPasien->kabupaten_id)?array():CHtml::listData($modPasien->getKecamatanItems($modPasien->kabupaten_id), 'kecamatan_id', 'kecamatan_nama'), 
                         array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownKelurahan',array('encode'=>false,'model_nama'=>get_class($modPasien))),
@@ -371,7 +376,7 @@
         <?php echo $form->labelEx($modPasien,'kelurahan_id', array('class'=>'control-label')) ?>
         <div class="controls">
             <?php // $modPasien->kelurahan_id = (!empty($modPasien->kelurahan_id))?$modPasien->kelurahan_id:Yii::app()->user->getState('kelurahan_id');?>
-            <?php echo $form->dropDownList($modPasien,'kelurahan_id',CHtml::listData($modPasien->getKelurahanItems($modPasien->kecamatan_id), 'kelurahan_id', 'kelurahan_nama'),
+            <?php echo $form->dropDownList($modPasien,'kelurahan_id',empty($modPasien->kecamatan_id)?array():CHtml::listData($modPasien->getKelurahanItems($modPasien->kecamatan_id), 'kelurahan_id', 'kelurahan_nama'),
                                               array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <?php /*RND-666 >> echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
                                             array('class'=>'btn btn-primary','onclick'=>"{addKelurahan(); $('#dialog-addkelurahan').dialog('open');}",

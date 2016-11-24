@@ -492,6 +492,40 @@ class RIInfokunjunganriV extends InfokunjunganriV {
                     'pagination' => false,
                 ));
     }
+    
+    public function searchPasienPembebasanTarif() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+
+//        $criteria->addBetweenCondition('t.tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+        $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
+        $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
+        $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
+        $criteria->compare('LOWER(t.ruangan_nama)', strtolower($this->ruangan_nama), true);
+        $criteria->compare('LOWER(t.nama_pegawai)', strtolower($this->nama_pegawai), true);
+        $criteria->compare('LOWER(t.penjamin_nama)', strtolower($this->penjamin_nama), true);
+        $criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
+        if (isset($this->tgl_pendaftaran)){  
+            $criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_pendaftaran." 00:00:00", $this->tgl_pendaftaran." 23:59:59");
+        }
+        $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
+       // $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
+        $criteria->addCondition('t.instalasi_id = '.Yii::app()->user->getState('instalasi_id'));        
+        $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id')); 
+        $criteria->addCondition(" t.statusperiksa != '".Params::STATUSPERIKSA_SUDAH_PULANG."' ");
+        $criteria->with = array('pendaftaran');
+
+        //$criteria->condition = 'pasienpulang.pendaftaran_id = t.pendaftaran_id';
+        $criteria->order = 't.tgl_pendaftaran DESC';
+        $criteria->limit = 10;
+        return new CActiveDataProvider($this, array(
+                    'criteria' => $criteria,
+                    //'pagination' => false,
+                ));
+    }
 
 }
 

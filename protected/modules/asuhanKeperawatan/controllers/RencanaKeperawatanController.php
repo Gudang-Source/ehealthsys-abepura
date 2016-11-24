@@ -308,8 +308,11 @@ class RencanaKeperawatanController extends MyAuthController {
 					$this->savePilihTanda($modRencanaDetail, $row['tandagejala_id']);
 				}
 				if (isset($row['kriteriahasil_id'])) {//kriteriahasildet_id
-                                    
+                                    //var_dump($row['kriteriahasil_id']);die;
+                                    if (!empty($row['kriteriahasil_id']))
+                                    {
 					$this->savePilihKriteria($modRencanaDetail, $row['kriteriahasildet_id'], $row['rencanaaskep_ir'], $row['rencanaaskep_er']);
+                                    }
 				}
 
 				if ($row['intervensidet_id']) {//intervensidet_id
@@ -750,6 +753,9 @@ class RencanaKeperawatanController extends MyAuthController {
         {
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
+                $criteria->with = array('ruanganpegawai');
+                $criteria->addCondition(" ruanganpegawai.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+                $criteria->compare('t.kelompokpegawai_id', 2);	
                 $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
                 $criteria->limit=5;
                 $models = PegawaiM::model()->findAll($criteria);

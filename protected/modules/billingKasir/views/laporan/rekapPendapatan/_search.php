@@ -30,7 +30,7 @@
              <div class='control-group hari'>
                  <?php echo CHtml::label('Dari Tanggal', 'dari_tanggal', array('class' => 'control-label')) ?>
                  <div class="controls">  
-                     <?php $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal); ?>                     
+                     <?php $model->tgl_awal = $format->formatDateTimeForUser(date("Y-m-d", strtotime($model->tgl_awal))); ?>                   
                     <?php
                      $this->widget('MyDateTimePicker', array(
                          'model' => $model,
@@ -80,7 +80,7 @@
              <div class='control-group hari'>
                  <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
                  <div class="controls">  
-                     <?php $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir); ?>
+                     <?php $model->tgl_akhir = $format->formatDateTimeForUser(date("Y-m-d", strtotime($model->tgl_akhir))); ?>
                      <?php
                      $this->widget('MyDateTimePicker', array(
                          'model' => $model,
@@ -124,6 +124,72 @@
                  </div>
              </div>
          </div> 
+         <table width="100%" border="0">              
+                <tr>
+                    <td>
+                            <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                                    'id'=>'big',
+                                    'slide'=>true,
+                                    'content'=>array(
+                                            'content3'=>array(
+                                            'header'=>'Berdasarkan Instalasi dan Ruangan',
+                                            'isi'=>'<table>
+                                                        <tr>
+                                                            <td>'.'<label>Instalasi</label></td>
+                                                            <td>'.$form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                                                    'ajax' => array('type' => 'POST',
+                                                                            'url' => $this->createUrl('/ActionDynamic/GetRuanganForCheckBox', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
+                                                                            'update' => '#ruangan',  //selector to update
+                                                                    ),
+                                                            )).'
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                    <label>Ruangan</label>
+                                                            </td>
+                                                            <td>
+                                                                    <div id="ruangan">
+                                                                            <label>Data Tidak Ditemukan</label>
+                                                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                     </table>',
+                                             'active'=>true
+                                            ),
+                                    ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+				)); ?>
+                        </td>                
+                    <td>
+                            <?php
+                $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
+                    'id' => 'kunjungan',
+                    'slide' => true,
+                    'content' => array(
+                        'content2' => array(
+                            'header' => 'Berdasarkan Cara Bayar',
+                            'isi' => '<table><tr>
+                                                    <td>' . CHtml::hiddenField('filter', 'carabayar', array('disabled' => 'disabled')) . '<label>Cara Bayar</label></td>
+                                                    <td>' . $form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                'ajax' => array('type' => 'POST',
+                                    'url' =>$this->createUrl('/ActionDynamic/GetPenjaminPasien', array('encode' => false, 'namaModel' => ''.$model->getNamaModel().'')),
+                                    'update' => '#' . CHtml::activeId($model, 'penjamin_id') . '', //selector to update
+                                ),
+                            )) . '</td>
+                                                        </tr><tr>
+                                                    <td><label>Penjamin</label></td><td>' .
+                            $form->dropDownList($model, 'penjamin_id', array(), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>', 'active' => false,
+                            'active' => true,
+                        ),
+                    ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+                ));
+                ?>
+                        </td>
+             
+                </tr>
+        </table>
      </div>
     <div class="form-actions">
         <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')),
@@ -192,4 +258,24 @@ function ubahJnsPeriode(){
 $(document).ready(function() {
 	ubahJnsPeriode();
 });
+
+function checkAll(){
+        if($('#checkAllRuangan').is(':checked')){
+           $('#searchLaporan input[name*="ruangan_id"]').each(function(){
+                $(this).attr('checked',true);
+           });
+        }else{
+             $('#searchLaporan input[name*="ruangan_id"]').each(function(){
+                $(this).removeAttr('checked');
+           });
+        }
+    }
+    
+   function cek_all_penjamin(obj){
+        if($(obj).is(':checked')){
+            $("#penjamin").find("input[type=\'checkbox\']").attr("checked", "checked");
+        }else{
+            $("#penjamin").find("input[type=\'checkbox\']").attr("checked", false);
+        }
+    }
 </script>

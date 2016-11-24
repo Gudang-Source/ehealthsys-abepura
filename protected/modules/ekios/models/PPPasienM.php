@@ -129,6 +129,7 @@ class PPPasienM extends PasienM
             $criteria->compare('rt',$this->rt);
             $criteria->compare('rw',$this->rw);
             $criteria->with = array('propinsi','kabupaten','kecamatan','kelurahan');
+            $criteria->order = "tgl_rekam_medik DESC";
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));

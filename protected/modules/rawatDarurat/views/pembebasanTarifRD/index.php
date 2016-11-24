@@ -69,17 +69,19 @@
                     <?php echo $form->labelEx($model,'tglpembebasan', array('class'=>'control-label')) ?>
                     <div class="controls">
                         <?php   
-                                $this->widget('MyDateTimePicker',array(
-                                                'model'=>$model,
-                                                'attribute'=>'tglpembebasan',
-                                                'mode'=>'datetime',
-                                                'options'=> array(
-                                                    'dateFormat'=>Params::DATE_FORMAT,
-                                                    'maxDate' => 'd',
-                                                ),
-                                                'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2-5'),
-                        )); 
-                                 ?>
+                                    /*$this->widget('MyDateTimePicker',array(
+                                                    'model'=>$model,
+                                                    'attribute'=>'tglpembebasan',
+                                                    'mode'=>'datetime',
+                                                    'options'=> array(
+                                                        'dateFormat'=>Params::DATE_FORMAT,
+                                                        'maxDate' => 'd',
+                                                    ),
+                                                    'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2-5 realtime'),
+                            )); */
+                                echo $form->textField($model,'tglpembebasan', array('class'=>'realtime span2', 'readonly'=>TRUE));
+                                     ?>
+                            
                     </div>
                 </div>
             </th>

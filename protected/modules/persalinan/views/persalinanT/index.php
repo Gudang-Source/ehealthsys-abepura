@@ -34,7 +34,7 @@ if($sukses > 0)
         'id' => 'pspersalinan-t-form',
         'enableAjaxValidation' => false,
         'type' => 'horizontal',
-        'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
+        'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)', 'onsubmit'=>'return cekGinekologi(this);'),
         'focus' => '#',
             ));
     ?>
@@ -44,16 +44,17 @@ if($sukses > 0)
         <div class="white">
     <?php echo $this->renderPartial('_formPersalinan', array('model' => $model, 'form'=>$form), true); ?>
     <?php echo $this->renderPartial('_obsterikus', array('model'=>$model,'modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
+    <?php echo $this->renderPartial('_ginekologi', array('form'=>$form, 'modRiwayatKehamilan'=>$modRiwayatKehamilan, 'modGinekologi'=>$modGinekologi), true); ?>
         </div>
     </div>
     
     <div class="form-actions"> 
         <?php
                 echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
-                    Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+                    Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
         ?>
         <?php
-                echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), Yii::app()->createUrl($this->module->id.'/daftarPasien/index'), array('class' => 'btn btn-danger',
+                echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}' => '<i class="entypo-arrows-ccw"></i>')), Yii::app()->createUrl($this->module->id.'/daftarPasien/index'), array('class' => 'btn btn-danger',
                      'onclick' => 'if(!confirm("' . Yii::t('mds', 'Do You want to cancel?') . '")) return false;'));
         ?>
         <?php
@@ -89,10 +90,16 @@ if($sukses > 0)
         $("#tabber li").removeClass("active");
         $(obj).addClass("active");
         if (v == 1) {
+            $("#panel-ginekologi").hide();
             $("#panel-obs").hide();
             $("#panel-persalinan").show();
         } else if (v == 2) {
+            $("#panel-ginekologi").hide();
             $("#panel-obs").show();
+            $("#panel-persalinan").hide();
+        } else if (v == 3) {
+            $("#panel-ginekologi").show();
+            $("#panel-obs").hide();
             $("#panel-persalinan").hide();
         }
     }
@@ -167,5 +174,34 @@ if($sukses > 0)
         }
     }
     */
+   
+   function cekGinekologi(obj){
+       var jeniskegiatan_persalinan = $('#PSPersalinanT_jeniskegiatanpersalinan').val();
+       var paritaske = $('#PSPersalinanT_paritaske').val();
+       var pemeriksa_ginekologi = $('#PSPemeriksaanginekologiT_pegawai_id').val();
+       
+       if ( (jeniskegiatan_persalinan != '') && (paritaske != '') )
+       {
+           obj.submit();           
+            //return false;
+       }else{           
+           myConfirm("Apakah Anda yakin hanya mengisi Pemeriksaan Ginekologi ? ","Perhatian!",function(r) {
+            if (r){
+                if (pemeriksa_ginekologi != ''){
+                    obj.submit();
+                }else{
+                    myAlert("Maaf, Pemeriksa Ginekologi Belum Diisi");
+                    return false;
+                }
+            }else{
+                if ( (jeniskegiatan_persalinan == '') || (paritaske == '') ){
+                    myAlert("Maaf, Jenis Kegiatan Persalinan dan Paritas Wajib Diisi pada Tab Persalinan");
+                    return false;
+                }
+            }
+	   });
+           return false;
+       }
+   }
     
 </script>

@@ -5,19 +5,43 @@ class LaporanAkuntansiController extends MyAuthController {
     public function actionLaporanJurnal() {
         $model = new AKLaporanJurnalV;
         $model->unsetAttributes();
-        $model->tgl_awal = date('d M Y 00:00:00');
-        $model->tgl_akhir = date('d M Y H:i:s');
+        $format = new MyFormatter();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+            
         if (isset($_GET['AKLaporanJurnalV'])) {
             $model->attributes = $_GET['AKLaporanJurnalV'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_GET['AKLaporanJurnalV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         $this->render('jurnal/admin', array('model' => $model));
     }
 
     public function actionPrintLaporanJurnal() {
         $model = new AKLaporanJurnalV('searchPrint');
+        $format = new MyFormatter();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
         $judulLaporan = 'Laporan Jurnal';
 
         //Data Grafik       
@@ -25,9 +49,20 @@ class LaporanAkuntansiController extends MyAuthController {
         $data['type'] = $_REQUEST['type'];
         if (isset($_REQUEST['AKLaporanJurnalV'])) {
             $model->attributes = $_REQUEST['AKLaporanJurnalV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['AKLaporanJurnalV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['AKLaporanJurnalV']['tgl_akhir']);
+            $model->jns_periode = $_GET['AKLaporanJurnalV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
@@ -39,17 +74,33 @@ class LaporanAkuntansiController extends MyAuthController {
     public function actionFrameGrafikLaporanJurnal() {
         $this->layout = '//layouts/iframe';
         $model = new AKLaporanJurnalV('search');
-        $model->tgl_awal = date('d M Y 00:00:00');
-        $model->tgl_akhir = date('d M Y H:i:s');
+        $format = new MyFormatter();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Jurnal Berdasarkan Jenis Jurnal';
         $data['type'] = $_GET['type'];
         if (isset($_GET['AKLaporanJurnalV'])) {
             $model->attributes = $_GET['AKLaporanJurnalV'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_GET['AKLaporanJurnalV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['AKLaporanJurnalV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['AKLaporanJurnalV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render('_grafik', array(
@@ -145,7 +196,8 @@ class LaporanAkuntansiController extends MyAuthController {
         $format = new MyFormatter();
         $modelLaporan = new AKLaporanbukubesarV('searchLaporan');
         $modelLaporan->unsetAttributes();
-        $lap = AKLaporanbukubesarV::model()->getTglPeriode();
+        $periodeposting_id = AKLaporanbukubesarV::model()->getTglPeriode();
+        $modelLaporan->periodeposting_id = isset($periodeposting_id->periodeposting_id)?$periodeposting_id->periodeposting_id:null;
         if (!empty($lap)) $modelLaporan->periodeposting_id = $lap->periodeposting_id;
         $criteria = new CDbCriteria;
         if (isset($_GET['AKLaporanbukubesarV'])) {
@@ -155,7 +207,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $modelLaporan->periodeposting_id = $_GET['AKLaporanbukubesarV']['periodeposting_id'];
 
             $criteria->compare('rekeningjurnal5_nama', $_GET['AKLaporanbukubesarV']['namarekening']);
-            $criteria->compare('kdrekening5', $_GET['AKLaporanbukubesarV']['koderekening']);
+            $criteria->compare('kdrekeningdetail5', $_GET['AKLaporanbukubesarV']['koderekening']);
             if (!empty($modelLaporan->periodeposting_id)) {
                 $criteria->addCondition('periodeposting_id = ' . $modelLaporan->periodeposting_id);
             }
@@ -168,7 +220,7 @@ class LaporanAkuntansiController extends MyAuthController {
             if (empty($_GET['AKLaporanbukubesarV']['koderekening'])) {
                 $qr_kdrekening5 = null;
             } else {
-                $qr_kdrekening5 = "AND kdrekening5 = '" . $_GET['AKLaporanbukubesarV']['koderekening'] . "'";
+                $qr_kdrekening5 = "AND kdrekeningdetail5 = '" . $_GET['AKLaporanbukubesarV']['koderekening'] . "'";
             }
         } else {
             $qr_rekeningjurnal5_nama = null;
@@ -202,7 +254,7 @@ class LaporanAkuntansiController extends MyAuthController {
         if (empty($_GET['AKLaporanbukubesarV']['koderekening'])) {
             $qr_kdrekening5 = null;
         } else {
-            $criteria2->addCondition("kdrekening5 = '" . $_GET['AKLaporanbukubesarV']['koderekening'] . "'");
+            $criteria2->addCondition("kdrekeningdetail5 = '" . $_GET['AKLaporanbukubesarV']['koderekening'] . "'");
         }
         $criteria2->group = 'rekeningjurnal1_id, rekeningjurnal2_id, rekeningjurnal3_id, rekeningjurnal4_id, rekeningjurnal5_id,rekeningjurnal5_nama';
         $jmlRekening = AKLaporanbukubesarV::model()->findAll($criteria2);
@@ -524,7 +576,7 @@ class LaporanAkuntansiController extends MyAuthController {
         if (isset($_GET['AKLaporanperubahanmodalV'])) {
             $model->attributes = $_GET['AKLaporanperubahanmodalV'];
             $model->periodeposting_id = (isset($_GET['AKLaporanperubahanmodalV']['periodeposting_id']) ? $_GET['AKLaporanperubahanmodalV']['periodeposting_id'] : NULL);
-            $model->ruangan_id = $_GET['AKLaporanperubahanmodalV']['ruangan_id'];
+            $model->ruangan_id = (isset($_GET['AKLaporanperubahanmodalV']['ruangan_id']) ? $_GET['AKLaporanperubahanmodalV']['ruangan_id'] : NULL);
         }
 
         $this->render('perubahanmodal/admin', array(
@@ -546,7 +598,7 @@ class LaporanAkuntansiController extends MyAuthController {
         if (isset($_REQUEST['AKLaporanperubahanmodalV'])) {
             $model->attributes = $_REQUEST['AKLaporanperubahanmodalV'];
             $model->periodeposting_id = $_GET['AKLaporanperubahanmodalV']['periodeposting_id'];
-            $model->ruangan_id = $_GET['AKLaporanperubahanmodalV']['ruangan_id'];
+          //  $model->ruangan_id = $_GET['AKLaporanperubahanmodalV']['ruangan_id'];
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
@@ -558,10 +610,10 @@ class LaporanAkuntansiController extends MyAuthController {
 
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
             $this->layout = '//layouts/printWindows';
-            $this->render($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+            $this->render($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'format'=>$format));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
-            $this->render($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+            $this->render($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'format'=>$format));
         } else if ($_REQUEST['caraPrint'] == 'PDF') {
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
@@ -570,7 +622,7 @@ class LaporanAkuntansiController extends MyAuthController {
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
-            $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
+            $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode' => $periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'format'=>$format), true));
             $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }

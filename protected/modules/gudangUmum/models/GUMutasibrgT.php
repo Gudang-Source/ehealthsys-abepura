@@ -45,6 +45,7 @@ class GUMutasibrgT extends MutasibrgT {
       //  if(!empty($this->create_ruangan)){
         $criteria->addCondition("create_ruangan = ".Yii::app()->user->getState('ruangan_id'));			
 		//}
+        $criteria->order = "tglmutasibrg DESC";
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -81,7 +82,7 @@ class GUMutasibrgT extends MutasibrgT {
         $criteria->compare('LOWER(create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
         $criteria->compare('LOWER(update_loginpemakai_id)', strtolower($this->update_loginpemakai_id), true);
         $criteria->compare('LOWER(create_ruangan)', strtolower($this->create_ruangan), true);
-
+        $criteria->order = "tglmutasibrg DESC";
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));

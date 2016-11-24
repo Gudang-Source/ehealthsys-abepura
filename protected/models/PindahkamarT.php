@@ -66,7 +66,7 @@ class PindahkamarT extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'ruangan'=>array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
-                    'kamarruangan'=>array(self::BELONGS_TO, 'KamarruanganM', 'kamarruangan_id'),
+                    'kamarruangan'=> array(self::BELONGS_TO, 'KamarruanganM', 'kamarruangan_id'),                    
 		);
 	}
 

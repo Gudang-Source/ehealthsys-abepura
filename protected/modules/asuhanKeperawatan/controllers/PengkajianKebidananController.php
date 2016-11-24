@@ -402,7 +402,11 @@ class PengkajianKebidananController extends MyAuthController {
 
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(no_pendaftaran)', strtolower($_GET['term']), true);
-                        $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
+                        if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_BERSALIN ){
+                            $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
+                        }else{
+                            $criteria->addCondition("ruangan_id = '9999' ");
+                        }
 			//$criteria->addBetweenCondition("DATE(tglmasukkamar)",date("Y-m-d", strtotime("31 days")),date("Y-m-d"));
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
@@ -427,7 +431,11 @@ class PengkajianKebidananController extends MyAuthController {
 
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['term']), true);
-                        $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
+                        if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_BERSALIN ){
+                            $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
+                        }else{
+                            $criteria->addCondition("ruangan_id = '9999' ");
+                        }
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
 			foreach ($models as $i => $model) {
@@ -451,7 +459,12 @@ class PengkajianKebidananController extends MyAuthController {
 
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(nama_pasien)', strtolower($_GET['term']), true);
-                        $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
+                        if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_BERSALIN ){
+                            $criteria->addCondition("ruangan_id = '".Params::RUANGAN_ID_BERSALIN."' ");
+                        }else{
+                            $criteria->addCondition("ruangan_id = '9999' ");
+                        }
+                        
 			$criteria->limit = 5;
 			$models = ASInfopasienmasukkamarV::model()->findAll($criteria);
 			foreach ($models as $i => $model) {
@@ -472,6 +485,9 @@ class PengkajianKebidananController extends MyAuthController {
         {
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
+                $criteria->with = array('ruanganpegawai');
+                $criteria->addCondition(" ruanganpegawai.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+                $criteria->compare('t.kelompokpegawai_id', 2);	
                 $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
                 $criteria->order = 'nama_pegawai';
                 $criteria->limit=5;

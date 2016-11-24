@@ -42,7 +42,7 @@
         if($modHasilPeriksa->printhasillab == '1') {echo '<div class="watermark">';} 
     }   
 ?>
-<? /*
+<?php /*
 <div style="height:3cm;">
     &nbsp;
 </div>

@@ -75,7 +75,7 @@
                           'htmlOptions' => array('style'=>'text-align:right;')
                       ),
                        array(
-                          'header'=> 'Satuan',
+                          'header'=> 'Ruangan',
                           'name' => 'ruangan_nama',
                           'value' => '$data->ruangan_nama',                        
                       ),

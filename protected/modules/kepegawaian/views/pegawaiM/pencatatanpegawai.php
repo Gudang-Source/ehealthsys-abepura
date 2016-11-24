@@ -28,7 +28,7 @@
             'id'=>'sapegawai-m-form',
             'enableAjaxValidation'=>false,
             'type'=>'horizontal',
-            'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event);', 'onsubmit'=>'return requiredCheck(this);'),
+            'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event);', 'onsubmit'=>'return cekSubmit();'),
             'focus'=>'#KPPegawaiM_nomorindukpegawai',
     )); ?>
 
@@ -56,7 +56,7 @@
              * 
              */?>
             <?php echo $form->hiddenField($model,'unit_perusahaan',array('class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai','maxlength'=>20, 'readonly',true,'value'=> LookupM::getNama('unit_perusahaan'))); ?>
-            <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai','maxlength'=>18)); ?>
+            <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('onblur'=>'cekLengthNIP();','class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai','maxlength'=>18)); ?>
 
             <div class="control-group">
                     <?php echo CHtml::label('No. Identitas <font style = "color:red;">*</font>','jenisidentitas',array('class'=>'control-label')); ?>
@@ -760,13 +760,43 @@ function setClearDropdownKelompokPegawai()
     $("#<?php echo CHtml::activeId($model,"kelompokpegawai_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
 }
 
+function cekLengthNIP()
+{
+    nip = $("#<?php echo CHtml::activeId($model,"nomorindukpegawai");?>").val();
+    
+    if (nip != '')
+    {
+        if (nip.length < 18){
+            myAlert("Maaf jumlah <b>NIP</b> tidak boleh kurang dari <b>18 digit</b>",'Perhatian');
+            return false;
+        }
+    }
+}
+
+function cekSubmit()
+{
+    nip = $("#<?php echo CHtml::activeId($model,"nomorindukpegawai");?>").val();
+    
+    if (nip != '')
+    {
+        if (nip.length < 18){
+            myAlert("Maaf jumlah <b>NIP</b> tidak boleh kurang dari <b>18 digit</b>",'Perhatian');
+            return false;
+        }else{
+            return requiredCheck($("#sapegawai-m-form"));
+        }
+    }else{
+        return requiredCheck($("#sapegawai-m-form"));
+    }
+}
+
 /**
  * javascript yang di running setelah halaman ready / load sempurna
  * posisi script ini harus tetap dibawah
  */
 $( document ).ready(function(){
-setClearDropdownKelurahan();
-setClearDropdownKecamatan();
-cekValidasiNIP();
+//setClearDropdownKelurahan();
+//setClearDropdownKecamatan();
+//cekValidasiNIP();
 });
 </script>

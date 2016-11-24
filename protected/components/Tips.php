@@ -29,6 +29,9 @@ Class Tips
             'ulang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="entypo-arrows-ccw"></i> Ulang</div> berfungsi '
                         .' untuk mengulang kembali inputan.', 
+            'batalDialog'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
+                        .'<i class="entypo-block"></i> Batal</div> berfungsi '
+                        .' untuk membatalkan/menutup dialog box.', 
             'ulang2'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="entypo-arrows-ccw"></i> Ulang</div> berfungsi '
                         .' untuk mengulang kembali pencarian.', 
@@ -41,6 +44,9 @@ Class Tips
             'print'    => 'Gunakan tombol ini  <div class="btn btn-info">'
                         .'<i class="entypo-print"></i> Cetak</div> berfungsi '
                         .' untuk mencetak data.', 
+            'grafik'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="entypo-print"></i> Grafik</div> berfungsi '
+                        .' untuk mencetak grafik.', 
             'masterPRINT'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
                         .'<i class="entypo-print"></i> Cetak</div> berfungsi '
                         .' untuk mencetak data.', 

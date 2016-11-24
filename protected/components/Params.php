@@ -248,6 +248,9 @@ Class Params
 	const STATUSBOOKING_NON_ANTRI = 'NON ANTRI'; //disesuaikan dengan lookup_m.lookup_type = statusbooking
 
 	const KETERANGANKAMAR_DIPESAN = 'DIPESAN'; //disesuaikan dengan lookup_m.lookup_type = keterangankamar
+        const KETERANGANKAMAR_TERSEDIA = 'TERSEDIA'; //disesuaikan dengan lookup_m.lookup_type = keterangankamar
+        const KETERANGANKAMAR_DIGUNAKAN = 'DIGUNAKAN'; //disesuaikan dengan lookup_m.lookup_type = keterangankamar
+        const KETERANGANKAMAR_RENCANA_PULANG = 'RENCANA PULANG'; //disesuaikan dengan lookup_m.lookup_type = keterangankamar
 
 	const STATUSPERIKSA_RUJUKAN = 'RUJUKAN'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
 	const STATUSPERIKSA_ANTRIAN = 'ANTRIAN'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
@@ -467,6 +470,9 @@ Class Params
         const ID_SIMPANAN_JASA_SUKARELA = 5;
         
         const TIPE_PENGHAAPUSAN_PENJUALAN = 'penjualan';
+        
+        const STATUS_PERKAWINAN_KAWIN = 'KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
+        const STATUS_PERKAWINAN_TIDAK_KAWIN = 'TIDAK KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
         
         
 	//===   END KONSTANTA ===
@@ -961,9 +967,9 @@ Class Params
                 '12' => 'Desember '.date('Y')
             );
         }
-        
+        //Params::INSTALASI_ID_ICU.','.//fisioterapi
         public static function getInstalasiPenunjang() {
-            return  Params::INSTALASI_ID_ICU.','.//fisioterapi
+            return  
                     Params::INSTALASI_ID_IBS.','.//bedah sentral
                     Params::INSTALASI_ID_RAD.','.//radiologi
                     Params::INSTALASI_ID_REHAB.','.//rehabilitasi
@@ -1006,6 +1012,13 @@ Class Params
 
 			return str_pad($year, 2, '0', STR_PAD_LEFT); //.' Thn '. str_pad($month, 2, '0', STR_PAD_LEFT) .' Bln '. str_pad($day, 2, '0', STR_PAD_LEFT).' Hr';
 		}
+                
+                public static function getStatusTerima(){
+                    return array(
+                        1 => 'Sudah Diterima',
+                        2 => 'Belum Diterima '
+                    );
+                }
         
 }
 ?>
