@@ -520,7 +520,7 @@ class PasienriyangpindahV extends CActiveRecord
         
         public function getCaraBayarPenjamin()
         {
-                return $this->carabayar_nama.'/'.$this->penjamin_nama;
+                return $this->carabayar_nama.'/ '.$this->penjamin_nama;
         }
         
         public function getTglAdmisiMasukKamar()
@@ -528,6 +528,11 @@ class PasienriyangpindahV extends CActiveRecord
                 $tglMasukKamar = (!empty($this->kamarruangan_id)) ? $this->tglmasukkamar : '-';
                 $time = $this->tgladmisi.'/</br>'.$tglMasukKamar;
                 return $time;
+        }
+        
+        public function getTglNoPendaftaran()
+        {
+            return MyFormatter::formatDateTimeForUser($this->tgl_pendaftaran).'/ '.$this->no_pendaftaran;
         }
         
         public function getTglAdmisiPindahKamar(){
@@ -542,6 +547,10 @@ class PasienriyangpindahV extends CActiveRecord
         function getNamaPasienNamaBin()
         {
             return $this->nama_pasien.' bin '.$this->nama_bin;
+        }                
+        
+        public function getDokter(){
+            return $this->gelardepan." ".$this->nama_pegawai." ".$this->gelarbelakang_nama;
         }
         
         public function getCaraBayarItems()
@@ -553,6 +562,8 @@ class PasienriyangpindahV extends CActiveRecord
         {
             return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE');
         }
+        
+        
         
         protected function afterFind(){
             foreach($this->metadata->tableSchema->columns as $columnName => $column){
