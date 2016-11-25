@@ -42,6 +42,10 @@ class PesanmenudietTController extends MyAuthController
 		//$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
 		//$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
                 $model->nama_pemesan = Yii::app()->user->getState('nama_pegawai');
+                $model->disabled = true;
+                if (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_GIZI){
+                    $model->disabled = false;
+                }
 
 		$nama_modul = Yii::app()->controller->module->id;
                 $nama_controller = Yii::app()->controller->id;
@@ -68,6 +72,7 @@ class PesanmenudietTController extends MyAuthController
                                 $model->attributes=$_POST['GZPesanmenudietT'];
                                 $model->jenispesanmenu = Params::JENISPESANMENU_PASIEN;
                                 // $model->nama_pemesan = $pegawai_nama;
+                                $model->tglpesanmenu = MyFormatter::formatDateTimeForDb($model->tglpesanmenu);
                                 $model->nopesanmenu = MyGenerator::noPesanMenuDiet();
                                 $model->create_loginpemakai_id = Yii::app()->user->id;
                                 $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
@@ -162,12 +167,13 @@ class PesanmenudietTController extends MyAuthController
 		$model->nopesanmenu = MyGenerator::noPesanMenuDiet();
                 $model->temp_no = '- Otomatis -';
 		$pegawai_nama = ""; //PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id)->nama_pegawai;
-		$model->nama_pemesan = $pegawai_nama;
+		//$model->nama_pemesan = $pegawai_nama;
+                $model->nama_pemesan = Yii::app()->user->getState('nama_pegawai');
 		$model->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
 		$model->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
 		$model->penjamin_id = Params::PENJAMIN_ID_UMUM;
 		//$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		//$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
 		$nama_modul = Yii::app()->controller->module->id;
         $nama_controller = Yii::app()->controller->id;
@@ -192,7 +198,8 @@ class PesanmenudietTController extends MyAuthController
 		if(isset($_POST['GZPesanmenudietT']))
 		{    
 			$model->attributes=$_POST['GZPesanmenudietT'];
-			$model->jenispesanmenu = $_POST['jenisPesan'];			
+			$model->jenispesanmenu = $_POST['jenisPesan'];	
+                        $model->tglpesanmenu = MyFormatter::formatDateTimeForDb($model->tglpesanmenu);
 			$model->create_loginpemakai_id = Yii::app()->user->getState('pegawai_id');
 			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
 			$model->create_time = date('Y-m-d');
@@ -549,9 +556,10 @@ class PesanmenudietTController extends MyAuthController
 							.CHtml::activeHiddenField($modDetail, '[]pasien_id', array('value'=>$model->pasien_id))
 							.CHtml::activeHiddenField($modDetail, '[]pasienadmisi_id', array('value'=>$model->pasienadmisi_id))
 						.'</td>
-						<td>'.RuanganM::model()->with('instalasi')->findByPk($ruangan_id)->instalasi->instalasi_nama.'</td>
-						<td>'.$model->ruangan_nama.'/<br/>'.$model->no_pendaftaran.'</td>
-						<td>'.$model->no_rekam_medik.'/<br/>'.$model->nama_pasien.'</td>
+						<td>'.RuanganM::model()->with('instalasi')->findByPk($ruangan_id)->instalasi->instalasi_nama.'/ '.$model->ruangan_nama.'</td>
+						<td>'.$model->no_pendaftaran.'</td>
+						<td>'.$model->no_rekam_medik.'</td>
+                                                <td>'.$model->nama_pasien.'</td>
 						<td>'.$model->umur.'</td>
 						<td>'.$model->jeniskelamin.'</td>';
 				foreach ($modJenisWaktu as $v){

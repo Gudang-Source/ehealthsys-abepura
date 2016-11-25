@@ -3,6 +3,9 @@ class GZPesanmenudietT extends PesanmenudietT{
     public $kelaspelayanan_id,$ruangan_id;
 	public $carabayar_id,$penjamin_id;
         public $temp_no;
+        public $disabled;
+        public $ruangantampil;
+        public $instalasitampil;        
             
         
     

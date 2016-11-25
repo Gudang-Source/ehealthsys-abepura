@@ -34,14 +34,32 @@
                              <?php //echo CHtml::hiddenField('instalasi_id'); ?>
                             <?php //echo CHtml::hiddenField('ruangan_id'); ?>
                             <?php
-                            //$model->ruangan_id = !empty($model->ruangan_id)?$model->ruangan_id:Yii::app()->user->getState('ruangan_id');
-                           // $model->instalasi_id = !empty($model->instalasi_id)?$model->instalasi_id:Yii::app()->user->getState('instalasi_id');
-                            echo $form->dropDownList($model, 'instalasi_id', CHtml::listData($model->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
-                                'ajax' => array('type' => 'POST',
-                                    'url' => $this->createUrl('setDropdownRuangan', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
-                                    'update' => '#' . CHtml::activeId($model, 'ruangan_id') . ''),));
+                            $model->ruangan_id = (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_GIZI)?"":Yii::app()->user->getState('ruangan_id');
+                            $model->instalasi_id = (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_GIZI)?"":Yii::app()->user->getState('instalasi_id');                            
+                            $model->ruangantampil = (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_GIZI)?"":Yii::app()->user->getState('ruangan_id');
+                            $model->instalasitampil = (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_GIZI)?"":Yii::app()->user->getState('instalasi_id');                            
+                            if ($model->disabled === false){
+                                echo $form->dropDownList($model, 'instalasi_id', CHtml::listData($model->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
+                                    'ajax' => array('type' => 'POST',
+                                        'url' => $this->createUrl('setDropdownRuangan', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
+                                        'update' => '#' . CHtml::activeId($model, 'ruangan_id') . ''),));
+                                ?>
+                                <?php echo $form->dropDownList($model, 'ruangan_id', CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'onchange'=>'clearAll()')); ?>
+                            <?php
+                            }else{
                             ?>
-                            <?php echo $form->dropDownList($model, 'ruangan_id', CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'onchange'=>'clearAll()')); ?>
+                            <?php
+                                echo $form->dropDownList($model, 'instalasitampil', CHtml::listData($model->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'disabled' =>$model->disabled,
+                                    'ajax' => array('type' => 'POST',
+                                        'url' => $this->createUrl('setDropdownRuangan', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
+                                        'update' => '#' . CHtml::activeId($model, 'ruangan_id') . ''),));
+                                ?>
+                                <?php echo $form->dropDownList($model, 'ruangantampil', CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'onchange'=>'clearAll()', 'disabled' => $model->disabled)); ?>
+                                <?php echo $form->hiddenField($model, 'ruangan_id') ?>
+                                <?php echo $form->hiddenField($model, 'instalasi_id') ?>
+                            <?php
+                            }
+                            ?>
                             <?php echo $form->error($model, 'ruangan_id'); ?>
                         </div>
                     </div>
@@ -171,7 +189,7 @@
                     <div class="control-group ">
                         <label class='' style = "text-align:left;padding-left:25px;padding-right:5px;">Jumlah</label>
                      
-                            <?php echo Chtml::textField('jumlah', 1, array('class'=>'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>                
+                            <?php echo Chtml::textField('jumlah', 1, array('class'=>'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align:right;')); ?>                
                             <?php echo Chtml::dropDownList('URT', '', LookupM::getItems('ukuranrumahtangga'), array('empty'=>'-- Pilih --', 'class'=>'span2', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>                
                             <?php
                             echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', array('onclick' => 'inputMenuDiet();return false;',
@@ -198,7 +216,8 @@
                 <tr>
                     <th rowspan="2"><input type="checkbox" id="checkListUtama" name="checkListUtama" value="1" checked="checked" onclick="checkAll('cekList',this);hitungSemua();"></th>
                     <th rowspan="2">Instalasi/<br/>Ruangan</th>
-                    <th rowspan="2">No. Pendaftaran/<br/>No. Rekam Medik</th>
+                    <th rowspan="2">No. Pendaftaran</th>
+                    <th rowspan="2">No. Rekam Medik</th>
                     <th rowspan="2">Nama Pasien</th>
                     <th rowspan="2">Umur</th>
                     <th rowspan="2">Jenis Kelamin</th>
@@ -240,11 +259,20 @@
 </div>
 <?php $this->renderPartial($this->path_view.'_dialog', array('model'=>$model)); ?>
 <?php
+    //ruangan daftar pasien
+    if (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_GIZI)
+    {
+        $nama = "<span id='namaRuangan'></span>";        
+    }else{
+        $nama = '-'.Yii::app()->user->getState('ruangan_nama').'-';
+    }
+?>
+<?php
 //========= Dialog buat cari Bahan Diet =========================
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogPasien',
     'options' => array(
-        'title' => 'Daftar Pasien',
+        'title' => 'Daftar Pasien '.$nama,
         'autoOpen' => false,
         'modal' => true,
         'width' => 1000,
@@ -266,6 +294,18 @@ if (isset($_GET['GZInfopasienmasukkamarV'])){
   //  } 
      
 }
+
+$cri = new CDbCriteria;
+$empty = array('empty'=>'-- Pilih --');
+if (!empty($modKunjungan->carabayar_id)){    
+    $cri->addCondition("carabayar_id = '".$modKunjungan->carabayar_id."' ");
+    $empty = array();
+}else{
+    $modKunjungan->penjamin_id = null;
+}
+$cri->addCondition("penjamin_aktif = TRUE ");
+$cri->order = 'penjamin_nama ASC';
+$penjamin = PenjaminpasienM::model()->findAll($cri);
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id'=>'gzinfokunjunganri-v-grid', 
@@ -292,10 +332,27 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 				"))',
             'filter'=>CHtml::activeHiddenField($modKunjungan, 'kelaspelayanan_id'),
         ),
-        'no_pendaftaran',
-        'no_rekam_medik',
-        'nama_pasien',
-        'umur',
+        array(
+            'header' => 'No Pendaftaran',            
+            'name' => 'no_pendaftaran',
+            'filter' => Chtml::activeTextField($modKunjungan, 'no_pendaftaran', array('class'=>'angkahuruf-only'))
+        ),        
+        array(
+            'header' => 'No Rekam Medik',            
+            'name' => 'no_rekam_medik',
+            'filter' => Chtml::activeTextField($modKunjungan, 'no_rekam_medik', array('class'=>'numbers-only'))
+        ),        
+        array(
+            'header' => 'Nama Pasien',
+            'name' => 'nama_pasien',
+            'value' => '$data->namadepan." ".$data->nama_pasien',
+            'filter' => Chtml::activeTextField($modKunjungan, 'nama_pasien', array('class'=>'hurufs-only'))
+        ),        
+        array(
+            'header' => 'Umur',
+            'name' => 'umur',
+            'filter' => Chtml::activeTextField($modKunjungan, 'umur', array('class'=>'angkahuruf-only'))
+        ),         
         array(
             'name'=>'jeniskelamin',
             'filter'=> CHtml::dropDownList('GZInfopasienmasukkamarV[jeniskelamin]',$modKunjungan->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
@@ -312,17 +369,35 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         array(
             'name'=>'penjamin_id',
             'value'=>'$data->penjamin_nama',
-            'filter'=>false,
+            'filter'=> Chtml::activeDropDownList($modKunjungan, 'penjamin_id', Chtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'),$empty),
         ),
-        array(
+       /* array(
             'name'=>'ruangan_id',
-            'filter'=> CHtml::dropDownList('GZInfopasienmasukkamarV[ruangan_id]',$modKunjungan->ruangan_id,CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'--Pilih--','disabled'=>TRUE)),            
+            'filter'=> CHtml::activeHiddenField($modKunjungan, 'ruangan_id', array('class'=>'namaRuangan')).CHtml::dropDownList('GZInfopasienmasukkamarV[ruangan_id]',$modKunjungan->ruangan_id,CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'--Pilih--','disabled'=>TRUE)),            
             'value'=>'$data->ruangan_nama'
-        ),
-        'kamarruangan_nokamar',
-        'kamarruangan_nobed',
+        ),*/
+        array(
+            'header' => 'No Kamar',
+            'name' => 'kamarruangan_nokamar',
+            'filter' => Chtml::activeTextField($modKunjungan, 'kamarruangan_nokamar', array('class'=>'angkahuruf-only'))
+        ), 
+        array(
+            'header' => 'No Bed',
+            'name' => 'kamarruangan_nobed',
+            'filter' => Chtml::activeTextField($modKunjungan, 'kamarruangan_nobed', array('class'=>'angkahuruf-only'))
+        ),         
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    . '$(".angkahuruf-only").keyup(function() {
+            setAngkaHurufsOnly(this);
+        });
+        $(".numbers-only").keyup(function() {
+            setNumbersOnly(this);
+        });
+        $(".hurufs-only").keyup(function() {
+            setHurufsOnly(this);
+        });'
+    . '}',
 ));
 
 $this->endWidget();
@@ -423,6 +498,8 @@ $jsx = <<< JS
             }
             else{
                 $(this).val('');
+                $("#GZPesanmenudietT_instalasitampil").val(tempInstalasi);
+                $("#GZPesanmenudietT_ruangantampil").val(tempRuangan);
             }
         });
         if (!jQuery.isNumeric(code)){
@@ -451,6 +528,7 @@ $jsx = <<< JS
             });
         }
         else{
+            refreshDialogPasien();
             $.fn.yiiGridView.update('gzinfokunjunganri-v-grid', {
                     //data: $("#dialogPasien :input").serialize() + "&" + "GZInfokunjunganriV[ruangan_id]="+ruangan
                     data: $("#dialogPasien :input").serialize() + "&" + "GZInfopasienmasukkamarV[ruangan_id]="+ruangan
@@ -498,3 +576,14 @@ Yii::app()->clientScript->registerScript('head', $jsx, CClientScript::POS_HEAD);
     });
     
 ', CClientScript::POS_READY); ?>
+<script>
+function refreshDialogPasien(){    
+	//$("#namaBarang").addClass("animation-loading-1");
+        var ru = $("#GZPesanmenudietT_ruangan_id option:selected").html();
+       
+	setTimeout(function(){
+                $("#namaRuangan").html('-'+ru+'-');		
+	},500);
+}
+
+</script>
