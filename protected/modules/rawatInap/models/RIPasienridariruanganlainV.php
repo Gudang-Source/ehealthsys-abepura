@@ -114,8 +114,9 @@ class RIPasienridariruanganlainV extends PasienridariruanganlainV
 		$criteria->compare('LOWER(pengantar)',strtolower($this->pengantar),true);
 		$criteria->compare('LOWER(hubungankeluarga)',strtolower($this->hubungankeluarga),true);
 		$criteria->compare('LOWER(nama_pj)',strtolower($this->nama_pj),true);
+		$criteria->addCondition("ruanganasal_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	
 		if(!empty($this->ruanganasal_id)){
-			$criteria->addCondition("ruanganasal_id = ".$this->ruanganasal_id); 	
+			$criteria->addCondition("ruanganasal_id =  '".$this->ruanganasal_id."' AND ruanganasal_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	                        
 		}
 		$criteria->compare('LOWER(ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
 		if(!empty($this->instalasiasal_id)){
@@ -176,6 +177,7 @@ class RIPasienridariruanganlainV extends PasienridariruanganlainV
 			$criteria->addCondition("instalasi_id = ".$this->instalasi_id); 	
 		}
 		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+                $criteria->order = "tglpindahkamar DESC";
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -213,6 +215,20 @@ class RIPasienridariruanganlainV extends PasienridariruanganlainV
 			if(!empty($instalasi_id)){
 				$criteria->addCondition("instalasi_id = ".$instalasi_id); 	
 			}
+            $criteria->addCondition('ruangan_aktif = true');
+            $criteria->order = "ruangan_nama";
+            return RuanganM::model()->findAll($criteria);
+        }
+        
+        public function getRuanganCustom($instalasi_id=null, $unset = null)
+        {
+            $criteria = new CDbCriteria();
+            if(!empty($instalasi_id)){
+                    $criteria->addInCondition('instalasi_id',$instalasi_id); 	
+            }
+            if (!empty($unset)){
+                $criteria->addNotInCondition('ruangan_id',$unset); 	
+            }
             $criteria->addCondition('ruangan_aktif = true');
             $criteria->order = "ruangan_nama";
             return RuanganM::model()->findAll($criteria);
