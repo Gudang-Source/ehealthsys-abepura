@@ -102,7 +102,7 @@ $this->endWidget();
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogMenuDiet',
     'options' => array(
-        'title' => 'Daftar Menu Diet',
+        'title' => 'Daftar Menu Diet ',
         'autoOpen' => false,
         'modal' => true,
         'width' => 750,
