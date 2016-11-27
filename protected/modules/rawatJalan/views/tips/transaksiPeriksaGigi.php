@@ -24,7 +24,7 @@
         </td>
         <td>
             Gunakan tombol ini  <button class="btn btn-primary" name="yt0" onkeypress="return formSubmit(this,event)" type="submit">
-            <i class="icon-ok icon-white"></i>
+            <i class="entypo-check"></i>
             Simpan
             </button>            
             berfungsi untuk menyimpan</td>
@@ -32,18 +32,18 @@
    
   <tr>
     <td style = "vertical-align:center;">4. </td>
-    <td>Gunakan tombol ini <a class="btn btn-danger" href="/simrs/index.php?r=rawatInap/pasienRawatInap/formTindakLanjutDariPasienRI">
-<i class="icon-refresh icon-white"></i>
+    <td>Gunakan tombol ini <a class="btn btn-danger" >
+<i class="entypo-arrows-ccw"></i>
 Ulang
-</a> untunk mengulang kembali inputan.</td>
+</a> untuk mengulang kembali inputan.</td>
   </tr>
     <tr>
         <td style = "vertical-align:center;">
             5. 
         </td>
         <td>
-            Gunakan tombol ini  <button class="btn btn-primary" name="yt0" onkeypress="return formSubmit(this,event)" type="submit">
-            <i class="icon-print icon-white"></i>
+            Gunakan tombol ini  <button class="btn btn-info" name="yt0" type="button">
+            <i class="entypo-print"></i>
             Cetak
             </button>            
             berfungsi untuk mencetak data</td>
