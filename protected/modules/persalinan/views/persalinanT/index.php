@@ -45,6 +45,7 @@ if($sukses > 0)
     <?php echo $this->renderPartial('_formPersalinan', array('model' => $model, 'form'=>$form), true); ?>
     <?php echo $this->renderPartial('_obsterikus', array('model'=>$model,'modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
     <?php echo $this->renderPartial('_ginekologi', array('form'=>$form, 'modRiwayatKehamilan'=>$modRiwayatKehamilan, 'modGinekologi'=>$modGinekologi), true); ?>
+    <?php //echo $this->renderPartial('_partograf', array('form'=>$form, 'modRiwayatKehamilan'=>$modRiwayatKehamilan, 'modGinekologi'=>$modGinekologi), true); ?>
         </div>
     </div>
     
@@ -90,15 +91,23 @@ if($sukses > 0)
         $("#tabber li").removeClass("active");
         $(obj).addClass("active");
         if (v == 1) {
+            $("#panel-partograf").hide();
             $("#panel-ginekologi").hide();
             $("#panel-obs").hide();
             $("#panel-persalinan").show();
         } else if (v == 2) {
+            $("#panel-partograf").hide();
             $("#panel-ginekologi").hide();
             $("#panel-obs").show();
             $("#panel-persalinan").hide();
         } else if (v == 3) {
+            $("#panel-partograf").hide();
             $("#panel-ginekologi").show();
+            $("#panel-obs").hide();
+            $("#panel-persalinan").hide();
+        }else if (v == 4) {
+            $("#panel-partograf").show();
+            $("#panel-ginekologi").hide();
             $("#panel-obs").hide();
             $("#panel-persalinan").hide();
         }
