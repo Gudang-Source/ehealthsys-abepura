@@ -28,4 +28,18 @@ class RIPasienAdmisiT  extends PasienadmisiT
             $criteria->order = "ruangan_nama";
             return RuanganM::model()->findAll($criteria);
         }
+        
+        public function getRuanganCustom($instalasi_id=null, $unset = null)
+        {
+            $criteria = new CDbCriteria();
+            if(!empty($instalasi_id)){
+                    $criteria->addInCondition('instalasi_id',$instalasi_id); 	
+            }
+            if (!empty($unset)){
+                $criteria->addNotInCondition('ruangan_id',$unset); 	
+            }
+            $criteria->addCondition('ruangan_aktif = true');
+            $criteria->order = "ruangan_nama";
+            return RuanganM::model()->findAll($criteria);
+        }
 }

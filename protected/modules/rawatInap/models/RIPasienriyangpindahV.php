@@ -164,15 +164,16 @@ class RIPasienriyangpindahV extends PasienriyangpindahV
 		if(!empty($this->pindahkamar_id)){
 			$criteria->addCondition("pindahkamar_id = ".$this-pindahkamar_id); 	
 		}
+                $criteria->addCondition("ruangan_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$this-ruangan_id); 	
+			$criteria->addCondition("ruangan_id =  '".$this->ruangan_id."' AND ruangan_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	                        
 		}
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition("instalasi_id = ".$this-instalasi_id); 	
 		}
 		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
-
+                $criteria->order = "tglpindahkamar DESC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
