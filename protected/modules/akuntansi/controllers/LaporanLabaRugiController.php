@@ -15,6 +15,9 @@ class LaporanLabaRugiController extends MyAuthController{
 			$model->bulan = $_GET['AKLaporanlabarugiV']['bulan'];
 			$model->thn_awal = $_GET['AKLaporanlabarugiV']['thn_awal'];
 		}
+		
+		//var_dump($model->bulan); die;
+		
 		$models = $model->findAll($model->searchLaporan2());
 		echo $this->render($this->path_view.'admin', array(
 			'model' => $model,
