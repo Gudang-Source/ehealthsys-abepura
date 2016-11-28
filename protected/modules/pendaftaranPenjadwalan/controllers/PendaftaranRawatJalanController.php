@@ -2612,7 +2612,7 @@ class PendaftaranRawatJalanController extends MyAuthController
     public function actionVerifikasiFP()
     {        
         if(Yii::app()->request->isAjaxRequest) { 
-                if (!empty($_SERVER["HTTP_CLIENT-IP"])) 
+                if (!empty($_SERVER["HTTP_CLIENT_IP"])) 
                 {
                     $ip = $_SERVER["HTTP_CLIENT_IP"]; 
                     
@@ -2626,18 +2626,25 @@ class PendaftaranRawatJalanController extends MyAuthController
                     $ip = $_SERVER["REMOTE_ADDR"];                    
                 }
 
+                
                     
                     $host = Yii::app()->user->getState('telnet_host');  
-                    $port = Yii::app()->user->getState('telnet_port');	
+                    $port = CustomFunction::incPortFinger($ip);                    
+                                        
+                    $batal = isset($_POST['batal'])?$_POST['batal']:null;
                     set_time_limit(0); 	                                        
                     
 
                     // create socket
                     $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
+                    
+                    
                     if (!socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1)) {
                             echo socket_strerror(socket_last_error($socket));
                             exit;
                     }
+                    
+                    
                     // bind socket to port
                     $result = socket_bind($socket, $host, $port) or die("Could not bind to socket\n");
                     // start listening for connections
@@ -2663,12 +2670,54 @@ class PendaftaranRawatJalanController extends MyAuthController
                                     $data['nofingerprint'] = $ipfinger[2]; 
                                     $data['pesan'] = 'sukses';
                             }
-                            else { $data['pesan'] = 'gagal';}
+                            else { $data['pesan'] = 'gagal';                            
+                            }
 
                         }
                     
                     socket_close($spawn);
                     socket_close($socket);
+            
+            echo json_encode($data);
+            Yii::app()->end();
+        }        
+    }
+    
+    public function actionPendaftaranFP()
+    {        
+        if(Yii::app()->request->isAjaxRequest) { 
+            if (!empty($_SERVER["HTTP_CLIENT_IP"])){
+                $ip = $_SERVER["HTTP_CLIENT_IP"];                 
+            }
+            elseif(!empty($_SERVER["HTTP_X_FORWARDED_FOR"])){
+                $ip = $_SERVER["HTTP_X_FORWARDED_FOR"]; 
+                
+            }else{ 
+                $ip = $_SERVER["REMOTE_ADDR"];                 
+            }
+            
+            $data = array();
+            
+            $no_rm = isset($_POST['no_rekam_medik'])?$_POST['no_rekam_medik']:null;
+            $host    = $ip;
+            $port    = CustomFunction::incPortFinger($ip);
+            
+            if ($no_rm == null){
+                $data['pesan'] = 'gagal-norm';
+            }else{
+                // create socket
+                $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
+                // connect to server
+                socket_connect($socket, $host, $port) or die("Could not connect to server\n");  
+                // send string to server
+                $cek = @socket_write($socket, $no_rm);// or die("Could not send data to server\n")
+                
+                if ($cek !== false){                                    
+                    socket_close($socket);
+                    $data['pesan'] = 'kirim';                    
+                }
+                 
+            }
             
             echo json_encode($data);
             Yii::app()->end();

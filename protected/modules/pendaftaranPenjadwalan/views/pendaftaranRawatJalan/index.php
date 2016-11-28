@@ -33,9 +33,10 @@
         </div> 
         <div class="span6">
             <div class =" control-group">
-                <?php //echo CHtml::button("Verifikasi Sidik Jari",array('id'=>'verifikasiFP','onclick' => 'setVerifikasiFP();', 'class'=>'btn btn-primary')); ?>
-                <?php //echo CHtml::button("Batal",array('id'=>'batalVerifFP','onclick' => 'removeAllClients();', 'class'=>'btn btn-primary')); ?>
                 <div id = "loading" style = "width:50px;height:50px;"></div>
+                <?php //echo CHtml::button("Pendaftaran Sidik Jari",array('id'=>'pendaftaranFP','onclick' => 'setPendaftaranFP();', 'class'=>'btn btn-primary')); ?>
+                <?php //echo CHtml::button("Verifikasi Sidik Jari",array('id'=>'verifikasiFP','onclick' => 'setVerifikasiFP();', 'class'=>'btn btn-primary')); ?>
+                <?php //echo CHtml::button("Batal",array('id'=>'batalVerifFP','onclick' => 'batalVerifikasiFP();', 'class'=>'btn btn-primary')); ?>                
                 <div id = "pesanVerifikasi"></div>
             </div>
         </div>
@@ -189,6 +190,14 @@
                 <?php 
                 $content = $this->renderPartial($this->path_view.'tips/tipsPendaftaranRawatJalan',array(),true);
                 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  
+                
+                if (isset($model->pendaftaran_id)){
+                    if (empty($model->pasien->nofingerprint)){                    
+                        //echo CHtml::htmlButton("Pendaftaran Sidik Jari",array('id'=>'regisFP','onclick' => "setRegisFP('".$model->pasien->no_rekam_medik."');", 'class'=>'btn btn-primary'));                    
+                        echo '<div id = "regisLoading" style = "width:50px;height:50px;"></div>';
+                        echo '<div id = "pesanRegis"></div>';
+                    }
+                }
                 ?> 
         </div>
     </div>

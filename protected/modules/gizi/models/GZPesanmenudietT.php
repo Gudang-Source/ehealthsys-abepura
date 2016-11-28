@@ -3,6 +3,9 @@ class GZPesanmenudietT extends PesanmenudietT{
     public $kelaspelayanan_id,$ruangan_id;
 	public $carabayar_id,$penjamin_id;
         public $temp_no;
+        public $disabled;
+        public $ruangantampil;
+        public $instalasitampil;        
             
         
     
@@ -110,12 +113,21 @@ class GZPesanmenudietT extends PesanmenudietT{
 	* @return array
 	*/
        public function getInstalasiItems(){
+            
 	   $criteria = new CDbCriteria();
-	   $criteria->addInCondition('instalasi_id',array(
-		       Params::INSTALASI_ID_RJ, 
-		       Params::INSTALASI_ID_RD, 
-		       Params::INSTALASI_ID_RI) 
+           if (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_GIZI){
+               $criteria->addInCondition('instalasi_id',array(
+                      //Params::INSTALASI_ID_RJ, 
+                      //Params::INSTALASI_ID_RD, 
+                      Params::INSTALASI_ID_RI,
+                      Params::INSTALASI_ID_ICU)
 		   );
+           }else{
+                $criteria->addInCondition('instalasi_id',array(
+                Yii::app()->user->getState('instalasi_id'))
+		   );
+           }
+	   
 	   $criteria->addCondition('instalasi_aktif = true');
            $criteria->order = "instalasi_nama ASC";
 	   $modInstalasis = InstalasiM::model()->findAll($criteria);
