@@ -17,6 +17,7 @@ class JurnalPenjualanController extends JurnalPenerimaanKasController
             $model->tgl_awal = $format->formatDateTimeForDb($data_parsing['AKJurnalrekeningT']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($data_parsing['AKJurnalrekeningT']['tgl_akhir']);     
             $model->jenisjurnal_id = Params::JENISJURNAL_ID_PENERIMAAN_KAS;
+			$model->kodejurnal = $data_parsing['AKJurnalrekeningT']['kodejurnal'];
             $record = $model->searchWithJoin();
             $result = array();
             foreach($record->getData() as $key=>$val)
@@ -49,17 +50,17 @@ class JurnalPenjualanController extends JurnalPenerimaanKasController
                 if(isset($rec_nama['rekening5_id']))
                 {
                     $nama_rekening = $rec_nama['nmrekening5'];
-                    $kode_rekening = $rec_nama['kdrekening1'] . "-" . $rec_nama['kdrekening2'] . "-" . $rec_nama['kdrekening3'] . "-" . $rec_nama['kdrekening4'] . "-" . $rec_nama['kdrekening1'];
+                    $kode_rekening = $rec_nama['kdrekening1'];
                     $status_rekening = $rec_nama['rekening5_nb'];
                 }else{
                     if(isset($rec_nama['obyek_id']))
                     {
                         $nama_rekening = $rec_nama['nmrekening4'];
-                        $kode_rekening = $rec_nama['kdrekening1'] . "-" . $rec_nama['kdrekening2'] . "-" . $rec_nama['kdrekening3'] . "-" . $rec_nama['kdrekening4'];
+                        $kode_rekening = $rec_nama['kdrekening4'];
                         $status_rekening = $rec_nama['rekening5_nb'];
                     }else{
                         $nama_rekening = $rec_nama['nmrekening3'];
-                        $kode_rekening = $rec_nama['kdrekening1'] . "-" . $rec_nama['kdrekening2'] . "-" . $rec_nama['kdrekening3'];
+                        $kode_rekening = $rec_nama['kdrekening3'];
                         $status_rekening = $rec_nama['rekening5_nb'];
                     }
                 }

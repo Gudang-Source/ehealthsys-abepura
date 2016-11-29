@@ -26,6 +26,61 @@
     } else{
 		$layout = 'max-width:1250px;overflow-x:scroll;';
     }
+	
+	$detail = array(
+		'aktiva'=>array(
+			'total'=>0,
+			'det'=>array(),
+		),
+		'passiva'=>array(
+			'total'=>0,
+			'det'=>array(),
+		),
+	);
+	
+	if (isset($_GET['AKLaporanneracaV']['periodeposting_id'])) {
+		$criteria = new CDbCriteria();
+		$criteria->compare('periodeposting_id', $_GET['AKLaporanneracaV']['periodeposting_id']);
+		
+		if (isset($_GET['AKLaporanneracaV']['ruangan_id'])) {
+			$criteria->compare('periodeposting_id', $_GET['AKLaporanneracaV']['ruangan_id']);
+		}
+		
+		$dat = AKLaporanneracaV::model()->findAll($criteria);
+		
+		foreach ($dat as $item) {
+			if ($item->rekening1_nb == 'D') {
+				$saldo = $item->saldodebit - $item->saldokredit;
+				$tipe = 'aktiva';
+			} else {
+				$saldo = $item->saldokredit - $item->saldodebit;
+				$tipe = 'passiva';
+			}
+			
+			if (empty($detail[$tipe]['det'][$item->kdrekening1])) {
+				$detail[$tipe]['det'][$item->kdrekening1] = array(
+					'nama'=>$item->nmrekening1,
+					'total'=>0,
+					'det'=>array(),
+				);
+			}
+			
+			if (empty($detail[$tipe]['det'][$item->kdrekening1]['det'][$item->kdrekening5])) {
+				$detail[$tipe]['det'][$item->kdrekening1]['det'][$item->kdrekening5] = array(
+					'nama'=>$item->nmrekening5,
+					'total'=>0,
+				);
+			}
+			
+			$detail[$tipe]['det'][$item->kdrekening1]['det'][$item->kdrekening5]['total'] += $saldo;
+			$detail[$tipe]['det'][$item->kdrekening1]['total'] += $saldo;
+			$detail[$tipe]['total'] += $saldo;
+		}
+	}
+	
+	var_dump($detail); die;
+	
+	
 ?>
 <div id="tableLaporan" class="grid-view" style="<?php echo $layout; ?>">
   <table class="<?php echo $table; ?>">
@@ -40,6 +95,56 @@
       </tr>
     </thead>
     <tbody>
+		<tr>
+			<td colspan="2" style="font-weight: bold; font-style: italic;">AKTIVA</td>
+		</tr>
+		<?php foreach ($detail['aktiva']['det'] as $item): ?>
+		<tr>
+			<td style="font-weight:bold;" colspan="2">&emsp;<?php echo strtoupper($item['nama']); ?></td>
+		</tr>
+			<?php foreach ($item['det'] as $item2): ?>
+		<tr>
+			<td>&emsp;&emsp;<?php echo $item2['nama']; ?></td>
+			<td style="text-align: right; padding-right: 60px;"><?php echo MyFormatter::formatNumberForPrint($item2['total']); ?></td>
+		</tr>
+			<?php endforeach; ?>
+		<tr>
+			<td style="font-weight: bold;">&emsp;&emsp;TOTAL <?php echo strtoupper($item['nama']); ?></td>
+			<td style="font-weight: bold; text-align: right;"><?php echo MyFormatter::formatNumberForPrint($item['total']); ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+			<td style="font-weight: bold; font-style: italic; text-align: center;">TOTAL AKTIVA</td>
+			<td style="font-weight: bold; font-style: italic; text-align: right;"><?php echo MyFormatter::formatNumberForPrint($detail['aktiva']['total']); ?></td>
+		</tr>
+		
+		
+		
+		
+		
+		<tr>
+			<td colspan="2" style="font-weight: bold; font-style: italic;">PASSIVA</td>
+		</tr>
+		<?php foreach ($detail['passiva']['det'] as $item): ?>
+		<tr>
+			<td style="font-weight:bold;" colspan="2">&emsp;<?php echo strtoupper($item['nama']); ?></td>
+		</tr>
+			<?php foreach ($item['det'] as $item2): ?>
+		<tr>
+			<td>&emsp;&emsp;<?php echo $item2['nama']; ?></td>
+			<td style="text-align: right; padding-right: 60px;"><?php echo MyFormatter::formatNumberForPrint($item2['total']); ?></td>
+		</tr>
+			<?php endforeach; ?>
+		<tr>
+			<td style="font-weight: bold;">&emsp;&emsp;TOTAL <?php echo strtoupper($item['nama']); ?></td>
+			<td style="font-weight: bold; text-align: right;"><?php echo MyFormatter::formatNumberForPrint($item2['total']); ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+			<td style="font-weight: bold; font-style: italic; text-align: center;">TOTAL PASSIVA</td>
+			<td style="font-weight: bold; font-style: italic; text-align: right;"><?php echo MyFormatter::formatNumberForPrint($detail['passiva']['total']); ?></td>
+		</tr>
+		<?php /*
         <?php
 			$periodeposting_id = isset($_GET['AKLaporanneracaV']['periodeposting_id']) ? $_GET['AKLaporanneracaV']['periodeposting_id'] : isset($modelLaporan->periodeposting_id) ? $modelLaporan->periodeposting_id : null;
 			$ruangan_id = isset($_GET['AKLaporanneracaV']['ruangan_id']) ? $_GET['AKLaporanneracaV']['ruangan_id'] : isset($modelLaporan->ruangan_id) ? $modelLaporan->ruangan_id : null;
@@ -115,6 +220,8 @@
         <!----------------- END PASIVVA ---------------------------------------------->        
       <?php
 //      }
+		 * 
+		 */
       ?>
     </tbody>
   </table>
