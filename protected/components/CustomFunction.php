@@ -581,8 +581,7 @@ class CustomFunction
             $puluhan = substr($port, 0, 2); // dari port yang diambil menjadi 60
             $ratusan = substr($port, 0, 3); // dari port yang diambil menjadi 600
             
-            $portBaru = '';
-            
+            $portBaru = '';            
             if ($length == 1){
                 $portBaru = $ratusan.$split[3];
             }elseif ($length == 2){
@@ -590,6 +589,8 @@ class CustomFunction
                     $k = $split[3]-63;
                     $br = strlen($k)==1?'0'.$k:$k;
                     $portBaru = $puluhan.$br;
+                }else{
+                    $portBaru = $puluhan.$split[3];
                 }
             }elseif ($length == 3){                
                 if ( ($split[3] > 99) && ($split[3] <= 126) ){
