@@ -15,6 +15,7 @@ class RMBukuregisterpenunjangV extends BukuregisterpenunjangV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
+        $criteria->order = "tglmasukpenunjang ASC";
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -28,7 +29,7 @@ class RMBukuregisterpenunjangV extends BukuregisterpenunjangV {
     public static function criteriaGrafik($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
         $criteria->select = 'count(pendaftaran_id) as jumlah';
-        if ($_GET['filter'] == 'carabayar') {
+       /* if ($_GET['filter'] == 'carabayar') {
             if (!empty($model->penjamin_id)) {
                 $criteria->select .= ', penjamin_nama as '.$type;
                 $criteria->group .= 'penjamin_nama';
@@ -61,6 +62,16 @@ class RMBukuregisterpenunjangV extends BukuregisterpenunjangV {
         if (!isset($_GET['filter'])){
             $criteria->select .= ', propinsi_nama as '.$type;
             $criteria->group .= 'propinsi_nama';
+        }*/
+        if ($_GET['tampilGrafik'] == 'wilayah') {
+            $criteria->select .= ', propinsi_nama as '.$type;
+            $criteria->group .= 'propinsi_nama';
+        }elseif ($_GET['tampilGrafik'] == 'carabayar') {
+            $criteria->select .= ', carabayar_nama as '.$type;
+            $criteria->group .= 'carabayar_nama';
+        }else{
+            $criteria->select .= ', carabayar_nama as '.$type;
+            $criteria->group .= 'carabayar_nama';
         }
 
         if (count($addCols) > 0){
@@ -205,6 +216,7 @@ class RMBukuregisterpenunjangV extends BukuregisterpenunjangV {
 
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
+        $criteria->order = "tglmasukpenunjang ASC";
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,

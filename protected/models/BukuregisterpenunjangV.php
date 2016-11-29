@@ -445,14 +445,14 @@ class BukuregisterpenunjangV extends CActiveRecord
         }
         
         public function getTglMasukNoPenunjang(){
-            return MyFormatter::formatDateTimeForUser(date("d/m/Y",strtotime($this->tglmasukpenunjang))).' <br/>/ '.PHP_EOL.$this->no_masukpenunjang;
+            return MyFormatter::formatDateTimeForUser(date("d/m/Y",strtotime($this->tglmasukpenunjang))).'/ <br/>'.PHP_EOL.$this->no_masukpenunjang;
         }
         
         public function getJenisKelaminUmur(){
-            return $this->jeniskelamin.'<br/>'.$this->umur;
+            return $this->jeniskelamin.'/ <br/>'.$this->umur;
         }
         public function getInstalasiRuangan(){
-            return $this->instalasiasal_nama.'<br/>'.$this->ruanganasal_nama;
+            return $this->instalasiasal_nama.'/ <br/>'.$this->ruanganasal_nama;
         }
         
 }

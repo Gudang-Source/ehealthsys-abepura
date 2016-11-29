@@ -257,20 +257,26 @@ class AKLaporanlabarugiV extends LaporanlabarugiV
 		if (!empty($this->bulan)) {
 			if (is_array($this->bulan)) {
 				$tgl_awal = array();
+				$str = array();
 				foreach ($this->bulan as $data) {
-					$temp_tgl = $this->thn_awal . '-' . $data . '-01';
-					array_push($tgl_awal, $temp_tgl);
+					array_push($str, $data." between (extract (month from tglperiodeposting_awal)) and (extract (month from tglperiodeposting_akhir))");
+					//$temp_tgl = $this->thn_awal . '-' . $data . '-01';
+					//array_push($tgl_awal, $temp_tgl);
 				}
+				$criteria->addCondition("(". implode(" or ", $str).")");
 //			echo json_encode($tgl_awal);exit;
-				$criteria->addInCondition('tglperiodeposting_awal', $tgl_awal);
+				//$criteria->addInCondition('tglperiodeposting_awal', $tgl_awal);
 			} else {
-				$tgl_awal = $this->thn_awal . '-' . $this->bulan . '-01';
-				$criteria->compare('tglperiodeposting_awal', $tgl_awal);
+				$criteria->addCondition($this->bulan." between (extract (month from tglperiodeposting_awal)) and (extract (month from tglperiodeposting_akhir))");
+				//$criteria->compare('tglperiodeposting_awal', $tgl_awal);
 			}
 		}else{
-			$tgl_awal = $this->thn_awal . '-01-01';
-			$criteria->compare('tglperiodeposting_awal', $tgl_awal);
+			$tgl_awal = $this->thn_awal; // . '-01-01';
+			$criteria->compare('extract (year from tglperiodeposting_awal)', $tgl_awal);
 		}
+		
+		// var_dump($criteria);
+		
 		return $criteria;
 	}
 
@@ -279,10 +285,10 @@ class AKLaporanlabarugiV extends LaporanlabarugiV
 		// should not be searched.
 
 		$criteria = $this->criteriaSearch();
-		$criteria->group = "tglperiodeposting_awal";
+		$criteria->group = "periodeposting_id, tglperiodeposting_awal";
 		$criteria->select = $criteria->group;
 //		$criteria->order = "tglperiodeposting_awal DESC"; 
-		$criteria->order = "tglperiodeposting_awal ASC";
+		$criteria->order = "periodeposting_id, tglperiodeposting_awal ASC";
 		return $criteria;
 	}
 }
