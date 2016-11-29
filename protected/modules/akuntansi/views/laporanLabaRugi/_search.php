@@ -9,6 +9,17 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 		));
 ?>
 
+<style>
+	#cbBulan {
+		overflow: auto;
+	}
+	
+	#cbBulan div {
+		width:100px;
+        float:left;
+	}
+</style>
+
 <div class="row-fluid">
 	<div class="span4">
 		 <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
@@ -29,7 +40,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                             )); ?>	
 			
 
-		 <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+		 <?php /* $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                             'id'=>'segmen',
                             'slide'=>false,
                             'content'=>array(
@@ -46,24 +57,27 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 'active'=>true,
                                     ),
                             ),       
-                            )); ?>	
+                            )); 
+		  * 
+		  */ ?>
                             
 	</div>
 	<div class="span8">
-		 <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+		 <?php 
+		 $model->bulan = array(false, false, true);
+		 $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                             'id'=>'segmen',
                             'slide'=>false,
                             'content'=>array(
                             'content3'=>array(
                                 'header'=>'Bulan',
                                 'isi'=> CHtml::checkBox('pilihSemua', false, array('onclick' => 'pilihSemuaBulan();')).'Pilih Semua <br\>                                             
-                                            <table id="cbBulan">                                            
-                                            <tr>
-                                                    <td>'.
-                                                           Chtml::activecheckBoxList($model, 'bulan', CustomFunction::getBulan(null, null), array('separator' => '    ', 'onkeypress' => "return $(this).focusNextInputField(event)"))
-                                                    .'</td>
-                                            </tr>
-                                            </table>',            
+                                            <div id="cbBulan">'.
+                                                           Chtml::activecheckBoxList($model, 'bulan', CustomFunction::getBulan(null, null), array(
+															   'separator' => '', 
+															   'template' => '<div>{input}{label}</div>',
+															   'onkeypress' => "return $(this).focusNextInputField(event)"))
+                                            .'</div>',            
                                 'active'=>true,
                                     ),
                             ),       
