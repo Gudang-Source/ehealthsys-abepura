@@ -1,151 +1,157 @@
 <?php
-/**
- * BootGridView class file.
- * @author Christoffer Niska <ChristofferNiska@gmail.com>
- * @copyright Copyright &copy; Christoffer Niska 2011-
- * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @package bootstrap.widgets
- */
 
-Yii::import('zii.widgets.grid.CGridView');
+Yii::import('bootstrap.widgets.BootGridView');
 
 /**
- * Bootstrap grid view widget.
- * Used for setting default HTML classes, disabling the default CSS and enable the bootstrap pager.
+* @category      User Interface
+* @package        extensions
+* @author          Iqbal Laksana <iqballaksana01@gmail.com>
+* @version        1.0
+* @function      digunakan untuk menghilangkan <thead></thead> untuk mengatasi ketika export PDF data ada yang hilang
  */
-class BootGridView extends CGridView
+class BootGridViewPDF extends BootGridView
 {
-	/**
-	 * @var string the CSS class name for the container table. Defaults to 'table'.
-	 */
-	public $itemsCssClass = 'table table-striped';
-	/**
-	 * @var string the CSS class name for the pager container.
-	 * Defaults to 'pagination'.
-	 */
-	public $pagerCssClass = 'pagination';
-	/**
-	 * @var array the configuration for the pager.
-	 * Defaults to <code>array('class'=>'ext.bootstrap.widgets.BootPager')</code>.
-	 */
-	public $pager = array('class'=>'bootstrap.widgets.BootPager');
-	/**
-	 * @var string the URL of the CSS file used by this detail view.
-	 * Defaults to false, meaning that no CSS will be included.
-	 */
-	public $cssFile = false;
-        
-	/**
-	 * @var string the CSS class name for the table row element containing all filter input fields. Defaults to 'filters'.
-	 * @see filter
-	 * @since 1.1.1
-	 */
-	public $filterCssClass='filters';
-        
-        public $pageSizeInput = true;
+    public $mergeHeaders = array();
+    private $_mergeindeks = array();
+    private $_nonmergeindeks = array();
     
-	/**
-	 * Initializes the grid view.
-	 * modified RND-5395
-	 */
-	public $items_perpage=10;
-	public function init()
-	{
-		if(isset($_GET[$this->dataProvider->modelClass."_items"])){
-			$this->items_perpage = $_GET[$this->dataProvider->modelClass."_items"];
-			$this->dataProvider->setPagination(array('pageSize' => $this->items_perpage));
-		}
-		parent::init();
-	}
-    /**
-	 * Renders the summary text.
-	 * RND-5395
-	 */
-	public function renderSummary()
-	{
-		if(($count=$this->dataProvider->getItemCount())<=0)
-			return;
+    public function renderTableHeader()
+    {
+            if(!$this->hideHeader)
+            {
+                    //echo "<thead>\n";
 
-		echo '<div class="'.$this->summaryCssClass.'">';
-		
-		if($this->enablePagination)
+                    if($this->filterPosition===self::FILTER_POS_HEADER)
+                            $this->renderFilter();
+
+                    echo "<tr>\n";
+                    foreach($this->columns as $column)
+                            $column->renderHeaderCell();
+                    echo "</tr>\n";
+
+                    if($this->filterPosition===self::FILTER_POS_BODY)
+                            $this->renderFilter();
+
+                    //echo "</thead>\n";
+            }
+            else if($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
+            {
+            //	echo "<thead>\n";
+                    $this->renderFilter();
+                    //echo "</thead>\n";
+            }
+    }
+    
+    public function renderItems()
+	{
+		if($this->dataProvider->getItemCount()>0 || $this->showTableOnEmpty)
 		{
-			if(($summaryText=$this->summaryText)===null){
-//				$summaryText=Yii::t('zii','Displaying {start}-{end} of {count} result(s). {items_dropdown} rows per page.');
-				$summaryText=Yii::t('zii','Menampilkan {start}-{end} dari {count} hasil. {items_dropdown}');
+			echo "<table class=\"{$this->itemsCssClass}\">\n";
+			if(!empty($this->mergeHeaders)){
+			//	echo "<thead>\n";
+				$this->renderGroupHeaders();
+				//echo "</thead>\n";
 			}
-			$pagination=$this->dataProvider->getPagination();
-			$total=$this->dataProvider->getTotalItemCount();
-			$start=$pagination->currentPage*$pagination->pageSize+1;
-			$end=$start+$count-1;
-			if($end>$total)
-			{
-				$end=$total;
-				$start=$end-$count+1;
+			else {
+				$this->renderTableHeader();
 			}
-			$items_dropdown = $this->pageSizeInput?CHtml::dropDownList($this->dataProvider->modelClass.'_items', $this->items_perpage, $this->getItemsPerPage($total),array('onchange'=>'ubahSummaryEnd(this);','style'=>'width:70px', 'class'=>'page-item-size'))." baris per halaman.":"";
-			echo strtr($summaryText,array(
-				'{start}'=>$start,
-				'{end}'=>$end,
-				'{items_dropdown}'=>$items_dropdown,
-				'{count}'=>$total,
-				'{page}'=>$pagination->currentPage+1,
-				'{pages}'=>$pagination->pageCount,
-			));
+			$this->renderTableBody();
+			$this->renderTableFooter();
+			echo "</table>";
 		}
 		else
-		{
-			if(($summaryText=$this->summaryText)===null)
-				$summaryText=Yii::t('zii','Total {count} result(s).');
-			echo strtr($summaryText,array(
-				'{count}'=>$count,
-				'{start}'=>1,
-				'{end}'=>$count,
-				'{page}'=>1,
-				'{pages}'=>1,
-			));
-		}
-		echo '</div>';
-	}
-	/**
-	 * menampilkan summary end untuk dropdown
-	 * RND-5395
-	 * @param type $count
-	 */
-	public function getItemsPerPage($total){
-		$data = array();
-		if($total > 0){
-			$total_round = ceil($total / 10);
-			for($i=1;$i<=($total_round);$i++){
-				$data[$i.'0'] = $i.'0';
-			}
-		}else{
-			$data[$total] = $total;
-		}
-		return $data;
+			$this->renderEmptyText();
 	}
 	
-	/**
-	 * Registers necessary client scripts.
-	 * This method is invoked by {@link run}.
-	 * Child classes may override this method to register customized client scripts.
-	 * RND-5395
-	 */
-	public function registerClientScript()
+	public function renderGroupHeaders()
 	{
-		parent::registerClientScript();
-		Yii::app()->clientScript->registerScript("ubahSummaryEnd", 
-<<<JAVASCRIPT
-                var ubahSummaryEnd = function(obj) {
-		//function ubahSummaryEnd(obj){
-				var grid_id = $(obj).parent().parent().attr("id");
-				$.fn.yiiGridView.update(grid_id, {
-					data : $('#'+grid_id).find('input, textarea, select').serialize()
-				});
-				return false;
+		$this->setMergeIndeks();
+		$this->setNonMergeIndeks();
+		echo "<tr>\n";
+		
+		ob_start();
+		echo "<tr>\n";
+		$i=0;
+		foreach($this->columns as $column){
+			if(in_array($i, $this->_mergeindeks)):
+				$column->headerHtmlOptions['colspan']='1';
+				$column->renderHeaderCell();
+			endif;
+			$i++;
 		}
-JAVASCRIPT
-		, CClientScript::POS_HEAD);
+		echo "</tr>\n";
+		$header_bottom = ob_get_clean();
+		
+		$i=0;
+		foreach($this->columns as $column){			
+			for($m=0;$m<count($this->mergeHeaders);$m++){
+				if($i==$this->mergeHeaders[$m]["start"]):
+					$column->headerHtmlOptions['colspan']=$this->mergeHeaders[$m]["end"]-$this->mergeHeaders[$m]["start"]+1;
+					$column->header = $this->mergeHeaders[$m]["name"];
+					$column->id = NULL;
+					$column->renderHeaderCell();
+				endif;
+			}
+			if(in_array($i, $this->_nonmergeindeks)){
+				$column->headerHtmlOptions['rowspan']='2';
+				$column->renderHeaderCell();
+			}
+			$i++;
+		}
+		echo "</tr>\n";
+		
+		echo $header_bottom;
+	}
+	
+	protected function setMergeIndeks()
+	{
+		for($i=0;$i<count($this->mergeHeaders);$i++)
+			for($j=$this->mergeHeaders[$i]["start"];$j<= $this->mergeHeaders[$i]["end"];$j++)
+				$this->_mergeindeks[] = $j;
+	}
+	
+	protected function setNonMergeIndeks()
+	{
+		foreach($this->columns as $key=>$val) $h[] = $key;
+		$this->_nonmergeindeks = array_diff($h, $this->_mergeindeks);
+	}
+        
+        public function renderTableFooter()
+	{
+		$hasFilter=$this->filter!==null && $this->filterPosition===self::FILTER_POS_FOOTER;
+		$hasFooter=$this->getHasFooter();
+                $data=$this->dataProvider->getData();
+		$n=count($data)*200;
+		if($hasFilter || $hasFooter)
+		{
+                    if($n > 0){
+			echo "<tbody>\n";
+			if($hasFooter)
+			{
+				echo "<tr>\n";
+				foreach($this->columns as $column){
+                                    if(($column->footer != null) || ($column->footer)){
+                                        $jumlah = 0;
+                                        $value = false;
+                                        foreach ($data as $i=>$x){
+                                            if ($column->footer == 'sum('.$column->name.')'){
+                                                $jumlah += $x[$column->name];
+                                                $value = true;
+                                            }
+                                        }
+                                        if (($value == true)){
+                                            $column->footer = "Rp".number_format($jumlah,0,"",".");
+                                        }
+					$column->renderFooterCell();
+                                    }
+                                }
+				echo "</tr>\n";
+			}
+			if($hasFilter)
+				$this->renderFilter();
+			echo "</tbody>\n";
+                    }
+		}
 	}
 	
 }

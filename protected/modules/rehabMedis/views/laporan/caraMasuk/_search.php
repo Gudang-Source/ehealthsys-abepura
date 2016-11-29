@@ -22,7 +22,7 @@
     <div class="row-fluid">
          <div class="span4">
              <?php echo CHtml::hiddenField('type', ''); ?>
-             <?php echo CHtml::label('Tanggal Kunjungan', 'tglkunjungan', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Periode Laporan', 'tglkunjungan', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -147,6 +147,23 @@
                                 ),),
                         ));
                         ?>      </fieldset>
+                    <br/>
+                     <?php
+                    $model->pilihan = 'instalasi';
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
+                        'id' => 'kunjungan1',
+                        'slide' => false,
+                        'content' => array(
+                            'content3' => array(
+                                'header' => 'Data Grafik',
+                               'isi' => '<table><tr><td>' . $form->radioButtonList($model, 'pilihan', $model->pilihanGrafik()) . 
+                                     '</td></tr></table>',
+                                    'active' => true,
+                                'active' => true,
+                            ),
+                        ),
+                    ));
+                    ?>
             </td>
             <td> <fieldset>
                     <?php
@@ -160,7 +177,7 @@
                                 .'<table id = "asalruangan"><tr><td>' . $form->checkBoxList($model, 'ruanganasal_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'),'ruangan_id','ruangan_nama')) . 
                                      '</td></tr></table>',
                                     'active' => true,
-                                'active' => false,
+                                'active' => true,
                             ),
                         ),
                     ));
@@ -171,21 +188,7 @@
         </tr>
         <tr>
             <td>
-                 <?php
-                    $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
-                        'id' => 'kunjungan1',
-                        'slide' => true,
-                        'content' => array(
-                            'content3' => array(
-                                'header' => 'Opsi Pilihan',
-                               'isi' => '<table><tr><td>' . $form->radioButtonList($model, 'pilihan', $model->pilihanGrafik()) . 
-                                     '</td></tr></table>',
-                                    'active' => true,
-                                'active' => false,
-                            ),
-                        ),
-                    ));
-                    ?>
+                
                 
             </td>
             <td>&nbsp;</td>

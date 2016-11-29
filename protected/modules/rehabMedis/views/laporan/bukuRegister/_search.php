@@ -24,7 +24,7 @@
      <div class="row-fluid">
          <div class="span4">
              <?php echo CHtml::hiddenField('type', ''); ?>
-             <?php echo CHtml::label('Tanggal Pemeriksaan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Periode Laporan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -185,7 +185,7 @@
                             </tr><tr>
                         <td><label>Penjamin</label></td><td>' .
                                 $form->dropDownList($model, 'penjamin_id', CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>',
-                                'active' => false,
+                                'active' => true,
                             ),
                         ),
                     ));
@@ -194,13 +194,38 @@
                 
             </td>
         </tr>
+        <tr>
+            <td>
+                 <div id='searching'>
+            <fieldset>    
+                <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                    'id'=>'kunjungan5',
+                    'slide'=>false,
+                    'content'=>array(
+                    'content5'=>array(
+                        'header'=>'Data grafik',
+                        'isi'=>  '<table>
+                                    <tr>
+                                        <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'wilayah')).' <label>Wilayah</label></td>                                               
+                                         <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                               
+                                    </tr>                                            
+                                </table>',          
+                        'active'=>TRUE,
+                            ),
+                    ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>											
+            </fieldset>	
+            </div>      
+            </td>
+        </tr>
     </table>
     <div class="form-actions">
         <?php
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
         ?>
         <?php
-        echo CHtml::htmlButton(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
+        echo CHtml::htmlButton(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')),
         array('class'=>'btn btn-danger','onclick'=>'konfirmasi()','onKeypress'=>'return formSubmit(this,event)'));
         ?> 
     </div>

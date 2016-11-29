@@ -435,16 +435,16 @@ class LaporanpasienpenunjangV extends CActiveRecord
         
         public function getCaraBayarPenjamin()
         {
-                return $this->carabayar_nama.' / '.$this->penjamin_nama;
+                return $this->carabayar_nama.'/ <br/> '.$this->penjamin_nama;
         }
         
         public function getAlamatRTRW()
         {
-            return $this->alamat_pasien.'<br>'.$this->rt.' / '.$this->rw;
+            return $this->alamat_pasien.'/ <br>'.$this->rt.' / '.$this->rw;
         }
         
         public function getNoRMNoPend(){
-            return $this->no_rekam_medik.'<br/>/ '.$this->no_pendaftaran;
+            return $this->no_rekam_medik.'/ <br/> '.$this->no_pendaftaran;
         }
         
         public function getTglMasukNoPenunjang(){
@@ -452,9 +452,9 @@ class LaporanpasienpenunjangV extends CActiveRecord
         }
         
         public function getJenisKelaminUmur(){
-            return $this->jeniskelamin.'<br/>/ '.$this->umur;
+            return $this->jeniskelamin.'/ <br/> '.$this->umur;
         }
         public function getInstalasiRuangan(){
-            return $this->instalasiasal_nama.'<br/>/ '.$this->ruanganasal_nama;
+            return $this->instalasiasal_nama.'/ <br/> '.$this->ruanganasal_nama;
         }
 }

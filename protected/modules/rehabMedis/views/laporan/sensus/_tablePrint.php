@@ -1,35 +1,78 @@
-<?php if (isset($caraPrint)){
+<?php 
+$itemCssClass = 'table table-striped table-condensed';
+$table = 'ext.bootstrap.widgets.BootGridView';
+ $template = "{items}";
+if (isset($caraPrint)){
+    
   $data = $model->searchPrint();  
+
+   if ($caraPrint=='EXCEL') {
+      $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+   if ($caraPrint=='PDF') {
+      $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+  }
+  
+  echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+    $itemCssClass = 'table border';
 } else{
   $data = $model->searchTable();
 }
 ?>
 
-<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+<?php $this->widget($table,array(
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
-        'template'=>"{summary}\n{items}\n{pager}",
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'template'=>$template,        
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
             array(
                 'header' => 'No.',
                 'value' => '$row+1'
             ),
             array(
-                'header'=>'No. Rekam Medik <br/> No. Pendaftaran',
+                'header'=>'Tanggal Pendaftaran/ <br/> No Pendaftaran',
                 'type'=>'raw',
-                'value'=>'$data->noRMNoPend',
+                'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/> ".$data->no_pendaftaran',
             ),   
             array(
-                'header'=>'Nama / Alias',
-                'type'=>'raw',
-                'value'=>'$data->NamaNamaBIN',
-            ), 
-            array(
-                'header'=>'Tanggal Masuk Penunjang <br/> No. Penunjang',
+                'header'=>'Tanggal Masuk Penunjang <br/>/ No. Penunjang',
                 'type'=>'raw',
                 'value'=>'$data->TglMasukNoPenunjang',
             ),
+            array(
+                'header'=>'No. Rekam Medik',
+                'type'=>'raw',
+                'value'=>'$data->no_rekam_medik',
+            ),   
+            array(
+                'header'=>'Nama Pasien',
+                'type'=>'raw',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
+            ),             
             array(
                 'header'=>'Jenis Kelamin <br/>Umur',
                 'type'=>'raw',
@@ -41,7 +84,7 @@
                 'value'=>'$data->AlamatRTRW',
             ),
             array(
-                'header'=>'Instalasi Asal <br/>Ruangan Asal',
+                'header'=>'Instalasi/ <br/>Ruangan Asal',
                 'type'=>'raw',
                 'value'=>'$data->InstalasiRuangan',
             ),
