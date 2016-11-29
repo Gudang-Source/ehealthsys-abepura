@@ -47,7 +47,7 @@ class LaporanLabaRugiController extends MyAuthController{
 		$caraPrint = $_REQUEST['caraPrint'];
 		$target = $this->path_view.'_print';
         
-                $segmen = $_REQUEST['Segmen'];
+                $segmen = null ;//$_REQUEST['Segmen'];
 //		$periodeposting_id = AKPeriodepostingM::model()->findByPk($model->periodeposting_id);
 
 //		$periode = $periodeposting_id->periodeposting_nama;

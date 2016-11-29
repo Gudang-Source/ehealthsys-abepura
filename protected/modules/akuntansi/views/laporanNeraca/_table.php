@@ -12,12 +12,81 @@ Yii::app()->clientScript->registerScript('search', "
 			return false;
 		});
 	");
+
+$dataArray = array();
+$dataID = array();
+$header = true;
+$format = new MyFormatter();
+$mergeTanggal = array();
+foreach ($models AS $row => $data) {
+	array_push($dataID, $data->periodeposting_id);
+	$dataArray["$data->tglperiodeposting_awal"] = $data->tglperiodeposting_awal;
+}
+
+	// var_dump($_GET, $dataID);
+
+	$detail = array(
+		'aktiva'=>array(
+			'total'=>0,
+			'det'=>array(),
+		),
+		'passiva'=>array(
+			'total'=>0,
+			'det'=>array(),
+		),
+	);
+
+	if (count($dataID) != 0) {
+		$criteria = new CDbCriteria();
+		$criteria->compare('periodeposting_id', $dataID);
+		
+		$dat = AKLaporanneracaV::model()->findAll($criteria);
+		
+		foreach ($dat as $item) {
+			$rek1 = RekeningakuntansiV::model()->findByAttributes(array(
+				'rekening5_id'=>$item->rekening5_id,
+			));
+			if ($rek1->rekening5_nb == 'D') {
+				$saldo = $item->saldodebit - $item->saldokredit;
+				$tipe = 'aktiva';
+			} else {
+				$saldo = $item->saldokredit - $item->saldodebit;
+				$tipe = 'passiva';
+			}
+			
+			if (empty($detail[$tipe]['det'][$rek1->kdrekening1])) {
+				$detail[$tipe]['det'][$rek1->kdrekening1] = array(
+					'nama'=>$rek1->nmrekening1,
+					'total'=>0,
+					'det'=>array(),
+				);
+			}
+			
+			if (empty($detail[$tipe]['det'][$rek1->kdrekening1]['det'][$item->kdrekening5])) {
+				$detail[$tipe]['det'][$rek1->kdrekening1]['det'][$item->kdrekening5] = array(
+					'nama'=>$item->nmrekening5,
+					'total'=>0,
+				);
+			}
+			
+			$detail[$tipe]['det'][$rek1->kdrekening1]['det'][$item->kdrekening5]['total'] += $saldo;
+			$detail[$tipe]['det'][$rek1->kdrekening1]['total'] += $saldo;
+			$detail[$tipe]['total'] += $saldo;
+		}
+	}
+
+	// var_dump($detail);
+
 ?>
-<?php
+
+
+
+<?php /*
 $spasi = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $sort = true;
 $style = "style='max-width:1500px;overflow-x:scroll;'";
+ * */
 if (isset($caraPrint)) {
 	$style = "";
 	$segmen_1 = isset($segmen[0]) ? $segmen[0] : null;
@@ -32,6 +101,19 @@ if (isset($caraPrint)) {
 } else {
 	$segmen = '';
 }
+
+$table = "table table-striped table-bordered table-condensed";
+if (isset($caraPrint)){
+		$layout = '';
+		$table = 'table table-condensed';
+//        $data = $modelLaporan->searchNeraca();
+        $template = "{items}";
+        $sort = false;
+} else{
+		$layout = 'max-width:1250px;overflow-x:scroll;';
+}
+
+/*
 ?>
 <?php
 $dataArray = array();
@@ -41,12 +123,21 @@ $mergeTanggal = array();
 foreach ($models AS $row => $data) {
 	$dataArray["$data->tglperiodeposting_awal"] = $data->tglperiodeposting_awal;
 }
+ * */
 ?>
 <div id="tableLaporan" class="grid-view">
-    <div <?php echo $style; ?>>
-<table class="table table-striped table-condensed">
+<table class="table table-striped table-bordered table-condensed">
     <thead>
+		<tr>
+			<th id="tableLaporan_c0">
+				Nama Rekening
+			</th>
+			<th id="tableLaporan_c0" class="span3">
+				Total Saldo
+			</th>
+		</tr>
 		<?php
+		/*
 		$jmlKolom = 0;
 		$jenisWaktus = array();
 		$tglKirims = array();
@@ -79,11 +170,82 @@ foreach ($models AS $row => $data) {
 			}
 		}
 		echo "</tr>";
+		 * */
 		?>
 
     </thead>
     <tbody>
-		<?php
+		<tr>
+			<td colspan="2" style="font-weight: bold; font-style: italic;">AKTIVA</td>
+		</tr>
+		<?php 
+		if ($detail['aktiva']['total'] < 0) $detail['aktiva']['total'] = "(".MyFormatter::formatNumberForPrint(abs($detail['aktiva']['total'])).")";
+		else $detail['aktiva']['total'] = MyFormatter::formatNumberForPrint($detail['aktiva']['total']);
+		
+		foreach ($detail['aktiva']['det'] as $item): 
+			if ($item['total'] < 0) $item['total'] = "(".MyFormatter::formatNumberForPrint(abs($item['total'])).")";
+			else $item['total'] = MyFormatter::formatNumberForPrint($item['total']);
+			?>
+		<tr>
+			<td style="font-weight:bold;" colspan="2">&emsp;<?php echo strtoupper($item['nama']); ?></td>
+		</tr>
+			<?php foreach ($item['det'] as $item2): 
+				if ($item2['total'] < 0) $item2['total'] = "(".MyFormatter::formatNumberForPrint(abs($item2['total'])).")";
+				else $item2['total'] = MyFormatter::formatNumberForPrint($item2['total']);
+				?>
+		<tr>
+			<td>&emsp;&emsp;<?php echo $item2['nama']; ?></td>
+			<td style="text-align: right; padding-right: 60px;"><?php echo $item2['total']; ?></td>
+		</tr>
+			<?php endforeach; ?>
+		<tr>
+			<td style="font-weight: bold;">&emsp;&emsp;TOTAL <?php echo strtoupper($item['nama']); ?></td>
+			<td style="font-weight: bold; text-align: right;"><?php echo $item['total']; ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+			<td style="font-weight: bold; font-style: italic; text-align: center;">TOTAL AKTIVA</td>
+			<td style="font-weight: bold; font-style: italic; text-align: right;"><?php echo $detail['aktiva']['total']; ?></td>
+		</tr>
+		
+		
+		
+		
+		
+		<tr>
+			<td colspan="2" style="font-weight: bold; font-style: italic;">PASSIVA</td>
+		</tr>
+		<?php 
+		if ($detail['passiva']['total'] < 0) $detail['passiva']['total'] = "(".MyFormatter::formatNumberForPrint(abs($detail['passiva']['total'])).")";
+		else $detail['passiva']['total'] = MyFormatter::formatNumberForPrint($detail['passiva']['total']);
+		
+		foreach ($detail['passiva']['det'] as $item): 
+			if ($item['total'] < 0) $item['total'] = "(".MyFormatter::formatNumberForPrint(abs($item['total'])).")";
+			else $item['total'] = MyFormatter::formatNumberForPrint($item['total']);
+			?>
+		<tr>
+			<td style="font-weight:bold;" colspan="2">&emsp;<?php echo strtoupper($item['nama']); ?></td>
+		</tr>
+			<?php foreach ($item['det'] as $item2): 
+				if ($item2['total'] < 0) $item2['total'] = "(".MyFormatter::formatNumberForPrint(abs($item2['total'])).")";
+				else $item2['total'] = MyFormatter::formatNumberForPrint($item2['total']);
+				?>
+		<tr>
+			<td>&emsp;&emsp;<?php echo $item2['nama']; ?></td>
+			<td style="text-align: right; padding-right: 60px;"><?php echo $item2['total']; ?></td>
+		</tr>
+			<?php endforeach; ?>
+		<tr>
+			<td style="font-weight: bold;">&emsp;&emsp;TOTAL <?php echo strtoupper($item['nama']); ?></td>
+			<td style="font-weight: bold; text-align: right;"><?php echo $item['total']; ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+			<td style="font-weight: bold; font-style: italic; text-align: center;">TOTAL PASSIVA</td>
+			<td style="font-weight: bold; font-style: italic; text-align: right;"><?php echo $detail['passiva']['total']; ?></td>
+		</tr>
+		
+		<?php /*
 		$criteria = new CDbCriteria;
 		$criteria->group = 'rekening1_id,nmrekening1,kdrekening1';
 		$criteria->select = $criteria->group . " ,sum(jumlah) as jumlah";
@@ -393,14 +555,14 @@ foreach ($models AS $row => $data) {
 
 						$nmrekening1_temp = $nmrekening1;
 					}
-				}
+				} */
 				
 				?>
 			</tbody>
 		</table>
     </div>
 </div>
-<?php if(isset($caraPrint)){ ?>
+<?php /*if(isset($caraPrint)){ ?>
 <script type="text/javascript">
 pilihSegmen();
 function pilihSegmen(){
@@ -659,3 +821,5 @@ function pilihSegmen(){
 }
 </script>
 <?php } ?>
+ * 
+ */ ?>
