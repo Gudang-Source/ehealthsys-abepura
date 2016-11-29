@@ -66,8 +66,8 @@
 				</div>
 			</div>
 			<div class="span4">
-				<?php echo $form->textFieldRow($model,'nobuktijurnal',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>32,'readonly'=>false));?>
-				<?php echo $form->textFieldRow($model,'kodejurnal',array('class'=>'span1 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>4,'readonly'=>false));?>
+				<?php echo $form->textFieldRow($model,'nobuktijurnal',array('class'=>'span3 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>32,'readonly'=>false));?>
+				<?php echo $form->textFieldRow($model,'kodejurnal',array('class'=>'span2 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>9,'readonly'=>false));?>
 			</div>
 			<div class="span4">
 				<div class="control-group">
