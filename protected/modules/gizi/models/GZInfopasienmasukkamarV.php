@@ -37,6 +37,7 @@ class GZInfopasienmasukkamarV extends InfopasienmasukkamarV
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
+                $criteria->compare('LOWER(umur)',strtolower($this->umur),true);
                 $criteria->compare('kamarruangan_id', $this->kamarruangan_id);
 		//if($this->ceklis == 1)
 		//{

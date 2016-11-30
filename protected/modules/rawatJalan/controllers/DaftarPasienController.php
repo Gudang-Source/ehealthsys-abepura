@@ -341,7 +341,7 @@ class DaftarPasienController extends MyAuthController
             $modGinekologi = PemeriksaanginekologiT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
             $ginekologi_id = PemeriksaanginekologiT::model()->findByAttributes(array('pendaftaran_id'=>$id));
             if (count($ginekologi_id)>0){
-                $modRiwayatKelahiran = RiwayatkelahiranT::model()->findAllByAttributes(array('pemeriksaanginekologi_id'=>$ginekologi_id->pemeriksaanginekologi_id));
+                $modRiwayatKelahiran = RiwayatkehamilanT::model()->findAllByAttributes(array('pemeriksaanginekologi_id'=>$ginekologi_id->pemeriksaanginekologi_id));
             }else{
                 $modRiwayatKelahiran = array();
             }

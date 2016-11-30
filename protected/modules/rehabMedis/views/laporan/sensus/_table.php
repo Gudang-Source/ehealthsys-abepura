@@ -16,20 +16,25 @@
                 'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
             ),
             array(
-                'header'=>'No. Rekam Medik <br/> No. Pendaftaran',
+                'header'=>'Tanggal Pendaftaran/ <br/> No Pendaftaran',
                 'type'=>'raw',
-                'value'=>'$data->noRMNoPend',
+                'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/> ".$data->no_pendaftaran',
             ),   
-            array(
-                'header'=>'Nama / Alias',
-                'type'=>'raw',
-                'value'=>'$data->NamaNamaBIN',
-            ), 
             array(
                 'header'=>'Tanggal Masuk Penunjang <br/>/ No. Penunjang',
                 'type'=>'raw',
                 'value'=>'$data->TglMasukNoPenunjang',
             ),
+            array(
+                'header'=>'No. Rekam Medik',
+                'type'=>'raw',
+                'value'=>'$data->no_rekam_medik',
+            ),   
+            array(
+                'header'=>'Nama Pasien',
+                'type'=>'raw',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
+            ),             
             array(
                 'header'=>'Jenis Kelamin <br/>Umur',
                 'type'=>'raw',
@@ -41,7 +46,7 @@
                 'value'=>'$data->AlamatRTRW',
             ),
             array(
-                'header'=>'Instalasi Asal <br/>Ruangan Asal',
+                'header'=>'Instalasi/ <br/>Ruangan Asal',
                 'type'=>'raw',
                 'value'=>'$data->InstalasiRuangan',
             ),

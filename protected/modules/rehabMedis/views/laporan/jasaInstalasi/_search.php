@@ -22,7 +22,7 @@
     <div class="row-fluid">
         <div class="span4">
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Pelayanan', 'tglpelayanan', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tglpelayanan', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -180,13 +180,38 @@
                                                 <td>Data Tidak Ditemukan</td>
                                             </tr>
                                             </table>',            
-                                'active'=>false,
+                                'active'=>true,
                                     ),
                             ),
         //                                    'htmlOptions'=>array('class'=>'aw',)
                             )); ?>											
                     </fieldset>	
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                     <div id='searching'>
+                <fieldset>    
+                    <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'kunjungan5',
+                        'slide'=>false,
+                        'content'=>array(
+                        'content5'=>array(
+                            'header'=>'Data grafik',
+                            'isi'=>  '<table>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'statusbayar')).' <label>Status Bayar</label></td>                                               
+                                            <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                               
+                                        </tr>                                            
+                                    </table>',          
+                            'active'=>TRUE,
+                                ),
+                        ),
+    //                                    'htmlOptions'=>array('class'=>'aw',)
+                        )); ?>											
+                </fieldset>	
+                </div>      
                 </td>
             </tr>
             </table>   
