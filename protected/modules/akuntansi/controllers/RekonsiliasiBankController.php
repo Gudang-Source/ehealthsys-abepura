@@ -186,12 +186,15 @@ class RekonsiliasiBankController	extends	MyAuthController{
 			if(count($modBankRek) > 0){
 				foreach($modBankRek as $i=>$saldo){
 					$criteria = new CDbCriteria();
-					$rekening1_id = $saldo->rekening1_id;
-					$rekening2_id = $saldo->rekening2_id;
-					$rekening3_id = $saldo->rekening3_id;
-					$rekening4_id = $saldo->rekening4_id;
+					$rek = RekeningakuntansiV::model()->findByAttributes(array(
+						'rekening5_id'=>$saldo->rekening5_id,
+					));
+					$rekening1_id = $rek->rekening1_id;
+					$rekening2_id = $rek->rekening2_id;
+					$rekening3_id = $rek->rekening3_id;
+					$rekening4_id = $rek->rekening4_id;
 					$rekening5_id = $saldo->rekening5_id;
-					
+					/*
 					if(!empty($rekening1_id)){
 						$criteria->addCondition('rekening1_id ='.$rekening1_id);
 					}
@@ -204,6 +207,8 @@ class RekonsiliasiBankController	extends	MyAuthController{
 					if(!empty($rekening4_id)){
 						$criteria->addCondition('rekening4_id ='.$rekening4_id);
 					}
+					 * 
+					 */
 					if(!empty($rekening5_id)){
 						$criteria->addCondition('rekening5_id ='.$rekening5_id);
 					}
@@ -258,7 +263,7 @@ class RekonsiliasiBankController	extends	MyAuthController{
 						$criteria = new CDbCriteria;			
 						if(!empty($rekening5_id)){
 							$criteria->addCondition("rekening5_id = ".$rekening5_id);			
-						}
+						} /*
 						if(!empty($rekening4_id)){
 							$criteria->addCondition("rekening4_id = ".$rekening4_id);			
 						}
@@ -271,6 +276,8 @@ class RekonsiliasiBankController	extends	MyAuthController{
 						if(!empty($rekening1_id)){
 							$criteria->addCondition("rekening1_id = ".$rekening1_id);			
 						}
+						 * 
+						 */
 
 						$model = AKRekeningakuntansiV::model()->find($criteria);
 						if(count($model) > 0){							
@@ -283,7 +290,7 @@ class RekonsiliasiBankController	extends	MyAuthController{
 							$modRekonDetail->jenisrekonsiliasibank_id = $jenisrekonsiliasibank_id;
 							$modRekonDetail->saldodebit = isset($model->saldodebit) ? $model->saldodebit : 0;
 							$modRekonDetail->saldokredit = isset($model->saldokredit) ? $model->saldokredit : 0;							
-							$modRekonDetail->kode_rekening = $model->getKodeRekening();							
+							$modRekonDetail->kode_rekening = $model->kdrekening5;							
 							$modRekonDetail->nama_rekening = $model->getNamaRekening();							
 							$modRekonDetail->keterangan = '';							
 							$modRekonDetail->uraiantransaksi = isset($modJenisRekonsiliasi->jenisrekonsiliasibank_nama) ? $modJenisRekonsiliasi->jenisrekonsiliasibank_nama  : "";							
@@ -297,7 +304,7 @@ class RekonsiliasiBankController	extends	MyAuthController{
 							$modRekonDetail->jenisrekonsiliasibank_id = $jenisrekonsiliasibank_id;
 							$modRekonDetail->saldodebit = 0;
 							$modRekonDetail->saldokredit = 0;
-							$modRekonDetail->kode_rekening = $rekening->getKodeRekening();							
+							$modRekonDetail->kode_rekening = $model->kdrekening5;					
 							$modRekonDetail->nama_rekening = $rekening->getNamaRekening();
 							$modRekonDetail->keterangan = '';
 							$modRekonDetail->uraiantransaksi = isset($modJenisRekonsiliasi->jenisrekonsiliasibank_nama) ? $modJenisRekonsiliasi->jenisrekonsiliasibank_nama  : "";

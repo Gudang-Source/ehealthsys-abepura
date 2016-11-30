@@ -6,8 +6,8 @@ class InformasiRekonsiliasiBankController extends MyAuthController{
 	public function actionIndex(){
 		$format = new MyFormatter();
 		$model = new AKInformasirekonsiliasibankV;
-		$model->tgl_awal = date("Y-m-d H:i:s");
-		$model->tgl_akhir = date("Y-m-d H:i:s");
+		$model->tgl_awal = date("Y-m-d");
+		$model->tgl_akhir = date("Y-m-d");
 		
 		if(isset($_GET['AKInformasirekonsiliasibankV'])){
 			$model->attributes = $_GET['AKInformasirekonsiliasibankV'];

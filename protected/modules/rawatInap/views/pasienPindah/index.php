@@ -21,7 +21,7 @@
         <?php
             $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 'id'=>'daftarPasien-grid',
-                'dataProvider'=>$model->searchRI(),
+                'dataProvider'=>$model->searchPasienYangDipindahkan(),
         //                'filter'=>$model,
                         'template'=>"{summary}\n{items}\n{pager}",
 

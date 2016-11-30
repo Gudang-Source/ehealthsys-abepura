@@ -84,7 +84,7 @@
 		array(
 			'header'=>'Kode Rekening',
 			'type'=>'raw',
-			'value'=>'$data->getKodeRekening()',
+			'value'=>'$data->kdrekening5',
 		),
 		array(
 			'name'=>'Nama Rekening',

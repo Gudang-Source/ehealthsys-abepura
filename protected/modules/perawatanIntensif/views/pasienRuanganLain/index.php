@@ -21,7 +21,7 @@
         <?php
             $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 'id'=>'daftarPasien-grid',
-                'dataProvider'=>$model->searchRI(),
+                'dataProvider'=>$model->searchPasienPindahan(),
         //                'filter'=>$model,
                         'template'=>"{summary}\n{items}\n{pager}",
 
@@ -32,7 +32,7 @@
                                 'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ ".$data->no_pendaftaran'
                             ),
                             array(
-                               'header'=>'Tanggal Pindah',                               
+                               'header'=>'Tanggal Masuk',                               
                                'type'=>'raw',
                                 'value'=>'MyFormatter::formatDateTimeForUser($data->tglpindahkamar)'
                             ),                            
@@ -61,7 +61,7 @@
                             array(
                                'header'=>'Dokter PJP',
                                 'type'=>'raw',
-                                'value'=>'$data->nama_pegawai',
+                                'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                             ),
                             
                             array(

@@ -428,19 +428,23 @@
             $( "#RJInfokunjunganrjV_tgl_pendaftaran").datepicker();
         }
         
-        $( document ).ready(function(){
-            
-            
+        
+        
+        $( document ).ready(function(){                        
             var ruanganLogin = <?php echo Yii::app()->user->getState('ruangan_id'); ?>;
             var checkRuangan = <?php echo Params::RUANGAN_ID_POLIK_GIGI; ?>;
             //alert("wew");
             
             if (ruanganLogin !== checkRuangan){
-                
+                $(document).on('keyup',function(evt) {
+                    if (evt.keyCode == 27) {
+                       window.location.href = "<?php echo  $this->createUrl("/rawatJalan/&modul_id=".Yii::app()->session['modul_id']);?>";
+                    }
+                });
                 myConfirm(' Maaf Ini Hanya Digunakan Oleh Polik Gigi dan Mulut. <br> \n\
                             Silahkan Login ke Polik Gigi dan Mulut Untuk Dapat Mengakses Menu ','Perhatian!',function(r){
                     if (r){
-                         window.location.href = "<?php echo  $this->createUrl("/site/logout/"); ?>";
+                         window.location.href = "<?php echo  $this->createUrl("/rawatJalan/&modul_id=".Yii::app()->session['modul_id']);//$this->createUrl("/site/logout/"); ?>";
                    }else{
                        window.location.href = "<?php echo $this->createUrl("/rawatJalan/&modul_id=".Yii::app()->session['modul_id']); ?>";
                    }
