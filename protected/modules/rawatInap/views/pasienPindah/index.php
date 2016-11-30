@@ -21,79 +21,91 @@
         <?php
             $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 'id'=>'daftarPasien-grid',
-                'dataProvider'=>$model->searchRI(),
+                'dataProvider'=>$model->searchPasienYangDipindahkan(),
         //                'filter'=>$model,
                         'template'=>"{summary}\n{items}\n{pager}",
 
                         'itemsCssClass'=>'table table-striped table-condensed',
-                'columns'=>array(
+                'columns'=>array(  
                             array(
-                                'header'=>'Tgl. Admisi/ Tgl. Pindah',
-                                'name'=>'tgladmisi',
+                               'header'=>'Tanggal Pendaftaran/ No Pendaftaran',
+                                'type'=>'raw',                                
+                                'value'=>'$data->TglNoPendaftaran',
+                            ),
+                            array(
+                                'header'=>'Tanggal Pindah',                                
                                 'type'=>'raw',
-                                'value'=>'$data->TglAdmisiPindahKamar'
+                                'value'=>'MyFormatter::formatDateTimeForUser($data->tglpindahkamar)'
                             ),
                             array(
-                                'header'=>'Cara Masuk',
-                                'name'=>'caramasuk_nama',
+                                'header' => 'No Rekam Medik',
+                                'value' => '$data->no_rekam_medik'
+                            ),
+                            
+                            array(
+                                'header'=>'Nama Pasien',
+                                'value'=>'$data->namadepan." ".$data->nama_pasien'
+                            ),
+                            array(
+                                'header'=>'Jenis Kelamin/ Umur',                                
+                                'value'=>'$data->jeniskelamin."/ ".$data->umur',
+                            ),       
+                            array(
+                                'header'=>'Jenis Kasus Penyakit',                                
                                 'type'=>'raw',
-                                'value'=>'$data->caramasuk_nama',
-                            ),
-                            array(
-                               'header'=>'No. RM / No. Pendaftaran',
-                                'type'=>'raw',
-                                'value'=>'$data->noRmNoPend',
-                            ),
-                            array(
-                                'header'=>'Nama Pasien / Alias',
-                                'value'=>'$data->namaPasienNamaBin'
-                            ),
-                            array(
-                                'header'=>'Jenis Kelamin',
-                                'name'=>'jeniskelamin',
-                                'value'=>'$data->jeniskelamin',
-                            ),
-                            array(
-                                'header'=>'Umur',
-                                'name'=>'umur',
-                                'value'=>'$data->umur',
-                            ),
-                            array(
-                                'header'=>'Dokter',
-                                'name'=>'Dokter',
-                                'type'=>'raw',
-                                'value'=>'$data->nama_pegawai',
+                                'value'=>'$data->jeniskasuspenyakit_nama',
                             ),
                             array(
                                 'header'=>'Cara Bayar / Penjamin',
                                 'value'=>'$data->caraBayarPenjamin',
                             ),
                             array(
-                                'header'=>'Kelas Pelayanan',
-                                'name'=>'kelaspelayanan_nama',
+                                'header'=>'Dokter PJP',                                
+                                'type'=>'raw',
+                                'value'=>'$data->Dokter',
+                            ),
+                            
+                            array(
+                                'header'=>'Kelas Pelayanan',                                
                                 'type'=>'raw',
                                 'value'=>'$data->kelaspelayanan_nama',
                             ),
-                            array(
-                                'header'=>'Jenis Kasus Penyakit',
-                                'name'=>'jeniskasuspenyakit_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->jeniskasuspenyakit_nama',
-                            ),
+                            
                             array(
                                 'header'=>'Ruangan Tujuan',
-                                'name'=>'ruangan_nama',
+              //                  'name'=>'ruangan_nama',
                                 'type'=>'raw',
                                 'value'=>'$data->ruangan_nama',
                             ),
-                            array(
-                               'header'=>'Batal Pindah',
-                               'type'=>'raw',
-                               'value'=>'isset($data->masukkamar_id) ?	($data->TindakanDanObat["ada"] ? CHtml::link("Sedang Diperiksa", "#",array("title"=>"Pasien sudah mendapatkan ".$data->TindakanDanObat["msg"]."! Silahkan batalkan di Ruangan Tujuan !")) : CHtml::link("<i class=icon-form-silang></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"batalPindahKamar(".$data->pindahkamar_id.",".$data->masukkamar_id.");"))) :
-                                                                                                                                        ($data->TindakanDanObat["ada"] ? CHtml::link("Sedang Diperiksa", "#",array("title"=>"Pasien sudah mendapatkan ".$data->TindakanDanObat["msg"]."! Silahkan batalkan di Ruangan Tujuan !")) : CHtml::link("<i class=icon-form-silang></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"batalPindahKamar(".$data->pindahkamar_id.");")))',
-                               //TANPA CEK TINDAKAN DAN OBAT >> 'value'=>'$data->masukkamar_id ? CHtml::link("Sudah Masuk Kamar", "#",array("title"=>"Silahkan hubungi ruangan tujuan untuk membatalkan")) : CHtml::link("<i class=icon-remove-sign></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"{batalPindahKamar($data->pindahkamar_id,$data->masukkamar_id);}"))',    
-                               'htmlOptions'=>array('style'=>'text-align:left;'),
+                           array(
+                                'header'=>'Kamar Ruangan',
+                                'type'=>'raw',
+                                'value'=> function($data){
+                                    $pkamar = PindahkamarT::model()->findByPk($data->pindahkamar_id);
+                                    
+                                    if(count($pkamar) > 0){
+                                        if (!empty($pkamar->kamarruangan_id)){
+                                            return $pkamar->kamarruangan->kamarruangan_nokamar." - ".$pkamar->kamarruangan->kamarruangan_nobed;
+                                        }else{
+                                            $mkamar = MasukkamarT::model()->findByPk($pkamar->masukkamar_id);
+                                            
+                                            if (!empty($mkamar->kamarruangan_id)){
+                                                return $mkamar->kamarruangan->kamarruangan_nokamar." - ".$mkamar->kamarruangan->kamarruangan_nobed;
+                                            }else{
+                                                return '-';
+                                            }
+                                        }
+                                    }
+                                }//'$data->kamarruangan_nokamar." - ".$data->kamarruangan_nobed'
                             ),
+                           /* array(
+                                                        'header'=>'Batal Pindah',
+                                                        'type'=>'raw',
+                                                        'value'=>'isset($data->masukkamar_id) ?	($data->TindakanDanObat["ada"] ? CHtml::link("Sedang Diperiksa", "#",array("title"=>"Pasien sudah mendapatkan ".$data->TindakanDanObat["msg"]."! Silahkan batalkan di Ruangan Tujuan !")) : CHtml::link("<i class=icon-form-silang></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"batalPindahKamar(".$data->pindahkamar_id.",".$data->masukkamar_id.");"))) :
+                                                                                                                                                                 ($data->TindakanDanObat["ada"] ? CHtml::link("Sedang Diperiksa", "#",array("title"=>"Pasien sudah mendapatkan ".$data->TindakanDanObat["msg"]."! Silahkan batalkan di Ruangan Tujuan !")) : CHtml::link("<i class=icon-form-silang></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"batalPindahKamar(".$data->pindahkamar_id.");")))',
+                                                        //TANPA CEK TINDAKAN DAN OBAT >> 'value'=>'$data->masukkamar_id ? CHtml::link("Sudah Masuk Kamar", "#",array("title"=>"Silahkan hubungi ruangan tujuan untuk membatalkan")) : CHtml::link("<i class=icon-remove-sign></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"{batalPindahKamar($data->pindahkamar_id,$data->masukkamar_id);}"))',    
+                                                        'htmlOptions'=>array('style'=>'text-align:left;'),
+                                                     ),*/
 
                     ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

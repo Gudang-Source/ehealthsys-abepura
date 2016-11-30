@@ -21,6 +21,7 @@ class JurnalPostingController extends MyAuthController
 		$transaction = Yii::app()->db->beginTransaction();
 		try{
 				$data = array();
+				$update = false;
 				foreach ($_POST['AKJurnalrekeningT'] as $key => $value) {
 					if(isset($value['cekList'])){
 						$criteria = new CDbCriteria();

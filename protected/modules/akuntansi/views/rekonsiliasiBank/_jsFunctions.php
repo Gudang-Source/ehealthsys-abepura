@@ -15,6 +15,7 @@ function setSaldoBank(obj){
 function setRekonsiliasiBank(){
 	var jenisrekonsiliasibank_id = $('#jenisrekonsiliasibank_id').val();
 	
+	$("#tabel-detailrekonsiliasi > tbody").empty();
 	$.post('<?php echo $this->createUrl('setRekonsiliasiBank'); ?>',{
 		jenisrekonsiliasibank_id:jenisrekonsiliasibank_id
 	},
@@ -22,7 +23,7 @@ function setRekonsiliasiBank(){
 			if(data.pesan == ''){
 				$("#tabel-detailrekonsiliasi > tbody").append(data.form);
 				$("#tabel-detailrekonsiliasi").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
-					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 				);
 				renameInputRow($('#tabel-detailrekonsiliasi'));
 				clearInputan();
@@ -50,7 +51,7 @@ function setRekonsiliasiBankRekening(){
 				if(data.pesan == ''){
 					$("#tabel-detailrekonsiliasi > tbody").append(data.form);
 					$("#tabel-detailrekonsiliasi").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
-						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 					);
 					renameInputRow($('#tabel-detailrekonsiliasi'));
 					clearInputan();

@@ -15,6 +15,9 @@ class LaporanLabaRugiController extends MyAuthController{
 			$model->bulan = $_GET['AKLaporanlabarugiV']['bulan'];
 			$model->thn_awal = $_GET['AKLaporanlabarugiV']['thn_awal'];
 		}
+		
+		//var_dump($model->bulan); die;
+		
 		$models = $model->findAll($model->searchLaporan2());
 		echo $this->render($this->path_view.'admin', array(
 			'model' => $model,
@@ -44,7 +47,7 @@ class LaporanLabaRugiController extends MyAuthController{
 		$caraPrint = $_REQUEST['caraPrint'];
 		$target = $this->path_view.'_print';
         
-                $segmen = $_REQUEST['Segmen'];
+                $segmen = null ;//$_REQUEST['Segmen'];
 //		$periodeposting_id = AKPeriodepostingM::model()->findByPk($model->periodeposting_id);
 
 //		$periode = $periodeposting_id->periodeposting_nama;

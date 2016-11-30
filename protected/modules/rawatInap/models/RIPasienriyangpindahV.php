@@ -8,6 +8,7 @@ class RIPasienriyangpindahV extends PasienriyangpindahV
      * @return PasienrawatinapV the static model class
      */
     public $ceklis = false;
+    public $namaDokter;
     
     public static function model($className=__CLASS__)
     {
@@ -21,7 +22,7 @@ class RIPasienriyangpindahV extends PasienriyangpindahV
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition("pasien_id = ".$this->pasien_id); 	
 		}
-		$criteria->compare('LOWER(jenisidentitas)',strtolower($this->jenisidentitas),true);
+		$criteria->compare('LOWER(tjenisidentitas)',strtolower($this->jenisidentitas),true);
 		$criteria->compare('LOWER(no_identitas_pasien)',strtolower($this->no_identitas_pasien),true);
 		$criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
@@ -124,7 +125,7 @@ class RIPasienriyangpindahV extends PasienriyangpindahV
 		}
 		$criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
 		if(!empty($this->kelaspelayanan_id)){
-			$criteria->addCondition("kelaspelayanan_id = ".$this-kelaspelayanan_id); 	
+			$criteria->addCondition("kelaspelayanan_id = ".$this->kelaspelayanan_id); 	
 		}
 		$criteria->compare('LOWER(kelaspelayanan_nama)',strtolower($this->kelaspelayanan_nama),true);
 		if(!empty($this->pasienadmisi_id)){
@@ -145,12 +146,12 @@ class RIPasienriyangpindahV extends PasienriyangpindahV
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
 		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
 		if(!empty($this->kamarruangan_id)){
-			$criteria->addCondition("kamarruangan_id = ".$this-kamarruangan_id); 	
+			$criteria->addCondition("kamarruangan_id = ".$this->kamarruangan_id); 	
 		}
 		$criteria->compare('LOWER(kamarruangan_nokamar)',strtolower($this->kamarruangan_nokamar),true);
 		$criteria->compare('LOWER(kamarruangan_nobed)',strtolower($this->kamarruangan_nobed),true);
 		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
-		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
+		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->namaDokter),true);
 		$criteria->compare('LOWER(gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
 		if(!empty($this->masukkamar_id)){
 			$criteria->addCondition("masukkamar_id = ".$this-masukkamar_id); 	
@@ -164,15 +165,62 @@ class RIPasienriyangpindahV extends PasienriyangpindahV
 		if(!empty($this->pindahkamar_id)){
 			$criteria->addCondition("pindahkamar_id = ".$this-pindahkamar_id); 	
 		}
+                $criteria->addCondition("ruangan_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$this-ruangan_id); 	
+			$criteria->addCondition("ruangan_id =  '".$this->ruangan_id."' AND ruangan_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	                        
 		}
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition("instalasi_id = ".$this-instalasi_id); 	
 		}
-		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
-
+		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);               
+                $criteria->order = "tglpindahkamar DESC";
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+        public function searchPasienYangDipindahkan()
+	{
+		$criteria=new CDbCriteria;                
+                
+		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);				
+                $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->namaDokter),true);				
+		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);						
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		
+		if(!empty($this->carabayar_id)){
+			$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id); 	
+		}
+	
+		if(!empty($this->penjamin_id)){
+			$criteria->addCondition("t.penjamin_id = ".$this->penjamin_id); 	
+		}
+		
+		$criteria->addCondition('t.ruanganasal_id = '.Yii::app()->user->getState('ruangan_id'));
+                
+		if(!empty($this->kelaspelayanan_id)){
+			$criteria->addCondition("t.kelaspelayanan_id = ".$this->kelaspelayanan_id); 	
+		}		
+			
+		if($this->ceklis)
+		{
+			$criteria->addCondition('DATE(t.tglpindahkamar) BETWEEN \''.$this->tgl_awal.'\' AND \''.$this->tgl_akhir.'\'');
+		}                		
+		
+                $criteria->addCondition("t.ruangan_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	
+		if(!empty($this->ruangan_id)){
+			$criteria->addCondition("t.ruangan_id =  '".$this->ruangan_id."' AND t.ruangan_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	                        
+		}
+                
+                if(!empty($this->kamarruangan_id)){
+                    $criteria->join = " LEFT JOIN pindahkamar_t pindah ON pindah.pindahkamar_id = t.pindahkamar_id "
+                            .         " JOIN masukkamar_t masuk ON masuk.masukkamar_id = pindah.masukkamar_id ";                   
+                    
+                    $criteria->addCondition("masuk.kamarruangan_id = ".$this->kamarruangan_id); 	
+		}
+		
+                $criteria->order = "t.tglpindahkamar DESC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

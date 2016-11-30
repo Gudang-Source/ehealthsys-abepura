@@ -41,6 +41,8 @@ class RMLaporansensuspenunjangV extends LaporansensuspenunjangV {
         if (!empty($ruangan_id)){
                 $criteria->addCondition('ruanganpenunj_id ='.$ruangan_id);
         }
+        
+        $criteria->order = "tglmasukpenunjang ASC";
 
         return $criteria;
     }

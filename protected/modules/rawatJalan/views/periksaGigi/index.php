@@ -145,7 +145,7 @@
                                                     'dateFormat'=>Params::DATE_FORMAT,
                                                     'maxDate' => 'd',
                                                 ),
-                                                'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                                'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3 realtime'),
                         )); 
                                  ?>
                     </div>
@@ -206,14 +206,14 @@
         // if(!empty($_GET['id'])){
         //     echo CHtml::htmlButton(Yii::t('mds', '{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')), array('class'=>'btn btn-primary','type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)','disabled'=>true));
         // }else{
-                echo CHtml::htmlButton(Yii::t('mds', '{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')), array('class'=>'btn btn-primary','type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)'));
+                echo CHtml::htmlButton(Yii::t('mds', '{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')), array('class'=>'btn btn-primary','type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)'));
         // }
         ?>
-         <?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+         <?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                                     $this->createUrl($this->module->id.'/index'), 
                                     array('class'=>'btn btn-danger',
                                         'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));  ?>
-        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak',array('{icon}'=>'<i class="icon-print icon-white"></i>')), array('class'=>'btn btn-primary','onclick'=>'cetakOdontogram()')); ?>
+        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak',array('{icon}'=>'<i class="entypo-print"></i>')), array('class'=>'btn btn-info','onclick'=>'cetakOdontogram()')); ?>
         <?php
         $content = $this->renderPartial('rawatJalan.views.tips.transaksiPeriksaGigi',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
@@ -259,7 +259,7 @@
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                 'id'=>'dialogDaftarPasien',
                 'options'=>array(
-                    'title'=>'Cari No Rekam Medik Pasien',
+                    'title'=>'Data Kunjungan Pasien Hari Ini',
                     'autoOpen'=>false,
                     'resizable'=>false,
                     'modal'=>true,
@@ -281,9 +281,15 @@
         $kunjunganPasien->statusperiksa  = $_REQUEST['RJInfokunjunganrjV']['statusperiksa'];
 
     }
+    
+    $statusperiksa =  LookupM::getItems('statusperiksa');
+    unset($statusperiksa[Params::STATUSPERIKSA_SUDAH_PULANG]);
+    unset($statusperiksa[Params::STATUSPERIKSA_BATAL_PERIKSA]);
+    
+
         $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'daftarpasien-v-grid',
-            'dataProvider'=>$kunjunganPasien->searchKunjunganPasien(),
+            'dataProvider'=>$kunjunganPasien->searchKunjunganPasienPolikGigi(),
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
             'filter'=>$kunjunganPasien,
@@ -310,13 +316,11 @@
                                     "rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"));
                             },
                       'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
-                    ),
-
-                            'no_rekam_medik',	
+                    ),                           
                     //tgl_pendaftaran',
                     array(
                         'name'=>'tgl_pendaftaran',
-                        'value'=>'$data->tgl_pendaftaran',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
                         'filter'=>$this->widget('MyDateTimePicker',array(
                         'model'=>$kunjunganPasien,
                         'attribute'=>'tgl_pendaftaran',
@@ -328,19 +332,55 @@
                         ),true
                         ),
                         'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
-                    ),
-                    'no_pendaftaran',
-                    'nama_pasien', 
-                    'alamat_pasien',
-                    'penjamin_nama',
-                    'nama_pegawai',
-                    'jeniskasuspenyakit_nama',
-
+                    ),                    
+                     array(
+                         'header' => 'No Pendaftaran',
+                         'name' => 'no_pendaftaran',
+                         'value' => '$data->no_pendaftaran',
+                         'filter' => Chtml::activeTextField($kunjunganPasien, 'no_pendaftaran', array('class' => 'angkahuruf-only', 'maxlength'=>12))
+                     ),
+                     array(
+                         'header' => 'No Rekam Medik',
+                         'name' => 'no_rekam_medik',
+                         'value' => '$data->no_rekam_medik',
+                         'filter' => Chtml::activeTextField($kunjunganPasien, 'no_rekam_medik', array('class' => 'numbers-only', 'maxlength'=>6))
+                     ),
+                     array(
+                         'header' => 'Nama Pasien',
+                         'name' => 'nama_pasien',
+                         'value' => '$data->namadepan." ".$data->nama_pasien',
+                         'filter' => Chtml::activeTextField($kunjunganPasien, 'nama_pasien', array('class' => 'hurufs-only', 'maxlength'=>100))
+                     ),                    
+                     array(
+                         'header' => 'Alamat Pasien',
+                         'name' => 'alamat_pasien',
+                         'value' => '$data->alamat_pasien',
+                         'filter' => Chtml::activeTextField($kunjunganPasien, 'alamat_pasien', array('class' => 'custom-only'))
+                     ),
+                     array(
+                         'header' => 'Penjamin',
+                         'name' => 'penjamin_id',
+                         'value' => '$data->penjamin_nama',
+                         'filter' => Chtml::activeDropDownList($kunjunganPasien, 'penjamin_id', Chtml::listData(PenjaminpasienM ::model()->findAll("penjamin_aktif = TRUE ORDER BY penjamin_nama ASC"), 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --'))
+                     ),     
+                     array(
+                         'header' => 'Dokter',
+                         'name' => 'nama_pegawai',
+                         'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                         'filter' => Chtml::activeTextField($kunjunganPasien, 'nama_pegawai', array('class' => 'hurufs-only', 'maxlength'=>100))
+                     ),                      
+                     array(
+                         'header' => 'Jenis Kasus Penyakit',
+                         'name' => 'jeniskasuspenyakit_id',
+                         'value' => '$data->jeniskasuspenyakit_nama',
+                         'filter' => Chtml::activeDropDownList($kunjunganPasien, 'jeniskasuspenyakit_id', Chtml::listData(JeniskasuspenyakitM::model()->findAll("jeniskasuspenyakit_aktif = TRUE ORDER BY jeniskasuspenyakit_nama ASC"), 'jeniskasuspenyakit_id', 'jeniskasuspenyakit_nama'), array('empty'=>'-- Pilih --'))
+                     ),                    
                     array(
+                        'header' => 'Status Periksa',
                         'name'=>'statusperiksa',
                         'type'=>'raw',
                         'value'=>'$data->statusperiksa',
-                        'filter' => CHtml::dropDownList('RJInfokunjunganrjV[statusperiksa]',$kunjunganPasien->statusperiksa,CHtml::listData(RJInfokunjunganrjV::model()->findAll(array('order'=>'statusperiksa ASC')),'statusperiksa', 'statusperiksa'),array('empty'=>'--Pilih--')),
+                        'filter' => CHtml::activeDropDownList($kunjunganPasien,'statusperiksa',$statusperiksa,array('empty'=>'--Pilih--')),
                         // 'filter' =>CHtml::activeDropDownList($kunjunganPasien,'statusperiksa',
                         //     LookupM::getItems('statusperiksa'),array('options' => array('ANTRIAN'=>array('selected'=>true)))),
                     ),
@@ -350,7 +390,17 @@
 
                 jQuery(\'#RJInfokunjunganrjV_tgl_pendaftaran\').datepicker(jQuery.extend({showMonthAfterYear:false}, jQuery.datepicker.regional[\'id\'], {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
                     \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
-                    \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                    \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'}));
+                    
+            $(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
+            $(".angkahuruf-only").keyup(function() {
+                setAngkaHuruOnly(this);
+            });
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });
             }',
 
     )); 
@@ -377,5 +427,29 @@
         function showDateTime(){
             $( "#RJInfokunjunganrjV_tgl_pendaftaran").datepicker();
         }
+        
+        
+        
+        $( document ).ready(function(){                        
+            var ruanganLogin = <?php echo Yii::app()->user->getState('ruangan_id'); ?>;
+            var checkRuangan = <?php echo Params::RUANGAN_ID_POLIK_GIGI; ?>;
+            //alert("wew");
+            
+            if (ruanganLogin !== checkRuangan){
+                $(document).on('keyup',function(evt) {
+                    if (evt.keyCode == 27) {
+                       window.location.href = "<?php echo  $this->createUrl("/rawatJalan/&modul_id=".Yii::app()->session['modul_id']);?>";
+                    }
+                });
+                myConfirm(' Maaf Ini Hanya Digunakan Oleh Polik Gigi dan Mulut. <br> \n\
+                            Silahkan Login ke Polik Gigi dan Mulut Untuk Dapat Mengakses Menu ','Perhatian!',function(r){
+                    if (r){
+                         window.location.href = "<?php echo  $this->createUrl("/rawatJalan/&modul_id=".Yii::app()->session['modul_id']);//$this->createUrl("/site/logout/"); ?>";
+                   }else{
+                       window.location.href = "<?php echo $this->createUrl("/rawatJalan/&modul_id=".Yii::app()->session['modul_id']); ?>";
+                   }
+                });
+            }
+        });
     </script>
 </div>
