@@ -1,4 +1,5 @@
 <?php 
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $data = $model->searchTable();
 $sort = true;
@@ -7,8 +8,35 @@ if (isset($caraPrint)){
   $sort = false;
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
 }
 ?>
 
@@ -21,10 +49,10 @@ if (isset($caraPrint)){
             array(
                 'name'=>'<center>Tarif</center>',
                 'start'=>7, //indeks kolom 3
-                'end'=>8, //indeks kolom 4
+                'end'=>12, //indeks kolom 4
             ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                 array(
                     'header' => 'No',
@@ -32,27 +60,42 @@ if (isset($caraPrint)){
                     'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
                 ),
                 array(
+                    'name'=>'no_pendaftaran',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                ),
+                array(
                     'name'=>'no_rekam_medik',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'name'=>'nama_pasien',
+                    'value' => '$data->namadepan." ".$data->nama_pasien',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                ),
+                
+                array(
+                    'header'=>'Dokter',
+                    'value' => function($data){
+                        $dokter = PegawaiM::model()->findByPk($data->dokterpemeriksa1_id);
+                        
+                        if (count($dokter)>0){
+                        return $dokter->namaLengkap;
+                        }else{
+                            return '-';
+                        }
+                    },
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
-                    'name'=>'no_pendaftaran',
+                    'header'=>'Cara Bayar <br/> / Penjamin',
+                    'type' => 'raw',
+                    'value' => '$data->carabayar_nama." <br/> / ".$data->penjamin_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
-                    'name'=>'nama_pegawai',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
-                    'name'=>'carabayarPenjamin',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
-                    'name'=>'kelaspelayanan_nama',
+                    
+                    'header'=>'Kelas Pelayanan',
+                    'value' => '$data->kelaspelayanan_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'footerHtmlOptions'=>array('colspan'=>7,'style'=>'text-align:right;font-style:italic;'),
                     'footer'=>'Jumlah Total',

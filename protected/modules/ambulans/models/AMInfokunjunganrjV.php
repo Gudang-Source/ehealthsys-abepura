@@ -384,9 +384,17 @@ class AMInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
         $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
-        $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
+       // $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
+        $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->compare('carabayar_id', $this->carabayar_id);
+        $criteria->addBetweenCondition('tgl_pendaftaran', date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59'));
+        if (!empty($this->instalasi_id)){
+            $criteria->addCondition("instalasi_id =".$this->instalasi_id);
+        }
+        if (!empty($this->ruangan_id)){
+            $criteria->addCondition("ruangan_id =".$this->ruangan_id);
+        }
         $criteria->order = 'tgl_pendaftaran DESC';
         $criteria->limit = 5;
         if($this->instalasi_id == Params::INSTALASI_ID_RJ){
@@ -395,7 +403,9 @@ class AMInfokunjunganrjV extends InfokunjunganrjV {
             $model = new AMInfoKunjunganRDV;
         }else if($this->instalasi_id == Params::INSTALASI_ID_RI){
             $model = new AMPasienrawatinapV;
-        }
+        }else if($this->instalasi_id == Params::INSTALASI_ID_ICU){
+            $model = new PasienmasukpenunjangV;
+        }        
 
         return new CActiveDataProvider($model, array(
                     'criteria'=>$criteria,

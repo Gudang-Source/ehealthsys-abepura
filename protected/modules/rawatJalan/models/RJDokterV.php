@@ -19,7 +19,11 @@ class RJDokterV extends DokterV
         $criteria = new CDbCriteria;
 
         $criteria->compare('LOWER(t.nama_pegawai)', strtolower($this->nama_pegawai), true);
-        $criteria->compare('LOWER(t.gelardepan)', strtolower($this->gelardepan), true);
+        $criteria->compare('LOWER(t.nomorindukpegawai)', strtolower($this->nomorindukpegawai), true);
+        if (!empty($this->jabatan_id)){
+            $criteria->addCondition(" jabatan_id = '".$this->jabatan_id."' ");
+        }
+        //$criteria->compare('LOWER(t.gelardepan)', strtolower($this->gelardepan), true);
         $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->order = 't.nama_pegawai DESC';
 

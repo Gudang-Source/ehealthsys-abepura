@@ -17,7 +17,15 @@
     <td>
 
         <?php
-$content = $this->renderPartial('../tips/tips',array(),true);
+        if (isset($tips)){
+            if ($tips == '10besar'){
+                $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporan10BesarPenyakit',array(),true); 
+            }else{
+                $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanBukuRegister',array(),true); 
+            }
+        }else{
+            $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanBukuRegister',array(),true); 
+        }
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?></td>
 

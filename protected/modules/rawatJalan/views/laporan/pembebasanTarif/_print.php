@@ -1,5 +1,5 @@
 <?php 
-
+$itemCssClass = 'table table-striped table-condensed';
 if($caraPrint=='EXCEL')
 {
     header('Content-Type: application/vnd.ms-excel');
@@ -17,8 +17,35 @@ if (isset($caraPrint)){
     $sort = false;
   $dataProv = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
 }
 ?>
 <?php $this->widget($table,array(
@@ -26,7 +53,7 @@ if (isset($caraPrint)){
     'dataProvider'=>$dataProv,
     'enableSorting'=>$sort,
     'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                  array(
                     'header'=>'Nama Dokter',

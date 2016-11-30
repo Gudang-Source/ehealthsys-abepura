@@ -49,7 +49,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
 		$criteria->compare('LOWER(pasien.nama_pasien)', strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(pasien.nama_bin)', strtolower($this->nama_bin),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("pendaftaran.penjamin_id = ".$this->penjamin_id);					
+			$criteria->addInCondition("pendaftaran.penjamin_id ",$this->penjamin_id);					
 		}
 		$criteria->order = 'tandabuktibayar.tglbuktibayar DESC';
 		return new CActiveDataProvider($this, array(
@@ -71,7 +71,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
 		$criteria->compare('LOWER(pasien.nama_pasien)', strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(pasien.nama_bin)', strtolower($this->nama_bin),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("pendaftaran.penjamin_id = ".$this->penjamin_id);					
+			$criteria->addInCondition("pendaftaran.penjamin_id ",$this->penjamin_id);					
 		}
 		$criteria->order = 'tandabuktibayar.tglbuktibayar DESC';
 		$criteria->addBetweenCondition('DATE(tglpembayaran)', $this->tgl_awal, $this->tgl_akhir);
@@ -95,7 +95,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
 		$criteria->compare('LOWER(pasien.nama_pasien)', strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(pasien.nama_bin)', strtolower($this->nama_bin),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("pendaftaran.penjamin_id = ".$this->penjamin_id);					
+			$criteria->addInCondition("pendaftaran.penjamin_id ",$this->penjamin_id);					
 		}
 		$criteria->order = 'tandabuktibayar.tglbuktibayar DESC';
 		$criteria->addBetweenCondition('DATE(tglpembayaran)', $this->tgl_awal, $this->tgl_akhir);
@@ -122,7 +122,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
 		$criteria->compare('LOWER(pasien.nama_pasien)', strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(pasien.nama_bin)', strtolower($this->nama_bin),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("pendaftaran.penjamin_id = ".$this->penjamin_id);					
+			$criteria->addInCondition("pendaftaran.penjamin_id ",$this->penjamin_id);					
 		}
 		$criteria->order = 'tandabuktibayar.tglbuktibayar DESC';
 		$criteria->limit = -1;
@@ -148,7 +148,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
 		$criteria->compare('LOWER(pasien.nama_pasien)', strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(pasien.nama_bin)', strtolower($this->nama_bin),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("pendaftaran.penjamin_id = ".$this->penjamin_id);					
+			$criteria->addInCondition("pendaftaran.penjamin_id ",$this->penjamin_id);					
 		}
 		$criteria->order = 'tandabuktibayar.tglbuktibayar DESC';
 		$criteria->addBetweenCondition('DATE(tglpembayaran)', $this->tgl_awal, $this->tgl_akhir);
@@ -175,7 +175,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
 		$criteria->compare('LOWER(pasien.nama_pasien)', strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(pasien.nama_bin)', strtolower($this->nama_bin),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("pendaftaran.penjamin_id = ".$this->penjamin_id);					
+			$criteria->addInCondition("pendaftaran.penjamin_id ",$this->penjamin_id);					
 		}
 		$criteria->order = 'tandabuktibayar.tglbuktibayar DESC';
 		$criteria->addBetweenCondition('DATE(tglpembayaran)', $this->tgl_awal, $this->tgl_akhir);

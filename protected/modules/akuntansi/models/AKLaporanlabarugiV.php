@@ -1,7 +1,7 @@
 <?php
 class AKLaporanlabarugiV extends LaporanlabarugiV
 {
-	public $tgl_awal,$tgl_akhir;
+	public $tgl_awal,$tgl_akhir, $thn_awal, $bulan;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -89,17 +89,17 @@ class AKLaporanlabarugiV extends LaporanlabarugiV
 		if(!empty($this->bukubesar_id)){
 			$criteria->addCondition('bukubesar_id = '.$this->bukubesar_id);
 		}
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('LOWER(keterangansaldoakhirberjalan)',strtolower($this->keterangansaldoakhirberjalan),true);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		$criteria->compare('jumlah',$this->jumlah);
+		//$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		//$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		//$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		//$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		//$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		//$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		//$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		//$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		//$criteria->compare('LOWER(keterangansaldoakhirberjalan)',strtolower($this->keterangansaldoakhirberjalan),true);
+	//	$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
 		
 		$criteria->limit=10;
 
@@ -159,6 +159,8 @@ class AKLaporanlabarugiV extends LaporanlabarugiV
 		if(!empty($this->bukubesar_id)){
 			$criteria->addCondition('bukubesar_id = '.$this->bukubesar_id);
 		}
+		$criteria->compare('jumlah',$this->jumlah);
+		/*$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
 		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
 		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
 		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
@@ -166,9 +168,7 @@ class AKLaporanlabarugiV extends LaporanlabarugiV
 		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
 		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
 		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
-		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);
+		$criteria->compare('saldoakhirberjalan',$this->saldoakhirberjalan);*/
 		
 		$criteria->limit=10;
 
@@ -245,4 +245,50 @@ class AKLaporanlabarugiV extends LaporanlabarugiV
         
         return $nama_rekening;
     }
+    
+    public function criteriaSearch() {
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria = new CDbCriteria;
+//		if(isset($this->thn_awal)) {
+//			$criteria->addCondition('tglperiodeposting_awal', $this->thn_awal);
+//		}
+		if (!empty($this->bulan)) {
+			if (is_array($this->bulan)) {
+				$tgl_awal = array();
+				$str = array();
+				foreach ($this->bulan as $data) {
+					array_push($str, $data." between (extract (month from tglperiodeposting_awal)) and (extract (month from tglperiodeposting_akhir))");
+					//$temp_tgl = $this->thn_awal . '-' . $data . '-01';
+					//array_push($tgl_awal, $temp_tgl);
+				}
+				$criteria->addCondition("(". implode(" or ", $str).")");
+//			echo json_encode($tgl_awal);exit;
+				//$criteria->addInCondition('tglperiodeposting_awal', $tgl_awal);
+			} else {
+				$criteria->addCondition($this->bulan." between (extract (month from tglperiodeposting_awal)) and (extract (month from tglperiodeposting_akhir))");
+				//$criteria->compare('tglperiodeposting_awal', $tgl_awal);
+			}
+		}else{
+			$tgl_awal = $this->thn_awal; // . '-01-01';
+			$criteria->compare('extract (year from tglperiodeposting_awal)', $tgl_awal);
+		}
+		
+		// var_dump($criteria);
+		
+		return $criteria;
+	}
+
+	public function searchLaporan2() {
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria = $this->criteriaSearch();
+		$criteria->group = "periodeposting_id, tglperiodeposting_awal";
+		$criteria->select = $criteria->group;
+//		$criteria->order = "tglperiodeposting_awal DESC"; 
+		$criteria->order = "periodeposting_id, tglperiodeposting_awal ASC";
+		return $criteria;
+	}
 }

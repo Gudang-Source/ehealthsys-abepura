@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <?php
     //komen buat ngepull
     $this->breadcrumbs = array(
@@ -16,8 +20,6 @@
 <?php //$this->renderPartial('/_tabulasi', array('modPendaftaran'=>$modPendaftaran)); ?>
 
 
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/accounting.js'); ?>
 <?php
 $this->widget('application.extensions.moneymask.MMask',array(
     'element'=>'.numbersOnly',
@@ -36,7 +38,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     'id' => 'rjanamnesa-t-form',
     'enableAjaxValidation' => false,
     'type' => 'horizontal',
-    'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)'),
+    'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)', 'onsubmit'=>'return cekValidasi()'),
     'focus' => '#',
         ));
 ?>
@@ -90,7 +92,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo CHtml::label('Ahli Gizi', 'Ahli Gizi', array('class' => 'control-label')) ?>
             <div class="controls"> 
                 <?php 
-                        echo CHtml::dropDownList('ahligizi','ahligizi', CHtml::listData($modAnamnesa->getAhliGiziItems(), 'pegawai_id', 'nama_pegawai'), 
+                        echo CHtml::dropDownList('ahligizi','ahligizi', CHtml::listData($modAnamnesa->getAhliGiziItems(), 'pegawai_id', 'namaLengkap'), 
                                 array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); 
                 ?>                      
                
@@ -111,8 +113,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)', 'id' => 'btn_simpan'));
     ?>
 	<?php 
-           $content = $this->renderPartial('rawatJalan.views.tips.tips',array(),true);
-			$this->widget('UserTips',array('type'=>'admin','content'=>$content));
+            $tips = array(
+                '0' => 'waktutime',
+                '1' => 'autocomplete-search',
+                '2' => 'simpan'
+            );
+           $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                      $this->widget('UserTips',array('type'=>'admin','content'=>$content));
         ?>
 </div>
 
@@ -223,6 +230,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jml_porsi',
                     'type'=>'raw',
                     'value'=>'$data->jml_porsi',
+                    'filter' => Chtml::activeTextField($modMenuDiet, 'jml_porsi', array('class'=>'numbers-only'))
                 ),
                 array(
                     'header'=>'Ukuran Rumah Tangga',
@@ -231,7 +239,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->ukuranrumahtangga',
                 ),
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+    . '$(".numbers-only").keyup(function(){'
+    . '     setNumbersOnly(this);'
+    . '});'
+    . '}',
 ));
 
 $this->endWidget();
@@ -283,6 +295,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'golbahanmakanan_id',
                     'type'=>'raw',
                     'value'=>'$data->golbahanmakanan->golbahanmakanan_nama',
+                    'filter' => Chtml::dropDownList('BahanmakananM[golbahanmakanan_id]',$modBahanMakanan->golbahanmakanan_id, Chtml::listData(GZGolbahanmakanan::model()->findAll("golbahanmakanan_aktif = TRUE ORDER BY golbahanmakanan_nama ASC"), 'golbahanmakanan_id', 'golbahanmakanan_nama'),array('empty'=>'-- Pilih --'))
                 ),
                 array(
                     'header'=>'Nama Bahan Makanan',
@@ -295,12 +308,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisbahanmakanan',
                     'type'=>'raw',
                     'value'=>'$data->jenisbahanmakanan',
+                    'filter' => Chtml::dropDownList('BahanmakananM[jenisbahanmakanan]',$modBahanMakanan->jenisbahanmakanan, LookupM::getItems('jenisbahanmakanan'),array('empty'=>'-- Pilih --'))
                 ),
                 array(
                     'header'=>'Satuan Bahan',
                     'name'=>'satuanbahan',
                     'type'=>'raw',
                     'value'=>'$data->satuanbahan',
+                    'filter' => Chtml::dropDownList('BahanmakananM[satuanbahan]',$modBahanMakanan->satuanbahan, LookupM::getItems('satuanbahanmakanan'),array('empty'=>'-- Pilih --'))
                 ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -378,20 +393,20 @@ function ubahNilaiKolomBahan(bahanmakananNama, bahanmakananId){
 }
 
 function setAll(obj){
-    totBeratBahan = 0;
-    totProtein = 0;
-    totEnergiKalori = 0;
-    totLemak = 0;
-    totHidratArang = 0;
-    totBdd = 0;
+    var totBeratBahan = 0;
+    var totProtein = 0;
+    var totEnergiKalori = 0;
+    var totLemak = 0;
+    var totHidratArang = 0;
+    var totBdd = 0;
     $('.noUrut').each(function(){
               
-        beratBahan = $(this).parents('tr').find('input[name$="[beratbahan]"]').val();
-        protein = $(this).parents('tr').find('input[name$="[protein]"]').val();
-        energiKalori = $(this).parents('tr').find('input[name$="[energikalori]"]').val();
-        lemak = $(this).parents('tr').find('input[name$="[lemak]"]').val();
-        hidratArang = $(this).parents('tr').find('input[name$="[hidratarang]"]').val();
-        bdd = $(this).parents('tr').find('input[name$="[bdd]"]').val();
+        var beratBahan = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[beratbahan]"]').val()));
+        var protein = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[protein]"]').val()));
+        var energiKalori = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[energikalori]"]').val()));
+        var lemak = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[lemak]"]').val()));
+        var hidratArang = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[hidratarang]"]').val()));
+        var bdd = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[bdd]"]').val()));
        
         if (jQuery.isNumeric(beratBahan)){
             totBeratBahan += parseFloat(beratBahan);
@@ -411,50 +426,47 @@ function setAll(obj){
         
     });    
     
-    $('#totBeratBahan').val(totBeratBahan);
-    $('#totEnergiKalori').val(totEnergiKalori);
-    $('#totProtein').val(totProtein);
-    $('#totLemak').val(totLemak);
-    $('#totHidratArang').val(totHidratArang);
+    $('#totBeratBahan').val(formatFloat(totBeratBahan));
+    $('#totEnergiKalori').val(formatFloat(totEnergiKalori));
+    $('#totProtein').val(formatFloat(totProtein));
+    $('#totLemak').val(formatFloat(totLemak));
+    $('#totHidratArang').val(formatFloat(totHidratArang));
 }
 
 function setBeratBahan(obj){
     
     $('.noUrut').each(function(){
        
-        beratBahan = (obj.value);
-        protein = $(this).parents('tr').find('input[name$="[protein]"]').val();
-        energiKalori = $(this).parents('tr').find('input[name$="[energikalori]"]').val();
-        energiKalori2 = $(this).parents('tr').find('input[name$="[energikalori2]"]').val();
-        lemak = $(this).parents('tr').find('input[name$="[lemak]"]').val();
-        hidratArang = $(this).parents('tr').find('input[name$="[hidratarang]"]').val();
-        bdd = $(this).parents('tr').find('input[name$="[bdd]"]').val();
+        var beratBahan = parseFloat(unformatNumber(obj.value));
+        var protein = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[protein]"]').val()));
+        var energiKalori = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[energikalori]"]').val()));
+        var energiKalori2 = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[energikalori2]"]').val()));
+        var lemak = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[lemak]"]').val()));
+        var hidratArang = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[hidratarang]"]').val()));
+        var bdd = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[bdd]"]').val()));
        
-        nilaiProtein = 4;
-        nilaiLemak = 9;
-        nilaiKarbohidrat = 4;
+        var nilaiProtein = 4;
+        var nilaiLemak = 9;
+        var nilaiKarbohidrat = 4;
         
-        F = ((bdd/100) * beratBahan) / ((beratBahan) * (protein));
+		console.log(beratBahan, protein, energiKalori, energiKalori2, lemak, hidratArang, bdd);
+		
+        var F = beratBahan / ((beratBahan) * (protein));
         
-        nProtein = ((bdd / 100)*(beratBahan /100) * protein * nilaiProtein);
-        nLemak = ((bdd / 100)*(beratBahan /100) * lemak * nilaiLemak);
-        nKarbohidrat = 0 ;
+        var nProtein = beratBahan * protein * nilaiProtein;
+        var nLemak = beratBahan * lemak * nilaiLemak;
+        var nKarbohidrat = beratBahan * hidratArang * nilaiKarbohidrat;
         
-        kalori = (nProtein + nLemak + nKarbohidrat).toFixed(2) ; 
+        var kalori = (nProtein + nLemak + nKarbohidrat); 
+		
+		console.log(F, nProtein, nLemak, nKarbohidrat, kalori);
         
-         $('.noUrut').each(function(){
-                    totenergikalori = parseFloat($(this).parents('tr').find('.energikalori').val());
-                    totenergikalori = 0;
-                    if (jQuery.isNumeric(totenergikalori)){
-                        totenergikalori += (parseFloat((totenergikalori))).toFixed(2);
-                    }
-                    
-        });
         
-            $(obj).parents("tr").find('input[name$="[energikalori]"]').val(kalori);
-            $('#totEnergiKalori').val(totenergikalori);
+		$(obj).parents("tr").find('input[name$="[energikalori]"]').val(formatFloat(kalori));
         
     }); 
+
+	
     setAll();
 }
 
@@ -487,7 +499,7 @@ function submitMenuDietPasien(){
             if(cekList(jeniswaktu_id) == true && jeniswaktu_id != ''){
                 $.post('<?php echo Yii::app()->createUrl('gizi/anamnesisDiet/getKomposisiMakanan');?>', {jeniswaktu_id:jeniswaktu_id ,menudiet_id:menudiet_id, bahanmakanan_id:bahanmakanan_id}, function(data){
                     $('#tblInputKomposisi tbody').append(data.tr);
-                    $('#tblInputKomposisi tbody tr:last').find('.numbersOnly').maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":"","precision":1,"symbol":null});
+                    $('#tblInputKomposisi tbody tr:last').find('.numbersOnly').maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":2,"symbol":null});
                      setAll(this);
                     clear();
                 }, 'json');
@@ -516,6 +528,14 @@ function hapusList(obj) {
         }
     }); 
     
+}
+
+function cekValidasi() {
+	if ($("#tblInputKomposisi tbody tr").length == 0) {
+		myAlert("Data belum ditambahkan");
+		return false;
+	}
+	return true;
 }
 </script>
 <?php

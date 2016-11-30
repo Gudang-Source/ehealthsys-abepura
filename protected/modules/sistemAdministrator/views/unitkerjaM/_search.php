@@ -7,11 +7,15 @@
 <table>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'namaunitkerja',array('class'=>'span3','maxlength'=>200)); ?>
+            <?php echo $form->textFieldRow($model,'kodeunitkerja',array('class'=>'span3 angkahurufs-only','maxlength'=>200)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'namalain',array('class'=>'span3','maxlength'=>200)); ?>
+            <?php echo $form->textFieldRow($model,'namaunitkerja',array('class'=>'span3 hurufs-only','maxlength'=>200)); ?>
         </td>
+        <td>
+            <?php echo $form->textFieldRow($model,'namalain',array('class'=>'span3 hurufs-only','maxlength'=>200)); ?>
+        </td>
+        
     </tr>
     <tr>
         <td colspan="2">

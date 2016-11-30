@@ -1,13 +1,40 @@
 <h6>Tabel <b>Buku Register</b></h6>
 <?php 
+    $itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.BootGroupGridView';
     $sort = true;
     if (isset($caraPrint)){
         $data = $model->searchPrint();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        
+        echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
+        
     } else{
         $data = $model->searchTableLaporan();
          $template = "{summary}\n{items}\n{pager}";
@@ -21,28 +48,33 @@
 //    'filter'=>$model,
         'template'=>$template,
         'enableSorting'=>$sort,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
     'mergeColumns' => array('instalasi_nama'),
     'columns'=>array(
 //        'instalasi_nama',
+        'no_pendaftaran',
         'no_rekam_medik',
         array(
-            'header'=>'Nama / Nama Panggilan',
+            'header'=>'Nama Pasien',
             'type'=>'raw',
-            'value'=>'$data->NamaNamaBIN',
+            'value'=>'$data->namadepan." ".$data->nama_pasien',
         ),
-//        'NamaNamaBIN',
-        'no_pendaftaran',
+//        'NamaNamaBIN',        
         'umur',
-        'jeniskelamin',
+      //  'jeniskelamin',
         'nama_perujuk',
         array(
-               'header'=>'CaraBayar/Penjamin',
+               'header'=>'CaraBayar / <br/> Penjamin',
                'type'=>'raw',
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: left')
         ),  
         'alamat_pasien',
+        array(
+            'header' => 'Instalasi / <br/> Ruangan',
+            'type' => 'raw',
+            'value' => '$data->instalasi_nama." / <br/> ".$data->ruangan_nama'
+        ),
 //        'pasien_id',
 //        'jenisidentitas',
 //        'no_identitas_pasien',

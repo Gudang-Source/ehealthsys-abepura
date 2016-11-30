@@ -66,7 +66,13 @@
                 <?php echo $form->dropDownListRow($model, 'supplier_id', CHtml::listData($model->Supplier, 'supplier_id', 'supplier_nama'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->textFieldRow($model,'sumberdanabhn',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                 <?php echo $form->dropDownListRow($model, 'sumberdanabhn', LookupM::getItems('sumberdanabahan'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-                <?php echo $form->textFieldRow($model, 'nopenerimaanbahan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <?php echo $form->hiddenField($model, 'nopenerimaanbahan', array('readonly' => true,'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <div class = "control-group">
+                    <?php echo Chtml::label("No Penerimaan Bahan",'temp_no', array('class'=>'control-label')) ?>
+                    <div class = "controls">
+                        <?php echo $form->textField($model, 'temp_no', array('readonly' => true,'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                    </div>
+                </div>
                 <?php //echo $form->textFieldRow($model,'tglterimabahan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'tglterimabahan', array('class' => 'control-label')) ?>

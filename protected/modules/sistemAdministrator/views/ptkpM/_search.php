@@ -25,12 +25,12 @@
 					)); ?> 
 				</div>
 			</div>
-            <?php echo $form->textFieldRow($model,'statusperkawinan',array('class'=>'span5','maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'jmltanggunan',array('class'=>'span5','maxlength'=>100)); ?>
+            <?php echo $form->dropDownListRow($model,'statusperkawinan', LookupM::getItems('statusperkawinan'),array('empty'=>'-- Pilih --')); ?>
+            <?php echo $form->textFieldRow($model,'jmltanggunan',array('class'=>'span5 numbers-only','maxlength'=>100, 'style'=>'text-align:right;')); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'wajibpajak_thn',array('class'=>'span5','maxlength'=>20)); ?>
-            <?php echo $form->textFieldRow($model,'wajibpajak_bln',array('class'=>'span5','maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'wajibpajak_thn',array('class'=>'span5 numbers-only','maxlength'=>20, 'style'=>'text-align:right;')); ?>
+            <?php echo $form->textFieldRow($model,'wajibpajak_bln',array('class'=>'span5 numbers-only','maxlength'=>20, 'style'=>'text-align:right;')); ?>
         </td>
     </tr>
     <tr>

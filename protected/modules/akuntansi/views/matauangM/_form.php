@@ -12,7 +12,7 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'matauang',array('style'=>'width:150px;','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'matauang',array('style'=>'width:150px;','class'=>'span3 hurufs-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             <?php echo $form->textFieldRow($model,'singkatan',array('style'=>'width:150px;','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             <?php //echo $form->checkBoxRow($model,'matauang_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);",'checked'=>'checked')); ?>
 	<div class="form-actions">

@@ -5,6 +5,9 @@ class PPLaporankarcispasien extends LaporankarcispasienV {
     public $jumlah;
     public $tick;
     public $tgl_awal,$tgl_akhir;
+    public $bln_awal,$bln_akhir;
+    public $thn_awal,$thn_akhir;
+    public $jns_periode;
     
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -54,11 +57,12 @@ class PPLaporankarcispasien extends LaporankarcispasienV {
 		}
 		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);				
+			$criteria->addInCondition("ruangan_id", $this->ruangan_id);				
 		}
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
+			//$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
+                    $criteria->addInCondition("instalasi_id", array($this->instalasi_id));				
 		}
 		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
 		if(!empty($this->kelaspelayanan_id)){
@@ -131,11 +135,12 @@ class PPLaporankarcispasien extends LaporankarcispasienV {
 		}
 		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);				
+			$criteria->addInCondition("ruangan_id", $this->ruangan_id);				
 		}
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
+			//$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
+                    $criteria->addInCondition("instalasi_id", array($this->instalasi_id));				
 		}
 		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
 		if(!empty($this->kelaspelayanan_id)){
@@ -208,12 +213,13 @@ class PPLaporankarcispasien extends LaporankarcispasienV {
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			if(!empty($this->ruangan_id)){
-				$criteria->addCondition("ruangan_id = ".$this->ruangan_id);				
-			}
-			$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
-			}
+                                $criteria->addInCondition("ruangan_id", $this->ruangan_id);				
+                        }
+                        $criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+                        if(!empty($this->instalasi_id)){
+                                //$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
+                            $criteria->addInCondition("instalasi_id", array($this->instalasi_id));				
+                        }
 			$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
 			if(!empty($this->kelaspelayanan_id)){
 				$criteria->addCondition("kelaspelayanan_id = ".$this->kelaspelayanan_id);				

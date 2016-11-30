@@ -60,31 +60,31 @@ $table = 'ext.bootstrap.widgets.BootGridView';
 ?>
 <table align="center">
 	<tr>
-		<td width="130px">NIP</td>
+		<td width="130px"><b>NIP</b></td>
 		<td>:</td>
 		<td width="230px"><?php echo $modPegawai->nomorindukpegawai; ?></td>
-		<td width="130px">No. Telp</td>
+		<td width="130px"><b>No. Telp</b></td>
 		<td>:</td>
 		<td><?php echo $modPegawai->notelp_pegawai.' - '.$modPegawai->nomobile_pegawai; ?></td>
 	</tr>
 	<tr>
-		<td>Nama Pegawai</td>
+		<td><b>Nama Pegawai</b></td>
 		<td>:</td>
 		<td><?php echo $modPegawai->nama_pegawai; ?></td>
-		<td>Alamat</td>
+		<td><b>Alamat</b></td>
 		<td>:</td>
 		<td><?php echo $modPegawai->alamat_pegawai; ?></td>
 	</tr>
 	<tr>
-		<td>Tempat Lahir</td>
+		<td><b>Tempat Lahir</b></td>
 		<td>:</td>
 		<td><?php echo $modPegawai->tempatlahir_pegawai; ?></td>
-		<td>Tanggal Lahir</td>
+		<td><b>Tanggal Lahir</b></td>
 		<td>:</td>
 		<td><?php echo $format->formatDateTimeId($modPegawai->tgl_lahirpegawai); ?></td>
 	</tr>
 	<tr>
-		<td>Jenis Kelamin</td>
+		<td><b>Jenis Kelamin</b></td>
 		<td>:</td>
 		<td><?php echo $modPegawai->jeniskelamin; ?></td>
 	</tr>
@@ -92,31 +92,31 @@ $table = 'ext.bootstrap.widgets.BootGridView';
 		<td colspan="6"><hr></td>
 	</tr>
 	<tr>
-		<td>Tgl. Peminjaman</td>
+		<td><b>Tgl. Peminjaman</b></td>
 		<td>:</td>
-		<td><?php echo $format->formatDateTimeId($model->tglpinjampeg); ?></td>
-		<td>Lama Pinjam</td>
+		<td><?php echo $format->formatDateTimeId(date("Y-m-d",strtotime($model->tglpinjampeg))); ?></td>
+		<td><b>Lama Pinjam</b></td>
 		<td>:</td>
 		<td><?php echo $model->lamapinjambln.' Bulan'; ?></td>
 	</tr>
 	<tr>
-		<td>No. Peminjaman</td>
+		<td><b>No. Peminjaman</b></td>
 		<td>:</td>
 		<td><?php echo $model->nopinjam; ?></td>
-		<td>Bunga Pinjam</td>
+		<td><b>Bunga Pinjam</b></td>
 		<td>:</td>
 		<td><?php echo $model->persenpinjaman.' %'; ?></td>
 	</tr>
 	<tr>
-		<td>Jumlah Peminjaman</td>
+		<td><b>Jumlah Peminjaman</b></td>
 		<td>:</td>
-		<td><?php echo number_format($model->jumlahpinjaman); ?></td>
-		<td>Untuk Keperluan</td>
+		<td><?php echo "Rp".number_format($model->jumlahpinjaman,0,"","."); ?></td>
+		<td><b>Untuk Keperluan</b></td>
 		<td>:</td>
 		<td><?php echo $model->untukkeperluan; ?></td>
 	</tr>
 	<tr>
-		<td>Keterangan</td>
+		<td><b>Keterangan</b></td>
 		<td>:</td>
 		<td><?php echo $model->keterangan; ?></td>
 	</tr>
@@ -124,7 +124,7 @@ $table = 'ext.bootstrap.widgets.BootGridView';
 		<td colspan="6"><hr></td>
 	</tr>
 </table>
-<table align="center" border="1">
+<table align="center" border="1" width="100%">
 	<tr>
 		<th>No.</th>
 		<th>Bulan Ke</th>

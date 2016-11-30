@@ -267,15 +267,41 @@ function setHurufCharacterOnly(obj){
 	}
 }
 
+function setAngkaComaOnly(obj){
+	
+	var value = $(obj).val();
+	var orignalValue = value;
+	value = value.replace(/[0-9,]*/g, "");
+	var msg = "Only Alphabet dan Character Values allowed.";
+
+	if (value != '') {
+		orignalValue = orignalValue.replace(/([^0-9,].*)/g, "")
+		$(obj).val(orignalValue);
+	}
+}
+
 function setAngkaHurufsOnly(obj){
 	
 	var value = $(obj).val();
 	var orignalValue = value;
-	value = value.replace(/[a-zA-Z0-9]*/g, "");
+	value = value.replace(/[ a-zA-Z 0-9]*/g, "");
 	var msg = "Only Alphabet Values allowed.";
 
 	if (value != '') {
-		orignalValue = orignalValue.replace(/([^a-zA-Z0-9].*)/g, "")
+		orignalValue = orignalValue.replace(/([^a-zA-Z 0-9].*)/g, "")
+		$(obj).val(orignalValue);
+	}
+}
+
+function setCustomOnly(obj){
+	
+	var value = $(obj).val();
+	var orignalValue = value;
+	value = value.replace(/[ a-zA-Z0-9.,/-<>()]*/g, "");
+	var msg = "Only Alphabet Values allowed.";
+
+	if (value != '') {
+		orignalValue = orignalValue.replace(/([^ a-zA-Z0-9.,/-<()].*)/g, "")
 		$(obj).val(orignalValue);
 	}
 }
@@ -292,12 +318,20 @@ $( document ).ready(function(){
         setHurufsOnly(this);
     });
     
-    $('.hurufcharacter-only').keyup(function() {
+    $('.angkacoma-only').keyup(function() {
+        setAngkaComaOnly(this);
+    });
+    
+     $('.hurufcharacter-only').keyup(function() {
         setHurufCharacterOnly(this);
     });
     
     $('.angkahuruf-only').keyup(function() {
         setAngkaHurufsOnly(this);
+    });
+    
+    $('.custom-only').keyup(function() {
+        setCustomOnly(this);
     });
     
     /**class : all-caps = kapital semua */

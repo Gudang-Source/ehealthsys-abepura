@@ -11,12 +11,12 @@ $('#search-laporan').submit(function(){
 ");
 ?>
 <div class="white-container">
-    <legend class="rim2">Laporan <b>Permintaan Pembelian (Obat Alkes)</b></legend>
+    <legend class="rim2">Laporan <b>Permintaan Penawaran (Obat Alkes)</b></legend>
     <fieldset class="box">
         <?php $this->renderPartial($this->path_view.'_search',array('model'=>$model,'format'=>$format)); ?>
     </fieldset>
     <div class="block-tabel">
-        <h6>Tabel <b>Permintaan Pembelian (Obat Alkes)</b></h6>
+        <h6>Tabel <b>Permintaan Penawaran (Obat Alkes)</b></h6>
         <?php $this->renderPartial($this->path_view.'_table',array('model'=>$model,'format'=>$format)); ?>
     </div>
     <div class="block-tabel">

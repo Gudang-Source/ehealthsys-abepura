@@ -38,49 +38,64 @@ foreach ($jmlrekening as $key => $jmls) {
 if (isset($caraPrint)) {
 	$nmRekening_temp = "";
 	foreach ($model as $i => $data) {
-		if ($data->rekeningjurnal5_nama) {
-			$nmRekening = $data->rekeningjurnal5_nama;
+		if ($data->nmrekening5) {
+			$nmRekening = $data->nmrekening5;
 		} else {
-			if ($data->rekeningjurnal4_nama) {
-				$nmRekening = $data->rekeningjurnal4_nama;
+			if ($data->nmrekening4) {
+				$nmRekening = $data->nmrekening4;
 			} else {
-				$nmRekening = $data->rekeningjurnal3_nama;
+				$nmRekening = $data->nmrekening3;
 			}
 		}
+                
+                if (!isset($nmRekening_temp[$nmRekening])) {
+			$nmRekening_temp[$nmRekening] = 1;
+		}else{
+			$nmRekening_temp[$nmRekening]++;
+		}
 
-		if ($nmRekening_temp != $nmRekening) {
-			if ($data->rekeningjurnal5_kode) {
-				$kdRekening = $data->rekeningjurnal5_kode;
-				$kdRekening_text = $data->rekeningjurnal1_kode . '-' . $data->rekeningjurnal2_kode . '-' . $data->rekeningjurnal3_kode . '-' . $data->rekeningjurnal4_kode . '-' . $data->rekeningjurnal5_kode;
+		//if ($nmRekening_temp != $nmRekening) {
+                if($nmRekening_temp[$nmRekening] == 1){
+			if ($data->kdrekening5) {
+				$kdRekening = $data->kdrekening5;
+				$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3 . '-' . $data->kdrekening4 . '-' . $data->kdrekening5;
 			} else {
-				if ($data->rekeningjurnal4_kode) {
-					$kdRekening = $data->rekeningjurnal4_kode;
-					$kdRekening_text = $data->rekeningjurnal1_kode . '-' . $data->rekeningjurnal2_kode . '-' . $data->rekeningjurnal3_kode . '-' . $data->rekeningjurnal4_kode;
+				if ($data->kdrekening4) {
+					$kdRekening = $data->kdrekening4;
+					$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3 . '-' . $data->kdrekening4;
 				} else {
-					$kdRekening = $data->rekeningjurnal3_kode;
-					$kdRekening_text = $data->rekeningjurnal1_kode . '-' . $data->rekeningjurnal2_kode . '-' . $data->rekeningjurnal3_kode;
+					$kdRekening = $data->kdrekening3;
+					$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3;
 				}
 			}
 			echo "<table class='table table-striped table-condensed'>
                     <tr>
-                        <td><strong>Nama Rekening</storng></td>
+                        <td><strong>Kode Cost Center</strong></td>
                         <td><strong>:</strong></td>
-                        <td>" . $nmRekening . "</td>
+                        <td>" . $data->kodeunitkerja . "</td>
                     </tr>
                     <tr>
                         <td><strong>Kode Rekening</strong></td>
                         <td><strong>:</strong></td>
                         <td>" . $kdRekening_text . "</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nama Rekening</strong></td>
+                        <td><strong>:</strong></td>
+                        <td>" . $nmRekening . "</td>
                     </tr>";
 			echo "</table>";
 
 			echo "<table width='100%' border='1' class='table table-striped '>
 					<tr style='font-weight:bold;'>
-						<td rowspan='2'>Tgl Posting</td>
-						<td rowspan='2'>Uraian Transaksi</td>
-						<td rowspan='2' style='text-align:center'>No. Ref</td>
-						<td colspan='2' style='text-align:center'>Saldo</td>
-						<td rowspan='2' style='text-align:center'>Saldo</td>
+						<th rowspan='2'>Tanggal Transaksi</th>
+						<th rowspan='2'>Tanggal Posting</th>
+						<th rowspan='2'>Jenis Jurnal</th>".
+						// <th rowspan='2' style='text-align:center'>No. Ref</th> /* LNG-5816 */
+						"<th rowspan='2'>No. Jurnal</th>
+						<th rowspan='2'>Uraian Transaksi</th>						
+						<th colspan='2' style='text-align:center'>Saldo</th>
+						<th rowspan='2' style='text-align:center'>Saldo</th>
 					</tr>
 					<tr style='font-weight:bold;'>
 						<td style='text-align:center'>Debit</td>
@@ -98,54 +113,58 @@ if (isset($caraPrint)) {
 			}
 //			$criteria->group = 'rekeningjurnal1_id, rekeningjurnal2_id, rekeningjurnal3_id, rekeningjurnal4_id, rekeningjurnal5_id,rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id,nmrekening1, nmrekening2, nmrekening3, nmrekening4, nmrekening5, kdrekening1, kdrekening2,kdrekening3,kdrekening4,kdrekening5, nourut, no_referensi,rekeningjurnal5_saldonormal,tglbukubesar';
 //			$criteria->select = $criteria->group.', sum(saldodebitjurnal) as saldodebitjurnal, sum(saldokreditjurnal) as saldokreditjurnal';
-			$condition = "rekeningjurnal5_nama ILIKE '%" . $term . "%' OR rekeningjurnal4_nama ILIKE '%" . $term . "%' OR rekeningjurnal3_nama ILIKE '%" . $term . "%'";
-			$conditionKode = "rekeningjurnal5_kode ILIKE '%" . $termKode . "%' OR rekeningjurnal4_kode ILIKE '%" . $termKode . "%' OR rekeningjurnal3_kode ILIKE '%" . $termKode . "%'";
+			$criteria->select = 'rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id,nmrekening1, nmrekening2, nmrekening3, nmrekening4, nmrekening5, kdrekening1, kdrekening2,kdrekening3,kdrekening4,kdrekening5,rekening5_nb,tglbukubesar,saldodebit,saldokredit,uraiantransaksi,tgl_transaksi,jenisjurnal_nama,nobuktijurnal';
+			$condition = "nmrekening5 ILIKE '%" . $term . "%' OR nmrekening4 ILIKE '%" . $term . "%' OR nmrekening3 ILIKE '%" . $term . "%'";
+			$conditionKode = "kdrekening5 ILIKE '%" . $termKode . "%' OR kdrekening4 ILIKE '%" . $termKode . "%' OR kdrekening3 ILIKE '%" . $termKode . "%'";
 			$criteria->addCondition($condition);
 			$criteria->addCondition($conditionKode);
 			$criteria->limit = -1;
-			$criteria->order = 'rekeningjurnal1_id, rekeningjurnal2_id, rekeningjurnal3_id, rekeningjurnal4_id, rekeningjurnal5_id, tglbukubesar ASC, nourut ASC';
+			$criteria->order = 'rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id, tglbukubesar ASC';
 
 			$totDebit = 0;
 			$totKredit = 0;
 			$totSaldo = 0;
 			$detail = AKLaporanbukubesarV::model()->findAll($criteria);
 			foreach ($detail as $key => $details) {
-				if ($details->saldodebitjurnal > 0 && $details->saldokreditjurnal > 0) {
-					$saldo = $details->saldodebitjurnal - $details->saldokreditjurnal;
-				} else if ($details->saldodebitjurnal > 0) {
-					$saldo = $details->saldodebitjurnal - $details->saldokreditjurnal;
-				} else if ($details->saldodebitjurnal <= 0 && $details->saldokreditjurnal > 0) {
-					$saldo = $details->saldodebitjurnal - $details->saldokreditjurnal;
+				if ($details->saldodebit > 0 && $details->saldokredit > 0) {
+					$saldo = $details->saldodebit - $details->saldokredit;
+				} else if ($details->saldodebit > 0) {
+					$saldo = $details->saldodebit - $details->saldokredit;
+				} else if ($details->saldodebit <= 0 && $details->saldokredit > 0) {
+					$saldo = $details->saldodebit - $details->saldokredit;
 				}
 
-				if ($details->rekeningjurnal5_saldonormal == 'D') {
-					$saldo = $details->saldodebitjurnal - $details->saldokreditjurnal;
+				if ($details->rekening5_nb == 'D') {
+					$saldo = $details->saldodebit - $details->saldokredit;
 				} else {
-					$saldo = $details->saldokreditjurnal;
+					$saldo = $details->saldokredit;
 				}
 
-				$totDebit += $details->saldodebitjurnal;
-				$totKredit += $details->saldokreditjurnal;
+				$totDebit += $details->saldodebit;
+				$totKredit += $details->saldokredit;
 
-				if ($details->rekeningjurnal5_saldonormal == 'D') {
+				if ($details->rekening5_nb == 'D') {
 					$totSaldo = $totDebit - $totKredit;
-				} elseif ($details->rekeningjurnal5_saldonormal == 'K') {
+				} elseif ($details->rekening5_nb == 'K') {
 					$totSaldo = $totKredit - $totDebit;
 				}
 
 				echo "<tr>
-						<td width='150px;'>" . MyFormatter::formatDateTimeId($details->tglbukubesar) . "</td>
-						<td width='200px;'>" . $details->getNamaRekening() . "</td>
-						<td width='40px;' style='text-align:center'>" . $details->no_referensi . "</td>
-						<td width='150px;' style='text-align:right'>" . number_format($details->saldodebitjurnal) . "</td>
-						<td width='150px;' style='text-align:right'>" . number_format($details->saldokreditjurnal) . "</td>
-						<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
-					</tr>";
+					<td width='150px;'>" . MyFormatter::formatDateTimeId(date("Y-m-d",strtotime($details->tgl_transaksi))) . "</td>
+					<td width='150px;'>" . MyFormatter::formatDateTimeId($details->tglbukubesar) . "</td>
+					<td width='150px;'>" . $details->jenisjurnal_nama . "</td>".
+					// <td width='40px;' style='text-align:center'>".$details->no_referensi . "</td>
+					"<td width='150px;'>" . $details->nobuktijurnal . "</td>
+					<td width='200px;'>" . $details->uraiantransaksi . "</td>					
+					<td width='150px;' style='text-align:right'>" . number_format($details->saldodebit) . "</td>
+					<td width='150px;' style='text-align:right'>" . number_format($details->saldokredit) . "</td>
+					<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
+				</tr>";
 			}
 
 			echo "<tfoot>
 						<tr>
-							<td colspan=3 style='text-align:right'><strong>Total : </strong></td>
+							<td colspan=6 style='text-align:right'><strong>Total : ".$nmRekening." </strong></td>
 							<td width='150px;' style='text-align:right'>" . number_format($totDebit) . "</td>
 							<td width='150px;' style='text-align:right'>" . number_format($totKredit) . "</td>
 							<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
@@ -162,9 +181,12 @@ if (isset($caraPrint)) {
 	echo "<table class='table table-striped table-condensed'>
 				<thead>
 					<tr>
-						<th rowspan='2'>Tgl Posting</th>
-						<th rowspan='2'>Uraian Transaksi</th>
+						<th rowspan='2'>Tanggal Transaksi</th>
+						<th rowspan='2'>Tanggal Posting</th>
+						<th rowspan='2'>Jenis Jurnal</th>
 						<th rowspan='2' style='text-align:center'>No. Ref</th>
+						<th rowspan='2'>No. Bukti Jurnal</th>
+						<th rowspan='2'>Uraian Transaksi</th>						
 						<th colspan='2' style='text-align:center'>Saldo</th>
 						<th rowspan='2' style='text-align:center'>Saldo</th>
 					</tr>
@@ -175,35 +197,43 @@ if (isset($caraPrint)) {
 				</thead>
 				<tbody>";
 	foreach ($model as $i => $data) {
-		if ($data->rekeningjurnal5_nama) {
-			$nmRekening = $data->rekeningjurnal5_nama;
+		if ($data->nmrekening5) {
+			$nmRekening = $data->nmrekening5;
 		} else {
-			if ($data->rekeningjurnal4_nama) {
-				$nmRekening = $data->rekeningjurnal4_nama;
+			if ($data->nmrekening4) {
+				$nmRekening = $data->nmrekening4;
 			} else {
-				$nmRekening = $data->rekeningjurnal3_nama;
+				$nmRekening = $data->nmrekening3;
 			}
 		}
 
-		if ($nmRekening_temp != $nmRekening) {
-			if ($data->rekeningjurnal5_kode) {
-				$kdRekening = $data->rekeningjurnal5_kode;
-				$kdRekening_text = $data->rekeningjurnal1_kode . '-' . $data->rekeningjurnal2_kode . '-' . $data->rekeningjurnal3_kode . '-' . $data->rekeningjurnal4_kode . '-' . $data->rekeningjurnal5_kode;
+                if (!isset($nmRekening_temp[$nmRekening])) {
+			$nmRekening_temp[$nmRekening] = 1;
+		}else{
+			$nmRekening_temp[$nmRekening]++;
+		}
+                
+		//if ($nmRekening_temp != $nmRekening) {
+                if($nmRekening_temp[$nmRekening] == 1){
+			if ($data->kdrekening5) {
+				$kdRekening = $data->kdrekening5;
+				$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3 . '-' . $data->kdrekening4 . '-' . $data->kdrekening5;
 			} else {
-				if ($data->rekeningjurnal4_kode) {
-					$kdRekening = $data->rekeningjurnal4_kode;
-					$kdRekening_text = $data->rekeningjurnal1_kode . '-' . $data->rekeningjurnal2_kode . '-' . $data->rekeningjurnal3_kode . '-' . $data->rekeningjurnal4_kode;
+				if ($data->kdrekening4) {
+					$kdRekening = $data->kdrekening4;
+					$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3 . '-' . $data->kdrekening4;
 				} else {
-					$kdRekening = $data->rekeningjurnal3_kode;
-					$kdRekening_text = $data->rekeningjurnal1_kode . '-' . $data->rekeningjurnal2_kode . '-' . $data->rekeningjurnal3_kode;
+					$kdRekening = $data->kdrekening3;
+					$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3;
 				}
 			}
 
 			echo "
 				<tr>
-                      <td colspan=6><b><i>" . $nmRekening . "</i></b></td>
+                      <td colspan=9><b>" . $data->kodeunitkerja . " - " . $data->koderekening . " " . $nmRekening . "</b></td>
                 </tr>
 					";
+
 
 			$criteria = new CDbCriteria;
 			$term = $nmRekening;
@@ -216,63 +246,82 @@ if (isset($caraPrint)) {
 			}
 //			$criteria->group = 'rekeningjurnal1_id, rekeningjurnal2_id, rekeningjurnal3_id, rekeningjurnal4_id, rekeningjurnal5_id,rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id,nmrekening1, nmrekening2, nmrekening3, nmrekening4, nmrekening5, kdrekening1, kdrekening2,kdrekening3,kdrekening4,kdrekening5, nourut, no_referensi,rekeningjurnal5_saldonormal,tglbukubesar';
 //			$criteria->select = $criteria->group.', sum(saldodebitjurnal) as saldodebitjurnal, sum(saldokreditjurnal) as saldokreditjurnal';
-			$condition = "rekeningjurnal5_nama ILIKE '%" . $term . "%' OR rekeningjurnal4_nama ILIKE '%" . $term . "%' OR rekeningjurnal3_nama ILIKE '%" . $term . "%'";
-			$conditionKode = "rekeningjurnal5_kode ILIKE '%" . $termKode . "%' OR rekeningjurnal4_kode ILIKE '%" . $termKode . "%' OR rekeningjurnal3_kode ILIKE '%" . $termKode . "%'";
+			$criteria->select = 'rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id,nmrekening1, nmrekening2, nmrekening3, nmrekening4, nmrekening5, kdrekening1, kdrekening2,kdrekening3,kdrekening4,kdrekening5,rekening5_nb,tglbukubesar, saldodebit, saldokredit,uraiantransaksi,tgl_transaksi,jenisjurnal_nama,nobuktijurnal';
+			
+			$condition = "nmrekening5 ILIKE '%" . $term . "%' OR nmrekening4 ILIKE '%" . $term . "%' OR nmrekening3 ILIKE '%" . $term . "%'";
+			$conditionKode = "kdrekening5 ILIKE '%" . $termKode . "%' OR kdrekening4 ILIKE '%" . $termKode . "%' OR kdrekening3 ILIKE '%" . $termKode . "%'";
 			$criteria->addCondition($condition);
 			$criteria->addCondition($conditionKode);
 			$criteria->limit = -1;
-			$criteria->order = 'rekeningjurnal1_id, rekeningjurnal2_id, rekeningjurnal3_id, rekeningjurnal4_id, rekeningjurnal5_id, tglbukubesar ASC, nourut ASC';
+			$criteria->order = 'rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id, tglbukubesar ASC';
 
 			$totDebit = 0;
 			$totKredit = 0;
 			$totSaldo = 0;
 			$detail = AKLaporanbukubesarV::model()->findAll($criteria);
 			foreach ($detail as $key => $details) {
-				if ($details->saldodebitjurnal > 0 && $details->saldokreditjurnal > 0) {
-					$saldo = $details->saldodebitjurnal - $details->saldokreditjurnal;
-				} else if ($details->saldodebitjurnal > 0) {
-					$saldo = $details->saldodebitjurnal - $details->saldokreditjurnal;
-				} else if ($details->saldodebitjurnal <= 0 && $details->saldokreditjurnal > 0) {
-					$saldo = $details->saldodebitjurnal - $details->saldokreditjurnal;
+				if ($details->saldodebit > 0 && $details->saldokredit > 0) {
+					$saldo = $details->saldodebit - $details->saldokredit;
+				} else if ($details->saldodebit > 0) {
+					$saldo = $details->saldodebit - $details->saldokredit;
+				} else if ($details->saldodebit <= 0 && $details->saldokredit > 0) {
+					$saldo = $details->saldodebit - $details->saldokredit;
 				}
 
-				if ($details->rekeningjurnal5_saldonormal == 'D') {
-					$saldo = $details->saldodebitjurnal - $details->saldokreditjurnal;
+				if ($details->rekening5_nb == 'D') {
+					$saldo = $details->saldodebit - $details->saldokredit;
 				} else {
-					$saldo = $details->saldokreditjurnal;
+					$saldo = $details->saldokredit;
 				}
 
-				$totDebit += $details->saldodebitjurnal;
-				$totKredit += $details->saldokreditjurnal;
+				$totDebit += $details->saldodebit;
+				$totKredit += $details->saldokredit;
 
-				if ($details->rekeningjurnal5_saldonormal == 'D') {
+				if ($details->rekening5_nb == 'D') {
 					$totSaldo = $totDebit - $totKredit;
-				} elseif ($details->rekeningjurnal5_saldonormal == 'K') {
+				} elseif ($details->rekening5_nb == 'K') {
 					$totSaldo = $totKredit - $totDebit;
 				}
 
-				echo "<tr>
+				if($details->saldodebit != 0){
+					echo "<tr>
+						<td width='150px;'>" . MyFormatter::formatDateTimeId(date("Y-m-d",strtotime($details->tgl_transaksi))) . "</td>
 						<td width='150px;'>" . MyFormatter::formatDateTimeId($details->tglbukubesar) . "</td>
-						<td width='200px;'>" . $details->getNamaRekening() . "</td>
-						<td width='40px;' style='text-align:center'>" . $details->no_referensi . "</td>
-						<td width='150px;' style='text-align:right'>" . number_format($details->saldodebitjurnal) . "</td>
-						<td width='150px;' style='text-align:right'>" . number_format($details->saldokreditjurnal) . "</td>
+						<td width='150px;'>" . $details->jenisjurnal_nama . "</td>
+						<td width='150px;'>" . $details->nobuktijurnal . "</td>
+						<td width='200px;'>" . $details->uraiantransaksi . "</td>
+						<td width='40px;' style='text-align:center'>".$details->no_referensi . "</td>
+						<td width='150px;' style='text-align:right'>" . number_format($details->saldodebit) . "</td>
+						<td width='150px;' style='text-align:right'>0</td>
+						<td width='150px;' style='text-align:right'>" . number_format($totDebit) . "</td>
+					</tr>";
+				}
+				if($details->saldokredit != 0){
+					echo "<tr>
+						<td width='150px;'>" . MyFormatter::formatDateTimeId(date("Y-m-d", strtotime($details->tgl_transaksi))) . "</td>
+						<td width='150px;'>" . MyFormatter::formatDateTimeId($details->tglbukubesar) . "</td>
+						<td width='150px;'>" . $details->jenisjurnal_nama . "</td>
+						<td width='40px;' style='text-align:center'>".$details->no_referensi . "</td>
+						<td width='150px;'>" . $details->nobuktijurnal . "</td>
+						<td width='200px;'>" . $details->uraiantransaksi . "</td>						
+						<td width='150px;' style='text-align:right'>0</td>
+						<td width='150px;' style='text-align:right'>" . number_format($details->saldokredit) . "</td>
 						<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
 					</tr>";
+				}
 			}
 
 			echo "
-						<tr>
-							<td colspan=3 style='text-align:right'><strong>Total " . $nmRekening . "</strong></td>
-							<td width='150px;' style='text-align:right'>" . number_format($totDebit) . "</td>
-							<td width='150px;' style='text-align:right'>" . number_format($totKredit) . "</td>
-							<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
-						</tr>
-					";
+			<tr>
+				<td colspan=6 style='text-align:right'><strong>Total " . $nmRekening . "</strong></td>
+				<td width='150px;' style='text-align:right'>" . number_format($totDebit) . "</td>
+				<td width='150px;' style='text-align:right'>" . number_format($totKredit) . "</td>
+				<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
+			</tr>
+		";
 
-			$nmRekening_temp = $nmRekening;
 		}
-	}
+	}	
 	echo "<tbody>
 		  </table>";
 }

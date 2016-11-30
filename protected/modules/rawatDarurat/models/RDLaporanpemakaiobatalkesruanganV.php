@@ -99,6 +99,7 @@ class RDLaporanpemakaiobatalkesruanganV extends LaporanpemakaiobatalkesruanganV 
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);				
 		}
+                $criteria->order = " tglpemakaianobat ASC ";
 		//$criteria->compare('qty_oa',$this->qty_oa);
 		//$criteria->compare('hargasatuan_oa',$this->hargasatuan_oa);
 
@@ -139,6 +140,7 @@ class RDLaporanpemakaiobatalkesruanganV extends LaporanpemakaiobatalkesruanganV 
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);				
 		}
+                $criteria->order = " tglpemakaianobat ASC ";
 		//$criteria->compare('qty_oa',$this->qty_oa);
 		//$criteria->compare('hargasatuan_oa',$this->hargasatuan_oa);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 

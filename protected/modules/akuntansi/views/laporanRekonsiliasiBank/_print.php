@@ -7,9 +7,11 @@
 	}
 	echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$judulLaporan, 'periode'=>'Periode : '.$periode, 'colspan'=>10));  
 
-	if ($caraPrint != 'GRAFIK')
-	$this->renderPartial($this->path_view.'_table', array('model'=>$model, 'caraPrint'=>$caraPrint,'periode'=>$periode)); 
-
-	if ($caraPrint == 'GRAFIK')
-	echo $this->renderPartial('_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint), true); 
+	if ($caraPrint != 'GRAFIK'){
+            $this->renderPartial($this->path_view.'_table', array('model'=>$model, 'caraPrint'=>$caraPrint,'periode'=>$periode)); 
+        }
+        
+	if ($caraPrint == 'GRAFIK'){
+	echo $this->renderPartial('akuntansi.views.laporanAkuntansi._grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint), true); 
+        }
 ?>

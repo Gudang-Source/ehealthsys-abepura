@@ -6,131 +6,162 @@
 	.spasi2 {
 		padding: 0px 0px 0px 20px;
 	}
+        
+       
+        .border th, .border td{
+            border:1px solid #000;
+        }
+        .table thead:first-child{
+            border-top:1px solid #000;        
+        }
+
+        thead th{
+            background:none;
+            color:#333;
+        }
+
+        .border {
+            box-shadow:none;
+            padding:0px;
+            border-spacing: 0px;
+
+        }
+
+        .table tbody tr:hover td, .table tbody tr:hover th {
+            background-color: none;
+        }
+           
 </style>
-<table width="100%">
+
+<table style="width:100%;">
 	<tr>
 		<td style="text-align:center;" align="center"><b>PENGKAJIAN KEPERAWATAN</b></td>
 	</tr>
 </table>
-<div class="white-container">
-	<div class="row-fluid">
-		<table width="100%">
-			<tr>
-				<td ><p>No. Pengkajian :</p></td>
-				<td ><p><?php echo isset($modPengkajian->no_pengkajian) ? $modPengkajian->no_pengkajian : "-"; ?></p></td>
-				<td ><p>Tanggal Pengkajian :</p></td>
-				<td ><p><?php echo isset($modPengkajian->pengkajianaskep_tgl) ? MyFormatter::FormatDateTimeForUser($modPengkajian->pengkajianaskep_tgl) : "-"; ?></p></td>
-				<td ><p>Nama Perawat :</p></td>
-				<td ><p><?php echo isset($modPengkajian->nama_pegawai) ? $modPengkajian->nama_pegawai : "-"; ?></p></td>
-			</tr>
-		</table>
-	</div>
-	<div class="row-fluid">
-		<fieldset class="box">
-			<legend class="rim">Data Pasien</legend>
-			<table width="100%">
-				<tr>
-					<td ><p>No. Pendaftaran :</p></td>
-					<td ><p><?php echo isset($modPengkajian->no_pendaftaran) ? $modPengkajian->no_pendaftaran : "-"; ?></p></td>
-					<td ><p>Jenis Kelamin :</p></td>
-					<td ><p><?php echo isset($modPengkajian->jeniskelamin) ? $modPengkajian->jeniskelamin : "-"; ?></p></td>
-					<td ><p>Ruangan :</p></td>
-					<td ><p><?php echo isset($modPengkajian->ruangan_nama) ? $modPengkajian->ruangan_nama : "-" ?></p></td>
-				</tr>
-				<tr>
-					<td ><p>Tanggal Pendaftaran :</p></td>
-					<td ><p><?php echo isset($modPengkajian->tgl_pendaftaran) ? MyFormatter::FormatDateTimeForUser($modPengkajian->tgl_pendaftaran) : "-"; ?></p></td>
-					<td ><p>Pekerjaan :</p></td>
-					<td ><p><?php echo isset($modPengkajian->pekerjaan_nama) ? $modPengkajian->pekerjaan_nama : "-"; ?></p></td>
-					<td ><p>Kelas :</p></td>
-					<td ><p><?php echo isset($modPengkajian->kelaspelayanan_nama) ? $modPengkajian->kelaspelayanan_nama : "-" ?></p></td>
-				</tr>
-				<tr>
-					<td ><p>No. Rekam Medik:</p></td>
-					<td ><p><?php echo isset($modPengkajian->no_rekam_medik) ? $modPengkajian->no_rekam_medik : "-"; ?></p></td>
-					<td ><p>Pendidikan :</p></td>
-					<td ><p><?php echo isset($modPengkajian->pendidikan_nama) ? $modPengkajian->pendidikan_nama : "-"; ?></p></td>
-					<td ><p>No Kamar / No Bed :</p></td>
-					<td ><p><?php echo isset($modPengkajian->kamarruangan_nokamar) ? $modPengkajian->kamarruangan_nokamar : "-" . ' / ' . isset($modPengkajian->kamarruangan_nobed) ? $modPengkajian->kamarruangan_nobed : "-" ?></p></td>
-				</tr>
-				<tr>
-					<td ><p>Nama Pasien :</p></td>
-					<td ><p><?php echo isset($modPengkajian->nama_pasien) ? $modPengkajian->nama_pasien : "-"; ?></p></td>
-					<td ><p>Agama :</p></td>
-					<td ><p><?php echo isset($modPengkajian->agama) ? $modPengkajian->agama : "-"; ?></p></td>
-					<td ><p>Diagnosa Medik Masuk :</p></td>
-					<td ><p><?php echo isset($modPengkajian->diagnosa_nama) ? $modPengkajian->diagnosa_nama : "-" ?></p></td>
-				</tr>
-				<tr>
-					<td ><p>Umur :</p></td>
-					<td ><p><?php echo isset($modPengkajian->umur) ? $modPengkajian->umur : "-"; ?></p></td>
-					<td ><p>Alamat :</p></td>
-					<td ><p><?php echo isset($modPengkajian->alamat_pasien) ? $modPengkajian->alamat_pasien : "-"; ?></p></td>
-				</tr>
-				<tr>
-					<td ><p>Status Perkawinan :</p></td>
-					<td ><p><?php echo isset($modPengkajian->statusperkawinan) ? $modPengkajian->statusperkawinan : "-"; ?></p></td>
-				</tr>
-			</table>
-		</fieldset>
-	</div>
-	<div class="row-fluid">
-		<fieldset class="box">
-			<legend class="rim">Data Penanggung Jawab</legend>
-			<table width="100%">
-				<tr>
-					<td ><p>Nama :</p></td>
-					<td ><p><?php echo isset($modPengkajian->nama_pj) ? $modPengkajian->nama_pj : "-"; ?></p></td>
-					<td ><p>Tanggal Lahir :</p></td>
-					<td ><p><?php echo isset($modPengkajian->tgllahir_pj) ? MyFormatter::FormatDateTimeForUser($modPengkajian->tgllahir_pj) : "-"; ?></p></td>
-					<td ><p>Hubungan Dengan Klien :</p></td>
-					<td ><p><?php echo isset($modPengkajian->hubungankeluarga) ? $modPengkajian->hubungankeluarga : "-" ?></p></td>
-				</tr>
-				<tr>
-					<td ><p>No Identitas :</p></td>
-					<td ><p><?php echo isset($modPengkajian->no_identitas) ? $modPengkajian->no_identitas : "-"; ?></p></td>
-					<td ><p>No Telepon :</p></td>
-					<td ><p><?php echo isset($modPengkajian->no_teleponpj) ? $modPengkajian->no_teleponpj : "-"; ?></p></td>
-					<td ><p>Alamat :</p></td>
-					<td ><p><?php echo isset($modPengkajian->alamat_pj) ? $modPengkajian->alamat_pj : "-" ?></p></td>
-				</tr>
-				<tr>
-					<td ><p>Jenis Kelamin:</p></td>
-					<td ><p><?php echo isset($modPengkajian->jk) ? $modPengkajian->jk : "-"; ?></p></td>
-					<td ><p>No Mobile :</p></td>
-					<td ><p><?php echo isset($modPengkajian->no_mobilepj) ? $modPengkajian->no_mobilepj : "-"; ?></p></td>
-				</tr>
-			</table>
-		</fieldset>
-	</div>
-	<div class="row-fluid">
-		<fieldset class="box">
-			<legend class="rim">Data Anamnesa</legend>
-			<?php $this->renderPartial('_detailAnamnesis', array('modAnamnesa' => $modAnamnesa)); ?>
-		</fieldset>
-	</div>
-	<div class="row-fluid">
-		<fieldset class="box">
-			<legend class="rim">Data Pemeriksaan Fisik</legend>
+<br/>
+<table width="100%">
+        <tr>
+                <td ><p><b>No. Pengkajian</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->no_pengkajian) ? $modPengkajian->no_pengkajian : "-"; ?></p></td>
+                <td ><p><b>Tanggal Pengkajian</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->pengkajianaskep_tgl) ? MyFormatter::FormatDateTimeForUser($modPengkajian->pengkajianaskep_tgl) : "-"; ?></p></td>
+                <td ><p><b>Nama Perawat</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->nama_pegawai) ? $modPengkajian->nama_pegawai : "-"; ?></p></td>
+        </tr>
+</table>
+<br/>
+<table width="100%" class = "border table">
+        <tr>
+            <td colspan="6" style="text-align:left;"><b style="font-size:15px;">Data Pasien</b></td>
+        </tr>
+        <tr>
+            <td ><p><b>No. Pendaftaran</b></p></td>
+            <td ><p>: <?php echo isset($modPengkajian->no_pendaftaran) ? $modPengkajian->no_pendaftaran : "-"; ?></p></td>
+            <td ><p><b>Jenis Kelamin</b></p></td>
+            <td ><p>: <?php echo isset($modPengkajian->jeniskelamin) ? $modPengkajian->jeniskelamin : "-"; ?></p></td>
+            <td ><p><b>Ruangan</b></p></td>
+            <td ><p>: <?php echo isset($modPengkajian->ruangan_nama) ? $modPengkajian->ruangan_nama : "-" ?></p></td>
+        </tr>
+        <tr>
+                <td ><p><b>Tanggal Pendaftaran</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->tgl_pendaftaran) ? MyFormatter::FormatDateTimeForUser($modPengkajian->tgl_pendaftaran) : "-"; ?></p></td>
+                <td ><p><b>Pekerjaan</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->pekerjaan_nama) ? $modPengkajian->pekerjaan_nama : "-"; ?></p></td>
+                <td ><p><b>Kelas</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->kelaspelayanan_nama) ? $modPengkajian->kelaspelayanan_nama : "-" ?></p></td>
+        </tr>
+        <tr>
+                <td ><p><b>No. Rekam Medik</b></p></td>
+                <td ><p><?php echo isset($modPengkajian->no_rekam_medik) ? $modPengkajian->no_rekam_medik : "-"; ?></p></td>
+                <td ><p><b>Pendidikan</b></p></td>
+                <td ><p><?php echo isset($modPengkajian->pendidikan_nama) ? $modPengkajian->pendidikan_nama : "-"; ?></p></td>
+                <td ><p><b>No Kamar / No Bed</b></p></td>
+                <td ><p><?php echo isset($modPengkajian->kamarruangan_nokamar) ? $modPengkajian->kamarruangan_nokamar : "-" . ' / ' . isset($modPengkajian->kamarruangan_nobed) ? $modPengkajian->kamarruangan_nobed : "-" ?></p></td>
+        </tr>
+        <tr>
+                <td ><p><b>Nama Pasien</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->nama_pasien) ? $modPengkajian->nama_pasien : "-"; ?></p></td>
+                <td ><p><b>Agama</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->agama) ? $modPengkajian->agama : "-"; ?></p></td>
+                <td ><p><b>Diagnosa Medik Masuk</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->diagnosa_nama) ? $modPengkajian->diagnosa_nama : "-" ?></p></td>
+        </tr>
+        <tr>
+                <td ><p><b>Umur</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->umur) ? $modPengkajian->umur : "-"; ?></p></td>
+                <td ><p><b>Alamat</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->alamat_pasien) ? $modPengkajian->alamat_pasien : "-"; ?></p></td>
+                <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+                <td ><p><b>Status Perkawinan</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->statusperkawinan) ? $modPengkajian->statusperkawinan : "-"; ?></p></td>
+                <td colspan="4">&nbsp;</td>
+        </tr>
+</table>
+<br/>					
+<table width="100%"  class = "border table">
+        <tr>
+            <td colspan="6" style = "text-align:left;"><b style="font-size:15px;">Data Penanggung Jawab</b></td>
+        </tr>
+        <tr>
+                <td ><p><b>Nama</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->nama_pj) ? $modPengkajian->nama_pj : "-"; ?></p></td>
+                <td ><p><b>Tanggal Lahir</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->tgllahir_pj) ? MyFormatter::FormatDateTimeForUser($modPengkajian->tgllahir_pj) : "-"; ?></p></td>
+                <td ><p><b>Hubungan Dengan Klien</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->hubungankeluarga) ? $modPengkajian->hubungankeluarga : "-" ?></p></td>
+        </tr>
+        <tr>
+                <td ><p><b>No Identitas</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->no_identitas) ? $modPengkajian->no_identitas : "-"; ?></p></td>
+                <td ><p><b>No Telepon</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->no_teleponpj) ? $modPengkajian->no_teleponpj : "-"; ?></p></td>
+                <td ><p><b>Alamat</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->alamat_pj) ? $modPengkajian->alamat_pj : "-" ?></p></td>
+        </tr>
+        <tr>
+                <td ><p><b>Jenis Kelamin</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->jk) ? $modPengkajian->jk : "-"; ?></p></td>
+                <td ><p><b>No Mobile</b></p></td>
+                <td ><p>: <?php echo isset($modPengkajian->no_mobilepj) ? $modPengkajian->no_mobilepj : "-"; ?></p></td>
+                <td colspan="2">&nbsp;</td>
+        </tr>
+</table>
+<br/>
+<?php 
+	echo '<p style="text-align:left;"><strong>Data Anamnesa</strong></p>';
+?>	
+<?php 
+	echo '<p style="text-align:center;"><strong>RIWAYAT ANAMNESA</strong></p>';
+?>	
+
+<br/>		
+<?php $this->renderPartial('_detailAnamnesis', array('modAnamnesa' => $modAnamnesa)); ?>
+<br/>		
+<?php 
+	echo '<p style="text-align:left;"><strong>Data Pemeriksaan Fisik</strong></p>';
+?>
+<?php 
+	echo '<p style="text-align:center;"><strong>PERIKSA FISIK</strong></p>';
+?>
 			<?php
 			$this->renderPartial('_detailFisik', array('modPemeriksaanFisik' => $modPemeriksaanFisik, 'modPemeriksaanGambar' => $modPemeriksaanGambar,
 				'modGambarTubuh' => $modGambarTubuh,
 				'modBagianTubuh' => $modBagianTubuh,));
 			?>
-		</fieldset>
-	</div>
-
-	<div class="row-fluid">
-		<fieldset class="box">
-			<legend class="rim">Data Penunjang</legend>
-			<div class='block-tabel'>
+		
+<br/>
+<?php 
+	echo '<p style="text-align:left;"><strong>Data Penunjang</strong></p>';
+?>
 				<?php
 				$this->widget('ext.bootstrap.widgets.BootGridView', array(
 					'id' => 'penunjang-grid',
 					'enableSorting' => false,
 					'template' => "{items}",
 					'dataProvider' => $modPenunjang,
-					'itemsCssClass' => 'table table-striped table-bordered table-condensed',
+					'itemsCssClass' => 'table border',
 					'columns' => array(
 						array(
 							'header' => 'Tanggal',
@@ -154,7 +185,5 @@
             }',
 				));
 				?>
-			</div>
-		</fieldset>
-	</div>
-</div>
+			
+	

@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Laporan Jasa <b>Racikan / Service</b></legend>
+    <legend class="rim2">Laporan Jasa <b>Racikan</b></legend>
     <?php
     $url = Yii::app()->createUrl($this->module->id.'/'.$this->id.'/frameGrafikLaporanJasaServices&id=1');
     Yii::app()->clientScript->registerScript('search', "
@@ -25,7 +25,7 @@
         ?>
     </fieldset><!-- search-form --> 
     <div class="block-tabel"> 
-        <h6>Tabel Jasa <b>Racikan / Services</b></h6>
+        <h6>Tabel Jasa <b>Racikan</b></h6>
         <?php $this->renderPartial('jasaRacikan/_table', array('model'=>$model)); ?>
         <?php //$this->renderPartial('_tab'); ?>
         <iframe src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">

@@ -1,3 +1,5 @@
+<div class="white-container">
+    <legend class = "rim2">Pengaturan <b>Kamar Ruangan</b></legend>
 <?php
 $this->breadcrumbs=array(
 	'Sakamar Ruangan Ms'=>array('index'),
@@ -97,7 +99,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 array(
                     'header'=>'Hapus',
                     'type'=>'raw',
-                    'value'=>'($data->kamarruangan_aktif)?CHtml::link("<i class=\'icon-remove\'></i> ","javascript:removeTemporary($data->kamarruangan_id)",array("id"=>"$data->kamarruangan_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->kamarruangan_id)",array("id"=>"$data->kamarruangan_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->kamarruangan_id)",array("id"=>"$data->kamarruangan_id","rel"=>"tooltip","title"=>"Hapus"));',
+                    'value'=>'($data->kamarruangan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kamarruangan_id)",array("id"=>"$data->kamarruangan_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kamarruangan_id)",array("id"=>"$data->kamarruangan_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kamarruangan_id)",array("id"=>"$data->kamarruangan_id","rel"=>"tooltip","title"=>"Hapus"));',
                     'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                 ),
 	),
@@ -169,3 +171,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
            }
     }
 </script>
+</div>

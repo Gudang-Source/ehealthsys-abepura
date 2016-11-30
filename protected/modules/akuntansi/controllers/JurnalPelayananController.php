@@ -16,13 +16,15 @@ class JurnalPelayananController extends JurnalPenerimaanKasController
             $model->tgl_awal = $format->formatDateTimeForDb($data_parsing['AKJurnalrekeningT']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($data_parsing['AKJurnalrekeningT']['tgl_akhir']);            
             $model->jenisjurnal_id = Params::JENISJURNAL_ID_PELAYANAN;
+			$model->kodejurnal = $data_parsing['AKJurnalrekeningT']['kodejurnal'];
             $record = $model->searchWithJoin();
             $result = array();
             foreach($record->getData() as $key=>$val)
             {
                 $attributes = $val->attributes;
                 $attributes['tglbuktijurnal'] = date("d-m-Y", strtotime($val->jurnalRekening->tglbuktijurnal));
-                $attributes['nobuktijurnal'] = $val->jurnalRekening->nobuktijurnal;
+                $attributes['tglbuktijurnalform'] = MyFormatter::formatDateTimeForuser($val->jurnalRekening->tglbuktijurnal);
+				$attributes['nobuktijurnal'] = $val->jurnalRekening->nobuktijurnal;
                 $attributes['kodejurnal'] = $val->jurnalRekening->kodejurnal;
                 $attributes['urianjurnal'] = $val->jurnalRekening->urianjurnal;
                 
@@ -48,16 +50,16 @@ class JurnalPelayananController extends JurnalPenerimaanKasController
                 if(isset($rec_nama['rekening5_id']))
                 {
                     $nama_rekening = $rec_nama['nmrekening5'];
-                    $kode_rekening = $rec_nama['kdrekening1'] . "-" . $rec_nama['kdrekening2'] . "-" . $rec_nama['kdrekening3'] . "-" . $rec_nama['kdrekening4'] . "-" . $rec_nama['kdrekening5'];
+                    $kode_rekening = $rec_nama['kdrekening5'];
                     $status_rekening = $rec_nama['rekening5_nb'];
                 }else{
                     if(isset($rec_nama['rekening4_id']))
                     {
                         $nama_rekening = $rec_nama['nmrekening4'];
-                        $kode_rekening = $rec_nama['kdrekening1'] . "-" . $rec_nama['kdrekening2'] . "-" . $rec_nama['kdrekening3'] . "-" . $rec_nama['kdrekening4'];
+                        $kode_rekening = $rec_nama['kdrekening4'];
                     }else{
                         $nama_rekening = $rec_nama['nmrekening3'];
-                        $kode_rekening = $rec_nama['kdrekening1'] . "-" . $rec_nama['kdrekening2'] . "-" . $rec_nama['kdrekening3'];
+                        $kode_rekening = $rec_nama['kdrekening3'];
                     }
                 }
                 $attributes['nama_rekening'] = $nama_rekening;

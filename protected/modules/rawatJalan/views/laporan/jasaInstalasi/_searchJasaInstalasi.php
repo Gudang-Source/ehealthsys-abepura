@@ -21,7 +21,7 @@
 		<div class="span4">
                     <?php $format = new MyFormatter(); ?>
                     <?php echo CHtml::hiddenField('type', ''); ?>
-                    <?php echo CHtml::label('Tanggal Pelayanan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
                     </div>
@@ -188,6 +188,39 @@
                     </div>
                 </td>
             </tr>
+            <tr>
+                    <td style = "text-align:left;">
+                        <div id='searching'>
+                    <fieldset>    
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan2',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content3'=>array(
+                                'header'=>'Berdasarkan Dokter',
+                                'isi'=>  '
+                                            <table>                                            
+                                            <tr>
+                                                    <td>'.$form->dropDownListRow($model,'nama_pegawai',  CHtml::listData(DokterV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."'  "), 'nama_pegawai', 'namaLengkap'),array('empty'=>'-- Pilih --'))
+                                                    .'</td>
+                                            </tr>
+                                            </table>
+                                            <table  id="penjamin">
+                                            <tr>
+                                                <td></td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>false,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>											
+                    </fieldset>	
+                    </div>
+                        
+                    </td>
+                    <td></td>
+                </tr>
             </table>   
 				
 	

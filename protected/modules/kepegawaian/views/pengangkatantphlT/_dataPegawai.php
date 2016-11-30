@@ -1,12 +1,12 @@
 <div class="row-fluid">
     <div class="span4">
-        <?php echo $form->textFieldRow($model, 'nomorindukpegawai', array('class' => 'required', 'onkeyup' => "return $(this).focusNextInputField(event)", 'placeholder' => 'Nomor Induk Pegawai')); ?>
+        <?php echo $form->textFieldRow($model, 'nomorindukpegawai', array('class' => 'required numbers-only', 'onkeyup' => "return $(this).focusNextInputField(event)", 'placeholder' => 'Nomor Induk Pegawai')); ?>
 
         <div class="control-group">
             <?php echo CHtml::label('No. Identitas', 'noidentitas', array('class' => 'control-label')); ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jenisidentitas', LookupM::getItems('jenisidentitas'), array('empty' => '-- Pilih --', 'id' => 'jenisidentitas', 'style' => 'width:70px;', 'onkeyup' => "return $(this).focusNextInputField(event)")); ?>
-                <?php echo $form->textField($model, 'noidentitas', array('empty' => '-- Pilih --', 'id' => 'jenisidentitas', 'style' => 'width:135px;', 'onkeyup' => "return $(this).focusNextInputField(event)", 'placeholder' => 'No. Identitas Pegawai')); ?>
+                <?php echo $form->textField($model, 'noidentitas', array('class'=>'numbers-only','empty' => '-- Pilih --', 'id' => 'jenisidentitas', 'style' => 'width:135px;', 'onkeyup' => "return $(this).focusNextInputField(event)", 'placeholder' => 'No. Identitas Pegawai')); ?>
             </div>
         </div>
 
@@ -21,7 +21,7 @@
                 echo $form->dropDownList($model, 'gelardepan', CHtml::listData($model->getGelarDepanItems(), 'lookup_id', 'lookup_name'), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)",
                     'style' => 'width:60px;'));
                 ?>
-                <?php echo $form->textField($model, 'nama_pegawai', array('onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'class' => 'inputRequire', 'style' => 'width:127px;', 'placeholder' => 'Nama Lengkap Pegawai')); ?>
+                <?php echo $form->textField($model, 'nama_pegawai', array('onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'class' => 'required hurufs-only', 'style' => 'width:127px;', 'placeholder' => 'Nama Lengkap Pegawai')); ?>
                 <?php
                 echo $form->dropDownList($model, 'gelarbelakang_id', CHtml::listData($model->getGelarBelakangItems(), 'gelarbelakang_id', 'gelarbelakang_nama'), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)",
                     'style' => 'width:60px;'));
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <?php echo $form->textFieldRow($model, 'nama_keluarga', array('onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'placeholder' => 'Nama Keluarga Pegawai')); ?>
+        <?php echo $form->textFieldRow($model, 'nama_keluarga', array('class'=>'hurufs-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'placeholder' => 'Nama Keluarga Pegawai')); ?>
 
         <?php
         echo $form->dropDownListRow($model, 'jabatan_id', CHtml::listData($model->getJabatanItems(), 'jabatan_id', 'jabatan_nama'), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)",
@@ -41,7 +41,7 @@
         ));
         ?>
 
-                <?php echo $form->textFieldRow($model, 'tempatlahir_pegawai', array('onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30, 'placeholder' => 'Kota/Kabupaten Kelahiran')); ?>
+                <?php echo $form->textFieldRow($model, 'tempatlahir_pegawai', array('class'=>'hurufs-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30, 'placeholder' => 'Kota/Kabupaten Kelahiran')); ?>
 
         <div class="control-group">
                 <?php echo $form->labelEx($model, 'tgl_lahirpegawai', array('class' => 'control-label')) ?>
@@ -87,20 +87,21 @@
                     'class' => 'inputRequire'));
                 ?>  
 
-        <div class="control-group ">
-    <?php echo $form->labelEx($model, 'golongandarah', array('class' => 'control-label')) ?>
-            <div class="controls">
-                <?php echo $form->dropDownList($model, 'golongandarah', LookupM::getItems('golongandarah'), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)", 'class' => 'span2'));
-                ?>   
-                <div class="radio inline">
-                    <div class="form-inline">
-      </div><?php echo $form->radioButtonList($model, 'rhesus', LookupM::getItems('rhesus'), array('onkeyup' => "return $(this).focusNextInputField(event)")); ?>            
+       <div class="control-group ">
+                <?php echo $form->labelEx($model,'golongandarah', array('class'=>'control-label')) ?>
+                <div class="controls">
+                    <?php echo $form->dropDownList($model,'golongandarah', LookupM::getItems('golongandarah'),  
+                                                  array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span2')); ?>   
+                    <div class="radio inline">
+                        <div class="form-inline">
+                            <?php echo $form->radioButtonList($model,'rhesus',LookupM::getItems('rhesus'), array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>            
+                        </div>
                     </div>
+                    <?php echo $form->error($model, 'golongandarah'); ?>
+                    <?php echo $form->error($model, 'rhesus'); ?>
                 </div>
-        <?php echo $form->error($model, 'golongandarah'); ?>
-        <?php echo $form->error($model, 'rhesus'); ?>
             </div>
-    </div>
+        </div>
     <div class="span4">
         <?php echo $form->dropDownListRow($model, 'warganegara_pegawai', LookupM::getItems('warganegara'), array('onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 25)); ?>
 
@@ -141,32 +142,38 @@
 
         <?php echo $form->dropDownListRow($model, 'statuskepemilikanrumah_id', CHtml::listData($model->getStatuskepemilikanrumahItems(), 'statuskepemilikanrumah_id', 'statuskepemilikanrumah_nama'), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)")); ?>
 
-        <?php echo $form->textFieldRow($model, 'kemampuanbahasa', array('onkeyup' => "return $(this).focusNextInputField(event)", 'placeholder' => 'contoh : Bahasa Indonesia, Inggris')); ?>
+        <?php echo $form->dropDownListRow($model, 'kemampuanbahasa', LookupM::getItems('kemampuanbahasa'), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)")); ?>
 
-        <?php echo $form->textFieldRow($model, 'warnakulit', array('onkeyup' => "return $(this).focusNextInputField(event)", 'placeholder' => 'contoh : Sawo Matang')); ?>
+        <?php echo $form->dropDownListRow($model, 'warnakulit', LookupM::getItems('warnakulit'), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)")); ?>
     </div>
     <div class="span4">        
         <?php echo $form->textAreaRow($model, 'alamat_pegawai', array('rows' => 6, 'cols' => 50, 'onkeyup' => "return $(this).focusNextInputField(event);", 'placeholder' => 'Alamat Lengkap Pegawai')); ?>
 
         <?php
-        echo $form->dropDownListRow($model, 'propinsi_id', CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)",
-            'ajax' => array('type' => 'POST',
-                'url' => Yii::app()->createUrl('ActionDynamic/GetKabupaten', array('encode' => false, 'namaModel' => 'KPPegawaiM')),
-                'update' => '#KPPegawaiM_kabupaten_id')));
+        echo $form->dropDownListRow($model, 'propinsi_id', CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), array('empty' => '-- Pilih --',
+                    'ajax' => array('type' => 'POST',
+                        'url' => Yii::app()->createUrl('ActionDynamic/GetKabupaten', array('encode' => false, 'model_nama' => 'KPPegawaiM')),
+                        'update' => '#'.CHtml::activeId($model, 'kabupaten_id').''),
+                    'onkeypress' => "return $(this).focusNextInputField(event)"
+                ));
         ?>
 
         <?php
-        echo $form->dropDownListRow($model, 'kabupaten_id', array(), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)",
-            'ajax' => array('type' => 'POST',
-                'url' => Yii::app()->createUrl('ActionDynamic/GetKecamatan', array('encode' => false, 'namaModel' => 'KPPegawaiM')),
-                'update' => '#KPPegawaiM_kecamatan_id')));
+        echo $form->dropDownListRow($model, 'kabupaten_id', array(), array('empty' => '-- Pilih --',
+                    'ajax' => array('type' => 'POST',
+                    'url' => Yii::app()->createUrl('ActionDynamic/GetKecamatan', array('encode' => false,  'model_nama' => 'KPPegawaiM')),
+                    'update' => '#'.CHtml::activeId($model, 'kecamatan_id').''),
+                    'onkeypress' => "return $(this).focusNextInputField(event)"
+                ));
         ?>
 
             <?php
-            echo $form->dropDownListRow($model, 'kecamatan_id', array(), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)",
-                'ajax' => array('type' => 'POST',
-                    'url' => Yii::app()->createUrl('ActionDynamic/GetKelurahan', array('encode' => false, 'namaModel' => 'KPPegawaiM')),
-                    'update' => '#KPPegawaiM_kelurahan_id')));
+            echo $form->dropDownListRow($model, 'kecamatan_id', array(), array('empty' => '-- Pilih --',
+                    'ajax' => array('type' => 'POST',
+                        'url' => Yii::app()->createUrl('ActionDynamic/GetKelurahan', array('encode' => false,  'model_nama' => 'KPPegawaiM')),
+                        'update' => '#'.CHtml::activeId($model, 'kelurahan_id').''),
+                    'onkeypress' => "return $(this).focusNextInputField(event)"
+                ));
             ?>
 
                 <?php echo $form->dropDownListRow($model, 'kelurahan_id', array(), array('empty' => '-- Pilih --', 'onkeyup' => "return $(this).focusNextInputField(event)"));

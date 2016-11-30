@@ -257,7 +257,15 @@ class TransaksiController extends MyAuthController
                         // END SMS GATEWAY
                         $sukses = 1;
                         $modPemesanan->isNewRecord = FALSE;
-						$this->redirect(array('pemesanan','id'=>$modPemesanan->pesanambulans_t,'sukses'=>1));
+                        $judul = "Pemesanan Ambulans";                    
+                        
+
+                        $isi =  ' Ruangan Pemesan : '.$modPemesanan->ruanganUserPemesan->ruangan_nama.'<br/> '
+                              . ' No Pesan Ambulans '.$modPemesanan->pesanambulans_no;
+                        $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                            array('instalasi_id'=>Params::INSTALASI_ID_AMBULAN, 'ruangan_id'=>Params::RUANGAN_ID_AMBULANCE, 'modul_id'=>Params::MODUL_ID_AMBULANS),                                    
+                        ));  
+                        $this->redirect(array('pemesanan','id'=>$modPemesanan->pesanambulans_t,'sukses'=>1));
 //                        Yii::app()->user->setFlash('success',"Transaksi Pesan Ambulans Berhasil disimpan");
                     } else {
                         Yii::app()->user->setFlash('error',"Data Gagal disimpan");

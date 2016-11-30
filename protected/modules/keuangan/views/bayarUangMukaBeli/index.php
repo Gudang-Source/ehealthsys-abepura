@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <?php
 if(isset($_GET['sukses'])){
 	Yii::app()->user->setFlash('success', "Transaksi berhasil disimpan !");
@@ -62,8 +66,8 @@ if(isset($_GET['sukses'])){
                             )); ?>
                         </div>
                     </div>
-                    <?php echo $form->textFieldRow($modBuktiKeluar,'jmlkaskeluar',array('class'=>'span3 integer','onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modBuktiKeluar,'biayaadministrasi',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modBuktiKeluar,'jmlkaskeluar',array('class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modBuktiKeluar,'biayaadministrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textAreaRow($modBuktiKeluar,'keterangan_pengeluaran',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 </td>
                 <td>

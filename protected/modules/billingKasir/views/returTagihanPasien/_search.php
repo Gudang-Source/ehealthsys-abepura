@@ -6,16 +6,16 @@
         <td>
             <div class="control-group ">
                 <?php 
-                    $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
-                    $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir);
-                    echo CHtml::label('Tanggal Pendaftaran','tglPendaftaran', array('class'=>'control-label inline')) 
+                    $model->tgl_awal = $format->formatDateTimeForUser(date("Y-m-d", strtotime($model->tgl_awal)));
+                    $model->tgl_akhir = $format->formatDateTimeForUser(date("Y-m-d", strtotime($model->tgl_akhir)));
+                    echo CHtml::label('Tanggal Retur Pelayanan','tglreturpelayanan', array('class'=>'control-label inline')) 
                 ?>
                 <div class="controls">
                     <?php   
                             $this->widget('MyDateTimePicker',array(
                                             'model'=>$model,
                                             'attribute'=>'tgl_awal',
-                                            'mode'=>'datetime',
+                                            'mode'=>'date',
                                             'options'=> array(
                                                 'dateFormat'=>Params::DATE_FORMAT,
                                                 'maxDate' => 'd',
@@ -33,7 +33,7 @@
                             $this->widget('MyDateTimePicker',array(
                                             'model'=>$model,
                                             'attribute'=>'tgl_akhir',
-                                            'mode'=>'datetime',
+                                            'mode'=>'date',
                                             'options'=> array(
                                                 'dateFormat'=>Params::DATE_FORMAT,
 //                                                    'minDate' => 'd',
@@ -45,12 +45,19 @@
                 </div>
             </div>
             
+            <div class = "control-group">
+                <?php echo Chtml::label("No. Retur",'noreturbayar', array('class'=>'control-label')); ?>
+                <div class = "controls">
+                    <?php echo $form->textField($model,'noreturbayar',array('placeholder'=>'Ketik No. Retur','class'=>'span3 angkahuruf-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                </div>
+            </div>
+            
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'nobuktibayar',array('placeholder'=>'Ketik No. Bukti Bayar','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','autofocus'=>true,'class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'nobuktibayar',array('placeholder'=>'Ketik No. Bukti Bayar','class'=>'span3 angkahuruf-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3 angkahuruf-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','autofocus'=>true,'class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             
             <?php /*
             <div class="control-group">

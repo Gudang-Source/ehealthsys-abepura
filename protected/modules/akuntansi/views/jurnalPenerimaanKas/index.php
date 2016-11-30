@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <div class="white-container">
     <?php
     $this->breadcrumbs=array(
@@ -44,9 +48,164 @@
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
     </div>
 
+	
+	
+	
+<?php
+//========= Dialog buat cari data Rek Debit =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogRek',
+    'options'=>array(
+        'title'=>'Daftar Rekening',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>1000,
+        'height'=>700,
+        'resizable'=>false,
+    ),
+));
+
+
+$modRekDebit = new RekeningakuntansiV('searchAccounts');
+$modRekDebit->unsetAttributes();
+// $modRekDebit->rekening5_nb = $account;
+$modRekDebit->rekening5_aktif = true;
+if(isset($_GET['RekeningakuntansiV'])) {
+    $modRekDebit->attributes = $_GET['RekeningakuntansiV'];
+	// $modRekDebit->rekening5_nb = $account;
+}
+
+$c2 = new CDbCriteria();
+$c3 = new CDbCriteria();
+$c4 = new CDbCriteria();
+
+
+$c2->compare('rekening1_id', $modRekDebit->rekening1_id);
+$c2->addCondition('rekening2_aktif = true');
+$c2->order = 'kdrekening2';
+
+$r2 = Rekening2M::model()->findAll($c2);
+
+$c3->compare('rekening2_id', $modRekDebit->rekening2_id);
+$c3->addCondition('rekening3_aktif = true');
+$c3->order = 'kdrekening3';
+
+$r3 = Rekening3M::model()->findAll($c3);
+
+$c4->compare('rekening3_id', $modRekDebit->rekening3_id);
+$c4->addCondition('rekening4_aktif = true');
+$c4->order = 'kdrekening4';
+
+$r4 = Rekening4M::model()->findAll($c4);
+
+$this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
+	'id'=>'rekdebit-m-grid',
+        //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
+	'dataProvider'=>$modRekDebit->searchAccounts(),
+	'filter'=>$modRekDebit,
+        'template'=>"{summary}\n{items}\n{pager}",
+        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'columns'=>array(
+                array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectRekDebit",
+                                    "onClick" =>"            
+												pilihDialogRekening(".CJSON::encode($data->attributes).");
+                                                $(\"#dialogRek\").dialog(\"close\");    
+                                                return false;
+                            "))',
+                ),
+                array(
+                        'header' => 'Kode Akun',
+                        'name' => 'kdrekening5',
+                        'value' => '$data->kdrekening5',
+                ),
+                array(
+                        'header'=>'Kelompok Akun',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            $rek1 = Rekening1M::model()->findByPk($data->rekening1_id);
+                            $rek2 = KelrekeningM::model()->findByPk($rek1->kelrekening_id);
+                            return $rek2->namakelrekening;
+                        },
+                        'filter'=>CHtml::activeDropDownList($modRekDebit, 'kelrekening_id', CHtml::listData(
+                       KelrekeningM::model()->findAll(array(
+                           'condition'=>'kelrekening_aktif = true',
+                           'order'=>'koderekeningkel',
+                       )), 'kelrekening_id', 'namakelrekening'
+                        ), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Komponen',
+                        'name'=>'rekening1_id',
+                        'value'=>'$data->nmrekening1',
+                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening1_id', 
+                        CHtml::listData(Rekening1M::model()->findAll(array(
+                            'condition'=>'rekening1_aktif = true',
+                            'order'=>'kdrekening1 asc',
+                        )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Unsur',
+                        'name'=>'rekening2_id',
+                        'value'=>'$data->nmrekening2',
+                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening2_id', 
+                        CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Kelompok Pos',
+                        'name'=>'rekening3_id',
+                        'value'=>'$data->nmrekening3',
+                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening3_id', 
+                        CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Pos',
+                        'name'=>'rekening4_id',
+                        'value'=>'$data->nmrekening4',
+                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening4_id', 
+                        CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header' => 'Akun',
+                        'name' => 'nmrekening5',
+                        'value' => '$data->nmrekening5',
+                ), /*
+                array(
+                    'header'=>'Nama Lain',
+                    'name'=>'nmrekeninglain5',
+                    'value'=>'$data->nmrekeninglain5',
+                ), */
+				array(
+                        'header'=>'Saldo Normal',
+                        'name'=>'rekening5_nb',
+                        'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
+                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>"-- Pilih --")),
+                ),
+	),
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+));
+
+$this->endWidget();
+//========= end Rek Debit dialog =============================
+?>
+	
+	
+	
+	
+	
 <script type="text/javascript">
     var frmInputRekening = new String(<?php echo CJSON::encode($this->renderPartial($path_view . '__formInputRekening',array('model'=>$model, 'form'=>$form), true));?>);    
     
+	var cur_id;
+	
+	function ubahRekening(obj) {
+		cur_id = $(obj).parents("tr").index();
+		$("#dialogRek").dialog("open");
+	}
+	
     function getDataRekening()
     {
         setTimeout(
@@ -55,6 +214,20 @@
             }, 1000
         );
     }
+	
+	function pilihDialogRekening(data) {
+		var obj = $("#daftar-jural-rek-grid > tbody > tr").eq(cur_id);
+		console.log(obj);
+		$(obj).find(".rek1").val(data.rekening1_id);
+		$(obj).find(".rek2").val(data.rekening2_id);
+		$(obj).find(".rek3").val(data.rekening3_id);
+		$(obj).find(".rek4").val(data.rekening4_id);
+		$(obj).find(".rek5").val(data.rekening5_id);
+		
+		$(obj).find(".nama5").val(data.nmrekening5);
+		$(obj).find(".kode5").html(data.kdrekening5);
+	}
+	
     getDataRekening();
     
     $('#form-search-jurnal-rek').submit(function()
@@ -77,15 +250,15 @@
                     $('#daftar-jural-rek-grid').find('td[name$="[x][saldokredit]"]').attr('name', 'AKJurnalrekeningT['+ i +'][saldokredit]');
                     */
                    
-                    $('#daftar-jural-rek-grid').find("input[name$='[x][saldodebit]']").val(data[i].saldodebit);
+                    $('#daftar-jural-rek-grid').find("input[name$='[x][saldodebit]']").val(formatNumber(data[i].saldodebit));
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldodebit]"]').attr('id', 'AKJurnalrekeningT_'+ i +'_saldodebit]');
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldodebit]"]').attr('name', 'AKJurnalrekeningT['+ i +'][saldodebit]');
                     
-                    $('#daftar-jural-rek-grid').find("input[name$='[x][saldokredit]']").val(data[i].saldokredit);
+                    $('#daftar-jural-rek-grid').find("input[name$='[x][saldokredit]']").val(formatNumber(data[i].saldokredit));
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldokredit]"]').attr('id', 'AKJurnalrekeningT_'+ i +'_saldokredit]');
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldokredit]"]').attr('name', 'AKJurnalrekeningT['+ i +'][saldokredit]');
                     
-                    $('#daftar-jural-rek-grid').find("td[name$='[x][tglbuktijurnal]']").text(data[i].tglbuktijurnal);
+                    $('#daftar-jural-rek-grid').find("td[name$='[x][tglbuktijurnal]']").text(data[i].tglbuktijurnalform);
                     $('#daftar-jural-rek-grid').find('td[name$="[x][tglbuktijurnal]"]').attr('name', 'AKJurnalrekeningT['+ i +'][tglbuktijurnal]');
                     
                     $('#daftar-jural-rek-grid').find("span[name$='[x][nobuktijurnal]']").text(data[i].nobuktijurnal);
@@ -113,7 +286,7 @@
                     var jns_rekening = "Debit";
                     if(data[i].saldodebit == 0)
                     {
-                        nm_rekening_temp = "        " + data[i].nama_rekening;
+                        nm_rekening_temp = data[i].nama_rekening;
                         var jns_rekening = "Kredit";
                     }                    
                     
@@ -168,6 +341,10 @@
                         }
                     );
                 }
+				
+				$(".integer2").maskMoney(
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
+				);
 				$('#frmGridJurnalRek').removeClass("animation-loading");
             }, "json"
         );
@@ -243,6 +420,11 @@
         }
 
     }    
+	
+	
+	$(".alphanum").keyup(function() {
+		$(this).val($(this).val().replace(/[^a-zA-Z0-9]/gi, ''));
+	});
     
     
 </script>

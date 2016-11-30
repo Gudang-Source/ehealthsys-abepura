@@ -10,9 +10,12 @@ if (isset($caraPrint)){
 }
 ?>
 <div>
-<?php $this->widget('ext.bootstrap.widgets.BootGridView',array( 
+<?php 
+$prov = $modTindakanSearch->searchAnamesaDiet($modPendaftaran->pendaftaran_id);
+$prov->sort->defaultOrder = 'jeniswaktu_id';
+$this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'rjtindakan-pelayanan-t-grid', 
-    'dataProvider'=>$modTindakanSearch->searchAnamesaDiet($modPendaftaran->pendaftaran_id), 
+    'dataProvider'=>$prov, 
         'template'=>"{summary}\n{items}\n{pager}", 
         'itemsCssClass'=>'table table-striped table-bordered table-condensed', 
     'columns'=>array( 
@@ -22,8 +25,12 @@ if (isset($caraPrint)){
         ),
         array(
             'header'=>'Tanggal Anamnesa Diet',
-            'value'=>'$data->tglanamesadiet',
+            'value'=>'MyFormatter::formatDateTimeForUser($data->tglanamesadiet)',
         ),
+		array(
+			'header'=>'Waktu Diet',
+			'value'=>'$data->jeniswaktu->jeniswaktu_nama'
+		),
         array(
             'header'=>'Menu Diet',
             'value'=>'$data->menudiet->menudiet_namalain',

@@ -11,8 +11,9 @@
 ?>
 <?php
 	$criteria = new CDbCriteria;
-    $criteria->group = 'periodeposting_id, tglperiodeposting_awal, tglperiodeposting_akhir, labarugi, ekuitas, prive, modal';
-    $criteria->select = $criteria->group;
+        $criteria->group = 'rekening3_id,nmrekening3';
+        $criteria->select = $criteria->group . " ,sum(jumlah) as jumlah";
+        $criteria->order = 'rekening3_id,nmrekening3';
 	
 	if(!empty($_GET['AKLaporanperubahanmodalV']['periodeposting_id']) || $model->periodeposting_id){		
 		$periodeposting_id = isset($_GET['AKLaporanperubahanmodalV']['periodeposting_id']) ? $_GET['AKLaporanperubahanmodalV']['periodeposting_id'] : isset($model->periodeposting_id) ? $model->periodeposting_id : null;
@@ -21,7 +22,7 @@
 	}
 	
 	if(!empty($_GET['AKLaporanperubahanmodalV']['ruangan_id']) || $model->ruangan_id){		
-		$ruangan_id = isset($_GET['AKLaporanperubahanmodalV']['ruangna_id']) ? $_GET['AKLaporanperubahanmodalV']['ruangan_id'] : isset($model->ruangan_id) ? $model->ruangan_id : null;
+		$ruangan_id = isset($_GET['AKLaporanperubahanmodalV']['ruangan_id']) ? $_GET['AKLaporanperubahanmodalV']['ruangan_id'] : isset($model->ruangan_id) ? $model->ruangan_id : null;
 		$criteria->addCondition('ruangan_id = '.$ruangan_id);
 	}
     $modelLaporan = AKLaporanperubahanmodalV::model()->findAll($criteria);
@@ -33,86 +34,74 @@
         <thead>
             <tr>
 				<th id="tableLaporan_c0" style="text-align:left; height: 30px; vertical-align: middle;">
-					
-				</th>
+					Rincian
+				</th>				
 				<th id="tableLaporan_c0" style="text-align:left; height: 30px; vertical-align: middle;">
-					
-				</th>
-				<th id="tableLaporan_c0" style="text-align:left; height: 30px; vertical-align: middle;">
-					
+					Total Nominal
 				</th>
 			</tr>
         </thead>
         <tbody>
 			<?php
-				if(count($modelLaporan) > 0){
-					foreach($modelLaporan as $i=>$modal){
-			?>
-			<tr>
-				<td><strong>Modal Awal <?php echo MyFormatter::formatDateTimeId($modal->tglperiodeposting_awal); ?></strong></td>
-				<td></td>
-				<td style="text-align:right;"><?php echo MyFormatter::formatUang($modal->ekuitas); ?></td>
-			</tr>
-			<?php
-				$criteria_detail = new CDbCriteria;
-				if(!empty($_GET['AKLaporanperubahanmodalV']['periodeposting_id']) || $model->periodeposting_id){		
-					$periodeposting_id = isset($_GET['AKLaporanperubahanmodalV']['periodeposting_id']) ? $_GET['AKLaporanperubahanmodalV']['periodeposting_id'] : isset($model->periodeposting_id) ? $model->periodeposting_id : null;
-					$criteria_detail->addCondition('periodeposting_id = '.$modal->periodeposting_id);
+			$spasi1 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			$spasi2 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			$spasi3 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			$spasi4 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			$nmrekening3_temp = "";
+			$jumlah = 0;
+			foreach ($modelLaporan as $key => $rekening3) {
+				if ($rekening3->nmrekening3) {
+					$totSaldo = $rekening3->jumlah;
+					$nmrekening3 = $rekening3->nmrekening3;
+					$rekening3_id = $rekening3->rekening3_id;
+				} else {
+					$nmrekening3 = '-';
 				}
 
-				if(!empty($_GET['AKLaporanperubahanmodalV']['ruangan_id']) || $model->ruangan_id){		
-					$ruangan_id = isset($_GET['AKLaporanperubahanmodalV']['ruangna_id']) ? $_GET['AKLaporanperubahanmodalV']['ruangan_id'] : isset($model->ruangan_id) ? $model->ruangan_id : null;
-					$criteria_detail->addCondition('ruangan_id = '.$ruangan_id);
-				}
-				$modDetail = AKLaporanperubahanmodalV::model()->findAll($criteria_detail);
-				foreach($modDetail as $ii=>$detail){
-			?>
-			<tr>
-				<td><?php echo $spasi." ".$detail->getNamaRekening(); ?></td>
-				<td></td>
-				<td style="text-align:right;"><?php echo MyFormatter::formatUang($detail->saldoakhirberjalan); ?></td>
-			</tr>
-			<?php } ?>
-			<tr>
-				<td><strong>Laba Bersih</strong></td>
-				<td style="text-align:right;"><?php echo MyFormatter::formatUang($modal->labarugi); ?></td>
-				<td></td>				
-			</tr>
-			<tr>
-				<td><strong>Prive</strong></td>
-				<td style="text-align:right;"><?php echo MyFormatter::formatUang($modal->prive); ?></td>
-				<td></td>				
-			</tr>
-			<tr>
-				<td><strong>Modal Akhir <?php echo MyFormatter::formatDateTimeId($modal->tglperiodeposting_akhir); ?></strong></td>
-				<td></td>
-				<td style="text-align:right;"><?php echo MyFormatter::formatUang($modal->modal); ?></td>
-			</tr>
-			<?php 
+				if ($nmrekening3_temp != $nmrekening3) {
+
+					echo "
+							<tr>
+								<td width='200px;'><b>" . $nmrekening3 . "</b></td>
+								<td width='150px;' style='text-align:right'><b>" . number_format($rekening3->jumlah) . "</b></td>
+							</tr>
+						";
+					$jumlah += $rekening3->jumlah;
+					$criteria2 = new CDbCriteria;
+					$term3 = $nmrekening3;
+					if (!empty($periodeposting_id)) {
+						$criteria2->addCondition('periodeposting_id =' . $periodeposting_id);
 					}
-				}else{
+					$condition4 = "nmrekening3 ILIKE '%" . $term3 . "%'";
+					$criteria2->addCondition($condition4);
+					$criteria2->limit = -1;
+					$criteria2->group = 'rekening3_id,nmrekening3,rekening4_id,nmrekening4';
+					$criteria2->select = $criteria2->group . ', sum(jumlah) as jumlah';
+					$criteria2->order = 'rekening3_id,nmrekening3,rekening4_id,nmrekening4 ASC';
+
+					$detail = AKLaporanperubahanmodalV::model()->findAll($criteria2);
+					foreach ($detail as $key => $rekening4) {
+
+						if ($rekening4->nmrekening4) {
+							$nmrekening4 = $rekening4->nmrekening4;
+						} else {
+							$nmrekening4 = '-';
+						}
+
+						echo "<tr>
+								<td width='200px;'>" . $spasi2 . $rekening4->getNamaRekening() . "</td>
+								<td width='150px;' style='text-align:right'>" . number_format($rekening4->jumlah) . "</td>
+							  </tr>";
+					}
+
+					$nmrekening3_temp = $nmrekening3;
+				}
+			}
 			?>
 			<tr>
-				<td><strong>Modal Awal <?php echo (isset($modPeriode->tglperiodeposting_awal) ? MyFormatter::formatDateTimeId($modPeriode->tglperiodeposting_awal) : NULL); ?></strong></td>
-				<td></td>
-				<td style="text-align:right;">0</td>
+				<td style='text-align:right'><strong>Saldo Per <?php echo $format->formatDateTimeForUser(date('Y-m-d H:i:s')); ?></strong></td>
+				<td width='150px;' style='text-align:right'><strong><?php echo number_format($jumlah); ?></strong></td>
 			</tr>
-			<tr>
-				<td><strong>Laba Bersih</strong></td>
-				<td style="text-align:right;">0</td>
-				<td></td>				
-			</tr>
-			<tr>
-				<td><strong>Prive</strong></td>
-				<td style="text-align:right;">0</td>
-				<td></td>				
-			</tr>
-			<tr>
-				<td><strong>Modal Akhir <?php echo (isset($modPeriode->tglperiodeposting_akhir) ? MyFormatter::formatDateTimeId($modPeriode->tglperiodeposting_akhir) : NULL); ?></strong></td>
-				<td></td>
-				<td style="text-align:right;">0</td>
-			</tr>
-			<?php } ?>
-        </tbody>
-</table>
+		</tbody>
+	</table>
 </div>

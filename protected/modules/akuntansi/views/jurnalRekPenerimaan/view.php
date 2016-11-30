@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Lihat Jurnal <b>Rekening Penerimaan</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Lihat Jurnal <b>Rekening Penerimaan</b></legend>-->
+<fieldset class = "box">
+    <legend class="rim">Lihat Jurnal Rekening Penerimaan</legend>
     <?php
     $this->breadcrumbs=array(
             'Jenispenerimaan Ms'=>array('index'),
@@ -13,7 +15,6 @@
     $this->menu=$arrMenu;
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
-
     <?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
             'data'=>$model,
             'attributes'=>array(
@@ -50,6 +51,7 @@
                     ),
             ),
     )); ?>
-    <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jurnal Rekening Penerimaan',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Jurnal Rekening Penerimaan', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('admin', array('tab'=>'frame','modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

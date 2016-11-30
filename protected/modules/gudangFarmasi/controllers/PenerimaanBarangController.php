@@ -85,6 +85,13 @@ class PenerimaanBarangController extends MyAuthController
             $transaction = Yii::app()->db->beginTransaction();
             try {
 				
+				$totnetto = 0;
+				$jmldisc = 0;
+				$persendisc = 0;
+				$totppn = 0;
+				$totpph = 0;
+				$totharga = 0;
+				
                     $modPenerimaanBarang->attributes=$_POST['GFPenerimaanBarangT'];
                     $modPenerimaanBarang->noterima = MyGenerator::noTerimaBarang();
                     $modPenerimaanBarang->pegawai_id = Yii::app()->user->getState('pegawai_id');
@@ -95,6 +102,10 @@ class PenerimaanBarangController extends MyAuthController
                     $modPenerimaanBarang->create_loginpemakai_id = Yii::app()->user->id;
                     $modPenerimaanBarang->update_loginpemakai_id = Yii::app()->user->id;
                     $modPenerimaanBarang->create_ruangan = Yii::app()->user->ruangan_id;
+					$modPenerimaanBarang->gudangpenerima_id = Yii::app()->user->getState('ruangan_id');
+					
+					
+					
                     
                 if($modPenerimaanBarang->save()){ 
                     if (isset($_POST['GFPenerimaanBarangT']['is_uangmuka'])){ 
@@ -115,14 +126,21 @@ class PenerimaanBarangController extends MyAuthController
                            $this->simpanStokObatAlkes($modDetails[$i],$postOa,$modPenerimaanBarang);
                            if (isset($_POST['GFPenerimaanBarangT']['is_langsungfaktur'])){ 
                                 if ($_POST['GFPenerimaanBarangT']['is_langsungfaktur'] == '1') {//Jika Uang Muka Dipilih
-                                    $this->simpanFakturDetail($modDetails[$i],$modFakturPembelian);
+                                    $this->simpanFakturDetail($modDetails[$i],$modFakturPembelian, $postOa);
                                 }
                             } 
                        }
                     }
+					
                     $updatePermintaanPembelian = GFPermintaanPembelianT::model()->updateByPk($modPenerimaanBarang->permintaanpembelian_id, array('penerimaanbarang_id'=>$modPenerimaanBarang->penerimaanbarang_id));
                 } 
-                    
+				
+				//$modPenerimaanBarang->harganetto = $totnetto;
+				//$modPenerimaanBarang->jmldiscount = $jmldisc;
+				
+				// var_dump($_POST, $modPenerimaanBarang->attributes);
+				
+				// die;
                 if($this->penerimaanbarangberhasiltersimpan && $this->stokobatalkestersimpan && $this->uangmukatersimpan && $this->fakturpembeliantersimpan && $this->fakturpembeliandetailtersimpan){
                     // SMS GATEWAY
                     $modSupplier = $modPenerimaanBarang->supplier;
@@ -213,6 +231,8 @@ class PenerimaanBarangController extends MyAuthController
         $modPenerimaanBarangDetail->fakturdetail_id = NULL;
         $modPenerimaanBarangDetail->returdetail_id = NULL;
         $modPenerimaanBarangDetail->stokobatalkes_id = NULL;
+		
+		// var_dump($modPenerimaanBarangDetail->attributes);
         
         if($post['satuanobat'] == PARAMS::SATUAN_KECIL){
             $modPenerimaanBarangDetail->satuanbesar_id = NULL;
@@ -266,6 +286,8 @@ class PenerimaanBarangController extends MyAuthController
         $modFakturPembelian->tgljatuhtempo = $format->formatDateTimeForDb($modFakturPembelian->tgljatuhtempo);
         $modFakturPembelian->ruangan_id = Yii::app()->user->getState('ruangan_id');
         
+		// var_dump($modFakturPembelian->attributes);
+		
         if($modFakturPembelian->validate()) { 
             $modFakturPembelian->save();
         } else {
@@ -281,7 +303,8 @@ class PenerimaanBarangController extends MyAuthController
      * @param type $post
      * @return \GFPenerimaanDetailT
      */
-    public function simpanFakturDetail($modPenerimaanDetail,$modFakturPembelian){
+    public function simpanFakturDetail($modPenerimaanDetail,$modFakturPembelian, $postOa){
+		// var_dump($postOa);
         $format = new MyFormatter();
         $modFakturDetail = new GFFakturDetailT;
         $modFakturDetail->penerimaandetail_id = $modPenerimaanDetail->penerimaandetail_id;
@@ -290,8 +313,8 @@ class PenerimaanBarangController extends MyAuthController
         $modFakturDetail->sumberdana_id = $modPenerimaanDetail->sumberdana_id;
         $modFakturDetail->jmlterima = $modPenerimaanDetail->jmlterima;
         $modFakturDetail->harganettofaktur = $modPenerimaanDetail->harganettoper;
-        $modFakturDetail->persenppnfaktur = $modPenerimaanDetail->persenppn;
-        $modFakturDetail->persenpphfaktur = $modPenerimaanDetail->persenpph;
+        $modFakturDetail->persenppnfaktur = $postOa['persenppn'];
+        $modFakturDetail->persenpphfaktur = $postOa['persenpph'];
         $modFakturDetail->persendiscount = $modPenerimaanDetail->persendiscount;
         $modFakturDetail->jmldiscount = $modPenerimaanDetail->jmldiscount;
         $modFakturDetail->hargasatuan = ($modFakturDetail->harganettofaktur - $modFakturDetail->jmldiscount);
@@ -299,7 +322,9 @@ class PenerimaanBarangController extends MyAuthController
         $modFakturDetail->satuanbesar_id = $modPenerimaanDetail->satuankecil_id;
         $modFakturDetail->satuankecil_id = $modPenerimaanDetail->satuanbesar_id;
         $modFakturDetail->tglkadaluarsa = $format->formatDateTimeForDb($modPenerimaanDetail->tglkadaluarsa);
-        
+		
+		// var_dump($modFakturDetail->attributes);
+		
         if($modFakturDetail->validate()) { 
             $modFakturDetail->save();
             $updatePenerimaan = GFPenerimaanDetailT::model()->updateByPk($modPenerimaanDetail->penerimaandetail_id,array('fakturdetail_id'=>$modFakturDetail->fakturdetail_id));

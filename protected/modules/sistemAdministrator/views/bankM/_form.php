@@ -55,7 +55,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<div class='control-group'>
 					<?php echo $form->labelEx($model, 'kodepos', array('class' => 'control-label')) ?>
 				<div class="controls">
-<?php echo $form->textField($model, 'kodepos', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style' => 'width:150px;')); ?>
+<?php echo $form->textField($model, 'kodepos', array('class' => 'span3 numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style' => 'width:150px;text-align:right;')); ?>
 				</div>
 			</div> 
 
@@ -85,7 +85,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<div class='control-group'>
 					<?php echo $form->labelEx($model, 'norekening', array('class' => 'control-label')) ?>
 				<div class="controls">
-<?php echo $form->textField($model, 'norekening', array('placeholder' => 'No. Rekening', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'style' => 'width:150px;')); ?>
+<?php echo $form->textField($model, 'norekening', array('placeholder' => 'No. Rekening', 'class' => 'span3 numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'style' => 'width:150px;text-align:right;')); ?>
 				</div>
 			</div>  
 
@@ -98,7 +98,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<div class='control-group'>
 					<?php echo $form->labelEx($model, 'telpbank1', array('class' => 'control-label')) ?>
 				<div class="controls">
-<?php echo $form->textField($model, 'telpbank1', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style' => 'width:150px;')); ?>
+<?php echo $form->textField($model, 'telpbank1', array('class' => 'span3 numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style' => 'width:150px;text-align:right;')); ?>
 				</div>
 			</div>
 		</td>
@@ -106,14 +106,14 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<div class='control-group'>
 					<?php echo $form->labelEx($model, 'telpbank2', array('class' => 'control-label')) ?>
 				<div class="controls">
-<?php echo $form->textField($model, 'telpbank2', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style' => 'width:150px;')); ?>
+<?php echo $form->textField($model, 'telpbank2', array('class' => 'span3 numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style' => 'width:150px;text-align:right;')); ?>
 				</div>
 			</div> 
 
 			<div class='control-group'>
 					<?php echo $form->labelEx($model, 'faxbank', array('class' => 'control-label')) ?>
 				<div class="controls">
-<?php echo $form->textField($model, 'faxbank', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style' => 'width:150px;')); ?>
+<?php echo $form->textField($model, 'faxbank', array('class' => 'span3 numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style' => 'width:150px;text-align:right;')); ?>
 				</div>
 			</div> 
 
@@ -134,7 +134,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<div class='control-group'>
 					<?php echo $form->labelEx($model, 'cabangdari', array('class' => 'control-label')) ?>
 				<div class="controls">
-<?php echo $form->textField($model, 'cabangdari', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'style' => 'width:150px;')); ?>
+<?php echo $form->textField($model, 'cabangdari', array('class' => 'span3 hurufs-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'style' => 'width:150px;')); ?>
 				</div>
 			</div> 
 

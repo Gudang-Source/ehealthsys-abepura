@@ -15,6 +15,12 @@
 <table id="tblBayarTind" class="table table-striped table-condensed">
     <thead>
         <tr>
+            <th>Pilih<br>
+                <?php 
+                    echo CHtml::checkBox('checkPembayaran',true, array('onkeypress'=>"return $(this).focusNextInputField(event)",
+                    'class'=>'checkbox-column','onclick'=>'checkAllPembayaran(this)','checked'=>'checked'))
+                ?>
+            </th>
             <th>Tanggal Bukti Bayar</th>
             <th>No. Bukti Bayar</th>
             <th>Dari Nama</th>
@@ -22,13 +28,7 @@
             <th>Sebagai Pembayaran</th>
             <th>Jumlah Pembayaran</th>
             <th>Biaya Administrasi</th>
-            <th>Biaya Materai</th>
-            <th>Pilih<br>
-                <?php 
-                    echo CHtml::checkBox('checkPembayaran',true, array('onkeypress'=>"return $(this).focusNextInputField(event)",
-                    'class'=>'checkbox-column','onclick'=>'checkAllPembayaran(this)','checked'=>'checked'))
-                ?>
-            </th>
+            <th>Biaya Materai</th>            
         </tr>
     </thead>
     <tbody>
@@ -41,6 +41,15 @@
         {
     ?>
         <tr>
+             <td>
+                <?php echo(CHtml::checkBox("pilih[". $data->nobuktibayar ."]", true, array("onchange"=>"hitungTransaksi()"))); ?>
+                <?php echo(CHtml::hiddenField("is_pelayanan[". $data->nobuktibayar ."]", (is_null($data->pembayaranpelayanan_id) ? 'xxx' : $data->pembayaranpelayanan_id))); ?>
+                <?php
+                    echo(CHtml::hiddenField("is_deposit[". $data->nobuktibayar ."]", (is_null($data->bayaruangmuka_id) ? 'xxx' : $data->bayaruangmuka_id)));
+                    echo(CHtml::hiddenField("is_tunai[". $data->nobuktibayar ."]", $data->carapembayaran));
+                ?>
+                <?php echo CHtml::hiddenField("BKClosingkasirT[nobuktibayar][$i]", "", array('readonly'=>true,'class'=>'inputFormTabel')); ?>
+            </td>
             <td><?php echo(MyFormatter::formatDateTimeForUser($data->tglbuktibayar)); ?></td>
             <td class="nobuktibayar">
                 <?php echo($data->nobuktibayar); ?>
@@ -50,16 +59,7 @@
             <td><?php echo($data->sebagaipembayaran_bkm); ?></td>
             <td class="jmlpembayaran currency_tbl"><?php echo($data->jmlpembayaran); ?></td>
             <td class="jmlAdministrasi currency_tbl"><?php echo($data->biayaadministrasi); ?></td>
-            <td class="currency_tbl"><?php echo($data->biayamaterai); ?></td>
-            <td>
-                <?php echo(CHtml::checkBox("pilih[". $data->nobuktibayar ."]", true, array("onchange"=>"hitungTransaksi()"))); ?>
-                <?php echo(CHtml::hiddenField("is_pelayanan[". $data->nobuktibayar ."]", (is_null($data->pembayaranpelayanan_id) ? 'xxx' : $data->pembayaranpelayanan_id))); ?>
-                <?php
-                    echo(CHtml::hiddenField("is_deposit[". $data->nobuktibayar ."]", (is_null($data->bayaruangmuka_id) ? 'xxx' : $data->bayaruangmuka_id)));
-                    echo(CHtml::hiddenField("is_tunai[". $data->nobuktibayar ."]", $data->carapembayaran));
-                ?>
-                <?php echo CHtml::hiddenField("BKClosingkasirT[nobuktibayar][$i]", "", array('readonly'=>true,'class'=>'inputFormTabel')); ?>
-            </td>
+            <td class="currency_tbl"><?php echo($data->biayamaterai); ?></td>           
         </tr>
     <?php
             $i++;

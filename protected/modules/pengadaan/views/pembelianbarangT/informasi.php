@@ -44,16 +44,22 @@
     //                ), 
 				
                     'nopembelian',
-    //		'terimapersediaan_id',
-                    'sumberdana.sumberdana_nama',
-                    'supplier.supplier_nama',                    
+    //		'terimapersediaan_id',                    
+                    array(
+                        'header' => 'Sumber Dana',
+                        'value' => '$data->sumberdana->sumberdana_nama'
+                    ),
+                    array(
+                        'header' => 'Supplier',
+                        'value' => '$data->supplier->supplier_nama'
+                    ),
                      array(
                         'header' => 'Tanggal Pembelian',
-                        'value' => 'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tglpembelian))))'
+                        'value' => '!empty($data->tglpembelian)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tglpembelian)))):"-"'
                     ),  
                      array(
                         'header' => 'Tanggal Dikirim',
-                        'value' => 'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tgldikirim))))'
+                        'value' => '!empty($data->tgldikirim)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tgldikirim)))):"-"'
                     ),  
 
                     array(
@@ -78,7 +84,7 @@
                     array(
                         'header'=>'Rincian',
                         'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/pengadaan/PembelianbarangT/detailPembelianBarang",array("id"=>$data->pembelianbarang_id)),array("id"=>"$data->pembelianbarang_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pembelian Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
+                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gudangUmum/PembelianbarangTGU/detailPembelianBarang",array("id"=>$data->pembelianbarang_id,"frame"=>true)),array("id"=>"$data->pembelianbarang_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pembelian Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
                     ),
 				
                     array(
@@ -126,8 +132,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'autoOpen' => false,
         'modal' => true,
         'width' => 750,
-        'height' => 250,
-        'resizable' => true,
+        'height' => 550,
+        'resizable' => false,
     ),
 ));
 

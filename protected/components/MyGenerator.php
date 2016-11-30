@@ -1627,12 +1627,16 @@ class MyGenerator
 	public static function noAlokasiAnggaran(){
 		$default = "000001";
         $prefix = "ALOAG".date('Y');
-        $sql = "SELECT CAST(MAX(SUBSTR(no_alokasi,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+        $sql = "SELECT CAST(MAX(SUBSTR(no_alokasi,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) as nomaksimal
 				FROM alokasianggaran_t 
 				WHERE no_alokasi LIKE ('".$prefix."%')";
+		
+		//var_dump($sql); die;
         $noAlokasiAnggaran = Yii::app()->db->createCommand($sql)->queryRow();
-        $noAlokasiAnggaran_baru = $prefix.(isset($noAlokasiAnggaran['no']) ? (str_pad($noAlokasiAnggaran['no']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
-        return $noAlokasiAnggaran_baru;
+		//var_dump($noAlokasiAnggaran);
+        $noAlokasiAnggaran_baru = $prefix.(isset($noAlokasiAnggaran['nomaksimal']) ? (str_pad($noAlokasiAnggaran['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        //var_dump($noAlokasiAnggaran_baru); die;
+		return $noAlokasiAnggaran_baru;
 		
 	}
 	
@@ -2180,5 +2184,91 @@ class MyGenerator
         $norujukan_baru = $prefix.(isset($rujukan['nomaksimal']) ? (str_pad($rujukan['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
         return $norujukan_baru;
 	}
+        
+        // generator nomor pengkajian perawatan pasien
+        
+        public static function noPengkajianAskep()
+        {
+            $default = "0001";
+            $prefix = "PEKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(no_pengkajian,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM pengkajianaskep_t 
+                                    WHERE no_pengkajian LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
+        
+        public static function noResumeAskep()
+        {
+            $default = "001";
+            $prefix = "RESKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(noresume,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM resumeaskep_r 
+                                    WHERE noresume LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
+        
+        public static function noRencanaKeperawatan()
+        {
+            $default = "001";
+            $prefix = "RENCASKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(no_rencana,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM rencanaaskep_t
+                                    WHERE no_rencana LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
+        
+        public static function noImplementasiKeperawatan()
+        {
+            $default = "001";
+            $prefix = "IMPASKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(no_implementasi,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM implementasiaskep_t
+                                    WHERE no_implementasi LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
+        
+        public static function noEvaluasiKeperawatan()
+        {
+            $default = "001";
+            $prefix = "EVALASKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(no_evaluasi,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM evaluasiaskep_t
+                                    WHERE no_evaluasi LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
+        
+        public static function noVerifikasiKeperawatan()
+        {
+            $default = "001";
+            $prefix = "VERIFASKEP".date("ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(verifikasiaskep_no,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM verifikasiaskep_t
+                                    WHERE verifikasiaskep_no LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
+        
+        public static function noPinjamPegawai()
+        {
+            $default = "0001";
+            $prefix = "PNJ".date("Ymd");
+                    $sql = "SELECT CAST(MAX(SUBSTR(nopinjam,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+                                    FROM pinjamanpeg_t
+                                    WHERE nopinjam LIKE ('".$prefix."%')";
+            $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+            $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $nosetoran_baru;
+        }
 }
 ?>

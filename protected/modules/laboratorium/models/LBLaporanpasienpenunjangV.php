@@ -175,9 +175,26 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
         $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
-        if(!is_array($this->kunjungan)){
-            $this->kunjungan = 0;
-        }
+        
+        
+            if(!is_array($this->kunjungan)){
+                $this->kunjungan = 0;
+            }else{
+                $data = array();
+                foreach(  $this->kunjungan as $i => $values ){
+
+                    if( $values == "KUNJUNGAN ULANG"){
+                        $data[]="KUNJUNGAN LAMA";
+                    } else{
+                        $data[]=$values;
+                    }
+                }                                            
+              //  var_dump($this->kunjungan);
+                if (!empty($this->kunjungan)){
+                    $criteria->addInCondition('kunjungan', $data);
+                }
+
+            }
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id = '.$this->pasien_id);
 		}

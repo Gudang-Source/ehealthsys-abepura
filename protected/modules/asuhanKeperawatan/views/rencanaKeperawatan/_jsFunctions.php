@@ -1,42 +1,96 @@
 <script type="text/javascript">
-	function cekPengkajian(obj) {
+	function cekPengkajianId(pengkajianaskep_id) {
+		if (pengkajianaskep_id !== undefined) {
+			$.ajax({
+				type: 'GET',
+				url: '<?php echo $this->createUrl('cekPengkajianId'); ?>',
+				data: {pengkajianaskep_id: pengkajianaskep_id},
+				dataType: "json",
+				success: function (data) {
+
+					if (data != null) {
+						myAlert("Pengkajian sudah dipilih!");
+						return false;
+					} else {
+						
+						loadPasien(pengkajianaskep_id);
+						return true;
+					}
+
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(errorThrown);
+				}
+			});
+		}
+	}
+        
+        function cekPengkajian(obj) {
 		var pengkajianaskep_id = $("#<?php echo CHtml::activeId($modPengkajian, 'pengkajianaskep_id') ?>").val();
 		var iskeperawatan = $("#iskeperawatan").val();
 		if (pengkajianaskep_id == '') {
 			myAlert("Silahkan Pilih Pengkajian!");
 		} else {
-			if(iskeperawatan == 1){
+			if (iskeperawatan == 1) {
 				window.open("<?php echo Yii::app()->controller->createUrl("/asuhanKeperawatan/RencanaKeperawatan/DetailPengkajianKeb"); ?>/&pengkajianaskep_id=" + pengkajianaskep_id, "", 'location=_new, width=900px, scrollbars=1');
 			}
-			if(iskeperawatan == 0){
+			if (iskeperawatan == 0) {
 				window.open("<?php echo Yii::app()->controller->createUrl("/asuhanKeperawatan/RencanaKeperawatan/DetailPengkajian"); ?>/&pengkajianaskep_id=" + pengkajianaskep_id, "", 'location=_new, width=900px, scrollbars=1');
 			}
 		}
 		return false;
 	}
 
-	function loadPasien(pendaftaran_id)
+	function loadPasien(pengkajianaskep_id)
 	{
 		var iskeperawatan = $('#iskeperawatan').val();
-		if (pendaftaran_id !== undefined) {
+		if (pengkajianaskep_id !== undefined) {
 			$.ajax({
 				type: 'GET',
 				url: '<?php echo $this->createUrl('loadPasien'); ?>',
-				data: {pendaftaran_id: pendaftaran_id, iskeperawatan: iskeperawatan},
+				data: {pengkajianaskep_id: pengkajianaskep_id, iskeperawatan: iskeperawatan},
 				dataType: "json",
 				success: function (data) {
 					console.log(data);
 					if (data !== '') {
-						$('#ASInfopengkajianaskepV_no_pendaftaran').val(data.no_pendaftaran);
-						$('#ASInfopengkajianaskepV_nama_pasien').val(data.nama_pasien);
-						$('#ASInfopengkajianaskepV_ruangan_nama').val(data.ruangan_nama);
-						$('#ASInfopengkajianaskepV_tgl_pendaftaran').val(data.tgl_pendaftaran);
-						$('#ASInfopengkajianaskepV_umur').val(data.umur);
-						$('#ASInfopengkajianaskepV_kelaspelayanan_nama').val(data.kelaspelayanan_nama);
-						$('#ASInfopengkajianaskepV_no_rekam_medik').val(data.no_rekam_medik);
-						$('#ASInfopengkajianaskepV_diagnosa_nama').val(data.diagnosa_nama);
-						$('#ASInfopengkajianaskepV_no_kamarbed').val((data.kamarruangan_nokamar !== null) ? data.kamarruangan_nokamar : 'a' + ' / ' + (data.kamarruangan_nobed !== null) ? data.kamarruangan_nobed : '-');
+						$("#<?php echo CHtml::activeId($modPengkajian, 'pengkajianaskep_id') ?>").val(data.data.pengkajianaskep_id);
+						if(data.iskeperawatan == 1){
+							$("#<?php echo CHtml::activeId($modPengkajian, 'no_pengkajian') ?>").val(data.data.no_pengkajian);
+						}else{
+						$("#<?php echo CHtml::activeId($modPengkajian, 'no_pengkajian_keb') ?>").val(data.data.no_pengkajian);
+						}
+						$("#<?php echo CHtml::activeId($modPengkajian, 'pengkajianaskep_tgl') ?>").val(data.data.pengkajianaskep_tgl);
+						$("#<?php echo CHtml::activeId($modPengkajian, 'pegawai_id') ?>").val(data.data.pegawai_id);
+						$("#<?php echo CHtml::activeId($modPengkajian, 'nama_pegawai') ?>").val(data.data.nama_pegawai);
+						
+						$('#<?php echo CHtml::activeId($modPasien, 'no_pendaftaran') ?>').val(data.data.no_pendaftaran);
+						$('#<?php echo CHtml::activeId($modPasien, 'nama_pasien') ?>').val(data.data.nama_pasien);
+						$('#<?php echo CHtml::activeId($modPasien, 'ruangan_nama') ?>').val(data.data.ruangan_nama);
+						$('#<?php echo CHtml::activeId($modPasien, 'tgl_pendaftaran') ?>').val(data.data.tgl_pendaftaran);
+						$('#<?php echo CHtml::activeId($modPasien, 'umur') ?>').val(data.data.umur);
+						$('#<?php echo CHtml::activeId($modPasien, 'kelaspelayanan_nama') ?>').val(data.data.kelaspelayanan_nama);
+						$('#<?php echo CHtml::activeId($modPasien, 'no_rekam_medik') ?>').val(data.data.no_rekam_medik);
+						$('#<?php echo CHtml::activeId($modPasien, 'diagnosa_nama') ?>').val(data.data.diagnosa_nama);
+						$('#<?php echo CHtml::activeId($modPasien, 'no_kamarbed') ?>').val(((data.data.kamarruangan_nokamar !== null) ? data.data.kamarruangan_nokamar : '-') + ' / ' + ((data.data.kamarruangan_nobed !== null) ? data.data.kamarruangan_nobed : '-'));
 					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(errorThrown);
+				}
+			});
+		}
+	}
+        
+        function loadDiagnosaMedis(pasien_id, pendaftaran_id)
+	{
+		if (pasien_id !== undefined) {
+			$.ajax({
+				type: 'GET',
+				url: '<?php echo $this->createUrl('loadDiagnosaMedis'); ?>',
+				data: {pasien_id: pasien_id, pendaftaran_id: pendaftaran_id},
+				dataType: "json",
+				success: function (data) {
+					$('#ASInfopengkajianaskepV_diagnosa_nama').val(data.diagnosa_nama);
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					console.log(errorThrown);
@@ -94,7 +148,7 @@ foreach ($attributes as $i => $attribute) {
 					'source': function (request, response)
 					{
 						$.ajax({
-							url: "<?php echo Yii::app()->createUrl('asuhanKeperawatan/RencanaKeperawatan/DaftarTindakan'); ?>",
+							url: "<?php echo $this->createUrl('AutocompleteDiagnosa'); ?>",
 							dataType: "json",
 							data: {
 								term: request.term,
@@ -825,6 +879,7 @@ foreach ($attributes as $i => $attribute) {
 <?php if (!empty($model->rencanaaskep_id)) { ?>
 			var iskeperawatan = <?php echo json_encode($modPengkajian->iskeperawatan); ?>;
 			loadRencanaDet('<?php echo $model->rencanaaskep_id; ?>');
+                        loadDiagnosaMedis('<?php echo $modPasien->pasien_id; ?>', '<?php echo $modPasien->pendaftaran_id; ?>');
 			if (iskeperawatan == true) {
 				$('#iskeperawatan').attr("unchecked", "unchecked");
 				$('#iskeperawatan').attr("disabled", "disabled");

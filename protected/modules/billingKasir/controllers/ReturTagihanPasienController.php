@@ -15,10 +15,12 @@ class ReturTagihanPasienController extends MyAuthController
         $modBuktiKeluar->tahun = date('Y');
         $modBuktiKeluar->untukpembayaran = 'Retur Tagihan Pasien';
         $modBuktiKeluar->nokaskeluar = MyGenerator::noKasKeluar();
+        $modBuktiKeluar->notemp = '- Otomatis -';
         $modBuktiKeluar->carabayarkeluar = Params::CARAPEMBAYARAN_TUNAI;
         
         $modRetur = new BKReturbayarpelayananT;
         $modRetur->noreturbayar = MyGenerator::noReturBayarPelayanan();
+        $modRetur->notemp = '- Otomatis -';
         $modRetur->biayaadministrasi = 0;
         $modRetur->totaltindakanretur = 0;
         $modRetur->totalbiayaretur = 0;
@@ -46,10 +48,15 @@ class ReturTagihanPasienController extends MyAuthController
         if(isset($_GET['pendaftaran_id'])){
             $modPendaftaran = BKPendaftaranT::model()->findByPk($_GET['pendaftaran_id']);
             $modPasien = BKPasienM::model()->findByPk($modPendaftaran->pasien_id);
+            $modBuktiKeluar->namapenerima = $modPasien->no_rekam_medik." - ".$modPasien->namadepan.$modPasien->nama_pasien;
+            $modBuktiKeluar->alamatpenerima = $modPasien->alamat_pasien;
         }
 
         if(isset($_GET['returbayarpelayanan_id'])){
             $modRetur = BKReturbayarpelayananT::model()->findByPk($_GET['returbayarpelayanan_id']);
+            $modRetur->notemp = $modRetur->noreturbayar;
+            $nokaskeluar = BKTandabuktikeluarT::model()->findByPk($modRetur->tandabuktikeluar_id)->nokaskeluar;
+            $modBuktiKeluar->notemp =$nokaskeluar;
         }
         
         if(!empty($_GET['idPembayaran']) && !isset($_POST['BKReturbayarpelayananT'])){
@@ -288,13 +295,15 @@ class ReturTagihanPasienController extends MyAuthController
     function actionInformasi()
     {
         $model = new BKReturbayarpelayananT();
-        $model->tgl_awal = date('Y-m-d H:i:s', time() - (7 * 24 * 3600));
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+      //  $model->tgl_awal = date('Y-m-d H:i:s', time() - (7 * 24 * 3600));
+        //$model->tgl_akhir = date('Y-m-d H:i:s');
+        $model->tgl_awal = date('Y-m-d 00:00:00');
+        $model->tgl_akhir = date('Y-m-d 23:59:59');
         
         if (isset($_GET['BKReturbayarpelayananT'])) {
             $model->attributes = $_GET['BKReturbayarpelayananT'];
-            $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_awal']);
-            $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_akhir']);
+            $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_awal']).' 00:00:00';
+            $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_akhir']).' 23:59:59';
             $model->nobuktibayar = $_GET['BKReturbayarpelayananT']['nobuktibayar'];
             $model->no_pendaftaran = $_GET['BKReturbayarpelayananT']['no_pendaftaran'];
             $model->no_rekam_medik = $_GET['BKReturbayarpelayananT']['no_rekam_medik'];

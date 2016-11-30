@@ -54,8 +54,9 @@
                             array(
                                 'header'=>'Nama Menu Diet',
                                 'name'=>'menudiet_id',
+								'type'=>'raw',
                                 'filter'=> CHtml::dropDownList('BahanMenuDietM[menudiet_id]',$model->menudiet_id,Chtml::listData($model->getMenuDietItems(),'menudiet_id','menudiet_nama'), array('empty'=>'--Pilih--')),
-                                'value'=>'$data->menudiet->menudiet_nama',
+                                'value'=>'empty($data->menudiet->menudiet_nama)?"-":$data->menudiet->menudiet_nama',
                             ),
                             array(
                                 'header'=>'Nama Bahan Makanan',
@@ -63,7 +64,7 @@
                                 'filter'=> CHtml::dropDownList('BahanMenuDietM[bahanmakanan_id]',$model->bahanmakanan_id,CHtml::listData($model->getBahanMakananItems(),'bahanmakanan_id','namabahanmakanan'),array('empty'=>'--Pilih--')),
                                 'value'=>'$data->bahanmakanan->namabahanmakanan',
                             ),
-                            'jmlbahan',
+                            'jmlbahan', 
                             array(
                                 'header'=>Yii::t('zii','View'),
                                 'class'=>'ext.bootstrap.widgets.BootButtonColumn',

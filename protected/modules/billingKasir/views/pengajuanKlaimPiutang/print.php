@@ -29,6 +29,21 @@ echo CHtml::css('.control-label{
         padding-right: 5px;
         padding-left: 5px;
     }
+      .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
 ');
 ?>
 
@@ -61,12 +76,12 @@ echo CHtml::css('.control-label{
                 <tr>
                     <td>Total Piutang</td>
                     <td class="colon">: </td>
-                    <td><?php echo CHtml::encode(MyFormatter::formatNumberForUser($modPengajuanKlaim->totalpiutang)); ?> </td>
+                    <td><?php echo CHtml::encode(number_format($modPengajuanKlaim->totalpiutang,0,"",".")); ?> </td>
                     
 
                     <td>Total Sisa Piutang</td>
                     <td class="colon">: </td>
-                    <td nowrap> <?php echo CHtml::encode(MyFormatter::formatNumberForUser($modPengajuanKlaim->totalsisapiutang)); ?> </td>
+                    <td nowrap> <?php echo CHtml::encode(number_format($modPengajuanKlaim->totalsisapiutang,0,"",".")); ?> </td>
                 </tr>               
             </table>            
         </td>
@@ -80,7 +95,7 @@ echo CHtml::css('.control-label{
                 $totalbiayaadminfarmasi = 0;
                 $row = array();
             ?>
-            <table width="100%" style='margin-left:auto; margin-right:auto;' class='table table-striped table-bordered table-condensed'>
+            <table width="100%" style='box-shadow:none;margin-left:auto; margin-right:auto;' class='table border'>
                 <thead>
                     <tr>
                         <th>Tgl. Pendaftaran</th>
@@ -122,20 +137,20 @@ echo CHtml::css('.control-label{
 				</tbody>
                  <tfoot>
                     <tr>
-                        <td colspan="7"><div class='pull-right'>Total Piutang</div></td>
-                        <td style="text-align:right;"><?php echo number_format($total_piutang,0,',','.'); ?></td>
+                        <td colspan="7"><div class='pull-right'><b>Total Piutang</b></div></td>
+                        <td style="text-align:right;"><b><?php echo number_format($total_piutang,0,',','.'); ?></b></td>
                     </tr>
                     <tr>
-                        <td colspan="7"><div class='pull-right'>Total Bayar</div></td>
-                        <td style="text-align:right;"><?php echo number_format($total_bayar,0,',','.'); ?></td>
+                        <td colspan="7"><div class='pull-right'><b>Total Bayar</b></div></td>
+                        <td style="text-align:right;"><b><?php echo number_format($total_bayar,0,',','.'); ?></b></td>
                     </tr>
                     <tr>
-                        <td colspan="7"><div class='pull-right'>Total Telah Bayar</div></td>
-                        <td style="text-align:right;"><?php echo number_format($total_telah_bayar,0,',','.'); ?></td>
+                        <td colspan="7"><div class='pull-right'><b>Total Telah Bayar</b></div></td>
+                        <td style="text-align:right;"><b><?php echo number_format($total_telah_bayar,0,',','.'); ?></b></td>
                     </tr>
                     <tr>
-                        <td colspan="7"><div class='pull-right'>Total Sisa Piutang</div></td>
-                        <td style="text-align:right;"><?php echo number_format((isset($total_sisa_piutang)?$total_sisa_piutang:0),0,',','.');?></td>
+                        <td colspan="7"><div class='pull-right'><b>Total Sisa Piutang</b></div></td>
+                        <td style="text-align:right;"><b><?php echo number_format((isset($total_sisa_piutang)?$total_sisa_piutang:0),0,',','.');?></b></td>
                     </tr>                    
                 </tfoot>
                 

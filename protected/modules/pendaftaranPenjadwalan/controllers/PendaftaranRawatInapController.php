@@ -47,11 +47,11 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $dataTindakans = array();
 			$modKarcisV =array();
             $modPasien->propinsi_id = Yii::app()->user->getState('propinsi_id');
-            $modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
-            $modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
-            $modPasien->kelurahan_id = Yii::app()->user->getState('kelurahan_id');
+            //$modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
+            //$modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
+            //$modPasien->kelurahan_id = Yii::app()->user->getState('kelurahan_id');
             $modPasien->warga_negara = Params::DEFAULT_WARGANEGARA;
-            $modPasien->agama = Params::DEFAULT_AGAMA;
+            //$modPasien->agama = Params::DEFAULT_AGAMA;
             $model->is_adakarcis = Yii::app()->user->getState('iskarcis'); //RND-7737
 			$model->is_pasienrujukan = 1;
 			$model->is_asubadak = 0;
@@ -270,62 +270,68 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
                     
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->komponentindakantersimpan && $this->admisitersimpan && $this->masukkamartersimpan && $this->asuransipasientersimpan){
                         
-                        // SMS GATEWAY
-                        $modPegawai = $model->pegawai;
-                        $modRuangan = $model->ruangan;
-                        $sms = new Sms();
-                        $smspasien = 1;
-                        $smsdokter = 1;
-                        $smspenanggungjawab = 1;
-                        foreach ($modSmsgateway as $i => $smsgateway) {
-                            if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) {
-                                $isiPesan = $smsgateway->templatesms;
+						$smspasien = 1;
+						$smsdokter = 1;
+						$smspenanggungjawab = 1;
+						
+						if (Yii::app()->user->getState('issmsgateway')) {
+							// SMS GATEWAY
+							$modPegawai = $model->pegawai;
+							$modRuangan = $model->ruangan;
+							$sms = new Sms();
+							$smspasien = 1;
+							$smsdokter = 1;
+							$smspenanggungjawab = 1;
+							foreach ($modSmsgateway as $i => $smsgateway) {
+								if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) {
+									$isiPesan = $smsgateway->templatesms;
 
-                                $attributes = $modPasien->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
-                                $attributes = $modPenanggungJawab->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
-                                $attributes = $modPegawai->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
-                                $attributes = $model->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
-                                $attributes = $modRuangan->getAttributes();
-                                foreach($attributes as $attributes => $value){
-                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
-                                $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tgl_pendaftaran),$isiPesan);
-                                $isiPesan = str_replace("{{nama_rumahsakit}}",Yii::app()->user->getState('nama_rumahsakit'),$isiPesan);
+									$attributes = $modPasien->getAttributes();
+									foreach($attributes as $attributes => $value){
+										$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+									}
+									$attributes = $modPenanggungJawab->getAttributes();
+									foreach($attributes as $attributes => $value){
+										$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+									}
+									$attributes = $modPegawai->getAttributes();
+									foreach($attributes as $attributes => $value){
+										$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+									}
+									$attributes = $model->getAttributes();
+									foreach($attributes as $attributes => $value){
+										$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+									}
+									$attributes = $modRuangan->getAttributes();
+									foreach($attributes as $attributes => $value){
+										$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+									}
+									$isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tgl_pendaftaran),$isiPesan);
+									$isiPesan = str_replace("{{nama_rumahsakit}}",Yii::app()->user->getState('nama_rumahsakit'),$isiPesan);
 
-                                if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-                                    if(!empty($modPasien->no_mobile_pasien)){
-                                        $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-                                    }else{
-                                        $smspasien = 0;
-                                    }
-                                }elseif($smsgateway->tujuansms == Params::TUJUANSMS_DOKTER && $smsgateway->statussms){
-                                    if(!empty($modPegawai->nomobile_pegawai)){
-                                        $sms->kirim($modPegawai->nomobile_pegawai,$isiPesan);
-                                    }else{
-                                        $smsdokter = 0;
-                                    }
-                                }elseif($smsgateway->tujuansms == Params::TUJUANSMS_PENANGGUNGJAWAB && $smsgateway->statussms){
-                                    if(!empty($modPenanggungJawab->no_mobilepj)){
-                                        $sms->kirim($modPenanggungJawab->no_mobilepj,$isiPesan);
-                                    }else{
-                                        $smspenanggungjawab = 0;
-                                    }
-                                }
-                            }
-                        }
-                        // END SMS GATEWAY
+									if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
+										if(!empty($modPasien->no_mobile_pasien)){
+											$sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+										}else{
+											$smspasien = 0;
+										}
+									}elseif($smsgateway->tujuansms == Params::TUJUANSMS_DOKTER && $smsgateway->statussms){
+										if(!empty($modPegawai->nomobile_pegawai)){
+											$sms->kirim($modPegawai->nomobile_pegawai,$isiPesan);
+										}else{
+											$smsdokter = 0;
+										}
+									}elseif($smsgateway->tujuansms == Params::TUJUANSMS_PENANGGUNGJAWAB && $smsgateway->statussms){
+										if(!empty($modPenanggungJawab->no_mobilepj)){
+											$sms->kirim($modPenanggungJawab->no_mobilepj,$isiPesan);
+										}else{
+											$smspenanggungjawab = 0;
+										}
+									}
+								}
+							}
+							// END SMS GATEWAY
+						}
 
                         $transaction->commit();
                         Yii::app()->user->setFlash('success', "Data pasien berhasil disimpan!");
@@ -572,13 +578,20 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
         {
             if(Yii::app()->request->isAjaxRequest) {
                 $ruangan_id = (isset($_POST['ruangan_id']) ? $_POST['ruangan_id'] : null);
+                $check = isset($_POST['check'])?$_POST['check']:null;
+                $gabung = isset($_POST['rawatgabung'])?$_POST['rawatgabung']:'';                
+                $rawatgabung = ($gabung == 'true')?'1':'0';                
+                
                 if (empty($ruangan_id) && isset($_POST[$namaModel]['ruangan_id']))
                     $ruangan_id = $_POST[$namaModel]['ruangan_id'];
-
+                
+                if (isset($_POST[$namaModel]['rawatgabung']))
+                    $rawatgabung = $_POST[$namaModel]['rawatgabung'];
+                
                 $bookingkamar_id = (isset($_POST['bookingkamar_id']) ? $_POST['bookingkamar_id'] : null);
                 if (empty($bookingkamar_id) && isset($_POST[$namaModel]['bookingkamar_id']))
                     $bookingkamar_id = $_POST[$namaModel]['bookingkamar_id'];
-
+                
                 $kamarKosong = array();
                 if(!empty($ruangan_id)) {
                     if(!empty($bookingkamar_id)){
@@ -586,9 +599,39 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
 
                         $modBookingKamar = BookingkamarT::model()->findByPk($bookingkamar_id);
                     }else{
-                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>true),array('order'=>'kamarruangan_nokamar'));
+                   
+                        if ( ($ruangan_id ==  Params::RUANGAN_ID_BERSALIN) && ($rawatgabung == '1') ){
+                                                                                                                
+                            $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>false, 'kamarruangan_aktif'=>true),array('order'=>'kamarruangan_nokamar'));                            
+                        }else{                                                           
+                            $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>true),array('order'=>'kamarruangan_nokamar'));                            
+                        }
+                        
                     }
-                    $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
+                    
+                    
+                    if ($check == 'check'){
+                        if ( ($ruangan_id ==  Params::RUANGAN_ID_BERSALIN) && ($rawatgabung == '1') ){
+                            $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidurInUse');
+                        }else{
+                            $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
+                        }
+                        $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                         if(!empty($_POST['ruangan_id'])){                                                        
+                            foreach($kamarKosong as $value=>$name){
+                                    $option .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+                            }
+                        } 
+                        $dataList['listKamar'] = $option;
+                        echo json_encode($dataList);
+                        Yii::app()->end();
+                    }else{
+                        if ( ($ruangan_id ==  Params::RUANGAN_ID_BERSALIN) && ($rawatgabung == '1') ){
+                            $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidurInUse');
+                        }else{
+                            $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
+                        }
+                    }
                 }
 
                 if($encode){

@@ -14,16 +14,42 @@
 	");
 ?>
 <?php
-	$table = 'ext.bootstrap.widgets.BootGridView';
+    
+    $itemCssClass = 'table table-striped table-bordered table-condensed';
+    $table = 'ext.bootstrap.widgets.BootGridView';
     $sort = true;
 	$data = $model->searchLaporan();
     if (isset($caraPrint)){
-		$data = $model->searchLaporanPrint();
+        $data = $model->searchLaporanPrint();
+        
         $template = "{items}";
         $sort = false;
         if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
-		}
+        }
+        echo "<style>                    
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+                
+                .border{
+                    box-shadow:none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
+        //var_dump($itemsCssClass);
     } else{
         $data = $model->searchLaporan();
 		$template = "{summary}\n{items}\n{pager}";
@@ -33,7 +59,7 @@
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
 	'template'=>$template,
-	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
 		array(
 			'header'=>'No. Rekonsiliasi Bank',
@@ -58,7 +84,7 @@
 		array(
 			'header'=>'Kode Rekening',
 			'type'=>'raw',
-			'value'=>'$data->getKodeRekening()',
+			'value'=>'$data->kdrekening5',
 		),
 		array(
 			'name'=>'Nama Rekening',
@@ -68,7 +94,7 @@
 		array(
 			'name'=>'Saldo Debit',
 			'type'=>'raw',
-			'value'=>'number_format($data->saldodebit)',
+			'value'=>'number_format($data->saldodebit,0,"",".")',
 			'htmlOptions'=>array(
 				'style'=>'text-align:right;',
 			),
@@ -76,7 +102,7 @@
 		array(
 			'name'=>'Saldo Kredit',
 			'type'=>'raw',
-			'value'=>'number_format($data->saldokredit)',
+			'value'=>'number_format($data->saldokredit,0,"",".")',
 			'htmlOptions'=>array(
 				'style'=>'text-align:right;',
 			),

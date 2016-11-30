@@ -19,12 +19,13 @@
     
 </script>
 
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'pinjamanpeg-t-form',
 	'enableAjaxValidation'=>false,
     'type'=>'horizontal',
-    'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
+    'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)',  'onsubmit'=>'return cekAngsuranPinjaman();'),
     'focus'=>'#',
 )); ?>
 
@@ -74,14 +75,14 @@
                         <?php echo $form->error($model, 'tgljatuhtempo'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model,'nopinjam',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model,'nopinjam',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=> TRUE)); ?>
                 
         </div>
         <div class="span4">
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'jumlahpinjaman', array('class' => 'control-label')); ?>
                     <div class="controls">                
-                        <?php echo $form->textField($model,'jumlahpinjaman',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> Rupiah
+                        <?php echo $form->textField($model,'jumlahpinjaman',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> Rupiah
                     </div>
                 </div>
                 <div class="control-group ">
@@ -172,34 +173,41 @@
 <div class="form-actions">
     <?php 
         if(isset($model->pinjamanpeg_id)){
-            echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
-        Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+            echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="entypo-check"></i>')) : 
+        Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),
         array('class'=>'btn btn-primary',  'onKeypress'=>'return formSubmit(this,event)', 'disabled'=>true, 'style'=>'cursor:not-allowed;')); 
         }else{
     ?>
-    <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
-        Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+    <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="entypo-check"></i>')) : 
+        Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),
         array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); 
         }
     ?>
 
         <?php 
-			echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+			echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                     $this->createUrl($this->id.'/create'), 
                     array('class'=>'btn btn-danger',
                           'onclick'=>'return refreshForm(this);'));
 		?>
         <?php 
             if($model->isNewRecord){
-                echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;'));
+                echo CHtml::link(Yii::t('mds', '{icon} Cetak', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;'));
             }else{
-                echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();return false",'disabled'=>FALSE ));
+                echo CHtml::link(Yii::t('mds', '{icon} Cetak', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();return false",'disabled'=>FALSE ));
             }
         ?>
 
         <?php 
-            $content = $this->renderPartial('tips/tips',array(),true);
-            $this->widget('UserTips',array('type'=>'create','content'=>$content));
+            $tips = array(
+                '0' => 'autocomplete-search',
+                '1' => 'tanggal',
+                '2' => 'simpan',
+                '3' => 'ulang',
+                '4' => 'print'
+            );
+            $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                 
         ?>
 </div>
@@ -217,6 +225,20 @@ $urlPrint = Yii::app()->createUrl($this->module->id.'/'.$this->id.'/print&id='.$
 <script type="text/javascript">
     function print(string){
     window.open("<?php echo $urlPrint; ?>&caraPrint=PRINT","",'location=_new, width=900px');
+}
+
+function cekAngsuranPinjaman(){
+    
+    detail = $('#tabledetailpinjaman tbody').find('tr');
+    
+    if (detail.length > 0)
+    {   
+        return requiredCheck($("#pinjamanpeg-t-form"));                        
+    }else{
+        myAlert("Maaf, Tabel Pinjaman Pegawai Belum Diisi");
+        return false;
+    }
+   
 }
 
 function submithitung()
@@ -255,9 +277,9 @@ function submithitung()
         jumlah =  detailpinjaman.length;
         i = 1;
 		
-		jumlah_pinjam = jumlah_pinjam.replace(/(\d+),(?=\d{3}(\D|$))/g, "$1");
+		jumlah_pinjam = unformatNumber(jumlah_pinjam.replace(/(\d+),(?=\d{3}(\D|$))/g, "$1"));
 		
-        bunga = parseFloat(bunga_pinjam)/100 * parseFloat(jumlah_pinjam);
+        bunga = parseFloat(unformatNumber(bunga_pinjam))/100 * parseFloat(jumlah_pinjam);
         total_pinjam = parseFloat(jumlah_pinjam) + parseFloat(bunga);
         cicilan = parseFloat(total_pinjam) / parseInt(lama_pinjam); 
         total_cicilan = 0;
@@ -280,6 +302,7 @@ function submithitung()
             bln_db = bln - 1;
             tgl_jatuh_tempo_db  = new Date(thn,bln_db,tgl_cicilan);
             tgl_jatuh_tempo_view = tgl_cicilan + ' - ' + bulanangka(bln) + ' - ' + thn;
+            tgl_jatuh_tempo_db2 = tgl_cicilan + '-' + bln + '-' + thn;
 			
             cicilana = cicilan.toFixed(-2);
             total_cicilan = parseFloat(total_cicilan) + parseFloat(cicilana);
@@ -293,9 +316,9 @@ function submithitung()
                 }
             }
 			
-            newRow = '<tr><td><input type="text" name="no['+ i +']" value="'+ i +'" class="span1" disabled></td><td><input type="text" name="angs_visible['+ i +']" value="'+ i +'" class="span1" disabled><input type="hidden" name="angsuranke['+ i +']" value="'+ i +'"></td><td>'+ tgl_jatuh_tempo_view +'<input type="hidden" name="tglakanbayar['+ i +']" value="'+ tgl_jatuh_tempo_db +'"></td><td><input type="text" name="cicilan['+ i +']" value="'+ cicilana +'" class="span2" disabled ><input type="hidden" name="jmlcicilan['+ i +']" value="'+ cicilana +'"></td></tr>';
+            newRow = '<tr><td><input type="text" name="no['+ i +']" value="'+ i +'" class="span1" disabled></td><td><input type="text" name="angs_visible['+ i +']" value="'+ i +'" class="span1" disabled><input type="hidden" name="angsuranke['+ i +']" value="'+ i +'"></td><td>'+ tgl_jatuh_tempo_view +'<input type="hidden" name="tglakanbayar['+ i +']" value="'+ tgl_jatuh_tempo_db2 +'"></td><td><input type="text" name="cicilan['+ i +']" value="'+ formatNumber(cicilana) +'" class="span2" disabled ><input type="hidden" name="jmlcicilan['+ i +']" value="'+ cicilana +'"></td></tr>';
             
-            $('#tabledetailpinjaman').append(newRow);
+            $('#tabledetailpinjaman tbody').append(newRow);
 
         }
         

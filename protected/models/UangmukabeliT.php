@@ -44,9 +44,16 @@ class UangmukabeliT extends CActiveRecord
 			array('supplier_id, penerimaanbarang_id', 'numerical', 'integerOnly'=>true),
 			array('jumlahuang', 'numerical'),
 			array('namabank, norekening, rekatasnama', 'length', 'max'=>100),
+                        array('tgluangmukabeli','safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('uangmukabeli_id, supplier_id, penerimaanbarang_id, namabank, norekening, rekatasnama, jumlahuang', 'safe', 'on'=>'search'),
+		
+			array('create_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
+			array('update_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),
+			array('create_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'insert'),
+			array('update_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'update,insert'),
+			array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'),'on'=>'insert'),
 		);
 	}
         
@@ -61,6 +68,7 @@ class UangmukabeliT extends CActiveRecord
                     'supplier'=>array(self::BELONGS_TO, 'SupplierM', 'supplier_id'),
                     'penerimaanbarang'=>array(self::BELONGS_TO, 'PenerimaanbarangT','penerimaanbarang_id'),
                     'tandabuktikeluar'=>array(self::HAS_ONE, 'TandabuktikeluarT', 'tandabuktikeluar_id'),
+                    'permintaanpembelian'=>array(self::HAS_ONE, 'PermintaanpembelianT', 'permintaanpembelian_id'),
 		);
 	}
 

@@ -40,6 +40,7 @@ class TindakanruanganM extends CActiveRecord
 		return array(
 			array('ruangan_id, daftartindakan_id', 'required'),
 			array('ruangan_id, daftartindakan_id', 'numerical', 'integerOnly'=>true),
+                        array('daftartindakan_id','cekData','on'=>'update'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('ruangan_id, daftartindakan_id, daftartindakan_nama, kelompoktindakan_id', 'safe', 'on'=>'search'),
@@ -178,6 +179,23 @@ class TindakanruanganM extends CActiveRecord
 			'criteria'=>$criteria,
                         'pagination'=>false,
 			));
+        }
+        
+        public function cekData()
+        {
+            $cek = TindakanruanganM::model()->findAll("daftartindakan_id = '".$this->daftartindakan_id."' AND  ruangan_id = '".$this->ruangan_id."' ");
+           
+            if(count($cek)>0){
+                $this->addError('daftartindakan_id','Maaf, Daftar Tindakan '.$this->daftartindakan->daftartindakan_nama.' sudah ada pada ruangan '.$this->ruangan->ruangan_nama);
+                return false;
+            }else{
+                return true;
+            }     
+        }
+        
+        public function getNamaTindakan()
+        {
+            return $this->daftartindakan->daftartindakan_nama;
         }
         
        

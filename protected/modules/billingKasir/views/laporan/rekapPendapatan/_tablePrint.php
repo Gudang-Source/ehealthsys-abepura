@@ -3,12 +3,50 @@ $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $data = $model->searchTable();
 $template = "{summary}\n{items}\n{pager}";
 $sort = true;
+$itemCssClass = 'table table-striped table-bordered table-condensed';
 if (isset($caraPrint)){
     $sort = false;
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
-      $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  if ($caraPrint == "EXCEL"){
+  $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  
+  }
+  
+  echo CHtml::css('.control-label{
+        float:left; 
+        text-align: right; 
+        width:50%;
+        color:black;
+        padding-right:10px;
+        font-size:8pt;
+    }
+    body{
+        font-size:8pt;
+    }
+    td .uang{
+        text-align:right;
+    }
+    .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+');  
+  if ($caraPrint != 'PDF'){
+  $itemCssClass = 'table border';
+  
+  }
 }
 ?>
 <?php $this->widget($table,array(
@@ -16,7 +54,7 @@ if (isset($caraPrint)){
     'dataProvider'=>$data,
     'enableSorting'=>$sort,
     'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'itemsCssClass'=>$itemCssClass,
     'mergeHeaders'=>array(
             array(
                 'name'=>'<center>Penerimaan</center>',
@@ -38,7 +76,7 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Tanggal Pelayanan',
                 'type'=>'raw',
-                'value'=>'date("d/m/Y", strtotime($data->tglpembayaran))',
+                'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($data->tglpembayaran)))',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
             ),
             array(
@@ -56,7 +94,7 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Total Tagihan',
                 'type'=>'raw',
-                'value'=>'$data->totalbiayapelayanan',
+                'value'=>'number_format($data->totalbiayapelayanan,0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
             ),

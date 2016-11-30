@@ -109,9 +109,20 @@ $this->widget('bootstrap.widgets.BootAlert');
 echo CHtml::link(Yii::t('mds', '{icon} Tambah Diagnosa Keperawatan', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl('create', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
 echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp";
 echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp";
-echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp";
+echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp";
 
-$content = $this->renderPartial($this->path_view . 'tips/tipsAdmin', array(), true);
+ $tips = array(
+    '0' => 'lihat',
+    '1' => 'ubah',
+    '2' => 'nonaktif',
+    '3' => 'hapus',
+    '7' => 'pencarianlanjut',
+    '8' => 'cari',    
+    '4' => 'masterPDF',
+    '5' => 'masterEXCEL',
+    '6' => 'masterPRINT',
+);
+        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
 $this->widget('UserTips', array('content' => $content));
 
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai

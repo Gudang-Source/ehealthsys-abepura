@@ -1196,7 +1196,7 @@ class LaporanController extends MyAuthController {
         if (isset($_GET['RJLaporanbiayapelayanan'])) {
             $model->attributes = $_GET['RJLaporanbiayapelayanan'];
             $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
-            $model->jns_periode = $_REQUEST['RJLaporanbiayapelayanan']['jns_periode'];
+            $model->jns_periode = $_GET['RJLaporanbiayapelayanan']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['RJLaporanbiayapelayanan']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RJLaporanbiayapelayanan']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['RJLaporanbiayapelayanan']['bln_awal']);
@@ -1368,7 +1368,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');        
         
         $filter= array();
         $penjamin = CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_id');
@@ -1393,6 +1393,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->nama_pegawai = isset($_GET['RJLaporanjasainstalasi']['nama_pegawai'])?$_GET['RJLaporanjasainstalasi']['nama_pegawai']:null;
         }
 
         if (Yii::app()->request->isAjaxRequest) {
@@ -1444,6 +1445,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->nama_pegawai = isset($_GET['RJLaporanjasainstalasi']['nama_pegawai'])?$_GET['RJLaporanjasainstalasi']['nama_pegawai']:null;
         }
         
         $caraPrint = $_REQUEST['caraPrint'];
@@ -1488,6 +1490,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->nama_pegawai = isset($_GET['RJLaporanjasainstalasi']['nama_pegawai'])?$_GET['RJLaporanjasainstalasi']['nama_pegawai']:null;
         }
                 
         $this->render($this->path_view.'_grafik', array(
@@ -1604,7 +1607,7 @@ class LaporanController extends MyAuthController {
         $data['type'] = $_GET['type'];
         if (isset($_GET['BKLaporanpembebasantarifV'])) {
             $model->attributes = $_GET['BKLaporanpembebasantarifV'];
-            $$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
             $model->jns_periode = $_REQUEST['BKLaporanpembebasantarifV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKLaporanpembebasantarifV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKLaporanpembebasantarifV']['tgl_akhir']);

@@ -168,8 +168,10 @@ class LookupPersalinanController extends MyAuthController
         $model=new LookupM('search');
         $model->unsetAttributes();  // clear any default values
         $model->lookup_type = $this->type;
-        if(isset($_GET['LookupM']))
-            $model->attributes=$_GET['LookupM'];
+       // $model->lookup_aktif = true;
+        if(isset($_GET['LookupM'])){
+            $model->attributes=$_GET['LookupM'];            
+        }   
 
         $this->render($this->path_view.'admin',array(
             'model'=>$model,
@@ -237,7 +239,7 @@ class LookupPersalinanController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }

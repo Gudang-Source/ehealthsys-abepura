@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Tambah Jurnal <b>Rekening Cara Pembayaran</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Tambah Jurnal <b>Rekening Cara Pembayaran</b></legend>-->
+<fieldset class="box">
+    <legend class="rim">Tambah Jurnal Rekening Cara Pembayaran</legend>    
     <?php
     $this->breadcrumbs=array(
             'Jurnal Rekening Cara Pembayaran'=>array('index'),
@@ -16,3 +18,4 @@
 
     <?php echo $this->renderPartial('_form', array('modlookup'=>$modlookup)); ?>
 </div>
+</fieldset>

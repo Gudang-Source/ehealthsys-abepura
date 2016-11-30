@@ -16,6 +16,7 @@ class JurnalRekPengeluaranController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
+            $this->layout='//layouts/iframe';
         $model= AKJenispengeluaranM::model()->findByAttributes(array('jenispengeluaran_id'=>$id));
                 
 		$this->render('view',array(
@@ -29,6 +30,7 @@ class JurnalRekPengeluaranController extends MyAuthController
 	 */
 	public function actionCreate()
 	{
+            $this->layout='//layouts/iframe';
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new AKJenispengeluaranM;
 
@@ -84,6 +86,7 @@ class JurnalRekPengeluaranController extends MyAuthController
 	 */
 	public function actionUpdate($id)
 	{
+            $this->layout='//layouts/iframe';
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
 
@@ -213,6 +216,7 @@ class JurnalRekPengeluaranController extends MyAuthController
 	 */
 	public function actionAdmin($id = '')
 	{
+            $this->layout='//layouts/iframe';
                 if ($id == 1):
                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.'); 
                 endif;
@@ -267,9 +271,9 @@ class JurnalRekPengeluaranController extends MyAuthController
         
 	public function actionPrint()
 	{
-		$model= new AKJnsPengeluaranRekM;
-		if(isset($_REQUEST['AKJnsPengeluaranRekM'])){
-			$model->attributes=$_REQUEST['AKJnsPengeluaranRekM'];
+		$model= new JenispengeluaranM;//AKJnsPengeluaranRekM
+		if(isset($_REQUEST['JenispengeluaranM'])){
+			$model->attributes=$_REQUEST['JenispengeluaranM'];
 		}
 		$judulLaporan='Data Jurnal Rekening Pengeluaran';
 		$caraPrint=$_REQUEST['caraPrint'];

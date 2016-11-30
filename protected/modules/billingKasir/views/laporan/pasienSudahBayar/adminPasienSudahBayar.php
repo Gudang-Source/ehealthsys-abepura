@@ -78,7 +78,7 @@
                             array(
                                 'name'=>'nama_pasien',
                                 'type'=>'raw',
-                                'value'=>'(isset($data->pasien_id)?$data->pasien->nama_pasien:"")." / ".$data->nama_bin',
+                                'value'=>'(isset($data->pasien_id)?$data->pasien->namadepan." ".$data->pasien->nama_pasien:"")." / ".$data->nama_bin',
                             ),
                             array(
                                 'name'=>'alamat_pasien',
@@ -194,7 +194,7 @@
                             array(
                                 'name'=>'nama_pasien',
                                 'type'=>'raw',
-                                'value'=>'(isset($data->pasien_id)?$data->pasien->nama_pasien:"")." / ".$data->nama_bin',
+                                'value'=>'(isset($data->pasien_id)?$data->pasien->namadepan." ".$data->pasien->nama_pasien:"")." / ".$data->nama_bin',
                             ),
                             array(
                                 'name'=>'alamat_pasien',
@@ -310,7 +310,7 @@
                             array(
                                 'name'=>'nama_pasien',
                                 'type'=>'raw',
-                                'value'=>'(isset($data->pasien_id)?$data->pasien->nama_pasien:"")." / ".$data->nama_bin',
+                                'value'=>'(isset($data->pasien_id)?$data->pasien->namadepan." ".$data->pasien->nama_pasien:"")." / ".$data->nama_bin',
                             ),
                             array(
                                 'name'=>'alamat_pasien',

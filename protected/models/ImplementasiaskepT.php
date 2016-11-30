@@ -40,9 +40,9 @@ class ImplementasiaskepT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('asuhankeperawatan_id, tglmulaiimplementasi, implementasi_nama', 'required'),
+			//array('tglmulaiimplementasi, implementasi_nama', 'required'),
 			array('implementasikeperawatan_id, asuhankeperawatan_id', 'numerical', 'integerOnly'=>true),
-			array('iskolaborasi', 'safe'),
+			array('iskolaborasi, rencanaaskep_id, ruangan_id, pegawai_id, no_implementasi, implementasiaskep_tgl, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('implementasiaskep_id, implementasikeperawatan_id, asuhankeperawatan_id, tglmulaiimplementasi, implementasi_nama, iskolaborasi', 'safe', 'on'=>'search'),
@@ -58,6 +58,8 @@ class ImplementasiaskepT extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'implementasikeperawatan'=>array(self::BELONGS_TO, 'ImplementasikeperawatanM', 'implementasikeperawatan_id'),
+                    'rencanaaskep' => array(self::BELONGS_TO, 'RencanaaskepT', 'rencanaaskep_id'),
+                    'ruangan' => array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
                     'pegawai'=>array(self::BELONGS_TO, 'PegawaiM', 'pegawai_id'),
                 );
 	}

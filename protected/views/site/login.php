@@ -97,8 +97,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                         <?php echo $form->error($model,'modul'); ?>
                                 </div>
                         <div class="rowbutton">
-                                <?php echo CHtml::htmlButton(Yii::t('Login','{icon} Login',array('{icon}'=>' <i class="icon-user icon-white"></i>')),array('class'=>'btn2 btn-login', 'type'=>'submit','onkeyup'=>"formSubmit(this,event)", "name"=>"login", "value"=>"login")); ?>
-                                <?php echo CHtml::htmlButton(Yii::t('Forgot Password','{icon} Lupa Password',array('{icon}'=>' <i class="icon-remove icon-white"></i>')),array(
+                                <?php echo CHtml::htmlButton(Yii::t('Login','{icon} Masuk',array('{icon}'=>' <i class="icon-user icon-white"></i>')),array('class'=>'btn2 btn-login', 'type'=>'submit','onkeyup'=>"formSubmit(this,event)", "name"=>"login", "value"=>"login")); ?>
+                                <?php echo CHtml::htmlButton(Yii::t('Forgot Password','{icon} Lupa Kata Kunci',array('{icon}'=>' <i class="icon-remove icon-white"></i>')),array(
                                     'class'=>'btn2 btn-login', 
                                     'type'=>'submit',
                                     'onkeyup'=>"formSubmit(this,event)", 

@@ -155,9 +155,10 @@ class MobilAmbulansMController extends MyAuthController
                 {
                      
                     $model= new MobilambulansM;
-                    $model->attributes=$_REQUEST['MobilambulansM'];
-                    if(isset($_GET['MobilambulansM']))
+                    //$model->attributes=$_REQUEST['MobilambulansM'];
+                    if(isset($_GET['MobilambulansM'])){
 			$model->attributes=$_GET['MobilambulansM'];
+                    }
                     $judulLaporan='Data Mobil Ambulans';
                     $caraPrint=$_REQUEST['caraPrint'];
                     if($caraPrint=='PRINT') {

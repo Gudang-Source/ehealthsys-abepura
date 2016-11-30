@@ -403,10 +403,11 @@ class PenerimaanUmumController extends MyAuthController
 			}
 			$criteria->order = 'rekening5_id ASC';
 			$model = KUJenispenerimaanrekeningV::model()->findAll($criteria);
+			
 			if($model)
 			{
 				echo CJSON::encode(
-					$this->renderPartial($this->path_view. '__formKodeRekening', array('model'=>$model), true)
+					$this->renderPartial($this->path_view. '__formKodeRekening', array('model'=>$model, 'dariDialog'=>true), true)
 				);                
 			}
 			Yii::app()->end();

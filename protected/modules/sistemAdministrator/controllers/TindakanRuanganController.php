@@ -10,7 +10,7 @@ class TindakanRuanganController extends MyAuthController
 	public $path_view = 'sistemAdministrator.views.tindakanRuangan.';
 
 	public function actionCreate()
-    {
+        {
 		$model=new SATindakanruanganM; 
 		$modTindakanRuangan = new SATindakanruanganM('search');
 		$modTindakanRuangan->unsetAttributes();  
@@ -21,13 +21,13 @@ class TindakanRuanganController extends MyAuthController
 			$modTindakanRuangan->ruangan_id = Yii::app()->user->getState('ruangan_id');
 		}
 		if(isset($_GET['SATindakanruanganM'])){
-            $modTindakanRuangan->attributes=$_GET['SATindakanruanganM'];
-            $modTindakanRuangan->ruangan_id=$_GET['SATindakanruanganM']['ruangan_id'];
-            $modTindakanRuangan->kelompoktindakan_nama=$_GET['SATindakanruanganM']['kelompoktindakan_nama'];
-            $modTindakanRuangan->kategoritindakan_nama=$_GET['SATindakanruanganM']['kategoritindakan_nama'];           
-            $modTindakanRuangan->daftartindakan_kode=$_GET['SATindakanruanganM']['daftartindakan_kode'];
-            $modTindakanRuangan->daftartindakan_nama=$_GET['SATindakanruanganM']['daftartindakan_nama'];
-        }
+                    $modTindakanRuangan->attributes=$_GET['SATindakanruanganM'];
+                    $modTindakanRuangan->ruangan_id=$_GET['SATindakanruanganM']['ruangan_id'];
+                    $modTindakanRuangan->kelompoktindakan_nama=$_GET['SATindakanruanganM']['kelompoktindakan_nama'];
+                    $modTindakanRuangan->kategoritindakan_nama=$_GET['SATindakanruanganM']['kategoritindakan_nama'];           
+                    $modTindakanRuangan->daftartindakan_kode=$_GET['SATindakanruanganM']['daftartindakan_kode'];
+                    $modTindakanRuangan->daftartindakan_nama=$_GET['SATindakanruanganM']['daftartindakan_nama'];
+                 }
 		
 		if(Yii::app()->request->isPostRequest) { //submit by ajax
 			$data['sukses']=0;
@@ -70,6 +70,62 @@ class TindakanRuanganController extends MyAuthController
 		$this->render($this->path_view.'create',array(
 			   'model'=>$model,
 			   'modTindakanRuangan'=>$modTindakanRuangan,
+        ));
+    }
+    
+    public function actionUpdate($daftartindakan_id, $ruangan_id)
+    {
+		$model= SATindakanruanganM::model()->find(" daftartindakan_id = '".$daftartindakan_id."' AND ruangan_id = '".$ruangan_id."'"); 	
+                $modRuangan=TindakanruanganM::model()->findAll('daftartindakan_id='.$daftartindakan_id.'');
+		$model->daftartindakan_nama = $model->daftartindakan->daftartindakan_nama;
+                
+		//if(Yii::app()->session['modul_id'] != Params::MODUL_ID_SISADMIN){
+		//	$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		//	$model->ruangan_nama = Yii::app()->user->getState('ruangan_nama');
+		//	$modTindakanRuangan->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		//}
+		
+                
+                if (isset($_POST['SATindakanruanganM'])){
+                    $model->attributes = $_POST['SATindakanruanganM'];
+                    $success = true;
+                    
+                    $valid = $model->validate();
+                    
+                    if ($valid ){                        
+                        Yii::app()->user->setFlash('success', "Data Ruangan Dan Daftar Tindakan Berhasil Disimpan");
+                       // $transaction->commit();
+                        $model->save();
+                        $this->redirect(array('admin','sukses'=>1)); 
+                    }else{
+                        //$transaction->rollback();
+                        Yii::app()->user->setFlash('error', "Data Ruangan Dan Daftar Tindakan Gagal Disimpan");
+                    }
+                    
+                    /*if (isset($_POST['ruangan_id'])) {
+                        $jumlahRuangan=COUNT($_POST['ruangan_id']);
+                         
+                        $hapusTindakanRuangan=TindakanruanganM::model()->deleteAll('daftartindakan_id='.$daftartindakan_id.''); 
+
+                        if($jumlahRuangan>0)
+                        {
+                            for($i=0; $i<$jumlahRuangan; $i++)
+                            {
+                                $modTindakanRuangan = new TindakanruanganM;
+                                $modTindakanRuangan->ruangan_id=$_POST['ruangan_id'][$i];
+                                $modTindakanRuangan->daftartindakan_id=$daftartindakan_id;
+                                if (!$modTindakanRuangan->save()){
+                                    $success = false;
+                                }
+                            }                
+                        }
+                    }*/
+                    
+                }
+		
+		$this->render($this->path_view.'update',array(
+			   'model'=>$model,
+			   'modRuangan'=>$modRuangan,
         ));
     }
 	
@@ -178,8 +234,11 @@ class TindakanRuanganController extends MyAuthController
     /**
      * Manages all models.
      */
-    public function actionAdmin()
+    public function actionAdmin($sukses='')
     {
+        if ($sukses == 1){
+           Yii::app()->user->setFlash('success', "Data Berhasil Disimpan! ");
+        }
         $model=new SATindakanruanganM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(Yii::app()->session['modul_id'] != Params::MODUL_ID_SISADMIN){
@@ -197,5 +256,40 @@ class TindakanRuanganController extends MyAuthController
         $this->render($this->path_view.'admin',array(
             'model'=>$model,
         ));
+    }
+    
+    public function actionPrint()
+    {         
+        $model= new SATindakanruanganM;
+        $judulLaporan='Data Tindakan Ruangan';
+        $caraPrint=$_REQUEST['caraPrint'];
+        if(isset($_GET['SATindakanruanganM'])){
+            $model->attributes=$_GET['SATindakanruanganM'];
+            $model->kelompoktindakan_nama=$_GET['SATindakanruanganM']['kelompoktindakan_nama'];
+            $model->kategoritindakan_nama=$_GET['SATindakanruanganM']['kategoritindakan_nama'];
+            $model->daftartindakan_kode=$_GET['SATindakanruanganM']['daftartindakan_kode'];
+            $model->daftartindakan_nama=$_GET['SATindakanruanganM']['daftartindakan_nama'];
+            $model->komponenunit_nama=$_GET['SATindakanruanganM']['komponenunit_nama'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        }
+        if($caraPrint=='PRINT') {
+            $this->layout='//layouts/printWindows';
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+        }
+        else if($caraPrint=='EXCEL') {
+            $this->layout='//layouts/printExcel';
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+        }
+        else if($_REQUEST['caraPrint']=='PDF') {
+            $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
+            $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
+            $mpdf = new MyPDF('',$ukuranKertasPDF); 
+            $mpdf->useOddEven = 2;  
+            $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
+            $mpdf->WriteHTML($stylesheet,1);  
+            $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
+            $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
+        }                       
     }
 }

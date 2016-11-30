@@ -1,7 +1,9 @@
 <?php
 class ASRencanaaskepT extends RencanaaskepT
 {
-	public $nama_pegawai,$no_pengkajian,$ruangan_nama,$nama_pasien,$diagnosakep_nama;
+        public $nama_pegawai,$no_pengkajian,$ruangan_nama,$nama_pasien,$diagnosakep_nama,$iskeperawatan;
+        public $no_pendaftaran;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -92,5 +94,112 @@ class ASRencanaaskepT extends RencanaaskepT
 				'criteria'=>$criteria,
 				'pagination'=>false
 			));
+	}
+        
+        public function searchRencanaKeperawatan()
+        {
+                $criteria=new CDbCriteria;
+                $criteria->join = " LEFT JOIN implementasiaskep_t imple ON imple.rencanaaskep_id = t.rencanaaskep_id "
+                                . " RIGHT  JOIN pengkajianaskep_t peng ON peng.pengkajianaskep_id = t.pengkajianaskep_id "
+                                . " JOIN pendaftaran_t p ON p.pendaftaran_id = peng.pendaftaran_id "                                 
+                                . " JOIN pegawai_m peg ON peg.pegawai_id = t.pegawai_id";		                
+                $criteria->addCondition(' imple.rencanaaskep_id IS NULL');		
+                $criteria->compare('LOWER(t.no_rencana)',  strtolower($this->no_rencana),true);
+                $criteria->compare('LOWER(peng.no_pengkajian)',  strtolower($this->no_pengkajian),true);
+                $criteria->compare('LOWER(peg.nama_pegawai)',  strtolower($this->nama_pegawai),true);
+                if (!empty($this->rencanaaskep_tgl)){
+                    $criteria->addCondition(" t.rencanaaskep_tgl = '".MyFormatter::formatDateTimeForDb($this->rencanaaskep_tgl)."' ");
+                }
+		if (!empty($this->ruangan_id)){
+                    $criteria->addCondition(" t.ruangan_id = '".$this->ruangan_id."' ");
+                }
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+        }
+        
+        public function getNoKamar($pendaftaran_id) {
+		$no_kamar = '-';
+		if (!empty($pendaftaran_id)) {
+			$kamar = KamarruanganM::model()->findBySql('
+			SELECT kamarruangan_m.kamarruangan_nokamar
+			FROM kamarruangan_m
+			JOIN masukkamar_t ON kamarruangan_m.kamarruangan_id = masukkamar_t.kamarruangan_id
+			JOIN pasienadmisi_t ON pasienadmisi_t.pasienadmisi_id = masukkamar_t.pasienadmisi_id
+			JOIN pendaftaran_t ON pendaftaran_t.pendaftaran_id = pasienadmisi_t.pendaftaran_id
+			WHERE pendaftaran_t.pendaftaran_id = ' . $pendaftaran_id);
+			if (count($kamar)) {
+				$no_kamar = $kamar->kamarruangan_nokamar;
+			}
+		}
+		return $no_kamar;
+	}
+
+	public function getNoBed($pendaftaran_id) {
+		
+		$no_bed = '-';
+		if (!empty($pendaftaran_id)) {
+			$kamar = KamarruanganM::model()->findBySql('
+			SELECT kamarruangan_m.kamarruangan_nobed
+			FROM kamarruangan_m
+			JOIN masukkamar_t ON kamarruangan_m.kamarruangan_id = masukkamar_t.kamarruangan_id
+			JOIN pasienadmisi_t ON pasienadmisi_t.pasienadmisi_id = masukkamar_t.pasienadmisi_id
+			JOIN pendaftaran_t ON pendaftaran_t.pendaftaran_id = pasienadmisi_t.pendaftaran_id
+			WHERE pendaftaran_t.pendaftaran_id = ' . $pendaftaran_id);
+			if (count($kamar)) {
+				$no_bed = $kamar->kamarruangan_nobed;
+			}
+		}
+		return $pendaftaran_id;
+	}
+
+	public function getKelasPelayanan($pendaftaran_id) {
+
+		$pelayanan = '-';
+		if (!empty($pendaftaran_id)) {
+			$kelas = KelaspelayananM::model()->findBySql('
+			SELECT kelaspelayanan_m.kelaspelayanan_nama
+			FROM kelaspelayanan_m
+			JOIN masukkamar_t ON kelaspelayanan_m.kelaspelayanan_id = masukkamar_t.kelaspelayanan_id
+			JOIN pasienadmisi_t ON pasienadmisi_t.pasienadmisi_id = masukkamar_t.pasienadmisi_id
+			JOIN pendaftaran_t ON pendaftaran_t.pendaftaran_id = pasienadmisi_t.pendaftaran_id
+			WHERE pendaftaran_t.pendaftaran_id = ' . $pendaftaran_id);
+			if (count($kelas)) {
+				$pelayanan = $kelas->kelaspelayanan_nama;
+			}
+		}
+
+		return $pelayanan;
+	}
+
+	public function getDiagnosaMedis($pasien_id, $pendaftaran_id) {
+		$nama = '-';
+
+		if (!empty($pasien_id) && !empty($pendaftaran_id)) {
+			$diagnosa = ASDiagnosaM::model()->findBySql('
+			SELECT diagnosa_m.diagnosa_nama
+			FROM diagnosa_m
+			JOIN pasienmorbiditas_t ON pasienmorbiditas_t.diagnosa_id = diagnosa_m.diagnosa_id
+			WHERE pasienmorbiditas_t.pasien_id = ' . $pasien_id . ' AND pendaftaran_id =' . $pendaftaran_id);
+			if (count($diagnosa)) {
+				$nama = $diagnosa->diagnosa_nama;
+			}
+		}
+		return $nama;
+	}
+
+	public function getNamaDokter($pendaftaran_id) {
+		$nama = '-';
+		$dokter = ASPegawaiM::model()->findBySql('
+			SELECT pegawai_m.nama_pegawai,pegawai_m.gelardepan,gelarbelakang_m.gelarbelakang_nama
+			FROM pendaftaran_t 
+			JOIN pegawai_m ON pegawai_m.pegawai_id = pendaftaran_t.pegawai_id
+			LEFT JOIN gelarbelakang_m ON gelarbelakang_m.gelarbelakang_id = pegawai_m.gelarbelakang_id
+			WHERE pendaftaran_id =' . $pendaftaran_id);
+		if (count($dokter)) {
+			$nama = (isset($dokter->gelardepan) ? $dokter->gelardepan : "") . (isset($dokter->nama_pegawai) ? $dokter->nama_pegawai : "") . (isset($dokter->gelarbelakang_nama) ? $dokter->gelarbelakang_nama : "");
+		}
+		return $nama;
 	}
 }

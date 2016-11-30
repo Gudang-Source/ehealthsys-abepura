@@ -1,12 +1,41 @@
 <?php 
+    $merge = array('instalasi_nama', 'ruangan_nama', 'dokter_nama');
+    $itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.BootGroupGridView';
     $sort = true;
     if (isset($caraPrint)){
         $data = $model->searchPrint();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        if ($caraPrint == "PDF"){
+            $merge = array();
+        }
+        echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
     } else{
         $data = $model->searchTable();
          $template = "{summary}\n{items}\n{pager}";
@@ -18,32 +47,49 @@
 //    'filter'=>$model,
         'template'=>$template,
         'enableSorting'=>$sort,
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-       'mergeColumns' => array('instalasi_nama', 'ruangan_nama', 'dokter_nama'),
+        'itemsCssClass'=>$itemCssClass,
+       'mergeColumns' => $merge,
     'columns'=>array(
         array(
           'header'=>'No.',
           'value'=>'(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1',
           'type'=>'raw',
         ),
-       'instalasi_nama',
-       'ruangan_nama',
-        'dokter_nama',
         array(
-          'header'=>'No. Rekam Medis'."/"."<br/>".'No. Pendaftaran',
-          'value'=>'$data->no_rekam_medik."<br/>".$data->no_pendaftaran',
+          'header'=>'Tanggal Pendaftaran <br/> / No Pendaftaran',
+          'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)." <br/> / ".$data->no_pendaftaran',
           'type'=>'raw',
         ),
         array(
-          'header'=>'Nama Pasien'." /"."<br/>".'Alias',
-          'value'=>'$data->nama_pasien."<br/>".$data->nama_bin',
+            'header' => 'Instalasi',
+            'name' =>'instalasi_nama',
+            'value'=> '$data->instalasi_nama'
+        ),       
+        array(
+            'header' => 'Ruangan',
+            'name' =>'ruangan_nama',
+            'value'=> '$data->ruangan_nama'
+        ),              
+        array(
+            'header' => 'Dokter',
+            'value' => function ($data){
+                $dokter = PegawaiM::model()->findByPk($data->dokter_id);
+                
+                echo $dokter->namaLengkap;                
+            }
+        ),
+      //  'dokter_nama',
+        
+        array(
+          'header'=>'No. Rekam Medis',
+          'value'=>'$data->no_rekam_medik',
           'type'=>'raw',
         ),
         array(
-          'header'=>'Tanggal Pendaftaran',
-          'value'=>'$data->tgl_pendaftaran',
+          'header'=>'Nama Pasien',
+          'value'=>'$data->namadepan." ".$data->nama_pasien',
           'type'=>'raw',
-        ),
+        ),        
         array(
           'header'=>'Jenis Kelamin'."/"."<br/>".'Umur',
           'value'=>'$data->jeniskelamin."<br/>".$data->umur',

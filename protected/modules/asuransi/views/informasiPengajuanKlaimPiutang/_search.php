@@ -47,6 +47,8 @@
 			?>
 		</div>
 	</div>
+    
+            <?php echo $form->textFieldRow($model, 'nopengajuanklaimanklaim', array('class'=>'angkahuruf-only','placeholder'=>'No. Pengajuan Klaim'))  ?>
 </div>
 <div class="span6">
 	<div class="control-group ">
@@ -54,8 +56,8 @@
 		<div class="controls">
 			<?php echo $form->dropDownList($model,'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
 					'ajax' => array('type'=>'POST',
-						'url'=> $this->createUrl('GetPenjaminPasien',array('encode'=>false,'namaModel'=>'KUInformasipengajuanklaimpiutangV')), 
-						'update'=>'#KUInformasipengajuanklaimpiutangV_penjamin_id'  //selector to update
+						'url'=> $this->createUrl('GetPenjaminPasien',array('encode'=>false,'namaModel'=>'ARInformasipengajuanklaimpiutangV')), 
+						'update'=>'#ARInformasipengajuanklaimpiutangV_penjamin_id'  //selector to update
 					),
 			 )); ?>
 		</div>
@@ -71,10 +73,22 @@
             
 
 	<div class="form-actions">
-                <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
-                <?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('PenggajianpegT/Informasi'), array('class'=>'btn btn-danger')); ?>
+                <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Cari',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+                <?php
+    echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), Yii::app()->createUrl($this->module->id . '/barangM/admin'), array('class' => 'btn btn-danger',
+        'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
+    echo "&nbsp;";
+    ?>
 							  	<?php
-$content = $this->renderPartial('../tips/informasi_penggajianKaryawan',array(),true);
+$tips = array(
+    '0' => 'tanggal',
+    '1' => 'bayar',
+    '2' => 'detail',
+    '3' => 'batal',
+    '4' => 'cari',
+    '5' => 'ulang2'
+);
+$content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
         </div>

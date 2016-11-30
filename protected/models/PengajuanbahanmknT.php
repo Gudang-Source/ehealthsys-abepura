@@ -56,7 +56,7 @@ class PengajuanbahanmknT extends CActiveRecord
 			array('terimabahanmakan_id, ruangan_id, supplier_id, idpegawai_mengetahui, idpegawai_mengajukan', 'numerical', 'integerOnly'=>true),
 			array('totalharganetto', 'numerical'),
 			array('nopengajuan, sumberdanabhn', 'length', 'max'=>50),
-			array('keterangan_bahan, create_time, create_loginpemakai_id', 'safe'),
+			array('status_persetujuan, keterangan_bahan, create_time, create_loginpemakai_id, idpegawai_menyetujui', 'safe'),
                     
                         array('create_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
                         array('update_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),
@@ -65,7 +65,7 @@ class PengajuanbahanmknT extends CActiveRecord
 //                        array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'),'on'=>'insert'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('tgl_awal, tgl_akhir, pengajuanbahanmkn_id, terimabahanmakan_id, ruangan_id, supplier_id, nopengajuan, tglpengajuanbahan, sumberdanabhn, alamatpengiriman, idpegawai_mengetahui, idpegawai_mengajukan, keterangan_bahan, totalharganetto, tglmintadikirim, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id', 'safe', 'on'=>'search'),
+			array('status_persetujuan, tgl_awal, tgl_akhir, pengajuanbahanmkn_id, terimabahanmakan_id, ruangan_id, supplier_id, nopengajuan, tglpengajuanbahan, sumberdanabhn, alamatpengiriman, idpegawai_mengetahui, idpegawai_mengajukan, keterangan_bahan, totalharganetto, tglmintadikirim, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,6 +78,10 @@ class PengajuanbahanmknT extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'ruangan'=>array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
+                    'supplier'=>array(self::BELONGS_TO, 'SupplierM', 'supplier_id'),
+                    'mengajukan'=>array(self::BELONGS_TO, 'PegawaiM', 'idpegawai_mengajukan'),
+                    'mengetahui'=>array(self::BELONGS_TO, 'PegawaiM', 'idpegawai_mengetahui'),
+                    'menyetujui'=>array(self::BELONGS_TO, 'PegawaiM', 'idpegawai_menyetujui'),
 		);
 	}
 
@@ -97,6 +101,7 @@ class PengajuanbahanmknT extends CActiveRecord
 			'alamatpengiriman' => 'Alamat Pengiriman',
 			'idpegawai_mengetahui' => 'Pegawai Mengetahui',
 			'idpegawai_mengajukan' => 'Pegawai Mengajukan',
+			'idpegawai_menyetujui' => 'Pegawai Menyetujui',
 			'keterangan_bahan' => 'Keterangan Bahan',
 			'totalharganetto' => 'Total Harga Netto',
 			'tglmintadikirim' => 'Tanggal Minta Dikirim',

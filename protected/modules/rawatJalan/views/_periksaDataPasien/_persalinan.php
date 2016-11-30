@@ -31,15 +31,15 @@ if (isset($caraPrint)){
 </style>
 <table width="100%">
     <tr>
-        <td nowrap>Nama Pasien / No. RM</td>
+        <td nowrap><b>Nama Pasien / No. RM</b></td>
         <td>:</td><td width="100%"> <?php echo $modPasien->nama_pasien; ?> / <?php echo $modPasien->no_rekam_medik; ?></td>
-        <td nowrap>No. Pendaftaran</td>
+        <td nowrap><b>No. Pendaftaran</b></td>
         <td>:</td><td> <?php echo $modPendaftaran->no_pendaftaran; ?></td>
     </tr>
     <tr>
-        <td>Umur</td>
+        <td><b>Umur</b></td>
         <td>:</td><td> <?php echo $modPendaftaran->umur; ?></td>
-        <td>Alamat</td>
+        <td><b>Alamat</b></td>
         <td>:</td><td nowrap> <?php echo $modPasien->alamat_pasien;?> <?php echo $modPasien->rt;?> <?php echo $modPasien->rw; ?></td>
     </tr>
 </table>
@@ -126,7 +126,16 @@ foreach ($modPersalinan as $i => $persalinan){
     <tr>
         <td colspan="2">&nbsp;</td>
         <td><b>Paritas</b></td>
-        <td> <?php echo  (isset($persalinan->paritaske) ? implode('',CustomFunction::getNomorUrutText($persalinan->paritaske,$persalinan->paritaske)) :"-"); ?></td>                
+        <td> <?php 
+        
+                if (isset($persalinan->paritaske)){
+                    if (is_numeric($persalinan->paritaske)){
+                        echo (isset($persalinan->paritaske) ? implode('',CustomFunction::getNomorUrutText($persalinan->paritaske,$persalinan->paritaske)) :"-");                         
+                    }else{
+                        echo  (isset($persalinan->paritaske) ?$persalinan->paritaske:'-'); //(isset($persalinan->paritaske) ? implode('',CustomFunction::getNomorUrutText($persalinan->paritaske,$persalinan->paritaske)) :"-"); 
+                    }
+                }
+             ?></td>                
         <td><b>Tanggal Abortus</b></td>
         <td> <?php echo  (isset($persalinan->tglabortus) ? $persalinan->tglabortus :"-"); ?></td>
     </tr>
@@ -177,39 +186,46 @@ foreach ($modPersalinan as $i => $persalinan){
             <td><?php echo ($letakjanin!='')?$letakjanin:'-'; ?></td>
             <td><b>Warna Ketuban</b></td>
             <td><?php echo isset($modPemeriksaan->obs_warnaketuban)?$modPemeriksaan->obs_warnaketuban:'-'; ?></td>
-            <td><b>Denyut Jantung Janin</b></td>
-            <td><?php echo isset($modPemeriksaan->denyutjantung_janin)?$modPemeriksaan->denyutjantung_janin:'-'; ?></td>
+            <td><b>Frekuensi</b></td>
+            <td><?php echo isset($modPemeriksaan->frek_auskultasi)?$modPemeriksaan->frek_auskultasi.' /menit':'-'; ?></td>            
         </tr>
          <tr>
              <td><b>Pemeriksaan Dalam</b></td>
              <td><?php echo isset($modPemeriksaan->obs_periksadalam)?MyFormatter::formatDateTimeForUser($modPemeriksaan->obs_periksadalam):'-'; ?></td>
             <td><b>Warna Ketuban</b></td>
-            <td><?php echo isset($modPemeriksaan->penurunan_genitalia)?$modPemeriksaan->penurunan_genitalia:'-'; ?></td>
+            <td><?php echo isset($modPemeriksaan->penurunan_genitalia)?$modPemeriksaan->penurunan_genitalia:'-'; ?></td>            
+            <td><b>Denyut Jantung Janin</b></td>
+            <td><?php echo isset($modPemeriksaan->denyutjantung_janin)?$modPemeriksaan->denyutjantung_janin:'-'; ?></td>
+        </tr>
+         <tr>
+            <td><b>Portio</b></td> 
+            <td><?php echo isset($modPemeriksaan->portio_genitalia)?$modPemeriksaan->portio_genitalia:'-'; ?></td>            
+            <td><b>Hodge</b></td>
+            <td><?php echo isset($modPemeriksaan->obs_hodge)?$modPemeriksaan->obs_hodge:'-'; ?></td>                 
             <td><b>Pemeriksaan</b></td>
             <td><?php echo isset($modPemeriksaan->obs_pemeriksaan)?$modPemeriksaan->obs_pemeriksaan:'-'; ?></td>
         </tr>
          <tr>
-            <td><b>Konsistensi</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_konsistensigenitalia)?$modPemeriksaan->obs_konsistensigenitalia:'-'; ?></td>
-            <td><b>Hodge</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_hodge)?$modPemeriksaan->obs_hodge:'-'; ?></td>
-            <td><b>Imbang Fetovelfik</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_fetofelvik)?$modPemeriksaan->obs_fetofelvik:'-'; ?></td>
-        </tr>
-         <tr>
-            <td><b>Arah</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_arah)?$modPemeriksaan->obs_arah:'-'; ?></td>
+             <td><b>Konsistensi</b></td>
+            <td><?php echo isset($modPemeriksaan->obs_konsistensigenitalia)?$modPemeriksaan->obs_konsistensigenitalia:'-'; ?></td>            
             <td><b>Posisi</b></td>
             <td><?php echo isset($modPemeriksaan->posisi_genitalia)?$modPemeriksaan->posisi_genitalia:'-'; ?></td>
             <td colspan = "2">&nbsp;</td>
         </tr>
          <tr>
+            <td><b>Arah</b></td>
+            <td><?php echo isset($modPemeriksaan->obs_arah)?$modPemeriksaan->obs_arah:'-'; ?></td>  
+            <td><b>Imbang Fetovelfik</b></td>
+            <td><?php echo isset($modPemeriksaan->obs_fetofelvik)?$modPemeriksaan->obs_fetofelvik:'-'; ?></td>
+            <td colspan = "2">&nbsp;</td>
+        </tr>
+        <tr>
             <td nowrap><b>Ketuban</b></td>
             <td width="33%"><?php echo isset($modPemeriksaan->ketuban_genitalia)?$modPemeriksaan->ketuban_genitalia:'-'; ?></td>
             <td colspan = "4">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan = "6">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
         </tr>
         <tr>
             <td colspan = "2"><b>Plasenta</b></td>

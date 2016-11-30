@@ -1,4 +1,6 @@
+
 <?php 
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.BootGridView';
 $data = $model->searchTable();
 $template = "{summary}\n{items}\n{pager}";
@@ -7,8 +9,34 @@ if (isset($caraPrint)){
   $row = '$row+1';
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  echo "<style>
+     .border th, .border td{
+        border:1px solid #000;
+    }
+    .border{
+        box-shadow:none;
+    }
+    
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>";
+  if ($caraPrint == "PRINT"){
+      
+  $itemCssClass = 'table border';
+  }
 }
 ?>
 
@@ -16,7 +44,7 @@ if (isset($caraPrint)){
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
         'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
             array(
                 'header' => 'No.',
@@ -56,13 +84,13 @@ if (isset($caraPrint)){
             ),
             array(
                'header'=>'Cara Bayar / Penjamin',
-               'name'=>'CaraBayar/Penjamin',
+              // 'name'=>'CaraBayar/Penjamin',
                'type'=>'raw',
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),  
             array(
-                'name'=>'Nama Tindakan',
+                'header'=>'Nama Tindakan',
                 'type'=>'raw',
                 'value'=>'$this->grid->getOwner()->renderPartial(\'sensus/_tindakan\', array(\'id\'=>$data->pendaftaran_id))',
             ),

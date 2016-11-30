@@ -81,19 +81,36 @@ class GUInfoinventarisasiruanganV extends InfoinventarisasiruanganV {
 		if (!empty($this->invbarang_id)) {
 			$criteria->addCondition('invbarang_id = ' . $this->invbarang_id);
 		}
-		if (isset($_GET['formulirinvbarang_id'])) {
-			$model = new GUForminvbarangdetR;
-			$criteria->addCondition('formulirinvbarang_id = ' . $_GET['formulirinvbarang_id']);
-			$criteria->addCondition('invbarangdet_id IS NULL');
-			$criteria->limit = -1;
-		} else if (isset($_GET['invbarang_id'])) {
+		
+		if (isset($_GET['invbarang_id'])) {
 			$model = new GUInvbarangdetT;
 			$criteria->with = array('inventarisasi');
 			$criteria->addCondition('t.invbarang_id = ' . $_GET['invbarang_id']);
 			$criteria->limit = -1;
 		} else {
+			$abrg = null;
+			if (isset($_GET['formulirinvbarang_id'])) {
+				$fr = GUForminvbarangdetR::model()->findAllByAttributes(array(
+					'formulirinvbarang_id'=>$_GET['formulirinvbarang_id']
+				));
+				$abrg = array();
+				foreach ($fr as $item) {
+					array_push($abrg, $item->barang_id);
+				}
+				
+				$this->invbarang_jenis = Params::DEFAULT_JENISINVENTARISASI;
+				$criteria->compare('ruangan_id', Yii::app()->user->getState('ruangan_id'));
+				$criteria->addCondition('(t.inventarisasi_qty_in - t.inventarisasi_qty_out) > 0');
+				$criteria->limit = -1;
+				//$model = new GUForminvbarangdetR;
+				//$criteria->addCondition('formulirinvbarang_id = ' . $_GET['formulirinvbarang_id']);
+				//$criteria->addCondition('invbarangdet_id IS NULL');
+				//$criteria->limit = -1;
+			} //else 
+		
+			$this->barang_id = $abrg;
 			if (!empty($this->barang_id)) {
-				$criteria->addCondition('barang_id = ' . $this->barang_id);
+				$criteria->compare('barang_id', $this->barang_id);
 			}
 			$criteria->compare('LOWER(barang_kode)', strtolower($this->barang_kode));
 			$criteria->compare('LOWER(barang_nama)', strtolower($this->barang_nama), true);
@@ -114,6 +131,8 @@ class GUInfoinventarisasiruanganV extends InfoinventarisasiruanganV {
 				$model = new GUBarangV();
 			}
 		}
+		
+		// var_dump($criteria, $model); die;
 
 		return new CActiveDataProvider($model, array(
 			'criteria' => $criteria,

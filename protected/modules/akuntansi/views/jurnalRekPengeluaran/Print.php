@@ -31,18 +31,18 @@ $this->widget($table,array(
 		array(
 			'header'=>'Kode',
 			'name'=>'jenispengeluaran_kode',
-			'value'=>'$data->jenispengeluaran->jenispengeluaran_kode',
+			'value'=>'$data->jenispengeluaran_kode',
 		),
 		array(
 			'header'=>'Jenis Pengeluaran',
 			'name'=>'jenispengeluaran_nama',
-			'value'=>'$data->jenispengeluaran->jenispengeluaran_nama',
+			'value'=>'$data->jenispengeluaran_nama',
 		),
-		array(
+		/*array(
 			'header'=>'Nama Lain',
 			'name'=>'jenispengeluaran_namalain',
 			'value'=>'$data->jenispengeluaran->jenispengeluaran_namalain',
-		),
+		),*/
 		array(
 			'header'=>'Rekening Debit',
 			'type'=>'raw',

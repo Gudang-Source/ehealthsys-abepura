@@ -36,20 +36,57 @@ echo CHtml::css('.table thead tr th{
                     'header' => 'No',
                     'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
             ),
-            'diagnosa_nama',
-            'umur_0_28hr',
-            'umur_28hr_1thn',
-                        'umur_1_4thn',
-            'umur_5_14thn',
-            'umur_15_24thn',
-            'umur_25_44thn',
-            'umur_45_64thn',
-            'umur_65',
-            'lakilaki',
-            'perempuan',
+            'diagnosa_nama',           
+            array(                
+                'name' => 'umur_0_28hr',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(                
+                'name' => 'umur_28hr_1thn',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(                
+                'name' => 'umur_1_4thn',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(                
+                'name' => 'umur_5_14thn',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(                
+                'name' => 'umur_15_24thn',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(                
+                'name' => 'umur_25_44thn',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(                
+                'name' => 'umur_45_64thn',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(                
+                'name' => 'umur_65',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(
+                'header' => 'Laki - Laki',
+                'name' => 'lakilaki',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(
+                'name' => 'perempuan',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
+            array(
+                'header' => 'Jumlah Kasus Baru',
+                'value' => '$data->kasusbaru',
+                'htmlOptions' => array('style'=>'text-align:center;')
+            ),
             array(
                 'header'=>'Jumlah Kunjungan',
                 'value'=>'$data->jumlahkunjungan',
+                'htmlOptions' => array('style'=>'text-align:center;')
             ),
             /*
 

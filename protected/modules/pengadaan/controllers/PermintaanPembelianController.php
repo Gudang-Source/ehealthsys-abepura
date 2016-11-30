@@ -122,12 +122,13 @@ class PermintaanPembelianController extends MyAuthController
 					if(isset($_GET['ubah'])){
 						$modPermintaanPembelian->update_time = date('Y-m-d H:i:s');
 						$modPermintaanPembelian->update_loginpemakai_id = Yii::app()->user->id;
+                                                $modPermintaanPembelian->tglpermintaanpembelian = $format->formatDateTimeForDb($modPermintaanPembelian->tglpermintaanpembelian);
 					}else{
 						$modPermintaanPembelian->nopermintaan=MyGenerator::noPembelian();
 						$modPermintaanPembelian->ruangan_id = Yii::app()->user->getState('ruangan_id');
 						$modPermintaanPembelian->instalasi_id = Yii::app()->user->getState('instalasi_id');
 						$modPermintaanPembelian->pegawai_id = Yii::app()->user->getState('pegawai_id');
-						$modPermintaanPembelian->tglpermintaanpembelian=$format->formatDateTimeForDb($_POST['ADPermintaanpembelianT']['tglpermintaanpembelian']);
+						$modPermintaanPembelian->tglpermintaanpembelian=$format->formatDateTimeForDb($_POST['ADPermintaanpembelianT']['tglpermintaanpembelian']);                                                
 						$modPermintaanPembelian->create_time = date('Y-m-d H:i:s');
 						$modPermintaanPembelian->create_loginpemakai_id = Yii::app()->user->id;
 						$modPermintaanPembelian->create_ruangan = Yii::app()->user->ruangan_id;

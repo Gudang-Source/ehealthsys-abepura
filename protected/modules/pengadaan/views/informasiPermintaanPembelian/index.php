@@ -71,7 +71,7 @@ $('#divSearch-form form').submit(function(){
 										"<a rel=\'tooltip\' title=\'Tidak dapat diubah karena sudah disetujui oleh pegawai menyetujui\'><icon class=\'icon-form-ubah\' style=\'opacity: 0.3\'></icon></a> "
 									:
 										(($data->statuspembelian != "DITOLAK")?
-											CHtml::link("<icon class=\'icon-form-ubah\'></icon> ", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/PermintaanPembelian/index", array("permintaanpembelian_id"=>$data->permintaanpembelian_id,"ubah"=>true)), array("target"=>"BLANK","rel"=>"tooltip", "title"=>"Klik untuk mengubah data"))
+											CHtml::link("<icon class=\'icon-form-ubah\'></icon> ", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.$this->path_permintaan.'/index", array("permintaanpembelian_id"=>$data->permintaanpembelian_id,"ubah"=>true)), array("target"=>"BLANK","rel"=>"tooltip", "title"=>"Klik untuk mengubah data"))
 										:
 											"<a rel=\'tooltip\' title=\'Tidak dapat diubah karena sudah ditolak\'><icon class=\'icon-form-ubah\' style=\'opacity: 0.3\'></icon></a> "
 										)
@@ -82,13 +82,19 @@ $('#divSearch-form form').submit(function(){
                     array(
                         'header'=>'Penerimaan Obat Alkes',
                         'type'=>'raw',
-                        'value'=>'((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui)) ?
-										((Yii::app()->user->getState("instalasi_id") == Params::INSTALASI_ID_FARMASI) ? CHtml::Link("<i class=\"icon-form-terimaobalkes\"></i>","'.$this->createUrl("/gudangFarmasi/PenerimaanBarang/Index").'&permintaanpembelian_id=$data->permintaanpembelian_id",
-											array("class"=>"", "rel"=>"tooltip","title"=>"Klik Melakukan Ke Penerimaan Obat Alkes",)) : "Belum Diterima")
-										 :
-										"<a rel=\'tooltip\' title=\'Tombol akan aktif jika permintaan sudah disetujui dan diketahui\'><icon class=\'icon-form-mintabeli\' style=\'opacity: 0.3\'></icon></a> "
-									)
-						',
+                        'value'=> function ($data){
+                            $cek = GFPenerimaanBarangT::model()->find('permintaanpembelian_id = '.$data->permintaanpembelian_id);
+                             if ((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui))){
+                                 if (!empty($data->penerimaanbarang_id)){
+                                    return  CHtml::Link("<i class='icon-form-mintabeli'></i>",'', array('disabled'=>true,'style'=>'opacity: 0.3',"class"=>"", "rel"=>"tooltip","title"=>"Barang Sudah ".$cek->statuspenerimaan));
+                                 }else{
+                                    return ((Yii::app()->user->getState("instalasi_id") == Params::INSTALASI_ID_FARMASI) ? CHtml::Link("<i class='icon-form-terimaobalkes'></i>",$this->createUrl("/gudangFarmasi/PenerimaanBarang/Index").'&permintaanpembelian_id='.$data->permintaanpembelian_id,array("class"=>"", "rel"=>"tooltip","title"=>"Klik Melakukan Ke Penerimaan Obat Alkes",)) : "Belum Diterima");                                                                                
+                                 }
+                             }else{                                    
+                                    return CHtml::Link("<i class='icon-form-mintabeli'></i>",'', array('disabled'=>true,'style'=>'opacity: 0.3',"class"=>"", "rel"=>"tooltip","title"=>"Tombol akan aktif jika permintaan sudah disetujui dan diketahui"));
+                             }
+									
+                        },				
                         'htmlOptions'=>array('style'=>'text-align:center;'),
                     ),
                     array(

@@ -17,49 +17,51 @@ class JurnalPenjualanController extends JurnalPenerimaanKasController
             $model->tgl_awal = $format->formatDateTimeForDb($data_parsing['AKJurnalrekeningT']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($data_parsing['AKJurnalrekeningT']['tgl_akhir']);     
             $model->jenisjurnal_id = Params::JENISJURNAL_ID_PENERIMAAN_KAS;
+			$model->kodejurnal = $data_parsing['AKJurnalrekeningT']['kodejurnal'];
             $record = $model->searchWithJoin();
             $result = array();
             foreach($record->getData() as $key=>$val)
             {
                 $attributes = $val->attributes;
                 $attributes['tglbuktijurnal'] = date("d-m-Y", strtotime($val->jurnalRekening->tglbuktijurnal));
-                $attributes['nobuktijurnal'] = $val->jurnalRekening->nobuktijurnal;
+                $attributes['tglbuktijurnalform'] = MyFormatter::formatDateTimeForuser($val->jurnalRekening->tglbuktijurnal);
+				$attributes['nobuktijurnal'] = $val->jurnalRekening->nobuktijurnal;
                 $attributes['kodejurnal'] = $val->jurnalRekening->kodejurnal;
                 $attributes['urianjurnal'] = $val->jurnalRekening->urianjurnal;
                 
                 $criteria = new CDbCriteria;
 				if(!empty($val->rekening1_id)){
-					$criteria->addCondition("struktur_id = ".$val->rekening1_id);			
+					$criteria->addCondition("rekening1_id = ".$val->rekening1_id);			
 				}
 				if(!empty($val->rekening2_id)){
-					$criteria->addCondition("kelompok_id = ".$val->rekening2_id);			
+					$criteria->addCondition("rekening2_id = ".$val->rekening2_id);			
 				}
 				if(!empty($val->rekening3_id)){
-					$criteria->addCondition("jenis_id = ".$val->rekening3_id);			
+					$criteria->addCondition("rekening3_id = ".$val->rekening3_id);			
 				}
 				if(!empty($val->rekening4_id)){
-					$criteria->addCondition("obyek_id = ".$val->rekening4_id);			
+					$criteria->addCondition("rekening4_id = ".$val->rekening4_id);			
 				}
 				if(!empty($val->rekening5_id)){
-					$criteria->addCondition("rincianobyek_id = ".$val->rekening5_id);			
+					$criteria->addCondition("rekening5_id = ".$val->rekening5_id);			
 				}
                 $rec_nama = AKRekeningakuntansiV::model()->find($criteria);
                 
-                if(isset($rec_nama['rincianobyek_id']))
+                if(isset($rec_nama['rekening5_id']))
                 {
-                    $nama_rekening = $rec_nama['nmrincianobyek'];
-                    $kode_rekening = $rec_nama['kdstruktur'] . "-" . $rec_nama['kdkelompok'] . "-" . $rec_nama['kdjenis'] . "-" . $rec_nama['kdobyek'] . "-" . $rec_nama['kdrincianobyek'];
-                    $status_rekening = $rec_nama['rincianobyek_nb'];
+                    $nama_rekening = $rec_nama['nmrekening5'];
+                    $kode_rekening = $rec_nama['kdrekening1'];
+                    $status_rekening = $rec_nama['rekening5_nb'];
                 }else{
                     if(isset($rec_nama['obyek_id']))
                     {
-                        $nama_rekening = $rec_nama['nmobyek'];
-                        $kode_rekening = $rec_nama['kdstruktur'] . "-" . $rec_nama['kdkelompok'] . "-" . $rec_nama['kdjenis'] . "-" . $rec_nama['kdobyek'];
-                        $status_rekening = $rec_nama['obyek_nb'];
+                        $nama_rekening = $rec_nama['nmrekening4'];
+                        $kode_rekening = $rec_nama['kdrekening4'];
+                        $status_rekening = $rec_nama['rekening5_nb'];
                     }else{
-                        $nama_rekening = $rec_nama['nmjenis'];
-                        $kode_rekening = $rec_nama['kdstruktur'] . "-" . $rec_nama['kdkelompok'] . "-" . $rec_nama['kdjenis'];
-                        $status_rekening = $rec_nama['jenis_nb'];
+                        $nama_rekening = $rec_nama['nmrekening3'];
+                        $kode_rekening = $rec_nama['kdrekening3'];
+                        $status_rekening = $rec_nama['rekening5_nb'];
                     }
                 }
                 $attributes['nama_rekening'] = $nama_rekening;

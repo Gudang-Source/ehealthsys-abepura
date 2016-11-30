@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Ubah Rekening <b>Rekening Cara Pembayaran</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Ubah Rekening <b>Rekening Cara Pembayaran</b></legend>-->
+<fieldset class="box">
+    <legend class="rim">Ubah Jurnal Rekening Cara Pembayaran</legend> 
 <?php /*
 $this->breadcrumbs=array(
 	'Jurnal Rekening Penjamin Ms'=>array('index'),
@@ -20,4 +22,5 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
     'modeld'=>$modeld,
     'modelk'=>$modelk,
 )); ?>
-</div>
+<!--</div>-->
+</fieldset>

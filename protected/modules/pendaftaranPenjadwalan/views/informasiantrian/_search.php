@@ -60,9 +60,28 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             
         </div>
         <div class="span4">
-            <?php echo $form->textFieldRow($model, 'no_pendaftaran', array('class' => 'span3', 'maxlength' => 20,'placeholder'=>'Ketik No. Pendaftaran')); ?>
-            <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3', 'maxlength' => 10,'placeholder'=>'Ketik No. Rekam Medik')); ?>
-            <?php echo $form->textFieldRow($model, 'nama_pasien', array('class' => 'span3', 'maxlength' => 50,'placeholder'=>'Ketik Nama Pasien')); ?>
+            <?php echo $form->dropDownListRow($model, 'loket_id', CHtml::listData(LoketM::model()->findAll(array(
+                    'condition'=>'loket_aktif = true',
+                    'order'=>'loket_singkatan',
+            )), 'loket_id', 'namaLoketLengkap'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
+            
+            <div class = "control-group">
+                   <?php echo Chtml::label("No Antrian",'noantrian_loket', array('class'=>'control-label')); ?>
+                <div class = "controls">
+                <?php echo $form->textField($model, 'noantrian_loket', array('class' => 'span3 numbers-only', 'maxlength' => 3,'placeholder'=>'Ketik No. Antrian')); ?>
+                </div>
+            </div>
+            <?php echo $form->dropDownListRow($model, 'statusdaftar', array(1=>'BELUM DIDAFTARKAN', 2=>'SUDAH DIDAFTARKAN'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
+            
+            <div class = "control-group">
+                    <?php echo Chtml::label("No Pendaftaran",'no_pendaftaran', array('class'=>'control-label')) ?>
+                <div class = "controls">
+                    <?php echo $form->dropDownList($model,'prefix_pendaftaran', PendaftaranT::model()->getColumn(),array('empty'=>'-- Pilih --','class'=>'numbers-only span1')); ?>
+                    <?php echo $form->textField($model, 'no_pendaftaran', array('class' => 'span3 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>
+                </div>
+            </div>
+            <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Rekam Medik')); ?>
+            <?php echo $form->textFieldRow($model, 'nama_pasien', array('class' => 'span3 hurufs-only', 'maxlength' => 50,'placeholder'=>'Ketik Nama Pasien')); ?>
         </div>
         <div class="span4">
             <?php echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true and instalasi_id in (2,4) ORDER BY instalasi_nama'), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'ajax' => array('type' => 'POST',
@@ -70,11 +89,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                         'update' => '#PPInformasiantrianpasien_ruangan_id',  //selector to update
                                                     ),)); ?>
             <?php echo $form->dropDownListRow($model, 'ruangan_id', array(), array('empty'=>'-- Pilih --', 'class'=>'span3')); ?>
-            <?php echo $form->dropDownListRow($model, 'loket_id', CHtml::listData(LoketM::model()->findAll(array(
-                    'condition'=>'loket_aktif = true',
-                    'order'=>'loket_singkatan',
-            )), 'loket_id', 'namaLoketLengkap'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
-            <?php echo $form->dropDownListRow($model, 'statusdaftar', array(1=>'BELUM DIDAFTARKAN', 2=>'SUDAH DIDAFTARKAN'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
+                        
             <?php 
             $carabayar = CarabayarM::model()->findAll(array(
                 'condition'=>'carabayar_aktif = true',
@@ -105,8 +120,8 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         </div>
     </div>
     <div class="form-actions">
-        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
+        <?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                                     $this->createUrl($this->id.'/index'), 
                                     array('class'=>'btn btn-danger',
                                         'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));  ?>
@@ -129,3 +144,5 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         }
     } 
 </script>
+
+

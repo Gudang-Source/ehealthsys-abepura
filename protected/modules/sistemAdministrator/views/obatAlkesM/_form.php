@@ -255,7 +255,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                 <?php echo CHtml::label('Isi Netto', 'kemasanbesar', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'kemasanbesar', array('class' => 'span1 integer2',
-                                        'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_harganetto()'));
+                                        'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_hargabeli()', 'onblur'=>'validasiKemasanBesar()',));
                                     ?>
                                 </div>
                             </div> 
@@ -717,6 +717,14 @@ function AutoTextNamaOA()
 		var satuankecil = '';
 	}
 	document.getElementById('SAObatalkesM_obatalkes_namalain').value = (nama+' '+kekuatan+' '+satuan+' '+satuankecil).toUpperCase();
+}
+
+function validasiKemasanBesar() {
+	var isinetto  = parseUnformat($('#<?php echo CHtml::activeId($model,"kemasanbesar"); ?>').val());
+	if (isinetto <= 0) {
+		myAlert("Isi netto harus lebih dari 0");
+		$('#<?php echo CHtml::activeId($model,"kemasanbesar"); ?>').val(1).keyup();
+	}
 }
 
 $(document).ready(function(){

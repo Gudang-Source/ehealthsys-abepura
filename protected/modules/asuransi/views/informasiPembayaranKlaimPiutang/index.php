@@ -2,12 +2,9 @@
     <legend class="rim2">Informasi Pembayaran <b>Klaim Piutang</b></legend>
     <?php
     Yii::app()->clientScript->registerScript('search', "
-    $('.search-button').click(function(){
-            $('.search-form').toggle();
-            return false;
-    });
-    $('#asinfoklaimpiutang-t-search').submit(function(){
-            $.fn.yiiGridView.update('asinfoklaimpiutang-t-grid', {
+   $('#divSearch-form form').submit(function(){
+            $('#aspembklaimpiutang-t-grid').addClass('animation-loading');
+            $.fn.yiiGridView.update('aspembklaimpiutang-t-grid', {
                     data: $(this).serialize()
             });
             return false;
@@ -37,7 +34,8 @@
                     ),
                     array(
                         'name'=>'totalbayar',
-                        'value'=>'number_format($data->totalbayar)',
+                        'value'=>'number_format($data->totalbayar,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
                         'header'=>'Detail Pembayaran',
@@ -68,7 +66,7 @@
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>
-    <fieldset class="box">
+    <fieldset class="box" id="divSearch-form">
         <?php $this->renderPartial('_search',array('model'=>$model,'format'=>$format)); ?>
     </fieldset>
 </div>

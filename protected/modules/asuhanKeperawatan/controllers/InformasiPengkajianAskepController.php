@@ -6,8 +6,8 @@ class InformasiPengkajianAskepController extends MyAuthController {
 	{
 		$format = new MyFormatter();
 		$model = new ASInfopengkajianaskepV('search');
-		$model->tgl_awal=date("Y-m-d");
-		$model->tgl_akhir=date("Y-m-d");
+		$model->tgl_awal=date("Y-m-d 00:00:00");
+		$model->tgl_akhir=date("Y-m-d 23:59:59");
 //		$model->instalasi_id = Params::INSTALASI_ID_RI;
 		
 		if(isset($_GET['ASInfopengkajianaskepV']))
@@ -15,7 +15,9 @@ class InformasiPengkajianAskepController extends MyAuthController {
 			$model->attributes=$_GET['ASInfopengkajianaskepV'];
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ASInfopengkajianaskepV']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASInfopengkajianaskepV']['tgl_akhir']);
-			$model->ruangan_id = $_GET['ASInfopengkajianaskepV']['ruangan_id'];
+                        $model->tgl_awal = $model->tgl_awal.' 00:00:00';
+                        $model->tgl_akhir = $model->tgl_akhir.' 23:59:59';
+			//$model->ruangan_id = $_GET['ASInfopengkajianaskepV']['ruangan_id'];
 		}
 		
 		$this->render($this->path_view.'index',array(
@@ -49,6 +51,10 @@ class InformasiPengkajianAskepController extends MyAuthController {
 		$modPenunjang = new CActiveDataProvider($penunjang, array(
 			'criteria' => $criteria,
 		));
+                
+                if ((!empty($modPemeriksaanFisik->gcs_eye)) && (!empty($modPemeriksaanFisik->gcs_verbal)) && (!empty($modPemeriksaanFisik->gcs_motorik))) {
+			$modPemeriksaanFisik->namaGCS = $modPemeriksaanFisik->gcs_eye + $modPemeriksaanFisik->gcs_verbal + $modPemeriksaanFisik->gcs_motorik;
+		}
 
         
         $this->render($this->path_view.'_detail', array(
@@ -85,6 +91,10 @@ class InformasiPengkajianAskepController extends MyAuthController {
 		$modPenunjang = new CActiveDataProvider($penunjang, array(
 			'criteria' => $criteria,
 		));
+                
+                if ((!empty($modPemeriksaanFisik->gcs_eye)) && (!empty($modPemeriksaanFisik->gcs_verbal)) && (!empty($modPemeriksaanFisik->gcs_motorik))) {
+			$modPemeriksaanFisik->namaGCS = $modPemeriksaanFisik->gcs_eye + $modPemeriksaanFisik->gcs_verbal + $modPemeriksaanFisik->gcs_motorik;
+		}
 		
 		$judulLaporan = 'Pengkajian Keperawatan';
 		$caraPrint = $_REQUEST['caraPrint'];
@@ -98,12 +108,12 @@ class InformasiPengkajianAskepController extends MyAuthController {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');   //Ukuran Kertas Pdf
 			$posisi = Yii::app()->user->getState('posisi_kertas');   //Posisi L->Landscape,P->Portait
 			$mpdf = new MyPDF('', $ukuranKertasPDF);
-			$mpdf->useOddEven = 2;
+			$mpdf->mirrorMargins = 2;
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'PrintDetail', array('modPengkajian' => $modPengkajian, 'modAnamnesa' => $modAnamnesa, 'modPemeriksaanFisik' => $modPemeriksaanFisik, 'modPemeriksaanGambar' => $modPemeriksaanGambar, 'modGambarTubuh' => $modGambarTubuh, 'modBagianTubuh' => $modBagianTubuh, 'modPenunjang' => $modPenunjang, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 	

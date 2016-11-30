@@ -4,6 +4,7 @@
 class ASLaprencanakepV extends LaprencanakepV
 {
 	public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
+        public $data, $tick, $jumlah;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -53,33 +54,12 @@ class ASLaprencanakepV extends LaprencanakepV
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		
-		$format = new MyFormatter();
-		$bln_awal = explode('-',$this->bln_awal);
-		$bln_akhir = explode('-',$this->bln_akhir);
-		$tgl_awal = '';
-		$tgl_akhir = '';
-		if(isset($_GET['ASLaprencanakepV'])){
-			$tgl_awal = $format->formatDateTimeForDb($_GET['ASLaprencanakepV']['tgl_awal']);
-			$tgl_akhir = $format->formatDateTimeForDb($_GET['ASLaprencanakepV']['tgl_akhir']);
-			$tgl_awal = $tgl_awal." 00:00:00";
-			$tgl_akhir = $tgl_akhir." 23:59:59";
-		}
-		if($this->jns_periode == "hari"){
-			$criteria->addBetweenCondition('DATE(rencanaaskep_tgl)',$this->tgl_awal,$this->tgl_akhir);
-		}
-		if($this->jns_periode == "bulan"){
-			$criteria->addBetweenCondition("date_part('month',rencanaaskep_tgl)",$bln_awal[1],$bln_akhir[1]);
-			$criteria->addBetweenCondition("date_part('year',rencanaaskep_tgl)",$this->thn_awal,$this->thn_akhir);
-		}
-		if($this->jns_periode == "tahun"){
-			$criteria->addBetweenCondition("date_part('year',rencanaaskep_tgl)",$this->thn_awal,$this->thn_akhir);
-		}
-		
+				
+		$criteria->addBetweenCondition('rencanaaskep_tgl', $this->tgl_awal, $this->tgl_akhir);
 		$criteria->compare('rencanaaskep_id',$this->rencanaaskep_id);
 		$criteria->compare('pengkajianaskep_id',$this->pengkajianaskep_id);
 		$criteria->compare('pegawai_id',$this->pegawai_id);
-		$criteria->compare('ruangan_id',$this->ruangan_id);
+		$criteria->compare('ruangan_id',Yii::app()->user->getState('ruangan_id'));
 		$criteria->compare('no_rencana',$this->no_rencana,true);
 //		$criteria->compare('rencanaaskep_tgl',$this->rencanaaskep_tgl,true);
 		$criteria->compare('create_time',$this->create_time,true);
@@ -127,6 +107,22 @@ class ASLaprencanakepV extends LaprencanakepV
 		// should not be searched.
 
 		$criteria=$this->criteriaSearch();
+		$criteria->limit=-1;
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				'pagination'=>false,
+		));
+	}
+        
+        public function searchLaporanGrafik()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=$this->criteriaSearch();
+                $criteria->select = "count(rencanaaskep_id) as jumlah, kelaspelayanan_nama as data";
+                $criteria->group = "kelaspelayanan_nama";
 		$criteria->limit=-1;
 
 		return new CActiveDataProvider($this, array(

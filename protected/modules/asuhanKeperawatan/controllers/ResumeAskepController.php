@@ -15,6 +15,8 @@ class ResumeAskepController extends MyAuthController {
 		$modDiagnosa = new ASDiagnosaM;
 		$modPulang = new ASPasienpulangT;
 
+                $model->notemp = '- Otomatis -';
+                    
 		$nama_modul = Yii::app()->controller->module->id;
 		$nama_controller = Yii::app()->controller->id;
 		$nama_action = Yii::app()->controller->action->id;
@@ -25,7 +27,7 @@ class ResumeAskepController extends MyAuthController {
 		);
 		if (isset($_GET['resumeaskep_id'])) {
 			$model = ASResumeaskepR::model()->findByPk($_GET['resumeaskep_id']);
-			
+			$model->notemp = $model->noresume;
 			$criteria = new CdbCriteria();
 			$criteria->select = 't.*,pegawai.*';
 			$criteria->join = 'JOIN pegawai_m AS pegawai ON pegawai.pegawai_id = t.pegawai_id';
@@ -52,7 +54,7 @@ class ResumeAskepController extends MyAuthController {
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				$model = $this->saveResume($_POST['ASResumeaskepR'], $_POST['ASPendaftaranT'], $_POST['ASPasienpulangT']);
-
+                                
 				$successSave = $this->successSave;
 
 				if ($successSave) {

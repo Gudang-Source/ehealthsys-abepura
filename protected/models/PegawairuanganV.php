@@ -88,7 +88,8 @@ class PegawairuanganV extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                                     'ruangan'=>array(self::BELONGS_TO,'RuanganM','ruangan_id'),                                    
-                                    'instalasi'=>array(self::BELONGS_TO, 'InstalasiM', 'instalasi_id'),
+                                    'instalasi'=>array(self::BELONGS_TO, 'InstalasiM', 'instalasi_id'),                                                                        
+                    
 		);
 	}
 

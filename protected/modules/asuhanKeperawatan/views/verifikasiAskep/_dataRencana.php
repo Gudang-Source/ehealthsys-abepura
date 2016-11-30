@@ -35,7 +35,7 @@
 		</div>
 		<div class="span4">
 			<div class="control-group">
-				<?php echo CHtml::label('Nama pegawai', 'nama_pegawai', array('class' => 'control-label')) ?>
+				<?php echo CHtml::label('Nama Perawat', 'nama_pegawai', array('class' => 'control-label')) ?>
 				<div class="controls">
 					<?php echo CHtml::activeHiddenField($modRencana, 'pegawai_id', array('readonly' => true)) ?>
 					<?php
@@ -46,19 +46,31 @@
 					$this->widget('MyJuiAutoComplete', array(
 						'name' => 'ASRencanaaskepT[nama_pegawai]',
 						'value' => isset($modRencana->pegawai->nama_pegawai) ? $modRencana->pegawai->nama_pegawai : "",
-						'sourceUrl' => $this->createUrl('Pegawairiwayat'),
-						'options' => array(
-							'showAnim' => 'fold',
-							'minLength' => 4,
-							'focus' => 'js:function( event, ui ) {
-                                                    $("#ASRencanaaskepT_pegawai_id").val( ui.item.value );
-                                                    $("#ASRencanaaskepT_nama_pegawai").val( ui.item.nama_pegawai );
-                                                    return false;
-                                                }',
-							'select' => 'js:function( event, ui ) {
-                                                    $("#ASRencanaaskepT_pegawai_id").val( ui.item.value );
-                                                    return false;
-                                                }',
+						'source'=>'js: function(request, response) {
+									   $.ajax({
+										   url: "'.$this->createUrl('Pegawairiwayat').'",
+										   dataType: "json",
+										   data: {
+											   term: request.term,
+										   },
+										   success: function (data) {
+												   response(data);
+										   }
+									   })
+									}',
+						'options'=>array(
+						   'showAnim'=>'fold',
+						   'minLength' => 2,
+						   'focus'=> 'js:function( event, ui ) {
+								$(this).val( ui.item.label);
+								return false;
+							}',
+						   'select'=>'js:function( event, ui ) {
+								$("#ASRencanaaskepT_pegawai_id").val(ui.item.pegawai_id); 
+								$("#ASRencanaaskepT_nama_pegawai").val( ui.item.nama_pegawai );
+								return false;
+							}',
+													
 						),
 						'htmlOptions' => array('onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2 '),
 						'tombolDialog' => array('idDialog' => 'dialogPegawaiRencana', 'idTombol' => 'tombolPasienDialog'),

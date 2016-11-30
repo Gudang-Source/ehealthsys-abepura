@@ -200,7 +200,7 @@ class JenisPenerimaanMController extends MyAuthController
                                                               
             $model= new KUJenispenerimaanM;
             $model->attributes=$_REQUEST['KUJenispenerimaanM'];
-            $judulLaporan='Laporan Penerimaan Umum';
+            $judulLaporan='Jenis Penerimaan Umum';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';

@@ -19,12 +19,12 @@ class PSPersalinanT extends PersalinanT {
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
             if(!empty($ruangan_id)):
                 $pegawai = new CDbCriteria();
-                $pegawai->with = array('pegawai');
-                $pegawai->addCondition("pegawai.pegawai_aktif = TRUE ");
-                $pegawai->addCondition("t.ruangan_id = ".$ruangan_id); 
-                //$pegawai->addCondition('pegawai.kelompokpegawai_id IN (20,2) ');
-                $pegawai->order = 'pegawai.nama_pegawai ASC';
-                return RuanganpegawaiM::model()->findAll($pegawai);
+                $pegawai->with = array('ruanganpegawai');
+                $pegawai->addCondition("t.pegawai_aktif = TRUE ");
+                $pegawai->addCondition("ruanganpegawai.ruangan_id = ".$ruangan_id); 
+                $pegawai->addCondition('t.kelompokpegawai_id IN ('.Params::KELOMPOKPEGAWAI_ID_BIDAN.') ');
+                $pegawai->order = 't.nama_pegawai ASC';
+                return PSPegawaiM::model()->findAll($pegawai);
             else:
                 return array();
             endif;
@@ -35,12 +35,12 @@ class PSPersalinanT extends PersalinanT {
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
             if(!empty($ruangan_id)):
                  $pegawai = new CDbCriteria();
-                $pegawai->with = array('pegawai');
-                $pegawai->addCondition("pegawai.pegawai_aktif = TRUE ");
-                $pegawai->addCondition("t.ruangan_id = ".$ruangan_id); 
-                //$pegawai->addCondition('pegawai.kelompokpegawai_id IN (20,2) ');
-                $pegawai->order = 'pegawai.nama_pegawai ASC';
-                return RuanganpegawaiM::model()->findAll($pegawai);
+                $pegawai->with = array('ruanganpegawai');
+                $pegawai->addCondition("t.pegawai_aktif = TRUE ");
+                $pegawai->addCondition("ruanganpegawai.ruangan_id = ".$ruangan_id); 
+                $pegawai->addCondition('t.kelompokpegawai_id IN ('.Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN.') ');
+                $pegawai->order = 't.nama_pegawai ASC';
+                return PSPegawaiM::model()->findAll($pegawai);
                 //return PegawaiM::model()->findAll("ruangan_id = '$ruangan_id' AND kelompokpegawai_id IN (20,2) AND pegawai_aktif = TRUE ORDER BY nama_pegawai ASC");
             else:
                 return array();

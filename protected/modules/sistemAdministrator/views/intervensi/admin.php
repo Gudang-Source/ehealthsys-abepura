@@ -1,11 +1,11 @@
 <div class="white-container">
-    <legend class="rim2">Pengaturan <b>Intervensi</b></legend>
+    <legend class="rim2">Master <b>Intervensi</b></legend>
 	<?php
 	$this->breadcrumbs = array(
 		'Bataskarakteristik Ms' => array('index'),
 		'Manage',
 	);
-
+        $tab = $this->hasTab;
 	Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
             $('.search-form').toggle();
@@ -66,34 +66,37 @@
 				array(
 					'header' => 'Status',
 					'value' => '($data->intervensidet_aktif == true ? \'Aktif\': \'Tidak Aktif\')',
-					'filter' => CHtml::dropDownList(
-						'aktif', $model->aktif, array('1' => 'Aktif',
-					'0' => 'Tidak Aktif',), array('empty' => '--Pilih--'))
+					
 				),
 				array(
-					'header' => Yii::t('zii', 'View'),
-					'class' => 'bootstrap.widgets.BootButtonColumn',
-					'template' => '{view}',
-					'buttons' => array(
-						'view' => array(
-							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/view",array("id"=>$data->intervensi_id))',
-						),
-					),
+					'header' => Yii::t('zii', 'View'),                                        
+					//'class' => 'bootstrap.widgets.BootButtonColumn',
+					//'template' => '{view}',
+					//'buttons' => array(
+						//'view' => array(
+							//'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/view",array("id"=>$data->intervensi_id,"tab"=>$data->hasTab))',
+                                        'value' => function($data) use ($tab){                                                      
+                                                   echo Chtml::link("<i class='icon-form-lihat'></i>",Yii::app()->createUrl( Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/view',array('id'=>$data->intervensi_id,'tab'=>($tab==TRUE)?'frame':null)));
+                                               }
+					//),
 				),
 				array(
 					'header' => Yii::t('zii', 'Update'),
-					'class' => 'bootstrap.widgets.BootButtonColumn',
-					'template' => '{update}',
-					'buttons' => array(
-						'update' => array(
-							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/update",array("id"=>$data->intervensi_id))',
-						),
-					),
+					//'class' => 'bootstrap.widgets.BootButtonColumn',
+					//'template' => '{update}',
+					//'buttons' => array(
+					//	'update' => array(
+							//'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/update",array("id"=>$data->intervensi_id,"tab"=>$data->hasTab))',
+                                        'value' => function($data) use ($tab){                                                      
+                                                        echo Chtml::link("<i class='icon-form-ubah'></i>",Yii::app()->createUrl( Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/update',array('id'=>$data->intervensi_id,'tab'=>($tab==TRUE)?'frame':null)));
+                                                    }
+					//	),
+					//),
 				),
 				array(
 					'header' => '<center>Hapus</center>',
 					'type' => 'raw',
-					'value' => '($data->intervensidet_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->intervensidet_id)",array("id"=>"$data->intervensidet_id","rel"=>"tooltip","title"=>"Menonaktifkan Intervensi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->intervensidet_id)",array("id"=>"$data->intervensidet_id","rel"=>"tooltip","title"=>"Hapus Intervensi")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->intervensidet_id)",array("id"=>"$data->intervensidet_id","rel"=>"tooltip","title"=>"Hapus Intervensi"));',
+					'value' => '($data->intervensidet_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->intervensidet_id)",array("id"=>"$data->intervensidet_id","rel"=>"tooltip","title"=>"Menonaktifkan Intervensi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->intervensidet_id)",array("id"=>"$data->intervensidet_id","rel"=>"tooltip","title"=>"Hapus Intervensi")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->intervensidet_id)",array("id"=>"$data->intervensidet_id","rel"=>"tooltip","title"=>"Hapus Intervensi"));',
 					'htmlOptions' => array('style' => 'text-align: center; width:80px'),
 				),
 			),
@@ -110,12 +113,23 @@
 		?>
     </div>
 	<?php
-	echo CHtml::link(Yii::t('mds', '{icon} Tambah Intervensi', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id . '/create', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
+	echo CHtml::link(Yii::t('mds', '{icon} Tambah Intervensi', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id . '/create', array('modul_id' => Yii::app()->session['modul_id'],'tab'=>($this->hasTab==TRUE)?'frame':null)), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
 	echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp";
 	echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp";
-	echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp";
-	$content = $this->renderPartial('sistemAdministrator.views/tips/master', array(), true);
-	$this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
+	echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak', array('{icon}' => '<i class="entypo-print"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp";
+	$tips = array(
+            '0' => 'lihat',
+            '1' => 'ubah',
+            '2' => 'nonaktif',
+            '3' => 'hapus',
+            '7' => 'pencarianlanjut',
+            '8' => 'cari',    
+            '4' => 'masterPDF',
+            '5' => 'masterEXCEL',
+            '6' => 'masterPRINT',
+        );
+        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+        $this->widget('UserTips', array('content' => $content));
 	$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 	$module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
 	$urlPrint = Yii::app()->createAbsoluteUrl($module . '/' . $controller . '/print');

@@ -53,6 +53,10 @@ class LaporanjurnalV extends CActiveRecord
 	 * @return LaporanjurnalV the static model class
 	 */
         public $tgl_awal, $tgl_akhir;
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
+        public $jns_periode;
+        
         public $data, $jumlah, $tick;
 	public static function model($className=__CLASS__)
 	{

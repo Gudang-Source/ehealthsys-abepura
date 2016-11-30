@@ -574,9 +574,9 @@ class InfokunjunganrjV extends CActiveRecord
         public function getNamaNamaBIN()
         {
             if (!empty($this->nama_bin)) {
-        		return $this->nama_pasien.' alias '.$this->nama_bin;
+        		return $this->namadepan." ".$this->nama_pasien.' alias '.$this->nama_bin;
         	} else {
-       			return $this->nama_pasien;
+       			return $this->namadepan." ".$this->nama_pasien;
         	}  
             
         }

@@ -18,13 +18,22 @@
             margin-top:5px;
         }
         .nav-tabs>li>a{display:block; cursor:pointer;}
-        .nav-tabs > .active a:hover{cursor:pointer;}
+        .nav-tabs > .active a:hover{cursor:pointer;}        
+
+        #penjamin label.checkbox{
+            width: 100px;
+            display:inline-block;
+        }
+        label.checkbox{
+                width:200px;
+                display:inline-block;
+        }  
     </style>
 	<div class="row-fluid">
 		<div class="span4">
             <?php $format = new MyFormatter(); ?>
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Kunjungan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -185,13 +194,36 @@
                         </div>
                 </td>
             </tr>            
-            
+            <tr>
+                <td>
+                     <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content2'=>array(
+                                'header'=>'Berdasarkan Kondisi Pulang',
+                                'isi'=>  CHtml::hiddenField('filter', 'kondisipulang').CHtml::checkBox('cek_all', true, array("id"=>"checkSemuaid",'value'=>'cek', "onclick"=>"checkSemua()")).'Pilih Semua <br\>                                             
+                                            <table class="kondisipulang">                                            
+                                            <tr>
+                                                    <td>'.
+                                                           $form->checkBoxList($model, 'kondisikeluar_id', CHtml::listData(KondisiKeluarM::model()->findAll(" kondisikeluar_aktif = TRUE AND carakeluar_id = '".Params::CARAKELUAR_ID_MENINGGAL."' ORDER BY kondisikeluar_nama ASC"), 'kondisikeluar_id', 'kondisikeluar_nama'))
+                                                    .'</td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>true,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>	                    
+                </td>
+                <td>&nbsp;</td>
+            </tr>
         </table>
 		
 	
     <div class="form-actions">
         <?php
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan',
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan',
             'ajax' => array(
                  'type' => 'GET', 
                  'url' => array("/".$this->route), 
@@ -204,10 +236,10 @@
                                   }',
              ))); 
         ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrow-ccw"></i>')), 
 				Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
 					array('class'=>'btn btn-danger',
-						'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+						'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
     </div>
 </div>    
 <?php
@@ -223,6 +255,11 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
 ',  CClientScript::POS_READY);
 ?>
 <script type="text/javascript">	
+$( document ).ready(function(){
+    checkSemua();
+});    
+    
+    
 /** bersihkan dropdown kecamatan */
 function setClearDropdownKecamatan()
 {
@@ -233,5 +270,19 @@ function setClearDropdownKelurahan()
 {
     $("#<?php echo CHtml::activeId($model,"kelurahan_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
 }
+
+function checkSemua() {
+            if ($("#checkSemuaid").is(":checked")) {
+                $('.kondisipulang input[name*="RDLaporanpasienmeninggalV"]').each(function(){
+                   $(this).attr('checked',true);
+                })
+            } else {
+               $('.kondisipulang input[name*="RDLaporanpasienmeninggalV"]').each(function(){
+                   $(this).removeAttr('checked');
+                })
+            }
+            //setAll();
+}
+
 </script>
 <?php $this->renderPartial('_jsFunctions', array('model'=>$model));?>

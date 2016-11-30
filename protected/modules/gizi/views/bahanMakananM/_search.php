@@ -24,6 +24,7 @@
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'namabahanmakanan',array('size'=>60,'maxlength'=>100)); ?>
+            <?php echo $form->checkBoxRow($model,'bahanmakanan_aktif', array('checked'=>'bahanmakanan_aktif','onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         </td>
     </tr>
 </table>

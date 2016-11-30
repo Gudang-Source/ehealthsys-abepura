@@ -77,7 +77,7 @@
                             'isibbmliter',
                              array(
                                 'header'=>'<center>Status</center>',
-                                'value'=>'($data->mobilambulans_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+                                'value'=>'($data->mobilambulans_aktif == true ) ? "Aktif" : "Tidak Aktif"',
                                 'htmlOptions'=>array('style'=>'text-align:center;'),
                             ),
             //                array(

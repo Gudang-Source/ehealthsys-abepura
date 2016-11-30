@@ -91,6 +91,27 @@
                         </div>
                     </div>
                     <div class="span6">
+						<div class="control-group ">
+							<?php echo CHtml::label("Tanggal Kadaluarsa<font color='red'> *</font>",'tglkadaluarsa', array('class'=>'control-label inline')) ?>
+							<div class="controls">
+								<?php $format = new MyFormatter(); ?>
+								<?php $modObatalkesM->tglkadaluarsa = $format->formatDateTimeForUser($modObatalkesM->tglkadaluarsa); ?>
+								<?php   
+									$this->widget('MyDateTimePicker',array(
+											'model'=>$modObatalkesM,
+											'attribute'=>'tglkadaluarsa',
+											'mode'=>'date',
+											'options'=> array(
+												'dateFormat'=>Params::DATE_FORMAT,
+												'minDate' => 'd',
+											),
+											'htmlOptions'=>array('class'=>'dtPicker2', 'onkeypress'=>"return $(this).focusNextInputField(event)"
+											),
+									)); ?>
+								<?php $modObatalkesM->tglkadaluarsa = $format->formatDateTimeForDb($modObatalkesM->tglkadaluarsa); ?>
+							</div>
+						</div>
+                    
                         <?php
                         echo $form->dropDownListRow($modObatalkesM, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)",
                             'empty' => '-- Pilih --', 'style' => 'width:150px;'));
@@ -142,7 +163,7 @@
                         <div class="control-group" style="margin-left:-30px;">
                             <?php echo $form->labelEx($modObatalkesM, 'minimalstok', array('class' => 'control-label')); ?>
                             <div class="controls">
-                            <?php echo $form->textField($modObatalkesM, 'minimalstok', array('class' => 'span1 integer',
+                            <?php echo $form->textField($modObatalkesM, 'minimalstok', array('class' => 'span1 integer2',
                                 'onkeypress' => "return $(this).focusNextInputField(event);"));
                             ?>
                             </div>
@@ -155,7 +176,7 @@
                             //echo $form->labelEx($modObatalkesM,'stoksekarang',array('class'=>'control-label'));
                             ?>
                             <div class="controls">
-                                <?php echo $form->textField($modObatalkesM, 'stoksekarang', array('class' => 'span1 integer',
+                                <?php echo $form->textField($modObatalkesM, 'stoksekarang', array('class' => 'span1 integer2',
                                     'onkeypress' => "return $(this).focusNextInputField(event);"));
                                 ?>
                             </div>
@@ -164,7 +185,7 @@
                         <div class="control-group" style="margin-left:-30px;">
                                 <?php echo $form->labelEx($modObatalkesM, 'kemasanbesar', array('class' => 'control-label')); ?>
                             <div class="controls">
-                                <?php echo $form->textField($modObatalkesM, 'kemasanbesar', array('class' => 'span1 integer',
+                                <?php echo $form->textField($modObatalkesM, 'kemasanbesar', array('class' => 'span1 integer2',
                                     'onkeypress' => "return $(this).focusNextInputField(event);"));
                                 ?>
                             </div>
@@ -190,7 +211,7 @@
                     <div class="control-group" style="margin-left:-30px;">
 <?php echo $form->labelEx($modObatalkesM, 'harganetto', array('class' => 'control-label')); ?>
                         <div class="controls">
-<?php echo $form->textField($modObatalkesM, 'harganetto', array('class' => 'span2 integer',
+<?php echo $form->textField($modObatalkesM, 'harganetto', array('class' => 'span2 integer2',
     'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitungSemua();'));
 ?>
                         </div>
@@ -199,7 +220,7 @@
                     <div class="control-group" style="margin-left:-30px;">
 <?php echo $form->labelEx($modObatalkesM, 'discount', array('class' => 'control-label')); ?>
                         <div class="controls">
-                        <?php echo $form->textField($modObatalkesM, 'discount', array('class' => 'span1 float',
+                        <?php echo $form->textField($modObatalkesM, 'discount', array('class' => 'span1 float2',
                             'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitungSemua();'));
                         ?> %
                         </div>
@@ -208,7 +229,7 @@
                     <div class="control-group" style="margin-left:-30px;">
 <?php echo $form->labelEx($modObatalkesM, 'ppn_persen', array('class' => 'control-label')); ?>
                         <div class="controls">
-<?php echo $form->textField($modObatalkesM, 'ppn_persen', array('class' => 'span1 float',
+<?php echo $form->textField($modObatalkesM, 'ppn_persen', array('class' => 'span1 float2',
     'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitungSemua();'));
 ?> %
                         </div>
@@ -217,7 +238,7 @@
                     <div class="control-group" style="margin-left:-30px;">
                         <?php echo Chtml::label('HPP', 'hpp', array('class' => 'control-label')); ?>
                         <div class="controls">
-                        <?php echo $form->textField($modObatalkesM, 'hpp', array('class' => 'span1 integer', 'onkeyup' => 'hitungSemua();',
+                        <?php echo $form->textField($modObatalkesM, 'hpp', array('class' => 'span1 integer2', 'onkeyup' => 'hitungSemua();',
                             'onkeypress' => "return $(this).focusNextInputField(event);"));
                         ?> 
                         </div>
@@ -251,7 +272,7 @@
                                 <div class="control-group" style="margin-left:-30px;">
 <?php // echo $form->labelEx($modObatalkesM,'hjanonresep',array('class'=>'control-label')); ?>
                                     <div class="controls">
-                                    <?php // echo CHtml::textField('hjanonresep',0,array('class'=>'span2 integer','value'=>0,'readonly'=>true,
+                                    <?php // echo CHtml::textField('hjanonresep',0,array('class'=>'span2 integer2','value'=>0,'readonly'=>true,
 //                                                'onkeypress'=>"return $(this).focusNextInputField(event);",'style'=>'width:80px;')); //,'onkeyup'=>'marginNonResep();'
                                     ?> Rupiah
                                     </div>
@@ -261,7 +282,7 @@
                                 <div class="control-group" style="margin-left:-50px;">
                                 <?php // echo $form->labelEx($modObatalkesM,'hjanonresep',array('class'=>'control-label')); ?>
                                     <div class="controls">
-                                <?php // echo $form->textField($modObatalkesM,'hjanonresep',array('class'=>'span2 integer', 
+                                <?php // echo $form->textField($modObatalkesM,'hjanonresep',array('class'=>'span2 integer2', 
 //                                                'onkeypress'=>"return $(this).focusNextInputField(event);",'style'=>'width:80px;')); //,'onkeyup'=>'marginNonResep();'
                                 ?> Rupiah 
                                     </div>
@@ -273,12 +294,12 @@
                                 <div class="control-group" style="margin-left:-30px;">
                         <?php echo $form->labelEx($modObatalkesM, 'marginresep', array('class' => 'control-label')); ?>
                                     <div class="controls">
-                        <?php echo $form->textField($modObatalkesM, 'marginresep', array('class' => 'span1 float',
+                        <?php echo $form->textField($modObatalkesM, 'marginresep', array('class' => 'span1 float2',
                             'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitungSemua();'));
                         ?> %
                                     </div>
                                 </div>
-<?php echo $form->hiddenField($modObatalkesM, 'jasadokter', array('class' => 'span1 integer',
+<?php echo $form->hiddenField($modObatalkesM, 'jasadokter', array('class' => 'span1 integer2',
     'onkeypress' => "return $(this).focusNextInputField(event);"));
 ?>
 
@@ -306,7 +327,7 @@
                                 <div class="control-group" style="margin-left:-30px;">
                         <?php echo $form->labelEx($modObatalkesM, 'hjaresep', array('class' => 'control-label')); ?>
                                     <div class="controls">
-<?php echo CHtml::textField('hjaresep', 0, array('class' => 'span2 integer', 'value' => 0, 'readonly' => true,
+<?php echo CHtml::textField('hjaresep', 0, array('class' => 'span2 integer2', 'value' => 0, 'readonly' => true,
     'onkeypress' => "return $(this).focusNextInputField(event);", 'style' => 'width:80px;'));
 ?> Rupiah
                                     </div>
@@ -314,7 +335,7 @@
                                 <div class="control-group" style="margin-left:-30px;">
 <?php echo $form->labelEx($modObatalkesM, 'hjaresep', array('class' => 'control-label')); ?>
                                     <div class="controls">
-<?php echo $form->textField($modObatalkesM, 'hjaresep', array('class' => 'span2 integer',
+<?php echo $form->textField($modObatalkesM, 'hjaresep', array('class' => 'span2 integer2',
     'onkeypress' => "return $(this).focusNextInputField(event);", 'style' => 'width:80px;'));
 ?> Rupiah
                                     </div>
@@ -326,7 +347,7 @@
                                 <div class="control-group" style="margin-left:-30px;">
 <?php // echo $form->labelEx($modObatalkesM,'hargajual',array('class'=>'control-label'));?>
                                     <div class="controls">
-<?php // echo $form->textField($modObatalkesM,'hargajual',array('class'=>'span2 integer', 
+<?php // echo $form->textField($modObatalkesM,'hargajual',array('class'=>'span2 integer2', 
 //                                                'onkeypress'=>"return $(this).focusNextInputField(event);",'style'=>'width:80px;')); 
 ?> Rupiah
                                     </div>
@@ -397,8 +418,8 @@ $this->endWidget();
 <script>
     function hitungSemua() {
         var harganetto = unformatNumber($('#<?php echo CHtml::activeId($modObatalkesM, 'harganetto') ?>').val());
-        var discount = unformatNumber($('#<?php echo CHtml::activeId($modObatalkesM, 'discount') ?>').val()) / 100.0;
-        var ppn = unformatNumber($('#<?php echo CHtml::activeId($modObatalkesM, 'ppn_persen') ?>').val()) / 100.0;
+        var discount = unformatNumber($('#<?php echo CHtml::activeId($modObatalkesM, 'discount') ?>').val()) / 100;
+        var ppn = unformatNumber($('#<?php echo CHtml::activeId($modObatalkesM, 'ppn_persen') ?>').val()) / 100;
         var marginresep = unformatNumber($('#<?php echo CHtml::activeId($modObatalkesM, 'marginresep') ?>').val()) / 100.0;
         var marginnonresep = unformatNumber($('#<?php echo CHtml::activeId($modObatalkesM, 'marginnonresep') ?>').val()) / 100.0;
         var persenjasadokter = parseFloat($('#persenjasadokter').val());

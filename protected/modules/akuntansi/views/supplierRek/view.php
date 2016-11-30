@@ -1,9 +1,11 @@
-<div class='white-container'>
-    <legend class='rim2'>Lihat Jurnal <b>Rekening Supplier</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Lihat Jurnal <b>Rekening Supplier</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Lihat Jurnal Rekening Supplier</legend>
     <?php
     $this->breadcrumbs=array(
         'Jurnal Rekening Supplier'=>array('index'),
-        $model->supplier_id,
+       // $model->supplier_id,
     );
 
     $arrMenu = array();
@@ -21,7 +23,7 @@
             array(
                         'label'=>'Nama Supplier',
                         'type'=>'raw',
-                        'value'=>$model->supplier->supplier_nama,
+                        'value'=>$model->supplier_nama,
                     ),
             array(
                         'label'=>'Rekening Debit',
@@ -37,4 +39,5 @@
     )); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Supplier Rekening',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

@@ -7,6 +7,9 @@
     );
 
     $url = Yii::app()->createUrl('pendaftaranPenjadwalan/laporan/frameGrafikRI&id=1');
+    if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_REKAM_MEDIS){
+        $url = Yii::app()->createUrl('rekamMedis/laporan/frameGrafikRI&id=1');
+    }
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();
@@ -46,7 +49,7 @@
             array('label'=>'Kab. / Kota', 'url'=>$this->createAbsoluteUrl($controller.'/laporanKabKotaKunjunganRI'),),
             array('label'=>'Cara Masuk', 'url'=>$this->createAbsoluteUrl($controller.'/laporanCaraMasukKunjunganRI'),),
             array('label'=>'Rujukan', 'url'=>$this->createAbsoluteUrl($controller.'/laporanRujukanKunjunganRI'),),
-            array('label'=>'Rekam Medik', 'url'=>$this->createAbsoluteUrl($controller.'/laporanRMKunjunganRI'),),
+            //array('label'=>'Rekam Medik', 'url'=>$this->createAbsoluteUrl($controller.'/laporanRKKunjunganRI'),),
             array('label'=>'Kamar Ruangan', 'url'=>$this->createAbsoluteUrl($controller.'/laporanKamarRuanganKunjunganRI'),),
             array('label'=>'Keterangan Pulang', 'url'=>$this->createAbsoluteUrl($controller.'/laporanKetPulangKunjunganRI'),),
             array('label'=>'Alasan Pulang', 'url'=>$this->createAbsoluteUrl($controller.'/laporanAlasanPulangKunjunganRI'),),

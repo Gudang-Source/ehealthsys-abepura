@@ -24,8 +24,25 @@ echo CHtml::css('.control-label{
     td .uang{
         text-align:right;
     }
-    .border{
-        border:1px solid;
+   .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table{
+        box-shadow:none;
+    }
+        
+
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
     }
     .kertas{
      width:20cm;
@@ -45,34 +62,49 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
 	<table class='table'>
     <tr>
         <td>
-            <b><?php echo CHtml::encode($modPemakaianBarang->getAttributeLabel('nopemakaianbrg')); ?> :</b>
-            <?php echo isset($modPemakaianBarang->nopemakaianbrg) ? $modPemakaianBarang->nopemakaianbrg : "-"; ?>
-            <br />
-            <b>Tanggal Pemakaian Barang :</b>
-            <?php echo isset($modPemakaianBarang->tglpemakaianbrg) ? $format->formatDateTimeId($modPemakaianBarang->tglpemakaianbrg) : "-"; ?>
-             <br/>
+            <b><?php echo CHtml::encode($modPemakaianBarang->getAttributeLabel('nopemakaianbrg')); ?> </b>
         </td>
         <td>
-            <b>Ruangan :</b>
-			<?php echo isset($modPemakaianBarang->ruangan->ruangan_nama) ? $modPemakaianBarang->ruangan->ruangan_nama : "-"; ?>
-            <br />
-            <b>Untuk Keperluan :</b>
-            <?php echo isset($modPemakaianBarang->untukkeperluan) ? $modPemakaianBarang->untukkeperluan : "-"; ?>
-            <br />
+            : <?php echo isset($modPemakaianBarang->nopemakaianbrg) ? $modPemakaianBarang->nopemakaianbrg : "-"; ?>
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <b>Ruangan </b>
+        </td>
+        <td>
+            : <?php echo isset($modPemakaianBarang->ruangan->ruangan_nama) ? $modPemakaianBarang->ruangan->ruangan_nama : "-"; ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Tanggal Pemakaian Barang </b>
+        </td>
+        <td>
+            : <?php echo isset($modPemakaianBarang->tglpemakaianbrg) ? $format->formatDateTimeForUser($modPemakaianBarang->tglpemakaianbrg) : "-"; ?>            
+        </td>
+        <td>
+            &nbsp;
+        </td>
+        <td>                        
+            <b>Untuk Keperluan </b>
+        </td>
+        <td>
+            : <?php echo isset($modPemakaianBarang->untukkeperluan) ? $modPemakaianBarang->untukkeperluan : "-"; ?>
         </td>
     </tr>   
 	</table>
     
-	<br/><br>
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
+	
+    <table class ="table border" style='margin-left:auto; margin-right:auto;'>
         <thead class="border">
+            <th>No</th>
             <th>Kode Barang</th>
             <th>Tipe Barang</th>
             <th>Nama Barang</th>
             <th>Merk / No. Seri</th>
             <th>Ukuran / Bahan Barang</th>
-			<th>Satuan</th>
-			<th>Jumlah Pakai</th>
+            <!--<th>Satuan</th>-->
+            <th>Jumlah Pakai</th>
             <th>Harga Netto</th>
             <th>Harga Satuan</th>
         </thead>
@@ -80,30 +112,33 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
 			$total_harganetto = 0;
 			$total_hargajual = 0;
 			$total_jmlpakai = 0;
+                        $no = 1;
 			foreach ($modPemakaianBarangDetail as $i=>$modBarang){ 
         ?>
             <tr>
-                <td><?php echo $modBarang->barang->bidang->subkelompok->kelompok->golongan->golongan_nama; ?></td>
-                <td><?php echo $modBarang->barang->bidang->subkelompok->kelompok->kelompok_nama; ?></td>
-                <td><?php echo $modBarang->barang->bidang->subkelompok->subkelompok_nama; ?></td>
-                <td><?php echo $modBarang->barang->bidang->bidang_nama; ?></td>
+                <td><?php echo $no; ?></td>
+                <td><?php echo $modBarang->barang->barang_kode; ?></td>
+                <td><?php echo $modBarang->barang->barang_type; ?></td>
                 <td><?php echo $modBarang->barang->barang_nama; ?></td>
-                <td><?php echo $modBarang->satuanpakai; ?></td>
-				<td style="text-align:center;"><?php echo ($modBarang->jmlpakai); ?></td>
-                <td style="text-align:right;"><?php echo $format::formatNumberForUser($modBarang->harganetto); ?></td>
-				<td style="text-align:right;"><?php echo $format::formatNumberForUser($modBarang->hargajual); ?></td>
+                <td><?php echo $modBarang->barang->barang_merk." <br/> / ".$modBarang->barang->barang_noseri; ?></td>
+                <td><?php echo $modBarang->barang->barang_ukuran." <br/> / ".$modBarang->barang->barang_bahan; ?></td>
+                <td><?php echo number_format($modBarang->jmlpakai,0,"",".")." ".$modBarang->satuanpakai; ?></td>
+                <!--<td><?php //echo $modBarang->satuanpakai; ?></td>-->
+				<!--<td style="text-align:center;"><?php //echo ($modBarang->jmlpakai); ?></td>-->
+                <td style="text-align:right;"><?php echo number_format($modBarang->harganetto,0,"","."); ?></td>
+				<td style="text-align:right;"><?php echo number_format($modBarang->hargajual,0,"","."); ?></td>
 				<?php
 					$total_harganetto += $modBarang->harganetto;
 					$total_hargajual += $modBarang->hargajual;
 					$total_jmlpakai += $modBarang->jmlpakai;
 				?>
             </tr>
-        <?php } ?>
+        <?php $no++;} ?>
         <tr>
             <td colspan="6" align="center"><strong>Total</strong></td>
-            <td style="text-align: center;"><?php echo ($total_jmlpakai); ?></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total_harganetto); ?></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total_hargajual); ?></td>
+            <td style="text-align: center;"><?php echo number_format($total_jmlpakai,0,"","."); ?></td>
+            <td style="text-align: right;"><?php echo number_format($total_harganetto,0,"","."); ?></td>
+            <td style="text-align: right;"><?php echo number_format($total_hargajual,0,"","."); ?></td>
         </tr>
     </table>
 <?php
@@ -129,11 +164,12 @@ if (isset($_GET['frame'])){
                 <tr>
                     <td width="35%" align="center">
                         <div>Mengetahui<br></div>
-                        <div style="margin-top:60px;"><?php echo Yii::app()->user->getState('nama_pegawai'); ?></div>
+                        <div style="margin-top:60px;"><?php echo $modPemakaianBarang->pegawai->namaLengkap ?></div>
                     </td>
                     <td width="35%" align="center">
                     </td>
                     <td width="35%" align="center">
+                        <div><?php echo Yii::app()->user->getState("kabupaten_nama").", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?></div>
                         <div>Dibuat Oleh :</div>
                         <div style="margin-top:60px;"><?php echo Yii::app()->user->getState('nama_pegawai'); ?></div>
                         <div></div>

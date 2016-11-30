@@ -1,7 +1,7 @@
 <div class="white-container">
 <?php
 Yii::app()->clientScript->registerScript('search', "
-$('#asuhankeperawatan-info-search').submit(function(){
+$('#pengkajiankeperawatan-info-search').submit(function(){
 	$('#informasiasuhankeperawatan-grid').addClass('animation-loading');
 	$.fn.yiiGridView.update('informasiasuhankeperawatan-grid', {
 			data: $(this).serialize()
@@ -16,7 +16,7 @@ $('#asuhankeperawatan-info-search').submit(function(){
 		<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 		<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'id'=>'informasiasuhankeperawatan-grid',
-			'dataProvider'=>$model->search(),
+			'dataProvider'=>$model->searchInformasiKep(),
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 			'columns'=>array(
@@ -39,17 +39,14 @@ $('#asuhankeperawatan-info-search').submit(function(){
 				array(
 					'header'=>'Nama Pasien',
 					'type'=>'raw',
-					'value'=>'$data->nama_pasien',
+                                        'name' => 'nama_pasien',
+					'value'=>'$data->namadepan." ".$data->nama_pasien',
 				),
-				array(
-					'header'=>'Jenis Kelamin',
-					'type'=>'raw',
-					'value'=>'$data->ruangan_nama',
-				),
+				
 				array(
 					'header'=>'Nama Perawat',
 					'type'=>'raw',
-					'value'=>'$data->nama_pegawai',
+					'value'=>'$data->NamaLengkap',
 				),
 				array(
 					'header'=>'Ruangan',

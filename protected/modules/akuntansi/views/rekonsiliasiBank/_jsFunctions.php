@@ -15,14 +15,15 @@ function setSaldoBank(obj){
 function setRekonsiliasiBank(){
 	var jenisrekonsiliasibank_id = $('#jenisrekonsiliasibank_id').val();
 	
+	$("#tabel-detailrekonsiliasi > tbody").empty();
 	$.post('<?php echo $this->createUrl('setRekonsiliasiBank'); ?>',{
 		jenisrekonsiliasibank_id:jenisrekonsiliasibank_id
 	},
 		function(data){
 			if(data.pesan == ''){
 				$("#tabel-detailrekonsiliasi > tbody").append(data.form);
-				$("#tabel-detailrekonsiliasi").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+				$("#tabel-detailrekonsiliasi").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 				);
 				renameInputRow($('#tabel-detailrekonsiliasi'));
 				clearInputan();
@@ -49,8 +50,8 @@ function setRekonsiliasiBankRekening(){
 			function(data){
 				if(data.pesan == ''){
 					$("#tabel-detailrekonsiliasi > tbody").append(data.form);
-					$("#tabel-detailrekonsiliasi").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+					$("#tabel-detailrekonsiliasi").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 					);
 					renameInputRow($('#tabel-detailrekonsiliasi'));
 					clearInputan();
@@ -125,7 +126,7 @@ function verifikasi(){
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
@@ -146,7 +147,7 @@ function print(caraPrint)
  * @returns {undefined}
  */
 function unformatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(parseInt(unformatNumber($(this).val())));
     });
 }
@@ -155,7 +156,7 @@ function unformatNumberSemua(){
  * @returns {undefined}
  */
 function formatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(formatInteger($(this).val()));
     });
 }	

@@ -23,7 +23,7 @@
 		<div class="span4">
                     <?php $format = new MyFormatter(); ?>
                     <?php echo CHtml::hiddenField('type', ''); ?>
-                    <?php echo CHtml::label('Tanggal Pelayanan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
                     </div>
@@ -127,36 +127,72 @@
                  
                     </div>
         </div>
-           
-                <fieldset class="box2">
-                    <legend class="rim">Berdasarkan Dokter</legend>
-                    <div class="controls">
-                        <?php echo CHtml::activehiddenField($model, 'pegawai_id', array('readonly'=>true)); ?>
-                        <?php echo CHtml::label('Nama Dokter', 'nama_dokter', array('class' => 'control-label', 'style'=>'text-align:center;')) ?>
-                        <div class="controls">
-                            <?php
-                                $this->widget('MyJuiAutoComplete', array(
-                                'name'=>'BKLaporanpembebasantarifV[nama_pegawai]',
-                                'value'=>$model->pegawai_id,
-                                'sourceUrl'=> Yii::app()->createUrl('ActionAutoComplete/GetDokterJenisKelamin'),
-                                'options'=>array(
-                                   'minLength' => 1,
-                                   'select'=>'js:function( event, ui ){
-                                               $("#BKLaporanpembebasantarifV_nama_pegawai").val(ui.item.value);
-                                               $("#BKLaporanpembebasantarifV_pegawai_id").val(ui.item.pegawai_id);
-                                                return false;
-                                               }', 
-                                ),
-                                'tombolDialog'=>array('idDialog'=>'dialogDokter','idTombol'=>'tombolDokterDialog'),
-                                'htmlOptions'=>array('class'=>'span3', 
-                                                    'placeholder'=>'Ketik Nama Dokter','onkeypress'=>"return $(this).focusNextInputField(event)"),
+         <table width = "100%">     
+        <tr>           
+            <td>
+                <div id='searching'>
+                    <fieldset>
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                                    'id'=>'dokter',
+                                    'slide'=>false,
+//                                    'parent'=>false,
+//                                    'disabled'=>true,
+//                                    'accordion'=>false, //default
+                                    'content'=>array(
+                                        'content3'=>array(
+                                            'header'=>'Berdasarkan Dokter',
+                                            'isi'=>'<table >
+                                                        <tr>
+                                                        <td >'.CHtml::hiddenField('namadokter')
+                                                        .'<div class="input-append"><span class="add-on">'.$form->textField($model, 'nama_pegawai', array('id'=>'dokternama','data-offset-top'=>200,'data-spy'=>'affix','style'=>'margin-top:-3px; margin-left:-3px','inline'=>false, 
+                                                        'class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event)",'sourceUrl'=> $this->createUrl('/ActionAutoComplete/DaftarAllDokter'),'placeholder'=>'Ketikan Nama Dokter')).'<a href="javascript:void(0);" id="tombolDokterDialog" onclick="$(&quot;#dialogDokter&quot;).dialog(&quot;open&quot;);return false;">
+                                                    <i class="icon-list"></i>
+                                                    <i class="icon-search">
+                                                    </i>
+                                                    </a>
+                                                    </span>
+                                                    </div></td></tr></table>',
+                                            'active'=>true,
+                                            ),
+                                    ),
+                                    'htmlOptions'=>array('class'=>'aw',)
                             ));
-                              ?>
-                        </div>
-                </fieldset>
+                        
+                        
+                        echo CHtml::hiddenField('idSupplier'); ?>
+                            <?php 
+//                            $this->widget('MyJuiAutoComplete',array(
+//                                        'model'=>$model, 
+////                                        'name'=>'namapegawai',
+//                                        'attribute'=>'dokter_nama',
+//                                        'id'=>'dokternama',
+//                                        'value'=>$namapegawai,
+//                                        'sourceUrl'=> Yii::app()->createUrl('ActionAutoComplete/getDokter'),
+//                                        'options'=>array(
+//                                           'showAnim'=>'fold',
+//                                           'minLength' => 2,
+//                                           'focus'=> 'js:function( event, ui ) {
+//                                                $("#idSupplier").val( ui.item.pegawai_id);
+//                                                $("#dokternama").val( ui.item.nama_pegawai );
+//                                                $("#PPLaporankunjunganbydokterV_dokter_nama").val( ui.item.nama_pegawai );
+//                                                return false;
+//                                            }',
+//                                           'select'=>'js:function( event, ui ) {
+//                                                $("#idSupplier").val( ui.item.pegawai_id);
+//                                                $("#namadokter").val( ui.item.pegawai_id);
+//                                                return false;
+//                                            }',
+//
+//                                        ),
+//                                        'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span3','placeholder'=>'Ketikan Nama Dokter'),
+//                                        'tombolDialog'=>array('idDialog'=>'dialogDokter','idTombol'=>'tombolDokterDialog'),
+//                                
+//                            )); ?>
+                    </fieldset>
+                </div>
             </td>
         </tr>
-    </table>
+    </table> 
     <div class="form-actions">
         <?php
         echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
@@ -179,6 +215,18 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
 ?>
 
 <script type="text/javascript">
+    $(document).ready(function(){
+        jQuery('#dokternama').autocomplete({'showAnim':'fold','minLength':2,'focus':function( event, ui ) {
+        $("#idSupplier").val( ui.item.pegawai_id);
+        $("#dokternama").val( ui.item.nama_pegawai );
+        $("#BKLaporanpembebasantarifV_nama_pegawai").val( ui.item.nama_pegawai );
+        return false;
+        },'select':function( event, ui ) {
+        $("#idSupplier").val( ui.item.pegawai_id);
+        $("#namadokter").val( ui.item.pegawai_id);
+        return false;
+        },'source':'<?php echo $this->createUrl('/ActionAutoComplete/DaftarAllDokter'); ?>'}); 
+    });
     function cek_all_ruangan(obj){
         if($(obj).is(':checked')){
             $("#ruangan_tbl").find("input[type=\'checkbox\']").attr("checked", "checked");
@@ -188,25 +236,6 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
     }
 </script>
 
-<?php 
-//========= Dialog buat cari data pemeriksa =========================
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
-    'id'=>'dialogDokter1',
-    'options'=>array(
-        'title'=>'Dokter Pemeriksa',
-        'autoOpen'=>false,
-        'modal'=>true,
-        'width'=>800,
-        'height'=>500,
-        'resizable'=>false,
-    ),
-));
-?> 
-<?php
-
-$this->endWidget('zii.widgets.jui.CJuiDialog');
-//========= end pemeriksa dialog =============================
-?> 
 
 <?php 
 //========= Dialog buat cari data pendaftaran =========================
@@ -222,15 +251,16 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $pegawai = new DokterV('search');
-    $pegawai->ruangan_id = Yii::app()->user->ruangan_id;
-    if (isset($_GET['DokterV'])){
-        $pegawai->attributes = $_GET['DokterV'];
+    $pegawai = new DokterpegawaiV('searchByDokter');
+    $pegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
+    if (isset($_GET['DokterpegawaiV'])){
+        $pegawai->attributes = $_GET['DokterpegawaiV'];
+        $pegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'pendaftaran-t-grid',
-            'dataProvider'=>$pegawai->search(),
+            'dataProvider'=>$pegawai->searchByDokter(),
             'filter'=>$pegawai,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -243,44 +273,49 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         "onClick" => "
                                             $(\"#dialogDokter\").dialog(\"close\");
                                             $(\"#BKLaporanpembebasantarifV_pegawai_id\").val(\"$data->pegawai_id\");
-                                            $(\"#BKLaporanpembebasantarifV_nama_pegawai\").val(\"$data->gelardepan\"+\" \"+\"$data->nama_pegawai\"+\" \"+\"$data->gelarbelakang_nama\");
+                                            $(\"#BKLaporanpembebasantarifV_nama_pegawai\").val(\"$data->nama_pegawai\");
+                                            $(\"#dokternama\").val(\"$data->nama_pegawai\");
 
                                         "))',
-                    ),
+                    ),          
                     array(
-                        'header' => 'Gelar Depan',
-                        'name' => 'gelardepan',
-                        'value' => '$data->gelardepan',
-                        'filter' => CHtml::dropDownList('DokterV[gelardepan]', $pegawai->gelardepan, LookupM::getItems('gelardepan'),array('empty'=>'-- Pilih --'))
+                        'header' => 'NIP',
+                        'name' => 'nomorindukpegawai',
+                        'filter' => Chtml::activeTextField($pegawai, 'nomorindukpegawai',array('class'=>'numbers-only'))
                     ),
                     array(
                         'name'=>'nama_pegawai',
                         'header'=>'Nama Dokter',
-                    ),                                
-                     array(
-                        'header' => 'Gelar Belakang',
-                        'name' => 'gelarbelakang_nama',
-                        'value' => '$data->gelarbelakang_nama',
-                        'filter' => CHtml::dropDownList('DokterV[gelarbelakang_nama]', $pegawai->gelarbelakang_nama, CHtml::listData(GelarbelakangM::model()->findAll("gelarbelakang_aktif = true ORDER BY gelarbelakang_nama ASC"), 'gelarbelakang_nama', 'gelarbelakang_nama'),array('empty'=>'-- Pilih --'))
-                    ),
+                        'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                        'filter' => Chtml::activeTextField($pegawai, 'nama_pegawai',array('class'=>'hurufs-only'))
+                    ),                    
                     array(
-                        'header' => 'Jenis Kelamin',
-                        'name' => 'jeniskelamin',
-                        'value' => '$data->jeniskelamin',
-                        'filter' => CHtml::dropDownList('DokterV[jeniskelamin]', $pegawai->jeniskelamin, LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --'))
-                    ),
-                    array(
-                        'header' => 'Agama',
-                        'name' => 'agama',
-                        'value' => '$data->agama',
-                        'filter' => CHtml::dropDownList('DokterV[agama]', $pegawai->agama, LookupM::getItems('agama'),array('empty'=>'-- Pilih --'))
+                        'header' => 'Jabatan',
+                        'name' => 'jabatan_id',
+                        'value' => function($data){
+                            $j = JabatanM::model()->findByPk($data->jabatan_id);
+                            
+                            if (count($j)>0){
+                                return $j->jabatan_nama;
+                            }else{
+                                return '-';
+                            }
+                        },
+                        'filter' => Chtml::activeDropDownList($pegawai, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll(" jabatan_aktif = TRUE ORDER BY jabatan_nama ASC "), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --')),                        
                     ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                                . '$(".numbers-only").keyup(function() {
+                                    setNumbersOnly(this);
+                                });
+                                $(".angkahuruf-only").keyup(function() {
+                                    setAngkaHuruOnly(this);
+                                });'
+                                . ''
+                                . '}',
     ));
 
 $this->endWidget();
 ////======= end pendaftaran dialog =============
-
 ?>
 <?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>

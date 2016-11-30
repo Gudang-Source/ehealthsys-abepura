@@ -23,7 +23,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 
 <div class="row-fluid">
     <div class="span4">
-        <?php echo CHtml::label('Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
+        <?php echo CHtml::label('Periode Laporan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
         <div class="controls">
             <?php echo $form->dropDownList($modPPInfoKunjunganV, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
         </div>
@@ -194,6 +194,43 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             </fieldset>
         </td>
     </tr>
+    <tr>
+        <td>
+            <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+						'id'=>'big',
+						'slide'=>false,
+						'content'=>array(
+							'content2'=>array(
+							'header'=>'Berdasarkan Instalasi dan Ruangan',
+							'isi'=>'<table>
+										<tr>
+											<td>'.CHtml::hiddenField('filter', 'carabayar', array('disabled'=>'disabled')).'<label>Instalasi</label></td>
+											<td>'.$form->dropDownList($modPPInfoKunjunganV, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+												'ajax' => array('type' => 'POST',
+													'url' => $this->createUrl('GetRuanganForCheckBox', array('encode' => false, 'namaModel' => ''.get_class($modPPInfoKunjunganV).'')),
+													'update' => '#ruangan',  //selector to update
+												),
+											)).'
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<label>Ruangan</label>
+											</td>
+											<td>
+												<div margin id="ruangan">
+													<label>Data Tidak Ditemukan</label>
+												</div>
+											</td>
+										</tr>
+									 </table>',
+							 'active'=>true
+							),
+						),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+				)); ?>
+        </td>
+    </tr>
 </table>
 
 
@@ -250,6 +287,19 @@ Yii::app()->clientScript->registerScript('setPeriode', $js, CClientScript::POS_H
             $('#dtPicker3').datepicker("hide");
             return true;
             ;
+        }
+    }
+</script>
+<script>
+    function checkAll(){
+        if($('#checkAllRuangan').is(':checked')){
+           $('#searchInfoKunjungan input[name*="ruangan_id"]').each(function(){
+                $(this).attr('checked',true);
+           });
+        }else{
+             $('#searchInfoKunjungan input[name*="ruangan_id"]').each(function(){
+                $(this).removeAttr('checked');
+           });
         }
     }
 </script>

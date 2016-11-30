@@ -26,19 +26,21 @@ class RILaporantindaklanjutri extends LaporantindaklanjutriV {
 
         $criteria = new CDbCriteria;
 
-       if (is_array($this->carakeluar)) {
-            foreach ($this->carakeluar as $v) {
-                if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
-                } else {
-                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
+        if (!empty($this->carakeluar)){
+            if (is_array($this->carakeluar)) {
+                foreach ($this->carakeluar as $v) {
+                    if ($v == 'DIPULANGKAN') {
+                        $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
+                    } else {
+                        $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
+                    }
                 }
+            } else {
+                $criteria->addCondition('pasienpulang_id is not null');
+                $criteria->addCondition('carakeluar is null');
             }
-        } else {
-            $criteria->addCondition('pasienpulang_id is not null');
-            $criteria->addCondition('carakeluar is null');
         }
-        $criteria->addBetweenCondition('tglpasienpulang', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('tglpasienpulang', MyFormatter::formatDateTimeForDb(date("Y-m-d", strtotime($this->tgl_awal))).' 00:00:00', MyFormatter::formatDateTimeForDb(date("Y-m-d", strtotime($this->tgl_akhir))).' 23:59:59');
         $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
         $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
@@ -61,7 +63,7 @@ class RILaporantindaklanjutri extends LaporantindaklanjutriV {
         if (is_array($this->carakeluar)) {
             foreach ($this->carakeluar as $v) {
                 if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
+                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 } else {
                     $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 }

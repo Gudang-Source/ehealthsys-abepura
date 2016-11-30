@@ -119,17 +119,17 @@ class PembayaranKlaimMerchantController extends MyAuthController
 				$jumlahPiutang = 0;
 				$biayapelayanan = 0;
 				if (isset($row->pembayaranpelayanan_id)){
-				$biayapelayanan += $row->pembayaran->totalbiayapelayanan;
-					if (isset($row->pembayaran->pendaftaran_id)){
-						if (isset($row->pembayaran->pendaftaran->carabayar_id)){
-							if($row->pembayaran->pendaftaran->carabayar->issubsidiasuransi == true || $row->pembayaran->pendaftaran->carabayar->issubsidipemerintah == true || $row->pembayaran->pendaftaran->carabayar->issubsidirs == true){
-								$jumlahPiutang += $row->pembayaran->totalsubsidiasuransi + $row->pembayaran->totalsubsidipemerintah + $row->pembayaran->totalsubsidirs;
-							}else if($row->pembayaran->pendaftaran->carabayar->issubsidiasuransi == true){
-								$jumlahPiutang += $row->pembayaran->totalsubsidiasuransi;
-							}else if($row->pembayaran->pendaftaran->carabayar->issubsidipemerintah == true){
-								$jumlahPiutang += $row->pembayaran->totalsubsidipemerintah ;
-							}else if($row->pembayaran->pendaftaran->carabayar->issubsidirs == true){
-								$jumlahPiutang += $row->pembayaran->totalsubsidirs;
+				$biayapelayanan += $row->pembayaranpelayanan->totalbiayapelayanan;
+					if (isset($row->pembayaranpelayanan->pendaftaran_id)){
+						if (isset($row->pembayaranpelayanan->pendaftaran->carabayar_id)){
+							if($row->pembayaranpelayanan->pendaftaran->carabayar->issubsidiasuransi == true || $row->pembayaranpelayanan->pendaftaran->carabayar->issubsidipemerintah == true || $row->pembayaranpelayanan->pendaftaran->carabayar->issubsidirs == true){
+								$jumlahPiutang += $row->pembayaranpelayanan->totalsubsidiasuransi + $row->pembayaranpelayanan->totalsubsidipemerintah + $row->pembayaranpelayanan->totalsubsidirs;
+							}else if($row->pembayaranpelayanan->pendaftaran->carabayar->issubsidiasuransi == true){
+								$jumlahPiutang += $row->pembayaranpelayanan->totalsubsidiasuransi;
+							}else if($row->pembayaranpelayanan->pendaftaran->carabayar->issubsidipemerintah == true){
+								$jumlahPiutang += $row->pembayaranpelayanan->totalsubsidipemerintah ;
+							}else if($row->pembayaranpelayanan->pendaftaran->carabayar->issubsidirs == true){
+								$jumlahPiutang += $row->pembayaranpelayanan->totalsubsidirs;
 							}
 						}else{
 						$jumlahPiutang += 0;
@@ -144,27 +144,27 @@ class PembayaranKlaimMerchantController extends MyAuthController
                 $tr .= '<tr >';
                 $tr .= '<td>'.$i.'</td>';
 					if (isset($row->pembayaranpelayanan_id)){
-						if (isset($row->pembayaran->pasien_id)){
-							if(isset($row->pembayaran->pendaftaran_id)){
-								$tr .= '<td>' . $row->pembayaran->pasien->no_rekam_medik."<br/>".$row->pembayaran->pendaftaran->no_pendaftaran . '</td>';
-								$tr .= '<td>' . $row->pembayaran->pasien->nama_pasien .		
-										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][pasien_id]', $row->pembayaran->pasien_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')) .
+						if (isset($row->pembayaranpelayanan->pasien_id)){
+							if(isset($row->pembayaranpelayanan->pendaftaran_id)){
+								$tr .= '<td>' . $row->pembayaranpelayanan->pasien->no_rekam_medik."<br/>".$row->pembayaranpelayanan->pendaftaran->no_pendaftaran . '</td>';
+								$tr .= '<td>' . $row->pembayaranpelayanan->pasien->nama_pasien .		
+										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][pasien_id]', $row->pembayaranpelayanan->pasien_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')) .
 										'</td>';
-								$tr .= '<td>' . $row->pembayaran->pasien->alamat_pasien . '</td>';
-									if (isset($row->pembayaran->pendaftaran->penanggungjawab_id)){
-										$tr .= '<td>' . $row->pembayaran->pendaftaran->penanggungJawab->nama_pj."-".$row->pembayaran->pendaftaran->penanggungJawab->pengantar . '</td>';
+								$tr .= '<td>' . $row->pembayaranpelayanan->pasien->alamat_pasien . '</td>';
+									if (isset($row->pembayaranpelayanan->pendaftaran->penanggungjawab_id)){
+										$tr .= '<td>' . $row->pembayaranpelayanan->pendaftaran->penanggungJawab->nama_pj."-".$row->pembayaranpelayanan->pendaftaran->penanggungJawab->pengantar . '</td>';
 									}else{
 										$tr .= '<td> - </td>';
 									}
-								$tr .= '<td>' . $row->pembayaran->nopembayaran . '</td>';
+								$tr .= '<td>' . $row->pembayaranpelayanan->nopembayaran . '</td>';
 							}else{
-							$tr .= '<td>' . $row->pembayaran->pasien->no_rekam_medik."<br/>".' - </td>';
-							$tr .= '<td>' . $row->pembayaran->pasien->nama_pasien .		
-									CHtml::hiddenField('BKPembayarklaimdetailT['.$i.'][pasien_id]', $row->pembayaran->pasien_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')) .
+							$tr .= '<td>' . $row->pembayaranpelayanan->pasien->no_rekam_medik."<br/>".' - </td>';
+							$tr .= '<td>' . $row->pembayaranpelayanan->pasien->nama_pasien .		
+									CHtml::hiddenField('BKPembayarklaimdetailT['.$i.'][pasien_id]', $row->pembayaranpelayanan->pasien_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')) .
 									'</td>';
-							$tr .= '<td>' . $row->pembayaran->pasien->alamat_pasien . '</td>';
+							$tr .= '<td>' . $row->pembayaranpelayanan->pasien->alamat_pasien . '</td>';
 							$tr .= '<td> - </td>';
-							$tr .= '<td>' . $row->pembayaran->nopembayaran . '</td>';
+							$tr .= '<td>' . $row->pembayaranpelayanan->nopembayaran . '</td>';
 							}
 						}else{
 							$tr .= '<td> - '."<br/>".' - </td>';
@@ -182,53 +182,53 @@ class PembayaranKlaimMerchantController extends MyAuthController
 					}
 
                 if ($text == true){
-                    $tr .= (isset($row->pembayaranpelayanan_id)? '<td>'.number_format($row->pembayaran->totalbiayapelayanan).'</td>': '<td> 0 </td>' );
-					$tr .= (isset($row->pembayaranpelayanan_id)? '<td>'.number_format($row->pembayaran->totalsisatagihan).'</td>': '<td> 0 </td>' );
-                    $tr .= '<td>'.number_format($row->uangditerima).'</td>';
-					$tr .= (isset($row->pembayaranpelayanan_id)? '<td>'.number_format($row->pembayaran->totalbayartindakan).'</td>': '<td> 0 </td>' );
-                    $tr .= (isset($row->pembayaranpelayanan_id)? '<td>'.number_format($row->pembayaran->totalsisatagihan).'</td>': '<td> 0 </td>' );
+                    $tr .= (isset($row->pembayaranpelayanan_id)? '<td>'.MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->totalbiayapelayanan).'</td>': '<td> 0 </td>' );
+					$tr .= (isset($row->pembayaranpelayanan_id)? '<td>'.MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->totalsisatagihan).'</td>': '<td> 0 </td>' );
+                    $tr .= '<td>'.MyFormatter::formatNumberForPrint($row->uangditerima).'</td>';
+					$tr .= (isset($row->pembayaranpelayanan_id)? '<td>'.MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->totalbayartindakan).'</td>': '<td> 0 </td>' );
+                    $tr .= (isset($row->pembayaranpelayanan_id)? '<td>'.MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->totalsisatagihan).'</td>': '<td> 0 </td>' );
                 }else{
-					$tr .= (isset($row->pembayaranpelayanan_id)? '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltagihan]', number_format($row->pembayaran->totalbiayapelayanan), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer', 'readonly' => false,'onkeyup'=>'hitungSemuaTransaksi()')) . '</td>': '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer', 'readonly' => true)) . ' </td>' );
+					$tr .= (isset($row->pembayaranpelayanan_id)? '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltagihan]', MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->totalbiayapelayanan), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer2', 'readonly' => false,'onkeyup'=>'hitungSemuaTransaksi()')) . '</td>': '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer2', 'readonly' => true)) . ' </td>' );
 					if (isset($row->pembayaranpelayanan_id)){
-						if(isset($row->pembayaran->pembklaimdetal_id)){
-							$tr .= '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlpiutang]', (empty($row->pembayaran->pembklaimdetal_id) ? number_format($jumlahPiutang) : number_format($row->pembayaran->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer ', 'onkeyup' => 'hitungJumlahPiutang(this);')) . 
-											CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][jmlpiutang2]', (empty($row->pembayaran->pembklaimdetal_id) ? number_format($row->pembayaran->totalsisatagihan) : number_format($row->pembayaran->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang2 integer')) .
+						if(isset($row->pembayaranpelayanan->pembklaimdetal_id)){
+							$tr .= '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlpiutang]', (empty($row->pembayaranpelayanan->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($jumlahPiutang) : MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer2 ', 'onkeyup' => 'hitungJumlahPiutang(this);')) . 
+											CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][jmlpiutang2]', (empty($row->pembayaranpelayanan->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->totalsisatagihan) : MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang2 integer2')) .
 								   '</td>';
-							if(isset($row->pembayaran->tandabuktibayar_id)){
-								if(isset($row->pembayaran->pembklaimdetal_id)){
-									$tr .= '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', (empty($row->pembayaran->pembklaimdetal_id) ? (empty($row->pembayaran->detailklaim->telahbayar) ? "0" : number_format($row->pembayaran->tandabukti->jmlpembayaran)) : number_format($row->pembayaran->detailklaim->jmltelahbayar)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer ', 'onkeyup' => 'hitungJumlahTelahBayar();')) . '</td>';
-									$tr .= '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', (empty($row->pembayaran->pembklaimdetal_id) ? number_format($row->pembayaran->tandabukti->jmlpembayaran) : number_format($row->pembayaran->detailklaim->jmlpiutang - $row->pembayaran->detailklaim->jmltelahbayar) ), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer ', 'onkeyup' => 'hitungSisaTagihan();')) . '</td>';
-									$tr .= '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]',(empty($row->pembayaran->pembklaimdetal_id) ? (empty($row->pembayaran->detailklaim->jmlsisapiutang) ? "0" : number_format($row->pembayaran->totalbiayapelayanan - $row->pembayaran->tandabukti->jmlpembayaran)) : number_format($row->pembayaran->detailklaim->jmlpiutang - ($row->pembayaran->detailklaim->jmltelahbayar + ($row->pembayaran->detailklaim->jmlpiutang - $row->pembayaran->detailklaim->jmltelahbayar)))) , array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer ', 'onkeyup' => 'hitungSemuaTransaksi();')). '</td>';
+							if(isset($row->pembayaranpelayanan->tandabuktibayar_id)){
+								if(isset($row->pembayaranpelayanan->pembklaimdetal_id)){
+									$tr .= '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', (empty($row->pembayaranpelayanan->pembklaimdetal_id) ? (empty($row->pembayaranpelayanan->detailklaim->telahbayar) ? "0" : MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->tandabukti->jmlpembayaran)) : MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->detailklaim->jmltelahbayar)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer2 ', 'onkeyup' => 'hitungJumlahTelahBayar();')) . '</td>';
+									$tr .= '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', (empty($row->pembayaranpelayanan->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->tandabukti->jmlpembayaran) : MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->detailklaim->jmlpiutang - $row->pembayaranpelayanan->detailklaim->jmltelahbayar) ), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer2 ', 'onkeyup' => 'hitungSisaTagihan();')) . '</td>';
+									$tr .= '<td>' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]',(empty($row->pembayaranpelayanan->pembklaimdetal_id) ? (empty($row->pembayaranpelayanan->detailklaim->jmlsisapiutang) ? "0" : MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->totalbiayapelayanan - $row->pembayaranpelayanan->tandabukti->jmlpembayaran)) : MyFormatter::formatNumberForPrint($row->pembayaranpelayanan->detailklaim->jmlpiutang - ($row->pembayaranpelayanan->detailklaim->jmltelahbayar + ($row->pembayaranpelayanan->detailklaim->jmlpiutang - $row->pembayaranpelayanan->detailklaim->jmltelahbayar)))) , array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer2 ', 'onkeyup' => 'hitungSemuaTransaksi();')). '</td>';
 								}else{
-									$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer', 'readonly' => true)) . ' </td>';
-									$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer', 'readonly' => true)) . ' </td>';
-									$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer', 'readonly' => true)) . ' </td>';
+									$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer2', 'readonly' => true)) . ' </td>';
+									$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer2', 'readonly' => true)) . ' </td>';
+									$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer2', 'readonly' => true)) . ' </td>';
 								}
 							}else{
-								$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer', 'readonly' => true)) . ' </td>';
-								$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer', 'readonly' => true)) . ' </td>';
-								$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer', 'readonly' => true)) . ' </td>';
+								$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer2', 'readonly' => true)) . ' </td>';
+								$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer2', 'readonly' => true)) . ' </td>';
+								$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer2', 'readonly' => true)) . ' </td>';
 							}
 						}else{
-							$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlpiutang]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer', 'readonly' => true)) . ' </td>';
-							$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer', 'readonly' => true)) . ' </td>';
-							$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer', 'readonly' => true)) . ' </td>';
-							$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer', 'readonly' => true)) . ' </td>';
+							$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlpiutang]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer2', 'readonly' => true)) . ' </td>';
+							$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer2', 'readonly' => true)) . ' </td>';
+							$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer2', 'readonly' => true)) . ' </td>';
+							$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer2', 'readonly' => true)) . ' </td>';
 						}
 					}else{
-						$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlpiutang]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer', 'readonly' => true)) . ' </td>';
-						$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer', 'readonly' => true)) . ' </td>';
-						$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer', 'readonly' => true)) . ' </td>';
-						$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer', 'readonly' => true)) . ' </td>';
+						$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlpiutang]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer2', 'readonly' => true)) . ' </td>';
+						$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmltelahbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer2', 'readonly' => true)) . ' </td>';
+						$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlbayar]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer2', 'readonly' => true)) . ' </td>';
+						$tr .= '<td> ' . CHtml::textField('KUPembayarklaimdetailT['.$i.'][jmlsisatagihan]', 0, array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer2', 'readonly' => true)) . ' </td>';
 					}
 					if (isset($row->pembayaranpelayanan_id)){
 						$tr .= '<td>' . CHtml::checkBox('KUPembayarklaimdetailT['.$i.'][cekList]', true, array('value'=>$row->pembayaranpelayanan_id,'class' => 'cek', 'onClick' => 'setAll();')) .
-										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][pendaftaran_id]', $row->pembayaran->pendaftaran_id, array('style'=>'width:70px;','class' => 'inputFormTabel currency span3 jmlsisatagihan',)).
-										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][pasien_id]', $row->pembayaran->pasien_id, array('style'=>'width:70px;','class' => 'inputFormTabel currency span3 jmlsisatagihan',)).
+										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][pendaftaran_id]', $row->pembayaranpelayanan->pendaftaran_id, array('style'=>'width:70px;','class' => 'inputFormTabel currency span3 jmlsisatagihan',)).
+										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][pasien_id]', $row->pembayaranpelayanan->pasien_id, array('style'=>'width:70px;','class' => 'inputFormTabel currency span3 jmlsisatagihan',)).
 										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][pembayaranpelayanan_id]', $row->pembayaranpelayanan_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3 ')).
-										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][tandabuktibayar_id]', $row->pembayaran->tandabuktibayar_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')).
-										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][carabayar_id]', $row->pembayaran->carabayar_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')).
-										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][penjamin_id]', $row->pembayaran->penjamin_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')).
+										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][tandabuktibayar_id]', $row->pembayaranpelayanan->tandabuktibayar_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')).
+										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][carabayar_id]', $row->pembayaranpelayanan->carabayar_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')).
+										CHtml::hiddenField('KUPembayarklaimdetailT['.$i.'][penjamin_id]', $row->pembayaranpelayanan->penjamin_id, array('style'=>'width:70px;','class' => 'inputFormTabel  span3')).
 							   '</td>';
 					}
 				}
@@ -250,9 +250,16 @@ class PembayaranKlaimMerchantController extends MyAuthController
 		if(!empty($carabayar)){
 			$criteria->addCondition('pembayaranpelayanan_t.carabayar_id = '.$carabayar);
 		}
-		$criteria->addBetweenCondition('t.tglbuktibayar', $tglAwal, $tglAkhir);
+		$criteria->addBetweenCondition('t.tglbuktibayar::date', MyFormatter::formatDateTimeForDb($tglAwal), MyFormatter::formatDateTimeForDb($tglAkhir));
         $criteria->compare('LOWER(t.bankkartu)',strtolower($bankkartu)); 
-        $pengeluaran = KUTandabuktibayarT::model()->findAll($criteria);
+        
+		
+		//var_dump($criteria);
+		
+		$pengeluaran = KUTandabuktibayarT::model()->findAll($criteria);
+		
+		//var_dump(count($pengeluaran)); die;
+		
         $tr = $this->rowPengeluaran($pengeluaran, isset($data['totaltransaksi']) ? $data['totaltransaksi'] : null, isset($data['tr']) ? $data['tr'] : null );
 
         return $tr;

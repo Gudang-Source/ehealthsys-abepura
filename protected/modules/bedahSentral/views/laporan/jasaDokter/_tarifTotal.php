@@ -26,7 +26,7 @@
     $totTarif = 0;
     
     foreach($modTarif as $key=>$tarif){
-       if($tarif->daftartindakan_visite == true  || $tarif->daftartindakan_konsul == true || $tarif->daftartindakan_tindakan == true || $tarif->komponentarif_id == 15 || $tarif->komponentarif_id == 26 || $tarif->komponentarif_id == 21 || $tarif->komponentarif_id == 2){
+       if($tarif->daftartindakan_visite == true  || $tarif->daftartindakan_konsul == true || $tarif->daftartindakan_tindakan == true || $tarif->komponentarif_id == 15 || $tarif->komponentarif_id == 26 || $tarif->komponentarif_id == 21){
            $totTarif = $totTarif + $tarif->tarif_tindakan;
            /*
            if($totTarif == null){

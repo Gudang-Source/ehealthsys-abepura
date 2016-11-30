@@ -27,14 +27,17 @@
         'no_rekam_medik',
 //        'jenisidentitas',
 //        'no_identitas_pasien',
-//        'namadepan',
-        'nama_pasien',
+//        'namadepan',      
+        array(
+            'header' => 'Nama Pasien',
+            'value' => '$data->namadepan." ".$data->nama_pasien'
+        ),
         'no_pendaftaran',
         'umur',
-        'jeniskelamin',
+       // 'jeniskelamin',
         'alamat_pasien',
         array(
-            'header'=>'Nama Kelas Pelayanan',
+            'header'=>'Kelas Pelayanan',
             'value'=>'$data->kelaspelayanan_nama',
         ),
 //        'kelaspelayanan_nama',
@@ -46,7 +49,8 @@
 //        'harga_tariftindakan',
         array(
             'header'=>'Harga Tarif Tindakan',
-            'value'=>'"Rp. ".number_format($data->harga_tariftindakan)',
+            'value'=>'"Rp".number_format($data->harga_tariftindakan,0,"",".")',
+            'htmlOptions' => array('style'=>'text-align:right')
         ),
 //        'nama_bin',
         /*

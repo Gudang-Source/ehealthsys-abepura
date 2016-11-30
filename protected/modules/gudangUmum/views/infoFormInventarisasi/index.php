@@ -37,14 +37,19 @@ $('.search-form form').submit(function(){
 					'value'=>'MyFormatter::formatDateTimeForUser($data->forminvbarang_tgl)'
 				),
 				'forminvbarang_no',
-				'forminvbarang_totalvolume',
+                                array(
+                                    'header' => 'Total Volume',
+                                    'value' => 'number_format($data->forminvbarang_totalvolume,0,"",".")',
+                                    'htmlOptions' => array('style'=>'text-align:right;')
+                                ),                            
 				array(
 				  'header'=>'Total Harga',
 				  'type'=>'raw',
-				  'value'=>'MyFormatter::formatUang($data->forminvbarang_totalharga)',
+				  'value'=>'"Rp".number_format($data->forminvbarang_totalharga,0,"",".")',
+                                  'htmlOptions' => array('style'=>'text-align:right;')
 				),
 				array(
-					'header'=>'Detail Formulir',
+					'header'=>'Detail',
 					'type'=>'raw',
 					'value'=>'CHtml::Link("<i class=\"icon-form-formulir\"></i>","'.$this->getUrlPrint().'&formulirinvbarang_id=$data->formulirinvbarang_id&frame=true",
 						array("class"=>"", 
@@ -53,15 +58,15 @@ $('.search-form form').submit(function(){
 							"rel"=>"tooltip",
 							"title"=>"Klik untuk melihat detail formulir",
 						))',
-					'htmlOptions'=>array('style'=>'text-align:left;'),
+					'htmlOptions'=>array('style'=>'text-align:center;'),
 				),	
 				array(
-					'header'=>'Inventarisasi Barang',
+					'header'=>'Inventarisasi',
 					'type'=>'raw',
-					'value'=>'(!empty($data->invbarang_id) ? "Sudah Inventarisasi Barang" : "").CHtml::link("<icon class=\"icon-invenmesin\">", "'.$this->getUrlInventarisasi().'&formulirinvbarang_id=$data->formulirinvbarang_id", 
+					'value'=>'(!$data->beluminv ? "SUDAH<br/>INVENTARISASI" : CHtml::link("<icon class=\"icon-invenmesin\">", "'.$this->getUrlInventarisasi().'&formulirinvbarang_id=$data->formulirinvbarang_id", 
 						array("rel"=>"tooltip",
-						"title"=>"Klik untuk melakukan inventarisasi barang ".(!empty($data->invbarang_id) ? "lagi" : ""),))',
-					'htmlOptions'=>array('style'=>'text-align:left;'),
+						"title"=>"Klik untuk melakukan inventarisasi barang ".(!empty($data->invbarang_id) ? "lagi" : ""),)))',
+					'htmlOptions'=>array('style'=>'text-align:center;'),
 				),
 			),
 			'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

@@ -21,64 +21,56 @@
         <?php
             $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 'id'=>'daftarPasien-grid',
-                'dataProvider'=>$model->searchRI(),
+                'dataProvider'=>$model->searchPasienPindahan(),
         //                'filter'=>$model,
                         'template'=>"{summary}\n{items}\n{pager}",
 
                         'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
                             array(
-                               'header'=>'Tanggal Admisi/ Tanggal Masuk',
-                               'name'=>'tgladmisi',
+                                'header' => 'Tanggal Pendaftaran/ No Pendaftaran',
+                                'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ ".$data->no_pendaftaran'
+                            ),
+                            array(
+                               'header'=>'Tanggal Masuk',                               
                                'type'=>'raw',
-                                'value'=>'MyFormatter::formatDateTimeForUser($data->tglAdmisiMasukKamar)'
-                            ),
+                                'value'=>'MyFormatter::formatDateTimeForUser($data->tglpindahkamar)'
+                            ),                            
                             array(
-                               'header'=>'Cara Masuk',
-                               'name'=>'caramasuk_nama',
-                               'type'=>'raw',
-                               'value'=>'$data->caramasuk_nama',
-                            ),
-                            array(
-                                'header'=>'No. Rekam Medik / No. Pendaftaran',
+                                'header'=>'No Rekam Medik',
                                 'type'=>'raw',
-                                'value'=>'$data->noRmNoPend',
+                                'value'=>'$data->no_rekam_medik',
                             ),
                             array(
-                                'header'=>'Nama Pasien / Alias',
-                                'value'=>'$data->namaPasienNamaBin'
+                                'header'=>'Nama Pasien',
+                                'value'=>'$data->namadepan." ".$data->nama_pasien'
                             ),
                             array(
-                                'header'=>'Jenis Kelamin',
-                                'name'=>'jeniskelamin',
-                                'value'=>'$data->jeniskelamin',
-                            ),
+                                'header'=>'Jenis Kelamin/ Umur',                                
+                                'value'=>'$data->jeniskelamin."/ ".$data->umur',
+                            ),     
                             array(
-                                'header'=>'Umur',
-                                'name'=>'umur',
-                                'value'=>'$data->umur',
-                            ),
-                            array(
-                               'name'=>'Dokter',
+                                'header'=>'Jenis Kasus Penyakit',                                
                                 'type'=>'raw',
-                                'value'=>'$data->nama_pegawai',
+                                'value'=>'$data->jeniskasuspenyakit_nama',
                             ),
                             array(
                                 'header'=>'Cara Bayar / Penjamin',
                                 'value'=>'$data->caraBayarPenjamin',
                             ),
                             array(
-                                'header'=>'Kelas Pelayanan',
-                                'name'=>'kelaspelayanan_nama',
+                               'header'=>'Dokter PJP',
+                                'type'=>'raw',
+                                'value'=>'$data->nama_pegawai',
+                                'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                            ),
+                            
+                            array(
+                                'header'=>'Kelas Pelayanan',                                
                                 'type'=>'raw',
                                 'value'=>'$data->kelaspelayanan_nama',
                             ),
-                            array(
-                                'header'=>'Jenis Kasus Penyakit',
-                                'name'=>'jeniskasuspenyakit_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->jeniskasuspenyakit_nama',
-                            ),
+                            
                             array(
                                 'header'=>'Ruangan Asal',
                                 'name'=>'ruanganasal_nama',
@@ -86,10 +78,25 @@
                                 'value'=>'$data->ruanganasal_nama',
                             ),
                             array(
+                                'header'=>'Kamar Ruangan',
+                                'type'=>'raw',
+                                'value'=> function($data){
+                                    $mkamar = MasukkamarT::model()->find(" pindahkamar_id = ".$data->pindahkamar_id);
+                                    
+                                    if(count($mkamar) > 0){
+                                        if (!empty($mkamar->kamarruangan_id)){
+                                            return $mkamar->kamarruangan->kamarruangan_nokamar." - ".$mkamar->kamarruangan->kamarruangan_nobed;
+                                        }else{
+                                            return '-';
+                                        }
+                                    }
+                                }//'$data->kamarruangan_nokamar." - ".$data->kamarruangan_nobed'
+                            ),
+                            /*array(
                                'header'=>'Masuk Kamar / Batal',
                                'type'=>'raw',
                                'value'=>'isset($data->masukkamar_id) ? ( isset($data->cekTindakanDanObat()->ada) ? CHtml::link("Sedang Diperiksa", "#",array("title"=>"Silahkan batalkan dulu ".$data->cekTindakanDanObat()->msg."!")) : CHtml::link("<i class=icon-form-silang></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"{batalPindahKamar($data->pindahkamar_id,$data->masukkamar_id);}"))) : CHtml::link("<i class=icon-home></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Memasukan Pasien Ke kamar","onclick"=>"{buatSessionMasukKamar($data->kelaspelayanan_id,$data->pendaftaran_id); addMasukKamar(); $(\'#dialogMasukKamar\').dialog(\'open\');}"))',    
-                            ),
+                            ),*/
 
                     ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

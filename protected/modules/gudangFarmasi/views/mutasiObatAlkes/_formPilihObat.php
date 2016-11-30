@@ -83,6 +83,7 @@ $format = new MyFormatter();
 $modObatAlkes = new GFInfostokobatalkesruanganV('searchDialogMutasi');
 $modObatAlkes->unsetAttributes();
 $modObatAlkes->ruangan_id = Yii::app()->user->getState('ruangan_id');
+$modObatAlkes->instalasi_id = Yii::app()->user->getState('instalasi_id');
 if(isset($_GET['GFInfostokobatalkesruanganV'])){
     $modObatAlkes->attributes = $_GET['GFInfostokobatalkesruanganV'];
     $modObatAlkes->obatalkes_kode = isset($_GET['GFInfostokobatalkesruanganV']['obatalkes_kode']) ? $_GET['GFInfostokobatalkesruanganV']['obatalkes_kode'] : null;
@@ -179,10 +180,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     
                         $criteria = new CDbCriteria();
                         $criteria->compare('obatalkes_id',$data->obatalkes_id);
-                        if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI)
-                        {
+                        $criteria->addCondition("tglkadaluarsa = '".MyFormatter::formatDateTimeForDb($data->tglkadaluarsa)."' ");
+                      //  if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI)
+                       // {
                             $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
-                        }
+                        //}
                         $stok = StokobatalkesT::model()->findAll($criteria);
                         $total = 0;
                         foreach ($stok as $item) {

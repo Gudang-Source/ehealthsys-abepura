@@ -16,11 +16,13 @@
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp";         
+        echo CHtml::htmlButton(Yii::t('mds','{icon} Grafik',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'GRAFIK\')'))."&nbsp&nbsp";
     ?>
     <?php
-        $content = $this->renderPartial($this->path_view.'tips',array(),true); 
-        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
-    ?>
+        $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanBukuRegister',array(),true);            		
+	$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+	?>
+    
 </div>
 <!--</div>-->
 <?php 
@@ -44,15 +46,16 @@ function setType(obj){
         $(this).removeClass("active");
     });
     $(obj).addClass("active");
-    $.fn.yiiGridView.update("tableLaporan", {
+    $.fn.yiiGridView.update("laporan-grid", {
             data: $(this).serialize()
     });
-    $("#Grafik").attr("src","'.$url.'"+$(".search-form form").serialize());
+    $("#Grafik").attr("src","'.$url.'"+$("#searchLaporan").serialize());
     return false;
 }
 ', CClientScript::POS_HEAD);
 
 ?>
+
 
 
 

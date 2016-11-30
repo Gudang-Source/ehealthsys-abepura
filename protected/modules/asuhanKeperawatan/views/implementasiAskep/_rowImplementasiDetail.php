@@ -110,8 +110,8 @@
 			$data['table_id'] = 'table-intervensi-' . $modDetail->intervensi_id;
 			echo '<table class="items table table-striped table-bordered table-condensed intervensi" id="' . $data['table_id'] . '">
             <thead>
-                    <th>Intervensi</th>
-                    <th>Indikator Intervensi</th>
+                    <th style="color:#333">Intervensi</th>
+                    <th style="color:#333">Indikator Intervensi</th>
             </thead>
 			<tbody>';
 			echo '<tr>';
@@ -131,9 +131,11 @@
 	<td class="implementasi">
 		<?php
 		if (!empty($modDetail->diagnosakep_id)) {
+                    
 			$impl = ImplementasikepM::model()->findByAttributes(array('diagnosakep_id' => $modDetail->diagnosakep_id));
-			echo CHtml::activeHiddenField($modDetail, '[0]implementasikep_id', array('value' => $impl->implementasikep_id));
-			echo CHtml::activeCheckBoxList($modDetail, '[0]indikatorimplkepdet_id', CHtml::listData(IndikatorimplkepdetM::model()->findAllByAttributes(array('indikatorimplkepdet_aktif' => true, 'implementasikep_id' => $impl->implementasikep_id)), 'indikatorimplkepdet_id', 'indikatorimplkepdet_indikator'), (array('onkeyup' => "return $(this).focusNextInputField(event);")));
+                        //var_dump($impl);
+			echo CHtml::activeHiddenField($modDetail, '[0]implementasikep_id', array('value' => !empty($impl->implementasikep_id)?$impl->implementasikep_id:null));
+			echo CHtml::activeCheckBoxList($modDetail, '[0]indikatorimplkepdet_id', CHtml::listData(IndikatorimplkepdetM::model()->findAllByAttributes(array('indikatorimplkepdet_aktif' => true, 'implementasikep_id' => !empty($impl->implementasikep_id)?$impl->implementasikep_id:null)), 'indikatorimplkepdet_id', 'indikatorimplkepdet_indikator'), (array('onkeyup' => "return $(this).focusNextInputField(event);")));
 		}
 		?>
 	</td>

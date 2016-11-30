@@ -2,6 +2,13 @@
 <br>
 <fieldset class="box">
     <legend class="rim">Data Faktur</legend>
+    
+      <?php if (isset($_GET['sukses'])) {
+                    Yii::app()->user->setFlash("success", "Pembayaran berhasil disimpan.");
+                }
+                ?>
+              
+         
 	<div class="row-fluid">
 		<div class='span4'>
 			<div class='control-group'>
@@ -19,7 +26,7 @@
 			<div class='control-group'>
 				<?php echo CHtml::activeLabel($modTerimaPersediaan, 'totalharga',array('class'=>'control-label')); ?>
 				<div class='controls'>
-					<?php echo CHtml::textField('FAPendaftaranT[totalharga]', number_format($modTerimaPersediaan->totalharga), array('readonly'=>true)); ?>
+					<?php echo CHtml::textField('FAPendaftaranT[totalharga]', number_format($modTerimaPersediaan->totalharga,0,"","."), array('readonly'=>true)); ?>
 				</div>
 			</div>
 		</div>

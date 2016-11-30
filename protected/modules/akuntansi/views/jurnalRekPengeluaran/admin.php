@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Pengaturan Jurnal <b>Rekening Pengeluaran</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Pengaturan Jurnal <b>Rekening Pengeluaran</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Jurnal Rekening Pengeluaran</legend>
     <?php
     $this->breadcrumbs=array(
             'Jenispengeluaran Ms'=>array('index'),
@@ -27,10 +29,10 @@
     ");
 
     $this->widget('bootstrap.widgets.BootAlert'); 
-	$this->renderPartial('_tabMenuPengeluaran',array());
+	//$this->renderPartial('_tabMenuPengeluaran',array());
 	?>
-    <div class="biru">
-        <div class="white">
+    <!--<div class="biru">
+        <div class="white">-->
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-white icon-accordion"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut3 search-form" style="display:none">
                 <?php 
@@ -149,11 +151,19 @@
                                     )
                             ),
                     ),
-                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                    'afterAjaxUpdate'=>'function(id, data){
+                            jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                            $("table").find("input[type=text]").each(function(){
+                                cekForm(this);
+                            });
+                            $("table").find("select").each(function(){
+                                cekForm(this);
+                            });
+                        }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Jurnal Rekening Pengeluaran', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -166,6 +176,10 @@
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
 
 $js = <<< JSCRIPT
+function cekForm(obj)
+{
+    $("#jenispengeluaran-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#jenispengeluaran-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
@@ -192,3 +206,4 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <iframe src="" name="iframeEditRekeningDebitKredit" width="100%" height="300" >
 </iframe>
 <?php $this->endWidget(); ?>
+</fieldset>

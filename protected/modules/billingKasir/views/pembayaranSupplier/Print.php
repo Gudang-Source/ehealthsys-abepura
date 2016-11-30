@@ -84,7 +84,7 @@ echo CHtml::css('.control-label{
             </tr>
         </thead>
         <tbody>
-            <?php echo $this->renderPartial('_rowFaktur', array('modDetailBeli'=>$modDetailBeli)); ?>
+            <?php echo $this->renderPartial($this->path_view.'_rowFaktur', array('modDetailBeli'=>$modDetailBeli)); ?>
         </tbody>
 </table><br>
 <table width="100%">

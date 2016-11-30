@@ -41,15 +41,8 @@ class SADiagnosakepM extends DiagnosakepM
 		$criteria->compare('diagnosakep_kode',$this->diagnosakep_kode,true);
 		$criteria->compare('diagnosakep_nama',$this->diagnosakep_nama,true);
 		$criteria->compare('diagnosakep_deskripsi',$this->diagnosakep_deskripsi,true);
-		$criteria->compare('diagnosakep_aktif',$this->diagnosakep_aktif);
-		if (!empty($this->aktif)) {
-			if ($this->aktif == 1) {
-				$criteria->addCondition('t.diagnosakep_aktif = TRUE');
-			}
-			if ($this->aktif == 0) {
-				$criteria->addCondition('t.diagnosakep_aktif = FALSE');
-			} 
-		}
+		$criteria->compare('diagnosakep_aktif',isset($this->diagnosakep_aktif)?$this->diagnosakep_aktif:true);
+		
 		return $criteria;
 	}
 	

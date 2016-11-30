@@ -83,5 +83,19 @@ class LAPenerimaanlinenT extends PenerimaanlinenT{
 				'criteria'=>$criteria,
 		));
 	}
+        
+        public function cekPenerimaan($penerimaanlinen_id){
+            $cek1 = LAPerawatanlinendetailT::model()->find("penerimaanlinen_id = '$penerimaanlinen_id' ");
+            $total1 = count($cek1);
+            
+            $cek2 = LAPencuciandetailT::model()->find("penerimaanlinen_id = '$penerimaanlinen_id' ");
+            $total2 = count($cek2);
+            
+            if ( ($total1 > 0) || ($total2 > 0) ){
+                return TRUE;
+            }else{
+                return FALSE;
+            }
+        }
 	
 }

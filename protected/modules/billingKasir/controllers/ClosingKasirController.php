@@ -14,11 +14,11 @@ class ClosingKasirController extends MyAuthController
         
         $mSetorBank = new BKSetorbankT();
         $mBuktBayar = new BKTandabuktibayarT();
-        $mBuktBayar->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        //$mBuktBayar->ruangan_id = Yii::app()->user->getState('ruangan_id');
         $mBuktBayar->tgl_awal = date('d M Y 00:00:00');
         $mBuktBayar->tgl_akhir = date('d M Y 23:59:59');
-        $mBuktBayar->shift_id = Yii::app()->user->getState('shift_id');
-        $mBuktBayar->create_loginpemakai_id = Yii::app()->user->getState('pegawai_id');
+        //$mBuktBayar->shift_id = Yii::app()->user->getState('shift_id');
+        //$mBuktBayar->create_loginpemakai_id = Yii::app()->user->getState('pegawai_id');
         
         if (!empty($mBuktBayar->shift_id)) {
             $sft = $this->hitungShift($mBuktBayar->shift_id);

@@ -69,6 +69,14 @@ class PemesananAmbulansPasienRSController extends MyAuthController
                         // END SMS GATEWAY
                         $sukses = 1;
                         $modPemesanan->isNewRecord = FALSE;
+                        $judul = "Pemesanan Ambulans";                    
+                        
+
+                        $isi =  ' Ruangan Pemesan : '.$modPemesanan->ruanganUserPemesan->ruangan_nama.'<br/> '
+                              . ' No Pesan Ambulans '.$modPemesanan->pesanambulans_no;
+                        $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                            array('instalasi_id'=>Params::INSTALASI_ID_AMBULAN, 'ruangan_id'=>Params::RUANGAN_ID_AMBULANCE, 'modul_id'=>Params::MODUL_ID_AMBULANS),                                    
+                        ));  
                         Yii::app()->user->setFlash('success',"Transaksi Pesan Ambulans Berhasil disimpan");
                         $this->redirect(array('index','id'=>$modPemesanan->pesanambulans_t,'sukses'=>$sukses,'smspasien'=>$smspasien));
                     } else {
@@ -121,12 +129,17 @@ class PemesananAmbulansPasienRSController extends MyAuthController
             $criteria->compare('instalasi_id',$instalasi_id);
             $criteria->compare('LOWER(no_pendaftaran)',strtolower(trim($no_pendaftaran)));
             $criteria->compare('LOWER(no_rekam_medik)',strtolower(trim($no_rekam_medik)));
+            if (isset($instalasi_id)){
+                $criteria->addCondition("instalasi_id =".$instalasi_id);
+            }           
             if($instalasi_id == Params::INSTALASI_ID_RJ){
                 $model = AMInfokunjunganrjV::model()->find($criteria);
             }else if($instalasi_id == Params::INSTALASI_ID_RD){
                 $model = AMInfoKunjunganRDV::model()->find($criteria);
             }else if($instalasi_id == Params::INSTALASI_ID_RI){
                 $model = AMPasienrawatinapV::model()->find($criteria);
+            }else if($instalasi_id == Params::INSTALASI_ID_ICU){
+                $model = PasienmasukpenunjangV::model()->find($criteria);
             }
             
             $attributes = $model->attributeNames();
@@ -159,6 +172,9 @@ class PemesananAmbulansPasienRSController extends MyAuthController
             $criteria->compare('LOWER(no_pendaftaran)', strtolower($no_pendaftaran), true);
             $criteria->compare('LOWER(no_rekam_medik)', strtolower($no_rekam_medik), true);
             $criteria->compare('LOWER(nama_pasien)', strtolower($nama_pasien), true);
+            if (isset($instalasi_id)){
+                $criteria->addCondition("instalasi_id =".$instalasi_id);
+            }
             $criteria->order = 'no_pendaftaran, no_rekam_medik, nama_pasien';
             $criteria->limit = 5;
             if($instalasi_id == Params::INSTALASI_ID_RJ){
@@ -167,6 +183,8 @@ class PemesananAmbulansPasienRSController extends MyAuthController
                 $models = AMInfoKunjunganRDV::model()->findAll($criteria);
             }else if($instalasi_id == Params::INSTALASI_ID_RI){
                 $models = AMPasienrawatinapV::model()->findAll($criteria);
+            }if($instalasi_id == Params::INSTALASI_ID_ICU){
+                $models = PasienmasukpenunjangV::model()->findAll($criteria);
             }
             foreach($models as $i=>$model)
             {

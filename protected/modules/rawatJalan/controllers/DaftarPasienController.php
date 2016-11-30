@@ -281,7 +281,8 @@ class DaftarPasienController extends MyAuthController
             $modPersalinan = PersalinanT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
             $modPemeriksaan = PemeriksaanfisikT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
             
-            
+            $systolic = null;
+            $diastolic = null;
             foreach($modPemeriksaan as $cari){
                 $systolic = isset($cari->kala4_systolic)?$cari->kala4_systolic:null;
                 $diastolic = isset($cari->kala4_diastolic)?$cari->kala4_diastolic:null;
@@ -331,6 +332,30 @@ class DaftarPasienController extends MyAuthController
                         'modPersalinanSearch'=>$modPersalinanSearch,
                         'modPasien'=>$modPasien));
         }
+        
+        /*awal detail riwayat pemeriksaan ginekologi        
+         */
+        public function actionDetailGinekologi($id){
+            $this->layout='//layouts/iframe';
+            $modPendaftaran = RJPendaftaranT::model()->with('carabayar','penjamin')->findByPk($id);
+            $modGinekologi = PemeriksaanginekologiT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
+            $ginekologi_id = PemeriksaanginekologiT::model()->findByAttributes(array('pendaftaran_id'=>$id));
+            if (count($ginekologi_id)>0){
+                $modRiwayatKelahiran = RiwayatkehamilanT::model()->findAllByAttributes(array('pemeriksaanginekologi_id'=>$ginekologi_id->pemeriksaanginekologi_id));
+            }else{
+                $modRiwayatKelahiran = array();
+            }
+                                                                        
+            $modPasien = RJPasienM::model()->findByPK($modPendaftaran->pasien_id);
+            $this->render('/_periksaDataPasien/_ginekologi', 
+                    array('modPendaftaran'=>$modPendaftaran, 
+                        'modGinekologi'=>$modGinekologi,
+                        'modRiwayatKelahiran'=>$modRiwayatKelahiran,                        
+                        'modPasien'=>$modPasien));
+        }
+        
+        /*akhir detail riwayat pemeriksaan ginekologi*/
+        
 	
         /**
         * actionDetailKelahiran = menampilkan detail riwayat kelahiran bayi pasien
@@ -1494,11 +1519,11 @@ class DaftarPasienController extends MyAuthController
                 $kamarKosong = array();
                 if(!empty($ruangan_id)) {
                     if(!empty($bookingkamar_id)){
-                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true));
+                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>TRUE));
 
                         $modBookingKamar = BookingkamarT::model()->findByPk($bookingkamar_id);
                     }else{
-                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true));
+                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>TRUE));
                     }
                     $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
                 }

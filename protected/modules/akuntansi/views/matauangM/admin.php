@@ -46,7 +46,11 @@
                         'header'=>'No',
                         'value'=>'$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',
                     ),
-                    'matauang',
+                    array(
+                        'header' => 'Mata Uang',
+                        'name' => 'matauang',
+                        'filter' => Chtml::activeTextField($model, 'matauang', array('class'=>'hurufs-only'))
+                    ),                    
                     'singkatan',
                     array(
                         'header'=>'Aktif',
@@ -74,7 +78,17 @@
                 'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
             ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'                        
+                    . ' $(".hurufs-only").keyup(function(){
+                            setHurufsOnly(this);
+                        });
+                        $("table").find("input[type=text]").each(function(){
+                            cekForm(this);
+                        });
+                        $("table").find("select").each(function(){
+                            cekForm(this);
+                        })'
+                    . '}',
         )); ?>
     <!--</div>-->
     <?php 
@@ -93,6 +107,10 @@ $js = <<< JSCRIPT
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#matauang-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+}
+function cekForm(obj)
+{
+    $("#matauang-m-search :input[name='"+ obj.name +"']").val(obj.value);
 }
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
@@ -124,8 +142,10 @@ JSCRIPT;
                      function(data){
                         if(data.status == 'proses_form'){
                                 $.fn.yiiGridView.update('matauang-m-grid');
+                            }else if(data.status == 'gagal_form'){
+                                myAlert('Maaf, <b>'+data.matauang+'</b> tidak bisa <b>dihapus</b>, karena masih digunakan di tabel lain! ');
                             }else{
-                                myAlert('Data Gagal di Hapus')
+                                myAlert('Data Gagal di Hapus');
                             }
                 },"json");
            }

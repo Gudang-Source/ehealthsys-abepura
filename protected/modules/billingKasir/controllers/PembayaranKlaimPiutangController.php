@@ -44,6 +44,7 @@ class PembayaranKlaimPiutangController extends MyAuthController
                     $modPembayaranKlaim->carabayar_id = $_POST['BKPembayarklaimdetailT'][1]['carabayar_id'];
                     $modPembayaranKlaim->penjamin_id = $_POST['BKPembayarklaimdetailT'][1]['penjamin_id'];
                 }
+				$modPembayaranKlaim->tglpembayaranklaim = MyFormatter::formatDateTimeForDb($modPembayaranKlaim->tglpembayaranklaim);
                 // var_dump($modPembayaranKlaim->attributes); die;
                     if ($modPembayaranKlaim->validate()) {
                         $transaction = Yii::app()->db->beginTransaction();
@@ -62,6 +63,9 @@ class PembayaranKlaimPiutangController extends MyAuthController
                                         }
                                     }
                             }
+							
+							// var_dump($success); die;
+							
                             if ($success == true) {
                                 $transaction->commit();
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -72,6 +76,7 @@ class PembayaranKlaimPiutangController extends MyAuthController
                             }
                         } catch (Exception $ex) {
                             $transaction->rollback();
+							// var_dump($ex); die;
                             Yii::app()->user->setFlash('error', "Data gagal disimpan ".$ex->getMessage());
                         }
                 } else {
@@ -150,12 +155,12 @@ class PembayaranKlaimPiutangController extends MyAuthController
                         $tr .= '<td>'.MyFormatter::formatNumberForPrint($row->totalbayartindakan).'</td>';
                         $tr .= '<td>'.MyFormatter::formatNumberForPrint($row->totalsisatagihan).'</td>';
                     }else{
-                        $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmltagihan]', MyFormatter::formatNumberForPrint($row->totalbiayapelayanan), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer2 ', 'readonly' => false,'onkeyup'=>'hitungSemuaTransaksi()')) . '</td>';
-                        $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmlpiutang]', (empty($row->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($jumlahPiutang) : MyFormatter::formatNumberForPrint($row->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer2 ', 'onkeyup' => 'hitungJumlahPiutang(this);')) . 
+                        $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmltagihan]', MyFormatter::formatNumberForPrint($row->totalbiayapelayanan), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer2 ', 'readonly' => false,'onkeyup'=>'hitungSemuaTransaksi()', 'readonly'=>true)) . '</td>';
+                        $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmlpiutang]', (empty($row->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($jumlahPiutang) : MyFormatter::formatNumberForPrint($row->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer2 ', 'onkeyup' => 'hitungJumlahPiutang(this);', 'readonly'=>true)) . 
                                         CHtml::hiddenField('BKPembayarklaimdetailT['.$i.'][jmlpiutang2]', (empty($row->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($row->totalsisatagihan) : MyFormatter::formatNumberForPrint($row->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang2 integer2')) .
                                '</td>';
-                        $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmltelahbayar]', (empty($row->pembklaimdetal_id) ? (empty($row->detailklaim->telahbayar) ? "0" : MyFormatter::formatNumberForPrint($row->tandabukti->jmlpembayaran)) : MyFormatter::formatNumberForPrint($row->detailklaim->jmltelahbayar)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer2 ', 'onkeyup' => 'hitungJumlahTelahBayar();')) . '</td>';
-                        $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmlbayar]', (empty($row->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($row->tandabukti->jmlpembayaran) : MyFormatter::formatNumberForPrint($row->detailklaim->jmlpiutang - $row->detailklaim->jmltelahbayar) ), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer2 ', 'onkeyup' => 'hitungSisaTagihan();')) . '</td>';
+                        $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmltelahbayar]', (empty($row->pembklaimdetal_id) ? (empty($row->detailklaim->telahbayar) ? "0" : MyFormatter::formatNumberForPrint($row->tandabukti->jmlpembayaran)) : MyFormatter::formatNumberForPrint($row->detailklaim->jmltelahbayar)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer2 ', 'onkeyup' => 'hitungJumlahTelahBayar();', 'readonly'=>true)) . '</td>';
+                        $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmlbayar]', (empty($row->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($row->tandabukti->jmlpembayaran) : MyFormatter::formatNumberForPrint($row->detailklaim->jmlpiutang - $row->detailklaim->jmltelahbayar) ), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer2 ', 'onblur' => 'hitungSisaTagihan();')) . '</td>';
                         $tr .= '<td>' . CHtml::textField('BKPembayarklaimdetailT['.$i.'][jmlsisatagihan]',(empty($row->pembklaimdetal_id) ? (empty($row->detailklaim->jmlsisapiutang) ? "0" : MyFormatter::formatNumberForPrint($row->totalbiayapelayanan - $row->tandabukti->jmlpembayaran)) : MyFormatter::formatNumberForPrint($row->detailklaim->jmlpiutang - ($row->detailklaim->jmltelahbayar + ($row->detailklaim->jmlpiutang - $row->detailklaim->jmltelahbayar)))) , array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer2 ', 'onkeyup' => 'hitungSemuaTransaksi();')). '</td>';
 
                         $tr .= '<td>' . CHtml::checkBox('BKPembayarklaimdetailT['.$i.'][cekList]', true, array('value'=>$row->pembayaranpelayanan_id,'class' => 'cek', 'onClick' => 'setAll();')) .

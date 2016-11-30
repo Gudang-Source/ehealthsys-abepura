@@ -43,7 +43,7 @@ echo $form->errorSummary($modDetail);
                             'htmlOptions' => array(
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                 'class' => 'span2',
-                                                'placeholder'=>'Ketikan nama barang',
+                                'placeholder'=>'Ketikan nama barang',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogBarang', 'idTombol'=>'tombolDialogBarang'),
                         ));
@@ -243,13 +243,15 @@ Yii::app()->clientScript->registerScript('onready','
         }
         
         if ($(".cancel").length < 1){
-            myAlert("Detail Barang Harus Diisi");
+            myAlert("Barang yang dipesan belum ditambahkan");
             namaBarang.focus();
             return false;
         }
         else if (pesan == false){
             myAlert("'.CHtml::encode($model->getAttributeLabel('qty_pesan')).' harus memiliki nilai yang lebih dari 0");
             return false;
+        }else{
+            return requiredCheck(this);
         }
     });
 ',CClientScript::POS_READY);?>

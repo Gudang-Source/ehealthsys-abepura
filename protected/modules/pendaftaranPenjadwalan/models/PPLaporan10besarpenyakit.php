@@ -22,7 +22,7 @@ class PPLaporan10besarpenyakit extends Laporan10besarpenyakitV {
                 $criteria->select = 'count(diagnosa_id) as jumlah, diagnosa_id, diagnosa_nama as data, diagnosa_kode, ruangan_id, ruangan_nama';
                 $criteria->group = 'diagnosa_nama, diagnosa_id, diagnosa_kode, ruangan_id, ruangan_nama';
             }
-            else if (!empty($this->instalasi_id)){
+            elseif (!empty($this->instalasi_id)){
                 $criteria->select = 'count(diagnosa_id) as jumlah, diagnosa_id, diagnosa_nama as data, diagnosa_kode, instalasi_id, instalasi_nama';
                 $criteria->group = 'diagnosa_nama, diagnosa_id, diagnosa_kode, instalasi_id, instalasi_nama';
             }else{
@@ -41,15 +41,15 @@ class PPLaporan10besarpenyakit extends Laporan10besarpenyakitV {
 			if(!empty($this->pasienmorbiditas_id)){
 				$criteria->addCondition("pasienmorbiditas_id = ".$this->pasienmorbiditas_id);			
 			}
-			if(!empty($this->ruangan_id)){
-				$criteria->addCondition("ruangan_id = ".$this->ruangan_id);			
-			}
-            $criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-			if(!empty($this->instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
-			}
-            $criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
-//            $criteria->limit = $this->jumlahTampil;
+            if(!empty($this->ruangan_id)){
+    		$criteria->addCondition("ruangan_id = ".$this->ruangan_id);			
+            }
+//$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+            if(!empty($this->instalasi_id)){
+            	$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
+            }
+          //  $criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);            
+            $criteria->limit = $this->jumlahTampil;
                         
 //            return new CActiveDataProvider($this, array(
 //                    'criteria'=>$criteria,
@@ -59,6 +59,7 @@ class PPLaporan10besarpenyakit extends Laporan10besarpenyakitV {
 //            ));
 			return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'pagination' => false
 		));
     }
     
@@ -130,7 +131,7 @@ class PPLaporan10besarpenyakit extends Laporan10besarpenyakitV {
 				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
 			}
             $criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
-                 $criteria->limit=-1;       
+                   $criteria->limit = $this->jumlahTampil;      
 //            return new CActiveDataProvider($this, array(
 //                    'criteria'=>$criteria,
 //                    'pagination' => array('pageSize' => $this->jumlahTampil,),

@@ -39,19 +39,22 @@ class SAIndikatorimplkepdetM extends IndikatorimplkepdetM
 		$criteria->join = 'JOIN implementasikep_m AS implementasikep ON implementasikep.implementasikep_id = t.implementasikep_id
 						   JOIN diagnosakep_m AS diagnosakep ON diagnosakep.diagnosakep_id = implementasikep.diagnosakep_id';
 		$criteria->compare('implementasikep.implementasikep_id',$this->implementasikep_id);
-		$criteria->compare('implementasikep.diagnosakep_id',$this->diagnosakep_id,true);
+                if ($this->diagnosakep_id){
+                    $criteria->addCondition(" implementasikep.diagnosakep_id = '".$this->diagnosakep_id."' ");
+                }
+		$criteria->compare('implementasikep.diagnosakep_id',$this->diagnosakep_id);
 		$criteria->compare('indikatorimplkepdet_id',$this->indikatorimplkepdet_id,true);
 		$criteria->compare('LOWER(diagnosakep.diagnosakep_nama)',strtolower($this->diagnosakep_nama),true);
 		$criteria->compare('LOWER(indikatorimplkepdet_indikator)',strtolower($this->indikatorimplkepdet_indikator),true);
-		$criteria->compare('indikatorimplkepdet_aktif',$this->indikatorimplkepdet_aktif);
-		if ($this->aktif != NULL) {
+		$criteria->compare('indikatorimplkepdet_aktif',isset($this->indikatorimplkepdet_aktif)?$this->indikatorimplkepdet_aktif:true);
+		/*if ($this->aktif != NULL) {
 			if ($this->aktif == 1) {
 				$criteria->addCondition('t.indikatorimplkepdet_aktif = TRUE');
 			}
 			if ($this->aktif == 0) {
 				$criteria->addCondition('t.indikatorimplkepdet_aktif = FALSE');
 			} 
-		}
+		}*/
 		return $criteria;
 	}
 	

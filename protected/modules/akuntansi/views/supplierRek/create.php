@@ -1,5 +1,7 @@
-<div class='white-container'>
-    <legend class='rim2'>Tambah Jurnal <b>Rekening Supplier</b></legend>
+<!--<div class='white-container'>
+    <legend class='rim2'>Tambah Jurnal <b>Rekening Supplier</b></legend>-->
+<fieldset class = "box">
+<legend class = "rim">Tambah Jurnal Rekening Supplier</legend>
     <?php
     $this->breadcrumbs=array(
             'Jurnal Rekening Supplier Ms'=>array('index'),
@@ -15,4 +17,5 @@
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo $this->renderPartial('_form', array('model'=>$model,'modSupplier'=>$modSupplier, 'latitude'=>$latitude, 'longitude'=>$longitude)); ?>
-</div>
+<!--</div>-->
+</fieldset>

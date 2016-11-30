@@ -21,9 +21,9 @@
 		</div>
 	</div>
 	<div class="span4">
-		<?php echo $form->textFieldRow($model,'forminvbarang_totalvolume',array('class'=>'span3 integer')); ?>
+		<?php echo $form->textFieldRow($model,'forminvbarang_totalvolume',array('class'=>'span3 integer2')); ?>
 	</div>
 	<div class="span4">		
-		<?php echo $form->textFieldRow($model,'forminvbarang_totalharga',array('class'=>'span3 integer')); ?>
+		<?php echo $form->textFieldRow($model,'forminvbarang_totalharga',array('class'=>'span3 integer2')); ?>
 	</div>
 </div>

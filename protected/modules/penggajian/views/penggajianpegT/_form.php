@@ -1,5 +1,5 @@
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/accounting.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form2.js',  CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/accounting2.js',  CClientScript::POS_END); ?>
 <?php
 $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     'id' => 'gjpenggajianpeg-t-form',
@@ -37,7 +37,7 @@ if (isset($_GET['sukses']))
                         ),
                         'htmlOptions' => array('readonly' => true,
                             'onkeypress' => "return $(this).focusNextInputField(event)",
-                            'class' => 'dtPicker3',
+                            'class' => 'dtPicker3 realtime',
                         ),
                     ));
                     ?> 
@@ -48,7 +48,8 @@ if (isset($_GET['sukses']))
                 <div class="control-group">    
                     <?php echo $form->label($model, 'Nomor Penggajian', array('class' => 'control-label inline')); ?>
                     <div class="controls">
-                        <?php echo $form->textField($model, 'nopenggajian', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                        <?php echo $form->hiddenField($model, 'nopenggajian', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                        <?php echo $form->textField($model, 'no_temp', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'readonly'=>TRUE)); ?>
                     </div>
                 </div>
             </td>
@@ -83,7 +84,7 @@ if (isset($_GET['sukses']))
                             <?php echo $v->komponengaji_nama; ?>
                             </td>
                             <?php
-                            echo ($v->ispotongan == false) ? "<td>" . $form->textField($komponen, "komponengaji_id[" . $v->komponengaji_id . "]", array('value' => 0, 'class' => 'span2 integer gaji pph', 'onblur' => 'setGaji(); hitungpph();')) . "</td><td></td>" : "<td></td><td>" . $form->textField($komponen, "komponengaji_id[" . $v->komponengaji_id . "]", array('class' => 'span2 integer potongan', 'onblur' => 'setPotongan();', 'value' => 0)) . "</td>";
+                            echo ($v->ispotongan == false) ? "<td>" . $form->textField($komponen, "komponengaji_id[" . $v->komponengaji_id . "]", array('value' => 0, 'class' => 'span2 integer2 gaji pph', 'onblur' => 'setGaji(); hitungpph();')) . "</td><td></td>" : "<td></td><td>" . $form->textField($komponen, "komponengaji_id[" . $v->komponengaji_id . "]", array('class' => 'span2 integer2 potongan', 'onblur' => 'setPotongan();', 'value' => 0)) . "</td>";
                             ?>
                         </tr>
                     <?php
@@ -97,10 +98,10 @@ if (isset($_GET['sukses']))
                             Total
                         </th>
                         <th>
-                            <?php echo $form->textField($model, 'totalterima', array('class' => 'span2 integer', 'readonly' => true, 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                            <?php echo $form->textField($model, 'totalterima', array('class' => 'span2 integer2', 'readonly' => true, 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                         </th>
                         <th>
-                            <?php echo $form->textField($model, 'totalpotongan', array('class' => 'span2 integer', 'readonly' => true, 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                            <?php echo $form->textField($model, 'totalpotongan', array('class' => 'span2 integer2', 'readonly' => true, 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                         </th>
                     </tr>
                 </tfoot>
@@ -114,9 +115,9 @@ if (isset($_GET['sukses']))
             <table width="100%">
                 <tr>
                     <td>
-                        <?php echo $form->textFieldRow($model, 'totalpajak', array('class' => 'span2 integer', 'onblur' => 'setHarga();', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                        <?php echo $form->textFieldRow($model, 'totalpajak', array('class' => 'span2 integer2', 'onblur' => 'setHarga();', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
 
-                        <?php echo $form->textFieldRow($model, 'penerimaanbersih', array('class' => 'span2 integer', 'readonly' => true, 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                        <?php echo $form->textFieldRow($model, 'penerimaanbersih', array('class' => 'span2 integer2', 'readonly' => true, 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                         <!-- Form Keterangan -->        
                             <?php echo $form->textAreaRow($model, 'keterangan', array('rows' => 3, 'cols' => 20, 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>        
                     </td>
@@ -203,23 +204,40 @@ if (isset($_GET['sukses']))
     </tr>
 </table>
 <div class="form-actions">
-    <?php
-    echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
-                    Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+    <?php    
+    if (isset($_GET['id'])) {
+        echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
+                    Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'disabled' => 'disabled'));
+    } else {
+        echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
+            Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+    }
+    
+    
     ?>
     <?php
-    echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), '#', array('class' => 'btn btn-danger',
-        'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')) . "&nbsp";
+        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/create',array('modul_id' =>Yii::app()->session['modul_id'])), array('class' => 'btn btn-danger',
+            'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/create',array('modul_id' =>Yii::app()->session['modul_id'])) . '";}); return false;'));?>
+    <?php
     if (isset($_GET['id'])) {
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')'));
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-info', 'type' => 'button', 'onclick' => 'print(\'PRINT\')'));
         echo "&nbsp;";
     } else {
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'disabled' => 'disabled'));
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-info', 'disabled' => 'disabled'));
         echo "&nbsp;";
     }
     ?>
 <?php
-$content = $this->renderPartial('penggajian.views/tips/transaksi_penggajian', array(), true);
+$tips = array(
+    '0' => 'waktutime',
+    '1' => 'autocomplete-search',
+    '2' => 'simpan',
+    '3' => 'ulang',
+    '4' => 'print',
+    '5' => 'status_print',
+    '6' => 'bootaccordion',
+);
+$content = $this->renderPartial('sistemAdministrator.views.tips.detailTips', array('tips'=>$tips), true);
 $this->widget('UserTips', array('type' => 'create', 'content' => $content));
 ?>	
 
@@ -258,12 +276,12 @@ $this->widget('application.extensions.moneymask.MMask', array(
 //    function setGaji(){
 //        var totalGaji = 0;
 //        $(".gaji").each(function(){
-//            value = parseFloat($(this).val());
+//            value =  unformatNumber($(this).val());
 //            if (value > 0){
 //                totalGaji += value;
 //            }
 //        });
-//        $("#' . CHtml::activeId($model, 'totalterima') . '").val(totalGaji);
+//        $("#' . CHtml::activeId($model, 'totalterima') . '").val(formatNumber(totalGaji));
 //        setHarga();
 //    }
     function setPotongan(){
@@ -328,16 +346,38 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                                       return false;
                                             "))',
         ),
-        'nomorindukpegawai',
-        'nama_pegawai',
-        'tempatlahir_pegawai',
-        'tgl_lahirpegawai',
-        'jeniskelamin',
-        'statusperkawinan',
-        'jabatan.jabatan_nama',
-        'alamat_pegawai',
+         array(
+            'header' => 'NIP'  ,
+            'name' => 'nomorindukpegawai',
+            'value' => '$data->nomorindukpegawai',
+            'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))
+        ),
+        array(
+            'header' => 'Nama Pegawai'  ,
+            'name' => 'nama_pegawai',
+            'value' => '$data->namaLengkap',
+            'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only'))
+        ),        
+        array(
+            'header' => 'Jabatan'  ,
+            'name' => 'jabatan_id',
+            'value' => '!empty($data->jabatan_id)?$data->jabatan->jabatan_nama:"-"',
+            'filter' => Chtml::activeDropDownList($modPegawai, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+        ),  
+        //'tempatlahir_pegawai',
+        //'tgl_lahirpegawai',
+        //'jeniskelamin',
+        //'statusperkawinan',        
+        //'alamat_pegawai',
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    .' $(".numbers-only").keyup(function() {
+        setNumbersOnly(this);
+        });
+        $(".hurufs-only").keyup(function() {
+        setHurufsOnly(this);
+        });'
+    . '}',
 ));
 
 $this->endWidget();
@@ -381,16 +421,38 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                                       return false;
                                             "))',
         ),
-        'nomorindukpegawai',
-        'nama_pegawai',
-        'tempatlahir_pegawai',
-        'tgl_lahirpegawai',
-        'jeniskelamin',
-        'statusperkawinan',
-        'jabatan.jabatan_nama',
-        'alamat_pegawai',
+        array(
+            'header' => 'NIP'  ,
+            'name' => 'nomorindukpegawai',
+            'value' => '$data->nomorindukpegawai',
+            'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))
+        ),
+        array(
+            'header' => 'Nama Pegawai'  ,
+            'name' => 'nama_pegawai',
+            'value' => '$data->namaLengkap',
+            'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only'))
+        ),        
+        array(
+            'header' => 'Jabatan'  ,
+            'name' => 'jabatan_id',
+            'value' => '!empty($data->jabatan_id)?$data->jabatan->jabatan_nama:"-"',
+            'filter' => Chtml::activeDropDownList($modPegawai, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+        ),  
+        //'tempatlahir_pegawai',
+        //'tgl_lahirpegawai',
+        //'jeniskelamin',
+        //'statusperkawinan',        
+        //'alamat_pegawai',
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    .' $(".numbers-only").keyup(function() {
+        setNumbersOnly(this);
+        });
+        $(".hurufs-only").keyup(function() {
+        setHurufsOnly(this);
+        });'
+    . '}',
 ));
 
 $this->endWidget();
@@ -405,8 +467,8 @@ $this->endWidget();
     function setGaji() {
         var totalGaji = 0;
         $(".gaji").each(function () {
-            value = $(this).val();
-            value = value.replace(/(\d+),(?=\d{3}(\D|$))/g, "$1");
+            value = unformatNumber($(this).val());
+            //value = value.replace(/(\d+),(?=\d{3}(\D|$))/g, "$1");
             if (value > 0) {
                 totalGaji += parseInt(value);
             }

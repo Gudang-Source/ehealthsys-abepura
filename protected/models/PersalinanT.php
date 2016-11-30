@@ -65,7 +65,7 @@ class PersalinanT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pasien_id, ruangan_id, jeniskegiatanpersalinan, tglmulaipersalinan, carapersalinan, posisijanin, masagestasi_minggu, paritaske', 'required'),
+			array('pasien_id, ruangan_id, jeniskegiatanpersalinan, tglmulaipersalinan, paritaske', 'required'),//carapersalinan, posisijanin, masagestasi_minggu, 
 			array('kegiatanpersalinan_id, pasien_id, pendaftaran_id, kelsebababortus_id, ruangan_id, sebababortus_id, pegawai_id, lamapersalinan_jam, masagestasi_minggu, jmlkelahiranhidup, jmlkelahiranmati, jmlabortus', 'numerical', 'integerOnly'=>true),
 			array('jeniskegiatanpersalinan, carapersalinan, posisijanin', 'length', 'max'=>50),
 			array('keadaanlahir, sebabkematian', 'length', 'max'=>100),

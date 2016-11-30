@@ -200,7 +200,18 @@
             ?>
             <?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('index',$reffUrl), array('class'=>'btn btn-danger')); ?>
             <?php  
-            $content = $this->renderPartial($this->path_view.'tips/transaksi',array(),true);
+            $tips = array(
+                '0' => 'tanggal',
+                '1' => 'autocomplete-search',
+                '2' => 'waktutime',
+                '3' => 'cari',
+                '4' => 'ulang',
+                '5' => 'simpan',
+                '6' => 'print',
+                '7' => 'status_print'
+                
+            );
+            $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
             ?>
     </div>
@@ -491,11 +502,11 @@ function print()
     function hitungSisaTagihan(){
          $('#tableList tbody .cek').each(function(){
         
-            totTagihan = unformatNumber($('#tottagihan').val());
-            totPiutang = unformatNumber($('#totpiutang').val());
-            totTelahBayar = unformatNumber($('#tottelahbayar').val());
-            totBayar = unformatNumber($('#totbayar').val());
-            totSisaTagihan = unformatNumber($('#totsisatagihan').val());
+            totTagihan = parseFloat(unformatNumber($('#tottagihan').val()));
+            totPiutang = parseFloat(unformatNumber($('#totpiutang').val()));
+            totTelahBayar = parseFloat(unformatNumber($('#tottelahbayar').val()));
+            totBayar = parseFloat(unformatNumber($('#totbayar').val()));
+            totSisaTagihan = parseFloat(unformatNumber($('#totsisatagihan').val()));
         
             jmlTagihan = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmltagihan]"]').val()));
             jmlPiutang = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmlpiutang]"]').val()));
@@ -520,7 +531,7 @@ function print()
                     }
             });
 
-            $(this).parents("tr").find('input[name$="[jmlsisatagihan]"]').val(jumlahSisaTagihan);
+            $(this).parents("tr").find('input[name$="[jmlsisatagihan]"]').val(formatNumber(jumlahSisaTagihan));
             $('#totalsisatagihan').val(formatInteger(totalJumlahSisaTagihan));
         });
         setAll(this);
@@ -625,8 +636,10 @@ function print()
 				$.get('${url}', {tgl_awal:tgl_awal, tgl_akhir:tgl_akhir, carabayar_id:carabayar_id, penjamin_id:penjamin_id, pengajuanklaimpiutang_id:pengajuanklaimpiutang_id,},function(data){
 					$('#tableList tbody').html(data);
 					$('#tableList').removeClass('animation-loading');
+					$('#tableList tbody .integer2').maskMoney({'symbol':'','defaultZero':true,'allowZero':true,'decimal':',','thousands':'.','precision':0});
+					checkAllPembayaran();
 				});
-				setTimeout(function(){checkAllPembayaran();}, 1000);
+				//setTimeout(function(){checkAllPembayaran();}, 1000);
 			}
     }
     

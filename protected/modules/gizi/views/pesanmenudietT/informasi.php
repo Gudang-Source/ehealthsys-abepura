@@ -16,50 +16,116 @@
     ?>
     <div class="block-tabel">
         <h6>Tabel Pemesanan <b>Menu Diet</b></h6>
-        <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+        <?php
+		
+		$artab = array(
+                        array(
+                                'header' => 'Tanggal Pesan',
+				'name'=>'tglpesanmenu',
+				'type'=>'raw',
+				'value'=>'MyFormatter::formatDateTimeForUser($data->tglpesanmenu)'
+			),
+                        array(
+                            'header' => 'No Pesan',
+                            'name' => 'nopesanmenu',                            
+                        ),
+                    );
+                 if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GIZI) {
+			array_push($artab, array(
+				'header'=>'Instalasi / Ruangan',
+				'type'=>'raw',
+				'value'=>'$data->ruangan->instalasi->instalasi_nama." / ".$data->ruangan->ruangan_nama',
+				'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:left;')
+			));
+                    }
+                        array_push($artab, array(
+                            'header' => 'Jenis Pesanan',
+                            'name' => 'jenispesanmenu',                            
+                        ),		                        			
+			'nama_pemesan',
+                        array(
+                            'header' => 'Jenis Diet',
+                            'name' => 'jenisdiet.jenisdiet_nama',
+                        ),
+                        array(
+                            'header' => 'Bahan Diet',
+                            'name' => 'bahandiet.bahandiet_nama',
+                        ),			
+			'adaalergimakanan',
+			'keterangan_pesan',
+			array(
+				'header'=>'Rincian',
+				'type'=>'raw',
+				'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/PesanmenudietT/detailPesanMenuDiet",array("id"=>$data->pesanmenudiet_id)),array("id"=>"$data->pesanmenudiet_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk rincian pemesanan menu diet", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));','htmlOptions'=>array('style'=>'text-align: left')
+			));
+                
+               
+		
+		if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GIZI) {
+			array_push($artab, array(
+				'header'=>'Kirim Menu Diet',
+				'type'=>'raw',
+				//'value'=>'(($data->jenispesanmenu == "'.Params::JENISPESANMENU_PASIEN.'") ? CHtml::link(\'<i class="icon-form-kmenudiet"></i>\', Yii::app()->controller->createUrl("/gizi/KirimmenudietT/index",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman")) : CHtml::link(\'<i class="icon-form-kmenudiet"></i>\', Yii::app()->controller->createUrl("/gizi/KirimmenudietT/indexPegawai",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman")))','htmlOptions'=>array('style'=>'text-align: left')
+                                'value'=> function ($data){
+                                if (empty($data->kirimmenudiet_id)){
+                                    if ($data->jenispesanmenu == Params::JENISPESANMENU_PASIEN){
+                                        echo CHtml::link("<i class='icon-form-kmenudiet'></i>", Yii::app()->controller->createUrl("/gizi/KirimmenudietT/index",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman"));
+                                    }else{
+                                        echo CHtml::link("<i class='icon-form-kmenudiet'></i>", Yii::app()->controller->createUrl("/gizi/KirimmenudietT/indexPegawai",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman"));
+                                    }                                    
+                                }else{
+                                    if ($data->status_terima == TRUE){
+                                        echo "Sudah Dikirim";
+                                    }else{
+                                        echo "Sedang Dikirim";
+                                    }
+                                }                            
+                        }
+                        ));
+                
+            
+		}
+		
+		array_push($artab, array(
+			'header'=>'Batal <br/> Pesan',
+			'type'=>'raw',
+			//'value'=>'CHtml::link("<i class=icon-form-silang></i>","#",array("idPesanDiet"=>$data->pesanmenudiet_id,"href"=>"#","rel"=>"tooltip","title"=>"Klik Untuk Batal Pesan Menu Diet","onclick"=>"batalPesan(\'$data->pesanmenudiet_id\'); return false;"))',
+                        'value'=> function ($data){
+                            if (empty($data->kirimmenudiet_id)){
+                                echo CHtml::link("<i class=icon-form-silang></i>","#",array("idPesanDiet"=>$data->pesanmenudiet_id,"href"=>"#","rel"=>"tooltip","title"=>"Klik Untuk Batal Pesan Menu Diet","onclick"=>"batalPesan('".$data->pesanmenudiet_id."'); return false;"));
+                            }else{
+                                echo "Sudah Diproses";
+                            }                            
+                        }
+		));
+                
+                 array_push($artab, array(
+                        'header'=>'Status Terima',
+                        'type'=>'raw',
+                        'value'=> function ($data){
+                            if (empty($data->kirimmenudiet_id)){
+                                echo "Pemesanan Belum Diproses";
+                            }else{
+                                if ($data->status_terima == TRUE){
+                                    echo "Sudah Diterima";
+                                }else{
+                                    if ($data->ruangan_id == Yii::app()->user->getState('ruangan_id')){
+                                        echo Chtml::link("<button class = 'btn btn-danger'><i class = 'entypo-check'></i> Konfirmasi</button>", '#', array("onclick"=>"terimaKonfirmasi('".$data->pesanmenudiet_id."')"));
+                                    }else{
+                                        echo "Belum Diterima";
+                                    }
+                                }
+                            }
+                        }
+                    ));
+		
+		$this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'gzpesanmenudiet-t-grid',
             'dataProvider'=>$model->searchInformasi(),
     //	'filter'=>$model,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
-            'columns'=>array(
-                    'nopesanmenu',
-                    'jenispesanmenu',
-                    'nama_pemesan',
-                    array(
-                        'header'=>'Instalasi / Ruangan',
-                        'type'=>'raw',
-                        'value'=>'$data->ruangan->instalasi->instalasi_nama." / ".$data->ruangan->ruangan_nama',
-                        'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:left;')
-                    ),
-    //                'ruangan.instalasi.instalasi_nama',
-    //                'ruangan.ruangan_nama',                
-                    array(
-                        'name'=>'tglpesanmenu',
-                        'type'=>'raw',
-                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglpesanmenu)'
-                    ),
-                    'bahandiet.bahandiet_nama',
-                    'jenisdiet.jenisdiet_nama',
-                    'adaalergimakanan',
-                    'keterangan_pesan',
-                    array(
-                        'header'=>'Rincian',
-                        'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/PesanmenudietT/detailPesanMenuDiet",array("id"=>$data->pesanmenudiet_id)),array("id"=>"$data->pesanmenudiet_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk rincian pemesanan menu diet", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));','htmlOptions'=>array('style'=>'text-align: left')
-                    ),
-                    array(
-                        'header'=>'Kirim Menu Diet',
-                        'type'=>'raw',
-                        'value'=>'(($data->jenispesanmenu == "'.Params::JENISPESANMENU_PASIEN.'") ? CHtml::link(\'<i class="icon-form-kmenudiet"></i>\', Yii::app()->controller->createUrl("/gizi/KirimmenudietT/index",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman")) : CHtml::link(\'<i class="icon-form-kmenudiet"></i>\', Yii::app()->controller->createUrl("/gizi/KirimmenudietT/indexPegawai",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman")))','htmlOptions'=>array('style'=>'text-align: left')
-                    ),
-                    array(
-                        'header'=>'Batal <br/> Pesan',
-                        'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=icon-form-silang></i>","javascript:batalPesan(\'$data->pesanmenudiet_id\')",array("idPesanDiet"=>$data->pesanmenudiet_id,"href"=>"#","rel"=>"tooltip","title"=>"Klik Untuk Batal Pesan Menu Diet",))',
-                    ),
-
-            ),
+            'columns'=>$artab,
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>
@@ -86,13 +152,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Rincian Pemesanan Menu Diet',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 750,
-        'height' => 350,
+        'width' => 900,
+        'height' => 600,
         'resizable' => true,
     ),
 ));
 
-echo '<iframe src="" name="frameDetail" width="100%" height="300">
+echo '<iframe src="" name="frameDetail" width="100%" height="550">
 </iframe>';
 
 $this->endWidget();
@@ -105,7 +171,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'title'=>'Batal Pesan Menu Diet',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>800,
+        'width'=>900,
+		'height'=>600,
         'resizable'=>false,
     ),
 ));
@@ -120,8 +187,9 @@ $this->endWidget();
 <script>
 function batalPesan(idPesanDiet){
     var idPesanDiet = idPesanDiet;
-//    var answer = confirm('Yakin Akan Membatalkan Pemesanan Diet ?');
-//    if (answer){
+		//var answer = myConfirm('Yakin Akan Membatalkan Pemesanan Diet ?');
+    myConfirm('Apakah Anda yakin ingin membatalkan pemesanan menu diet?','Perhatian!',function(r){
+    if (r){
           $.post('<?php echo $this->createUrl('batalMenuDiet');?>', 
           {idPesanDiet:idPesanDiet}, function(data){
             if (data.status == 'create_form')
@@ -140,7 +208,8 @@ function batalPesan(idPesanDiet){
             }
                       
         }, 'json');
-//    }
+    }
+    });
 }
 
 function konfirmBatal()
@@ -171,4 +240,23 @@ function konfirmBatal()
 ?>;
     return false; 
 }
+
+function terimaKonfirmasi(idPesan){
+     var url = '<?php echo $this->createUrl("terimaKonfirmasi"); ?>';
+        myConfirm('Apakah Anda yakin ingin mengubah status menjadi <b>Sudah Diterima</b> ?','Perhatian!',function(r){
+            if (r){
+                 $.post(url, {idPesan: idPesan},
+                     function(data){
+                        if(data.status == 'sukses'){
+                                $.fn.yiiGridView.update('gzpesanmenudiet-t-grid');
+                            }else if (data.status == 'gagal'){
+                                myAlert('Data gagal diubah menjadi status diterima');
+                            }else{
+                                myAlert(data.pesan);
+                            }
+                },"json");
+           }
+        });
+}
+
 </script>

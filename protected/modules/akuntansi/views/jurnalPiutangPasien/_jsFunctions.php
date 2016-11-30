@@ -1,8 +1,11 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 function addDetail(){
-    $('#jurnalpiutangpasien-grid').addClass('srbacLoading');
     $('#jurnalpiutangpasien-grid > table > tbody').html("");
     var params = $('#jurnalpiutangpasien-search').serialize();
+	$('#jurnalpiutangpasien-grid').addClass("animation-loading");
     $.ajax({
         url: "<?php echo $this->createUrl('GetRekeningPiutangPasien')?>",
         type: "post",
@@ -48,21 +51,21 @@ function addDetail(){
                                                                                         })
                                                                                     }
                                                                         });  
-            $("#jurnalpiutangpasien-grid > table > tbody > tr").find('.uncurrency').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0});
+            $("#jurnalpiutangpasien-grid > table > tbody > tr").find('.integer2').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0});
             //uncurrency agar tidak duakali maskMoney krn bisa error input
-            $("#jurnalpiutangpasien-grid > table > tbody").find('.uncurrency').addClass('currency');
-            $("#jurnalpiutangpasien-grid > table > tbody").find('.currency').removeClass('uncurrency');
+            //$("#jurnalpiutangpasien-grid > table > tbody").find('.uncurrency').addClass('currency');
+            //$("#jurnalpiutangpasien-grid > table > tbody").find('.currency').removeClass('uncurrency');
             var last = $("#jurnalpiutangpasien-grid > table > tbody > tr:last").find('input[name$="[noUrut]"]').val();
             if(last > 499){
                 myAlert("Maksimal rekening yang ditampilkan sebanyak 500 data !");
             }
             // operasi auto save dilakukan 5 detik sekali
             setTimeout(function(){hitungSemua();},500);    
-            $('#jurnalpiutangpasien-grid').removeClass('srbacLoading');
+			$('#jurnalpiutangpasien-grid').removeClass("animation-loading");
         },
         error:function(){
             myAlert("Data tidak Ditemukan !");
-            $('#jurnalpiutangpasien-grid').removeClass('srbacLoading');
+            $('#jurnalpiutangpasien-grid').removeClass("animation-loading");
         }
     });
 //    $('#jurnalpiutangpasien-grid').removeClass('srbacLoading');
@@ -101,13 +104,13 @@ function editDataRekeningFromGrid(params, row){
 //    $("#"+namaModel+"_"+row+"_saldokredit").val(formatNumber(parseFloat(params.saldokredit)));
 }
 
-
+/*
 function unformatSemuaInput(){
-    $('.currency').each(function(){this.value = unformatNumber(this.value)});
+    $('.integer2').each(function(){this.value = unformatNumber(this.value)});
     return true;
 }
 function formatSemuaInput(){
-    $('.uncurrency').each(function(){
+    $('..integer2').each(function(){
         this.value = formatNumber(this.value);
         $(this).find('.uncurrency').maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0});
         $(this).removeClass('uncurrency');
@@ -116,6 +119,9 @@ function formatSemuaInput(){
     return true;
 }
 formatSemuaInput();
+*/
+
+formatNumberSemua();
 
 function hitungSemua(){
     var totalDebit = 0;

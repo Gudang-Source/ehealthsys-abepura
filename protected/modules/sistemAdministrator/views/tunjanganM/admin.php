@@ -115,7 +115,18 @@ $('.search-form form').submit(function(){
 				)
 			),
 		),
-		'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+		'afterAjaxUpdate'=>'function(id, data){
+                jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                $("table").find("input[type=text]").each(function(){
+                    cekForm(this);
+                });
+                $("table").find("select").each(function(){
+                    cekForm(this);
+                });
+                $(".numbers-only").keyup(function() {
+                    setNumbersOnly(this);
+                });
+            }',
 	)); ?>
 <!--</div>-->
 <?php 
@@ -128,6 +139,10 @@ $('.search-form form').submit(function(){
 	$urlPrint= $this->createUrl('print');
 
 $js = <<< JSCRIPT
+function cekForm(obj)
+{
+    $("#kptunjangan-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#kptunjangan-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');

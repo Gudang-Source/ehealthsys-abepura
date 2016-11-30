@@ -77,6 +77,62 @@
                             
                         </table>
                     </fieldset>
+                    
+                    <fieldset class="box">
+                        <legend class="rim">Jenis Kegiatan</legend>
+                        <table>
+                            <tr>
+                                <td>
+                                    <?php //echo $form->dropDownListRow($model,'jeniskegiatan_id',  CHtml::listData($model->JenisKegiatanItems, 'jeniskegiatan_id', 'jeniskegiatan_nama'),array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>   
+                                    <div class="control-group">
+                                            <?php echo Chtml::label('Jenis Kegiatan', 'jeniskegiatan_id', array('class' => 'control-label')) ?>
+                                            <div class="controls">
+                                                    <?php echo $form->hiddenField($model, 'jeniskegiatan_id'); ?>
+                                                    <?php
+                                                    $this->widget('MyJuiAutoComplete', array(
+                                                            'model' => $model,
+                                                            'attribute' => 'jeniskegiatan_nama',
+                                                            'source' => 'js: function(request, response) {
+                                                                        $.ajax({
+                                                                                url: "' . $this->createUrl('/ActionAutoComplete/JenisKegiatan') . '",
+                                                                                dataType: "json",
+                                                                                data: {
+                                                                                        term: request.term,
+                                                                                },
+                                                                                success: function (data) {
+                                                                                                response(data);
+                                                                                }
+                                                                        })
+                                                                     }',
+                                                            'options' => array(
+                                                                    'showAnim' => 'fold',
+                                                                    'minLength' => 2,
+                                                                    'focus' => 'js:function( event, ui ) {
+                                                                                        $(this).val( ui.item.value);
+                                                                                        return false;
+                                                                                                            }',
+                                                                    'select' => 'js:function( event, ui ) { 
+                                                                                                                    $("#' . CHtml::activeId($model, 'jeniskegiatan_id') . '").val(ui.item.jeniskegiatan_id);
+                                                                                                                    $("#' . CHtml::activeId($model, 'jeniskegiatan_nama') . '").val(ui.item.jeniskegiatan_nama);
+                                                                                                                    return false;
+                                                                                                            }',
+                                                            ),
+                                                            'htmlOptions' => array(
+                                                                    'placeholder' => 'Jenis Kegiatan',
+                                                                    'onkeypress' => "return $(this).focusNextInputField(event)",
+                                                                    'class' => 'custom-only',
+                                                                    'onchange' => 'cekJenisKegiatan();'
+                                                            ),
+                                                            'tombolDialog' => array('idDialog' => 'dialogJenisKegiatan'),
+                                                    ));
+                                                    ?>
+                                            </div>
+                                    </div>
+                                </td>                               
+                            </tr>
+                            
+                        </table>
+                    </fieldset>
                 </td>
             </tr>
         </table>
@@ -104,5 +160,84 @@ $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
     {
         document.getElementById('SADaftarTindakanM_daftartindakan_namalainnya').value = nama.value.toUpperCase();
         document.getElementById('SADaftarTindakanM_tindakanmedis_nama').value = nama.value;
+    }
+</script>
+<?php
+/* ====================================== Widget Dialog Jenis Kegiatan ====================================== */
+    
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogJenisKegiatan',
+    'options'=>array(
+        'title'=>'Pencarian Jenis Kegiatan',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>900,
+        'height'=>500,
+        'resizable'=>false,
+        ),
+));
+    
+$modJenisKegiatan = new SAJenisKegiatanM('search');
+$modJenisKegiatan->unsetAttributes();
+if(isset($_GET['SAJenisKegiatanM'])){
+    $modJenisKegiatan->attributes = $_GET['SAJenisKegiatanM'];
+}
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+    'id'=>'jeniskegiatan-grid',
+        //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
+    'dataProvider'=>$modJenisKegiatan->searchDialog(),
+    'filter'=>$modJenisKegiatan,
+    'template'=>"{summary}\n{items}\n{pager}",
+    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+    'columns'=>array(
+                array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectJenisKegiatan",
+                                    "onClick" => "  $(\"#SADaftarTindakanM_jeniskegiatan_id\").val(\"$data->jeniskegiatan_id\");
+                                                    $(\"#SADaftarTindakanM_jeniskegiatan_nama\").val(\"$data->jeniskegiatan_nama\");
+                                                    $(\"#dialogJenisKegiatan\").dialog(\"close\");
+                            "))',
+                ),
+             /*   array(
+                    'header'=>'Kode Jenis Kegiatan',
+                    'name'=>'jeniskegiatan_kode',
+                    'value'=>'$data->jeniskegiatan_kode',
+                    'filter' => Chtml::activeTextField($modJenisKegiatan, 'jeniskegiatan_kode', array('class'=>'custom-only'))
+                ),*/
+                array(
+                    'header'=>'Jenis Kegiatan',
+                    'name'=>'jeniskegiatan_nama',
+                    'value'=>'$data->jeniskegiatan_nama',
+                    'filter' => Chtml::activeTextField($modJenisKegiatan, 'jeniskegiatan_nama', array('class'=>'custom-only'))
+                ),
+                array(
+                    'header'=>'Ruangan Jenis Kegiatan',
+                    'name'=>'jeniskegiatan_ruangan',
+                    'value'=>'$data->jeniskegiatan_ruangan',
+                    'filter' => Chtml::activeDropDownList($modJenisKegiatan, 'jeniskegiatan_ruangan', LookupM::getItems('jeniskegiatan'),array('empty'=>'-- Pilih --'))
+                ),
+    ),
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+    . '$(".custom-only").keyup(function() {
+            setCustomOnly(this);
+        });'
+    . '}',
+));
+
+$this->endWidget();
+/* ====================================== endWidget Dialog Jenis Kegiatan ====================================== */
+?>
+<script>
+    function cekJenisKegiatan()
+    {
+        var jeniskegiatan = $("#<?php echo Chtml::activeId($model, 'jeniskegiatan_nama'); ?>").val();
+        
+        if (jeniskegiatan != ''){
+            return true;
+        }else{
+            $("#<?php echo Chtml::activeId($model, 'jeniskegiatan_id'); ?>").val('')
+        }
     }
 </script>

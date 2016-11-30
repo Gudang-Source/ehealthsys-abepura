@@ -36,11 +36,13 @@ class PenggajianpegTController extends MyAuthController {
 		$model->totalterima = 0;
 		$modPegawai = new GJPegawaiM();
 		$komponen = new PenggajiankompT();
+                $model->no_temp = '- Otomatis -';
 		// Uncomment the following line if AJAX validation is needed
 
 		if (isset($_GET['id'])) {
 			$model = GJPenggajianpegT::model()->findByPk($_GET['id']);
 			$modPegawai = GJPegawaiM::model()->findByPk($model->pegawai_id);
+                        $model->no_temp = $model->nopenggajian;
 		}
 
 
@@ -48,7 +50,7 @@ class PenggajianpegTController extends MyAuthController {
 			$model->attributes = $_POST['GJPenggajianpegT'];
 			$model->pegawai_id = $_POST['GJPegawaiM']['pegawai_id'];
 			$model->tglpenggajian = $format->formatDateTimeForDb($model->tglpenggajian);
-			$model->nopenggajian = MyGenerator::noPenggajian();
+			$model->nopenggajian = MyGenerator::noPenggajian();                        
 			$data = $_POST['PenggajiankompT']['komponengaji_id'];
 
 			$transaction = Yii::app()->db->beginTransaction();
@@ -250,7 +252,7 @@ class PenggajianpegTController extends MyAuthController {
 	public function actionPrint($id, $pegawai_id) {
 		$modelpegawai = GJPegawaiM::model()->findByPk($pegawai_id);
 		$modDetail = PenggajiankompT::model()->findAll('penggajianpeg_id = ' . $id . '');
-		$model = PenggajianpegT::model()->find('pegawai_id = ' . $modelpegawai->pegawai_id . ' ');
+		$model = PenggajianpegT::model()->find('penggajianpeg_id = ' . $id . ' AND pegawai_id = '.$pegawai_id.'');
 
 		$modelpegawai->attributes = (isset($_REQUEST['GJPegawaiM']) ? $_REQUEST['GJPegawaiM'] : null);
 		$judulLaporan = '--- Detail Penggajian Pegawai ---';
@@ -270,7 +272,7 @@ class PenggajianpegTController extends MyAuthController {
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'Print', array('model' => $model, 'modelpegawai' => $modelpegawai, 'modDetail' => $modDetail, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 

@@ -15,6 +15,9 @@ class JurnalPiutangPasienController extends MyAuthController
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $noUrut = 1;
+				
+				// var_dump($_POST);
+				
                 foreach($_POST['AKRincianpiutangrekeningpasienV'] AS $i => $post){
                     if(isset($post['pilihRekening'])){
                         if(strtolower($post['tm']) == 'tm'){
@@ -26,8 +29,12 @@ class JurnalPiutangPasienController extends MyAuthController
                                     $modJurnalRekening = JurnalrekeningT::model()->findByPk($cekTindakanObat->jurnalrekening_id);
                                 }
                                 $modJurnalDetail = $this->saveJurnalDetail($modJurnalRekening, $post, $noUrut, true);
-                                $cekTindakanObat->jurnalrekening_id = $modJurnalRekening->jurnalrekening_id;
-                                $cekTindakanObat->update();
+                                TindakanpelayananT::model()->updateByPk($cekTindakanObat->tindakanpelayanan_id, array(
+									'jurnalrekening_id'=>$modJurnalRekening->jurnalrekening_id,
+								));
+								
+								//$cekTindakanObat->jurnalrekening_id = $modJurnalRekening->jurnalrekening_id;
+                                //$cekTindakanObat->update();
                                 $noUrut ++;
                             }
                         }else{
@@ -39,8 +46,12 @@ class JurnalPiutangPasienController extends MyAuthController
                                     $modJurnalRekening = JurnalrekeningT::model()->findByPk($cekTindakanObat->jurnalrekening_id);
                                 }
                                 $modJurnalDetail = $this->saveJurnalDetail($modJurnalRekening, $post, $noUrut, true);
-                                $cekTindakanObat->jurnalrekening_id = $modJurnalRekening->jurnalrekening_id;
-                                $cekTindakanObat->update();
+								ObatalkespasienT::model()->updateByPk($cekTindakanObat->obatalkespasien_id, array(
+									'jurnalrekening_id'=>$modJurnalRekening->jurnalrekening_id,
+								));
+								
+								//$cekTindakanObat->jurnalrekening_id = $modJurnalRekening->jurnalrekening_id;
+                                //$cekTindakanObat->update();
                                 $noUrut ++;
                             }
                         }
@@ -52,7 +63,7 @@ class JurnalPiutangPasienController extends MyAuthController
                         //kembalikan nilai jika gagal disimpan
                         $modRekenings[$i] = new AKRincianpiutangrekeningpasienV;
                         $modRekenings[$i]->attributes = $post;
-                        $modRekenings[$i]->nmrincianobyek = $post['nama_rekening'];
+                        $modRekenings[$i]->nmrekening5 = $post['nama_rekening'];
                         $modPasien = PasienM::model()->findByPk($modRekenings[$i]->pasien_id);
                         $modRekenings[$i]->namadepan = $modPasien->namadepan;
                         $modRekenings[$i]->nama_pasien = $modPasien->nama_pasien;
@@ -63,6 +74,9 @@ class JurnalPiutangPasienController extends MyAuthController
                         $modRekenings[$i]->penjamin_nama = $modPendaftaran->penjamin->penjamin_nama;
                     }
                 }
+				
+				// var_dump($this->success); die;
+				
                 if($this->success){
                     $transaction->commit();
                     Yii::app()->user->setFlash('success',"Posting Jurnal Berhasil");
@@ -72,6 +86,9 @@ class JurnalPiutangPasienController extends MyAuthController
                 }
                     
             }catch (Exception $exc) {
+				//var_dump($exc); die;
+				
+				//var_dump($this->success); die;
                 $transaction->rollback();
                 Yii::app()->user->setFlash('error',"Data Gagal disimpan. ".MyExceptionMessage::getMessage($exc,true));
             }
@@ -134,11 +151,11 @@ class JurnalPiutangPasienController extends MyAuthController
         $modJurnalDetail->saldodebit = $post['saldodebit'];
         $modJurnalDetail->saldokredit = $post['saldokredit'];
         $modJurnalDetail->nourut = $noUrut;
-        $modJurnalDetail->rekening1_id = $post['struktur_id'];
-        $modJurnalDetail->rekening2_id = $post['kelompok_id'];
-        $modJurnalDetail->rekening3_id = $post['jenis_id'];
-        $modJurnalDetail->rekening4_id = $post['obyek_id'];
-        $modJurnalDetail->rekening5_id = $post['rincianobyek_id'];
+        //$modJurnalDetail->rekening1_id = $post['rekening1_id'];
+        //$modJurnalDetail->rekening2_id = $post['rekening2_id'];
+        //$modJurnalDetail->rekening3_id = $post['rekening3_id'];
+        //$modJurnalDetail->rekening4_id = $post['rekening4_id'];
+        $modJurnalDetail->rekening5_id = $post['rekening5_id'];
         $modJurnalDetail->catatan = "";
         if($modJurnalDetail->validate()){
             $modJurnalDetail->save();
@@ -182,11 +199,17 @@ class JurnalPiutangPasienController extends MyAuthController
             }
             $criteria = new CDbCriteria;
             $criteria = $model->criteriaFunction();
+			$criteria->addCondition('rekening5_id is not null');
+			$criteria->order = "tindakanpelayanan_id, rekening5_nb";
             $models = AKRincianpiutangrekeningpasienV::model()->findAll($criteria);
+			
+			
+			// var_dump(count($models)); die;
+			
             foreach($models AS $i => $model){ //untuk membedakan tindakan / obat di form jurnal
                 $models[$i]['saldodebit'] = 0;    
                 $models[$i]['saldokredit'] = 0;    
-                if($models[$i]['rincianobyek_nb'] == "D"){
+                if($models[$i]['rekening5_nb'] == "D"){
                     $models[$i]['saldodebit'] = $model->saldotarif;
                 }else{
                     $models[$i]['saldokredit'] = $model->saldotarif;

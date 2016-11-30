@@ -1,5 +1,6 @@
 <?php 
     $table = 'ext.bootstrap.widgets.BootGroupGridView';
+    $itemCssClass = 'table table-striped table-condensed';
     $sort = true;
     $isprint = false;
     if (isset($caraPrint)){
@@ -7,11 +8,35 @@
         $template = "{items}";
         $sort = false;
         $isprint = true;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+        $itemCssClass = 'table border';
     } else{
         $data = $model->searchTable();
-         $template = "{pager}{summary}\n{items}";
+         $template = "{summary}\n{items}\n{pager}";
     }
 ?>
 <?php $this->widget($table,array(
@@ -20,7 +45,7 @@
 //    'filter'=>$model,
         'template'=>$template,
         'enableSorting'=>$sort,
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'itemsCssClass'=>$itemCssClass,
        'mergeColumns' => array('instalasi_nama', 'ruangan_nama', 'dokter_nama'),
     'columns'=>array(
         array(
@@ -50,7 +75,11 @@
         ),
         array(
           'header'=>'Nama Pasien',
-          'value'=>'$data->nama_pasien',
+          'value'=>function($data){
+            $pasien = PendaftaranT::model()->find(" no_pendaftaran = '".$data->no_pendaftaran."' ");
+            
+            echo $pasien->pasien->namadepan.' '.$pasien->pasien->nama_pasien;            
+          },
           'type'=>'raw',
         ),
         array(
@@ -60,15 +89,10 @@
         ),
        
           array(
-          'header'=>'Instalasi',
-          'value'=>'$data->instalasi_nama',
+          'header'=>'Instalasi <br/> / Ruangan',
+          'value'=>'$data->instalasi_nama." <br/> / ".$data->ruangan_nama',
           'type'=>'raw',
-        ),
-        array(
-          'header'=>'Ruangan',
-          'value'=>'$data->ruangan_nama',
-          'type'=>'raw',
-        ),
+        ),        
          array(
           'header'=>'Jenis Pelayanan',
           'value'=>'$data->daftartindakan_nama',
@@ -76,7 +100,7 @@
         ),
         array(
           'header'=>'Tarif',
-          'value'=>'MyFormatter::formatNumberForPrint($data->tarif_tindakan)',
+          'value'=>'"Rp".number_format($data->tarif_tindakan,0,"",".")',
           'type'=>'raw',
           'htmlOptions'=>array(
               'style'=>'text-align: right',

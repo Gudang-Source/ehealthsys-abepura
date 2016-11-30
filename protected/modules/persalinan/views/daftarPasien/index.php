@@ -49,7 +49,15 @@
                                     array(
                                             'header'=>'Cara Bayar / Penjamin',
                                             'type'=>'raw',
-                                            'value'=>'$data->caraBayarPenjamin2',
+                                            //'value'=>'$data->caraBayarPenjamin2',
+                                            'value'=>function($data) {
+                                        return $data->carabayar_nama."/<br/>".$data->penjamin_nama;
+                                    },
+                                    ),
+                                    array(
+                                            'header'=>'Ruangan',
+                                            'type'=>'raw',
+                                            'value'=>'$data->ruangan_nama',
                                     ),
                                     array(
                                        'name'=>'Cara Masuk / Transportasi',
@@ -198,6 +206,11 @@
                                         return $data->carabayar_nama."/<br/>".$data->penjamin_nama;
                                     }, //'$data->caraBayarPenjamin2',
                             ), 
+                             array(
+                                            'header'=>'Ruangan',
+                                            'type'=>'raw',
+                                            'value'=>'$data->ruangan_nama',
+                                    ),
                             array(
                                     'header'=>'Kelas Pelayanan',
                                     'name'=>'kelaspelayanan_nama',
@@ -228,6 +241,7 @@
                                     'header'=>'Dokter',
                                     'type'=>'raw',
                                     'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
+                                   // 'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-pencil-brown></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\',\'$data->pasienadmisi_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) . "</div>"',
                             ),
                             array(
                                     'header'=>'Status Periksa',
@@ -239,11 +253,11 @@
                                     'class'=>'bootstrap.widgets.BootButtonColumn',
                                     'template'=>'{lihat}',
                                     'buttons'=>array(
-                                                                    'lihat' => array (
-                                                                                    'label'=>"<i class='icon-form-persalinan'></i>",
-                                                                                    'options'=>array('title'=>'Persalinan'),
-                                                                                    'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
-                                                                            ),
+                                            'lihat' => array (
+                                                            'label'=>"<i class='icon-form-persalinan'></i>",
+                                                            'options'=>array('title'=>'Persalinan'),
+                                                            'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
+                                                    ),
                                             ),
                             ),
                             array(
@@ -311,10 +325,18 @@
                                     'value'=>'$data->namaNamaBin'
                             ),
                             array(
-                                    'header'=>'Cara Bayar / Penjamin',
-                                    'type'=>'raw',
-                                    'value'=>'$data->caraBayarPenjamin2',
-                            ),
+                                            'header'=>'Cara Bayar / Penjamin',
+                                            'type'=>'raw',
+                                            //'value'=>'$data->caraBayarPenjamin2',
+                                            'value'=>function($data) {
+                                        return $data->carabayar_nama."/<br/>".$data->penjamin_nama;
+                                    },
+                                    ),
+                                    array(
+                                            'header'=>'Ruangan',
+                                            'type'=>'raw',
+                                            'value'=>'$data->ruangan_nama',
+                                    ),
                             array(
                                     'header'=>'Cara Masuk / Transportasi',
                                     'type'=>'raw',
@@ -324,7 +346,8 @@
                             array(
                                     'header'=>'Dokter',
                                     'type'=>'raw',
-                                    'value'=>'$data->nama_pegawai',
+                                    'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                                  // 'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-pencil-brown></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\',\'$data->pasienadmisi_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) . "</div>"',
                             ),
                             array(
                                     'header'=>'Rujukan',
@@ -348,15 +371,19 @@
                             ),
                             array(
                                     'header'=>'Persalinan',
-                                    'class'=>'bootstrap.widgets.BootButtonColumn',
+                                    /*'class'=>'bootstrap.widgets.BootButtonColumn',
                                     'template'=>'{lihat}',
                                     'buttons'=>array(
-                                                                    'lihat' => array (
-                                                                                    'label'=>"<i class='icon-form-persalinan'></i>",
-                                                                                    'options'=>array('title'=>'Persalinan'),
-                                                                                    'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
-                                                                            ),
-                                            ),
+                                        'lihat' => array (
+                                                        'label'=>"<i class='icon-form-persalinan'></i>",
+                                                        'options'=>array('title'=>'Persalinan'),
+                                                        'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
+                                                ),
+                                    ),*/
+                                    'type' => 'raw',
+                                    'value' => function($data){
+                                        return CHtml::link("<i class = 'icon-form-persalinan'></i>",Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id")),array('onclick'=>'return cekPegawai(); return false;'));
+                                    }
                             ),
                             array(
                                     'header'=>'Kelahiran',
@@ -742,3 +769,60 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 //===============================Akhir Dialog Rujukan ke RI================================
 
 ?>
+<?php
+    //======================= Edit Dokter Periksa ======================= 
+    $this->beginWidget('zii.widgets.jui.CJuiDialog',
+        array(
+            'id'=>'editDokterPeriksa',
+            'options'=>array(
+                'title'=>'Ganti Dokter Periksa',
+                'autoOpen'=>false,
+                'minWidth'=>500,
+                'modal'=>true,
+            ),
+        )
+    );
+    echo CHtml::hiddenField('temp_idPendaftaranDP','',array('readonly'=>true));
+    echo CHtml::hiddenField('temp_idPasienadmisiDP','',array('readonly'=>true));
+    echo '<div class="divForFormEditDokterPeriksa"></div>';
+    $this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
+
+<script>
+function ubahDokterPeriksa(pendaftaran_id,pasienadmisi_id)
+{
+    $('#temp_idPendaftaranDP').val(pendaftaran_id);
+    $('#temp_idPasienadmisiDP').val(pasienadmisi_id);
+    jQuery.ajax({'url':'<?php echo $this->createUrl('ubahDokterPeriksa')?>',
+        'data':$(this).serialize(),
+        'type':'post',
+        'dataType':'json',
+        'success':function(data){
+            if (data.status == 'create_form') {
+                $('#editDokterPeriksa div.divForFormEditDokterPeriksa').html(data.div);
+                $('#editDokterPeriksa div.divForFormEditDokterPeriksa form').submit(ubahDokterPeriksa);
+            }else{
+                $('#editDokterPeriksa div.divForFormEditDokterPeriksa').html(data.div);
+                $.fn.yiiGridView.update('daftarPasien-grid', {
+                        data: $('form').serialize()
+                });
+                setTimeout("$('#editDokterPeriksa').dialog('close') ",500);
+            }
+        },
+        'cache':false
+    });
+    return false; 
+}
+
+
+function cekPegawai(){
+    var pegawai_id = "<?php echo Yii::app()->user->getState('pegawai_id');  ?>";
+    
+    if (pegawai_id != ''){
+        return true
+    }else{
+        myAlert("Maaf, <b>Nama Pemakai (user login)</b> Anda tidak bisa untuk melakukan transaksi ini. <br> <b>'Mohon untuk menghubungi Sistem Administrator'</b>");
+        return false;
+    }
+}
+</script>

@@ -10,7 +10,7 @@
 	'id'=>'calk-t-form',
 	'enableAjaxValidation'=>false,
 	'type'=>'horizontal',
-	'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'enctype' => 'multipart/form-data'),
+	'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);', 'enctype' => 'multipart/form-data'),
 	'focus'=>'#namaBarang',
 )); ?>
 

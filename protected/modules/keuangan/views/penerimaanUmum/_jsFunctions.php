@@ -20,6 +20,7 @@
 			if (data != null) {
 				$("#tblInputRekening > tbody").append(data.replace());
 				renameRowRekening();
+				hitungTotalHarga();
 			}
 		}, "json");
 	}
@@ -95,12 +96,12 @@
 					{
 						alert("Simpan data berhasil");
 						$("#tblInputUraian").find('tr[class$="child"]').detach();
-                                                location.reload();
-						//$("#reseter").click();
-						//url = '<?php echo $this->createUrl("Print&id='+data.pesan.id+'"); ?>';
-						//$('#url').val(url);
-						//$("#input-penerimaan-kas").find("input[name$='[nopenerimaan]']").val(data.pesan.nopenerimaan);
-						//$("#tblInputRekening > tbody").find('tr').detach();
+                                                // location.reload();
+						$("#reseter").click();
+						url = '<?php echo $this->createUrl("Print&id='+data.pesan.id+'"); ?>';
+						$('#url').val(url);
+						$("#input-penerimaan-kas").find("input[name$='[nopenerimaan]']").val(data.pesan.nopenerimaan);
+						$("#tblInputRekening > tbody").find('tr').detach();
 					} else {
 						myAlert("Update data berhasil");
 					}
@@ -159,8 +160,8 @@
 		$('#KUPenerimaanUmumT_totalharga').val(formatNumber(vol * harga));
 		$('#KUTandabuktibayarT_jmlpembayaran').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
 		$('#totTagihan').val($('#KUPenerimaanUmumT_totalharga').val());
-		$('#RekeningakuntansiV_0_saldodebit').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
-		$('#RekeningakuntansiV_1_saldokredit').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
+		$('.saldodebit').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
+		$('.saldokredit').val(formatNumber((vol * harga) + biayaAdministrasi + biayaMaterai));
 	}
 
 	function bukaUraian(obj)

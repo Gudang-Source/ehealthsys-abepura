@@ -8,39 +8,37 @@
         'application.views.headerReport.headerLaporanTransaksi',
             array(
                 'judulLaporan'=>false,
+                'colspan' => 9
             )
     );
 ?>
-<fieldset>
-    <div align="center"><b>DETAIL PRESENSI PEGAWAI</b></div>
+<fieldset>    
     <table width="100%">
         <tr>
-            <td width="50%" style="vertical-align:top;">
+            <td align="center" colspan="3"><b>DETAIL PRESENSI PEGAWAI</b></td>
+        </tr>
+        <tr>
+            <td width="100%" style="vertical-align:top;">
                 <table>
                     <tr>
-                        <td>No. Finger</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->nofingerprint; ?></td>
+                        <td><b>No. Finger</b></td>
+                        <td colspan="3">: <?php echo $modPegawai->nofingerprint; ?></td>                        
                     </tr>
                    <tr>
-                        <td>Kelompok Pegawai</td>
-                        <td>:</td>
-                        <td><?php echo isset($modPegawai->kelompokpegawai_id)?$modPegawai->kelompokpegawai->kelompokpegawai_nama:''; ?></td>
+                       <td><b>Kelompok Pegawai</b></td>
+                        <td colspan="3">: <?php echo isset($modPegawai->kelompokpegawai_id)?$modPegawai->kelompokpegawai->kelompokpegawai_nama:''; ?></td>                        
                     </tr>
                     <tr>
-                        <td>Jabatan</td>
-                        <td>:</td>
-                        <td><?php echo  isset($modPegawai->jabatan_id)?$modPegawai->jabatan->jabatan_nama:""; ?></td>
+                        <td><b>Jabatan</b></td>
+                        <td colspan="3">: <?php echo  isset($modPegawai->jabatan_id)?$modPegawai->jabatan->jabatan_nama:""; ?></td>                        
                     </tr>
                     <tr>
-                        <td>NIP</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->nomorindukpegawai; ?></td>
+                        <td><b>NIP</b></td>
+                        <td colspan="3">: <?php echo $modPegawai->nomorindukpegawai; ?></td>                        
                     </tr>                    
                     <tr>
-                        <td>Nama Pegawai</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->nama_pegawai; ?></td>
+                        <td><b>Nama Pegawai</b></td>
+                        <td colspan="3">: <?php echo $modPegawai->nama_pegawai; ?></td>                        
                     </tr>  
                     <?php /*
                     <tr>
@@ -53,41 +51,37 @@
                 </table>
             </td>
             <td>
+                &nbsp;
+            </td>
+            <td>
                 <table>
                     <tr>
-                        <td style = "text-align:right;">Hadir</td>
-                        <td>:</td>
-                        <td><?php  echo $modPegawai->hadir; ?></td>
+                        <td align="right"><b>Hadir</b></td>
+                        <td colspan="3">: <?php  echo $modPegawai->hadir; ?></td>                        
                     </tr>
                     <tr>
-                        <td  style = "text-align:right;">Izin</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->izin; ?></td>
+                        <td  align="right"><b>Izin</b></td>
+                        <td  colspan="3">: <?php echo $modPegawai->izin; ?></td>                        
                     </tr>
                     <tr>
-                        <td  style = "text-align:right;">Sakit</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->sakit; ?></td>
+                        <td  align="right"><b>Sakit</b></td>
+                        <td  colspan="3">: <?php echo $modPegawai->sakit; ?></td>                        
                     </tr>
                     <tr>
-                        <td  style = "text-align:right;">Dinas</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->dinas; ?></td>
+                        <td  align="right"><b>Dinas</b></td>
+                        <td  colspan="3">: <?php echo $modPegawai->dinas; ?></td>                        
                     </tr>
                     <tr>
-                        <td  style = "text-align:right;">Alpha</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->alpha; ?></td>
+                        <td  align="right"><b>Alpha</b></td>
+                        <td  colspan="3">: <?php echo $modPegawai->alpha; ?></td>                        
                     </tr>
                     <tr>
-                        <td  style = "text-align:right;">Rerata Jam Masuk</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->rerata_jam_masuk; ?></td>
+                        <td  align="right"><b>Rerata Jam Masuk</b></td>
+                        <td  colspan="3">: <?php echo $modPegawai->rerata_jam_masuk; ?></td>                        
                     </tr>
                     <tr>
-                        <td  style = "text-align:right;">Rerata Jam Pulang</td>
-                        <td>:</td>
-                        <td><?php echo $modPegawai->rerata_jam_keluar; ?></td>
+                        <td  align="right"><b>Rerata Jam Pulang</b></td>
+                        <td colspan="3">: <?php echo $modPegawai->rerata_jam_keluar; ?></td>                        
                     </tr>
                     <?php /*<tr>
                         <td >Jumlah Absensi</td>
@@ -145,21 +139,23 @@
                     'header'=>'<center>Pulang</center>',
                     'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
+                    'footer' =>  '&nbsp;',
+                    'footerHtmlOptions' => array('colspan'=>6,'align'=>'center'),
                 ),                                
                  array(
                     'header'=>'<center>Terlambat</center>',                     
                     'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),                                             
                      'footer' => $this->renderPartial("daftarHadir/_terlambat",array("statuskehadiran_id"=>$model->statuskehadiran_id,"pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
-                     'footerHtmlOptions' => array('style'=>'text-align: center;'),
+                     'footerHtmlOptions' => array('align'=>'center'),
                          
                 ), 
                  array(
                     'header'=>'<center>Pulang Awal</center>',
                     'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
-                     'footer' => $this->renderPartial("daftarHadir/_terlambat",array("statuskehadiran_id"=>$model->statuskehadiran_id,"pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
-                     'footerHtmlOptions' => array('style'=>'text-align: center;'),
+                     'footer' => $this->renderPartial("daftarHadir/_pulangAwal",array("pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
+                     'footerHtmlOptions' => array('align'=>'center'),
                 ), 
                  array(
                     'header'=>'<center>Status</center>',

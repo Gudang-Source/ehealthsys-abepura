@@ -159,8 +159,7 @@ class DokterV extends CActiveRecord
 		$criteria->compare('LOWER(pendkualifikasi_nama)',strtolower($this->pendkualifikasi_nama),true);
 		$criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
 		$criteria->compare('pangkat_id',$this->pangkat_id);
-		$criteria->compare('kelompokpegawai_id',$this->kelompokpegawai_id);
-		$criteria->compare('jabatan_id',$this->jabatan_id);
+		$criteria->compare('kelompokpegawai_id',$this->kelompokpegawai_id);		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -169,9 +168,23 @@ class DokterV extends CActiveRecord
         
         public function searchDokterResep() {
             $p = $this->search();
-            $p->criteria->select = $p->criteria->group = "pegawai_id, gelardepan, nama_pegawai, gelarbelakang_nama, jeniskelamin, nomorindukpegawai";
+            $p->criteria->select = $p->criteria->group = "pegawai_id, gelardepan, nama_pegawai, gelarbelakang_nama, jeniskelamin, nomorindukpegawai, jabatan_id";
             $p->sort->defaultOrder = 'nama_pegawai';
             return $p;
+        }
+        
+        public function searchAllDokter() {
+            $criteria = new CDbCriteria();
+            $criteria->select = "nomorindukpegawai, nama_pegawai, gelardepan, gelarbelakang_nama, jabatan_id";
+            $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), true);
+            $criteria->compare('LOWER(nomorindukpegawai)', strtolower($this->nomorindukpegawai), true);
+            if (!empty($this->jabatan_id)){
+                $criteria->addCondition("jabatan_id = '".$this->jabatan_id."' ");
+            }
+            $criteria->group = "nomorindukpegawai, nama_pegawai, gelardepan, gelarbelakang_nama, jabatan_id";
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
         }
         
         

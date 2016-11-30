@@ -38,14 +38,14 @@ class KriteriahasilM extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
+		return array(//diagnosakep_id
 			array('diagnosakep_id, kriteriahasil_nama', 'required'),
 			array('diagnosakep_id', 'numerical', 'integerOnly'=>true),
 			array('kriteriahasil_nama, kriteriahasil_namalain', 'length', 'max'=>200),
-			array('kriteriahasil_aktif', 'safe'),
+			array('kriteriahasil_aktif, diagnosakep_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('kriteriahasil_id, diagnosakep_id, kriteriahasil_nama, kriteriahasil_namalain, kriteriahasil_aktif', 'safe', 'on'=>'search'),
+			array('kriteriahasil_id, diagnosakeperawatan_id, kriteriahasil_nama, kriteriahasil_namalain, kriteriahasil_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +58,7 @@ class KriteriahasilM extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'kriteriahasil'=>array(self::HAS_MANY, 'KriteriahasilM', 'kriteriahasil_id'),
+                    'diagnosakeperawatan'=>array(self::BELONGS_TO, 'DiagnosakeperawatanM', 'diagnosakeperawatan_id'),
 		);
 	}
 
@@ -67,11 +68,11 @@ class KriteriahasilM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'kriteriahasil_id' => 'Kriteriahasil',
-			'diagnosakeperawatan_id' => 'Diagnosakeperawatan',
-			'kriteriahasil_nama' => 'Kriteriahasil Nama',
-			'kriteriahasil_namalain' => 'Kriteriahasil Namalain',
-			'kriteriahasil_aktif' => 'Kriteriahasil Aktif',
+			'kriteriahasil_id' => 'ID',
+			'diagnosakeperawatan_id' => 'Diagnosa Keperawatan',
+			'kriteriahasil_nama' => 'Kriteria Hasil',
+			'kriteriahasil_namalain' => 'Nama Lain',
+			'kriteriahasil_aktif' => 'Aktif',
 		);
 	}
 

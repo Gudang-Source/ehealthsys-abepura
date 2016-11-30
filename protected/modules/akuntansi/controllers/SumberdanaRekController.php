@@ -14,6 +14,7 @@ class SumberdanaRekController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
+             $this->layout='//layouts/iframe';
         $model= SumberdanaM::model()->findByAttributes(array('sumberdana_id'=>$id));
                 
 		$this->render('view',array(
@@ -26,7 +27,7 @@ class SumberdanaRekController extends MyAuthController
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
+	{ $this->layout='//layouts/iframe';
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model = new SumberdanaM;
                 
@@ -155,7 +156,7 @@ class SumberdanaRekController extends MyAuthController
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{ $this->layout='//layouts/iframe';
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$modSumber = SumberdanaM::model()->findByPk($id);
 
@@ -302,7 +303,7 @@ class SumberdanaRekController extends MyAuthController
 	 * Manages all models.
 	 */
 	public function actionAdmin($id='')
-	{
+	{ $this->layout='//layouts/iframe';
                 if ($id==1):
                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                 endif; 
@@ -369,10 +370,10 @@ class SumberdanaRekController extends MyAuthController
         
 	public function actionPrint()
 	{
-		$model= new AKSumberdanaRekM;
+		$model= new SumberdanaM;//AKSumberdanaRekM;
 		
-		if(isset($_REQUEST['AKSumberdanaRekM'])){
-			$model->attributes=$_REQUEST['AKSumberdanaRekM'];
+		if(isset($_REQUEST['SumberdanaM'])){
+			$model->attributes=$_REQUEST['SumberdanaM'];
 		}		
 		$judulLaporan='Data Sumber Dana Rekening ';
 		$caraPrint=$_REQUEST['caraPrint'];

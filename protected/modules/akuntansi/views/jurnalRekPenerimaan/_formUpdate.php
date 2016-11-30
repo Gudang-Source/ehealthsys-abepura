@@ -3,7 +3,7 @@
 	'id'=>'jenispenerimaan-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this)'),
         'focus'=>'#',
 )); ?>
 
@@ -71,7 +71,7 @@
                                                         ),
                                                         'tombolDialog' => array('idDialog' => 'dialogRekDebit',),
                                                 ));
-                                                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i> Tambah',
+                                                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
                                                 array('onclick'=>'tambahRekeningDebit();return false;',
                                                           'class'=>'btn btn-primary',
                                                           'onkeypress'=>"tambahRekeningDebit();return false;",
@@ -113,7 +113,7 @@
                                                         'tombolDialog' => array('idDialog' => 'dialogRekKredit',),
                                                 ));
                                                 
-                                                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i> Tambah',
+                                                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
                                                 array('onclick'=>'tambahRekeningKredit();return false;',
                                                           'class'=>'btn btn-primary',
                                                           'onkeypress'=>"tambahRekeningKredit();return false;",
@@ -177,7 +177,19 @@
                             array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  
                 ?>       
-                <?php $this->widget('UserTips',array('type'=>'update'));?>
+                <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Jurnal Rekening Penerimaan', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('admin', array('tab'=>'frame','modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
+                <?php
+                
+                $tips = array(
+                    '0' => 'autocomplete-search',
+                    '1' => 'tambah2',
+                    '2' => 'batal',
+                    '3' => 'simpan',
+                    '4' => 'ulang'
+                );
+                $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips', array('tips'=>$tips), true);
+                $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
+                ?>
 	</div>
 
 <?php $this->endWidget(); ?>
@@ -362,6 +374,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'header' => 'Kode Akun',
                         'name' => 'kdrekening5',
                         'value' => '$data->kdrekening5',
+                        'filter' => Chtml::activeTextField($modRekDebit, 'kdrekening5', array('class'=>'numbers-only','maxlength'=>12))
                 ),
                 array(
                         'header'=>'Kelompok Akun',
@@ -413,6 +426,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'header' => 'Akun',
                         'name' => 'nmrekening5',
                         'value' => '$data->nmrekening5',
+                        'filter' => Chtml::activeTextField($modRekDebit, 'nmrekening5', array('class'=>'custom-only'))
                 ), /*
 		array(
 			'header'=>'Nama Lain',
@@ -427,7 +441,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		),
 		
 	),
-	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . '$(".numbers-only").keyup(function() {
+            setNumbersOnly(this);
+            });
+            $(".custom-only").keyup(function() {
+            setCustomOnly(this);
+            });'
+                                . '}',
 ));
 
 $this->endWidget();
@@ -519,6 +540,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'header' => 'Kode Akun',
                         'name' => 'kdrekening5',
                         'value' => '$data->kdrekening5',
+                        'filter' => Chtml::activeTextField($modRekKredit, 'kdrekening5', array('class'=>'numbers-only','maxlength'=>12))
                 ),
                 array(
                         'header'=>'Kelompok Akun',
@@ -570,6 +592,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'header' => 'Akun',
                         'name' => 'nmrekening5',
                         'value' => '$data->nmrekening5',
+                        'filter' => Chtml::activeTextField($modRekKredit, 'nmrekening5', array('class'=>'custom-only'))
                 ), /*
 		array(
 			'header'=>'Nama Lain',
@@ -584,7 +607,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		),
 		
 	),
-	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . '$(".numbers-only").keyup(function() {
+            setNumbersOnly(this);
+            });
+            $(".custom-only").keyup(function() {
+            setCustomOnly(this);
+            });'
+                                . '}',
 ));
 
 $this->endWidget();
@@ -627,7 +657,7 @@ $this->endWidget();
         }
         
         function batalRekening(obj) {
-            myConfirm("Apakah anda akan menghapus rekening ini?","Perhatian!",
+            myConfirm("Apakah Anda yakin ingin menghapus rekening ini?","Perhatian!",
             function(r){
                 if(r){
                     $(obj).parents("tr").remove();

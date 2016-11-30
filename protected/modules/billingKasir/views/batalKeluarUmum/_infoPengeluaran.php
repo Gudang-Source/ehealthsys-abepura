@@ -49,13 +49,13 @@
                 <?php echo $form->textFieldRow($modPengeluaran,'tglpengeluaran',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($modPengeluaran,'volume',array('readonly'=>true,'class'=>'currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($modPengeluaran,'volume',array('readonly'=>true,'class'=>'integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->textFieldRow($modPengeluaran,'satuanvol',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-                <?php echo $form->textFieldRow($modPengeluaran,'hargasatuan',array('readonly'=>true,'class'=>'currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($modPengeluaran,'totalharga',array('readonly'=>true,'class'=>'currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($modPengeluaran,'hargasatuan',array('readonly'=>true,'class'=>'integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($modPengeluaran,'totalharga',array('readonly'=>true,'class'=>'integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($modPengeluaran,'biayaadministrasi',array('readonly'=>true,'class'=>'currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($modPengeluaran,'biayaadministrasi',array('readonly'=>true,'class'=>'integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->textAreaRow($modPengeluaran,'keterangankeluar',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->checkBoxRow($modPengeluaran,'isurainkeluarumum', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
@@ -86,54 +86,66 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
-            'id'=>'pendaftaran-t-grid',
-            'dataProvider'=>$modDialogPengeluaran->searchPengeluaran(),
-            'filter'=>$modDialogPengeluaran,
-            'template'=>"{summary}\n{items}\n{pager}",
-            'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-            'columns'=>array(
-                    array(
-                        'header'=>'Pilih',
-                        'type'=>'raw',
-                        'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
-                                        "id" => "selectPendaftaran",
-                                        "onClick" => "
-                                            $(\"#dialogPengeluaran\").dialog(\"close\");
-                                            $(\"#BKPengeluaranumumT_jenispengeluaran_id\").val(\"$data->jenispengeluaran_id\");
-                                            $(\"#BKPengeluaranumumT_tandabuktikeluar_id\").val(\"$data->tandabuktikeluar_id\");
-                                            $(\"#BKPengeluaranumumT_kelompoktransaksi\").val(\"$data->kelompoktransaksi\");
-                                            $(\"#BKPengeluaranumumT_tglpengeluaran\").val(\"$data->tglpengeluaran\");
-                                            $(\"#BKPengeluaranumumT_volume\").val(\"$data->volume\");
-                                            $(\"#BKPengeluaranumumT_satuanvol\").val(\"$data->satuanvol\");
-                                            $(\"#BKPengeluaranumumT_hargasatuan\").val(\"$data->hargasatuan\");
-                                            $(\"#BKPengeluaranumumT_totalharga\").val(\"$data->totalharga\");
-                                            $(\"#BKPengeluaranumumT_biayaadministrasi\").val(\"$data->biayaadministrasi\");
-                                            $(\"#BKPengeluaranumumT_keterangankeluar\").val(\"$data->keterangankeluar\");
-                                            $(\"#BKPengeluaranumumT_nopengeluaran\").val(\"$data->nopengeluaran\");
+		'id'=>'pendaftaran-t-grid',
+		'dataProvider'=>$modDialogPengeluaran->searchPengeluaran(),
+		'filter'=>$modDialogPengeluaran,
+		'template'=>"{summary}\n{items}\n{pager}",
+		'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+		'columns'=>array(
+			array(
+				'header'=>'Pilih',
+				'type'=>'raw',
+				'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
+								"id" => "selectPendaftaran",
+								"onClick" => "
+									$(\"#dialogPengeluaran\").dialog(\"close\");
+									$(\"#BKPengeluaranumumT_jenispengeluaran_id\").val(\"$data->jenispengeluaran_id\");
+									$(\"#BKPengeluaranumumT_tandabuktikeluar_id\").val(\"$data->tandabuktikeluar_id\");
+									$(\"#BKPengeluaranumumT_kelompoktransaksi\").val(\"$data->kelompoktransaksi\");
+									$(\"#BKPengeluaranumumT_tglpengeluaran\").val(\"$data->tglpengeluaran\");
+									$(\"#BKPengeluaranumumT_volume\").val(\"".$data->volume."\");
+									$(\"#BKPengeluaranumumT_satuanvol\").val(\"".$data->satuanvol."\");
+									$(\"#BKPengeluaranumumT_hargasatuan\").val(\"".MyFormatter::formatNumberForPrint($data->hargasatuan)."\");
+									$(\"#BKPengeluaranumumT_totalharga\").val(\"".MyFormatter::formatNumberForPrint($data->totalharga)."\");
+									$(\"#BKPengeluaranumumT_biayaadministrasi\").val(\"".MyFormatter::formatNumberForPrint($data->biayaadministrasi)."\");
+									$(\"#BKPengeluaranumumT_keterangankeluar\").val(\"$data->keterangankeluar\");
+									$(\"#BKPengeluaranumumT_nopengeluaran\").val(\"$data->nopengeluaran\");
 
-                                            $(\"#BKBatalKeluarUmumT_tandabuktikeluar_id\").val(\"$data->tandabuktikeluar_id\");
-                                            $(\"#BKBatalKeluarUmumT_pengeluaranumum_id\").val(\"$data->pengeluaranumum_id\");
+									$(\"#BKBatalKeluarUmumT_tandabuktikeluar_id\").val(\"$data->tandabuktikeluar_id\");
+									$(\"#BKBatalKeluarUmumT_pengeluaranumum_id\").val(\"$data->pengeluaranumum_id\");
 
-                                            $(\"#.currency\").each(function(){this.value = formatNumber(this.value)});
-                                        "))',
-                    ),
-                    array(
-                      'header'=>'No',
-                      'type'=>'raw',
-                      'value'=>'$row+1',
-                      'htmlOptions'=>array('style'=>'width:20px')
-                    ),            
-                    'tglpengeluaran',
-                    'nopengeluaran',
-                    'jenispengeluaran.jenispengeluaran_nama',
-                    array('name'=>'hargasatuan',
-                          'value'=>'MyFormatter::formatUang($data->hargasatuan)'
-                    ),
-                    array('name'=>'totalharga',
-                          'value'=>'MyFormatter::formatUang($data->totalharga)'
-                    ),
-                    
-            ),
+									$(\"#.integer2\").each(function(){this.value = formatNumber(this.value)});
+								"))',
+			),
+			array(
+			  'header'=>'No',
+			  'type'=>'raw',
+			  'value'=>'$row+1',
+			  'htmlOptions'=>array('style'=>'width:20px')
+			),      
+			array(
+				'name'=>'tglpengeluaran',
+				'filter'=>false,
+			),
+			'nopengeluaran',
+			'jenispengeluaran.jenispengeluaran_nama',
+			array(
+				'name'=>'hargasatuan',
+				'value'=>'MyFormatter::formatUang($data->hargasatuan)',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+			array(
+				'name'=>'totalharga',
+				'value'=>'MyFormatter::formatUang($data->totalharga)',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+		),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     ));
 
@@ -160,6 +172,6 @@ function isiInfoPengeluaran(data)
     $('#BKBatalKeluarUmumT_tandabuktikeluar_id').val(data.tandabuktikeluar_id);
     $('#BKBatalKeluarUmumT_pengeluaranumum_id').val(data.pengeluaranumum_id);
     
-    $('.currency').each(function(){this.value = formatNumber(this.value)});
+    $('.integer2').each(function(){this.value = formatNumber(this.value)});
 }
 </script>

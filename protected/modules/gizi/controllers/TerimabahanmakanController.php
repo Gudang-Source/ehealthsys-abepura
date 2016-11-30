@@ -44,6 +44,7 @@ class TerimabahanmakanController extends MyAuthController
                 
 		$model=new GZTerimabahanmakan;
         $model->nopenerimaanbahan = MyGenerator::noPenerimaanBahan();
+        $model->temp_no = '- Otomatis -';
         $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
         $model->tglterimabahan = date('d M Y H:i:s');
         $model->totaldiscount = 0;
@@ -63,6 +64,7 @@ class TerimabahanmakanController extends MyAuthController
         }
         if(isset($id)){
             $model = GZTerimabahanmakan::model()->findByPk($_GET['id']);
+            $model->temp_no = $model->nopenerimaanbahan;
         }
 		// Uncomment the following line if AJAX validation is needed
 		

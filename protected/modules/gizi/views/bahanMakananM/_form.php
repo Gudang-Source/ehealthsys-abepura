@@ -1,10 +1,11 @@
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php
 $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     'id' => 'gzbahanmakanan-m-form',
     'enableAjaxValidation' => false,
     'type' => 'horizontal',
-    'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)'),
+    'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)','onsubmit'=>'return requiredCheck(this)'),
     'focus' => '#BahanmakananM_jenisbahanmakanan',
         ));
 ?>
@@ -50,8 +51,8 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             
             <?php echo $form->textFieldRow($model, 'jmlminimal', array('class' => "span1 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
             <?php // echo $form->textFieldRow($model,'sumberdanabhn',array('size'=>50,'maxlength'=>50)); ?>            
-             <?php echo $form->textFieldRow($model, 'harganettobahan', array('class' => "span2 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
-            <?php echo $form->textFieldRow($model, 'hargajualbahan', array('class' => "span2 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
+             <?php echo $form->textFieldRow($model, 'harganettobahan', array('class' => "span2 integer2", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
+            <?php echo $form->textFieldRow($model, 'hargajualbahan', array('class' => "span2 integer2", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
             
         </td>
         <td>
@@ -107,7 +108,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 $tr .= "<tr><td>";
                                 $tr .= CHtml::checkBox('zatgizi_id[]', false, array('value' => $data->getAttribute('zatgizi_id')));
                                 $tr .= '</td><td width="100%">' . $data->getAttribute('zatgizi_nama');
-                                $tr .= '</td><td nowrap>' . CHtml::textField("kandunganbahan[$data->zatgizi_id]", '0', array('class' => 'default span1 numbers-only', 'style'=>'text-align: right;'));
+                                $tr .= '</td><td nowrap>' . CHtml::textField("kandunganbahan[$data->zatgizi_id]", '0,00', array('class' => 'default span1 float2', 'style'=>'text-align: right;'));
                                 $tr .= ' '.$data->zatgizi_satuan;
                                 $tr .= "</td></tr>";
                             }

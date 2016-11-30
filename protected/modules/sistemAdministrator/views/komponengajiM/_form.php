@@ -12,10 +12,10 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'nourutgaji',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-            <?php echo $form->textFieldRow($model,'komponengaji_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'komponengaji_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'komponengaji_singkt',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'nourutgaji',array('class'=>'span3 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
+            <?php echo $form->textFieldRow($model,'komponengaji_kode',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'komponengaji_nama',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'komponengaji_singkt',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
         <div class = "control-group" >  
             <?php echo $form->labelEx($model,'penerimaan', array('class'=>'control-label')); ?>
             <div class = "control">                

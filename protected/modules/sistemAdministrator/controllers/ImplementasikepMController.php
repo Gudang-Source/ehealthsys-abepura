@@ -35,6 +35,7 @@ class ImplementasikepMController extends MyAuthController {
 				
 				$batkar = SAImplementasikepM::model()->findByAttributes(array('diagnosakep_id' => $_POST['SAImplementasikepM']['diagnosakep_id']));
 				if (count($batkar)) {
+                                        SAIndikatorimplkepdetM::model()->deleteAllByAttributes(array('implementasikep_id'=>$batkar->implementasikep_id));
 					$this->simpanBatasDetail($batkar->implementasikep_id, $_POST['SAIndikatorimplkepdetM']);
 				} else {
 					if ($model->save()) {
@@ -66,12 +67,13 @@ class ImplementasikepMController extends MyAuthController {
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id);
+		$model = $this->loadModel($id);                
 		$modDetail = new SAIndikatorimplkepdetM;
 		if (isset($_POST['SAImplementasikepM'])) {
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				$model->updateByPk($id, array('diagnosakep_id' => $_POST['SAImplementasikepM']['diagnosakep_id']));
+                                SAIndikatorimplkepdetM::model()->deleteAllByAttributes(array('implementasikep_id'=>$id));
 				$this->simpanBatasDetail($id, $_POST['SAIndikatorimplkepdetM']);
 //                echo "<pre>";
 //				print_r($_POST['SALookupM']);exit;
@@ -112,6 +114,7 @@ class ImplementasikepMController extends MyAuthController {
 		$model->unsetAttributes();  // clear any default values
 		if (isset($_GET['SAIndikatorimplkepdetM'])) {
 			$model->attributes = $_GET['SAIndikatorimplkepdetM'];
+                        $model->diagnosakep_id = isset($_GET['SAIndikatorimplkepdetM']['diagnosakep_id']) ? $_GET['SAIndikatorimplkepdetM']['diagnosakep_id'] : "" ;
 			$model->diagnosakep_nama = isset($_GET['SAIndikatorimplkepdetM']['diagnosakep_nama']) ? $_GET['SAIndikatorimplkepdetM']['diagnosakep_nama'] : "" ;
 			$model->aktif = isset($_GET['aktif']) ? $_GET['aktif'] : NULL ;
 		}
@@ -156,12 +159,12 @@ class ImplementasikepMController extends MyAuthController {
 
 	public function simpanBatasDetail($implementasikep_id, $post) {
 		foreach ($post as $i => $row) {
-			if (!empty($row['implementasikep_id'])) {
+			/*if (!empty($row['implementasikep_id'])) {
 				
 				SAIndikatorimplkepdetM::model()->updateByPk($row['indikatorimplkepdet_id'], array('indikatorimplkepdet_indikator' => $row['indikatorimplkepdet_indikator'],
 					'indikatorimplkepdet_aktif' => $row['indikatorimplkepdet_aktif']));
 				$this->simpan &= true;
-			} else {
+			} else {*/
 				$model = new SAIndikatorimplkepdetM;
 				$model->attributes = $row;
 				$model->implementasikep_id = $implementasikep_id;
@@ -170,7 +173,7 @@ class ImplementasikepMController extends MyAuthController {
 				if (!$model->save()) {
 					$this->simpan &= false;
 				}
-			}
+			//}
 		}
 	}
 
@@ -192,6 +195,12 @@ class ImplementasikepMController extends MyAuthController {
 	public function actionPrint() {
 		$model = new SAIndikatorimplkepdetM;
 		$model->attributes = $_REQUEST['SAIndikatorimplkepdetM'];
+                if (isset($_GET['SAIndikatorimplkepdetM'])) {
+			$model->attributes = $_GET['SAIndikatorimplkepdetM'];
+                        $model->diagnosakep_id = isset($_GET['SAIndikatorimplkepdetM']['diagnosakep_id']) ? $_GET['SAIndikatorimplkepdetM']['diagnosakep_id'] : "" ;
+			$model->diagnosakep_nama = isset($_GET['SAIndikatorimplkepdetM']['diagnosakep_nama']) ? $_GET['SAIndikatorimplkepdetM']['diagnosakep_nama'] : "" ;			
+		}
+                
 		$judulLaporan = 'Data Implementasi Keperawatan';
 		$caraPrint = $_REQUEST['caraPrint'];
 		if ($caraPrint == 'PRINT') {
@@ -268,10 +277,10 @@ class ImplementasikepMController extends MyAuthController {
 	 * Mengubah status aktif
 	 * @param type $id 
 	 */
-	public function actionremoveTemporary() {
+	public function actionRemoveTemporary() {
 		$id = $_POST['id'];
 		if (isset($_POST['id'])) {
-			$update = SAIndikatorimplkepdetM::model()->updateByPk($id, array('indikatorimplkepdet_aktif' => false));
+			$update = SAIndikatorimplkepdetM::model()->updateByPk($id, array('indikatorimplkepdet_aktif' => 0));
 			if ($update) {
 				if (Yii::app()->request->isAjaxRequest) {
 					echo CJSON::encode(array(
@@ -299,7 +308,7 @@ class ImplementasikepMController extends MyAuthController {
 //                $criteria->compare('LOWER(nmrincianobyek)', strtolower($_GET['term']), true);
 			$term = strtolower(trim($_GET['term']));
 
-			$condition = "LOWER(diagnosakep_kode) LIKE '%" . $term . "%' OR LOWER(diagnosakep_nama) LIKE '%" . $term . "%'";
+			$condition = "LOWER(diagnosakep_kode) LIKE '%" . $term . "%' OR LOWER(diagnosakep_nama) LIKE '%" . $term . "%' AND diagnosakep_aktif = TRUE";
 			$criteria->addCondition($condition);
 			$criteria->order = 'diagnosakep_nama';
 			$criteria->limit = 5;

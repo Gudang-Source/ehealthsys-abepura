@@ -23,16 +23,22 @@ class InformasiPenyimpananLinenController extends MyAuthController {
 	}
 	
 	
-	public function actionDetail($id = null){
-		$this->layout = 'iframe';
-		
+	public function actionDetail($id = null,$caraPrint = null){
+	$this->layout = 'iframe';
+         if($caraPrint=='PRINT') {
+            $this->layout='//layouts/printWindows';            
+        }  
+		$format = new MyFormatter();
 		$model = LAPenyimpananlinenT::model()->findByPk($id);     
         $modDetail = LAPenyimpananlinendetT::model()->findAllByAttributes(array('penyimpananlinen_id'=>$id));
-
+        $judulLaporan = 'Penyimpanan Linen';
+        $deskripsi = $format->formatDateTimeForUser($model->tglpenyimpananlinen);
         
         $this->render($this->path_view.'_detailPenyimpanan', array(
 			'model'=>$model,
 			'modDetail'=>$modDetail,
+                        'judulLaporan'=>$judulLaporan,
+                        'deskripsi'=>$deskripsi
         ));
 	}
 	/**

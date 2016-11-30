@@ -36,13 +36,13 @@ class KursrpMController extends MyAuthController
 
 		if(isset($_POST['AKKursrpM']))
 		{
-			$model->attributes=$_POST['AKKursrpM'];
-                        $model->tglkursrp = $format->formatDateTimeForDb($_POST['AKKursrpM']['tglkursrp']);
-                        $model->kursrp_aktif = TRUE;
-			if($model->save()){
-                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>1));
-                        }
+                    $model->attributes=$_POST['AKKursrpM'];
+                    $model->tglkursrp = $format->formatDateTimeForDb($_POST['AKKursrpM']['tglkursrp']);
+                    $model->kursrp_aktif = TRUE;
+                    if($model->save()){
+                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                        $this->redirect(array('admin','id'=>1));
+                    }
 		}
 
 		$this->render('create',array(
@@ -103,7 +103,9 @@ class KursrpMController extends MyAuthController
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['AKKursrpM'])){
 			$model->attributes=$_GET['AKKursrpM'];
-			$model->tglkursrp = !empty($_GET['AKKursrpM']['tglkursrp'])?MyFormatter::formatDateTimeForDb($_GET['AKKursrpM']['tglkursrp']):null;
+                        $model->nilai = ($model->nilai == 0)?'':$model->nilai;
+                        $model->rupiah = ($model->rupiah == 0)?'':$model->rupiah;
+			//$model->tglkursrp = !empty($_GET['AKKursrpM']['tglkursrp'])?MyFormatter::formatDateTimeForDb($_GET['AKKursrpM']['tglkursrp']):null;
 		}
 		$this->render('admin',array(
 			'model'=>$model,
@@ -146,16 +148,16 @@ class KursrpMController extends MyAuthController
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		if(Yii::app()->request->isPostRequest)
 		{
-			$id = $_POST['id'];
-            $this->loadModel($id)->delete();
-            if (Yii::app()->request->isAjaxRequest)
-			{
-				echo CJSON::encode(array(
-					'status'=>'proses_form', 
-					'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
-					));
-				exit;
-			}
+                        $id = $_POST['id'];
+                        $this->loadModel($id)->delete();
+                        if (Yii::app()->request->isAjaxRequest)
+                                    {
+                                            echo CJSON::encode(array(
+                                                    'status'=>'proses_form', 
+                                                    'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
+                                                    ));
+                                            exit;
+                                    }
 	                    
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))

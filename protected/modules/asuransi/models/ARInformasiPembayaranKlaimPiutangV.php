@@ -15,9 +15,12 @@ class ARInformasiPembayaranKlaimPiutangV extends InformasiPembayaranKlaimPiutang
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-
-		$criteria=$this->criteriaSearch();
+                $criteria = new CDbCriteria();
+		//$criteria=$this->criteriaSearch();
 		$criteria->addBetweenCondition('date(tglpembayaranklaim)',$this->tgl_awal,$this->tgl_akhir,true);
+                $criteria->compare('LOWER(nopembayaranklaim)',strtolower($this->nopembayaranklaim),true);
+               
+               // $criteria->compare('LOWER(nopembayaranklaim)',strtolower($this->nopembayaranklaim),true);
 		$criteria->limit=10;
 
 		return new CActiveDataProvider($this, array(

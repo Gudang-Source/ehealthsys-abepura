@@ -1,6 +1,5 @@
-<?php 
-//    $table = 'ext.bootstrap.widgets.BootGroupGridView';
-    $table = 'ext.bootstrap.widgets.BootExcelGridView';
+<?php     $table = 'ext.bootstrap.widgets.BootGroupGridView';
+   // $table = 'ext.bootstrap.widgets.BootExcelGridView';
     $sort = true;
     if (isset($caraPrint)){
         $data = $model->searchInformasi();

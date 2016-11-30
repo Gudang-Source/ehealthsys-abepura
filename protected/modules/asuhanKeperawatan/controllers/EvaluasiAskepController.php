@@ -13,6 +13,9 @@ class EvaluasiAskepController extends MyAuthController {
 		$modDetail = new ASEvaluasiaskepdetT;
 		$modImpl = new ASImplementasiaskepT;
 		$modPasien = new ASInfoimplementasiaskepV;
+                
+                $model->evaluasiaskep_tgl = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
+		$model->no_evaluasi = "- Otomatis -";
 
 
 
@@ -32,18 +35,23 @@ class EvaluasiAskepController extends MyAuthController {
 			$modImpl = ASInfoimplementasiaskepV::model()->findByAttributes(array('implementasiaskep_id' => $model->implementasiaskep_id));
 
 			$modPasien = ASInfopasienmasukkamarV::model()->findByAttributes(array('no_pendaftaran' => $modImpl->no_pendaftaran));
+                        
+                        if(count($modPasien) == 0){
+                            $modPasien = ASPasienpulangrddanriV::model()->findByAttributes(array('no_pendaftaran' => $modImpl->no_pendaftaran));
+			}
 		}
 
 		if (isset($_POST['ASEvaluasiaskepT']) && !empty($_POST['ASImplementasiaskepT']['implementasiaskep_id'])) {
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
+                                
 				$model = $this->saveEvaluasi($_POST['ASEvaluasiaskepT'], $_POST['ASImplementasiaskepT']);
 				if (isset($_POST['ASImplementasiaskepdetT'])) {
 					$modDetail = $this->saveEvaluasiDetail($_POST['ASImplementasiaskepdetT'], $model);
 				}
 
 				$successSave = $this->successSave;
-
+                                DIE;    
 				if ($successSave) {
 					Yii::app()->user->setFlash('success', "Data berhasil disimpan");
 					$transaction->commit();
@@ -67,6 +75,17 @@ class EvaluasiAskepController extends MyAuthController {
 			'url_batal' => $url_batal
 				)
 		);
+	}
+        
+        public function actionCekImplementasiId($implementasiaskep_id) {
+		if (Yii::app()->request->isAjaxRequest) {
+			$data = '';
+			if (isset($implementasiaskep_id)) {
+				$data = ASEvaluasiaskepT::model()->findByAttributes(array('implementasiaskep_id'=>$implementasiaskep_id));
+			}
+			echo CJSON::encode($data);
+		}
+		Yii::app()->end();
 	}
 
 	public function actionLoadPasien($implementasiaskep_id) {
@@ -287,6 +306,10 @@ class EvaluasiAskepController extends MyAuthController {
 		$model->attributes = $model;
 		$modImplementasi = ASInfoimplementasiaskepV::model()->findByAttributes(array('implementasiaskep_id' => $model->implementasiaskep_id));
 		$modPasien = ASInfopasienmasukkamarV::model()->findByAttributes(array('no_pendaftaran' => $modImplementasi->no_pendaftaran));
+                
+                if(count($modPasien) == 0){
+			$modPasien = ASPasienpulangrddanriV::model()->findByAttributes(array('no_pendaftaran' => $modImplementasi->no_pendaftaran));
+		}
 
 		$modDetail = new ASEvaluasiaskepdetT;
 		$judulLaporan = 'Evaluasi Asuhan Keperawatan';
@@ -362,5 +385,64 @@ class EvaluasiAskepController extends MyAuthController {
 			'modPasien' => $modPasien, 
 		));
 	}
+        
+        public function actionAutocompleteImplementasi() {
+		if (Yii::app()->request->isAjaxRequest) {
+			$format = new MyFormatter();
+			$returnVal = array();
+
+			$criteria = new CDbCriteria();
+                        $criteria->join = " LEFT JOIN evaluasiaskep_t ea ON ea.implementasiaskep_id = t.implementasiaskep_id "
+                                . " JOIN rencanaaskep_t ra ON ra.rencanaaskep_id = t.rencanaaskep_id "
+                                . " JOIN pengkajianaskep_t peng ON peng.pengkajianaskep_id = ra.pengkajianaskep_id "
+                                . " JOIN pendaftaran_t p ON p.pendaftaran_id = peng.pendaftaran_id "                                 
+                                . " JOIN pegawai_m peg ON peg.pegawai_id = t.pegawai_id";		                
+                        $criteria->addCondition(' ea.implementasiaskep_id IS NULL');		
+                        $criteria->addCondition(" t.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+			$criteria->compare('LOWER(t.no_implementasi)', strtolower($_GET['term']), true);
+			$criteria->limit = 5;
+			$models = ASImplementasiaskepT::model()->findAll($criteria);//ASInfoimplementasiaskepV
+			foreach ($models as $i => $model) {
+				$attributes = $model->attributeNames();
+				foreach ($attributes as $j => $attribute) {
+					$returnVal[$i]["$attribute"] = $model->$attribute;
+				}
+				$returnVal[$i]['label'] = $model->no_implementasi . ' - ' . $model->rencanaaskep->pengkajianaskep->pendaftaran->pasien->no_rekam_medik . ' - ' . $model->rencanaaskep->pengkajianaskep->pendaftaran->pasien->nama_pasien . (!empty($model->rencanaaskep->pengkajianaskep->pendaftaran->pasien->nama_bin) ? "(" . $model->rencanaaskep->pengkajianaskep->pendaftaran->pasien->nama_bin . ")" : "");
+				$returnVal[$i]['value'] = $model->no_implementasi;
+			}
+
+			echo CJSON::encode($returnVal);
+		}
+		Yii::app()->end();
+	}
+	
+	public function actionPegawairiwayat()
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $criteria = new CDbCriteria();
+                $criteria->with = array('ruanganpegawai');
+                $criteria->addCondition(" ruanganpegawai.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+                $criteria->compare('t.kelompokpegawai_id', 2);	
+                $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+                $criteria->limit=5;
+                $models = PegawaiM::model()->findAll($criteria);
+
+                foreach($models as $i=>$model)
+                {
+                    $attributes = $model->attributeNames();
+                    foreach($attributes as $j=>$attribute) {
+                        $returnVal[$i]["$attribute"] = $model->$attribute;
+                    }
+                    $returnVal[$i]['label'] = $model->nomorindukpegawai.' - '.$model->nama_pegawai.' - '.$model->jeniskelamin;
+                    $returnVal[$i]['nama_pegawai'] = $model->nama_pegawai;
+                    $returnVal[$i]['value'] = $model->pegawai_id;
+                    $returnVal[$i]['jabatan_nama'] = (isset($model->jabatan->jabatan_nama) ? $model->jabatan->jabatan_nama : '-');
+                }
+
+                echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
+
+        }
 
 }

@@ -24,8 +24,24 @@ echo CHtml::css('.control-label{
     td .uang{
         text-align:right;
     }
-    .border{
-        border:1px solid;
+    .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+
+    thead th{
+        background:none;
+        color:#333;
+    }
+
+    .border {
+        box-shadow:none;
+    }
+
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
     }
 	td {
 		vertical-align: top;
@@ -59,7 +75,7 @@ $tglrencana = MyFormatter::formatDateTimeForUser($modRencanaKebBarang->renkebbar
         </tr>
         
     </table><br/>
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
+    <table width="100%" style='margin-left:auto; margin-right:auto;' class = "border">
         <thead class="border">
             <th style="text-align: center;">No.</th>
             <th style="text-align: center;">Asal Barang</th>
@@ -85,20 +101,20 @@ $tglrencana = MyFormatter::formatDateTimeForUser($modRencanaKebBarang->renkebbar
                 <td><?php echo (!empty($modBarang->barang_id)) ? $barang->barang_nama : ""; ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->satuanbarangdet; ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->jmlpermintaanbarangdet; ?></td>
-                <td style="text-align: right;" nowrap><?php echo $format->formatUang($modBarang->harga_barangdet); ?></td>
+                <td style="text-align: right;" nowrap><?php echo "Rp".number_format($modBarang->harga_barangdet,0,"","."); ?></td>
                 <td style="text-align: center;" nowrap><?php echo $modBarang->stokakhir_barangdet; ?></td>
                 <td style="text-align: center;" nowrap><?php echo $modBarang->minstok_barangdet; ?></td>
                 <td style="text-align: center;" nowrap><?php echo $modBarang->makstok_barangdet; ?></td>
                 <td style="text-align: right;" nowrap><?php 
                     $subtotal = ($modBarang->harga_barangdet * $modBarang->jmlpermintaanbarangdet);
                     $total += $subtotal;
-                    echo $format->formatUang($subtotal); ?>
+                    echo "Rp".number_format($subtotal,0,"","."); ?>
                 </td>
             </tr>
         <?php } ?>
         <tr>
-            <td colspan="9" align="center"><strong>Total</strong></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total); ?></td>
+            <td colspan="9" style="text-align:right;"><strong>Total</strong></td>
+            <td style="text-align: right;"><?php echo "Rp".number_format($total,0,"","."); ?></td>
         </tr>
     </table>
 <?php

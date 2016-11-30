@@ -6,8 +6,8 @@ class InformasiImplementasiAskepController extends MyAuthController {
 	{
 		$format = new MyFormatter();
 		$model = new ASInfoimplementasiaskepV('search');
-		$model->tgl_awal=date("Y-m-d");
-		$model->tgl_akhir=date("Y-m-d");
+		$model->tgl_awal=date("Y-m-d 00:00:00");
+		$model->tgl_akhir=date("Y-m-d 23:59:59");
 //		$model->instalasi_id = Params::INSTALASI_ID_RI;
 		
 		if(isset($_GET['ASInfoimplementasiaskepV']))
@@ -15,7 +15,9 @@ class InformasiImplementasiAskepController extends MyAuthController {
 			$model->attributes=$_GET['ASInfoimplementasiaskepV'];
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ASInfoimplementasiaskepV']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ASInfoimplementasiaskepV']['tgl_akhir']);
-			$model->ruangan_id = $_GET['ASInfoimplementasiaskepV']['ruangan_id'];
+                        $model->tgl_awal = $model->tgl_awal.' 00:00:00';
+                        $model->tgl_akhir = $model->tgl_akhir.' 23:59:59';
+			//$model->ruangan_id = $_GET['ASInfoimplementasiaskepV']['ruangan_id'];
 		}
 		
 		$this->render($this->path_view.'index',array(
@@ -31,7 +33,9 @@ class InformasiImplementasiAskepController extends MyAuthController {
 		$model->attributes = $model;
 		$modRencana = ASInforencanaaskepV::model()->findByAttributes(array('rencanaaskep_id'=>$model->rencanaaskep_id));
 		$modPasien = ASInfopasienmasukkamarV::model()->findByAttributes(array('no_pendaftaran' => $model->no_pendaftaran));
-		
+		if(count($modPasien) == 0){
+			$modPasien = ASPasienpulangrddanriV::model()->findByAttributes(array('no_pendaftaran' => $model->no_pendaftaran));
+                }
         $this->render($this->path_view.'_detail', array(
 			'model' => $model,
 			'modRencana' => $modRencana,
@@ -44,7 +48,9 @@ class InformasiImplementasiAskepController extends MyAuthController {
 		$model->attributes = $model;
 		$modRencana = ASInforencanaaskepV::model()->findByAttributes(array('rencanaaskep_id' => $model->rencanaaskep_id));
 		$modPasien = ASInfopasienmasukkamarV::model()->findByAttributes(array('no_pendaftaran' => $modRencana->no_pendaftaran));
-
+                if(count($modPasien) == 0){
+			$modPasien = ASPasienpulangrddanriV::model()->findByAttributes(array('no_pendaftaran' => $modRencana->no_pendaftaran));
+		}
 		$modDetail = new ASImplementasiaskepdetT;
 		$judulLaporan = 'Implementasi Asuhan Keperawatan';
 		$caraPrint = $_REQUEST['caraPrint'];
@@ -58,12 +64,12 @@ class InformasiImplementasiAskepController extends MyAuthController {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');   //Ukuran Kertas Pdf
 			$posisi = Yii::app()->user->getState('posisi_kertas');   //Posisi L->Landscape,P->Portait
 			$mpdf = new MyPDF('', $ukuranKertasPDF);
-			$mpdf->useOddEven = 2;
+                        $mpdf->mirrorMargins = 2;
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'PrintDetail', array('model' => $model, 'modPasien' => $modPasien, 'modDetail' => $modDetail, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 	

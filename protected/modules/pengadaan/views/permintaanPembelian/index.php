@@ -78,7 +78,7 @@
 			</div>
 			<div class="span4">
 				<div class="control-group ">
-					<?php echo $form->labelEx($modPermintaanPembelian, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
+					<?php echo CHtml::label("Pegawai Mengetahui <font style = 'color:red'>*</font>", 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo $form->hiddenField($modPermintaanPembelian, 'pegawaimengetahui_id',array('readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 						<?php
@@ -110,7 +110,7 @@
 								}',
 							),
 							'htmlOptions' => array(
-								'class'=>'pegawaimengetahui_nama',
+								'class'=>'pegawaimengetahui_nama required',
 								'onkeyup'=>"return $(this).focusNextInputField(event)",
 								'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modPermintaanPembelian, 'pegawaimengetahui_id') . '").val(""); '
 							),
@@ -122,7 +122,7 @@
 			</div>
 			<div class="span4">
 				<div class="control-group ">
-					<?php echo $form->labelEx($modPermintaanPembelian, 'pegawaimenyetujui_id', array('class' => 'control-label')); ?>
+					<?php echo Chtml::label("Pegawai Menyetujui <font style = 'color:red'>*</font>", 'pegawaimenyetujui_id', array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo $form->hiddenField($modPermintaanPembelian, 'pegawaimenyetujui_id',array('readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 						<?php
@@ -154,7 +154,7 @@
 								}',
 							),
 							'htmlOptions' => array(
-								'class'=>'pegawaimenyetujui_nama',
+								'class'=>'pegawaimenyetujui_nama required',
 								'onkeyup'=>"return $(this).focusNextInputField(event)",
 								'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modPermintaanPembelian, 'pegawaimenyetujui_id') . '").val(""); '
 							),

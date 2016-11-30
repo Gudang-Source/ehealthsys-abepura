@@ -50,7 +50,7 @@
                 foreach($modDetail AS $i=>$detail){ ;?>
             <tr>
                 <td class = "border"><?php echo $i+1; ?></td>
-                <td class = "border"><?php echo (!empty($detail->penerimaanlinen_id) ? $detail->penerimaanlinen->pengPerawatan->ruangan->ruangan_nama : ""); ?></td>
+                <td class = "border"><?php echo (!empty($detail->penerimaanlinen->penerimaanlinen_id) ? $detail->penerimaanlinen->pengPerawatan->ruangan->ruangan_nama : ""); ?></td>
                 <td class = "border"><?php echo (!empty($detail->linen_id) ? $detail->linen->kodelinen : ""); ?></td>
                 <td class = "border"><?php echo (!empty($detail->linen_id) ? $detail->linen->namalinen : ""); ?></td>
                 <td class = "border"><?php echo $detail->statuspencucian; ?></td>

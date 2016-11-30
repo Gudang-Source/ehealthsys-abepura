@@ -1,4 +1,5 @@
 <?php 
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $data = $model->searchTable();
 $sort = true;
@@ -7,8 +8,35 @@ if (isset($caraPrint)){
   $sort = false;
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
 }
 ?>
 
@@ -29,7 +57,7 @@ if (isset($caraPrint)){
 //                'end'=>16, //indeks kolom 4
 //            ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                 array(
                     'header' => 'No',
@@ -37,14 +65,18 @@ if (isset($caraPrint)){
                     'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
                 ),
                         array(
-                    'header'=>'No. Pendaftaran/<br/>No. Rekam Medis',
+                    'header'=>'No Pendaftaran',
                     'type'=>'raw',
-                    'value'=>'$data->RM',
+                    'value'=>'$data->no_pendaftaran',
+                ),
+                array(
+                    'header' => 'No Rekam Medik',
+                    'value' => '$data->no_rekam_medik'
                 ),
                         array(
-                    'header'=>'Nama Pasien /<br/>Bin/Binti ',
+                    'header'=>'Nama Pasien',
                     'type'=>'raw',
-                    'value'=>'$data->Nama',
+                    'value'=>'$data->namadepan." ".$data->nama_pasien',
                 ),
                         array( 
                     'header'=>'Alamat /<br/>RT/RW ',
@@ -52,20 +84,21 @@ if (isset($caraPrint)){
                     'value'=>'$data->Alamat',
                 ),
             array(
-                    'header'=>'Jenis Kelamin /<br/>Umur ',
+                    'header'=>'Umur ',
                     'type'=>'raw',
-                    'value'=>'$data->Umur',
+                    'value'=>'$data->umur',
+                ),
+                array(
+                    'header'=>'Golongan Darah',
+                    'type'=>'raw',
+                    'value'=>'$data->golongandarah',
                 ),
                         array(
                     'header'=>'Cara Bayar /<br/>Penjamin ',
                     'type'=>'raw',
                     'value'=>'$data->Carabayar',
                 ),
-                        array(
-                    'header'=>'Golongan Darah /<br/>Status Masuk ',
-                    'type'=>'raw',
-                    'value'=>'$data->Status',
-                ),
+                                
                         array(
                     'header'=>'Transportasi /<br/>Keadaan Masuk ',
                     'type'=>'raw',
@@ -142,8 +175,16 @@ if (isset($caraPrint)){
 //        'pasienkecelakaan_id',
 //        'jeniskecelakaan_id',
         'jeniskecelakaan_nama',
-        'tglkecelakaan',
+            array(
+                'header' => 'Tanggal Kecelakaan',
+                'value' => 'MyFormatter::formatDateTimeForUser($data->tglkecelakaan)'
+            ),        
       'tempatkecelakaan',
+            array(
+                    'header'=>'Status Periksa',
+                    'type'=>'raw',
+                    'value'=>'$data->statusperiksa',
+                ),
 //        'keterangankecelakaan',
                 
 	),

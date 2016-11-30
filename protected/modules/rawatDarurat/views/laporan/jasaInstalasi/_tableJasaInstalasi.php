@@ -1,4 +1,5 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $template = "{summary}\n{items}\n{pager}";
 if (isset($caraPrint)){
@@ -7,6 +8,33 @@ if (isset($caraPrint)){
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  
+  echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
+  
 } else{
   $data = $model->searchTable();
 }
@@ -22,15 +50,15 @@ $sort=true;
             array(
                 'name'=>'<center>Tindakan</center>',
                 'start'=>6, //indeks kolom 3
-                'end'=>11, //indeks kolom 4
+                'end'=>12, //indeks kolom 4
             ),
             array(
                 'name'=>'<center>Karcis</center>',
                 'start'=>13, //indeks kolom 3
-                'end'=>16, //indeks kolom 4
+                'end'=>17, //indeks kolom 4
             ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                 // array(
                 //     'header' => 'No',
@@ -38,18 +66,40 @@ $sort=true;
                 //     'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
                 // ),
                 array(
-                    'header'=>'No. Rekam Medik/<br/>Nama Pasien',
-                    'value'=> '$data->noRMNamaPasien',
+                    'header' => 'No Pendaftaran',
+                    'value' => '$data->no_pendaftaran'
+                ),
+                array(
+                    'header'=>'No Rekam Medik',
+                    'value'=> '$data->no_rekam_medik',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
-                    'header' => 'No.Pendaftaran/<br/> Kelas Pelayanan',
-                    'value'=>'$data->NoPendaftaranKelas',
+                    'header' => 'Nama Pasien',
+                    'value' => '$data->namadepan." ".$data->nama_pasien',
+                    ),   
+                array(
+                    'header' => 'Dokter',
+                    'value' => function($data){
+                        $pegawai_id = TindakanpelayananT::model()->findByPk($data->tindakanpelayanan_id)->dokterpemeriksa1_id;
+                        
+                        $nama = RDPegawaiM::model()->findByPk($pegawai_id);
+                        
+                        if (count($nama)>0){
+                            return $nama->namaLengkap;
+                        }else{
+                            return '-';
+                        }
+                    }
+                ),               
+                array(
+                    'header' => 'Kelas Pelayanan',
+                    'value'=>'$data->kelaspelayanan_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
-                array(
+                 array(
                     'header'=>'Cara Bayar / Penjamin',
-                    'name' => 'carabayarPenjamin',
+                 //   'name' => 'carabayarPenjamin',
                     'value'=>'$data->carabayarPenjamin',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
@@ -59,38 +109,38 @@ $sort=true;
 //                ),
                 array(
                     'header'=>'Nama Daftar Tindakan',
-                    'name' => 'daftartindakan_nama',
+                  //  'name' => 'daftartindakan_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->daftartindakan_nama : \'\'',
                     'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'header'=>'Jumlah Tindakan',
-                    'name' => 'qty_tindakan',
+                  //  'name' => 'qty_tindakan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->qty_tindakan : \'\'',
                     'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
-                    'name' => 'tarif_rsakomodasi',
+                    'header' => 'Tarif Akomodasi RS',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_rsakomodasi,0,"",".") : \'\'',
                     'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
-                    'name' => 'tarif_medis',
+                    'header' => 'Tarif Medis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_medis,0,"",".") : \'\'',
                     'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
-                    'name' => 'tarif_paramedis',
+                    'header' => 'Tarif Paramedis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_paramedis,0,"",".") : \'\'',
                     'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
-                    'name' => 'tarif_bhp',
+                    'header' => 'Tarif BHP',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_bhp,0,"",".") : \'\'',
                     'htmlOptions' => array('style'=>'text-align:right;')

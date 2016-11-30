@@ -5,7 +5,9 @@
 <div class="form-actions">
  <?php echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
-        echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp";  ?>
+        echo CHtml::htmlButton(Yii::t('mds','{icon} Cetak',array('{icon}'=>'<i class="entypo-print"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp";
+        echo CHtml::htmlButton(Yii::t('mds','{icon} Grafik',array('{icon}'=>'<i class="entypo-print"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'GRAFIK\')'))."&nbsp&nbsp";
+        ?>
 
 
         <?php
@@ -15,16 +17,16 @@
             elseif($tips == 'morbiditas'):
                $content = $this->renderPartial('../tips/laporanMordibitas',array(),true);
             elseif($tips == 'caramasukpasien'):
-                $content = $this->renderPartial('../tips/laporanCaraMasukPasien',array(),true);
+                $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanBukuRegister',array(),true); 
             elseif($tips == 'tindakanlanjut'):
                 $content = $this->renderPartial('../tips/laporanTindakanLanjutan',array(),true);
             elseif($tips == 'tips2'):
                 $content = $this->renderPartial('../tips/tips2',array(),true);
             else:
-                $content = $this->renderPartial('../tips/tips',array(),true);
+                $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanBukuRegister',array(),true); 
             endif;
         else:
-            $content = $this->renderPartial('../tips/tips',array(),true);
+            $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanBukuRegister',array(),true); 
         endif;
             
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 

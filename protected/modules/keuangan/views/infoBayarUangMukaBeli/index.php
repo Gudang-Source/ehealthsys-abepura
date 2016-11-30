@@ -37,10 +37,8 @@
                             'value'=>'$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',
                     ), 
                     array(
-                            'header'=>'Supplier',
-                            'name'=>'supplier_id',
-                            'type'=>'raw',
-                            'value'=>'$data->supplier->supplier_nama',
+                        'header' => 'Tanggal Pembayaran Uang Muka Beli',
+                        'value' => '!empty($data->tgluangmukabeli)?MyFormatter::formatDateTimeForUser($data->tgluangmukabeli):"-"'
                     ),
                     array(
                             'header'=>'No. Kas Keluar',
@@ -64,9 +62,17 @@
                             'value'=>'empty($data->permintaanpembelian_id)?"-":$data->permintaanpembelian_id',
                     ),
                     array(
+                            'header'=>'Supplier',
+                            'name'=>'supplier_id',
+                            'type'=>'raw',
+                            'value'=>'$data->supplier->supplier_nama',
+                    ),
+                  
+                    
+                    array(
                             'header'=>'Jumlah Uang',
                             'name'=>'jumlahuang',
-                            'value'=>'MyFormatter::formatNumberForPrint($data->jumlahuang)',
+                            'value'=>'"Rp".number_format($data->jumlahuang,0,"",".")',
                             'htmlOptions'=>array(
                                 'style'=>'text-align: right',
                             ),

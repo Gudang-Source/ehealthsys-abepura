@@ -206,7 +206,6 @@
 			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');
 			// echo($result); die;
                         $result = json_decode($result, true);
-			
                         // var_dump($result); die;
                         
 			$final_result['response'] = $result['response'];
@@ -277,7 +276,7 @@
 
 		function detail_sep($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/Sep/sep/'.$query;
+			$completeUrl = $this->url.'/SEP/sep/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 

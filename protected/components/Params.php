@@ -92,6 +92,7 @@ Class Params
 	const MODUL_ID_KEUANGAN = 44;
         const MODUL_ID_PENGGAJIAN = 61;
         const MODUL_ID_KEPEGAWAIAN = 32;
+        const MODUL_ID_LAUNDRY = 54;
 
         const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;
@@ -109,6 +110,8 @@ Class Params
 	const INSTALASI_ID_LOGISTIK = 44;     
         const INSTALASI_ID_ICU = 20;
         const INSTALASI_ID_KEPEGAWAIAN = 26;
+        const INSTALASI_ID_GUDANG_FARMASI= 58;
+        const INSTALASI_ID_LAUNDRY= 24;
 
 	const KASUSDIAGNOSA_KASUS_LAMA = "KASUS LAMA";
 	const KASUSDIAGNOSA_KASUS_BARU = "KASUS BARU";
@@ -121,6 +124,7 @@ Class Params
 
 	const KOMPONENTARIF_ID_TOTAL = 6;  
         const KOMPONENTARIF_ID_PELAYANAN = 24;
+	const KOMPONENTARIF_ID_JASA_MEDIS = 5;
 	
 	const KOMPONENUNIT_ID_GIZI = 23; // komponenunit_id untuk konsultasi gizi 
         const KOMPONENUNIT_ID_AMBULANS = 23;
@@ -155,6 +159,9 @@ Class Params
         const RUANGAN_ID_KEPEGAWAIAN = 84;
         const RUANGAN_ID_KLAIM_KPS = 81;
         const RUANGAN_ID_KLAIM_BPJS = 80;
+        const RUANGAN_ID_SIMRS = 1;
+        const RUANGAN_ID_REKAM_MEDIS = 6;
+        const RUANGAN_ID_POLIK_GIGI = 16;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
@@ -242,6 +249,9 @@ Class Params
 	const STATUSBOOKING_NON_ANTRI = 'NON ANTRI'; //disesuaikan dengan lookup_m.lookup_type = statusbooking
 
 	const KETERANGANKAMAR_DIPESAN = 'DIPESAN'; //disesuaikan dengan lookup_m.lookup_type = keterangankamar
+        const KETERANGANKAMAR_TERSEDIA = 'TERSEDIA'; //disesuaikan dengan lookup_m.lookup_type = keterangankamar
+        const KETERANGANKAMAR_DIGUNAKAN = 'DIGUNAKAN'; //disesuaikan dengan lookup_m.lookup_type = keterangankamar
+        const KETERANGANKAMAR_RENCANA_PULANG = 'RENCANA PULANG'; //disesuaikan dengan lookup_m.lookup_type = keterangankamar
 
 	const STATUSPERIKSA_RUJUKAN = 'RUJUKAN'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
 	const STATUSPERIKSA_ANTRIAN = 'ANTRIAN'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
@@ -308,14 +318,14 @@ Class Params
 	const KELOMPOKPEGAWAI_ID_TENAGA_MEDIK = 1; //kelompokpegawai_m ahli gizi
 	const KELOMPOKPEGAWAI_ID_PARAMEDIS_KEPERAWATAN = 3; //kelompokpegawai_m ahli gizi
 	const KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN = 2; //kelompokpegawai_m tenaga keperawatan
-	const KELOMPOKPEGAWAI_ID_AHLI_GIZI = 16; //kelompokpegawai_m ahli gizi
+	const KELOMPOKPEGAWAI_ID_AHLI_GIZI = 5; //kelompokpegawai_m ahli gizi 16
 	const KELOMPOKPEGAWAI_ID_TENAGA_LAB = 18; //kelompokpegawai_m tenaga lab (analis lab)
 	const KELOMPOKPEGAWAI_ID_TENAGA_RAD = 22; //kelompokpegawai_m tenaga rad (radiografer)
 	const KELOMPOKPEGAWAI_ID_BIDAN = 20; //kelompokpegawai_m bidan
 	
-	const KELOMPOKTINDAKAN_ID_GIZI	= 24; //kelompoktindakan_m gizi
-	const KELOMPOKTINDAKAN_ID_RAD	= 10; //kelompoktindakan_m radiodiagnostik
-	const KELOMPOKTINDAKAN_ID_LAB	= 25; //kelompoktindakan_m laboratorium
+	const KELOMPOKTINDAKAN_ID_GIZI	= 23; //kelompoktindakan_m gizi 24
+	const KELOMPOKTINDAKAN_ID_RAD	= 9; //kelompoktindakan_m radiodiagnostik 10
+	const KELOMPOKTINDAKAN_ID_LAB	= 24; //kelompoktindakan_m laboratorium 25
 	const KELOMPOKTINDAKAN_ID_MCU	= 26; //kelompoktindakan_m mcu
         const KELOMPOKTINDAKAN_ID_AKOMODASI = 14;
 
@@ -444,6 +454,26 @@ Class Params
         const ASALRUJUKAN_ID_RS = 4;
         const RUJUKANDARI_ID_ABE = 1811;
             
+        const GOLONGAN_UMUR_DEWASA = 3; // 25-44th
+        const GOLONGAN_UMUR_ORANG_TUA = 4; // 45-64th
+        const GOLONGAN_UMUR_MANULA = 5; // 65+th
+        const GOLONGAN_UMUR_BARU_LAHIR = 6; // 0<28hr
+        const GOLONGAN_UMUR_BAYI = 7; // 28hr>1th
+        const GOLONGAN_UMUR_ANAK_ANAK = 1; // 5-14th
+        const GOLONGAN_UMUR_REMAJA = 2; // 15-24th 
+        const GOLONGAN_UMUR_BALITA = 8; // 1-5thn
+       
+
+        const ID_SIMPANAN_POKOK = 1;
+        const ID_SIMPANAN_WAJIB = 2;
+        const ID_SIMPANAN_SUKARELA = 3;
+        const ID_SIMPANAN_DEPOSITO = 4;
+        const ID_SIMPANAN_JASA_SUKARELA = 5;
+        
+        const TIPE_PENGHAAPUSAN_PENJUALAN = 'penjualan';
+        
+        const STATUS_PERKAWINAN_KAWIN = 'KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
+        const STATUS_PERKAWINAN_TIDAK_KAWIN = 'TIDAK KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
         
         
 	//===   END KONSTANTA ===
@@ -475,6 +505,13 @@ Class Params
             );
             if (!empty($id)) return $arr[$id];
             return $arr;
+        }
+        
+        public static function statusPersetujuan(){
+            return array(
+                false => 'BELUM DISETUJUI',
+                true => 'SUDAH DISETUJUI',
+            );
         }
 	
 	//=== PATH & URL ===
@@ -931,6 +968,58 @@ Class Params
                 '12' => 'Desember '.date('Y')
             );
         }
+        //Params::INSTALASI_ID_ICU.','.//fisioterapi
+        public static function getInstalasiPenunjang() {
+            return  
+                    Params::INSTALASI_ID_IBS.','.//bedah sentral
+                    Params::INSTALASI_ID_RAD.','.//radiologi
+                    Params::INSTALASI_ID_REHAB.','.//rehabilitasi
+                    Params::INSTALASI_ID_LAB.','.//laboratorium
+                    Params::INSTALASI_ID_JZ.','.//pemulasaran jenazah
+                    Params::INSTALASI_ID_GIZI;//gizi
+            
+        }
+        
+        public static function getArrayInstalasiPenunjang() {
+            return  array(Params::INSTALASI_ID_ICU,//fisioterapi
+                    Params::INSTALASI_ID_IBS,//bedah sentral
+                    Params::INSTALASI_ID_RAD,//radiologi
+                    Params::INSTALASI_ID_REHAB,//rehabilitasi
+                    Params::INSTALASI_ID_LAB,//laboratorium
+                    Params::INSTALASI_ID_JZ,//pemulasaran jenazah
+                    Params::INSTALASI_ID_GIZI);//gizi
+            
+        }
+		
+		public static function getUmur($tglLahir) {
+			$dob=$tglLahir; $today=date("Y-m-d");
+			list($y,$m,$d)=explode('-',$dob);
+			list($ty,$tm,$td)=explode('-',$today);
+			if($td-$d<0){
+				$day=($td+30)-$d;
+				$tm--;
+			}
+			else{
+				$day=$td-$d;
+			}
+			if($tm-$m<0){
+				$month=($tm+12)-$m;
+				$ty--;
+			}
+			else{
+				$month=$tm-$m;
+			}
+			$year=$ty-$y;
+
+			return str_pad($year, 2, '0', STR_PAD_LEFT); //.' Thn '. str_pad($month, 2, '0', STR_PAD_LEFT) .' Bln '. str_pad($day, 2, '0', STR_PAD_LEFT).' Hr';
+		}
+                
+                public static function getStatusTerima(){
+                    return array(
+                        1 => 'Sudah Diterima',
+                        2 => 'Belum Diterima '
+                    );
+                }
         
 }
 ?>

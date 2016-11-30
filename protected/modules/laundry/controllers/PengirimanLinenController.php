@@ -16,7 +16,7 @@ class PengirimanLinenController extends MyAuthController{
         $p = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
         if (!empty($p)) {
             $modPengirimanLinen->pegpengirim_id = $p->pegawai_id;
-            $modPengirimanLinen->pegpengirim_nama = $p->nama_pegawai;
+            $modPengirimanLinen->pegpengirim_nama = $p->namaLengkap;
         }
         
         
@@ -54,6 +54,14 @@ class PengirimanLinenController extends MyAuthController{
 					}
 				}
                 if($this->pengirimanlinentersimpan){
+                    $get = RuanganM::model()->findByPk($modPengirimanLinen->ruangantujuan_id);
+                    $judul = "Pengiriman Linen";                    
+                    $isi =  "Ruangan Pegirim              : ".Yii::app()->user->getState('ruangan_nama')." <br/>"
+                        .   "No. Pengiriman Linen  : ".$modPengirimanLinen->nopengirimanlinen;
+                    
+                    $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                        array('instalasi_id'=>$get->instalasi_id, 'ruangan_id'=>$modPengirimanLinen->ruangantujuan_id, 'modul_id'=>$get->modul_id),                                    
+                    ));  
                     $transaction->commit();
                     $modPengirimanLinen->isNewRecord = FALSE;
                     $this->redirect(array('index','pengirimanlinen_id'=>$modPengirimanLinen->pengirimanlinen_id,'sukses'=>1));

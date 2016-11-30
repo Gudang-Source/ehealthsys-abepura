@@ -1,4 +1,5 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.BootGridView';
 $template = "{summary}\n{items}\n{pager}";
 if (isset($caraPrint)){
@@ -7,6 +8,33 @@ if (isset($caraPrint)){
    if ($caraPrint=='EXCEL') {
        $table = 'ext.bootstrap.widgets.BootExcelGridView';
    }
+   
+   echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
+          
 } else{
  $data = $model->searchTable();
 //    $data = $model->search();
@@ -19,7 +47,7 @@ $sort=true;
         'enableSorting'=>$sort,
 	'dataProvider'=>$data,
         'template'=>$template,
-                'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
             array(
                 'header' => 'No',

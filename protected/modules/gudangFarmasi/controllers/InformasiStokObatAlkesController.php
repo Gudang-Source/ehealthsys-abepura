@@ -24,6 +24,7 @@ class InformasiStokObatAlkesController extends MyAuthController
             $model->ruangan_id=Yii::app()->user->getState('ruangan_id');
              if(isset($_GET['GFInfostokobatalkesruanganV'])){
             $model->attributes=$_GET['GFInfostokobatalkesruanganV'];
+            $model->jnskelompok=$_GET['GFInfostokobatalkesruanganV']['jnskelompok'];
             //if(empty($model->ruangan_id)){ $model->ruangan_id=Yii::app()->user->getState('ruangan_id'); }
             }
         //}

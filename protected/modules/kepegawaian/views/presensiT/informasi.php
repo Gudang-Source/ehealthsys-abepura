@@ -363,7 +363,8 @@
                     array(
                         'header' => 'Status',
                         //'name' => 'statuskehadiran.statuskehadiran_nama',
-                        'value' => function($data){                            
+                        'value' => function($data){ 
+                            
                             $cr4 = new CDbCriteria();
                             $cr4->compare('tglpresensi::date', $data->tglpresensi);
                             $cr4->compare('pegawai_id', $data->pegawai_id);                            
@@ -377,9 +378,15 @@
                             $cr5->addCondition('statusscan_id=:p1');
                             $cr5->params[':p1'] = Params::STATUSSCAN_PULANG;
                             $pr5 = PresensiT::model()->find($cr5);
-                            
+                                                                                    
                             if (count($pr4)>0){
-                                return $pr4->statuskehadiran->statuskehadiran_nama;
+                                $waktu = date('H:i:s', strtotime($pr4->tglpresensi));
+                                if ( ($waktu >= '09:00:00') AND ($waktu <= '10:00:00')){
+                                    return StatuskehadiranM::model()->findByPk(Params::STATUSKEHADIRAN_ALPHA)->statuskehadiran_nama;
+                                }else{
+                                    return $pr4->statuskehadiran->statuskehadiran_nama;
+                                }
+                                
                             }else{
                                 if (count($pr5)){
                                     return $pr5->statuskehadiran->statuskehadiran_nama;
