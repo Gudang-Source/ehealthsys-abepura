@@ -2730,6 +2730,62 @@ class ActionAjaxController extends Controller
              Yii::app()->end();
         }
         
+         
+    public function actionGetKelasPelKamarRuangan(){
+        if (Yii::app()->request->isAjaxRequest){
+            $ruangan_id = $_POST['ruangan_id'];
+            $data = "";   
+            $kelas= "";
+            $kamar= "";
+            
+            if (!empty($ruangan_id)){
+                //kelas pelayanan
+                $cri = new CDbCriteria();
+                $cri->join = " JOIN kelasruangan_m kr ON kr.kelaspelayanan_id = t.kelaspelayanan_id ";
+                $cri->addCondition(" kr.ruangan_id = '".$ruangan_id."' ");
+                $cri->order = "t.kelaspelayanan_nama ASC";
+                $kelasPelayanan = KelaspelayananM::model()->findAll($cri);
+                
+                //kamar ruangan
+                $cri = new CDbCriteria();                
+                $cri->addCondition(" ruangan_id = '".$ruangan_id."' ");
+                $cri->addCondition(" kamarruangan_aktif = TRUE ");
+                $cri->order = "t.kamarruangan_nokamar ASC";
+                $kamarRuangan = KamarruanganM::model()->findAll($cri);
+                
+                if (count($kelasPelayanan)>1){
+                     $kelas .= "<option value = '' >-- Pilih --</option>";
+                }elseif (count($kelasPelayanan)==0){
+                    $kelas .= "<option value = '' >-- Pilih --</option>";
+                }
+                
+                if (count($kamarRuangan)>1){
+                    $kamar .= "<option value = '' >-- Pilih --</option>";
+                }elseif (count($kamarRuangan)==0){
+                    $kamar .= "<option value = '' >-- Pilih --</option>";
+                }
+                
+                foreach ($kelasPelayanan as $klsPel)
+                {                     
+                    $kelas .= "<option value='$klsPel->kelaspelayanan_id'>$klsPel->kelaspelayanan_nama</option>";
+                }                                                       
+                
+                foreach ($kamarRuangan as $kmrR)
+                {                     
+                    $kamar .= "<option value='$kmrR->kamarruangan_id'>$kmrR->kamarruangan_nokamar - $kmrR->kamarruangan_nobed</option>";
+                }
+            }else{                
+                 $kelas .= "<option value = '' >-- Pilih --</option>";
+                 $kamar .= "<option value = '' >-- Pilih --</option>";                                    
+            }
+            $data['kelasPelayanan'] = $kelas;    
+            $data['kamarRuangan'] = $kamar;    
+            echo json_encode($data); 
+        
+        Yii::app()->end();
+        }
+    }
+        
        
 }
 ?>
