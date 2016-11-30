@@ -9,6 +9,7 @@ class RIPasienridariruanganlainV extends PasienridariruanganlainV
      */
     public $ceklis = false;
     public $tgl_awal,$tgl_akhir;
+    public $namaDokter;
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -183,6 +184,50 @@ class RIPasienridariruanganlainV extends PasienridariruanganlainV
 			'criteria'=>$criteria,
 		));
 	
+	}
+        
+        public function searchPasienPindahan()
+	{
+		$criteria=new CDbCriteria;                
+                
+		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);				
+                $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->namaDokter),true);				
+		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);						
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		
+		if(!empty($this->carabayar_id)){
+			$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id); 	
+		}
+	
+		if(!empty($this->penjamin_id)){
+			$criteria->addCondition("t.penjamin_id = ".$this->penjamin_id); 	
+		}
+		
+		$criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+                
+		if(!empty($this->kelaspelayanan_id)){
+			$criteria->addCondition("t.kelaspelayanan_id = ".$this->kelaspelayanan_id); 	
+		}		
+			
+		if($this->ceklis)
+		{
+			$criteria->addCondition('DATE(t.tglpindahkamar) BETWEEN \''.$this->tgl_awal.'\' AND \''.$this->tgl_akhir.'\'');
+		}                		
+		
+                $criteria->addCondition("t.ruanganasal_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	
+		if(!empty($this->ruanganasal_id)){
+			$criteria->addCondition("t.ruanganasal_id =  '".$this->ruanganasal_id."' AND t.ruanganasal_id <>  '".Yii::app()->user->getState('ruangan_id')."' "); 	                        
+		}
+                
+                if(!empty($this->kamarruangan_id)){
+                    $criteria->join = " JOIN masukkamar_t masuk ON masuk.pindahkamar_id = t.pindahkamar_id ";                    
+                    $criteria->addCondition("masuk.kamarruangan_id = ".$this->kamarruangan_id); 	
+		}
+		
+                $criteria->order = "t.tglpindahkamar DESC";
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
 	}
         /**
          * Untuk mengecek tindakan dan obat dari pasienadmisi
