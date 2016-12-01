@@ -607,6 +607,9 @@ class PendaftaranRawatJalanController extends MyAuthController
             }
             
             $modPasien->attributes = $post;
+            
+            unset($modPasien->fingerprint_data);
+            //var_dump($modPasien->fingerprint_data);die;
             $modPasien->tanggal_lahir = $format->formatDateTimeForDb($modPasien->tanggal_lahir);
             $modPasien->kelompokumur_id = CustomFunction::getKelompokUmur($modPasien->tanggal_lahir);
             if(isset($post['tempPhoto'])){
@@ -2628,7 +2631,7 @@ class PendaftaranRawatJalanController extends MyAuthController
 
                 
                     
-                    $host = Yii::app()->user->getState('telnet_host');  
+                    $host = '192.168.0.5';//Yii::app()->user->getState('telnet_host');  
                     $port = CustomFunction::incPortFinger($ip);                    
                                         
                     $batal = isset($_POST['batal'])?$_POST['batal']:null;

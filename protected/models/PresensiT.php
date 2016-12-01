@@ -337,4 +337,19 @@ class PresensiT extends CActiveRecord
                 return '';
             }
         }
+        
+        public function getWarnaKehadiran($status_kehadiran){
+            if (strtolower($status_kehadiran) == strtolower(Params::STATUSKEHADIRAN_NAMA_HADIR)){
+                return "<button class = 'btn' style = 'width:70px;background:#11ba01;border:1px solid #11ba01;'>".$status_kehadiran."</button>";
+            }elseif (strtolower($status_kehadiran) == strtolower(Params::STATUSKEHADIRAN_NAMA_ALPHA)){
+                return "<button class = 'btn' style = 'width:70px;background:#c90202;border:1px solid #c90202;'>".$status_kehadiran."</button>";
+            }elseif (strtolower($status_kehadiran) == strtolower(Params::STATUSKEHADIRAN_NAMA_SAKIT)){
+                return "<button class = 'btn' style = 'width:70px;background:#777271;border:1px solid #777271;'>".$status_kehadiran."</button>";
+            }elseif (strtolower($status_kehadiran) == strtolower(Params::STATUSKEHADIRAN_NAMA_IZIN)){
+                return "<button class = 'btn' style = 'width:70px;background:#0303a5;border:1px solid #0303a5;'>".$status_kehadiran."</button>";
+            }elseif (strtolower($status_kehadiran) == strtolower(Params::STATUSKEHADIRAN_NAMA_DINAS)){
+                return "<button class = 'btn btn-primary' style = 'width:70px;'>".$status_kehadiran."</button>";
+            }
+        }
+        
 }
