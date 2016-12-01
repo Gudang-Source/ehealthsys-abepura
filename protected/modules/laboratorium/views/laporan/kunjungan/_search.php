@@ -24,7 +24,7 @@
      <div class="row-fluid">
         <div class="span4">
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Kunjungan', 'tgladmisi', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tgladmisi', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -185,7 +185,7 @@
                             </tr><tr>
                         <td><label>Penjamin</label></td><td>' .
                                 $form->dropDownList($model, 'penjamin_id', CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>',
-                                'active' => false,
+                                'active' => true,
                             ),
                         ),
                     ));
@@ -197,6 +197,7 @@
             <td>
                 <fieldset>
                     <?php
+                    $model->kunjungan = array('KUNJUNGAN BARU','KUNJUNGAN ULANG');
                     $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
                         'id' => 'kunjungan1',
                         'slide' => true,
@@ -205,14 +206,74 @@
                                 'header' => 'Berdasarkan Kunjungan',
                                 'isi' => '<table><tr>
                         <td>' . $form->checkBoxList($model, 'kunjungan', LookupM::getItems('kunjungan'), array('value'=>'pengunjung', 'inline'=>true, 'empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")). '</td></tr></table>',
-                                'active' => false,
+                                'active' => true,
                             ),
                         ),
                     ));
                     ?>
+                    
+                    <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'kunjungan5',
+                        'slide'=>false,
+                        'content'=>array(
+                        'content5'=>array(
+                            'header'=>'Data grafik',
+                            'isi'=>  '<table>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'wilayah')).' <label>Wilayah</label></td>                                               
+                                            <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                                                                           
+                                        </tr>                                                                                    
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'instalasiasal')).' <label>Instalasi asal</label></td>
+                                            <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'ruanganasal')).' <label>Ruangan Asal</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'kunjungan')).' <label>Kunjungan</label></td>
+                                        </tr>                                                                                    
+                                    </table>',          
+                            'active'=>TRUE,
+                                ),
+                        ),    
+                        )); ?>	
                 </fieldset>               
             </td>
+            <td>
+                <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'big',
+                            'slide'=>true,
+                            'content'=>array(
+                                    'content7'=>array(
+                                    'header'=>'Berdasarkan Instalasi dan Ruangan',
+                                    'isi'=>'<table>
+                                                <tr>
+                                                        <td>'.CHtml::hiddenField('filter', 'carabayar', array('disabled'=>'disabled')).'<label>Instalasi</label></td>
+                                                        <td>'.$form->dropDownList($model, 'instalasiasal_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                                                'ajax' => array('type' => 'POST',
+                                                                        'url' => $this->createUrl('/ActionDynamic/GetRuanganAslForCheckBox/', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
+                                                                        'update' => '#ruangan',  //selector to update
+                                                                ),
+                                                        )).'
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                <label>Ruangan</label>
+                                                        </td>
+                                                        <td>
+                                                                <div margin id="ruangan">
+                                                                        <label>Data Tidak Ditemukan</label>
+                                                                </div>
+                                                        </td>
+                                                </tr>
+                                             </table>',
+                                     'active'=>true
+                                    ),
+                            ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>
+            </td>
         </tr>
+        
         </table>
     <div class="form-actions">
         <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), 

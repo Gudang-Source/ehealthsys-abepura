@@ -1,17 +1,22 @@
 <?php
 $format = new MyFormatter();
-    if(!empty($pendaftaran_id) && !empty($nomasukpenunjang)){
+$penunjang = PasienmasukpenunjangT::model()->find("pendaftaran_id = '".$pendaftaran_id."' ");
+$pasienmasukpenunjang_id = !empty($penunjang)?$penunjang->pasienmasukpenunjang_id:null;
+// "DATE(pendaftaran_t.tgl_pendaftaran) BETWEEN '". $format->formatDateTimeForDb($tgl_awal) ."' AND '". $format->formatDateTimeForDb($tgl_akhir) ."'",
+    if(!empty($pendaftaran_id) && !empty($pasienmasukpenunjang_id)){
         $cond = array(
-            "DATE(pendaftaran_t.tgl_pendaftaran) BETWEEN '". $format->formatDateTimeForDb($tgl_awal) ."' AND '". $format->formatDateTimeForDb($tgl_akhir) ."'",
-            "pasienmasukpenunjang_t.ruangan_id = 18",
-            "pasienmasukpenunjang_t.no_masukpenunjang ilike '%$nomasukpenunjang%'",
-            "pendaftaran_t.pendaftaran_id = $pendaftaran_id"
+           
+            "pasienmasukpenunjang_t.ruangan_id = '".Params::RUANGAN_ID_LAB_KLINIK."' ",
+            "pasienmasukpenunjang_t.pasienmasukpenunjang_id = $pasienmasukpenunjang_id",
+            "pendaftaran_t.pendaftaran_id = $pendaftaran_id",
+            "daftartindakan_m.daftartindakan_id = '".Params::DAFTARTINDAKAN_ID_IGG."' "
         );
-    }else{
-        $cond = array(
-                    "pasienmasukpenunjang_t.ruangan_id = 18"
-                );
     }
+    //else{
+      //  $cond = array(
+        //            "pasienmasukpenunjang_t.ruangan_id = '".Params::RUANGAN_ID_LAB_KLINIK."' "
+          //      );
+   // }
     
     $query = "select 
                     pasien_m.no_rekam_medik,
@@ -68,13 +73,12 @@ $format = new MyFormatter();
                     pasienmasukpenunjang_t.no_masukpenunjang,
                     daftartindakan_m.daftartindakan_id
              LIMIT 1";
-    $data = Yii::app()->db->createCommand($query)->queryAll();
-    
+    $data = Yii::app()->db->createCommand($query)->queryAll();    
     if(COUNT($data)>0)
     {   
         foreach($data as $i=>$datas)
         {
-            echo ($datas['daftartindakan_id'] == 5593) ?  "<center><i class=icon-ok icon-black></i></center>":  "<center><i class=icon-minus icon-black></i></center>";
+            echo ($datas['daftartindakan_id'] == Params::DAFTARTINDAKAN_ID_IGG) ?  "<center><i class=icon-ok icon-black></i></center>":  "<center><i class=icon-minus icon-black></i></center>";
         }
     }
     else
