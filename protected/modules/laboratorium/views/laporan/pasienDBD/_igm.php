@@ -1,17 +1,22 @@
 <?php
 $format = new MyFormatter();
-    if(!empty($pendaftaran_id) && !empty($nomasukpenunjang)){
+$penunjang = PasienmasukpenunjangT::model()->find("pendaftaran_id = '".$pendaftaran_id."' ");
+$pasienmasukpenunjang_id = !empty($penunjang)?$penunjang->pasienmasukpenunjang_id:null;
+// "DATE(pendaftaran_t.tgl_pendaftaran) BETWEEN '". $format->formatDateTimeForDb($tgl_awal) ."' AND '". $format->formatDateTimeForDb($tgl_akhir) ."'",
+    if(!empty($pendaftaran_id) && !empty($pasienmasukpenunjang_id)){
         $cond = array(
-            "DATE(pendaftaran_t.tgl_pendaftaran) BETWEEN '". $format->formatDateTimeForDb($tgl_awal) ."' AND '". $format->formatDateTimeForDb($tgl_akhir) ."'",
-            "pasienmasukpenunjang_t.ruangan_id = 18",
-            "pasienmasukpenunjang_t.no_masukpenunjang ilike '%$nomasukpenunjang%'",
-            "pendaftaran_t.pendaftaran_id = $pendaftaran_id"
+           
+            "pasienmasukpenunjang_t.ruangan_id = '".Params::RUANGAN_ID_LAB_KLINIK."' ",
+            "pasienmasukpenunjang_t.pasienmasukpenunjang_id = $pasienmasukpenunjang_id",
+            "pendaftaran_t.pendaftaran_id = $pendaftaran_id",
+            "daftartindakan_m.daftartindakan_id = '".Params::DAFTARTINDAKAN_ID_IGM."' "
         );
-    }else{
-        $cond = array(
-                    "pasienmasukpenunjang_t.ruangan_id = 18"
-                );
     }
+    //else{
+      //  $cond = array(
+        //            "pasienmasukpenunjang_t.ruangan_id = '".Params::RUANGAN_ID_LAB_KLINIK."' "
+          //      );
+   // }
     
     $query = "select 
                     pasien_m.no_rekam_medik,
@@ -51,6 +56,7 @@ $format = new MyFormatter();
                     ON pasien_m.kabupaten_id = kabupaten_m.kabupaten_id
             LEFT JOIN propinsi_m 
                     ON pasien_m.propinsi_id = propinsi_m.propinsi_id
+            ". (count($cond) > 0 ? " WHERE " . implode(" AND ", $cond) : "" ) ."
             GROUP BY 
                     pasien_m.no_rekam_medik,
                     pasien_m.nama_pasien,
@@ -73,7 +79,7 @@ $format = new MyFormatter();
     {   
         foreach($data as $i=>$datas)
         {
-            echo ($datas['daftartindakan_id'] == 5594) ?  "<center><i class=icon-ok icon-black></i></center>":  "<center><i class=icon-minus icon-black></i></center>";
+            echo ($datas['daftartindakan_id'] == Params::DAFTARTINDAKAN_ID_IGM) ?  "<center><i class=icon-ok icon-black></i></center>":  "<center><i class=icon-minus icon-black></i></center>";
         }
     }
     else
