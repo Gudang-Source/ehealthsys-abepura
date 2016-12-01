@@ -17,32 +17,34 @@
           $table = 'ext.bootstrap.widgets.BootExcelGridView';
       }
       
-      echo "
-            <style>
-                .border th, .border td{
-                    border:1px solid #000;
-                }
-                .table thead:first-child{
-                    border-top:1px solid #000;        
-                }
-                
-                .border thead, .border tb{
-                    border:1px solid #000;
-                }
+      if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+        
+        echo "
+             <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
 
-                thead th{
-                    background:none;
-                    color:#333;
-                }
+            thead th{
+                background:none;
+                color:#333;
+            }
 
-                .border {
-                    box-shadow:none;
-                }
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
 
-                .table tbody tr:hover td, .table tbody tr:hover th {
-                    background-color: none;
-                }
-            </style>";
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
         $itemCssClass = 'table border';
     }
 ?>
@@ -209,13 +211,13 @@
 <?php }else{ ?>
 	<div id="div_rekap">
     <?php
-             $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',
+             $this->widget($table,
                 array(
                     'id'=>'tableRekapPasienDBD',
                     'dataProvider'=>$model->searchPrint(),
                     'template'=>$template,
                     'enableSorting'=>true,
-                    'itemsCssClass'=>'table table-striped table-condensed',
+                    'itemsCssClass'=>$itemCssClass,
                     'mergeHeaders'=>array(
                         array(
                             'name'=>'<center>HASIL (<i class="icon-ok icon-black"></i>) </center>',
@@ -233,40 +235,40 @@
                             ),
                        ),
                        array(
-                           'header'=>'<center>Nama</center>',
-                           'type'=>'raw',
-                           'value'=>'$data->nama_pasien',
-                       ),
-                       array(
-                           'header'=>'<center>Alamat</center>',
-                           'type'=>'raw',
-                           'value'=>'($data->rt || $data->rw) ? $data->alamat_pasien." RT ".$data->rt." / ".$data->rw : $data->alamat_pasien." "',
-                       ),
-                       array(
-                           'header'=>'<center>Umur / <br/> Jenis Kelamin</center>',
-                           'type'=>'raw',
-                           'value'=>'$data->umur." /<br/>".$data->jeniskelamin',
-                       ),
-                       array(
-                           'header'=>'<center>Tanggal Masuk</center>',
-                           'type'=>'raw',
-                           'value'=>'date("d/m/Y H:i:s", strtotime($data->tgl_pendaftaran))',
-                       ),
-                       array(
-                           'header'=>'<center>IgG</center>',
-                           'type'=>'raw',
-                           'value'=>'$this->grid->owner->renderPartial("pasienDBD/_igg",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id,"pendaftaran_id"=>$data->pendaftaran_id),true)',
-                       ),
-                       array(
-                           'header'=>'<center>IgM</center>',
-                           'type'=>'raw',
-                           'value'=>'$this->grid->owner->renderPartial("pasienDBD/_igm",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id,"pendaftaran_id"=>$data->pendaftaran_id),true)',
-                       ),
-                       array(
-                           'header'=>'<center>Keterangan</center>',
-                           'type'=>'raw',
-                           'value'=>'""',
-                       ),
+                            'header'=>'<center>Tanggal Masuk Penunjang</center>',
+                            'type'=>'raw',
+                            'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tglmasukpenunjang)))',
+                        ),
+                        array(
+                            'header'=>'<center>Nama Pasien</center>',
+                            'type'=>'raw',
+                            'value'=>'$data->namadepan." ".$data->nama_pasien',
+                        ),
+                        array(
+                            'header'=>'<center>Alamat</center>',
+                            'type'=>'raw',
+                            'value'=>'($data->rt || $data->rw) ? $data->alamat_pasien." RT ".$data->rt." / ".$data->rw : $data->alamat_pasien." "',
+                        ),
+                        array(
+                            'header'=>'<center>Umur / <br/> Jenis Kelamin</center>',
+                            'type'=>'raw',
+                            'value'=>'$data->umur." /<br/>".$data->jeniskelamin',
+                        ),                   
+                        array(
+                            'header'=>'<center>IgG</center>',
+                            'type'=>'raw',
+                            'value'=>'$this->grid->owner->renderPartial("pasienDBD/_igg",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id,"pendaftaran_id"=>$data->pendaftaran_id),true)',
+                        ),
+                        array(
+                            'header'=>'<center>IgM</center>',
+                            'type'=>'raw',
+                            'value'=>'$this->grid->owner->renderPartial("pasienDBD/_igm",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id,"pendaftaran_id"=>$data->pendaftaran_id),true)',
+                        ),
+                        array(
+                            'header'=>'<center>Keterangan</center>',
+                            'type'=>'raw',
+                            'value'=>'""',
+                        ),
                     ),
                     'afterAjaxUpdate'=>'function(id, data){
                         jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});

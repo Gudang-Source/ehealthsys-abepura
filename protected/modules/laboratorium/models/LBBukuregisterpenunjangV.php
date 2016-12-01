@@ -1,6 +1,9 @@
 <?php
 
 class LBBukuregisterpenunjangV extends BukuregisterpenunjangV {
+    
+    
+    public $instalasiasal_id;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -27,7 +30,43 @@ class LBBukuregisterpenunjangV extends BukuregisterpenunjangV {
     public static function criteriaGrafik($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
         $criteria->select = 'count(pendaftaran_id) as jumlah';
-        if ($_GET['filter'] == 'carabayar') {
+        
+        if ($_GET['tampilGrafik'] == 'wilayah'){
+            if (!empty($model->kelurahan_id)) {
+                $criteria->select .= ', kelurahan_nama as '.$type;
+                $criteria->group .= 'kelurahan_nama';
+            } else if (!empty($model->kecamatan_id)) {
+                $criteria->select .= ', kelurahan_nama as '.$type;
+                $criteria->group .= 'kelurahan_nama';
+            } else if (!empty($model->kabupaten_id)) {
+                $criteria->select .= ', kecamatan_nama as '.$type;
+                $criteria->group .= 'kecamatan_nama';
+            } else if (!empty($model->propinsi_id)) {
+                $criteria->select .= ', kabupaten_nama as '.$type;
+                $criteria->group .= 'kabupaten_nama';
+            } else {
+                $criteria->select .= ', propinsi_nama as '.$type;
+                $criteria->group .= 'propinsi_nama';
+            }
+        }elseif ($_GET['tampilGrafik'] == 'carabayar'){
+             if (!empty($model->penjamin_id)) {
+                $criteria->select .= ', penjamin_nama as '.$type;
+                $criteria->group .= 'penjamin_nama';
+            } else if (!empty($model->carabayar_id)) {
+                $criteria->select .= ', penjamin_nama as '.$type;
+                $criteria->group = 'penjamin_nama';
+            } else {
+                $criteria->select .= ', carabayar_nama as '.$type;
+                $criteria->group = 'carabayar_nama';
+            }
+        }elseif ($_GET['tampilGrafik'] == 'instalasi'){
+            $criteria->select .= ', instalasiasal_nama as '.$type;
+            $criteria->group = 'instalasiasal_nama';
+        }elseif ($_GET['tampilGrafik'] == 'ruangan'){
+            $criteria->select .= ', ruanganasal_nama as '.$type;
+            $criteria->group = 'ruanganasal_nama';
+        }
+       /* if ($_GET['filter'] == 'carabayar') {
             if (!empty($model->penjamin_id)) {
                 $criteria->select .= ', penjamin_nama as '.$type;
                 $criteria->group .= 'penjamin_nama';
@@ -60,7 +99,7 @@ class LBBukuregisterpenunjangV extends BukuregisterpenunjangV {
         if (!isset($_GET['filter'])){
             $criteria->select .= ', propinsi_nama as '.$type;
             $criteria->group .= 'propinsi_nama';
-        }
+        }*/
 
         if (count($addCols) > 0){
             if (is_array($addCols)){
@@ -107,9 +146,16 @@ class LBBukuregisterpenunjangV extends BukuregisterpenunjangV {
 		if(!empty($this->penjamin_id)){
 			$criteria->addCondition('penjamin_id = '.$this->penjamin_id);
 		}
+                if(!empty($this->instalasiasal_id)){
+			$criteria->addCondition('instalasiasal_id = '.$this->instalasiasal_id);
+		}
+                if(!empty($this->ruanganasal_id)){
+			$criteria->addCondition('ruanganasal_id = '.$this->ruanganasal_id);
+		}
         $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
-
+        $criteria->order = "jumlah DESC";
+        
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
@@ -178,7 +224,7 @@ class LBBukuregisterpenunjangV extends BukuregisterpenunjangV {
 			$criteria->addCondition('shift_id = '.$this->shift_id);
 		}
 		if(!empty($this->ruanganasal_id)){
-			$criteria->addCondition('ruanganasal_id = '.$this->ruanganasal_id);
+			$criteria->addInCondition('ruanganasal_id', $this->ruanganasal_id);
 		}
         $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
 		if(!empty($this->jeniskasuspenyakit_id)){
@@ -244,6 +290,7 @@ class LBBukuregisterpenunjangV extends BukuregisterpenunjangV {
 			$criteria->addCondition('kelurahan_id = '.$this->kelurahan_id);
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
+        $criteria->order = "tglmasukpenunjang ASC";
         return $criteria;
     }
 

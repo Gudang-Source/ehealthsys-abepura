@@ -12,28 +12,34 @@
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
         }
         
+        if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+        
         echo "
-            <style>
-                .border th, .border td{
-                    border:1px solid #000;
-                }
-                .table thead:first-child{
-                    border-top:1px solid #000;        
-                }
+             <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
 
-                thead th{
-                    background:none;
-                    color:#333;
-                }
+            thead th{
+                background:none;
+                color:#333;
+            }
 
-                .border {
-                    box-shadow:none;
-                }
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
 
-                .table tbody tr:hover td, .table tbody tr:hover th {
-                    background-color: none;
-                }
-            </style>";
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
         $itemCssClass = 'table border';
         
     } else{
@@ -54,22 +60,26 @@
                  'value' => $row,
             ),
             array(
-                'header'=>'No. Rekam Medik / <br/> No. Pendaftaran',
+                'header'=>'Tanggal Pendaftaran/ <br/> No Pendaftaran',
                 'type'=>'raw',
-                'value'=>'$data->noRMNoPend',
-            ),   
-            array(
-                'header'=>'Nama Pasien / <br> Alias',
-                'value'=>'$data->NamaNamaBIN',
+                'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran',
             ),
-//            'NamaNamaBIN',
-            array(
+             array(
                 'header'=>'Tanggal Masuk Penunjang <br/> No. Penunjang',
                 'type'=>'raw',
                 'value'=>'$data->TglMasukNoPenunjang',
             ),
             array(
-                'header'=>'Jenis Kelamin <br/>Umur',
+                'header'=>'No Rekam Medik',
+                'value'=>'$data->no_rekam_medik',
+            ),
+            array(
+                'header'=>'Nama Pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
+            ),           
+//            'NamaNamaBIN',            
+            array(
+                'header'=>'Jenis Kelamin/ <br/>Umur',
                 'type'=>'raw',
                 'value'=>'$data->JenisKelaminUmur',
             ),
@@ -79,12 +89,12 @@
                 'value'=>'$data->AlamatRTRW',
             ),
             array(
-                'header'=>'Instalasi Asal <br/>Ruangan/Poliklinik Asal',
+                'header'=>'Instalasi/ <br/>Ruangan Asal',
                 'type'=>'raw',
                 'value'=>'$data->InstalasiRuangan',
             ),
             array(
-               'name'=>'CaraBayar/Penjamin',
+               'header'=>'Cara Bayar/<br/> Penjamin',
                'type'=>'raw',
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: center')

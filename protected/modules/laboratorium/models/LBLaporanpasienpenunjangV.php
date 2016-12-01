@@ -25,6 +25,7 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
+        $criteria->order = 'tglmasukpenunjang ASC';
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -39,6 +40,40 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
     public static function criteriaGrafik($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
         $criteria->select = 'count(pendaftaran_id) as jumlah';
+        
+        
+        if ($_GET['tampilGrafik'] == 'wilayah'){
+            if (!empty($model->kelurahan_id)) {
+                    $criteria->select .= ', kelurahan_nama as '.$type;
+                    $criteria->group .= 'kelurahan_nama';
+                } else if (!empty($model->kecamatan_id)) {
+                    $criteria->select .= ', kelurahan_nama as '.$type;
+                    $criteria->group .= 'kelurahan_nama';
+                } else if (!empty($model->kabupaten_id)) {
+                    $criteria->select .= ', kecamatan_nama as '.$type;
+                    $criteria->group .= 'kecamatan_nama';
+                } else if (!empty($model->propinsi_id)) {
+                    $criteria->select .= ', kabupaten_nama as '.$type;
+                    $criteria->group .= 'kabupaten_nama';
+                } else {
+                    $criteria->select .= ', propinsi_nama as '.$type;
+                    $criteria->group .= 'propinsi_nama';
+                }
+        }elseif ($_GET['tampilGrafik'] == 'carabayar'){
+            $criteria->select .= ', carabayar_nama as '.$type;
+            $criteria->group .= 'carabayar_nama';
+        }elseif ($_GET['tampilGrafik'] == 'instalasiasal'){
+            $criteria->select .= ', instalasiasal_nama as '.$type;
+            $criteria->group .= 'instalasiasal_nama';
+        }elseif ($_GET['tampilGrafik'] == 'ruanganasal'){
+            $criteria->select .= ', ruanganasal as '.$type;
+            $criteria->group .= 'ruanganasal';
+        }elseif ($_GET['tampilGrafik'] == 'kunjungan'){
+            $criteria->select .= ', kunjungan as '.$type;
+            $criteria->group .= 'kunjungan';
+        }
+        
+        /*
         if (isset($_GET['filter'])){
             if ($_GET['filter'] == 'carabayar') {
                 if (!empty($model->penjamin_id)) {
@@ -76,6 +111,8 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
             $criteria->select .= ', propinsi_nama as '.$type;
             $criteria->group .= 'propinsi_nama';
         }
+         * */
+         
 
         if (count($addCols) > 0){
             if (is_array($addCols)){
@@ -86,6 +123,8 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
             }            
         }
 
+        $criteria->order = "jumlah DESC";
+        
         return $criteria;
     }
     
@@ -157,8 +196,9 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        
         $criteria = $this->functionCriteria();
+        $criteria->order = 'tglmasukpenunjang ASC';
 		$criteria->limit=-1;
         return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -307,6 +347,7 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
         return $criteria;
     }
     
+    
 //    public function searchPasienDBD()
 //    {
 //            $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
@@ -370,7 +411,7 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
             $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
              $cond = array(
                 "DATE(pendaftaran_t.tgl_pendaftaran) BETWEEN '". $this->tgl_awal ."' AND '". $this->tgl_akhir ."'",
-                "pasienmasukpenunjang_t.ruangan_id = 18"
+                "pasienmasukpenunjang_t.ruangan_id =  '".Params::RUANGAN_ID_LAB_KLINIK."' "
             );
             $query = "select 
                             pasien_m.no_rekam_medik,
@@ -419,6 +460,7 @@ class LBLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
                             pendaftaran_t.umur,
                             pasienmasukpenunjang_t.no_masukpenunjang";
             $data = Yii::app()->db->createCommand($query)->queryAll();
+            var_dump($query);
 //            return new CArrayDataProvider($data);
             return new CActiveDataProvider($this, array(
                         'criteria' => $data,

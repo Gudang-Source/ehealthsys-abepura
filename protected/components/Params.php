@@ -481,6 +481,10 @@ Class Params
         const STATUS_PERKAWINAN_KAWIN = 'KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
         const STATUS_PERKAWINAN_TIDAK_KAWIN = 'TIDAK KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
         
+        //params demam berdarah
+        const DAFTARTINDAKAN_ID_IGG = 3878;
+        const DAFTARTINDAKAN_ID_IGM = 3964;
+        
         
 	//===   END KONSTANTA ===
         

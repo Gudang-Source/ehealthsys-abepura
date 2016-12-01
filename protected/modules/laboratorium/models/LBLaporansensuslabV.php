@@ -14,8 +14,27 @@ class LBLaporansensuslabV extends LaporansensuslabV {
 
         $criteria = $this->functionCriteria();
         
-        $criteria->select = 'count(pendaftaran_id) as jumlah, kunjungan as data';
-        $criteria->group = 'kunjungan';
+        if ($_GET['tampilGrafik'] == 'kunjungan'){
+            $criteria->select = 'count(pendaftaran_id) as jumlah, kunjungan as data';
+            $criteria->group = 'kunjungan';
+        }elseif ($_GET['tampilGrafik'] == 'carabayar'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, carabayar_nama as data';
+            $criteria->group = 'carabayar_nama';
+        }elseif ($_GET['tampilGrafik'] == 'jenispemeriksaan'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, jenispemeriksaanlab_nama as data';
+            $criteria->group = 'jenispemeriksaanlab_nama';
+        }elseif ($_GET['tampilGrafik'] == 'pemeriksaan'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, pemeriksaanlab_nama as data';
+            $criteria->group = 'pemeriksaanlab_nama';
+        }elseif ($_GET['tampilGrafik'] == 'instalasiasal'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, instalasiasal_nama as data';
+            $criteria->group = 'instalasiasal_nama';
+        }elseif ($_GET['tampilGrafik'] == 'ruanganasal'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, ruanganasal_nama as data';
+            $criteria->group = 'ruanganasal_nama';
+        }
+        
+        /*
         if ($this->pilihan == 'carabayar'){
             if (!empty($this->penjamin_id)) {
                 $criteria->select .= ', penjamin_nama as tick';
@@ -32,7 +51,9 @@ class LBLaporansensuslabV extends LaporansensuslabV {
             $criteria->select .= ', jenispemeriksaanlab_nama as tick';
             $criteria->group .= ', jenispemeriksaanlab_nama';
         }
-
+*/
+        $criteria->order = "jumlah DESC";
+        
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
@@ -45,6 +66,7 @@ class LBLaporansensuslabV extends LaporansensuslabV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
+        $criteria->order = "tglmasukpenunjang ASC";
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -58,6 +80,7 @@ class LBLaporansensuslabV extends LaporansensuslabV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
+        $criteria->order = "tglmasukpenunjang ASC";
         
         return new CActiveDataProvider($this, array(
                     'pagination' => false,
@@ -87,9 +110,9 @@ class LBLaporansensuslabV extends LaporansensuslabV {
         }
         
         if ($this->pilihan == 'jenis'){
-			if(!empty($this->jenispemeriksaanlab_id)){
-				$criteria->addCondition('jenispemeriksaanlab_id = '.$this->jenispemeriksaanlab_id);
-			}
+            if(!empty($this->jenispemeriksaanlab_id)){
+                    $criteria->addCondition('jenispemeriksaanlab_id = '.$this->jenispemeriksaanlab_id);
+            }
         }
         $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
@@ -98,17 +121,25 @@ class LBLaporansensuslabV extends LaporansensuslabV {
         
 		
         $criteria->compare('jenispemeriksaanlab_nama', $this->jenispemeriksaanlab_nama);
-		if(!empty($this->pemeriksaanlab_id)){
-			$criteria->addCondition('pemeriksaanlab_id = '.$this->pemeriksaanlab_id);
-		}
+        if(!empty($this->pemeriksaanlab_id)){
+                $criteria->addCondition('pemeriksaanlab_id = '.$this->pemeriksaanlab_id);
+        }
         $criteria->compare('pemeriksaanlab_nama', $this->pemeriksaanlab_nama, true);
-		if(!empty($this->penjamin_id)){
-			$criteria->addCondition('penjamin_id = '.$this->penjamin_id);
-		}
-		if(!empty($this->carabayar_id)){
-			$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
-		}
-
+        if(!empty($this->penjamin_id)){
+                $criteria->addCondition('penjamin_id = '.$this->penjamin_id);
+        }
+        if(!empty($this->carabayar_id)){
+                $criteria->addCondition('carabayar_id = '.$this->carabayar_id);
+        }
+        
+        if (!empty($this->instalasiasal_id)){
+            $criteria->addCondition("instalasiasal_id = '".$this->instalasiasal_id."' ");
+        }
+        
+        if (!empty($this->ruanganasal_id)){
+            $criteria->addInCondition("ruanganasal_id",$this->ruanganasal_id);
+        }
+        
         return $criteria;
     }
 
