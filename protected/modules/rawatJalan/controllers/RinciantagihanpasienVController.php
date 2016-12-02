@@ -9,6 +9,7 @@ class RinciantagihanpasienVController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        public $prefix_nopendaftaran;
 
 	public function actionIndex()
 	{

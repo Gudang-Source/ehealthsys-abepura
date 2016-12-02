@@ -485,9 +485,32 @@ Class Params
         const DAFTARTINDAKAN_ID_IGG = 3878;
         const DAFTARTINDAKAN_ID_IGM = 3964;
         
+        //prefix pendaftaran
+        const PREFIX_RAWAT_JALAN = 'RJ';
+        const PREFIX_RAWAT_INAP = 'RI';
+        const PREFIX_RAWAT_DARURAT = 'RD';
+        const PREFIX_LABORATORIUM = 'LB';
+        const PREFIX_RADIOLOGI = 'RO';
+        const PREFIX_BEDAH_SENTRAL = 'BS';
+        const PREFIX_REHAB_MEDIS = 'RM';
+        const PREFIX_PEMULASARAN_JEN = 'PJ';
+        const PREFIX_APOTIK = 'AP';
+        
         
 	//===   END KONSTANTA ===
         
+        /*Hardcode prefix pendaftaran*/
+        
+        public static function getPrefixNoPendaftaran()
+        {
+            return array(
+           // Params:: => $this->PREFIX_RAWAT_JALAN,                
+            );
+        }
+
+
+
+
         /* Hardcode status periksa */
         public static function statusPeriksa() {
             return array(
