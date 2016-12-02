@@ -154,6 +154,7 @@ class BKInformasikasirrawatjalanV extends InformasikasirrawatjalanV
             $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
             $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
             $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
+			$criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
 			}
