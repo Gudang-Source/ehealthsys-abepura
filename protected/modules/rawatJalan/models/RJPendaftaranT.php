@@ -3,7 +3,7 @@
 class RJPendaftaranT extends PendaftaranT
 {    
     public $kelas_layanan, $jeniskasuspenyakit_nama;
-	public $is_bpjs=0,$is_adakarcis=1,$is_bayarkarcis=1;
+    public $is_bpjs=0,$is_adakarcis=1,$is_bayarkarcis=1;    
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
