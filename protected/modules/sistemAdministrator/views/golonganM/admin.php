@@ -48,9 +48,24 @@
                             'value'=>'$data->golongan_id',
                             'filter'=>false,
                     ),
-                    'golongan_kode',
-                    'golongan_nama',
-                    'golongan_namalainnya',
+                    array(
+                        'header' => 'Kode',
+                        'name' => 'golongan_kode',
+                        'value' => '$data->golongan_kode',
+                        'filter' => Chtml::activeTextField($model, 'golongan_kode', array('class'=>'numbers-only'))
+                    ),                    
+                    array(
+                        'header' => 'Nama Golongan',
+                        'name' => 'golongan_nama',
+                        'value' => '$data->golongan_nama',
+                        'filter' => Chtml::activeTextField($model, 'golongan_nama', array('class'=>'custom-only'))
+                    ), 
+                    array(
+                        'header' => 'Nama Lainnya',
+                        'name' => 'golongan_namalainnya',
+                        'value' => '$data->golongan_namalainnya',
+                        'filter' => Chtml::activeTextField($model, 'golongan_namalainnya', array('class'=>'custom-only'))
+                    ),                     
                     array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->golongan_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
@@ -89,10 +104,16 @@
                 jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                 $("table").find("input[type=text]").each(function(){
                     cekForm(this);
-                })
+                });
                  $("table").find("select").each(function(){
                     cekForm(this);
-                })
+                });
+                $(".numbers-only").keyup(function() {
+                    setNumbersOnly(this);
+                });
+                $(".custom-only").keyup(function() {
+                    setNumbersOnly(this);
+                });
             }',
         )); ?>
     </div>

@@ -30,7 +30,7 @@ class GolonganMController extends MyAuthController
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new SAGolonganM;
-                //s$model->golongan_kode = MyGenerator::kodeGolongan();
+                $model->golongan_kode = MyGenerator::kodeGolongan();
 
 		// Uncomment the following line if AJAX validation is needed
 		

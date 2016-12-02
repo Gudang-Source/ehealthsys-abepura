@@ -46,7 +46,11 @@ class BarangMController extends MyAuthController
                       $model->barang_statusregister=true;     
                       if($model->nomorregister != ''):
                         $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
-                     endif;
+                      endif;
+                     
+                      if($model->nomorregistersd != ''):
+                        $model->barang_kode = $model->barang_kode.' s/d '.$model->nomorregistersd;
+                      endif;
                       
                       if ($model->validate()) {
                         try {
@@ -118,26 +122,41 @@ class BarangMController extends MyAuthController
                     $model->nomorregister = str_replace($model->getNomorReg($model->subsubkelompok_id).'.','',$model->barang_kode);                                                                                                    
                     $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);
                     
+                     $pecahReg = explode(' s/d ', $model->nomorregister);
+                     
                     if ($model->nomorregister == $model->barang_kode):
                         $kodebarang = $model->barang_kode;                   
-                        $pecah = explode('.', $model->nomorregister);   
-                    
-                        if ($pecah[0] === $kodebarang):
-                            $model->nomorregister = '';                                                     
-                        else:
-                             //var_dump($model->getNomorReg($model->subsubkelompok_id));
-                            if ($model->nomorregister == $model->getNomorReg($model->subsubkelompok_id))
-                            {
-                               
-                                $model->nomorregister = '';       
-                            }else{ 
-                                $model->nomorregister = str_replace($pecah[0].'.','',$kodebarang); 
-                                $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);                                            
+                        $pecah = explode('.', $model->nomorregister);                                                   
+                        
+                        if (isset($pecahReg[0])){
+                            //catatan 
+                            $model->nomorregister = $pecahReg[0];                            
+                            if (isset($pecahReg[1])){
+                                $model->nomorregistersd = $pecahReg[1];
                             }
-                        endif;      
+                        }else{                                                                                    
+                            if ($pecah[0] === $kodebarang):
+                                $model->nomorregister = '';                                                     
+                            else:
+                                 //var_dump($model->getNomorReg($model->subsubkelompok_id));
+                                if ($model->nomorregister == $model->getNomorReg($model->subsubkelompok_id))
+                                {
+
+                                    $model->nomorregister = '';       
+                                }else{ 
+                                    $model->nomorregister = str_replace($pecah[0].'.','',$kodebarang); 
+                                    $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);                                            
+                                }
+                            endif;      
+                        }
                     else:
-                       
-                       
+                       if (isset($pecahReg[0])){
+                            //catatan 
+                            $model->nomorregister = $pecahReg[0];                            
+                            if (isset($pecahReg[1])){
+                                $model->nomorregistersd = $pecahReg[1];
+                            }
+                        }                       
                     endif;
                     
                 else:
@@ -167,6 +186,10 @@ class BarangMController extends MyAuthController
                          if($model->nomorregister != ''):
                             $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
                          endif;
+                         
+                         if($model->nomorregistersd != ''):
+                            $model->barang_kode = $model->barang_kode.' s/d '.$model->nomorregistersd;
+                          endif;
                       if ($model->validate()) {
                         try {
                             $random = rand(0000000, 9999999);

@@ -1,6 +1,6 @@
 <?php
 
-class SubsubkelompokMController extends Controller
+class SubsubkelompokMController extends MyAuthController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -61,6 +61,8 @@ class SubsubkelompokMController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+                $model->temp_subkel_id = $model->subkelompok_id;
+                $model->temp_kode_subsubkel = $model->subsubkelompok_kode;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -104,8 +106,19 @@ class SubsubkelompokMController extends Controller
 	{
 		$model=new SASubsubkelompokM('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SASubsubkelompokM']))
+                $model->dropdown_bidang = $model->getBidang();
+                $model->dropdown_kelompok = $model->getKelompok();
+                $model->dropdown_subkelompok = $model->getSubKelompok();
+                
+		if(isset($_GET['SASubsubkelompokM'])){
 			$model->attributes=$_GET['SASubsubkelompokM'];
+                        $model->golongan_id = !empty($_GET['SASubsubkelompokM']['golongan_id'])?$_GET['SASubsubkelompokM']['golongan_id']:null;
+                        $model->bidang_id = !empty($_GET['SASubsubkelompokM']['bidang_id'])?$_GET['SASubsubkelompokM']['bidang_id']:null;
+                        $model->kelompok_id = !empty($_GET['SASubsubkelompokM']['kelompok_id'])?$_GET['SASubsubkelompokM']['kelompok_id']:null;
+                        $model->dropdown_bidang = $model->getBidang();
+                        $model->dropdown_kelompok = $model->getKelompok();
+                        $model->dropdown_subkelompok = $model->getSubKelompok();
+                }
                     
 		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
@@ -240,4 +253,26 @@ class SubsubkelompokMController extends Controller
                 $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
+        
+        public function actionKodeSubSubKelompok(){
+            if (Yii::app()->request->isAjaxRequest){
+                $subkelompok_id = !empty($_POST['subkelompok_id'])?$_POST['subkelompok_id']:null;
+                $data = array();
+                if (!empty($subkelompok_id)){
+                    $kodeSubKelompok = SASubkelompokM::model()->findByPk($subkelompok_id)->subkelompok_kode;
+                    
+                    $kodeBaru = MyGenerator::kodeSubSubKelompok($kodeSubKelompok);
+                    
+                    $data['sukses'] = 'kodebaru';
+                    $data['kodebaru'] = $kodeBaru;
+                }else{
+                    $data['sukses'] = 'kosong';
+                    $data['kodebaru'] = '';
+                }
+                
+                echo json_encode($data);
+                Yii::app()->end();
+            }
+        } 
+        
 }

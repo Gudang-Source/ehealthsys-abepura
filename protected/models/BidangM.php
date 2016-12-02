@@ -124,25 +124,25 @@ class BidangM extends CActiveRecord
         }
          public function getSubKelompokItems()
         {
-            return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_nama');
+            return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_kode');
         }
          public function getKelompokItems()
         {
-            return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_nama');
+            return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_kode');
         }
         
          public function getGolonganItems()
         {
-            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_nama');
+            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_kode');
         }
         
          public function getBidangItems()
         {
-            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_nama');
+            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_kode');
         }
         
          public function getDataBidangItems($golongan_id)
         {
-            return BidangM::model()->findAllByAttributes(array('golongan_id'=>$golongan_id),array('order'=>'bidang_nama ASC'));
+            return BidangM::model()->findAllByAttributes(array('golongan_id'=>$golongan_id, 'bidang_aktif' => TRUE),array('order'=>'bidang_kode ASC'));
         }
 }

@@ -3,7 +3,7 @@
 	'id'=>'sakelompok-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit' => 'return requiredCheck(this);'),
         'focus'=>'#golonganNama',
 )); ?>
 
@@ -11,8 +11,9 @@
 
 	<?php echo $form->errorSummary($model); ?>
                 <div class="control-group ">
-                    <label class="control-label" for="bidang">Bidang</label>
+                    <label class="control-label" for="bidang">Bidang <font style="color:red">*</font></label>
                     <div class="controls">
+                        <?php echo $form->hiddenField($model, 'temp_bid_id') ?>
                         <?php echo $form->hiddenField($model,'bidang_id'); ?>
                     <?php 
                             $this->widget('MyJuiAutoComplete', array(
@@ -41,22 +42,24 @@
                                                    'select'=>'js:function( event, ui ) { 
                                                         $("#'.CHtml::activeId($model, 'bidang_id').'").val(ui.item.bidang_id);
                                                         $("#bidangNama").val(ui.item.bidang_nama);
+                                                        kodeKelompok(ui.item.bidang_id);
                                                         return false;
                                                     }',
                                             ),
                                             'htmlOptions'=>array(
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
+                                                    'class' => 'required custom-only',  
                                             ),
-                                            'tombolDialog'=>array('idDialog'=>'dialogBidang'),
+                                            'tombolDialog'=>array('idDialog'=>'dialogBidang', 'idTombol'=>'tombolIdBidang'),
                                         )); 
                         ?>
                     </div>
                 </div>
             
-            <?php Echo CHtml::hiddenField('tempKode', $model->kelompok_kode); ?>
-            <?php echo $form->textFieldRow($model,'kelompok_kode',array('class'=>'span1 numbersOnly', 'onkeyup'=>'setKode(this);','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
-            <?php echo $form->textFieldRow($model,'kelompok_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'kelompok_namalainnya',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->hiddenField($model, 'temp_kode_kel') ?>
+            <?php echo $form->textFieldRow($model,'kelompok_kode',array('readonly' => TRUE,'class'=>'span2 numbers-only', 'onkeyup'=>'setKode(this);','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>8,)); ?>
+            <?php echo $form->textFieldRow($model,'kelompok_nama',array('onkeyup'=>'namaLain(this)','class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'kelompok_namalainnya',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <div>
                 <?php echo $form->checkBoxRow($model,'kelompok_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </div>
@@ -88,6 +91,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'width'=>750,
         'height'=>600,
         'resizable'=>false,
+        'close'=>'js:function(){ backSize(); }',
     ),
 ));
 
@@ -114,6 +118,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     "onClick" => "
                                     $(\"#'.CHtml::activeId($model, 'bidang_id').'\").val($data->bidang_id);
                                     $(\"#bidangNama\").val(\'$data->bidang_nama\');
+                                    kodeKelompok($data->bidang_id);
+                                    backSize();
                                     $(\'#dialogBidang\').dialog(\'close\');return false;"))'
                 ),
                 array(
@@ -188,3 +194,59 @@ $this->endWidget();
 //});
 //JS;
 //Yii::app()->clientScript->registerScript('numberOnly',$js,CClientScript::POS_READY);?>
+<script>
+    function namaLain(obj){
+        $("#<?php echo Chtml::activeId($model, 'kelompok_namalainnya') ?>").val($(obj).val());
+    }
+    
+    function kodeKelompok(id){
+        var bidang_id = id;
+        var temp_bid_id = $("#<?php echo Chtml::activeId($model, 'temp_bid_id') ?>").val();
+        var temp_kode_kel = $("#<?php echo Chtml::activeId($model, 'temp_kode_kel') ?>").val();
+        
+        $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('KodeKelompok'); ?>',
+        data: {bidang_id:bidang_id},
+        dataType: "json",
+        success:function(data){           
+            if (data.sukses == '0'){                
+                myAlert(data.pesan);
+                return false;
+            }else if (data.sukses == 'kodebaru'){         
+                if (bidang_id == temp_bid_id){
+                    $("#<?php echo Chtml::activeId($model, 'kelompok_kode'); ?>").val(temp_kode_kel); 
+                }else{
+                    $("#<?php echo Chtml::activeId($model, 'kelompok_kode'); ?>").val(data.kodebaru);                
+                    return false;
+                }
+            }else if (data.sukses == 'kosong'){
+                if (bidang_id == temp_bid_id){
+                    $("#<?php echo Chtml::activeId($model, 'kelompok_kode'); ?>").val(temp_kode_kel); 
+                }else{
+                    $("#<?php echo Chtml::activeId($model, 'kelompok_kode'); ?>").val(data.kodebaru);
+                    return false;
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);
+            
+            }
+        });
+    }
+    
+    function changeSize()
+    {            
+        window.parent.document.getElementById('frame').style= 'overflow-y:scroll;height:600px;';            
+    }
+    
+    function backSize()
+    {
+        window.parent.document.getElementById('frame').style= 'overflow-y:scroll;height:350px;';  
+    }
+    
+    $("#tombolIdBidang").click(function(){
+        changeSize();
+    });
+</script>
+

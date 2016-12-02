@@ -54,9 +54,18 @@
                             'filter'=> CHtml::dropDownList('SABidangM[golongan_id]',$model->golongan_id,CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'$data->golongan->golongan_nama',
                     ),
-                    'bidang_kode',
-                    'bidang_nama',
-                    'bidang_namalainnya',
+                    array(
+                        'name' => 'bidang_kode',
+                        'filter' => Chtml::activeTextField($model, 'bidang_kode', array('class'=>'angkadot-only'))
+                    ),                    
+                    array(
+                        'name' => 'bidang_nama',
+                        'filter' => Chtml::activeTextField($model, 'bidang_nama', array('class'=>'custom-only'))
+                    ),                    
+                    array(
+                        'name' => 'bidang_namalainnya',
+                        'filter' => Chtml::activeTextField($model, 'bidang_namalainnya', array('class'=>'custom-only'))
+                    ),                                        
                     array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->bidang_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',

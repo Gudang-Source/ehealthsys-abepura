@@ -1949,7 +1949,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->compare('LOWER(bidang_nama)', strtolower($_GET['term']), true);
-                $criteria->order = 'bidang_nama';
+                $criteria->order = 'bidang_kode ASC';
                 $models = BidangM::model()->findAll($criteria);
                 foreach($models as $i=>$model)
                 {
@@ -1970,7 +1970,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->compare('LOWER(golongan_nama)', strtolower($_GET['term']), true);
-                $criteria->order = 'golongan_nama';
+                $criteria->order = 'golongan_kode ASC';
                 $models = GolonganM::model()->findAll($criteria);
                 foreach($models as $i=>$model)
                 {
@@ -1991,7 +1991,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->compare('LOWER(kelompok_nama)', strtolower($_GET['term']), true);
-                $criteria->order = 'kelompok_nama';
+                $criteria->order = 'kelompok_kode ASC';
                 $models = KelompokM::model()->findAll($criteria);
                 foreach($models as $i=>$model)
                 {
@@ -2012,7 +2012,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->compare('LOWER(subkelompok_nama)', strtolower($_GET['term']), true);
-                $criteria->order = 'subkelompok_nama';
+                $criteria->order = 'subkelompok_kode ASC';
                 $models = SubkelompokM::model()->findAll($criteria);
                 foreach($models as $i=>$model)
                 {
