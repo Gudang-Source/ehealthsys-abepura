@@ -23,8 +23,13 @@
                             'style'=>'text-align:center'
                         ),
                    ),
+                    array(
+                       'header'=>'<center>Tanggal Masuk Penunjang</center>',
+                       'type'=>'raw',
+                       'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tglmasukpenunjang)))',
+                   ),
                    array(
-                       'header'=>'<center>Nama</center>',
+                       'header'=>'<center>Nama Pasien</center>',
                        'type'=>'raw',
                        'value'=>'$data->namadepan." ".$data->nama_pasien',
                    ),
@@ -37,12 +42,7 @@
                        'header'=>'<center>Umur / <br/> Jenis Kelamin</center>',
                        'type'=>'raw',
                        'value'=>'$data->umur." /<br/>".$data->jeniskelamin',
-                   ),
-                   array(
-                       'header'=>'<center>Tanggal Masuk</center>',
-                       'type'=>'raw',
-                       'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tgl_pendaftaran)))',
-                   ),
+                   ),                   
                    array(
                        'header'=>'<center>IgG</center>',
                        'type'=>'raw',
