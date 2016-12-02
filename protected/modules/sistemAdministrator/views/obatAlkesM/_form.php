@@ -666,6 +666,10 @@ function setVerifikasi(){
 	hargajual = unformatNumber($('.hargajual').val());
 	hargajuallama =  unformatNumber($('#hargajuallama').val());
 
+	if (!validasiKemasanBesar()) {
+		return false;
+	}
+	
     if(requiredCheck($("form"))){
     	if(hargabeli!=hargabelilama||harganetto!=harganettolama||hargajual!=hargajuallama){
     		$('#dialog-verifikasi').dialog("open");
@@ -724,7 +728,9 @@ function validasiKemasanBesar() {
 	if (isinetto <= 0) {
 		myAlert("Isi netto harus lebih dari 0");
 		$('#<?php echo CHtml::activeId($model,"kemasanbesar"); ?>').val(1).keyup();
+		return false;
 	}
+	return true;
 }
 
 $(document).ready(function(){

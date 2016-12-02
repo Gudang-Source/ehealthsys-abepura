@@ -308,7 +308,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
                     ),
-                    'nama_pasien',
+					array(
+						'name'=>'nama_pasien',
+						'value'=>'$data->namadepan.$data->nama_pasien',
+					),
 //                    'jeniskelamin',
                     array(
                         'name'=>'jeniskelamin',
@@ -346,6 +349,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'empty'=>'-- Pilih --',
                                 )),
                     ),
+					array(
+						'header'=>'Status Periksa',
+						'name'=>'statusperiksa',
+						'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --')),
+					),
 
 
             ),
