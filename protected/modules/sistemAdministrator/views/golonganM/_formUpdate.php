@@ -2,7 +2,7 @@
 	'id'=>'sagolongan-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit' => 'return requiredCheck(this);'),
         'focus'=>'#'.CHtml::activeId($model,'golongan_kode'),
 )); ?>
 
@@ -10,9 +10,9 @@
 
 	<?php echo $form->errorSummary($model); ?>
             
-            <?php echo $form->textFieldRow($model,'golongan_kode',array('class'=>'span1 ','onkeyup'=>'setKode(this);', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'golongan_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'golongan_namalainnya',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'golongan_kode',array('readonly'=>TRUE, 'class'=>'span1 numbers-only','onkeyup'=>'setKode(this);', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2, 'style' => 'text-align:right;')); ?>
+            <?php echo $form->textFieldRow($model,'golongan_nama',array('onkeyup' => 'namaLain(this)' ,'class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'golongan_namalainnya',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <div>
                 <?php echo $form->checkBoxRow($model,'golongan_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </div>
@@ -27,9 +27,20 @@
                 <?php //$this->widget('UserTips',array('type'=>'update'));?>
 		<?php
 echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Golongan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-$content = $this->renderPartial($this->path_tips.'tipsaddedit',array(),true);
+$tips = array(
+                '0' => 'simpan',
+                '1' => 'ulang',
+            );
+            $content = $this->renderPartial($this->path_tips.'detailTips',array('tips'=>$tips),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 ?></div>
 
 <?php $this->endWidget(); ?>
+
+<script>
+function namaLain(obj){
+    $("#<?php echo Chtml::activeId($model, 'golongan_namalainnya') ?>").val($(obj).val());
+}
+</script>
+
 

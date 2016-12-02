@@ -4,7 +4,7 @@
 	'id'=>'sasubsubkelompok-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit' => 'return requiredCheck(this);'),
         'focus'=>'#',
 )); ?>
 
@@ -12,7 +12,7 @@
 
 	<?php echo $form->errorSummary($model); ?>
             <div class="control-group ">
-                    <label class="control-label" for="bidang">Sub Kelompok</label>
+                    <label class="control-label" for="bidang">Sub Kelompok <font style="color:red">*</font></label>
                     <div class="controls">
                         <?php echo $form->hiddenField($model,'subkelompok_id'); ?>
                     <?php 
@@ -41,13 +41,15 @@
                                                    'select'=>'js:function( event, ui ) { 
                                                         $("#'.CHtml::activeId($model, 'subkelompok_id').'").val(ui.item.subkelompok_id);
                                                         $("#subkelompokNama").val(ui.item.subkelompok_nama);
+                                                        kodeSubSubKelompok(ui.item.subkelompok_id);
                                                         return false;
                                                     }',
                                             ),
                                             'htmlOptions'=>array(
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
+                                                    'class' => 'required custom-only', 
                                             ),
-                                            'tombolDialog'=>array('idDialog'=>'dialogSubKelompok'),
+                                            'tombolDialog'=>array('idDialog'=>'dialogSubKelompok', 'idTombol'=>'tombolIdSubKelompok'),
                                         )); 
                         ?>
                     </div>
@@ -55,9 +57,9 @@
             
             <?php //Echo CHtml::hiddenField('tempKode', $model->subkelompok_kode); ?>
 
-            <?php echo $form->textFieldRow($model,'subsubkelompok_kode',array('class'=>'span2 ','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
-            <?php echo $form->textFieldRow($model,'subsubkelompok_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'subsubkelompok_namalainnya',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'subsubkelompok_kode',array('readonly' => TRUE,'class'=>'span2 angkadot-only','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>14,)); ?>
+            <?php echo $form->textFieldRow($model,'subsubkelompok_nama',array('onkeyup'=>'namaLain(this)','class'=>'span2 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'subsubkelompok_namalainnya',array('class'=>'span2 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php //echo $form->checkBoxRow($model,'subkelompok_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
@@ -120,6 +122,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'width'=>750,
         'height'=>600,
         'resizable'=>false,
+        'close'=>'js:function(){ backSize(); }',
     ),
 ));
 
@@ -146,6 +149,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     "onClick" => "
                                     $(\"#'.CHtml::activeId($model, 'subkelompok_id').'\").val(\'$data->subkelompok_id\');
                                     $(\"#subkelompokNama\").val(\'$data->subkelompok_nama\');
+                                    kodeSubSubKelompok($data->subkelompok_id);
+                                    backSize();
                                     $(\'#dialogSubKelompok\').dialog(\'close\');return false;"))'
                 ),
                 array(
@@ -153,7 +158,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'name' => 'kelompok_id',
                         'filter'=> CHtml::dropDownList('SASubkelompokM[kelompok_id]',$modKelompok->kelompok_id,CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'),array('empty'=>'--Pilih--')),                       
                         //'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
-                        'value'=>'$data->kelompok_nama',
+                        'value'=>'$data->kelompok->kelompok_nama',
                 ),
                 array(
                         'header'=>'Sub Kelompok',
@@ -195,4 +200,52 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 $this->endWidget();
 ?>
+
+<script>
+    function namaLain(obj){
+        $("#<?php echo Chtml::activeId($model, 'subsubkelompok_namalainnya') ?>").val($(obj).val());
+    }
+    
+    function kodeSubSubKelompok(id){
+        var subkelompok_id = id;
+        var temp_subkel_id = $("#<?php echo Chtml::activeId($model, 'temp_subkel_id') ?>").val();
+        var temp_kode_subsubkel = $("#<?php echo Chtml::activeId($model, 'temp_kode_subsubkel') ?>").val();
+        
+        $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('KodeSubSubKelompok'); ?>',
+        data: {subkelompok_id:subkelompok_id},
+        dataType: "json",
+        success:function(data){           
+            if (data.sukses == '0'){                
+                myAlert(data.pesan);
+                return false;
+            }else if (data.sukses == 'kodebaru'){                         
+                $("#<?php echo Chtml::activeId($model, 'subsubkelompok_kode'); ?>").val(data.kodebaru);                
+                return false;                
+            }else if (data.sukses == 'kosong'){                
+                $("#<?php echo Chtml::activeId($model, 'subsubkelompok_kode'); ?>").val(data.kodebaru);
+                return false;                
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);
+            
+            }
+        });
+    }
+    
+    function changeSize()
+    {            
+        window.parent.document.getElementById('frame').style= 'overflow-y:scroll;height:600px;';            
+    }
+    
+    function backSize()
+    {
+        window.parent.document.getElementById('frame').style= 'overflow-y:scroll;height:400px;';  
+    }
+    
+    $("#tombolIdSubKelompok").click(function(){
+        changeSize();
+    });
+</script>
 

@@ -58,7 +58,8 @@ class BidangMController extends MyAuthController
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
-
+                $model->temp_gol_id = $model->golongan_id;
+                $model->temp_kode_bid = $model->bidang_kode;
 		// Uncomment the following line if AJAX validation is needed
 		
 
@@ -226,4 +227,25 @@ class BidangMController extends MyAuthController
                 $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
+        
+        public function actionKodeBidang(){
+            if (Yii::app()->request->isAjaxRequest){
+                $golongan_id = !empty($_POST['golongan_id'])?$_POST['golongan_id']:null;
+                $data = array();
+                if (!empty($golongan_id)){
+                    $kodeGolongan = SAGolonganM::model()->findByPk($golongan_id)->golongan_kode;
+                    
+                    $kodeBaru = MyGenerator::kodeBidang($kodeGolongan);
+                    
+                    $data['sukses'] = 'kodebaru';
+                    $data['kodebaru'] = $kodeBaru;
+                }else{
+                    $data['sukses'] = 'kosong';
+                    $data['kodebaru'] = '';
+                }
+                
+                echo json_encode($data);
+                Yii::app()->end();
+            }
+        } 
 }

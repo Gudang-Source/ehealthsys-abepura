@@ -125,24 +125,24 @@ class KelompokM extends CActiveRecord
         }
         public function getBidangItems()
         {
-            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_nama');
+            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_kode');
         }
         
         public function getDataKelompokItems($bidang_id)
         {
-            return $this->findAllByAttributes(array('bidang_id'=>$bidang_id),array('order'=>'kelompok_nama ASC'));
+            return $this->findAllByAttributes(array('bidang_id'=>$bidang_id, 'kelompok_aktif' => TRUE),array('order'=>'kelompok_kode ASC'));
         }
         
         public function getGolonganItems()
         {
-            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_nama');
+            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_kode');
         }
         public function getKelompokItems()
         {
-            return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_nama');
+            return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_kode');
         }
         public function getSubKelompokItems()
         {
-            return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_nama');
+            return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_kode');
         }
 }
