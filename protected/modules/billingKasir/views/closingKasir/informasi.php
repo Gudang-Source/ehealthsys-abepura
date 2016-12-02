@@ -106,8 +106,14 @@
                                 'value'=>'CHtml::Link("<i class=\"icon-form-silang\"></i>",Yii::app()->controller->createUrl("ClosingKasir/Batalclosing",array("idClosing"=>$data->closingkasir_id)),
                                                 array("class"=>"", 
                                                       "target"=>"iframeBatalClosing",
-                                                      "onclick"=>"$(\"#dialogBatalClosing\").dialog(\"open\"), refreshTable();",
-        //                                              "onclick"=>"refreshTable()",
+                                                      "onclick"=>"
+															if (confirm(\"Anda yakin untuk membatalkan closing?\")) {
+																$(\"#dialogBatalClosing\").dialog(\"open\"), refreshTable();
+																return true;
+															} else {
+																return false;
+															}
+															",
                                                       "rel"=>"tooltip",
                                                       "title"=>"Klik untuk membatalkan Closing Kasir",
                                                 ))',          
