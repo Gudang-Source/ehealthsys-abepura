@@ -457,12 +457,11 @@ class PendaftaranT extends CActiveRecord
                 return true;
         }
         
-        public function getColumn(){
+        public function getColumn($prefix=''){
             $sql = " select column_name from information_schema.columns where column_name ilike 'nopendaftaran_%' AND table_name = 'konfigsystem_k' ORDER BY column_name ASC";
             $column = Yii::app()->db->createCommand($sql)->queryAll();
             $totCol = count($column);
-            
-            
+                        
             $col = "";
             $col2 = array();
             foreach ($column as $data){
@@ -474,14 +473,26 @@ class PendaftaranT extends CActiveRecord
             $criteria = new CDbCriteria();
             $criteria->select  = " ".$col." ";
             $hasil = KonfigsystemK::model()->find($criteria);
-                      
-            $value = array();
-            for($i=0; $i<$totCol;$i++){
-              
-                $value[$hasil->$col2[$i]]= $hasil->$col2[$i];
                 
+            $value = array();
+            if (count($prefix)>1){
+                $value['empty'] = '-- Pilih --';
             }
-            
+            for($i=0; $i<$totCol;$i++){      
+                if (!empty($prefix)>0){                
+                    foreach($prefix as $pr){
+                        if (isset($pr)){
+                            if ($pr == $hasil->$col2[$i])
+                            {                            
+                                $value[$hasil->$col2[$i]]= $hasil->$col2[$i];                
+                            }else{
+                             // tidak melakukan apa2 /skip   
+                            }
+                        }
+                    }
+                }
+            }
+                                                
             return $value;
             
         }

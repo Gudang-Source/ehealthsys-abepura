@@ -4,6 +4,7 @@ class RJInfopasienbatalperiksaV extends InfopasienbatalperiksaV
     
         public $tgl_awal,$tgl_akhir,$nama_pegawai,$carabayar_id, $penjamin_id;
         public $nama_pemakai, $tglbatal;
+        public $prefix_pendaftaran;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -77,7 +78,7 @@ class RJInfopasienbatalperiksaV extends InfopasienbatalperiksaV
 		if(!empty($this->pendaftaran_id)){
 			$criteria->addCondition("pendaftaran_id = ".$this->pendaftaran_id);		
 		}
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->prefix_pendaftaran.$this->no_pendaftaran), true);
 //		$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
 		$criteria->compare('LOWER(no_urutantri)',strtolower($this->no_urutantri),true);
 		$criteria->compare('LOWER(transportasi)',strtolower($this->transportasi),true);

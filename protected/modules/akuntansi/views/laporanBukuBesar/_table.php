@@ -57,14 +57,14 @@ if (isset($caraPrint)) {
 		if($nmRekening_temp[$nmRekening] == 1){
 			if ($data->kdrekening5) {
 				$kdRekening = $data->kdrekening5;
-				$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3 . '-' . $data->kdrekening4 . '-' . $data->kdrekening5;
+				$kdRekening_text = $data->kdrekening5;
 			} else {
 				if ($data->kdrekening4) {
 					$kdRekening = $data->kdrekening4;
-					$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3 . '-' . $data->kdrekening4;
+					$kdRekening_text = $data->kdrekening4;
 				} else {
 					$kdRekening = $data->kdrekening3;
-					$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3;
+					$kdRekening_text = $data->kdrekening3;
 				}
 			}
 			echo "<table class='table table-striped table-condensed'>
@@ -147,7 +147,14 @@ if (isset($caraPrint)) {
 				} elseif ($details->rekening5_nb == 'K') {
 					$totSaldo = $totKredit - $totDebit;
 				}
-                                $tgl_transaksi = !empty($details->tgl_transaksi)?MyFormatter::formatDateTimeId(date("Y-m-d",strtotime($details->tgl_transaksi))):'-';
+                $tgl_transaksi = !empty($details->tgl_transaksi)?MyFormatter::formatDateTimeId(date("Y-m-d",strtotime($details->tgl_transaksi))):'-';
+				
+				if ($totSaldo < 0) {
+					$subSaldo = "(".MyFormatter::formatNumberForPrint(abs($totSaldo)).")";
+				} else {
+					$subSaldo = MyFormatter::formatNumberForPrint($totSaldo);
+				}
+				
 				echo "<tr>
 					<td width='150px;'>" . $tgl_transaksi . "</td>
 					<td width='150px;'>" . MyFormatter::formatDateTimeId($details->tglbukubesar) . "</td>
@@ -155,18 +162,18 @@ if (isset($caraPrint)) {
 					// <td width='40px;' style='text-align:center'>".$details->no_referensi . "</td>
 					"<td width='150px;'>" . $details->nobuktijurnal . "</td>
 					<td width='200px;'>" . $details->uraiantransaksi . "</td>					
-					<td width='150px;' style='text-align:right'>" . number_format($details->saldodebit) . "</td>
-					<td width='150px;' style='text-align:right'>" . number_format($details->saldokredit) . "</td>
-					<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
+					<td width='150px;' style='text-align:right'>" . MyFormatter::formatNumberForPrint($details->saldodebit) . "</td>
+					<td width='150px;' style='text-align:right'>" . MyFormatter::formatNumberForPrint($details->saldokredit) . "</td>
+					<td width='150px;' style='text-align:right'>" . $subSaldo . "</td>
 				</tr>";
 			}
 
 			echo "<tfoot>
 						<tr>
-							<td colspan=6 style='text-align:right'><strong>Total : ".$nmRekening." </strong></td>
-							<td width='150px;' style='text-align:right'>" . number_format($totDebit) . "</td>
-							<td width='150px;' style='text-align:right'>" . number_format($totKredit) . "</td>
-							<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
+							<td colspan=5 style='text-align:right'><strong>Total : ".$nmRekening." </strong></td>
+							<td width='150px;' style='text-align:right'>" . MyFormatter::formatNumberForPrint($totDebit) . "</td>
+							<td width='150px;' style='text-align:right'>" . MyFormatter::formatNumberForPrint($totKredit) . "</td>
+							<td width='150px;' style='text-align:right'>" . $subSaldo . "</td>
 						</tr>
 					</tfoot>";
 			echo "</table><br/><br/>";
@@ -214,20 +221,20 @@ if (isset($caraPrint)) {
 		if($nmRekening_temp[$nmRekening] == 1){
 			if ($data->kdrekening5) {
 				$kdRekening = $data->kdrekening5;
-				$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3 . '-' . $data->kdrekening4 . '-' . $data->kdrekening5;
+				$kdRekening_text = $data->kdrekening5;
 			} else {
 				if ($data->kdrekening4) {
 					$kdRekening = $data->kdrekening4;
-					$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3 . '-' . $data->kdrekening4;
+					$kdRekening_text = $data->kdrekening4;
 				} else {
 					$kdRekening = $data->kdrekening3;
-					$kdRekening_text = $data->kdrekening1 . '-' . $data->kdrekening2 . '-' . $data->kdrekening3;
+					$kdRekening_text = $data->kdrekening3;
 				}
 			}
 
 			echo "
 				<tr>
-                      <td colspan=9><b>" . $data->kodeunitkerja . " - " . $data->koderekening . " " . $nmRekening . "</b></td>
+                      <td colspan=9><b>" . $data->kdrekening5 . " - " . $nmRekening . "</b></td>
                 </tr>
 					";
 
@@ -279,6 +286,13 @@ if (isset($caraPrint)) {
 					$totSaldo = $totKredit - $totDebit;
 				}
 				$tgl_transaksi = !empty($details->tgl_transaksi)?MyFormatter::formatDateTimeForUser($details->tgl_transaksi):'-';
+				
+				if ($totSaldo < 0) {
+					$subSaldo = "(".MyFormatter::formatNumberForPrint(abs($totSaldo)).")";
+				} else {
+					$subSaldo = MyFormatter::formatNumberForPrint($totSaldo);
+				}
+				
 				if($details->saldodebit != 0){                                        
 					echo "<tr>
 						<td width='150px;'>" .  $tgl_transaksi. "</td>
@@ -287,9 +301,9 @@ if (isset($caraPrint)) {
 						<td width='150px;'>" . $details->nobuktijurnal . "</td>
 						<td width='200px;'>" . $details->uraiantransaksi . "</td>
 						<td width='40px;' style='text-align:center'>".$details->no_referensi . "</td>
-						<td width='150px;' style='text-align:right'>" . number_format($details->saldodebit) . "</td>
+						<td width='150px;' style='text-align:right'>" . MyFormatter::formatNumberForPrint($details->saldodebit) . "</td>
 						<td width='150px;' style='text-align:right'>0</td>
-						<td width='150px;' style='text-align:right'>" . number_format($totDebit) . "</td>
+						<td width='150px;' style='text-align:right'>" . $subSaldo . "</td>
 					</tr>";
 				}
 				if($details->saldokredit != 0){
@@ -301,8 +315,8 @@ if (isset($caraPrint)) {
 						<td width='150px;'>" . $details->nobuktijurnal . "</td>
 						<td width='200px;'>" . $details->uraiantransaksi . "</td>						
 						<td width='150px;' style='text-align:right'>0</td>
-						<td width='150px;' style='text-align:right'>" . number_format($details->saldokredit) . "</td>
-						<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
+						<td width='150px;' style='text-align:right'>" . MyFormatter::formatNumberForPrint($details->saldokredit) . "</td>
+						<td width='150px;' style='text-align:right'>" . $subSaldo . "</td>
 					</tr>";
 				}
 			}
@@ -310,9 +324,9 @@ if (isset($caraPrint)) {
 			echo "
 			<tr>
 				<td colspan=6 style='text-align:right'><strong>Total " . $nmRekening . "</strong></td>
-				<td width='150px;' style='text-align:right'>" . number_format($totDebit) . "</td>
-				<td width='150px;' style='text-align:right'>" . number_format($totKredit) . "</td>
-				<td width='150px;' style='text-align:right'>" . number_format($totSaldo) . "</td>
+				<td width='150px;' style='text-align:right'>" . MyFormatter::formatNumberForPrint($totDebit) . "</td>
+				<td width='150px;' style='text-align:right'>" . MyFormatter::formatNumberForPrint($totKredit) . "</td>
+				<td width='150px;' style='text-align:right'>" . $subSaldo . "</td>
 			</tr>
 		";
 

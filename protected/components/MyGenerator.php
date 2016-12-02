@@ -2270,5 +2270,55 @@ class MyGenerator
             $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
             return $nosetoran_baru;
         }
+        
+        public static function kodeGolongan()
+        {
+            $default = "01";           
+            $sql = "SELECT CAST(MAX(golongan_kode) AS integer) nomaksimal
+                            FROM golongan_m                            ";
+            $kodeGolongan= Yii::app()->db->createCommand($sql)->queryRow();
+            $kodeGolongan_baru = (isset($kodeGolongan['nomaksimal']) ? (str_pad($kodeGolongan['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $kodeGolongan_baru;          
+        }
+        
+        public static function kodeBidang($kode_golongan)
+        {
+            $default = "01";           
+            $sql = "SELECT CAST(MAX(SUBSTR(bidang_kode,".(strlen($kode_golongan)+2).",".(strlen($default)).")) AS integer) nomaksimal
+                            FROM bidang_m WHERE bidang_kode ILIKE '".$kode_golongan."%' ";            
+            $kodeGolongan= Yii::app()->db->createCommand($sql)->queryRow();                       
+            $kodeGolongan_baru = $kode_golongan.'.'.(!empty($kodeGolongan['nomaksimal']) ? (str_pad($kodeGolongan['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $kodeGolongan_baru;          
+        }
+        
+        public static function kodeKelompok($kode_bidang)
+        {
+            $default = "01";           
+            $sql = "SELECT CAST(MAX(SUBSTR(kelompok_kode,".(strlen($kode_bidang)+2).",".(strlen($default)).")) AS integer) nomaksimal
+                            FROM kelompok_m WHERE kelompok_kode ILIKE '".$kode_bidang."%' ";            
+            $kodeBidang= Yii::app()->db->createCommand($sql)->queryRow();                       
+            $kodeBidang_baru = $kode_bidang.'.'.(!empty($kodeBidang['nomaksimal']) ? (str_pad($kodeBidang['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $kodeBidang_baru;          
+        }
+        
+        public static function kodeSubKelompok($kode_kelompok)
+        {
+            $default = "01";           
+            $sql = "SELECT CAST(MAX(SUBSTR(subkelompok_kode,".(strlen($kode_kelompok)+2).",".(strlen($default)).")) AS integer) nomaksimal
+                            FROM subkelompok_m WHERE subkelompok_kode ILIKE '".$kode_kelompok."%' ";            
+            $kodeKelompok= Yii::app()->db->createCommand($sql)->queryRow();                       
+            $kodeKelompok_baru = $kode_kelompok.'.'.(!empty($kodeKelompok['nomaksimal']) ? (str_pad($kodeKelompok['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $kodeKelompok_baru;          
+        }
+        
+        public static function kodeSubSubKelompok($kode_subkelompok)
+        {
+            $default = "01";           
+            $sql = "SELECT CAST(MAX(SUBSTR(subsubkelompok_kode,".(strlen($kode_subkelompok)+2).",".(strlen($default)).")) AS integer) nomaksimal
+                            FROM subsubkelompok_m WHERE subsubkelompok_kode ILIKE '".$kode_subkelompok."%' ";            
+            $kodeSubKelompok= Yii::app()->db->createCommand($sql)->queryRow();                       
+            $kodeSubKelompok_baru = $kode_subkelompok.'.'.(!empty($kodeSubKelompok['nomaksimal']) ? (str_pad($kodeSubKelompok['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+            return $kodeSubKelompok_baru;          
+        }
 }
 ?>

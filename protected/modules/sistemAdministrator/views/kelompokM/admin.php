@@ -35,7 +35,8 @@
     </div><!-- search-form -->
     <div class="block-tabel">
         <h6>Tabel <b>Kelompok</b></h6>
-        <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+        <?php                 
+        $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'sakelompok-m-grid',
             'dataProvider'=>$model->search(),
             'filter'=>$model,
@@ -49,13 +50,31 @@
                             'filter'=>false,
                     ),
                     array(
+                        'header' => 'Golongan',
+                        'value' => '$data->bidang->golongan->golongan_nama',
+                        'name' => 'golongan_id',
+                        'filter' => CHtml::activeDropDownList($model,'golongan_id',CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), array('empty'=>'--Pilih--')),
+                    ),
+                    array(
                             'name'=>'bidang_id',
-                            'filter'=> CHtml::dropDownList('SAKelompokM[bidang_id]',$model->bidang_id,CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'), array('empty'=>'--Pilih--')),
+                            'filter'=> CHtml::activeDropDownList($model,'bidang_id',CHtml::listData($model->dropdown_bidang, 'bidang_id', 'bidang_nama'), array('empty'=>'--Pilih--')),
                             'value'=>'$data->bidang->bidang_nama',
                     ),
-                    'kelompok_kode',
-                    'kelompok_nama',
-                    'kelompok_namalainnya',
+                    array(
+                        'name' => 'kelompok_kode',
+                        'value' => '$data->kelompok_kode',
+                        'filter' => Chtml::activeTextField($model, 'kelompok_kode', array('class'=>'angkadot-only'))
+                    ),
+                    array(
+                        'name' => 'kelompok_nama',
+                        'value' => '$data->kelompok_nama',
+                        'filter' => Chtml::activeTextField($model, 'kelompok_nama', array('class'=>'custom-only'))
+                    ),                    
+                    array(
+                        'name' => 'kelompok_namalainnya',
+                        'value' => '$data->kelompok_namalainnya',
+                        'filter' => Chtml::activeTextField($model, 'kelompok_namalainnya', array('class'=>'custom-only'))
+                    ),                    
                     array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->kelompok_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
@@ -94,10 +113,16 @@
                 jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                 $("table").find("input[type=text]").each(function(){
                     cekForm(this);
-                })
+                });
                  $("table").find("select").each(function(){
                     cekForm(this);
-                })
+                });
+                $(".custom-only").keyup(function(){
+                    setCustomOnly(this);
+                });
+                $(".angkadot-only").keyup(function(){
+                    setAngkaDotOnly(this);
+                });
             }',
         )); ?>
     </div>

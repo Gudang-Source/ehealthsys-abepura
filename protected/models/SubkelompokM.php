@@ -125,23 +125,23 @@ class SubkelompokM extends CActiveRecord
         }
         public function getGolonganItems()
         {
-            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_nama');
+            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_kode');
         }
         public function getBidangItems()
         {
-            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_nama');
+            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_kode');
         }
         public function getKelompokItems()
         {
-            return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_nama');
+            return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_kode');
         }
         public function getSubKelompokItems()
         {
-            return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_nama');
+            return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_kode');
         }
         
         public function getDataSubKelompokItems($kelompok_id)
         {
-            return $this->findAllByAttributes(array('kelompok_id'=>$kelompok_id),array('order'=>'subkelompok_nama ASC'));
+            return $this->findAllByAttributes(array('kelompok_id'=>$kelompok_id, 'subkelompok_aktif' => TRUE),array('order'=>'subkelompok_kode ASC'));
         }
 }
