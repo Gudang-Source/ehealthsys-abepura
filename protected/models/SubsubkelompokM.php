@@ -71,7 +71,7 @@ class SubsubkelompokM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'subsubkelompok_id' => 'Sub Sub Kelompok',
+			'subsubkelompok_id' => 'ID',
 			'subkelompok_id' => 'Sub Kelompok',
 			'subsubkelompok_kode' => 'Sub Sub Kelompok Kode',
 			'subsubkelompok_nama' => 'Sub Sub Kelompok Nama',
@@ -131,6 +131,12 @@ class SubsubkelompokM extends CActiveRecord
         {
             return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_kode ASC');
         }
+        
+        public function getBidangItems()
+        {
+            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_kode');
+        }
+        
         public function getKelompokItems()
         {
             return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_kode ASC');

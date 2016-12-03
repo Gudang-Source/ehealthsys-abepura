@@ -117,10 +117,26 @@
 
                 </td>
                 <td>
-                     <?php echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
-                     <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
+                     <div class="control-group">
+                        <?php echo CHtml::label('No. Pendaftaran','no_pendaftaran', array('class'=>'control-label')) ?>                        
+                            <div class="controls">
+
+                                <?php 
+
+                                        $prefix = array(
+                                            0 => Params::PREFIX_RAWAT_DARURAT,                                            
+                                        );
+
+                                    echo $form->dropDownList($model,'prefix_pendaftaran', PendaftaranT::model()->getColumn($prefix),array('class'=>'numbers-only', 'style'=>'width:75px;')); 
+                                ?>
+                                <?php echo $form->textField($model, 'no_pendaftaran', array('class' => 'span2 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>                                                                
+                            </div>                        
+                    </div>
+                     <?php //echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
+                    <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>6, 'placeholder'=>'Ketik no.rekam medik')); ?>
+                     <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
                      <?php //echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik alias/nama panggilan')); ?>
-                     <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.rekam medik')); ?>
+                     
                     <div class = "control-group">
                         <?php echo Chtml::label("Tindak Lanjut",'carakeluar',array('class'=>'control-label')) ?>
                         <div class = "controls">
@@ -169,12 +185,12 @@
             </tr>
         </table>
 
-    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),
                     array('class'=>'btn btn-primary', 'type'=>'submit','id'=>'btn_simpan',)); 
     echo CHtml::hiddenField('pendaftaran_id');
     echo CHtml::hiddenField('pasien_id');
     ?> 
-    <?php echo CHtml::link(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/daftarPasien/index'), 
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>

@@ -3,6 +3,7 @@
     $modTindakan->unsetAttributes();    
     if(isset($_GET['RIPaketpelayananV'])) {
         $modTindakan->attributes = $_GET['RIPaketpelayananV'];
+        $modTindakan->daftartindakan_kode = isset($_GET['RIPaketpelayananV']['daftartindakan_kode'])?$_GET['RIPaketpelayananV']['daftartindakan_kode']:null;
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -25,6 +26,7 @@
                     array(
                         'name'=>'kategoritindakan_nama',
                         'value'=>'$data->kategoritindakan_nama',
+                        'filter' => Chtml::activeDropDownList($modTindakan, 'kategoritindakan_nama', Chtml::listData(KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC"), 'kategoritindakan_nama', 'kategoritindakan_nama'),array('empty'=> '-- Pilih --')),
                         'type'=>'raw',
 //                        'filter'=>CHtml::activeHiddenField($modTindakan,'tipepaket_id'),
                     ),

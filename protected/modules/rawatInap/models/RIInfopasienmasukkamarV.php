@@ -37,7 +37,7 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 		}
 		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
                 $criteria->compare('kamarruangan_id', $this->kamarruangan_id);                
                 if (!empty($this->tgl_pendaftaran)){
@@ -259,7 +259,7 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 		$criteria->compare('LOWER(t.namadepan)',strtolower($this->namadepan),true);
 		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
-		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
 		$criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
 		if ($this->statusBayar == 'LUNAS'){
 			$criteria->addCondition('pendaftaran.pembayaranpelayanan_id is not null');

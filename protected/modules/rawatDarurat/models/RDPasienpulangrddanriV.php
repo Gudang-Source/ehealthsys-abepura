@@ -145,12 +145,12 @@ class RDPasienpulangrddanriV extends PasienpulangrddanriV
                 // Warning: Please modify the following code to remove attributes that
                 // should not be searched.
                 $criteria=new CDbCriteria;
-                $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+                $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
                 $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
                 $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
                 $criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
                 $criteria->compare('LOWER(t.keterangan_kamar)',strtolower($this->keterangan_kamar),true);
-                
+                $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
                 //if(($this->ceklis)==true){ 
                     $criteria->addBetweenCondition('DATE(t.tglpasienpulang)',$this->tgl_awal,$this->tgl_akhir);
                 //}

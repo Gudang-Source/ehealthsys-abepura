@@ -240,7 +240,32 @@
                         <?php echo CHtml::label('No. Pendaftaran','no_pendaftaran', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <div class="controls">
-                                <?php echo $form->textField($model, 'no_pendaftaran', array('class'=>'span3')); ?>
+                                
+                                <?php 
+                                        $ini = ModulK::model()->findByPk(Yii::app()->session['modul_id']);
+                                        $pr = Params::getPrefixNoPendaftaran();
+                                        
+                                        if (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_RI)
+                                        {
+                                            $prefix = array(
+                                                0 => Params::PREFIX_RAWAT_DARURAT,
+                                                1 => Params::PREFIX_RAWAT_INAP,
+                                                2 => Params::PREFIX_RAWAT_JALAN
+                                            );                                            
+                                        }else{
+                                            if (count($pr[$ini->modul_key])>0){
+                                                $prefix = array(
+                                                    0 => $pr[$ini->modul_key]
+                                                );
+                                            }else{
+                                                $prefix='';
+                                            }
+                                        }
+                                    echo $form->dropDownList($model,'prefix_pendaftaran', PendaftaranT::model()->getColumn($prefix),array('class'=>'numbers-only', 'style'=>'width:75px;')); 
+                                ?>
+                                <?php echo $form->textField($model, 'no_pendaftaran', array('class' => 'span2 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>
+                                
+                                <?php //echo $form->textField($model, 'no_pendaftaran', array('class'=>'span3')); ?>
                             </div>
                         </div>
                     </div>
@@ -248,7 +273,7 @@
                         <?php echo CHtml::label('No. Rekam Medik','no_rekam_medik', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <div class="controls">
-                                <?php echo $form->textField($model, 'no_rekam_medik', array('class'=>'span3')); ?>
+                                <?php echo $form->textField($model, 'no_rekam_medik', array('class'=>'span3 numbers-only', 'placeholder' => 'Ketik No Rekam Medik')); ?>
                             </div>
                         </div>
                     </div>
@@ -256,7 +281,7 @@
                         <?php echo CHtml::label('Nama Pasien','nama_pasien', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <div class="controls">
-                                <?php echo $form->textField($model, 'nama_pasien', array('class'=>'span3')); ?>
+                                <?php echo $form->textField($model, 'nama_pasien', array('class'=>'span3 hurufs-only', 'placeholder' => 'Ketik Nama Pasien')); ?>
                             </div>
                         </div>
                     </div>

@@ -498,7 +498,7 @@ class RDInfokunjunganrdV extends InfokunjunganrdV {
 				. "t.no_pendaftaran, t.no_rekam_medik, t.tgl_pendaftaran, t.ruangan_id, t.instalasi_id,"
 				. "t.ruangan_nama, t.instalasi_nama, t.pasien_id";
         $criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->prefix_pendaftaran.$this->no_pendaftaran), true);
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);

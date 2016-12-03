@@ -16,6 +16,7 @@ class PasienRuanganLainController extends MyAuthController
                     $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RIPasienridariruanganlainV']['tgl_akhir']);
                     $model->ceklis = $_REQUEST['RIPasienridariruanganlainV']['ceklis'];
                     $model->namaDokter = $_REQUEST['RIPasienridariruanganlainV']['namaDokter'];
+                    $model->prefix_pendaftaran = $_REQUEST['RIPasienridariruanganlainV']['prefix_pendaftaran'];
                }
 		$this->render('index',array('model'=>$model,'format'=>$format));
 	}

@@ -504,7 +504,14 @@ Class Params
         public static function getPrefixNoPendaftaran()
         {
             return array(
-           // Params:: => $this->PREFIX_RAWAT_JALAN,                
+                Params::PREFIX_RAWAT_JALAN => Params::PREFIX_RAWAT_JALAN,
+                Params::PREFIX_RAWAT_INAP => Params::PREFIX_RAWAT_INAP,
+                Params::PREFIX_RAWAT_DARURAT => Params::PREFIX_RAWAT_DARURAT,
+                Params::PREFIX_LABORATORIUM => Params::PREFIX_LABORATORIUM,
+                Params::PREFIX_RADIOLOGI => Params::PREFIX_RADIOLOGI,
+                Params::PREFIX_BEDAH_SENTRAL => Params::PREFIX_BEDAH_SENTRAL,
+                Params::PREFIX_REHAB_MEDIS => Params::PREFIX_REHAB_MEDIS,
+                Params::PREFIX_APOTIK => Params::PREFIX_APOTIK,
             );
         }
 

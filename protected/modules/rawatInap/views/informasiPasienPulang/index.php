@@ -28,30 +28,27 @@
                             'value'=>'$data->tglpasienpulang',
                         ),
                         array(
-                            'header'=>'Cara/ Kondisi Pulang',
-                            'type'=>'raw',
-                            'value'=>'$data->CaradanKondisiPulang'
-                        ),
-                        array(
-                            'header'=>'Lama Dirawat / Nama Kamar',
-                            'value'=>'$data->lamadirawat_kamar',
-                        ),
+                            'header'=>'Tanggal Masuk/ <br/>No Masuk',
+                            'type' => 'raw',
+                            'value'=>'$data->tglmasukkamar."/ <br/>".$data->nomasukkamar',
+                        ),                                               
         //                'lamadirawat_kamar',
-                        array(
-                            'header'=>'Tanggal Admisi',
-                            'value'=>'$data->tgladmisi',
-                        ),
+                        
         //                'tgladmisi',
                         array(
-                            'header'=>'No. Rekam Medik / <BR> No. Pendaftaran',
+                            'header'=>'No. Pendaftaran',
                             'type'=>'raw',
-                            'value'=>'$data->NoRMdanNoPendaftaran'
+                            'value'=>'$data->no_pendaftaran'
                         ),
-
                         array(
-                            'header'=>'Nama / Alias',
+                            'header'=>'No Rekam Medik',
                             'type'=>'raw',
-                            'value'=>'$data->NamadanNamaBIN'
+                            'value'=>'$data->no_rekam_medik'
+                        ), 
+                        array(
+                            'header'=>'Nama Pasien',
+                            'type'=>'raw',
+                            'value'=>'$data->namadepan." ".$data->nama_pasien'
                         ),    
         //                'umur',
         //                 array(
@@ -60,14 +57,25 @@
         //                        'value'=>'$data->CaraBayardanPenjamin'
         //                    ),
                         array(
-                            'header'=>'Kelas Pelayanan/ No. Masuk Kamar',
+                            'header'=>'Kelas Pelayanan',
                             'type'=>'raw',
-                            'value'=>'$data->KelasPelayanandanNoMasukKamar'
+                            'value'=>'$data->kelaspelayanan_nama'
                         ),   
+                        array(
+                            'header'=>'Lama Dirawat/ <br/> Nama Kamar',
+                            'type' => 'raw',
+                            'value'=>'$data->lamadirawat_kamar." hari/ <br/>".$data->kamarruangan_nokamar."-".$data->kamarruangan_nobed',
+                        ),
+                        
                         array(
                             'header'=>'Nama Jenis Kasus Penyakit',
                             'value'=>'$data->jeniskasuspenyakit_nama',
                         ),
+                        array(
+                            'header'=>'Cara/ Kondisi Pulang',
+                            'type'=>'raw',
+                            'value'=>'$data->CaradanKondisiPulang'
+                        ), 
         //                'jeniskasuspenyakit_nama',
 
         //                array(
@@ -76,6 +84,12 @@
         //                       'value'=>'CHtml::link("<i class=\'icon-list-alt\'></i> ","javascript:cekHakAkses($data->pasienpulang_id,$data->pasienadmisi_id,$data->pasien_id,$data->pendaftaran_id)" ,array("title"=>"Klik Untuk Membatalkan Kepulangan"))',
         //                    ),
                         array(
+                            'header'=>'Rincian',
+                            'type'=>'raw',
+                            'value'=>'CHtml::link("<icon class=\'icon-form-detail\'></idcon>", Yii::app()->createUrl("billingKasir/RinciantagihanpasienV/rincianBelumBayarRI", array("id"=>$data->pendaftaran_id)), array("rel"=>"tooltip","title"=>"Lihat Rincian Pasien Pulang","target"=>"frameRincian", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');"))',
+                            'htmlOptions'=>array('style'=>'text-align:left;'),
+                        ),  
+                        array(
                                'header'=>'Batal Pulang',
                                'type'=>'raw',
                                'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", 
@@ -83,12 +97,7 @@
                                        array("title"=>"Klik untuk Batal Pulang", "target"=>"iframeBatalPulang", "onclick"=>"$(\"#dialogBatalPulang\").dialog(\"open\");", "rel"=>"tooltip"))',
                                'htmlOptions'=>array('style'=>'text-align:left; width:40px'),
                             ),
-                        array(
-                            'header'=>'Rincian',
-                            'type'=>'raw',
-                            'value'=>'CHtml::link("<icon class=\'icon-form-detail\'></idcon>", Yii::app()->createUrl("billingKasir/RinciantagihanpasienV/rincianBelumBayarRI", array("id"=>$data->pendaftaran_id)), array("rel"=>"tooltip","title"=>"Lihat Rincian Pasien Pulang","target"=>"frameRincian", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');"))',
-                            'htmlOptions'=>array('style'=>'text-align:left;'),
-                        ),  
+                        
 
                 ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

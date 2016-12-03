@@ -67,6 +67,7 @@ class DaftarPasienController extends MyAuthController {
             $model->attributes = $_REQUEST['RDInfoKunjunganRDV'];
             $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['RDInfoKunjunganRDV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RDInfoKunjunganRDV']['tgl_akhir']);
+            $model->prefix_pendaftaran = $_REQUEST['RDInfoKunjunganRDV']['prefix_pendaftaran'];
             //$model->ceklis = $_REQUEST['RDInfoKunjunganRDV']['ceklis'];
         }
         if (Yii::app()->request->isAjaxRequest) {

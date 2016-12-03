@@ -86,6 +86,8 @@ class InfokunjunganrjrdriV extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return InfokunjunganrjrdriV the static model class
 	 */
+         public $prefix_pendaftaran;
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
