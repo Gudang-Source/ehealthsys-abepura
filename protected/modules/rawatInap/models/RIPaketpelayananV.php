@@ -74,6 +74,7 @@ class RIPaketpelayananV extends PaketpelayananV
 			if(Yii::app()->user->getState('tindakanruangan')){
 				$criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
                                 $criteria->addCondition('daftartindakan_akomodasi = false');
+                                $criteria->compare('LOWER(daftartindakan_kode)', strtolower($this->daftartindakan_kode), true);
 				$models = new RITarifTindakanPerdaRuanganV;
 			} else {
 				if(Yii::app()->user->getState('tindakanruangan')){

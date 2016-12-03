@@ -107,6 +107,7 @@ class InfopasienmasukkamarV extends CActiveRecord
     public $tgl_akhir;
     public $statusBayar;
     public $carakeluar;
+    public $prefix_pendaftaran;
 
     /**
 	 * Returns the static model of the specified AR class.

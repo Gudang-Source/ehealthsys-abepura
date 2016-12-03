@@ -23,6 +23,7 @@ class RinciantagihanpasienriVController extends MyAuthController
 //                        $model->ceklis = true;                        
                         $model->tgl_awal = $format->formatDateTimeForDb($_GET['RIInfopasienmasukkamarV']['tgl_awal']);
                         $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RIInfopasienmasukkamarV']['tgl_akhir']);
+                        $model->prefix_pendaftaran = $_GET['RIInfopasienmasukkamarV']['prefix_pendaftaran'];
                 }
 
                 $this->render('index',array(

@@ -51,9 +51,9 @@
                     <?php echo $form->textField($model, 'no_pendaftaran', array('class' => 'span2 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik', 'class'=>'span3', 'maxlength'=>10)); ?>
+            <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik', 'class'=>'span3 numbers-only', 'maxlength'=>6)); ?>
 
-            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien', 'class'=>'span3','maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien', 'class'=>'span3 hurufs-only','maxlength'=>50)); ?>
         </td>
         <td>
             

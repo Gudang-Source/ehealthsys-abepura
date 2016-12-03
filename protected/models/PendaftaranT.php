@@ -476,7 +476,7 @@ class PendaftaranT extends CActiveRecord
                 
             $value = array();
             if (count($prefix)>1){
-                $value['empty'] = '-- Pilih --';
+                $value[''] = '-- Pilih --';
             }
             for($i=0; $i<$totCol;$i++){      
                 if (!empty($prefix)>0){                

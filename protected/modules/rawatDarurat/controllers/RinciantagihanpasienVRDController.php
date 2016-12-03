@@ -16,6 +16,7 @@ class RinciantagihanpasienVRDController extends RinciantagihanpasienVController 
                 $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RDInfokunjunganrdV']['tgl_akhir']);
                 $model->pegawai_id = $_GET['RDInfokunjunganrdV']['pegawai_id'];
                 $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+                $model->prefix_pendaftaran = $_GET['RDInfokunjunganrdV']['prefix_pendaftaran'];
             }
 
         if (Yii::app()->request->isAjaxRequest) {

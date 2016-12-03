@@ -115,6 +115,7 @@ class PasienygpulangriV extends CActiveRecord
         public $caradanKondisiPulang;
         public $tgl_awal;
         public $tgl_akhir;
+        public $prefix_pendaftaran;
 //        public $keterangan_kamar;
         public $ceklis=false;
 	/**
