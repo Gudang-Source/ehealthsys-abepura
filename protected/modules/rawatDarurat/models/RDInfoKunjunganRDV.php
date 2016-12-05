@@ -49,7 +49,7 @@ class RDInfoKunjunganRDV extends InfokunjunganrdV
 
 		$criteria=new CDbCriteria;
                 
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
 		$criteria->compare('LOWER(statusperiksa)',strtolower($this->statusperiksa),true);
 		$criteria->compare('LOWER(statusmasuk)',strtolower($this->statusmasuk),true);		
 		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);

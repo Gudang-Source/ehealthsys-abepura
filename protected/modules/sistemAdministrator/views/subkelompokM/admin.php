@@ -29,12 +29,13 @@ $('.search-form form').submit(function(){
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
-<div class="search-form" style="display:none">
+<div class="cari-lanjut search-form" style="display:none">
 <?php $this->renderPartial($this->path_view.'_search',array(
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
-<legend class='rim'>Tabel Sub Kelompok</legend>
+<div class="block-tabel">
+<h6>Tabel <b>Sub Kelompok</b></h6>
 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'sasubkelompok-m-grid',
 	'dataProvider'=>$model->search(),
@@ -48,14 +49,33 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                         'value'=>'$data->subkelompok_id',
                         'filter'=>false,
                 ),
+                array(
+                        'header'=>'Golongan',
+                        'filter'=> CHtml::activeDropDownList($model, 'golongan_id',CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), array('empty'=>'--Pilih--')),
+                        'value'=>'$data->kelompok->bidang->golongan->golongan_nama',
+                ),
+                array(
+                        'header'=>'Bidang',
+                        'filter'=> CHtml::activeDropDownList($model,'bidang_id', CHtml::listData($model->getBidang(), 'bidang_id', 'bidang_nama'), array('empty'=>'--Pilih--')),
+                        'value'=>'$data->kelompok->bidang->bidang_nama',
+                ),
 		array(
                         'name'=>'kelompok_id',
-                        'filter'=> CHtml::dropDownList('SASubkelompokM[kelompok_id]',$model->kelompok_id,CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'), array('empty'=>'--Pilih--')),
+                        'filter'=> CHtml::activeDropDownList($model,'kelompok_id', CHtml::listData($model->getKelompok(), 'kelompok_id', 'kelompok_nama'), array('empty'=>'--Pilih--')),
                         'value'=>'$data->kelompok->kelompok_nama',
                 ),
-		'subkelompok_kode',
-		'subkelompok_nama',
-		'subkelompok_namalainnya',
+                array(
+                    'name' => 'subkelompok_kode',
+                    'filter' => Chtml::activeTextField($model, 'subkelompok_kode', array('class' => 'angkadot-only', 'maxlength'=>11))
+                ),
+                array(
+                    'name' => 'subkelompok_nama',
+                    'filter' => Chtml::activeTextField($model, 'subkelompok_nama', array('class' => 'custom-only', 'maxlength'=>50))
+                ),				
+                array(
+                    'name' => 'subkelompok_namalainnya',
+                    'filter' => Chtml::activeTextField($model, 'subkelompok_namalainnya', array('class' => 'custom-only', 'maxlength'=>50))
+                ),		
             
                 array(
                     'header'=>'<center>Status</center>',
@@ -95,13 +115,19 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
             $("table").find("input[type=text]").each(function(){
                 cekForm(this);
-            })
+            });
              $("table").find("select").each(function(){
                 cekForm(this);
-            })
+            });
+            $(".angkadot-only").keyup(function(){
+                setAngkaDotOnly(this);
+            });
+            $(".custom-only").keyup(function(){
+                setCustomOnly(this);
+            });
         }',
 )); ?>
-
+</div>
 <?php 
         echo CHtml::link(Yii::t('mds', '{icon} Tambah Sub Kelompok', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 

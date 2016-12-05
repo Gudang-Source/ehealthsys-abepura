@@ -66,6 +66,7 @@ class PemakaianBahanController extends PemakaianBmhpController
             $model->obatalkes_kategori = $_GET['LBObatalkespasienT']['obatalkes_kategori'];
             $model->obatalkes_golongan = $_GET['LBObatalkespasienT']['obatalkes_golongan'];
             $model->obatalkes_nama = $_GET['LBObatalkespasienT']['obatalkes_nama'];
+            $model->prefix_pendaftaran = isset($_GET['LBObatalkespasienT']['prefix_pendaftaran'])?$_GET['LBObatalkespasienT']['prefix_pendaftaran']:'';
         }
         $this->render('laboratorium.views.pemakaianBahan.informasi', array('model' => $model));
     }

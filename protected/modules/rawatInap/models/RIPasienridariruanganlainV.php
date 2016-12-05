@@ -193,7 +193,7 @@ class RIPasienridariruanganlainV extends PasienridariruanganlainV
 		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);				
                 $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->namaDokter),true);				
 		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);						
-		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
 		
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id); 	

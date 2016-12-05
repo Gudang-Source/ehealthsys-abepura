@@ -34,8 +34,8 @@
         <div class="span6">
             <div class =" control-group">
                 <div id = "loading" style = "width:50px;height:50px;"></div>
-                <?php echo CHtml::button("Pendaftaran Sidik Jari",array('id'=>'pendaftaranFP','onclick' => 'setPendaftaranFP();', 'class'=>'btn btn-primary')); ?>
-                <?php echo CHtml::button("Verifikasi Sidik Jari",array('id'=>'verifikasiFP','onclick' => 'setVerifikasiFP();', 'class'=>'btn btn-primary')); ?>
+                <?php echo CHtml::button("Pendaftaran Sidik Jari",array('id'=>'pendaftaranFP','onclick' => 'setPendaftaranFP();', 'class'=>'btn btn-primary', 'style' => 'background:#ff0909;border:1px solid #ff0909;')); ?>
+                <?php echo CHtml::button("Verifikasi Sidik Jari",array('id'=>'verifikasiFP','onclick' => 'setVerifikasiFP();', 'class'=>'btn btn-primary', 'style' => 'background:#142ffb;border:1px solid #142ffb;')); ?>
                 <?php //echo CHtml::button("Batal",array('id'=>'batalVerifFP','onclick' => 'batalVerifikasiFP();', 'class'=>'btn btn-primary')); ?>                
                 <div id = "pesanVerifikasi"></div>
             </div>
@@ -193,7 +193,7 @@
                 
                 if (isset($model->pendaftaran_id)){
                     if (empty($model->pasien->nofingerprint)){                    
-                        echo CHtml::htmlButton("Pendaftaran Sidik Jari",array('id'=>'regisFP','onclick' => "setRegisFP('".$model->pasien->no_rekam_medik."');", 'class'=>'btn btn-primary'));                    
+                        echo CHtml::htmlButton("Pendaftaran Sidik Jari",array('id'=>'regisFP','onclick' => "setRegisFP('".$model->pasien->no_rekam_medik."');", 'class'=>'btn btn-primary', 'style' => 'background:#ff0909;border:1px solid #ff0909;'));                    
                         echo '<div id = "regisLoading" style = "width:50px;height:50px;"></div>';
                         echo '<div id = "pesanRegis"></div>';
                     }

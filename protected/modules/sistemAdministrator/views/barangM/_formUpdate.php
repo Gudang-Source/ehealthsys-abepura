@@ -4,7 +4,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     'id' => 'sabarang-m-form',
     'enableAjaxValidation' => false,
     'type' => 'horizontal',
-    'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)', 'onsubmit' => 'return requiredCheck(this);'),
+    'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)', 'onsubmit' => 'return cekNomorReg();'),
     'focus' => '#' . CHtml::activeId($model, 'bidang_id'),
         ));
 ?>
@@ -16,7 +16,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                  <?php           
             echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2', 'onchange'=>'cekTipeBarang();'));
             ?>  
-             <?php //golongan
+             <?php //golongan                    
                   echo $form->dropDownListRow($model,'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), 
                         array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
@@ -26,7 +26,12 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 'onchange'=>"setClearBidang();setClearKelompok();setClearSubKelompok();setClearSubSubKelompok();",));?>
             
             <?php //bidang //
-                  echo $form->dropDownListRow($model,'bidang_id', CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'), 
+                    if (!empty($model->subsubkelompok_id)){
+                        $bidang = BidangM::model()->findAll(" bidang_aktif = TRUE AND golongan_id = '".$model->golongan_id."' ORDER BY bidang_kode ASC ");
+                    }else{
+                        $bidang = array();
+                    }
+                  echo $form->dropDownListRow($model,'bidang_id', CHtml::listData($bidang, 'bidang_id', 'bidang_nama'), 
                         array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('/ActionDynamic/GetKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
@@ -35,7 +40,12 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 'onchange'=>"setClearKelompok();setClearSubKelompok();setClearSubSubKelompok();",));?>
             
              <?php //kelompok //
-                    echo $form->dropDownListRow($model,'kelompok_id', CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'), 
+                    if (!empty($model->subsubkelompok_id)){
+                        $kelompok = KelompokM::model()->findAll(" kelompok_aktif = TRUE AND bidang_id = '".$model->bidang_id."' ORDER BY kelompok_kode ASC ");
+                    }else{
+                        $kelompok = array();
+                    }
+                    echo $form->dropDownListRow($model,'kelompok_id', CHtml::listData($kelompok, 'kelompok_id', 'kelompok_nama'), 
                         array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('/ActionDynamic/GetSubKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
@@ -44,7 +54,12 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 'onchange'=>"setClearSubKelompok();setClearSubSubKelompok();",));?>
             
             <?php //subkelompok //
-                    echo $form->dropDownListRow($model,'subkelompok_id', CHtml::listData($model->SubKelompokItems, 'subkelompok_id', 'subkelompok_nama'), 
+                    if (!empty($model->subsubkelompok_id)){
+                        $subkelompok = SubkelompokM::model()->findAll(" subkelompok_aktif = TRUE AND kelompok_id = '".$model->kelompok_id."' ORDER BY subkelompok_kode ASC ");
+                    }else{
+                        $subkelompok = array();
+                    }
+                    echo $form->dropDownListRow($model,'subkelompok_id', CHtml::listData($subkelompok, 'subkelompok_id', 'subkelompok_nama'), 
                         array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('/ActionDynamic/GetSubSubKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
@@ -53,7 +68,12 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 'onchange'=>"setClearSubSubKelompok();",));?>
             
              <?php //subsubkelompok //
-                    echo $form->dropDownListRow($model,'subsubkelompok_id', CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'), 
+                    if (!empty($model->subsubkelompok_id)){
+                        $subsubkelompok = SubsubkelompokM::model()->findAll(" subsubkelompok_aktif = TRUE AND subkelompok_id = '".$model->subkelompok_id."' ORDER BY subsubkelompok_kode ASC ");
+                    }else{
+                        $subsubkelompok = array();
+                    }
+                    echo $form->dropDownListRow($model,'subsubkelompok_id', CHtml::listData($subsubkelompok, 'subsubkelompok_id', 'subsubkelompok_nama'), 
                         array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('/ActionAjax/GetKodeBarangSubSubKel',array('encode'=>false,'model_nama'=>get_class($model))),

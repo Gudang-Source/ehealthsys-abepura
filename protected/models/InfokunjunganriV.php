@@ -96,6 +96,7 @@ class InfokunjunganriV extends CActiveRecord
         public $kamarruangan_nobed;
         public $kamarruangan_nokamar;
         public $rujukandari_id;
+        public $prefix_pendaftaran;
         
 	/**
 	 * Returns the static model of the specified AR class.
