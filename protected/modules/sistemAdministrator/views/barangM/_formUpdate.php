@@ -130,7 +130,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             </div>
             </div>
            
-            <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>
+            <?php //Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>
+            
+            <?php echo $form->hiddenField($model,'tempKode')?>
             <?php echo CHtml::hiddenField('barangkode'); ?>
             <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span3 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'readonly'=>true)); //'onkeyup' => 'setKode(this);',?>            
             <div class = "control-group">
@@ -139,8 +141,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     <?php echo $form->textField($model, 'nomorregister', array('onblur'=>'valReg(this);','class' => 'span1 numbers-only',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 4)); //'onkeyup' => 'setKode(this);',?>             
                     <?php echo '&nbsp;&nbsp;&nbsp;s/d&nbsp;&nbsp;&nbsp;';?>             
                     <?php echo $form->textField($model, 'nomorregistersd', array('onblur'=>'valRegSD(this);','class' => 'span1 numbers-only',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 4)); //'onkeyup' => 'setKode(this);',?>             
-                </div>
+                </div>                
             </div>
+            
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span3', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    

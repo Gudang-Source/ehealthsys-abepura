@@ -1,14 +1,46 @@
 <?php 
     $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
+    $itemCssClass = 'table table-striped table-condensed';
     $sort = true;
     if (isset($caraPrint)){
-        $data = $model->searchPermintaanPembelian();
+        $data = $model->searchPrintPermintaanPembelian();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        
+        if ($caraPrint == "PDF"){
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+        
+        echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
     } else{
-        $data = $model->searchPrintPermintaanPembelian();
+        $data = $model->searchPermintaanPembelian();
          $template = "{summary}\n{items}\n{pager}";
     }
 ?>
@@ -20,6 +52,16 @@
         'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
                     array(
+                        'header' => 'No.',
+                        'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
+                        'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
+                    ),
+                    array(
+                        'header'=>'Tanggal Permintaan/ <br/> No Permintaan',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tglpermintaanpembelian)))."/ <br/>".$data->nopermintaan',
+                    ),
+                    array(
                         'header'=>'Nama Supplier',
                         'type'=>'raw',
                         'value'=>'$data->supplier->supplier_nama',
@@ -28,17 +70,7 @@
                         'header'=>'Alamat Supplier',
                         'type'=>'raw',
                         'value'=>'$data->supplier->supplier_alamat',
-                    ),
-                    array(
-                        'header'=>'No. Permintaan',
-                        'type'=>'raw',
-                        'value'=>'$data->nopermintaan',
-                    ),
-                    array(
-                        'header'=>'Tanggal Permintaan',
-                        'type'=>'raw',
-                        'value'=>'date("d/m/Y H:i:s", strtotime($data->tglpermintaanpembelian))',
-                    ),
+                    ),                                      
                     array(
                         'header'=>'Total Harga Netto',
                         'type'=>'raw',
@@ -61,8 +93,18 @@
 	'id'=>'laporan-grid',
 	'dataProvider'=>$data,
         'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
+                    array(
+                        'header' => 'No.',
+                        'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
+                        'value' => '$row+1'
+                    ),
+                    array(
+                        'header'=>'Tanggal Permintaan/ <br/> No Permintaan',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tglpermintaanpembelian)))."/ <br/>".$data->nopermintaan',
+                    ),
                     array(
                         'header'=>'Nama Supplier',
                         'type'=>'raw',
@@ -72,17 +114,7 @@
                         'header'=>'Alamat Supplier',
                         'type'=>'raw',
                         'value'=>'$data->supplier->supplier_alamat',
-                    ),
-                    array(
-                        'header'=>'No. Permintaan',
-                        'type'=>'raw',
-                        'value'=>'$data->nopermintaan',
-                    ),
-                    array(
-                        'header'=>'Tanggal Permintaan',
-                        'type'=>'raw',
-						'value'=>'date("d/m/Y H:i:s", strtotime($data->tglpermintaanpembelian))',
-                    ),
+                    ),                                
                     array(
                         'header'=>'Total Harga Netto',
                         'type'=>'raw',

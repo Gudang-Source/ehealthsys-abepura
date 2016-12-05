@@ -1,5 +1,6 @@
 <?php
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+$itemCssClass = 'table table-striped table-condensed';
 $template = "{summary}\n{items}\n{pager}";
 $row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
 if (isset($caraPrint)){
@@ -9,6 +10,36 @@ if (isset($caraPrint)){
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  
+  if ($caraPrint == "PDF"){
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+        
+        echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
 } else{
   $data = $model->searchRencanaKebutuhan();
 }
@@ -16,7 +47,7 @@ if (isset($caraPrint)){
 <?php $this->widget($table, array(
 	'id'=>'laporan-grid',
 	'dataProvider'=>$data,
-                'itemsCssClass'=>'table table-striped table-condensed',
+                'itemsCssClass'=>$itemCssClass,
                 'template'=>$template,
 //       'mergeHeaders'=>array(
 //            array(
@@ -39,7 +70,7 @@ if (isset($caraPrint)){
                     
                     array(
                         'header'=>'Tanggal Perencanaan',
-                        'value'=>'date("d/m/Y", strtotime($data->renkebbarang_tgl))',
+                        'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($data->renkebbarang_tgl)))',
                     ),
                     array(
                         'header'=>'No. Perencanaan',
@@ -52,6 +83,9 @@ if (isset($caraPrint)){
                     array(
                         'header'=>'Jumlah Permintaan',
                         'value'=>'$data->jmlpermintaanbarangdet',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
                     ),
                     array(
                         'header'=>'Harga Total',

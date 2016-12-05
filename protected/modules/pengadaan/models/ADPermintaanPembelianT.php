@@ -125,7 +125,7 @@ class ADPermintaanPembelianT extends PermintaanpembelianT
 		$criteria=new CDbCriteria;
 //                $criteria->with = 'supplier';
 		$criteria->select = 'COUNT(t.supplier_id) as jumlah, supplier_m.supplier_nama as data';
-		$criteria->group = 't.supplier_id, supplier_m.supplier_nama';
+		$criteria->group = 'supplier_m.supplier_nama';
 		$criteria->addBetweenCondition('date(t.tglpermintaanpembelian)',$this->tgl_awal,$this->tgl_akhir);
 				
 		$criteria->compare('LOWER(t.nopermintaan)',strtolower($this->nopermintaan),true);

@@ -11,7 +11,7 @@
     ?>
     <div class="row-fluid">
         <div class="span4">
-            <?php echo CHtml::label('Tanggal Penerimaan Items', 'tglpenerimaan', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tglpenerimaan', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo CHtml::hiddenField('filter_tab', 'rekap'); ?>
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>

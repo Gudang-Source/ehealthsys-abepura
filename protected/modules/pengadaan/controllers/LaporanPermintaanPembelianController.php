@@ -24,6 +24,8 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADPermintaanPembelianT']['tgl_akhir']);
 			$model->bln_awal = $format->formatMonthForDb($_GET['ADPermintaanPembelianT']['bln_awal']);
 			$model->bln_akhir = $format->formatMonthForDb($_GET['ADPermintaanPembelianT']['bln_akhir']);
+                        $model->thn_awal = $_GET['ADPermintaanPembelianT']['thn_awal'];
+                        $model->thn_akhir = $_GET['ADPermintaanPembelianT']['thn_akhir'];
 			$bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
 			$thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
 			switch($model->jns_periode){
@@ -62,6 +64,8 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 			$model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPembelianT']['tgl_akhir']);
 			$model->bln_awal = $format->formatMonthForDb($_REQUEST['ADPermintaanPembelianT']['bln_awal']);
 			$model->bln_akhir = $format->formatMonthForDb($_REQUEST['ADPermintaanPembelianT']['bln_akhir']);
+                        $model->thn_awal = $_GET['ADPermintaanPembelianT']['thn_awal'];
+                        $model->thn_akhir = $_GET['ADPermintaanPembelianT']['thn_akhir'];
 			$bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
 			$thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
 			switch($model->jns_periode){
@@ -129,6 +133,8 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADPermintaanPembelianT']['tgl_akhir']);
 			$model->bln_awal = $format->formatMonthForDb($_GET['ADPermintaanPembelianT']['bln_awal']);
 			$model->bln_akhir = $format->formatMonthForDb($_GET['ADPermintaanPembelianT']['bln_akhir']);
+                        $model->thn_awal = $_GET['ADPermintaanPembelianT']['thn_awal'];
+                        $model->thn_akhir = $_GET['ADPermintaanPembelianT']['thn_akhir'];
 			$bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
 			$thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
 			switch($model->jns_periode){
@@ -158,12 +164,13 @@ class LaporanPermintaanPembelianController extends MyAuthController{
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
+            $mpdf->showImageErrors = true;//debug image not shown in simulasi or running
             $mpdf->useOddEven = 2;
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 	protected function parserTanggal($tgl){

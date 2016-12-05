@@ -142,7 +142,7 @@ class LBPasienKirimKeUnitLainV extends PasienkirimkeunitlainV
 			if(!empty($this->pendaftaran_id)){
 				$criteria->addCondition('t.pendaftaran_id = '.$this->pendaftaran_id);
 			}
-            $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);                
+            $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);                
 			if(!empty($this->jeniskasuspenyakit_id)){
 				$criteria->addCondition('t.jeniskasuspenyakit_id = '.$this->jeniskasuspenyakit_id);
 			}

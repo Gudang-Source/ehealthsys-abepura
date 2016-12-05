@@ -43,6 +43,11 @@ class BarangMController extends MyAuthController
                       $transaction = Yii::app()->db->beginTransaction();
                       $model=new SABarangM;
                       $model->attributes=$_POST['SABarangM'];
+                      $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
+                      $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
+                      $model->bidang_id = $model->getBidangId($model->kelompok_id);                
+                      $model->golongan_id = $model->getGolonganId($model->bidang_id);   
+                      
                       $model->barang_statusregister=true;     
                       if($model->nomorregister != ''):
                         $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
@@ -110,15 +115,14 @@ class BarangMController extends MyAuthController
 	{
 		$model=$this->loadModel($id);
 		$temLogo = $model->barang_image;
-                
+                $model->tempKode = $model->barang_kode;
                                                              
                 if ($model->subsubkelompok_id !== null):
                     $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
                     $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
                     $model->bidang_id = $model->getBidangId($model->kelompok_id);                
                     $model->golongan_id = $model->getGolonganId($model->bidang_id);   
-                
-                    
+                                    
                     $model->nomorregister = str_replace($model->getNomorReg($model->subsubkelompok_id).'.','',$model->barang_kode);                                                                                                    
                     $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);
                     
@@ -181,8 +185,14 @@ class BarangMController extends MyAuthController
 		if(isset($_POST['SABarangM']))
 		{
                     $transaction = Yii::app()->db->beginTransaction();
-                      $model=$this->loadModel($id);
-                      $model->attributes=$_POST['SABarangM'];
+                        $model=$this->loadModel($id);
+                        $model->attributes=$_POST['SABarangM'];
+                        
+                        $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
+                        $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
+                        $model->bidang_id = $model->getBidangId($model->kelompok_id);                
+                        $model->golongan_id = $model->getGolonganId($model->bidang_id);
+                      
                          if($model->nomorregister != ''):
                             $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
                          endif;
@@ -190,47 +200,48 @@ class BarangMController extends MyAuthController
                          if($model->nomorregistersd != ''):
                             $model->barang_kode = $model->barang_kode.' s/d '.$model->nomorregistersd;
                           endif;
-                      if ($model->validate()) {
-                        try {
-                            $random = rand(0000000, 9999999);
-                            $model->barang_image = CUploadedFile::getInstance($model, 'barang_image');
-                            $gambar = $model->barang_image;
-                            if (!empty($model->barang_image)) {
-                                $model->barang_image = $random . $model->barang_image;
-                                $model->barang_image = $random . $model->barang_image;
+                          
+                        if ($model->validate()) {
+                          try {
+                              $random = rand(0000000, 9999999);
+                              $model->barang_image = CUploadedFile::getInstance($model, 'barang_image');
+                              $gambar = $model->barang_image;
+                              if (!empty($model->barang_image)) {
+                                  $model->barang_image = $random . $model->barang_image;
+                                  $model->barang_image = $random . $model->barang_image;
 
-                                Yii::import("ext.EPhpThumb.EPhpThumb");
+                                  Yii::import("ext.EPhpThumb.EPhpThumb");
 
-                                $thumb = new EPhpThumb();
-                                $thumb->init(); //this is needed
+                                  $thumb = new EPhpThumb();
+                                  $thumb->init(); //this is needed
 
-                                $fullImgName = $model->barang_image;
-                                $fullImgSource = Params::pathBarangDirectory() . $fullImgName;
-                                $fullThumbSource = Params::pathBarangTumbsDirectory() . 'kecil_' . $fullImgName;
+                                  $fullImgName = $model->barang_image;
+                                  $fullImgSource = Params::pathBarangDirectory() . $fullImgName;
+                                  $fullThumbSource = Params::pathBarangTumbsDirectory() . 'kecil_' . $fullImgName;                                
+                                  $model->barang_image = $fullImgName;
 
-                                $model->barang_image = $fullImgName;
+                                  if ($model->save()) {
+                                      if (!empty($temLogo)) {
+                                          unlink(Params::pathBarangDirectory() . $temLogo);
+                                          unlink(Params::pathBarangTumbsDirectory() . 'kecil_' . $temLogo);
+                                      }
+                                      $gambar->saveAs($fullImgSource);
+                                      $thumb->create($fullImgSource)
+                                              ->resize(200, 200)
+                                              ->save($fullThumbSource);
+                                  }    
+                              } else {
 
-                                if ($model->save()) {
-                                    if (!empty($temLogo)) {
-                                        unlink(Params::pathBarangDirectory() . $temLogo);
-                                        unlink(Params::pathBarangTumbsDirectory() . 'kecil_' . $temLogo);
-                                    }
-                                    $gambar->saveAs($fullImgSource);
-                                    $thumb->create($fullImgSource)
-                                            ->resize(200, 200)
-                                            ->save($fullThumbSource);
-                                }    
-                            } else {
-                            	$model->save();
-                            }
-                            
-                            $transaction->commit();
-                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            $this->redirect(array('admin','id'=>1));
-                        } catch (Exception $e) {
-                            $transaction->rollback();
-                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
-                        }
+                                  $model->save();
+                              }
+
+                              $transaction->commit();
+                              Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                              $this->redirect(array('admin','id'=>1));
+                          } catch (Exception $e) {
+                              $transaction->rollback();
+                              Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                          }
                     }
 		}
 
