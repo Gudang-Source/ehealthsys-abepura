@@ -58,6 +58,7 @@ class BarangM extends CActiveRecord
         public $nomorregister;
         public $nomorregistersd;
         public $qty_pesan;
+        public $tempKode;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -94,7 +95,8 @@ class BarangM extends CActiveRecord
 			array('barang_noseri, barang_ukuran, barang_bahan', 'length', 'max'=>20),
 			array('barang_thnbeli', 'length', 'max'=>5),
 			array('barang_image', 'length', 'max'=>200),
-			array('nomorregistersd, nomorregister, barang_statusregister, barang_aktif, subsubkelompok_id, barang_keterangan', 'safe'),
+                        array('barang_kode','cekKode'),
+			array('tempKode,nomorregistersd, nomorregister, barang_statusregister, barang_aktif, subsubkelompok_id, barang_keterangan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('subsubkelompok_id, nomorregister, subsubkelompok_nama, subkelompok_id, kelompok_id, bidang_id, golongan_id, barang_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
@@ -328,6 +330,33 @@ class BarangM extends CActiveRecord
             
           //  return parent::beforeValidate();
        // }
+        
+        public function cekKode()
+        {
+            $kode = $this->barang_kode; 
+            
+            $cekKode = $this->find(" barang_kode = '".$kode."' ");
+            
+            if ($this->tempKode == $kode){
+                return true;
+            }else{
+                if ( count($cekKode) > 0 ){
+                    $this->nomorregister = str_replace($this->getNomorReg($this->subsubkelompok_id).'.','',$this->barang_kode);                                                                                                    
+                    $this->barang_kode = str_replace('.'.$this->nomorregister,'',$this->barang_kode);
+                    $this->addError('tempKode'," Maaf,<br/> Kode Barang <b>'".$this->barang_kode."'</b> <br/>"
+                                                . " Nomor Register <b>'".$this->nomorregister."'</b> <br/> "
+                                                . " Kombinasinya menjadi <b>'".$kode."'</b> sudah dipakai ");
+                    $this->addError('barang_kode',"");
+                    return false;
+                }else{
+                    //$this->barang_kode
+                }
+            }
+                        
+                        
+                   
+            
+        }
         
          
 }
