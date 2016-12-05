@@ -17,6 +17,7 @@ class RujukanPenunjangController extends MyAuthController
             //$model->cbTglMasuk = $_GET['LBPasienKirimKeUnitLainV']['cbTglMasuk'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBPasienKirimKeUnitLainV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBPasienKirimKeUnitLainV']['tgl_akhir']);
+            $model->prefix_pendaftaran = $_GET['LBPasienKirimKeUnitLainV']['prefix_pendaftaran'];
         }
         $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
         $this->render('index',array('model'=>$model,'format'=>$format));

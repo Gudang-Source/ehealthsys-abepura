@@ -21,6 +21,7 @@ class DaftarPasienController extends MyAuthController {
 			$modPasienMasukPenunjang->statusperiksahasil = $_REQUEST['LBPasienMasukPenunjangV']['statusperiksahasil'];
 			$modPasienMasukPenunjang->tgl_awal = $format->formatDateTimeForDb($_REQUEST['LBPasienMasukPenunjangV']['tgl_awal']);
 			$modPasienMasukPenunjang->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['LBPasienMasukPenunjangV']['tgl_akhir']);
+                        $modPasienMasukPenunjang->prefix_pendaftaran = $_REQUEST['LBPasienMasukPenunjangV']['prefix_pendaftaran'];
 		}
 		$this->render('index', array('format' => $format, 'modPasienMasukPenunjang' => $modPasienMasukPenunjang));
 	}

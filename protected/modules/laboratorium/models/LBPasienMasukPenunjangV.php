@@ -34,7 +34,7 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
                 join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id
             ";
             $criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-            $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+            $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
             $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
             $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
             $criteria->compare('LOWER(hasilpemeriksaanlab_t.statusperiksahasil)',strtolower($this->statusperiksahasil),true);
@@ -224,7 +224,7 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
         $criteria=new CDbCriteria;
             
             $criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-            $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+            $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
             $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
             $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
             // $criteria->compare('LOWER(hasilpemeriksaanlab_t.statusperiksahasil)',strtolower($this->statusperiksahasil),true);

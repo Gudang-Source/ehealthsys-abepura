@@ -56,22 +56,33 @@
             </div>
         </td>
         <td>
-            <div class="control-group ">
-                <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
-                <div class="controls">
-                    <?php echo CHtml::activeTextField($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran')); ?>
-                </div>
-            </div> 
+             <div class="control-group">
+                <?php echo CHtml::label('No. Pendaftaran','no_pendaftaran', array('class'=>'control-label')) ?>                        
+                    <div class="controls">
+
+                        <?php 
+
+                                $prefix = array(
+                                    0 => Params::PREFIX_RAWAT_DARURAT,
+                                    1 => Params::PREFIX_RAWAT_INAP,
+                                    2 => Params::PREFIX_RAWAT_JALAN,                                    
+                                );
+
+                            echo $form->dropDownList($model,'prefix_pendaftaran', PendaftaranT::model()->getColumn($prefix),array('class'=>'numbers-only', 'style'=>'width:75px;')); 
+                        ?>
+                        <?php echo $form->textField($model, 'no_pendaftaran', array('class' => 'span2 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>                                                                
+                    </div>                                                
+            </div>
             <div class="control-group ">
                 <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
                 <div class="controls">
-                    <?php echo CHtml::activeTextField($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik')); ?>
+                    <?php echo CHtml::activeTextField($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik', 'class'=>'numbers-only', 'maxlength'=>6)); ?>
                 </div>
             </div>    
             <div class="control-group ">
                 <label for="namaPasien" class="control-label">Nama Pasien </label>
                 <div class="controls">
-                    <?php echo CHtml::activeTextField($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien')); ?>
+                    <?php echo CHtml::activeTextField($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien', 'class'=>'hurufs-only', )); ?>
                 </div>
             </div> 
         </td>
@@ -129,8 +140,8 @@
 </table>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit','name'=>'submitSearch')); ?>
-    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit','name'=>'submitSearch')); ?>
+    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                         $this->createUrl($this->id.'/index'), 
                         array('class'=>'btn btn-danger',
 //                                      'onclick'=>'if(!confirm("Apakah anda ingin mengulang ini ?")) return false;'));
