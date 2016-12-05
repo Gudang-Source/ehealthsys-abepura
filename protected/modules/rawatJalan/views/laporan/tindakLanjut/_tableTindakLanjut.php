@@ -55,7 +55,11 @@
                 'type'=>'raw',
                 'value'=>'(empty($data->pasienpulang_id))?"PULANG":$data->carakeluar',
             ),
-            'no_pendaftaran',
+             array(
+                'header' => 'Tanggal Pendaftaran/ <br/> No Pendaftaran',
+                'type' => 'raw',
+                'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br>".$data->no_pendaftaran'
+            ),    
             'no_rekam_medik',
             array(
                 'header' => 'Nama Pasien',
@@ -65,7 +69,9 @@
            // 'jeniskelamin',
             array(
                 'header'=>'Nama Diagnosa',
-                'value'=>'$data->diagnosa_nama',
+                'type'=>'raw',
+                //'value'=>'(!empty($data->diagnosa_nama))?$data->diagnosa_nama:""',
+              'value' => '$this->grid->getOwner()->renderPartial("tindakLanjut/_listDiagnosa",array("pendaftaran_id"=>$data->pendaftaran_id),true)'
             ),
 //            array(
 //                   'header'=>'CaraBayar/Penjamin',
