@@ -9,9 +9,9 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
        $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
@@ -24,6 +24,8 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADRenkebbarangT']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['ADRenkebbarangT']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['ADRenkebbarangT']['bln_akhir']);
+            $model->thn_awal = $_GET['ADRenkebbarangT']['thn_awal'];
+            $model->thn_akhir = $_GET['ADRenkebbarangT']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -46,9 +48,9 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
@@ -64,6 +66,8 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ADRenkebbarangT']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_REQUEST['ADRenkebbarangT']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_REQUEST['ADRenkebbarangT']['bln_akhir']);
+            $model->thn_awal = $_GET['ADRenkebbarangT']['thn_awal'];
+            $model->thn_akhir = $_GET['ADRenkebbarangT']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -270,7 +274,7 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
 	protected function parserTanggal($tgl){
