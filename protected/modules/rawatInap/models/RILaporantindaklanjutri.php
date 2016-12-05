@@ -25,7 +25,7 @@ class RILaporantindaklanjutri extends LaporantindaklanjutriV {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        $criteria->select = "pasienpulang_id, carakeluar, no_pendaftaran, no_rekam_medik, pendaftaran_id, namadepan, nama_pasien, umur, tgl_pendaftaran, jeniskelamin, alamat_pasien, rt, rw, kelaspelayanan_nama, tglpasienpulang, kunjungan"; //, diagnosa_nama
         if (!empty($this->carakeluar)){
             if (is_array($this->carakeluar)) {
                 foreach ($this->carakeluar as $v) {
@@ -48,7 +48,8 @@ class RILaporantindaklanjutri extends LaporantindaklanjutriV {
         $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
         $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
-
+        $criteria->order = "tglpasienpulang ASC";
+        $criteria->group = "pasienpulang_id, carakeluar, no_pendaftaran, no_rekam_medik, pendaftaran_id, namadepan, nama_pasien, umur, tgl_pendaftaran, jeniskelamin, alamat_pasien, rt, rw, kelaspelayanan_nama, tglpasienpulang, kunjungan"; //, diagnosa_nama
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
@@ -102,7 +103,7 @@ class RILaporantindaklanjutri extends LaporantindaklanjutriV {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        $criteria->select = "pasienpulang_id, carakeluar, no_pendaftaran, no_rekam_medik, pendaftaran_id, namadepan, nama_pasien, umur, tgl_pendaftaran, jeniskelamin, alamat_pasien, rt, rw, kelaspelayanan_nama, tglpasienpulang, kunjungan"; //, diagnosa_nama
         if (is_array($this->carakeluar)) {
             foreach ($this->carakeluar as $v) {
                 if ($v == 'DIPULANGKAN') {
@@ -123,6 +124,8 @@ class RILaporantindaklanjutri extends LaporantindaklanjutriV {
         $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
         $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
         $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
+        $criteria->order = "tglpasienpulang ASC";
+        $criteria->group = "pasienpulang_id, carakeluar, no_pendaftaran, no_rekam_medik, pendaftaran_id, namadepan, nama_pasien, umur, tgl_pendaftaran, jeniskelamin, alamat_pasien, rt, rw, kelaspelayanan_nama, tglpasienpulang, kunjungan"; //, diagnosa_nama
         
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
