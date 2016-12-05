@@ -26,7 +26,7 @@
         <legend class="rim"><i class="icon-white icon-search"></i> Pencarian</legend>
         <div class="row-fluid">
             <div class="span4">
-                <?php echo CHtml::label('Periode', 'periode', array('class' => 'control-label')) ?>
+                <?php echo CHtml::label('Periode Laporan', 'periode', array('class' => 'control-label')) ?>
                 <div class="controls">
                     <?php echo CHtml::hiddenField('filter_tab','rekap'); ?>
                     <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
@@ -131,6 +131,7 @@
                 </div>
             </div> 
         </div>
+        <?php /*
         <div class="control-group">
         <?php echo CHtml::label('No. Perencanaan','',array('class'=>'control-label')); ?>
             <div class="controls">
@@ -139,14 +140,15 @@
                 ?>
             </div>
         </div>
+*/ ?>
         <div class="form-actions">
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),
                     array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
 
-            <?php echo CHtml::link(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+            <?php echo CHtml::link(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                         Yii::app()->createUrl($this->module->id.'/laporan/rencanaKebutuhan'), 
                         array('class'=>'btn btn-danger',
-                              'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                              'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
         </div>
     </fieldset>
     <?php

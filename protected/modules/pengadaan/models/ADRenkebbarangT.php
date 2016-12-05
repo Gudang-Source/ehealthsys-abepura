@@ -26,7 +26,7 @@ class ADRenkebbarangT extends RenkebbarangT
                 if(!empty($this->ruangan_id)){
                         $criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
                 }
-
+                $criteria->order = "t.renkebbarang_tgl ASC";
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
                 ));
@@ -43,11 +43,13 @@ class ADRenkebbarangT extends RenkebbarangT
                 if(!empty($this->ruangan_id)){
                         $criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
                 }
+                $criteria->order = "t.renkebbarang_tgl ASC";
                 
-                $criteria->limit = 1;
+                $criteria->limit = -1;
 
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
+                        'pagination' => false
                 ));
         }
         
@@ -64,6 +66,7 @@ class ADRenkebbarangT extends RenkebbarangT
                 $criteria->addBetweenCondition('date(t.renkebbarang_tgl)',$this->tgl_awal,$this->tgl_akhir);
                 $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->ruangan_id);
                 $criteria->compare('t.renkebbarang_no',$this->renkebbarang_no);
+                $criteria->order = "jumlah DESC";
 
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,

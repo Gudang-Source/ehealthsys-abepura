@@ -16,6 +16,7 @@ class InformasiPasienPulangController extends MyAuthController
             $modPasienYangPulang->ceklis = $_GET['RIPasienygPulangriV']['ceklis'];
             $modPasienYangPulang->tgl_awal = $modPasienYangPulang->tgl_awal." 00:00:00";
             $modPasienYangPulang->tgl_akhir = $modPasienYangPulang->tgl_akhir." 23:59:59";
+            $modPasienYangPulang->prefix_pendaftaran = $_GET['RIPasienygPulangriV']['prefix_pendaftaran'];
         }
         $this->render('index',array('format'=>$format,'modPasienYangPulang'=>$modPasienYangPulang));
     }

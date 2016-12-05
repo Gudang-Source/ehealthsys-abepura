@@ -70,9 +70,9 @@ Class Tips
             'waktutime' => 'icon ini  <i class="icon-calendar"></i><i class="icon-time"></i>'
                         .'  berfungsi untuk menentukan tanggal dan waktu.',
             'tanggal' => 'icon ini  <i class="icon-calendar"></i>'
-                        .'  berfungsi untuk menentukan waktu.',
-            'time' => 'icon ini  <i class="icon-time"></i>'
                         .'  berfungsi untuk menentukan tanggal.',
+            'time' => 'icon ini  <i class="icon-time"></i>'
+                        .'  berfungsi untuk menentukan waktu.',
             'lihat' => 'icon ini  <i class="icon-form-lihat"></i>'
                         .'  berfungsi untuk melihat data.',
             'ubah' => 'icon ini  <i class="icon-form-ubah"></i>'

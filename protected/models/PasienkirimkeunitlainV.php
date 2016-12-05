@@ -59,6 +59,7 @@
 class PasienkirimkeunitlainV extends CActiveRecord
 {
 	  public $cbTglMasuk = false;
+          public $prefix_pendaftaran;
 //	  public $tgl_awal;
 //      public $tgl_akhir;
 	/**
