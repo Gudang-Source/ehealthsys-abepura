@@ -2,7 +2,16 @@
 <table width="100%">
         <TR>
             <TD ROWSPAN=3 WIDTH=80 ALIGN=CENTER VALIGN=MIDDLE>
-                 <img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?> " style="float:left; max-width: 80px; width:80px;" class='image_report'/>
+                <?php 
+                    $caraPrint = isset($_GET['caraPrint'])?$_GET['caraPrint']:null; 
+                    
+                    if ($caraPrint == 'PDF'){
+                ?>
+                <img src="<?php echo Params::urlProfilRSPDFPath().$data->logo_rumahsakit ?> " style="float:left; max-width: 80px; width:80px;" class='image_report'/>
+                    <?php }else{ ?>
+                    <img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?> " style="float:left; max-width: 80px; width:80px;" class='image_report'/>
+                 
+                 <?php } ?>
             </TD>
             <TD ALIGN=CENTER VALIGN=MIDDLE colspan=" <?php echo (!empty($colspan)) ? ($colspan-1) : "5"; ?>">
                 <B><FONT FACE="Liberation Serif" SIZE=5 color="black"><?php echo $data->nama_rumahsakit ?></FONT></B>

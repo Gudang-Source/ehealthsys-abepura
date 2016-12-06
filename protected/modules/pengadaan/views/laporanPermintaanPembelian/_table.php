@@ -78,7 +78,7 @@
                         'value'=>'number_format($data->total_harganetto,0,",",".")',
                         'htmlOptions'=>array('style'=>'text-align:right','class'=>'currency'),
                     ),
-                    array(
+                   array(
                         'header'=>'Print Detail',
                         'type'=>'raw',
                         'name'=>'total_harganetto',

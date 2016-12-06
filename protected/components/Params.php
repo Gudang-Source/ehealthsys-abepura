@@ -986,6 +986,10 @@ Class Params
 	}
 
 	//======== End path dan url File CALK ========
+        
+        public static function urlProfilRSPDFPath(){
+            return Yii::app()->request->baseUrl.'/data/images/profil_rs/';
+        }
 	
         
         public function getLoketRJP() {

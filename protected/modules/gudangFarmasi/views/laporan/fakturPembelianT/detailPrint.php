@@ -30,47 +30,67 @@
             {
             echo "                
                 <table width='100%' border='0' style='font-size:small;'>
-                    <tr>
-                        <td>&nbsp;Receiving : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Purchase Order : </td>
+                    <tr>                        
+                        <td>Receiving :</td>
+                        <td>Date :</td>
+                        <td>Purchase Order :</td>
                     </tr>
                     <tr>
                         <td>
-                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 12%;float:left;margin-left:3px;'>
+                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 100%;margin-left:3px;'>
                                 <font style='font-size:9pt'><B>".$noterima."</B></font><br>
                             </div>
-                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 12%;float:left;margin-left:3px;'>
+                            
+                            <br/>
+                        </td>
+                        <td>
+                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 100%;margin-left:3px;'>
                                 <font style='font-size:9pt'><B>".$tglterima."</B></font><br>
                             </div>
-                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 12%;float:left;margin-left:3px;'>
+                            <br/>
+                        </td>
+                        <td>
+                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 100%;margin-left:3px;'>
                                 <font style='font-size:9pt'><B>".(!empty($nopermintaan) ? $nopermintaan : "-")."</B></font><br>
                             </div>
+                            <br/>
                         </td>
                     </tr>
-                    <tr>
-                        <td>&nbsp;Faktur / Surat : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Due Date: </td>
+                    
+                    <tr>                        
+                        <td>Faktur / Surat :</td>
+                        <td>Date : </td>
+                        <td>Due Date :</td>
                     </tr>
                     <tr>
                         <td>
-                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 12%;float:left;margin-left:3px;'>
+                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 100%;float:left;margin-left:3px;'>
                                 <font style='font-size:9pt'><B>".$nofaktur."</B></font><br>
                             </div>
-                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 12%;float:left;margin-left:3px;'>
+                        </td>
+                        <td>
+                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 100%;float:left;margin-left:3px;'>
                                 <font style='font-size:9pt'><B>".$tglfaktur."</B></font><br>
                             </div>
-                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 12%;float:left;margin-left:3px;'>
+                        </td>
+                        <td>                                                        
+                            <div style='border:1px solid #cccccc; border-radius:2px;padding:5px; width: 100%;float:left;margin-left:3px;'>
                                 <font style='font-size:9pt'><B>".$tgljatuhtempo."</B></font><br>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan=7 style='font-size:9pt;'><b> Nama Supplier: $supplier </b></td>
+                        <td colspan='3'>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan=7 style='font-size:9pt;'><b> Alamat Supplier: $alamat </b></td>
+                        <td colspan=3 style='font-size:9pt;'><b> Nama Supplier: $supplier </b></td>
                     </tr>
-                    <tr><td>";
+                    <tr>
+                        <td colspan=3 style='font-size:9pt;'><b> Alamat Supplier: $alamat </b></td>
+                    </tr>
+                    <tr><td colspan='3'>";
                 echo "<table width='100%' border='1'>
-                            <tr style='font-weight:bold;background-color:#C0C0C0'>
+                            <tr style='font-weight:bold;border-bottom:1px solid #000;' bgcolor='#C0C0C0'>
                                 <td align='center'>Kode</td>
                                 <td align='center'>Nama</td>
                                 <td align='center'>Satuan</td>
