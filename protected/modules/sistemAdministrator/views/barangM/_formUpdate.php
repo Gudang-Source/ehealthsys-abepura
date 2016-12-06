@@ -1,4 +1,6 @@
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php
 $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     'id' => 'sabarang-m-form',
@@ -147,18 +149,18 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span3', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
-            <?php echo $form->textFieldRow($model, 'barang_noseri', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>    
+            <?php echo $form->textFieldRow($model, 'barang_noseri', array('class' => 'span2 alphanumeric-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>    
         </td>
         <td>
             <?php echo $form->textFieldRow($model, 'barang_ukuran', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>
             <?php echo $form->textFieldRow($model, 'barang_bahan', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>
-            <?php echo $form->textFieldRow($model, 'barang_thnbeli', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 5)); ?>    
+            <?php echo $form->textFieldRow($model, 'barang_thnbeli', array('class' => 'span1 numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 4, 'style' => 'text-align:right;')); ?>    
             <?php echo $form->dropDownListRow($model, 'barang_warna', LookupM::getItems('warna'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2')); ?>    
             <div class="control-group ">
                 <?php echo $form->labelEx($model, 'barang_ekonomis_thn', array('class' => 'control-label')) ?>
                 <div class="controls">
 
-                    <?php echo $form->textField($model, 'barang_ekonomis_thn', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . ' tahun '; ?> 
+                    <?php echo $form->textField($model, 'barang_ekonomis_thn', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 4, 'style' => 'text-align:right;')) . ' tahun '; ?> 
                 </div>
             </div>
 
@@ -169,11 +171,40 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo $form->textFieldRow($model, 'barang_jmldlmkemasan', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
         </td>
         <td>   
-            <?php echo $form->textFieldRow($model, 'barang_harganetto', array('class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>    
-            <?php echo $form->textFieldRow($model, 'barang_persendiskon', array('class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>    
-            <?php echo $form->textFieldRow($model, 'barang_ppn', array('class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>    
-            <?php echo $form->textFieldRow($model, 'barang_hpp', array('class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>    
-            <?php echo $form->textFieldRow($model, 'barang_hargajual', array('class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>    
+            <div class = "control-group">
+                <?php echo $form->labelEx($model,'barang_harganetto', array('class'=>'control-label')); ?>
+                <div class = "controls">
+                <?php echo $form->textField($model, 'barang_harganetto', array('class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")).' <label>Rupiah</label>'; ?>    
+                </div>
+            </div>
+            
+            <div class = "control-group">
+                <?php echo $form->labelEx($model,'barang_persendiskon', array('class'=>'control-label')); ?>
+                <div class = "controls">
+                <?php echo $form->textField($model, 'barang_persendiskon', array('class' => 'span2 comadesimal-only', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style' => 'text-align:right;')); ?>    
+                </div>
+            </div>
+            
+            <div class = "control-group">
+                <?php echo $form->labelEx($model,'barang_ppn', array('class'=>'control-label')); ?>
+                <div class = "controls">
+                <?php echo $form->textField($model, 'barang_ppn', array('class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")).' <label>Rupiah</label>'; ?>    
+                </div>
+            </div>
+            
+             <div class = "control-group">
+                <?php echo $form->labelEx($model,'barang_hpp', array('class'=>'control-label')); ?>
+                <div class = "controls">
+                <?php echo $form->textField($model, 'barang_hpp', array('class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")).' <label>Rupiah</label>'; ?>    
+                </div>
+            </div>
+            
+             <div class = "control-group">
+                <?php echo $form->labelEx($model,'barang_hargajual', array('class'=>'control-label')); ?>
+                <div class = "controls">
+                <?php echo $form->textField($model, 'barang_hargajual', array('class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")).' <label>Rupiah</label>'; ?>    
+                </div>
+            </div>
             <?php echo $form->textAreaRow($model, 'barang_keterangan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'rows'=>4, 'cols'=>50)); ?>    
 			<?php
             if (!$model->isNewRecord) {
@@ -532,5 +563,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
         }
         
     }
+    
+    
     
 </script>
