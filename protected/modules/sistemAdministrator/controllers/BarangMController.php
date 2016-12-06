@@ -49,6 +49,8 @@ class BarangMController extends MyAuthController
                       $model->golongan_id = $model->getGolonganId($model->bidang_id);   
                       
                       $model->barang_statusregister=true;     
+                      $model->barang_persendiskon = str_replace(',', '.', $model->barang_persendiskon);                      
+                      
                       if($model->nomorregister != ''):
                         $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
                       endif;
@@ -116,6 +118,13 @@ class BarangMController extends MyAuthController
 		$model=$this->loadModel($id);
 		$temLogo = $model->barang_image;
                 $model->tempKode = $model->barang_kode;
+                
+                //format
+                $model->barang_persendiskon = str_replace('.', ',', $model->barang_persendiskon);
+                $model->barang_hargajual = number_format($model->barang_hargajual,0,'','.');
+                $model->barang_harganetto = number_format($model->barang_harganetto,0,'','.');
+                $model->barang_ppn = number_format($model->barang_ppn,0,'','.');
+                $model->barang_hpp = number_format($model->barang_hpp,0,'','.');
                                                              
                 if ($model->subsubkelompok_id !== null):
                     $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
@@ -187,6 +196,9 @@ class BarangMController extends MyAuthController
                     $transaction = Yii::app()->db->beginTransaction();
                         $model=$this->loadModel($id);
                         $model->attributes=$_POST['SABarangM'];
+                        
+                        
+                        $model->barang_persendiskon = !empty($model->barang_persendiskon)?str_replace(',', '.', $model->barang_persendiskon):0;                      
                         
                         $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
                         $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);

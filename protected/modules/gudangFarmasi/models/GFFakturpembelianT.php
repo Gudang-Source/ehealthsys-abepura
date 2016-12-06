@@ -21,6 +21,7 @@ class GFFakturpembelianT extends FakturpembelianT {
     public $supplier_id,$supplier_nama,$supplier_alamat;
     public $noterima,$tglterima,$nopermintaan;
     public $fakturpembelian_id;
+    public $tabPrint;    
     
     public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
 

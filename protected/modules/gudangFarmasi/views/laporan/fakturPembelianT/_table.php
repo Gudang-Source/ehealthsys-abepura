@@ -1,53 +1,90 @@
 <?php 
     $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
+    $itemCssClass = 'table table-striped table-condensed';
     $sort = true;
+     $visible =  true;
     if (isset($caraPrint)){
         $data = $model->searchLaporanPrint();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        $visible = false;
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        
+         if ($caraPrint == "PDF"){
+            $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
+        }
+        
+        echo "
+            <style>
+                .border th, .border td{
+                    border:1px solid #000;
+                }
+                .table thead:first-child{
+                    border-top:1px solid #000;        
+                }
+
+                thead th{
+                    background:none;
+                    color:#333;
+                }
+
+                .border {
+                    box-shadow:none;
+                    border-spacing:0px;
+                    padding:0px;
+                }
+
+                .table tbody tr:hover td, .table tbody tr:hover th {
+                    background-color: none;
+                }
+            </style>";
+          $itemCssClass = 'table border';
     } else{
         $data = $model->searchLaporan();
          $template = "{summary}\n{items}\n{pager}";
-    }
+    }    
+     
 ?>
-<div id="div_rekap">
+
+<div id="div_rekap" <?php echo ($model->tabPrint=='rekap')?'':'style = "display:none;" ';  ?>>
     <!--<legend class="rim"> Tabel Faktur Pembelian - Rekap</legend>-->
     <?php $this->widget($table,array(
             'id'=>'rekapLaporanFakturPembelian',
             'dataProvider'=>$data,
             'template'=>$template,
-            'itemsCssClass'=>'table table-striped table-condensed',
-            'mergeColumns'=>array('supplier_id'),
-            'extraRowColumns'=> array('supplier_id'),
+            'itemsCssClass'=>$itemCssClass,
+            'mergeColumns'=>array('supplier_nama'),
+            'extraRowColumns'=> array('supplier_nama'),
             'columns'=>array(
                 array(
                     'header'=>'Nama Supplier',
-                    'name'=>'supplier_id',
+                    'name'=>'supplier_nama',
                     'value'=>'$data->supplier->supplier_nama',
-                    'footer'=>'Total',
+                    'footer'=>'&nbsp;',
+                    'headerHtmlOptions'=>array('style'=>'text-align:center;'),
+                ),
+                 array(
+                    'header'=>'Tanggal Faktur',
+                    //'name'=>'tglfaktur',
+                    'type'=>'raw',
+                    'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tglfaktur)))',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                 ),
                 array(
                     'header'=>'No. Faktur',
-                    'name'=>'nofaktur',
+                    //'name'=>'nofaktur',
                     'type'=>'raw',
                     'value'=>'$data->nofaktur',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                 ),
-                array(
-                    'header'=>'Tanggal Faktur',
-                    'name'=>'tglfaktur',
-                    'type'=>'raw',
-                    'value'=>'date("d/m/Y H:i:s", strtotime($data->tglfaktur))',
-                    'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-                ),
+               
                 array(
                     'header'=>'Tanggal Jatuh Tempo',
-                    'name'=>'tgljatuhtempo',
+                    //'name'=>'tgljatuhtempo',
                     'type'=>'raw',
-                    'value'=>'date("d/m/Y H:i:s", strtotime($data->tgljatuhtempo))',
+                    'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tgljatuhtempo)))',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'footerHtmlOptions'=>array(
                             'colspan'=>3,
@@ -58,7 +95,7 @@
                 array(
                     'header'=>'Bruto',
                     'name'=>'total_bruto',
-                    'value'=>'number_format($data->total_bruto)',
+                    'value'=>'number_format($data->total_bruto,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -70,7 +107,7 @@
                 array(
                     'header'=>'Discount',
                     'name'=>'total_discount',
-                    'value'=>'number_format($data->total_discount)',
+                    'value'=>'str_replace(".",",",$data->total_discount)',                    
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -82,7 +119,7 @@
                 array(
                     'header'=>'Ppn',
                     'name'=>'total_ppn',
-                    'value'=>'number_format($data->total_ppn)',
+                    'value'=>'number_format($data->total_ppn,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -94,7 +131,7 @@
                 array(
                     'header'=>'Materai',
                     'name'=>'materai',
-                    'value'=>'number_format($data->materai)',
+                    'value'=>'number_format($data->materai,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -106,7 +143,7 @@
                 array(
                     'header'=>'Netto',
                     'name'=>'total_netto',
-                    'value'=>'number_format($data->total_netto)',
+                    'value'=>'number_format($data->total_netto,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -118,7 +155,7 @@
                 array(
                     'header'=>'Total Tagihan',
                     'name'=>'total_tagihan',
-                    'value'=>'number_format($data->total_tagihan)',
+                    'value'=>'number_format($data->total_tagihan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -131,7 +168,7 @@
                     'header'=>'Bayar',
                     'name'=>'total_bayar',
                     'type'=>'raw',
-                    'value'=>'number_format($data->total_bayar)',
+                    'value'=>'number_format($data->total_bayar,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -143,7 +180,7 @@
                 array(
                     'header'=>'Sisa',
                     'name'=>'total_sisa',
-                    'value'=>'number_format($data->total_sisa)',
+                    'value'=>'number_format($data->total_sisa,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -156,42 +193,42 @@
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     )); ?>
 </div>
-<div id="div_detail">
+<div id="div_detail" <?php echo ($model->tabPrint=='detail')?'':'style = "display:none;" ';  ?>>
     <!--<legend class="rim"> Tabel Faktur Pembelian - Detail</legend>-->
      <?php $this->widget($table,array(
             'id'=>'rincianLaporanFakturPembelian',
             'dataProvider'=>$data,
             'template'=>$template,
-            'itemsCssClass'=>'table table-striped table-condensed',
-            'mergeColumns'=>array('supplier_id'),
-            'extraRowColumns'=> array('supplier_id'),
+            'itemsCssClass'=>$itemCssClass,
+            'mergeColumns'=>array('supplier_nama'),
+            'extraRowColumns'=> array('supplier_nama'),
             'columns'=>array(
                 array(
                     'header'=>'Nama Supplier',
-                    'name'=>'supplier_id',
+                    'name'=>'supplier_nama',
                     'value'=>'$data->supplier->supplier_nama',
-                    'footer'=>'Total',
-                    'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-                ),
-                array(
-                    'header'=>'No. Faktur',
-                    'name'=>'nofaktur',
-                    'type'=>'raw',
-                    'value'=>'$data->nofaktur',
+                    'footer'=>'&nbsp;',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                 ),
                 array(
                     'header'=>'Tanggal Faktur',
-                    'name'=>'tglfaktur',
+                   // 'name'=>'tglfaktur',
                     'type'=>'raw',
-                    'value'=>'date("d/m/Y H:i:s", strtotime($data->tglfaktur))',
+                    'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tglfaktur)))',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                 ),
                 array(
-                    'header'=>'Tanggal Jatuh Tempo',
-                    'name'=>'tgljatuhtempo',
+                    'header'=>'No. Faktur',
+                    //'name'=>'nofaktur',
                     'type'=>'raw',
-                    'value'=>'date("d/m/Y H:i:s", strtotime($data->tgljatuhtempo))',
+                    'value'=>'$data->nofaktur',
+                    'headerHtmlOptions'=>array('style'=>'text-align:center;'),
+                ),                
+                array(
+                    'header'=>'Tanggal Jatuh Tempo',
+                   // 'name'=>'tgljatuhtempo',
+                    'type'=>'raw',
+                    'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tgljatuhtempo)))',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'footerHtmlOptions'=>array(
                             'colspan'=>3,
@@ -202,7 +239,7 @@
                 array(
                     'header'=>'Bruto',
                     'name'=>'total_bruto',
-                    'value'=>'number_format($data->total_bruto)',
+                    'value'=>'number_format($data->total_bruto,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -214,7 +251,7 @@
                 array(
                     'header'=>'Diskon',
                     'name'=>'total_discount',
-                    'value'=>'number_format($data->total_discount)',
+                    'value'=>'str_replace(".",",",$data->total_discount)',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -226,7 +263,7 @@
                 array(
                     'header'=>'Ppn',
                     'name'=>'total_ppn',
-                    'value'=>'number_format($data->total_ppn)',
+                    'value'=>'number_format($data->total_ppn,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -238,7 +275,7 @@
                 array(
                     'header'=>'Materai',
                     'name'=>'materai',
-                    'value'=>'number_format($data->materai)',
+                    'value'=>'number_format($data->materai,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -250,7 +287,7 @@
                 array(
                     'header'=>'Netto',
                     'name'=>'total_netto',
-                    'value'=>'number_format($data->total_netto)',
+                    'value'=>'number_format($data->total_netto,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -262,7 +299,7 @@
                 array(
                     'header'=>'Total Tagihan',
                     'name'=>'total_tagihan',
-                    'value'=>'number_format($data->total_tagihan)',
+                    'value'=>'number_format($data->total_tagihan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -275,7 +312,7 @@
                     'header'=>'Bayar',
                     'name'=>'total_bayar',
                     'type'=>'raw',
-                    'value'=>'number_format($data->total_bayar)',
+                    'value'=>'number_format($data->total_bayar,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -287,7 +324,7 @@
                 array(
                     'header'=>'Sisa',
                     'name'=>'total_sisa',
-                    'value'=>'number_format($data->total_sisa)',
+                    'value'=>'number_format($data->total_sisa,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array(
@@ -309,7 +346,8 @@
                         'class'=>'currency'
                     ),                            
                     'footer'=>'-',
-                ),
+                    'visible' => $visible
+                )
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     )); ?>

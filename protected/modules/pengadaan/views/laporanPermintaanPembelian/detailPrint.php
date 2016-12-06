@@ -92,7 +92,7 @@
 			</div>
 			<div style='border:0px solid #cccccc;padding:10px; width: 10%;float:right;margin-top:5px;margin-right:60px;'>
 					<font style='font-size:9pt'><B><CENTER>Purchasing</CENTER></B><br><br><br/>
-					<font style='font-size:9pt'><B><CENTER><?php echo PegawaiM::model()->findByPk(Yii::app()->user->id)->nama_pegawai; ?></CENTER></B><hr style='height:3px;background:#000000;margin-top:-2px;' />
+					<font style='font-size:9pt'><B><CENTER><?php echo PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'))->nama_pegawai; ?></CENTER></B><hr style='height:3px;background:#000000;margin-top:-2px;' />
 			</div>
 		</td>
 	</tr>
