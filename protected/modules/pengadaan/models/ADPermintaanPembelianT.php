@@ -75,12 +75,14 @@ class ADPermintaanPembelianT extends PermintaanpembelianT
 		if(!empty($this->syaratbayar_id)){
 			$criteria->addCondition('t.syaratbayar_id = '.$this->syaratbayar_id);
 		}
+                $criteria->addCondition("t.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 		$criteria->addCondition('t.penerimaanbarang_id is null');
 		$criteria->addCondition("supplier_m.supplier_jenis='Farmasi'");
 		$criteria->join = 'LEFT JOIN supplier_m ON t.supplier_id = supplier_m.supplier_id
 						   LEFT JOIN permintaandetail_t ON t.permintaanpembelian_id = permintaandetail_t.permintaanpembelian_id
 						   LEFT JOIN obatalkes_m ON permintaandetail_t.obatalkes_id = obatalkes_m.obatalkes_id
 						';
+                $criteria->order = "t.tglpermintaanpembelian ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -104,6 +106,7 @@ class ADPermintaanPembelianT extends PermintaanpembelianT
 		if(!empty($this->syaratbayar_id)){
 			$criteria->addCondition('t.syaratbayar_id = '.$this->syaratbayar_id);
 		}
+                $criteria->addCondition("t.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 		$criteria->addCondition('t.penerimaanbarang_id is null');
 		$criteria->addCondition("supplier_m.supplier_jenis='Farmasi'");
 		$criteria->join = 'LEFT JOIN supplier_m ON t.supplier_id = supplier_m.supplier_id
@@ -111,6 +114,7 @@ class ADPermintaanPembelianT extends PermintaanpembelianT
 						   LEFT JOIN obatalkes_m ON permintaandetail_t.obatalkes_id = obatalkes_m.obatalkes_id
 						';
 		$criteria->limit = -1;
+                $criteria->order = "t.tglpermintaanpembelian ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination'=>false,
