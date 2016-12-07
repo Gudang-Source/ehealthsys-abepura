@@ -469,8 +469,8 @@ $jsx = <<< JS
                     $("#tableMenuDiet tbody tr:last .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null});
                     hitungSemua();
                 }else{
-                        myAlert("Maaf, Nama Pasien '<b>"+data.namaPasien+"</b>' Jenis Diet '<b>"+data.jenisDiet+"</b>' <br/> Pada Tabel Sudah Ada");                        
-                    }
+                    myAlert("Maaf, Nama Pasien '<b>"+data.namaPasien+"</b>' Jenis Diet '<b>"+data.jenisDiet+"</b>' <br/> Pada Tabel Sudah Ada");                        
+                }
             }, 'json');
         }
         clearAll(1);

@@ -770,22 +770,42 @@ class LaporanController extends MyAuthController {
     }
     
     public function actionLaporanCaraMasukPasien() {
-        $model = new LBLaporancaramasukpenunjangV('search');
-        $format = new MyFormatter();
+        $model = new LBLaporancaramasukpenunjangV('search');        
+        $format = new MyFormatter();        
+        $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        
+        
         $asalrujukan = CHtml::listData(AsalrujukanM::model()->findAll('asalrujukan_aktif = true'), 'asalrujukan_id', 'asalrujukan_id');
         $model->asalrujukan_id = $asalrujukan;
         $ruanganasal = CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'),'ruangan_id','ruangan_id');
         $model->ruanganasal_id = $ruanganasal;
-		$model->pilihan = 'instalasi';
-        $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
-        $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir);
+        $model->pilihan = 'instalasi';
+        
         if (isset($_GET['LBLaporancaramasukpenunjangV'])) {
             $model->attributes = $_GET['LBLaporancaramasukpenunjangV'];
+            $model->jns_periode = $_GET['LBLaporancaramasukpenunjangV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporancaramasukpenunjangV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporancaramasukpenunjangV']['tgl_akhir']);
-            $model->asalrujukan_id = $_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id'];
+            $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporancaramasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporancaramasukpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['LBLaporancaramasukpenunjangV']['thn_awal'];
+			$model->thn_akhir = $_GET['LBLaporancaramasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->asalrujukan_id = isset($_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id'])?$_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id']:null;
         }
 
         $this->render('caraMasuk/index', array(
@@ -795,6 +815,14 @@ class LaporanController extends MyAuthController {
 
     public function actionPrintLaporanCaraMasukPasien() {
         $model = new LBLaporancaramasukpenunjangV('search');
+        $format = new MyFormatter();        
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
         $judulLaporan = 'Laporan Cara Masuk Pasien Laboratorium';
         
         //Data Grafik
@@ -802,11 +830,24 @@ class LaporanController extends MyAuthController {
         $data['type'] = $_REQUEST['type'];
         
         if (isset($_REQUEST['LBLaporancaramasukpenunjangV'])) {
-            $model->attributes = $_REQUEST['LBLaporancaramasukpenunjangV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['LBLaporancaramasukpenunjangV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['LBLaporancaramasukpenunjangV']['tgl_akhir']);
-			$model->asalrujukan_id = $_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id'];
+            $model->attributes = $_REQUEST['LBLaporancaramasukpenunjangV'];            
+            $model->jns_periode = $_GET['LBLaporancaramasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporancaramasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporancaramasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporancaramasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporancaramasukpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['LBLaporancaramasukpenunjangV']['thn_awal'];
+			$model->thn_akhir = $_GET['LBLaporancaramasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->asalrujukan_id = isset($_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id'])?$_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id']:null;
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
@@ -818,18 +859,37 @@ class LaporanController extends MyAuthController {
     public function actionFrameGrafikLaporanCaraMasukPasien() {
         $this->layout = '//layouts/iframe';
         $model = new LBLaporancaramasukpenunjangV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();        
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Cara Masuk Pasien';
         $data['type'] = $_GET['type'];
         if (isset($_GET['LBLaporancaramasukpenunjangV'])) {
             $model->attributes = $_GET['LBLaporancaramasukpenunjangV'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_GET['LBLaporancaramasukpenunjangV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporancaramasukpenunjangV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporancaramasukpenunjangV']['tgl_akhir']);
-			$model->asalrujukan_id = $_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id'];
+            $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporancaramasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporancaramasukpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['LBLaporancaramasukpenunjangV']['thn_awal'];
+			$model->thn_akhir = $_GET['LBLaporancaramasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->asalrujukan_id = isset($_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id'])?$_GET['LBLaporancaramasukpenunjangV']['asalrujukan_id']:null;
         }
 
         $this->render('_grafik', array(
