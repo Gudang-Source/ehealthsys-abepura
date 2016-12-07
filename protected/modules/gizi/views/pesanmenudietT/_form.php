@@ -121,6 +121,7 @@
                         <label class='control-label'>Menu Diet</label>
                         <div class="controls">
                             <?php echo CHtml::hiddenField('menudiet_id'); ?>
+                            <?php echo CHtml::hiddenField('jenisdiet_id'); ?>
                             <!--                <div class="input-append" style='display:inline'>-->
                             <?php
                             $this->widget('MyJuiAutoComplete', array(
@@ -219,8 +220,8 @@
                     <th rowspan="2">No. Pendaftaran</th>
                     <th rowspan="2">No. Rekam Medik</th>
                     <th rowspan="2">Nama Pasien</th>
-                    <th rowspan="2">Umur</th>
-                    <th rowspan="2">Jenis Kelamin</th>
+                    <th rowspan="2">Jenis Kelamin/ <br/>Umur</th>
+                    <th rowspan="2">Jenis Diet</th>
                     <th colspan="<?php echo count($modJenisWaktu); ?>"><center>Menu Diet</center></th>
                     <th rowspan="2">Jumlah</th>
                     <th rowspan="2">Satuan/URT</th>
@@ -421,6 +422,7 @@ $jsx = <<< JS
         var jeniswaktu = new Array();
         var pendaftaranId = new Array();
         var pasienAdmisi = new Array();
+        var jenisdiet_id = $('#jenisdiet_id').val();
         var urt = $('#URT').val();
         var ruangan_id = $('#${ruangan_id}').val();
         var instalasi_id = $('#${instalasi_id}').val();
@@ -461,10 +463,14 @@ $jsx = <<< JS
             return false;
         }
         else{
-            $.post('${url}', {pasien_id:pasien_id, pasienAdmisi:pasienAdmisi, pasienadmisi_id:pasienadmisi_id, pendaftaranId:pendaftaranId, jeniswaktu:jeniswaktu, pendaftaran_id:pendaftaran_id, menudiet_id:menudiet_id, jumlah:jumlah, urt:urt, ruangan_id:ruangan_id, instalasi_id:instalasi_id, kelaspelayanan_id:kelaspelayanan_id}, function(data){
-                $('#tableMenuDiet tbody').append(data);
-                $("#tableMenuDiet tbody tr:last .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null});
-                hitungSemua();
+            $.post('${url}', {jenisdiet_id:jenisdiet_id, pasien_id:pasien_id, pasienAdmisi:pasienAdmisi, pasienadmisi_id:pasienadmisi_id, pendaftaranId:pendaftaranId, jeniswaktu:jeniswaktu, pendaftaran_id:pendaftaran_id, menudiet_id:menudiet_id, jumlah:jumlah, urt:urt, ruangan_id:ruangan_id, instalasi_id:instalasi_id, kelaspelayanan_id:kelaspelayanan_id}, function(data){                                
+                if (cekDetail(data.jenisDietPasien) === true){
+                    $('#tableMenuDiet tbody').append(data.tr);
+                    $("#tableMenuDiet tbody tr:last .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null});
+                    hitungSemua();
+                }else{
+                        myAlert("Maaf, Nama Pasien '<b>"+data.namaPasien+"</b>' Jenis Diet '<b>"+data.jenisDiet+"</b>' <br/> Pada Tabel Sudah Ada");                        
+                    }
             }, 'json');
         }
         clearAll(1);
@@ -487,6 +493,18 @@ $jsx = <<< JS
             }
         });
         $('#${totalPesan}').val(jumlah);
+    }
+        
+    function cekDetail(jenisDietPasien){
+        x = true;
+        
+        $('.jenisDiet').each(function(){
+            if ($(this).val() == jenisDietPasien){                                
+                x = false;                
+            }
+        });
+        
+        return x;
     }
     
     function clearAll(code){
