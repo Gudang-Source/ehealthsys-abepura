@@ -251,7 +251,12 @@ if(isset($_GET['sukses'])){
 		</div>  
     </fieldset>
     <div class="form-actions">
-		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+			array('class'=>'btn btn-primary', 
+				'type'=>'submit', 
+				'onKeypress'=>'return formSubmit(this,event)',
+				'disabled'=>isset($_GET['realisasianggpenerimaan_id']),
+			)); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
 				$this->createUrl('realisasi'),array('class'=>'btn btn-danger','onclick'=>'if(!confirm("'.Yii::t('mds','Apakah anda akan mengulang input data ?').'")) return false;')); ?>
 		<?php 

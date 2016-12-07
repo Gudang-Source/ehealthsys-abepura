@@ -26,6 +26,9 @@ echo CHtml::css('.control-label{
     .border{
         border:1px solid;
     }
+	.det td, .det th {
+		border:1px solid black;
+	}
 ');
 ?>  
 <?php
@@ -34,7 +37,8 @@ if (!isset($_GET['frame'])){
     echo $this->renderPartial('application.views.headerReport.headerAnggaran',array('judulLaporan'=>$judulLaporan, 'deskripsi'=>$deskripsi, 'colspan'=>10));
 }
 ?>
-<table width="100%" style='margin-left:auto; margin-right:auto;'>
+<br/>
+<table width="100%" style='margin-left:auto; margin-right:auto;' class="det">
         <thead class="border">
             <th style="text-align: center;">No.</th>
             <th style="text-align: center;">Kode Program</th>
@@ -95,7 +99,7 @@ if (isset($_GET['frame'])){
     </script>
 <?php
 }else{ ?>
-    <table class="table">
+    <table width="100%">
 		<tr>
 			<th style="width:50%; text-align:center; padding-bottom: 50px;" colspan="4">
 				Mengetahui,

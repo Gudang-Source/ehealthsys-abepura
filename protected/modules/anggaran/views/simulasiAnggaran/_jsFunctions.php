@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <script type="text/javascript">
 function loadRowDetail(){
 	var periode = $('#konfiganggaran_id').val();
@@ -19,7 +23,7 @@ function loadRowDetail(){
 				}
 				$('#table-simulasianggaranpengeluaran > tbody').append(data.form);
 				$("#table-simulasianggaranpengeluaran .integer").maskMoney(
-					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 				);
 				$("#table-simulasianggaranpengeluaran").removeClass("animation-loading");
 				tombolhitung();
@@ -34,37 +38,37 @@ function loadRowDetail(){
 }
 
 function hitungrupiah(obj){
-	unformatNumberSemua();
+	//unformatNumberSemua();
 	$(obj).parents('tr').find("input[name$='[kenaikan_rupiah]']").addClass('animation-loading-1');
 	$(obj).parents('tr').find("input[name$='[total_nilaianggaran]']").addClass('animation-loading-1');
 	$('#table-simulasianggaranpengeluaran > tbody > tr').each(function(){
-		var nilai_anggaran = parseInt($(this).find('input[name$="[nilai_anggaran]"]').val());
-		var kenaikan_persen = parseInt($(this).find('input[name$="[kenaikan_persen]"]').val());
-		$(this).find("input[name$='[kenaikan_rupiah]']").val(parseInt((kenaikan_persen/100)*nilai_anggaran)); // rupiah
-		var res_rupiah = parseInt($(this).find('input[name$="[kenaikan_rupiah]"]').val());
-		$(this).find("input[name$='[total_nilaianggaran]']").val(nilai_anggaran+res_rupiah);
+		var nilai_anggaran = parseInt(unformatNumber($(this).find('input[name$="[nilai_anggaran]"]').val()));
+		var kenaikan_persen = parseInt(unformatNumber($(this).find('input[name$="[kenaikan_persen]"]').val()));
+		$(this).find("input[name$='[kenaikan_rupiah]']").val(formatNumber(parseInt((kenaikan_persen/100)*nilai_anggaran))); // rupiah
+		var res_rupiah = parseInt(unformatNumber($(this).find('input[name$="[kenaikan_rupiah]"]').val()));
+		$(this).find("input[name$='[total_nilaianggaran]']").val(formatNumber(nilai_anggaran+res_rupiah));
 	});
 	setTimeout(function(){
 		$(obj).parents('tr').find("input[name$='[kenaikan_rupiah]']").removeClass('animation-loading-1');
 		$(obj).parents('tr').find("input[name$='[total_nilaianggaran]']").removeClass('animation-loading-1');
 	},300);
-	formatNumberSemua();
+	//formatNumberSemua();
 }
 function hitungpersen(obj){
-	unformatNumberSemua();
+	//unformatNumberSemua();
 	$(obj).parents('tr').find("input[name$='[kenaikan_persen]']").addClass('animation-loading-1');
 	$(obj).parents('tr').find("input[name$='[total_nilaianggaran]']").addClass('animation-loading-1');
 	$('#table-simulasianggaranpengeluaran > tbody > tr').each(function(){
-		var nilai_anggaran = parseInt($(this).find('input[name$="[nilai_anggaran]"]').val());
-		var kenaikan_rupiah = parseInt($(this).find('input[name$="[kenaikan_rupiah]"]').val());
-		$(this).find("input[name$='[kenaikan_persen]']").val(parseInt((100/nilai_anggaran)*kenaikan_rupiah)); // persen
-		$(this).find("input[name$='[total_nilaianggaran]']").val(nilai_anggaran+kenaikan_rupiah);
+		var nilai_anggaran = parseInt(unformatNumber($(this).find('input[name$="[nilai_anggaran]"]').val()));
+		var kenaikan_rupiah = parseInt(unformatNumber($(this).find('input[name$="[kenaikan_rupiah]"]').val()));
+		$(this).find("input[name$='[kenaikan_persen]']").val(formatNumber(parseInt((100/nilai_anggaran)*kenaikan_rupiah))); // persen
+		$(this).find("input[name$='[total_nilaianggaran]']").val(formatNumber(nilai_anggaran+kenaikan_rupiah));
 	});
 	setTimeout(function(){
 		$(obj).parents('tr').find("input[name$='[kenaikan_persen]']").removeClass('animation-loading-1');
 		$(obj).parents('tr').find("input[name$='[total_nilaianggaran]']").removeClass('animation-loading-1');
 	},300);
-	formatNumberSemua();
+	//formatNumberSemua();
 }
 
 function hitungsemua(){
@@ -95,10 +99,10 @@ function tombolSimpan(){
         
         $(".animation-loading").removeClass("animation-loading");
         $("form").find('.float').each(function(){
-            $(this).val(formatFloat($(this).val()));
+            $(this).val(unformatNumber($(this).val()));
         });
         $("form").find('.integer').each(function(){
-            $(this).val(formatInteger($(this).val()));
+            $(this).val(unformatNumber($(this).val()));
         });
     }
     return false;

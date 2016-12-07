@@ -15,6 +15,10 @@ class SimulasiAnggaranController extends MyAuthController{
 				foreach($_POST['AGSimulasianggaranT'] as $i =>$postsimulasianggaran){
 					$model = new AGSimulasianggaranT;
 					$model->attributes = $postsimulasianggaran;
+					$model->kenaikan_persen = str_replace(",", ".", str_replace(".", "", $model->kenaikan_persen));
+					$model->kenaikan_rupiah = str_replace(",", ".", str_replace(".", "", $model->kenaikan_rupiah));
+					$model->total_nilaianggaran = str_replace(",", ".", str_replace(".", "", $model->total_nilaianggaran));
+					// var_dump($model->attributes); die;
 					$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
 					$model->create_loginpemakai_id = Yii::app()->user->id;
 					$model->create_time = date('Y-m-d H:i:s');
@@ -24,6 +28,7 @@ class SimulasiAnggaranController extends MyAuthController{
 						}
 					}
 				}
+				// die;
 				if($this->savesimulasi){
 					$transaction->commit();
 					$this->redirect(array('index','nosimulasianggaran'=>$model->nosimulasianggaran,'sukses'=>1));
@@ -62,7 +67,7 @@ class SimulasiAnggaranController extends MyAuthController{
 					$modSimulasiAnggaran->nilai_anggaran = $modelDetail->nilairencpengeluaran;
 					$modSimulasiAnggaran->kenaikan_persen = 0;
 					$modSimulasiAnggaran->kenaikan_rupiah = 0;
-					$modSimulasiAnggaran->total_nilaianggaran = MyFormatter::formatNumberForUser($modSimulasiAnggaran->nilai_anggaran+$modSimulasiAnggaran->kenaikan_rupiah);
+					$modSimulasiAnggaran->total_nilaianggaran = MyFormatter::formatNumberForPrint($modSimulasiAnggaran->nilai_anggaran+$modSimulasiAnggaran->kenaikan_rupiah);
 					$form .= $this->renderPartial('_rowDetail',array('modSimulasiAnggaran'=>$modSimulasiAnggaran,'model'=>$model,'modelDetail'=>$modelDetail,'i'=>$i),true);
 				}
 			}
@@ -79,7 +84,7 @@ class SimulasiAnggaranController extends MyAuthController{
 					$modSimulasiAnggaran->kenaikan_persen = 0;
 					$modSimulasiAnggaran->kenaikan_rupiah = 0;
 					$modelDetail->nilairencpengeluaran = $modelDetail->nilaiygdisetujui;
-					$modSimulasiAnggaran->total_nilaianggaran = MyFormatter::formatNumberForUser($modSimulasiAnggaran->nilai_anggaran+$modSimulasiAnggaran->kenaikan_rupiah);
+					$modSimulasiAnggaran->total_nilaianggaran = MyFormatter::formatNumberForPrint($modSimulasiAnggaran->nilai_anggaran+$modSimulasiAnggaran->kenaikan_rupiah);
 					$form .= $this->renderPartial('_rowDetail',array('modSimulasiAnggaran'=>$modSimulasiAnggaran,'modelDetail'=>$modelDetail,'i'=>$i),true);
 				}
 			}

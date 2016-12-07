@@ -26,7 +26,7 @@ echo $this->renderPartial('application.views.headerReport.headerAnggaran',array(
 	<table class="table">
 		<tr>
 			<th style="width:50%; text-align:center; padding-bottom: 50px;"></th>
-			<th style="width:50%; text-align:center; padding-top: 50px;" colspan="2">Bontang, <?php echo date("Y-m-d", strtotime($modTandaBukti->tglbuktibayar)); ?></th>
+			<th style="width:50%; text-align:center; padding-top: 50px;" colspan="2"><?php echo Yii::app()->user->getState("kabupaten_nama").", ".$format->formatDateTimeForUser(date('Y-m-d', strtotime($modTandaBukti->tglbuktibayar))); ?></th>
 		</tr>
 		<tr>
 			<th style="width:50%; text-align:center; padding-bottom: 50px;"></th>
