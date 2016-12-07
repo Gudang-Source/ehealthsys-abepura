@@ -459,7 +459,7 @@ class LaporancaramasukpenunjangV extends CActiveRecord
         }
         
         public function getTglMasukNoPenunjang(){
-            return date("d/m/Y", strtotime($this->tglmasukpenunjang)).'/ <br/>'.PHP_EOL.$this->no_masukpenunjang;
+            return MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($this->tglmasukpenunjang))).'/ <br/>'.PHP_EOL.$this->no_masukpenunjang;
         }
         
         public function getJenisKelaminUmur(){

@@ -525,6 +525,7 @@ class PesanmenudietTController extends MyAuthController
 			$ruangan_id = (isset($_POST['ruangan_id']) ? $_POST['ruangan_id'] : null);
 			$instalasi_id = (isset($_POST['instalasi_id']) ? $_POST['instalasi_id'] : null);
 			$kelaspelayanan_id = (isset($_POST['kelaspelayanan_id']) ? $_POST['kelaspelayanan_id'] : null);
+                        $jenisdiet_id = (isset($_POST['jenisdiet_id']) ? $_POST['jenisdiet_id'] : null);
 
 			$urt = $_POST['urt'];
 			$jumlah = $_POST['jumlah'];
@@ -534,10 +535,12 @@ class PesanmenudietTController extends MyAuthController
 			$modDetail = new PesanmenudetailT();
 			$modJenisWaktu = JeniswaktuM::model()->findAll('jeniswaktu_aktif = true');
 			$diet = MenuDietM::model()->findByPK($menudiet_id);
+                        $jnsDiet = JenisdietM::model()->findByPk($jenisdiet_id);
 			$jumlahPasien = count($pasienAdmisi);
 			if ($jumlahPasien == 0){
 				$jumlahPasien = 1;
 			}
+                        $dt = '';
 			$tr = '';
 			for($i = 0; $i < $jumlahPasien; $i++) {
 			$modDetail = new PesanmenudetailT();
@@ -553,15 +556,16 @@ class PesanmenudietTController extends MyAuthController
 	//                            .CHtml::activeHiddenField($modDetail, '[]ruangan_id',array('value'=>$model->ruangan_id))
 							.CHtml::checkBox('PesanmenudetailT[][checkList]',true, array('class'=>'cekList','onclick'=>'hitungSemua()'))
 							.CHtml::activeHiddenField($modDetail, '[]pendaftaran_id', array('value'=>$model->pendaftaran_id))
-							.CHtml::activeHiddenField($modDetail, '[]pasien_id', array('value'=>$model->pasien_id))
-							.CHtml::activeHiddenField($modDetail, '[]pasienadmisi_id', array('value'=>$model->pasienadmisi_id))
+							.CHtml::activeHiddenField($modDetail, '[]pasien_id', array('value'=>$model->pasien_id, 'class' => 'pasienNama'))
+							.CHtml::activeHiddenField($modDetail, '[]pasienadmisi_id', array('value'=>$model->pasienadmisi_id))                                                        
+                                                        .CHtml::activeHiddenField($jnsDiet, '[]jenisdiet_id', array('value'=>$jenisdiet_id.'-'.$pasien_id, 'class' => 'jenisDiet'))
 						.'</td>
 						<td>'.RuanganM::model()->with('instalasi')->findByPk($ruangan_id)->instalasi->instalasi_nama.'/ '.$model->ruangan_nama.'</td>
 						<td>'.$model->no_pendaftaran.'</td>
 						<td>'.$model->no_rekam_medik.'</td>
                                                 <td>'.$model->nama_pasien.'</td>
-						<td>'.$model->umur.'</td>
-						<td>'.$model->jeniskelamin.'</td>';
+						<td>'.$model->jeniskelamin.'/ <br/>'.$model->umur.'</td>
+						<td>'.$jnsDiet->jenisdiet_nama.'</td>';
 				foreach ($modJenisWaktu as $v){
 					if (in_array($v->jeniswaktu_id, $jeniswaktu)){
 						$tr .='<td>'.CHtml::hiddenField('PesanmenudetailT[][jeniswaktu_id]['.$v->jeniswaktu_id.']', $v->jeniswaktu_id )
@@ -575,8 +579,11 @@ class PesanmenudietTController extends MyAuthController
 						<td>'.CHtml::activeDropDownList($modDetail, '[]satuanjml_urt', LookupM::getItems('ukuranrumahtangga'), array('empty'=>'-- Pilih --', 'class'=>'span2 urt', 'options'=>array("$urt"=>array("selected"=>"selected")))).'</td>
 						</tr>';
 			}
-
-			echo json_encode($tr);
+                        $dt['tr'] = $tr;
+                        $dt['jenisDietPasien'] = $jenisdiet_id.'-'.$pasien_id;
+                        $dt['namaPasien'] = $model->nama_pasien;
+                        $dt['jenisDiet'] = $jnsDiet->jenisdiet_nama;
+			echo json_encode($dt);
 			Yii::app()->end();
 		}
 	}
