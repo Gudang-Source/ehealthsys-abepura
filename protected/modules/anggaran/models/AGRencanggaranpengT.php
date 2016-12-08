@@ -16,8 +16,8 @@ class AGRencanggaranpengT extends RencanggaranpengT{
 	{
 		$date = date("Y-m-d");
 		$criteria = new CDbCriteria();
-		$criteria->addCondition('DATE(tglrencanaanggaran) <=\''.$date.'\'');
-		$criteria->addCondition('DATE(sd_tglrencanaanggaran) >= \''.$date.'\'');
+		// $criteria->addCondition('DATE(tglrencanaanggaran) <=\''.$date.'\'');
+		// $criteria->addCondition('DATE(sd_tglrencanaanggaran) >= \''.$date.'\'');
 		if(!empty($this->konfiganggaran_id)){
 			$criteria->addCondition('konfiganggaran_id = '.$this->konfiganggaran_id);
 		}

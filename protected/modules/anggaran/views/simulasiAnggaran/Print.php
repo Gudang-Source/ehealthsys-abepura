@@ -51,17 +51,17 @@
 				<?php echo (!empty($val->subkegiatanprogram->subkegiatanprogram_kode) ? $val->subkegiatanprogram->subkegiatanprogram_kode.' - ' : "") ?>
 				<?php echo (!empty($val->subkegiatanprogram->subkegiatanprogram_nama) ? $val->subkegiatanprogram->subkegiatanprogram_nama : "") ?>
 			</td>
-			<td style="width:150px;">
-				<?php echo (!empty($val->nilai_anggaran) ? MyFormatter::formatUang($val->nilai_anggaran) : "") ?>
+			<td style="width:150px; text-align: right;">
+				<?php echo (!empty($val->nilai_anggaran) ? MyFormatter::formatNumberForPrint($val->nilai_anggaran) : "") ?>
 			</td>
 			<td style="width:100px; text-align: right;">
-				<?php echo (!empty($val->kenaikan_persen) ? MyFormatter::formatUang($val->kenaikan_persen) : "") ?>
+				<?php echo (!empty($val->kenaikan_persen) ? MyFormatter::formatNumberForPrint($val->kenaikan_persen) : "") ?>
 			</td>
 			 <td style="width:100px; text-align: right;">
-				 <?php echo (!empty($val->kenaikan_rupiah) ? MyFormatter::formatUang($val->kenaikan_rupiah) : "") ?>
+				 <?php echo (!empty($val->kenaikan_rupiah) ? MyFormatter::formatNumberForPrint($val->kenaikan_rupiah) : "") ?>
 			</td>
 			<td style="width:100px; text-align: right;">
-				<?php echo (!empty($val->total_nilaianggaran) ? MyFormatter::formatUang($val->total_nilaianggaran) : "") ?>
+				<?php echo (!empty($val->total_nilaianggaran) ? MyFormatter::formatNumberForPrint($val->total_nilaianggaran) : "") ?>
 			</td>
 		</tr>
 		<?php } ?>

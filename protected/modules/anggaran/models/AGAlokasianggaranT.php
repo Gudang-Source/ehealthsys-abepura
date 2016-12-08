@@ -13,8 +13,8 @@ class AGAlokasianggaranT extends AlokasianggaranT
 	{
 		$next_year = date('Y-m-d',mktime(0, 0, 0, date("m"),   date("d"),   date("Y")+1));
 		$criteria = new CDbCriteria();
-		$criteria->addCondition('DATE(tglanggaran) <=\''.$next_year.'\'');
-		$criteria->addCondition('DATE(sd_tglanggaran) >= \''.$next_year.'\'');
+		// $criteria->addCondition('DATE(tglanggaran) <=\''.$next_year.'\'');
+		// $criteria->addCondition('DATE(sd_tglanggaran) >= \''.$next_year.'\'');
 		if(!empty($this->konfiganggaran_id)){
 			$criteria->addCondition('konfiganggaran_id = '.$this->konfiganggaran_id);
 		}

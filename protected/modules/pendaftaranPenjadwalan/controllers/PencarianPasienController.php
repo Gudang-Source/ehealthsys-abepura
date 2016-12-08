@@ -165,6 +165,10 @@ class PencarianPasienController extends MyAuthController
                 $random=rand(0000000,9999999);
                 $model->attributes = $_POST['PPPasienM'];
                 $modPendaftaran->attributes = $_POST['PendaftaranT'];
+                
+                unset($model->fingerprint_data);
+                
+                
                 $model->kelompokumur_id = CustomFunction::getKelompokUmur($model->tanggal_lahir);
                 $model->photopasien = CUploadedFile::getInstance($model, 'photopasien');
                 $gambar=$model->photopasien;

@@ -133,7 +133,7 @@ class BKPasienM extends PasienM
         
         public $tglpembayaran, $nopembayaran, $pembayaran_id, $nobuktibayar;
         public function searchPasienSudahBayar() {
-			$this->instalasi_id = $this->idInstalasi;
+			if (!empty($this->idInstalasi)) $this->instalasi_id = $this->idInstalasi;
             $provider = $this->searchPasienRumahsakitV(false);
             $criteria = $provider->criteria;
             $criteria->join = ' join pembayaranpelayanan_t p on t.pendaftaran_id = p.pendaftaran_id '

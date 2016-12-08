@@ -13,6 +13,7 @@ class LBLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
+        $criteria->order = "tglmasukpenunjang ASC";
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -26,17 +27,21 @@ class LBLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
-        if($this->pilihan == 'instalasi'){
+        $tampilGrafik = $_REQUEST['tampilGrafik'];
+        if($tampilGrafik == 'instalasi'){
+            $criteria->select = 'count(tglmasukpenunjang) as jumlah, instalasiasal_nama as data';
+            $criteria->group = 'instalasiasal_nama';
+        }elseif($tampilGrafik == 'ruangan'){
             $criteria->select = 'count(tglmasukpenunjang) as jumlah, ruanganasal_nama as data';
             $criteria->group = 'ruanganasal_nama';
         }
-        else{
-            $criteria->select = 'count(tglmasukpenunjang) as jumlah, asalrujukan_nama as data';
+        elseif($tampilGrafik == 'rujukan'){
+            $criteria->select = "count(tglmasukpenunjang) as jumlah, (CASE WHEN asalrujukan_nama IS NULL THEN 'Tidak Dirujuk' ELSE asalrujukan_nama END) as data";
             $criteria->group = 'asalrujukan_nama';
         }
         
         
-        
+        $criteria->order = "jumlah DESC";
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -49,6 +54,7 @@ class LBLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
+        $criteria->order = "tglmasukpenunjang ASC";
         
 
         return new CActiveDataProvider($this, array(
@@ -60,37 +66,21 @@ class LBLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 
         $criteria = new CDbCriteria;
         $format = new MyFormatter();
-        if (!empty($this->pilihan)){
-            if ($this->pilihan == 'instalasi'){
-                if (is_array($this->ruanganasal_id)){
-                    if(!empty($this->ruanganasal_id)){
-						$criteria->addInCondition('ruanganasal_id',$this->ruanganasal_id);
-					}
-                }else{
-					if(!empty($this->ruanganasal_id)){
-						$criteria->addCondition('ruanganasal_id = '.$this->ruanganasal_id);
-					}
-				}
-            }
-            else{
-                if (is_array($this->asalrujukan_id)){
-                    if(!empty($this->asalrujukan_id)){
-						$criteria->addInCondition('asalrujukan_id',$this->asalrujukan_id);
-					}
-                }else{
-					if(!empty($this->asalrujukan_id)){
-						$criteria->addCondition('asalrujukan_id = '.$this->asalrujukan_id);
-					}
-				}
-				
-            }
-        }
+        
         $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id = '.$this->pasien_id);
 		}
+                
+        if (!empty($this->instalasiasal_id)){
+            $criteria->addCondition("instalasiasal_id = '".$this->instalasiasal_id."' ");
+        }
+        
+        if (!empty($this->ruanganasal_id)){
+            $criteria->addInCondition("ruanganasal_id",$this->ruanganasal_id);
+        }
         $criteria->compare('LOWER(jenisidentitas)', strtolower($this->jenisidentitas), true);
         $criteria->compare('LOWER(no_identitas_pasien)', strtolower($this->no_identitas_pasien), true);
         $criteria->compare('LOWER(namadepan)', strtolower($this->namadepan), true);
@@ -146,9 +136,7 @@ class LBLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->compare('LOWER(ruanganpenunj_nama)', strtolower($this->ruanganpenunj_nama), true);
-		if(!empty($this->instalasiasal_id)){
-			$criteria->addCondition('instalasiasal_id = '.$this->instalasiasal_id);
-		}
+		
         $criteria->compare('LOWER(instalasiasal_nama)', strtolower($this->instalasiasal_nama), true);
 		if(!empty($this->pasienadmisi_id)){
 			$criteria->addCondition('pasienadmisi_id = '.$this->pasienadmisi_id);
@@ -203,7 +191,15 @@ class LBLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria->compare('LOWER(nama_perujuk)', strtolower($this->nama_perujuk), true);
         $criteria->compare('LOWER(tanggal_rujukan)', strtolower($this->tanggal_rujukan), true);
         $criteria->compare('LOWER(diagnosa_rujukan)', strtolower($this->diagnosa_rujukan), true);
-
+        
+        if (isset($this->asalrujukan_id)){
+            if (!empty($this->asalrujukan_id)){
+                $criteria->addInCondition(" asalrujukan_id",$this->asalrujukan_id);
+            }else{
+                $criteria->addCondition("asalrujukan_id IS NULL");
+            }
+        }
+        
         return $criteria;
     }
 
