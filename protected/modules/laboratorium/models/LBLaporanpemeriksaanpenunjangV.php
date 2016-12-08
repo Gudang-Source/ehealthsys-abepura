@@ -11,8 +11,8 @@ class LBLaporanpemeriksaanpenunjangV extends LaporanpemeriksaanpenunjangV
         {
             $criteria = new CDbCriteria;
             $criteria = $this->functionCriteria();
-            $criteria->select = "count(date_part('Month',tgl_tindakan)) AS jumlah, TO_CHAR(tgl_tindakan,'Mon') AS data";
-            $criteria->group = "TO_CHAR(tgl_tindakan,'Mon')";
+            $criteria->select = "count(date_part('Month',t.tgl_tindakan)) AS jumlah, TO_CHAR(t.tgl_tindakan,'Mon') AS data";
+            $criteria->group = "TO_CHAR(t.tgl_tindakan,'Mon')";
             return new CActiveDataProvider($this,
                 array(
                     'criteria' => $criteria,
@@ -50,37 +50,39 @@ class LBLaporanpemeriksaanpenunjangV extends LaporanpemeriksaanpenunjangV
         protected function functionCriteria() {
             $criteria = new CDbCriteria();
             $format = new MyFormatter();
+            $criteria->join = " JOIN tindakanpelayanan_t tp ON tp.tindakanpelayanan_id = t.tindakanpelayanan_id ";
+            $criteria->select = 't.daftartindakan_kode, t.daftartindakan_nama,t.tarif_satuan, 
+                                sum(t.qty_tindakan) as qty_tindakan,
+                                sum(t.tarif_satuan * t.qty_tindakan) as total';
             
-            $criteria->select = 'daftartindakan_kode, daftartindakan_nama,tarif_satuan, 
-                                sum(qty_tindakan) as qty_tindakan,
-                                sum(tarif_satuan * qty_tindakan) as total';
-            $criteria->group = 'daftartindakan_kode, daftartindakan_nama, tarif_satuan';
+            $criteria->group = 't.daftartindakan_kode, t.daftartindakan_nama, t.tarif_satuan';
             
             $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
             $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
-            $criteria->addBetweenCondition('DATE(tgl_tindakan)',$this->tgl_awal,$this->tgl_akhir);
+            $criteria->addBetweenCondition('DATE(t.tgl_tindakan)',$this->tgl_awal,$this->tgl_akhir);
 			if(!empty($this->tindakanpelayanan_id)){
-				$criteria->addCondition('tindakanpelayanan_id = '.$this->tindakanpelayanan_id);
+				$criteria->addCondition('t.tindakanpelayanan_id = '.$this->tindakanpelayanan_id);
 			}
 			if(!empty($this->daftartindakan_id)){
-				$criteria->addCondition('daftartindakan_id = '.$this->daftartindakan_id);
+				$criteria->addCondition('t.daftartindakan_id = '.$this->daftartindakan_id);
 			}
-            $criteria->compare('LOWER(daftartindakan_kode)',strtolower($this->daftartindakan_kode),true);
-            $criteria->compare('LOWER(daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
-            $criteria->compare('LOWER(daftartindakan_katakunci)',strtolower($this->daftartindakan_katakunci),true);
+            $criteria->compare('LOWER(t.daftartindakan_kode)',strtolower($this->daftartindakan_kode),true);
+            $criteria->compare('LOWER(t.daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
+            $criteria->compare('LOWER(t.daftartindakan_katakunci)',strtolower($this->daftartindakan_katakunci),true);
 			if(!empty($this->pasienmasukpenunjang_id)){
-				$criteria->addCondition('pasienmasukpenunjang_id = '.$this->pasienmasukpenunjang_id);
+				$criteria->addCondition('t.pasienmasukpenunjang_id = '.$this->pasienmasukpenunjang_id);
 			}
-            $criteria->compare('LOWER(no_masukpenunjang)',strtolower($this->no_masukpenunjang),true);
-            $criteria->compare('tarif_satuan',$this->tarif_satuan);
-            $criteria->compare('qty_tindakan',$this->qty_tindakan);
-            $criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
-            $criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
-            $criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
-            $criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
-            $criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
+            $criteria->compare('LOWER(t.no_masukpenunjang)',strtolower($this->no_masukpenunjang),true);
+            $criteria->compare('t.tarif_satuan',$this->tarif_satuan);
+            $criteria->compare('t.qty_tindakan',$this->qty_tindakan);
+            $criteria->compare('LOWER(t.create_time)',strtolower($this->create_time),true);
+            $criteria->compare('LOWER(t.update_time)',strtolower($this->update_time),true);
+            $criteria->compare('LOWER(t.create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
+            $criteria->compare('LOWER(t.update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
+            $criteria->compare('LOWER(t.create_ruangan)',strtolower($this->create_ruangan),true);
+            $criteria->addCondition(" tp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 			if(!empty($this->tindakansudahbayar_id)){
-				$criteria->addCondition('tindakansudahbayar_id = '.$this->tindakansudahbayar_id);
+				$criteria->addCondition('t.tindakansudahbayar_id = '.$this->tindakansudahbayar_id);
 			}
 
             return $criteria;
