@@ -2631,7 +2631,7 @@ class PendaftaranRawatJalanController extends MyAuthController
 
                 
                     
-                    $host = Yii::app()->user->getState('telnet_host');  //'192.168.0.5' ip debug
+                    $host = Yii::app()->user->getState('telnet_host');  //'192.168.0.5' ip debuga
                     $port = CustomFunction::incPortFinger($ip);                    
                                         
                     $batal = isset($_POST['batal'])?$_POST['batal']:null;
