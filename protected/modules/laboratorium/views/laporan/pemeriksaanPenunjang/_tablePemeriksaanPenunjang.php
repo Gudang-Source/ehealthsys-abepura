@@ -1,4 +1,5 @@
 <?php 
+    $itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
     $sort = true;
     $row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
@@ -7,8 +8,38 @@
         $data = $model->searchPrintLaporan();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+        
+        echo "
+             <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
     } else{
         $data = $model->searchTableLaporan();
          $template = "{summary}\n{items}\n{pager}";
@@ -19,7 +50,7 @@
     'dataProvider'=>$data,
         'template'=>$template,
         'enableSorting'=>$sort,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
     'columns'=>array(
         array(
 
@@ -44,7 +75,7 @@
             'header'=>'<center>Tarif</center>',
             'name'=>'tarif_satuan',
             'type'=>'raw',
-            'value'=>'number_format($data->tarif_satuan)',
+            'value'=>'number_format($data->tarif_satuan,0, "", ".")',
             'htmlOptions'=>array('style'=>'text-align:right'),
             'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             'footer'=>'sum(tarif_satuan)',
@@ -53,16 +84,16 @@
             'header'=>'<center>Jumlah</center>',
             'name'=>'qty_tindakan',
             'type'=>'raw',
-            'value'=>'number_format($data->qty_tindakan)',
-            'htmlOptions'=>array('style'=>'text-align:center'),
-            'footerHtmlOptions'=>array('style'=>'text-align:center;'),
+            'value'=>'number_format($data->qty_tindakan,0, "", ".")',
+            'htmlOptions'=>array('style'=>'text-align:right'),
+            'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             'footer'=>'sum(qty_tindakan)',
         ),
         array(
             'header'=>'<center>Total</center>',
             'name'=>'Total',
             'type'=>'raw',
-            'value'=>'number_format($data->Total)',
+            'value'=>'number_format($data->Total,0, "", ".")',
             'htmlOptions'=>array('style'=>'text-align:right'),
             'footerHtmlOptions'=>array('style'=>'text-align:right;'),
             'footer'=>'sum(Total)',

@@ -1,4 +1,5 @@
 <?php 
+    $itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
     $sort = true;
     $pagination = 10;
@@ -8,8 +9,38 @@
         $template = "{items}";
         $sort = false;
         $pagination = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+        
+        echo "
+             <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
     } else{
         $data = $model->searchTableLaporan();
          $template = "{summary}\n{items}\n{pager}";
@@ -22,7 +53,7 @@ $this->widget($table,
         'dataProvider'=>$data,
         'template'=>$template,
         'enableSorting'=>$sort,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
       'columns'=>array(
         array(
             'header' => 'No.',
@@ -33,18 +64,24 @@ $this->widget($table,
             'footerHtmlOptions'=>array('colspan'=>5,'style'=>'text-align:right;font-style:italic;'),
             'footer'=>'Total',
         ),
-        array(
-            'header' => 'No. Pendaftaran',
-            'name'=>'no_pendaftaran',
-        ),
-        array(
+          array(
             'header'=>'Tanggal Pendaftaran',
             'type'=>'raw',
-			'value'=>'date("d/m/Y H:i:s", strtotime($data->tgl_pendaftaran))',
+            'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tgl_pendaftaran)))',
         ),
         array(
+            'header' => 'No. Pendaftaran',
+            'value'=>'$data->no_pendaftaran',
+        ),
+        
+        array(
             'header'=>'Nama Pasien',
-            'name'=>'nama_pasien',
+            'value'=>function($data){
+                $p = PasienM::model()->findByPk($data->pasien_id);
+                                
+                    return $p->namadepan.' '.$data->nama_pasien;
+                
+            },
         ),
         array(
             'header'=>'Alamat',
@@ -54,72 +91,66 @@ $this->widget($table,
             'header'=>'Tarif',
             'type'=>'raw',
             'name'=>'total',
-            'value'=>'number_format($data->total)',
+            'value'=>'number_format($data->total,0,"",".")',
             'htmlOptions'=>array(
-                    'style'=>'text-align:right',
-                    'class'=>'currency'
+                    'style'=>'text-align:right',                    
                 ),
-            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;','class'=>'currency'),
+            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;'),
             'footer'=>'sum(total)',
         ),
         array(
             'header'=>'Biaya Administrasi',
             'type'=>'raw',
             'name'=>'administrasi',
-            'value'=>'number_format($data->administrasi)',
+            'value'=>'number_format($data->administrasi,0,"",".")',
             'htmlOptions'=>array(
-                    'style'=>'text-align:right',
-                    'class'=>'currency'
+                    'style'=>'text-align:right',                    
                 ),
-            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;','class'=>'currency'),
+            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;'),
             'footer'=>'sum(administrasi)',
         ),
         array(
             'header'=>'Diskon',
             'type'=>'raw',
             'name'=>'totaldiscount',
-            'value'=>'number_format($data->totaldiscount)',
+            'value'=>'number_format($data->totaldiscount,0,"",".")',
             'htmlOptions'=>array(
-                    'style'=>'text-align:right',
-                    'class'=>'currency'
+                    'style'=>'text-align:right',                    
                 ),
-            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;','class'=>'currency'),
+            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;'),
             'footer'=>'sum(totaldiscount)',
         ),
         array(
             'header'=>'Deposit',
             'type'=>'raw',
             'name'=>'totaluangmuka',
-            'value'=>'number_format($data->totaluangmuka)',
+            'value'=>'number_format($data->totaluangmuka,0,"",".")',
             'htmlOptions'=>array(
-                    'style'=>'text-align:right',
-                    'class'=>'currency'
+                    'style'=>'text-align:right',                    
                 ),
-            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;','class'=>'currency'),
+            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;'),
             'footer'=>'sum(totaluangmuka)',
         ),
         array(
             'header'=>'Bayar',
             'type'=>'raw',
             'name'=>'totalbayartindakan',
-            'value'=>'number_format($data->totalbayartindakan)',
+            'value'=>'number_format($data->totalbayartindakan,0,"",".")',
             'htmlOptions'=>array(
-                    'style'=>'text-align:right',
-                    'class'=>'currency'
+                    'style'=>'text-align:right',                    
                 ),
-            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;','class=>currency'),
+            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;'),
             'footer'=>'sum(totalbayartindakan)',
         ),
         array(
             'header'=>'Sisa',
             'type'=>'raw',
             'name'=>'totalsisatagihan',
-            'value'=>'number_format($data->totalsisatagihan)',
+            'value'=>'number_format($data->totalsisatagihan,0,"",".")',
             'htmlOptions'=>array(
-                    'style'=>'text-align:right',
-                    'class'=>'currency'
+                    'style'=>'text-align:right',                    
                 ),
-            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;','class=>currency'),
+            'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;',),
             'footer'=>'sum(totalsisatagihan)',
         ),
         array(
@@ -151,12 +182,7 @@ $this->widget($table,
                 }
             );
             
-            jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
-            $(".currency").each(function(){
-                $(this).text(
-                    formatInteger($(this).text())
-                );
-            });
+            jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});           
         }',
     )
 );
