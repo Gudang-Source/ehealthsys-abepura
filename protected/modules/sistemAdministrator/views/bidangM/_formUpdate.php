@@ -3,7 +3,7 @@
 	'id'=>'sabidang-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit' => 'return requiredCheck(this);'),
         'focus'=>'#subkelompokNama',
 )); ?>
 
@@ -13,7 +13,8 @@
 
        <div class="control-group ">
                     <!--<label class="control-label" for="bidang">Golongan</label>-->
-                    <?php  echo $form->dropDownListRow($model, 'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'--Pilih--')); ?>
+                    <?php echo $form->hiddenField($model, 'temp_gol_id') ?>
+                    <?php  echo $form->dropDownListRow($model, 'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'--Pilih--', 'onchange' => 'kodeBidang(this)')); ?>
                     <div class="controls">
                         <?php //echo $form->hiddenField($model,'golongan_id'); ?>
                     <?php 
@@ -55,25 +56,30 @@
                     </div>
                 </div>
             <?php //Echo CHtml::hiddenField('tempKode', $model->bidang_kode); ?>
-            <?php echo $form->textFieldRow($model,'bidang_kode',array('class'=>'span1 ', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
-            <?php echo $form->textFieldRow($model,'bidang_nama',array('class'=>'span4', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'bidang_namalainnya',array('class'=>'span4', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->hiddenField($model, 'temp_kode_bid') ?>
+            <?php echo $form->textFieldRow($model,'bidang_kode',array('readonly' => TRUE ,'class'=>'span1 angkadot-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>5,)); ?>
+            <?php echo $form->textFieldRow($model,'bidang_nama',array('onkeyup' => 'namaLain(this)','class'=>'span4 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'bidang_namalainnya',array('class'=>'span4 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <div>
                 <?php echo $form->checkBoxRow($model,'bidang_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </div>
         <div class="form-actions">
-		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
-                                                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="entypo-check"></i>')) : 
+                                                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),
                                                 array('class'=>'btn btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
-             <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+             <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                         '',
                         array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
                 <?php //$this->widget('UserTips',array('type'=>'create'));?>
     <?php
-echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Bidang', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-$content = $this->renderPartial($this->path_tips.'tipsaddedit',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+        echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Bidang', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+        $tips = array(
+                '0' => 'simpan',
+                '1' => 'ulang',
+            );
+        $content = $this->renderPartial($this->path_tips.'detailTips',array('tips'=>$tips),true);
+        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
 	</div>
 
@@ -172,3 +178,44 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 $this->endWidget();
 ?>
+<script>
+    function namaLain(obj){
+        $("#<?php echo Chtml::activeId($model, 'bidang_namalainnya') ?>").val($(obj).val());
+    }
+    
+    function kodeBidang(obj){
+        var golongan_id = $(obj).val();
+        var temp_gol_id = $("#<?php echo Chtml::activeId($model, 'temp_gol_id') ?>").val();
+        var temp_kode_bid = $("#<?php echo Chtml::activeId($model, 'temp_kode_bid') ?>").val();
+        
+        $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('KodeBidang'); ?>',
+        data: {golongan_id:golongan_id},
+        dataType: "json",
+        success:function(data){           
+            if (data.sukses == '0'){                
+                myAlert(data.pesan);
+                return false;
+            }else if (data.sukses == 'kodebaru'){         
+                if (golongan_id == temp_gol_id){
+                    $("#<?php echo Chtml::activeId($model, 'bidang_kode'); ?>").val(temp_kode_bid); 
+                }else{
+                    $("#<?php echo Chtml::activeId($model, 'bidang_kode'); ?>").val(data.kodebaru);                
+                    return false;
+                }
+            }else if (data.sukses == 'kosong'){
+                if (golongan_id == temp_gol_id){
+                    $("#<?php echo Chtml::activeId($model, 'bidang_kode'); ?>").val(temp_kode_bid); 
+                }else{
+                    $("#<?php echo Chtml::activeId($model, 'bidang_kode'); ?>").val(data.kodebaru);
+                    return false;
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);
+            
+            }
+        });
+    }
+</script>

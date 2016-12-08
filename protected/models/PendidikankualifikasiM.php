@@ -39,13 +39,13 @@ class PendidikankualifikasiM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pendkualifikasi_nama, pendkualifikasi_aktif', 'required'),
+			array('pendkualifikasi_nama, pendkualifikasi_aktif, kelompokpegawai_id, pendidikan_id, jmlkeblaki, jmlkebperempuan', 'required'),
 			array('pendkualifikasi_kode', 'length', 'max'=>10),
 			array('pendkualifikasi_nama, pendkualifikasi_namalainnya', 'length', 'max'=>50),
-			array('pendkualifikasi_keterangan', 'safe'),
+			array('pendkualifikasi_keterangan, jmlkeblaki, jmlkebperempuan, pendidikan_id, kelompokpegawai_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('pendkualifikasi_id, pendkualifikasi_kode, pendkualifikasi_nama, pendkualifikasi_namalainnya, pendkualifikasi_keterangan, pendkualifikasi_aktif', 'safe', 'on'=>'search'),
+			array('jmlkeblaki, jmlkebperempuan, pendidikan_id, kelompokpegawai_id,pendkualifikasi_id, pendkualifikasi_kode, pendkualifikasi_nama, pendkualifikasi_namalainnya, pendkualifikasi_keterangan, pendkualifikasi_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 

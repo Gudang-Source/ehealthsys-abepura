@@ -1035,8 +1035,36 @@ class ActionAutoCompleteController extends Controller
                     foreach($attributes as $j=>$attribute) {
                         $returnVal[$i]["$attribute"] = $model->$attribute;
                     }
-                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
-                    $returnVal[$i]['value'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai." ".$model->gelarbelakang_nama;
+                    $returnVal[$i]['value'] = $model->gelardepan." ".$model->nama_pegawai." ".$model->gelarbelakang_nama;
+                    
+                }
+
+                echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
+	}
+        
+        public function actionListDokter2()
+	{
+            if(Yii::app()->request->isAjaxRequest) {
+                $criteria = new CDbCriteria();
+                if (isset($_GET['term'])){
+                    $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+                }                                                              
+                $criteria->select = 'gelardepan, nama_pegawai, gelarbelakang_nama';
+                $criteria->group = 'gelardepan, nama_pegawai, gelarbelakang_nama';
+                $criteria->order = 'nama_pegawai';
+                $models = DokterV::model()->findAll($criteria);
+                foreach($models as $i=>$model)
+                {
+                    $attributes = $model->attributeNames();
+                    foreach($attributes as $j=>$attribute) {
+                        $returnVal[$i]["$attribute"] = $model->$attribute;
+                    }
+                    $returnVal[$i]['label'] = $model->nama_pegawai;
+                    $returnVal[$i]['value'] = $model->nama_pegawai;
+                    
                 }
 
                 echo CJSON::encode($returnVal);
@@ -1127,7 +1155,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->select = " pegawai_id,gelardepan, nama_pegawai, gelarbelakang_nama ";
-                $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+                $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);                
                 $criteria->compare('ruangan_id', Yii::app()->user->getState('ruangan_id'));
                 $criteria->order = 'nama_pegawai';
                 $criteria->limit=10;
@@ -1921,7 +1949,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->compare('LOWER(bidang_nama)', strtolower($_GET['term']), true);
-                $criteria->order = 'bidang_nama';
+                $criteria->order = 'bidang_kode ASC';
                 $models = BidangM::model()->findAll($criteria);
                 foreach($models as $i=>$model)
                 {
@@ -1942,7 +1970,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->compare('LOWER(golongan_nama)', strtolower($_GET['term']), true);
-                $criteria->order = 'golongan_nama';
+                $criteria->order = 'golongan_kode ASC';
                 $models = GolonganM::model()->findAll($criteria);
                 foreach($models as $i=>$model)
                 {
@@ -1963,7 +1991,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->compare('LOWER(kelompok_nama)', strtolower($_GET['term']), true);
-                $criteria->order = 'kelompok_nama';
+                $criteria->order = 'kelompok_kode ASC';
                 $models = KelompokM::model()->findAll($criteria);
                 foreach($models as $i=>$model)
                 {
@@ -1984,7 +2012,7 @@ class ActionAutoCompleteController extends Controller
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
                 $criteria->compare('LOWER(subkelompok_nama)', strtolower($_GET['term']), true);
-                $criteria->order = 'subkelompok_nama';
+                $criteria->order = 'subkelompok_kode ASC';
                 $models = SubkelompokM::model()->findAll($criteria);
                 foreach($models as $i=>$model)
                 {

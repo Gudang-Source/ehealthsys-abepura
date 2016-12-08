@@ -1,5 +1,11 @@
 <?php
-$url = Yii::app()->createUrl('gudangFarmasi/laporan/FrameGrafikLaporanPermintaanPembelian&id=1');
+ $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai//mengambil Module yang sedang dipakai
+if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GUDANG_UMUM){
+    
+    $url = Yii::app()->createUrl('gudangUmum/laporanPermintaanPembelianGU/FrameGrafikLaporanPermintaanPembelian&id=1');
+}else{
+    $url = Yii::app()->createUrl('gudangFarmasi/laporan/FrameGrafikLaporanPermintaanPembelian&id=1');
+}
 Yii::app()->clientScript->registerScript('search', "
 $('#search-laporan').submit(function(){
     $('#Grafik').attr('src','').css('height','0px');

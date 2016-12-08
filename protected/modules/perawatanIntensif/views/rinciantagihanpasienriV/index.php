@@ -49,45 +49,42 @@
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
-                        array(
-                            'header'=>'Tanggal Pendaftaran',
+                       array(
+                            'header'=>'Tanggal Pendaftaran/ <br/>No. Pendaftaran',
                             'type'=>'raw',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran',
                         ),
-                        array(
-                            'header'=>'No. Rekam Medik<br/>No. Pendaftaran',
-                            'type'=>'raw',
-                            'value'=>'$data->noRMNoPend',
-                        ),
-                        array(
+                         array(
                            'name'=>'caramasuk_nama',
                             'type'=>'raw',
                             'value'=>'$data->caramasuk_nama',
                         ),
                         array(
+                            'header'=>'No. Rekam Medik',
+                            'type'=>'raw',
+                            'value'=>'$data->no_rekam_medik',
+                        ),                       
+                        array(
         //                    'header'=>'Nama Pasien',
         //                    'type'=>'raw',
         //                    'value'=>'$data->nama_pasien.\'<br/>\'.$data->nama_bin',
-                            'header'=>'Nama Pasien / Alias',
-                            'value'=>'$data->namaPasienNamaBin'
+                            'header'=>'Nama Pasien',
+                            'value'=>'$data->namadepan." ".$data->nama_pasien'
                         ),            
                         array(
-                            'name'=>'jeniskelamin',
-                            'value'=>'$data->jeniskelamin',
+                            'header'=>'Jenis Kelamin/ <br/>Umur',
+                            'type' => 'raw',
+                            'value'=>'$data->jeniskelamin."/ <br/>".$data->umur',
                         ),
                         array(
                             'header'=>'Cara Bayar<br/>Penjamin',
                             'type'=>'raw',
                             'value'=>'$data->CaraBayarPenjamin',
-                        ),
-                        array(
-                            'name'=>'umur',
-                            'value'=>'$data->umur',
-                        ),
+                        ),                       
                         array(
                            'name'=>'Dokter',
                             'type'=>'raw',
-                            'value'=>'$data->nama_pegawai',
+                            'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                         ),
                         array(
                            'name'=>'kelaspelayanan_nama',

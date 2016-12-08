@@ -94,6 +94,7 @@ class InfokunjunganrdV extends CActiveRecord
         public $pendidikan_id, $suku_id;
         public $bulan, $tahun;
         public $rujukandari_id;
+        public $prefix_pendaftaran;
         
 	/**
 	 * Returns the static model of the specified AR class.

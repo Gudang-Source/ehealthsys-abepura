@@ -137,6 +137,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 				"id" => "selectBahan",
 				"onClick" => "$(\'#menudiet_id\').val($data->menudiet_id);
 				$(\'#menuDiet\').val(\'$data->menudiet_nama\');
+                                $(\'#jenisdiet_id\').val(\'$data->jenisdiet_id\');
 				$(\'#URT\').val(\'$data->ukuranrumahtangga\');
 				$(\'#dialogMenuDiet\').dialog(\'close\');return false;"))',
         ),

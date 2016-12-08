@@ -425,12 +425,12 @@ class LaporansensuspenunjangV extends CActiveRecord
         
         public function getCaraBayarPenjamin()
         {
-                return $this->carabayar_nama.' / '.$this->penjamin_nama;
+                return $this->carabayar_nama.'/ <br/> '.$this->penjamin_nama;
         }
         
         public function getAlamatRTRW()
         {
-            return $this->alamat_pasien.'<br>'.$this->rt.' / '.$this->rw;
+            return $this->alamat_pasien.'/<br>'.$this->rt.'  '.$this->rw;
         }
         
         public function getNoRMNoPend(){
@@ -438,13 +438,13 @@ class LaporansensuspenunjangV extends CActiveRecord
         }
         
         public function getTglMasukNoPenunjang(){
-            return MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($this->tglmasukpenunjang))).'<br/>/ '.PHP_EOL.$this->no_masukpenunjang;
+            return MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($this->tglmasukpenunjang))).'/<br/> '.PHP_EOL.$this->no_masukpenunjang;
         }
         
         public function getJenisKelaminUmur(){
-            return $this->jeniskelamin.'<br/>/ '.$this->umur;
+            return $this->jeniskelamin.'/ <br/> '.$this->umur;
         }
         public function getInstalasiRuangan(){
-            return $this->instalasiasal_nama.'<br/>/ '.$this->ruanganasal_nama;
+            return $this->instalasiasal_nama.'/ <br/> '.$this->ruanganasal_nama;
         }
 }

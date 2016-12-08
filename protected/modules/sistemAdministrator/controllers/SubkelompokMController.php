@@ -58,6 +58,8 @@ class SubkelompokMController extends MyAuthController
 	{
                 // if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
+                $model->temp_kel_id = $model->kelompok_id;
+                $model->temp_kode_subkel = $model->subkelompok_kode;
 
 		// Uncomment the following line if AJAX validation is needed
 		
@@ -95,8 +97,17 @@ class SubkelompokMController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new SASubkelompokM('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SASubkelompokM']))
-			$model->attributes=$_GET['SASubkelompokM'];
+                $model->dropdown_bidang = $model->getBidang();
+                $model->dropdown_kelompok = $model->getKelompok();
+                
+                
+		if(isset($_GET['SASubkelompokM'])){
+                    $model->attributes=$_GET['SASubkelompokM'];
+                    $model->golongan_id = !empty($_GET['SASubkelompokM']['golongan_id'])?$_GET['SASubkelompokM']['golongan_id']:null;
+                    $model->bidang_id = !empty($_GET['SASubkelompokM']['bidang_id'])?$_GET['SASubkelompokM']['bidang_id']:null;
+                    $model->dropdown_bidang = $model->getBidang();
+                    $model->dropdown_kelompok = $model->getKelompok();
+                }
 
 		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
@@ -226,4 +237,25 @@ class SubkelompokMController extends MyAuthController
                 $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
+        
+        public function actionKodeSubKelompok(){
+            if (Yii::app()->request->isAjaxRequest){
+                $kelompok_id = !empty($_POST['kelompok_id'])?$_POST['kelompok_id']:null;
+                $data = array();
+                if (!empty($kelompok_id)){
+                    $kodeKelompok = SAKelompokM::model()->findByPk($kelompok_id)->kelompok_kode;
+                    
+                    $kodeBaru = MyGenerator::kodeSubKelompok($kodeKelompok);
+                    
+                    $data['sukses'] = 'kodebaru';
+                    $data['kodebaru'] = $kodeBaru;
+                }else{
+                    $data['sukses'] = 'kosong';
+                    $data['kodebaru'] = '';
+                }
+                
+                echo json_encode($data);
+                Yii::app()->end();
+            }
+        } 
 }

@@ -43,10 +43,21 @@ class BarangMController extends MyAuthController
                       $transaction = Yii::app()->db->beginTransaction();
                       $model=new SABarangM;
                       $model->attributes=$_POST['SABarangM'];
+                      $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
+                      $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
+                      $model->bidang_id = $model->getBidangId($model->kelompok_id);                
+                      $model->golongan_id = $model->getGolonganId($model->bidang_id);   
+                      
                       $model->barang_statusregister=true;     
+                      $model->barang_persendiskon = str_replace(',', '.', $model->barang_persendiskon);                      
+                      
                       if($model->nomorregister != ''):
                         $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
-                     endif;
+                      endif;
+                     
+                      if($model->nomorregistersd != ''):
+                        $model->barang_kode = $model->barang_kode.' s/d '.$model->nomorregistersd;
+                      endif;
                       
                       if ($model->validate()) {
                         try {
@@ -106,38 +117,59 @@ class BarangMController extends MyAuthController
 	{
 		$model=$this->loadModel($id);
 		$temLogo = $model->barang_image;
+                $model->tempKode = $model->barang_kode;
                 
+                //format
+                $model->barang_persendiskon = str_replace('.', ',', $model->barang_persendiskon);
+                $model->barang_hargajual = number_format($model->barang_hargajual,0,'','.');
+                $model->barang_harganetto = number_format($model->barang_harganetto,0,'','.');
+                $model->barang_ppn = number_format($model->barang_ppn,0,'','.');
+                $model->barang_hpp = number_format($model->barang_hpp,0,'','.');
                                                              
                 if ($model->subsubkelompok_id !== null):
                     $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
                     $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
                     $model->bidang_id = $model->getBidangId($model->kelompok_id);                
                     $model->golongan_id = $model->getGolonganId($model->bidang_id);   
-                
-                    
+                                    
                     $model->nomorregister = str_replace($model->getNomorReg($model->subsubkelompok_id).'.','',$model->barang_kode);                                                                                                    
                     $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);
                     
+                     $pecahReg = explode(' s/d ', $model->nomorregister);
+                     
                     if ($model->nomorregister == $model->barang_kode):
                         $kodebarang = $model->barang_kode;                   
-                        $pecah = explode('.', $model->nomorregister);   
-                    
-                        if ($pecah[0] === $kodebarang):
-                            $model->nomorregister = '';                                                     
-                        else:
-                             //var_dump($model->getNomorReg($model->subsubkelompok_id));
-                            if ($model->nomorregister == $model->getNomorReg($model->subsubkelompok_id))
-                            {
-                               
-                                $model->nomorregister = '';       
-                            }else{ 
-                                $model->nomorregister = str_replace($pecah[0].'.','',$kodebarang); 
-                                $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);                                            
+                        $pecah = explode('.', $model->nomorregister);                                                   
+                        
+                        if (isset($pecahReg[0])){
+                            //catatan 
+                            $model->nomorregister = $pecahReg[0];                            
+                            if (isset($pecahReg[1])){
+                                $model->nomorregistersd = $pecahReg[1];
                             }
-                        endif;      
+                        }else{                                                                                    
+                            if ($pecah[0] === $kodebarang):
+                                $model->nomorregister = '';                                                     
+                            else:
+                                 //var_dump($model->getNomorReg($model->subsubkelompok_id));
+                                if ($model->nomorregister == $model->getNomorReg($model->subsubkelompok_id))
+                                {
+
+                                    $model->nomorregister = '';       
+                                }else{ 
+                                    $model->nomorregister = str_replace($pecah[0].'.','',$kodebarang); 
+                                    $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);                                            
+                                }
+                            endif;      
+                        }
                     else:
-                       
-                       
+                       if (isset($pecahReg[0])){
+                            //catatan 
+                            $model->nomorregister = $pecahReg[0];                            
+                            if (isset($pecahReg[1])){
+                                $model->nomorregistersd = $pecahReg[1];
+                            }
+                        }                       
                     endif;
                     
                 else:
@@ -162,52 +194,66 @@ class BarangMController extends MyAuthController
 		if(isset($_POST['SABarangM']))
 		{
                     $transaction = Yii::app()->db->beginTransaction();
-                      $model=$this->loadModel($id);
-                      $model->attributes=$_POST['SABarangM'];
+                        $model=$this->loadModel($id);
+                        $model->attributes=$_POST['SABarangM'];
+                        
+                        
+                        $model->barang_persendiskon = !empty($model->barang_persendiskon)?str_replace(',', '.', $model->barang_persendiskon):0;                      
+                        
+                        $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
+                        $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
+                        $model->bidang_id = $model->getBidangId($model->kelompok_id);                
+                        $model->golongan_id = $model->getGolonganId($model->bidang_id);
+                      
                          if($model->nomorregister != ''):
                             $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
                          endif;
-                      if ($model->validate()) {
-                        try {
-                            $random = rand(0000000, 9999999);
-                            $model->barang_image = CUploadedFile::getInstance($model, 'barang_image');
-                            $gambar = $model->barang_image;
-                            if (!empty($model->barang_image)) {
-                                $model->barang_image = $random . $model->barang_image;
-                                $model->barang_image = $random . $model->barang_image;
+                         
+                         if($model->nomorregistersd != ''):
+                            $model->barang_kode = $model->barang_kode.' s/d '.$model->nomorregistersd;
+                          endif;
+                          
+                        if ($model->validate()) {
+                          try {
+                              $random = rand(0000000, 9999999);
+                              $model->barang_image = CUploadedFile::getInstance($model, 'barang_image');
+                              $gambar = $model->barang_image;
+                              if (!empty($model->barang_image)) {
+                                  $model->barang_image = $random . $model->barang_image;
+                                  $model->barang_image = $random . $model->barang_image;
 
-                                Yii::import("ext.EPhpThumb.EPhpThumb");
+                                  Yii::import("ext.EPhpThumb.EPhpThumb");
 
-                                $thumb = new EPhpThumb();
-                                $thumb->init(); //this is needed
+                                  $thumb = new EPhpThumb();
+                                  $thumb->init(); //this is needed
 
-                                $fullImgName = $model->barang_image;
-                                $fullImgSource = Params::pathBarangDirectory() . $fullImgName;
-                                $fullThumbSource = Params::pathBarangTumbsDirectory() . 'kecil_' . $fullImgName;
+                                  $fullImgName = $model->barang_image;
+                                  $fullImgSource = Params::pathBarangDirectory() . $fullImgName;
+                                  $fullThumbSource = Params::pathBarangTumbsDirectory() . 'kecil_' . $fullImgName;                                
+                                  $model->barang_image = $fullImgName;
 
-                                $model->barang_image = $fullImgName;
+                                  if ($model->save()) {
+                                      if (!empty($temLogo)) {
+                                          unlink(Params::pathBarangDirectory() . $temLogo);
+                                          unlink(Params::pathBarangTumbsDirectory() . 'kecil_' . $temLogo);
+                                      }
+                                      $gambar->saveAs($fullImgSource);
+                                      $thumb->create($fullImgSource)
+                                              ->resize(200, 200)
+                                              ->save($fullThumbSource);
+                                  }    
+                              } else {
 
-                                if ($model->save()) {
-                                    if (!empty($temLogo)) {
-                                        unlink(Params::pathBarangDirectory() . $temLogo);
-                                        unlink(Params::pathBarangTumbsDirectory() . 'kecil_' . $temLogo);
-                                    }
-                                    $gambar->saveAs($fullImgSource);
-                                    $thumb->create($fullImgSource)
-                                            ->resize(200, 200)
-                                            ->save($fullThumbSource);
-                                }    
-                            } else {
-                            	$model->save();
-                            }
-                            
-                            $transaction->commit();
-                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            $this->redirect(array('admin','id'=>1));
-                        } catch (Exception $e) {
-                            $transaction->rollback();
-                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
-                        }
+                                  $model->save();
+                              }
+
+                              $transaction->commit();
+                              Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                              $this->redirect(array('admin','id'=>1));
+                          } catch (Exception $e) {
+                              $transaction->rollback();
+                              Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                          }
                     }
 		}
 

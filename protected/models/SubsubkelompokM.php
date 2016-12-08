@@ -71,7 +71,7 @@ class SubsubkelompokM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'subsubkelompok_id' => 'Sub Sub Kelompok',
+			'subsubkelompok_id' => 'ID',
 			'subkelompok_id' => 'Sub Kelompok',
 			'subsubkelompok_kode' => 'Sub Sub Kelompok Kode',
 			'subsubkelompok_nama' => 'Sub Sub Kelompok Nama',
@@ -84,7 +84,7 @@ class SubsubkelompokM extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */	
-         public function search()
+        public function search()
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -129,29 +129,35 @@ class SubsubkelompokM extends CActiveRecord
         
         public function getGolonganItems()
         {
-            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_nama');
+            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_kode ASC');
         }
+        
+        public function getBidangItems()
+        {
+            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_kode');
+        }
+        
         public function getKelompokItems()
         {
-            return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_nama');
+            return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_kode ASC');
         }
         public function getSubKelompokItems()
         {
-            return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_nama');
+            return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_kode ASC');
         }
         
         public function getSubSubKelompokItems()
         {
-            return SubsubkelompokM::model()->findAll('subsubkelompok_aktif=true ORDER BY subsubkelompok_nama');
+            return SubsubkelompokM::model()->findAll('subsubkelompok_aktif=true ORDER BY subsubkelompok_kode ASC');
         }
         
        public function getDataSubSubKelompokItems($subkelompok_id)
         {
-            return $this->findAllByAttributes(array('subkelompok_id'=>$subkelompok_id),array('order'=>'subsubkelompok_nama ASC'));
+            return $this->findAllByAttributes(array('subkelompok_id'=>$subkelompok_id, 'subsubkelompok_aktif' => TRUE),array('order'=>'subsubkelompok_kode ASC'));
         }
         
          public function getDataKodeSSKItems($subsubkelompok_id)
         {
-            return $this->findAllByAttributes(array('subsubkelompok_id'=>$subsubkelompok_id),array('order'=>'subsubkelompok_nama ASC'));
+            return $this->findAllByAttributes(array('subsubkelompok_id'=>$subsubkelompok_id, 'subsubkelompok_aktif' => TRUE),array('order'=>'subsubkelompok_kode ASC'));
         }
 }

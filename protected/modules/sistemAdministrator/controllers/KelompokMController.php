@@ -59,7 +59,8 @@ class KelompokMController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
                 $model->bidang_nama = BidangM::model()->findByPk($model->bidang_id)->bidang_nama;
-
+                $model->temp_bid_id = $model->bidang_id;
+                $model->temp_kode_kel = $model->kelompok_kode;
 		// Uncomment the following line if AJAX validation is needed
 		
 
@@ -96,8 +97,13 @@ class KelompokMController extends MyAuthController
                 
 		$model=new SAKelompokM('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SAKelompokM']))
-			$model->attributes=$_GET['SAKelompokM'];
+                $model->dropdown_bidang = $model->getBidang();
+                
+		if(isset($_GET['SAKelompokM'])){
+                    $model->attributes=$_GET['SAKelompokM'];
+                    $model->golongan_id = !empty($_GET['SAKelompokM']['golongan_id'])?$_GET['SAKelompokM']['golongan_id']:null;
+                    $model->dropdown_bidang = $model->getBidang();
+                }
 
 		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
@@ -227,4 +233,25 @@ class KelompokMController extends MyAuthController
                 $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
+        
+        public function actionKodeKelompok(){
+            if (Yii::app()->request->isAjaxRequest){
+                $bidang_id = !empty($_POST['bidang_id'])?$_POST['bidang_id']:null;
+                $data = array();
+                if (!empty($bidang_id)){
+                    $kodeBidang = SABidangM::model()->findByPk($bidang_id)->bidang_kode;
+                    
+                    $kodeBaru = MyGenerator::kodeKelompok($kodeBidang);
+                    
+                    $data['sukses'] = 'kodebaru';
+                    $data['kodebaru'] = $kodeBaru;
+                }else{
+                    $data['sukses'] = 'kosong';
+                    $data['kodebaru'] = '';
+                }
+                
+                echo json_encode($data);
+                Yii::app()->end();
+            }
+        } 
 }

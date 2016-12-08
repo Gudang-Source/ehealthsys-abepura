@@ -27,23 +27,31 @@
                 'type'=>'raw',
                 'value'=>'(empty($data->pasienpulang_id))?"PULANG":$data->carakeluar',
             ),
+            array(
+                'header' => 'Tanggal Pendaftaran/ <br/> No Pendaftaran',
+                'type' => 'raw',
+                'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br>".$data->no_pendaftaran'
+            ),   
             'no_rekam_medik',
             array(
-                'header'=>'Nama Pasien / Alias',
-                'value'=>'$data->NamaNamaBIN',
+                'header'=>'Nama Pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
             ),
-            'umur',
-            'jeniskelamin',
+            array(
+                'header' => 'Jenis Kelamin/ <br/> Umur',
+                'type' => 'raw',
+                'value' => '$data->jeniskelamin."/ <br/>".$data->umur'
+            ),            
             array(
                 'header'=>'Alamat Lengkap',
                 'value'=>'$data->AlamatLengkap',
             ),
             'kelaspelayanan_nama',
-            array(
+          /*  array(
               'header'=>'Ruangan',
               'type'=>'raw',
               'value'=>'$data->ruangan_nama',
-            ),
+            ),*/
 //            array(
 //              'header'=>'No. Masuk Kamar',
 //              'type'=>'raw',
@@ -57,6 +65,13 @@
 //                   'htmlOptions'=>array('style'=>'text-align: center')
 //            ),
             'kunjungan',
+             array(
+                'header'=>'Nama Diagnosa',
+                'type'=>'raw',
+                //'value'=>'(!empty($data->diagnosa_nama))?$data->diagnosa_nama:""',
+              'value' => '$this->grid->getOwner()->renderPartial("tindakLanjut/_listDiagnosa",array("pendaftaran_id"=>$data->pendaftaran_id),true)'
+            ),
+            
 //            'kelurahan_nama',
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

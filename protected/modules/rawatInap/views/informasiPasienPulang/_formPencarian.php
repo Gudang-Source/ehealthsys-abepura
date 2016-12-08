@@ -54,15 +54,33 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                         )); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($modPasienYangPulang,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                <?php //echo $form->textFieldRow($modPasienYangPulang,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($modPasienYangPulang,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                <?php echo $form->textFieldRow($modPasienYangPulang,'nama_bin',array('placeholder'=>'Ketik Alias / Nama Panggilan','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                <?php echo $form->textFieldRow($modPasienYangPulang,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                 <div class="control-group">
+                        <?php echo CHtml::label('No. Pendaftaran','no_pendaftaran', array('class'=>'control-label')) ?>                        
+                            <div class="controls">
+                                
+                                <?php 
+                                       
+                                        $prefix = array(
+                                            0 => Params::PREFIX_RAWAT_DARURAT,
+                                            1 => Params::PREFIX_RAWAT_INAP,
+                                            2 => Params::PREFIX_RAWAT_JALAN
+                                        );
+
+                                    echo $form->dropDownList($modPasienYangPulang,'prefix_pendaftaran', PendaftaranT::model()->getColumn($prefix),array('class'=>'numbers-only', 'style'=>'width:75px;')); 
+                                ?>
+                                <?php echo $form->textField($modPasienYangPulang, 'no_pendaftaran', array('class' => 'span2 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>                                                                
+                            </div>                        
+                    </div>
+                <?php echo $form->textFieldRow($modPasienYangPulang,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>6)); ?>
+                <?php echo $form->textFieldRow($modPasienYangPulang,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                <?php //echo $form->textFieldRow($modPasienYangPulang,'nama_bin',array('placeholder'=>'Ketik Alias / Nama Panggilan','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                
             </td>
             <td>
-                <?php echo $form->textFieldRow($modPasienYangPulang,'keterangan_kamar',array('placeholder'=>'Ketik Status Kamar','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?> 
+                <?php //echo $form->textFieldRow($modPasienYangPulang,'keterangan_kamar',array('placeholder'=>'Ketik Status Kamar','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?> 
                 <?php echo $form->dropDownListRow($modPasienYangPulang,'carabayar_id', CHtml::listData($modPasienYangPulang->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",
                                                        'ajax' => array('type'=>'POST',
                                                                'url'=> $this->createUrl('SetDropdownPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($modPasienYangPulang))), 

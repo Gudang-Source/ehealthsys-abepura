@@ -36,10 +36,10 @@ class PendidikankualifikasiMController extends MyAuthController
 		if(isset($_POST['KPPendidikankualifikasiM']))
 		{
 			$model->attributes=$_POST['KPPendidikankualifikasiM'];
-			$model->pendidikan_id=!empty($_POST['KPPendidikankualifikasiM']['pendidikan_id'])?$_POST['KPPendidikankualifikasiM']['pendidikan_id']:null;
-			$model->kelompokpegawai_id=!empty($_POST['KPPendidikankualifikasiM']['kelompokpegawai_id'])?$_POST['KPPendidikankualifikasiM']['kelompokpegawai_id']:null;
-			$model->jmlkeblaki=!empty($_POST['KPPendidikankualifikasiM']['jmlkeblaki'])?$_POST['KPPendidikankualifikasiM']['jmlkeblaki']:null;
-			$model->jmlkebperempuan=!empty($_POST['KPPendidikankualifikasiM']['jmlkebperempuan'])?$_POST['KPPendidikankualifikasiM']['jmlkebperempuan']:null;
+			//$model->pendidikan_id=!empty($_POST['KPPendidikankualifikasiM']['pendidikan_id'])?$_POST['KPPendidikankualifikasiM']['pendidikan_id']:null;
+			//$model->kelompokpegawai_id=!empty($_POST['KPPendidikankualifikasiM']['kelompokpegawai_id'])?$_POST['KPPendidikankualifikasiM']['kelompokpegawai_id']:null;
+			//$model->jmlkeblaki=!empty($_POST['KPPendidikankualifikasiM']['jmlkeblaki'])?$_POST['KPPendidikankualifikasiM']['jmlkeblaki']:null;
+			//$model->jmlkebperempuan=!empty($_POST['KPPendidikankualifikasiM']['jmlkebperempuan'])?$_POST['KPPendidikankualifikasiM']['jmlkebperempuan']:null;
 			
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -68,10 +68,10 @@ class PendidikankualifikasiMController extends MyAuthController
 		if(isset($_POST['KPPendidikankualifikasiM']))
 		{
 			$model->attributes=$_POST['KPPendidikankualifikasiM'];
-			$model->pendidikan_id=!empty($_POST['KPPendidikankualifikasiM']['pendidikan_id'])?$_POST['KPPendidikankualifikasiM']['pendidikan_id']:null;
-			$model->kelompokpegawai_id=!empty($_POST['KPPendidikankualifikasiM']['kelompokpegawai_id'])?$_POST['KPPendidikankualifikasiM']['kelompokpegawai_id']:null;
-			$model->jmlkeblaki=!empty($_POST['KPPendidikankualifikasiM']['jmlkeblaki'])?$_POST['KPPendidikankualifikasiM']['jmlkeblaki']:null;
-			$model->jmlkebperempuan=!empty($_POST['KPPendidikankualifikasiM']['jmlkebperempuan'])?$_POST['KPPendidikankualifikasiM']['jmlkebperempuan']:null;
+			//$model->pendidikan_id=!empty($_POST['KPPendidikankualifikasiM']['pendidikan_id'])?$_POST['KPPendidikankualifikasiM']['pendidikan_id']:null;
+			//$model->kelompokpegawai_id=!empty($_POST['KPPendidikankualifikasiM']['kelompokpegawai_id'])?$_POST['KPPendidikankualifikasiM']['kelompokpegawai_id']:null;
+			//$model->jmlkeblaki=!empty($_POST['KPPendidikankualifikasiM']['jmlkeblaki'])?$_POST['KPPendidikankualifikasiM']['jmlkeblaki']:null;
+			//$model->jmlkebperempuan=!empty($_POST['KPPendidikankualifikasiM']['jmlkebperempuan'])?$_POST['KPPendidikankualifikasiM']['jmlkebperempuan']:null;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin','id'=>$model->pendkualifikasi_id));

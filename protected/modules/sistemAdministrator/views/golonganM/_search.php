@@ -7,10 +7,13 @@
 <table>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'golongan_kode',array('class'=>'span5','maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'golongan_kode',array('class'=>'span3 numbers-only','maxlength'=>2)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'golongan_nama',array('class'=>'span5','maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'golongan_nama',array('class'=>'span3 custom-only','maxlength'=>100)); ?>
+        </td>
+        <td>
+            <?php echo $form->textFieldRow($model,'golongan_namalainnya',array('class'=>'span3 custom-only','maxlength'=>100)); ?>
         </td>
     </tr>
     <tr>

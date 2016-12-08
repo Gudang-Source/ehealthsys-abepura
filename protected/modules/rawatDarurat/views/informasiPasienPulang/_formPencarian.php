@@ -66,10 +66,24 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                         )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --')); ?>
             </td>
             <td>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama bin')); ?>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'no_rekam_medik',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.rekam medik')); ?>
+            <div class = "control-group">
+                    <?php echo Chtml::label("No Pendaftaran",'no_pendaftaran', array('class'=>'control-label')) ?>
+                <div class = "controls">
+                    <?php                         
+                        $prefix = array(
+                            0 => Params::PREFIX_RAWAT_DARURAT,
+
+                        );                                                                                          
+                        echo $form->dropDownList($modPasienYangPulang,'prefix_pendaftaran', PendaftaranT::model()->getColumn($prefix),array('class'=>'numbers-only', 'style'=>'width:75px;')); 
+                    ?>
+                    <?php echo $form->textField($modPasienYangPulang, 'no_pendaftaran', array('class' => 'span2 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>
+                </div>
+            </div>
+                 <?php //echo $form->textFieldRow($modPasienYangPulang,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
+                <?php echo $form->textFieldRow($modPasienYangPulang,'no_rekam_medik',array('class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.rekam medik')); ?>
+                 <?php echo $form->textFieldRow($modPasienYangPulang,'nama_pasien',array('class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
+                 <?php //echo $form->textFieldRow($modPasienYangPulang,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama bin')); ?>
+                 
                  <?php //echo $form->textFieldRow($modPasienYangPulang,'keterangan_kamar',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik keterangan kamar.')); ?>
                  
             </td>

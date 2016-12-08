@@ -1,4 +1,11 @@
-<span class="required"><i>Bagian dengan tanda * harus diisi.</i></span>
+<?php
+    $mandatory = !empty($mandatory)?$mandatory:true;
+    if ($mandatory == true){
+?>
+    <i>Bagian dengan tanda <span class="required">*</span> harus diisi.</i>
+    <?php
+    }
+?>
 <table width = "100%">   
     <?php
         $total = ceil(count($tips)/2);

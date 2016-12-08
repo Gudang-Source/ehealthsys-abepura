@@ -348,7 +348,7 @@ class ObatalkespasienT extends CActiveRecord
             $provider->criteria->addCondition('penjualanresep_id is null');
             $provider->criteria->compare('t.ruangan_id', Yii::app()->user->getState('ruangan_id'));
             
-            $provider->criteria->compare('lower(pendaftaran.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+            $provider->criteria->compare('lower(pendaftaran.no_pendaftaran)', strtolower($this->prefix_pendaftaran.$this->no_pendaftaran), true);
             $provider->criteria->compare('lower(pasien.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
             $provider->criteria->compare('lower(pasien.nama_pasien)', strtolower($this->nama_pasien), true);
             
@@ -359,6 +359,7 @@ class ObatalkespasienT extends CActiveRecord
             $provider->criteria->compare('lower(obatalkes.obatalkes_kategori)', strtolower($this->obatalkes_kategori));
             $provider->criteria->compare('lower(obatalkes.obatalkes_golongan)', strtolower($this->obatalkes_golongan));
             $provider->criteria->compare('lower(obatalkes.obatalkes_nama)', strtolower($this->obatalkes_nama), true);
+            $provider->criteria->order = "t.tglpelayanan DESC";
             
             return $provider;
         }

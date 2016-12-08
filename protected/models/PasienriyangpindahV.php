@@ -111,6 +111,7 @@ class PasienriyangpindahV extends CActiveRecord
 {
         public $tgl_awal;
         public $tgl_akhir;
+        public $prefix_pendaftaran;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -218,7 +219,7 @@ class PasienriyangpindahV extends CActiveRecord
 			'no_asuransi' => 'No. Asuransi',
 			'namapemilik_asuransi' => 'Namapemilik Asuransi',
 			'nopokokperusahaan' => 'Nopokokperusahaan',
-			'carabayar_id' => 'Cara bayar',
+			'carabayar_id' => 'Cara Bayar',
 			'carabayar_nama' => 'Cara bayar Nama',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin Nama',

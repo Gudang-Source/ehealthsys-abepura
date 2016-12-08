@@ -277,6 +277,32 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 //            echo '</div></div>';
 //        }
         ?>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($model,'pendidikan_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'pendidikan_id', CHtml::listData($model->getPendidikanItems(), 'pendidikan_id', 'pendidikan_nama'), 
+                                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownPendKualifikasi',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'pendkualifikasi_id'),
+                                            ),
+                                            'onchange'=>"setClearDropdownKelompokPegawai();",));?>
+                        <?php echo $form->error($model, 'pendidikan_id'); ?>
+                    </div>
+                </div>
+                <div class="control-group ">
+                    <?php echo $form->labelEx($model,'pendkualifikasi_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'pendkualifikasi_id', CHtml::listData($model->getPendKualifikasiItems($model->pendidikan_id), 'pendkualifikasi_id', 'pendkualifikasi_nama'), 
+                                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownKelompokPegawai',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'kelompokpegawai_id'),
+                                            )));?>
+                        <?php echo $form->error($model, 'pendkualifikasi_id'); ?>
+                    </div>
+                </div>
+        
             <?php echo $form->dropDownListRow($model,'golonganpegawai_id',  CHtml::listData($model->getGolonganPegawaiItems(), 'golonganpegawai_id', 'golonganpegawai_nama'), 
                            array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                  )); ?>
@@ -313,31 +339,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php //echo $form->dropDownListRow($model,'pendkualifikasi_id',  CHtml::listData($model->getPendidikanKualifikasiItems(), 'pendkualifikasi_id', 'pendkualifikasi_nama'), 
                        // array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>                 
         
-            <div class="control-group ">
-                    <?php echo $form->labelEx($model,'pendidikan_id', array('class'=>'control-label')) ?>
-                    <div class="controls">
-                        <?php echo $form->dropDownList($model,'pendidikan_id', CHtml::listData($model->getPendidikanItems(), 'pendidikan_id', 'pendidikan_nama'), 
-                                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                            'ajax'=>array('type'=>'POST',
-                                                        'url'=>$this->createUrl('SetDropdownPendKualifikasi',array('encode'=>false,'model_nama'=>get_class($model))),
-                                                        'update'=>"#".CHtml::activeId($model, 'pendkualifikasi_id'),
-                                            ),
-                                            'onchange'=>"setClearDropdownKelompokPegawai();",));?>
-                        <?php echo $form->error($model, 'pendidikan_id'); ?>
-                    </div>
-                </div>
-                <div class="control-group ">
-                    <?php echo $form->labelEx($model,'pendkualifikasi_id', array('class'=>'control-label')) ?>
-                    <div class="controls">
-                        <?php echo $form->dropDownList($model,'pendkualifikasi_id', CHtml::listData($model->getPendKualifikasiItems($model->pendidikan_id), 'pendkualifikasi_id', 'pendkualifikasi_nama'), 
-                                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                            'ajax'=>array('type'=>'POST',
-                                                        'url'=>$this->createUrl('SetDropdownKelompokPegawai',array('encode'=>false,'model_nama'=>get_class($model))),
-                                                        'update'=>"#".CHtml::activeId($model, 'kelompokpegawai_id'),
-                                            )));?>
-                        <?php echo $form->error($model, 'pendkualifikasi_id'); ?>
-                    </div>
-                </div>
+            
         
         
             <div class='control-group'>

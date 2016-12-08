@@ -31,13 +31,13 @@ class RMLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
             $criteria->group = 'ruanganasal_nama';
         }
         else{
-            $criteria->select = 'count(tglmasukpenunjang) as jumlah, asalrujukan_nama as data';
+            $criteria->select = "count(tglmasukpenunjang) as jumlah, (CASE WHEN asalrujukan_nama is NULL THEN 'Tidak Diketahui' ELSE asalrujukan_nama END) as data";
             $criteria->group = 'asalrujukan_nama';
         }
         
         
         
-
+        $criteria->order= "jumlah DESC";
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
@@ -205,6 +205,7 @@ class RMLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria->compare('LOWER(nama_perujuk)', strtolower($this->nama_perujuk), true);
         $criteria->compare('LOWER(tanggal_rujukan)', strtolower($this->tanggal_rujukan), true);
         $criteria->compare('LOWER(diagnosa_rujukan)', strtolower($this->diagnosa_rujukan), true);
+        $criteria->order = 'tglmasukpenunjang ASC';
 
         return $criteria;
     }

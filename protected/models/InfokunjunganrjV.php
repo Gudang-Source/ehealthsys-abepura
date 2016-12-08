@@ -94,6 +94,7 @@ class InfokunjunganrjV extends CActiveRecord
         public $pendidikan_id, $suku_id;
         public $tahun, $bulan;      
         public $rujukandari_id;  
+        public $prefix_pendaftaran;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

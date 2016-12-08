@@ -17,6 +17,8 @@ class PasienPindahController extends MyAuthController
                 $model->tgl_awal = $model->tgl_awal." 00:00:00";
                 $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
                 $model->ceklis = $_REQUEST['RIPasienriyangpindahV']['ceklis'];
+                $model->namaDokter = $_REQUEST['RIPasienriyangpindahV']['namaDokter'];
+                $model->prefix_pendaftaran = $_REQUEST['RIPasienriyangpindahV']['prefix_pendaftaran'];
             }
             $this->render('index',array('model'=>$model,'format'=>$format));
 	}

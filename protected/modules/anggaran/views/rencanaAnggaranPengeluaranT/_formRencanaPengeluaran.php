@@ -11,8 +11,8 @@
 				<?php echo $form->dropDownList($model,'unitkerja_id',CHtml::listData(UnitkerjaM::model()->findAllByAttributes(array(
                                     'unitkerja_aktif'=>true
                                 ), array(
-                                    'order'=>'kodeunitkerja'
-                                )), 'unitkerja_id', 'unitRek'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+                                    'order'=>'namaunitkerja'
+                                )), 'unitkerja_id', 'namaunitkerja'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>false)); ?>
                 </div>
         </div>
 		<div class="control-group ">

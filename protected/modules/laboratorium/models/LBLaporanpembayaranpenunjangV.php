@@ -51,12 +51,12 @@ class LBLaporanpembayaranpenunjangV extends LaporanpembayaranpenunjangV
 //                    ));
             $cond = array(
                 "DATE(a.tgl_tindakan) BETWEEN '". $this->tgl_awal ."' AND '". $this->tgl_akhir ."'",
-                "pasienmasukpenunjang_t.ruangan_id = 18",
+                "pasienmasukpenunjang_t.ruangan_id = '".Params::RUANGAN_ID_LAB_KLINIK."' ",
                 "pendaftaran_t.no_pendaftaran LIKE '%".$this->no_pendaftaran."'"
             );
             $cond2 = array(
                 "DATE(b.tgl_tindakan) BETWEEN '". $this->tgl_awal ."' AND '". $this->tgl_akhir ."'",
-                "pasienmasukpenunjang_t.ruangan_id = 18",
+                "pasienmasukpenunjang_t.ruangan_id = '".Params::RUANGAN_ID_LAB_KLINIK."' ",
                 "daftartindakan_m.daftartindakan_nama = 'Biaya Administrasi'",
                 "pendaftaran_t.no_pendaftaran LIKE '%".$this->no_pendaftaran."'",
             );
@@ -177,6 +177,7 @@ class LBLaporanpembayaranpenunjangV extends LaporanpembayaranpenunjangV
 
             $criteria = new CDbCriteria;
             $criteria = $this->functionCriteria();
+            $criteria->order ='t.tgl_pendaftaran ASC';
 
             return new CActiveDataProvider($this, array(
                         'criteria' => $criteria,
@@ -190,7 +191,7 @@ class LBLaporanpembayaranpenunjangV extends LaporanpembayaranpenunjangV
             $criteria = new CDbCriteria;
 
             $criteria = $this->functionCriteria();
-            $criteria->order ='pendaftaran_id';
+            $criteria->order ='t.tgl_pendaftaran ASC';
 
             return new CActiveDataProvider($this, array(
                         'pagination' => false,
@@ -206,7 +207,7 @@ class LBLaporanpembayaranpenunjangV extends LaporanpembayaranpenunjangV
             
             if($this->daftartindakan_nama == 'Biaya Administrasi'){
                 $adm = 'Biaya Administrasi';
-                $criteria->select = 't.nama_pasien,t.pendaftaran_id,t.alamat_pasien,t.tgl_pendaftaran,t.no_pendaftaran,pegawai_m.nama_pegawai,
+                $criteria->select = 't.pasien_id,t.nama_pasien,t.pendaftaran_id,t.alamat_pasien,t.tgl_pendaftaran,t.no_pendaftaran,pegawai_m.nama_pegawai,
                                 sum(t.tarif_satuan * t.qty_tindakan) as administrasi,
                                 sum(t.totaldiscount) as totaldiscount,
                                 sum(t.totalsisatagihan) as totalsisatagihan,
@@ -215,12 +216,12 @@ class LBLaporanpembayaranpenunjangV extends LaporanpembayaranpenunjangV
                                WHEN "Biaya Administrasi" THEN SUM(tindakanpelayanan_t.qty_tindakan*tindakanpelayanan_t.tarif_satuan) END AS administrasi';
                 $criteria->compare('LOWER(daftartindakan_nama)',strtolower($adm));
             }
-            $criteria->select = 't.nama_pasien,t.pendaftaran_id,t.alamat_pasien,t.tgl_pendaftaran,t.no_pendaftaran,pegawai_m.nama_pegawai,
+            $criteria->select = 't.pasien_id,t.nama_pasien,t.pendaftaran_id,t.alamat_pasien,t.tgl_pendaftaran,t.no_pendaftaran,pegawai_m.nama_pegawai,
                                 sum(t.tarif_satuan * t.qty_tindakan) as total,
                                 sum(t.totaldiscount) as totaldiscount,
                                 sum(t.totalsisatagihan) as totalsisatagihan,
                                 sum(t.totalbayartindakan) as totalbayartindakan';
-            $criteria->group = 't.nama_pasien,t.pendaftaran_id,t.alamat_pasien,t.tgl_pendaftaran,t.no_pendaftaran,pegawai_m.nama_pegawai';
+            $criteria->group = 't.pasien_id,t.nama_pasien,t.pendaftaran_id,t.alamat_pasien,t.tgl_pendaftaran,t.no_pendaftaran,pegawai_m.nama_pegawai';
             $criteria->addBetweenCondition('DATE(tindakanpelayanan_t.tgl_tindakan)',$this->tgl_awal,$this->tgl_akhir);
             $criteria->addCondition('tindakanpelayanan_t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
             $criteria->join = 'JOIN tindakanpelayanan_t on t.tindakanpelayanan_id = tindakanpelayanan_t.tindakanpelayanan_id

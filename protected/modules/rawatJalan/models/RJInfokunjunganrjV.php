@@ -14,6 +14,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
     public $tick;
     public $statuspetiksa;
     public $tgl_pendaftaran;
+    public $prefix_pendaftaran;
 
     /**
      * Returns the static model of the specified AR class.
@@ -34,7 +35,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
 
         $criteria = new CDbCriteria;
         $criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->prefix_pendaftaran.$this->no_pendaftaran), true);
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
@@ -690,7 +691,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria = new CDbCriteria;
 
         $criteria->addBetweenCondition('date(t.tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->prefix_pendaftaran.$this->no_pendaftaran), true);
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);

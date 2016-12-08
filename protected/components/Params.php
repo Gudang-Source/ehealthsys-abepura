@@ -436,6 +436,12 @@ Class Params
         const STATUSKEHADIRAN_DINAS = 4;
         const STATUSKEHADIRAN_ALPHA = 5;
         
+        const STATUSKEHADIRAN_NAMA_HADIR = 'HADIR';
+        const STATUSKEHADIRAN_NAMA_SAKIT = 'SAKIT';
+        const STATUSKEHADIRAN_NAMA_IZIN = 'IZIN';
+        const STATUSKEHADIRAN_NAMA_DINAS = 'DINAS';
+        const STATUSKEHADIRAN_NAMA_ALPHA = 'ALPA';
+        
         const STATUSSCAN_MASUK = 1;
         const STATUSSCAN_PULANG = 2;
         const STATUSSCAN_DATANG = 4;
@@ -475,9 +481,43 @@ Class Params
         const STATUS_PERKAWINAN_KAWIN = 'KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
         const STATUS_PERKAWINAN_TIDAK_KAWIN = 'TIDAK KAWIN'; //mengikuti data lookup_m dari lookup_type = 'statusperkawinan'
         
+        //params demam berdarah
+        const DAFTARTINDAKAN_ID_IGG = 3878;
+        const DAFTARTINDAKAN_ID_IGM = 3964;
+        
+        //prefix pendaftaran
+        const PREFIX_RAWAT_JALAN = 'RJ';
+        const PREFIX_RAWAT_INAP = 'RI';
+        const PREFIX_RAWAT_DARURAT = 'RD';
+        const PREFIX_LABORATORIUM = 'LB';
+        const PREFIX_RADIOLOGI = 'RO';
+        const PREFIX_BEDAH_SENTRAL = 'BS';
+        const PREFIX_REHAB_MEDIS = 'RM';
+        const PREFIX_PEMULASARAN_JEN = 'PJ';
+        const PREFIX_APOTIK = 'AP';
+        
         
 	//===   END KONSTANTA ===
         
+        /*Hardcode prefix pendaftaran*/
+        
+        public static function getPrefixNoPendaftaran()
+        {
+            return array(
+                Params::PREFIX_RAWAT_JALAN => Params::PREFIX_RAWAT_JALAN,
+                Params::PREFIX_RAWAT_INAP => Params::PREFIX_RAWAT_INAP,
+                Params::PREFIX_RAWAT_DARURAT => Params::PREFIX_RAWAT_DARURAT,
+                Params::PREFIX_LABORATORIUM => Params::PREFIX_LABORATORIUM,
+                Params::PREFIX_RADIOLOGI => Params::PREFIX_RADIOLOGI,
+                Params::PREFIX_BEDAH_SENTRAL => Params::PREFIX_BEDAH_SENTRAL,
+                Params::PREFIX_REHAB_MEDIS => Params::PREFIX_REHAB_MEDIS,
+                Params::PREFIX_APOTIK => Params::PREFIX_APOTIK,
+            );
+        }
+
+
+
+
         /* Hardcode status periksa */
         public static function statusPeriksa() {
             return array(
@@ -946,6 +986,10 @@ Class Params
 	}
 
 	//======== End path dan url File CALK ========
+        
+        public static function urlProfilRSPDFPath(){
+            return Yii::app()->request->baseUrl.'/data/images/profil_rs/';
+        }
 	
         
         public function getLoketRJP() {
