@@ -23,7 +23,7 @@ $('.search-form form').submit(function(){
 
 	<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
 	<div class="cari-lanjut search-form" style="display:none">
-	<?php $this->renderPartial('_search',array(
+	<?php $this->renderPartial($this->path_view.'_search',array(
 		'model'=>$model,
 	)); ?>
 	</div><!-- search-form -->
