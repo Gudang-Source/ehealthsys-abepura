@@ -58,6 +58,9 @@
                                     ),
                                 ));
                             ?>
+                             <?php
+                            //echo $form->textField($modGinekologi, 'gin_keluhan', array('style'=>'text-align:right;', 'class'=>'span4','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 200)).' Kali';
+                            ?> 
                             <?php echo $form->error($modGinekologi, 'keluhanutama'); ?>
                         </div>
                     </div>
@@ -225,7 +228,7 @@
             </tr>
         </table>
     </fieldset>
-   <?php /*
+  
     <!-- (Pemeriksaan Keluarga Berencana) -->
     <fieldset class='box'>
         <legend class='rim'>Pemeriksaan Keluarga Berencana (KB)</legend>
@@ -233,10 +236,23 @@
             <tr>
                 <td>
                     <div class="control-group">
-                        <?php echo Chtml::label("Sudah KB", 'gin_statuskawin', array('class'=>'control-label')); ?>
+                        <?php echo Chtml::label("Sudah KB", 'kb_status', array('class'=>'control-label')); ?>
                         <div class="controls">                                                        
-                            <?php echo Chtml::radioButton('statusKb', true, array('uncheckValue'=>null,'class'=>'statuskb', 'name'=>'otomatis', 'value'=>  1, 'onchange'=>'cekStatusKb(this);')); ?> Ya
-                            <?php echo Chtml::radioButton('statusKb', false, array('uncheckValue'=>null,'class'=>'statuskb', 'name'=>'otomatis', 'value'=>  0, 'onchange'=>'cekStatusKb(this);' )); ?> Tidak
+                            <?php                                                        
+                                if (empty($modRiwayatKB->kb_status)){
+                                    if ($modRiwayatKB->kb_status !== false)
+                                    {
+                                        $modRiwayatKB->kb_status = 3;
+                                    }else{
+                                        $modRiwayatKB->kb_status = 0;
+                                    }
+                                }else{
+                                    $modRiwayatKB->kb_status = 1;
+                                }
+                                
+                                echo $form->radioButton($modRiwayatKB,'kb_status', array('uncheckValue' => null,'class'=>'statuskb', 'value'=>  1, 'onchange'=>'cekStatusKb(this);')); ?> Ya
+                            <?php echo $form->radioButton($modRiwayatKB,'kb_status', array('uncheckValue' => null,'class'=>'statuskb', 'value'=>  0, 'onchange'=>'cekStatusKb(this);' ));                                
+                            ?> Tidak
                         </div>
                     </div>                                       
                 </td>
@@ -249,9 +265,8 @@
                                 <div class="control-group">
                                     <?php echo Chtml::label('Jenis', 'gin_statuskawin', array('class'=>'control-label')); ?>
                                     <div class="controls">
-                                        <?php echo Chtml::dropDownList('tambah_jenis_kb','tambah_jenis_kb', LookupM::getItems('jeniskb'), array('empty' => '-- Pilih --')); ?>                            
-                                    </div>
-                                    <?php echo $form->error($modGinekologi, 'obs_periksadalam'); ?>
+                                        <?php echo Chtml::dropDownList('tambah_jenis_kb','tambah_jenis_kb', LookupM::getItems('jenisriwayatkb'), array('empty' => '-- Pilih --')); ?>                            
+                                    </div>                                    
                                 </div>
                             </td>
                             <td>
@@ -259,8 +274,7 @@
                                     <?php echo CHtml::label('Pasang', 'gin_statuskawin', array('class'=>'control-label')); ?>
                                     <div class="controls">
                                         <?php
-                                            $this->widget('MyDateTimePicker', array(
-                                                //'model' => $modGinekologi,
+                                            $this->widget('MyDateTimePicker', array(                                                
                                                 'name' => 'tambah_pasang_kb',
                                                 'mode' => 'datetime',
                                                 'options' => array(
@@ -269,20 +283,29 @@
                                                 ),
                                                 'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)"
                                                 ),
-                                            ));
-                                            // echo $form->textField($modPemeriksaan, 'obs_periksadalam', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                            ));                                          
                                         ?>                                        
-                                    </div>
-                                    <?php echo $form->error($modGinekologi, 'obs_periksadalam'); ?>
+                                    </div>                                    
                                 </div>
                             </td>
                             <td>
                                 <div class="control-group">
                                     <?php echo Chtml::label('Lepas', 'gin_statuskawin', array('class'=>'control-label')); ?>
                                     <div class="controls">
-                                        <?php echo Chtml::textField("tambah_lepas_kb",'', array('class'=>'span3')); ?>                            
-                                    </div>
-                                    <?php echo $form->error($modGinekologi, 'obs_periksadalam'); ?>
+                                        <?php
+                                            $this->widget('MyDateTimePicker', array(                                                
+                                                'name' => 'tambah_lepas_kb',
+                                                'mode' => 'datetime',
+                                                'options' => array(
+                                                    'dateFormat' => Params::DATE_FORMAT,
+                                                    'maxDate' => 'd',                                                    
+                                                ),
+                                                'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)"
+                                                ),
+                                            ));                                          
+                                        ?>  
+                                        <?php //echo Chtml::textField("tambah_lepas_kb",'', array('class'=>'span3')); ?>                            
+                                    </div>                                    
                                 </div>
                             </td>
                             <td>
@@ -302,7 +325,7 @@
                         </tr>    
                         <tr>
                             <td colspan="4">
-                                <?php $this->renderPartial('_pemeriksaanKb', array('modRiwayatKehamilan' => $modRiwayatKehamilan)); ?>
+                                <?php $this->renderPartial('_pemeriksaanKb', array('modRiwayatKB' => $modRiwayatKB, 'modGinekologi' => $modGinekologi)); ?>
                             </td>
                         </tr>
                     </table>
@@ -311,11 +334,11 @@
                         <tr>
                             <td>
                                 <div class="control-group">
-                                    <?php echo Chtml::label('Keterangan', 'gin_statuskawin', array('class'=>'control-label')); ?>
+                                    <?php echo Chtml::label('Keterangan', 'kb_keterangan', array('class'=>'control-label')); ?>
                                     <div class="controls">
-                                        <?php echo $form->textField($modGinekologi,'gin_statuskawin', array('class'=>'span3')); ?>                            
+                                        <?php echo $form->textField($modRiwayatKB,'kb_keterangan', array('class'=>'span3')); ?>                            
                                     </div>
-                                    <?php echo $form->error($modGinekologi, 'obs_periksadalam'); ?>
+                                    <?php echo $form->error($modRiwayatKB, 'kb_keterangan'); ?>
                                 </div>
                             </td>
                         </tr>
@@ -332,17 +355,17 @@
             <tr>
                 <td>
                     <div class = "control-group">
-                        <?php echo Chtml::label('Pemeriksaan Luar', 'gin_statuskawin', array('class'=>'control-label')); ?>
+                        <?php echo Chtml::label('Pemeriksaan Luar', 'gin_periksaluar', array('class'=>'control-label')); ?>
                             <div class="controls">
-                                <?php echo $form->textField($modGinekologi,'gin_statuskawin', array('class'=>'span3')); ?>                            
+                                <?php echo $form->textField($modGinekologi,'gin_periksaluar', array('class'=>'span3 custom-only', 'maxlength' => 100)); ?>                            
                             </div>
                     </div>
                 </td>
                 <td>
                     <div class = "control-group">
-                        <?php echo Chtml::label('Pemeriksaan Dalam', 'gin_statuskawin', array('class'=>'control-label')); ?>
+                        <?php echo Chtml::label('Pemeriksaan Dalam', 'gin_periksadalam', array('class'=>'control-label')); ?>
                             <div class="controls">
-                                <?php echo $form->textField($modGinekologi,'gin_statuskawin', array('class'=>'span3')); ?>                            
+                                <?php echo $form->textField($modGinekologi,'gin_periksadalam', array('class'=>'span3 custom-only', 'maxlength' => 100)); ?>                            
                             </div>
                     </div>
                 </td>
@@ -350,7 +373,7 @@
         </table>        
      </fieldset>
     <!--Pemeriksaan Luar dan Dalam AKHIR-->
-   */ ?>
+  
 </fieldset>
 <script>
     function inputRiwayatKehamilan()
@@ -407,13 +430,13 @@
         var jenis_kb = $("#tambah_jenis_kb").val();
         var pasang_kb = $("#tambah_pasang_kb").val(); 
         var lepas_kb = $("#tambah_lepas_kb").val(); 
-        var no = $("#pemeriksaanKbYa tbody").length;              
+        var no = $("#pemeriksaanKbYa tbody").find("tr").length;           
 
         if (jenis_kb != '' && pasang_kb != '' && lepas_kb != ''){
             $('#pemeriksaanKbYa tbody').append("<tr>\n\
-                        <td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkehamilanT_"+(no+1)+"_anak_ke' name = 'PSRiwayatkehamilanT["+(no+1)+"][jenis_kb]' value = '"+jenis_kb+"' >"+jenis_kb+"</td>"+
-                       "<td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkehamilanT_"+(no+1)+"_keterangan' name = 'PSRiwayatkehamilanT["+(no+1)+"][keterangan]' value = '"+pasang_kb+"' >"+pasang_kb+"</td>\n\
-                        <td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkehamilanT_"+(no+1)+"_keterangan' name = 'PSRiwayatkehamilanT["+(no+1)+"][keterangan]' value = '"+lepas_kb+"' >"+lepas_kb+"</td>\n\
+                        <td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkbT_"+(no+1)+"_kb_jenis' name = 'PSRiwayatkbT["+(no+1)+"][kb_jenis]' value = '"+jenis_kb+"' >"+jenis_kb+"</td>"+
+                       "<td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkbT_"+(no+1)+"_kb_pasang' name = 'PSRiwayatkbT["+(no+1)+"][kb_pasang]' value = '"+pasang_kb+"' >"+pasang_kb+"</td>\n\
+                        <td><input readonly = TRUE type = 'hidden' id = 'PSRiwayatkbT_"+(no+1)+"_kb_lepas' name = 'PSRiwayatkbT["+(no+1)+"][kb_lepas]' value = '"+lepas_kb+"' >"+lepas_kb+"</td>\n\
                         <td style='text-align:center;'>"+buttonMinus+"</td>\n\
             </tr>");
             resetKb();
@@ -425,26 +448,32 @@
     
     function resetKb(){
         $("#tambah_jenis_kb").val('');
-        $("#tambah_pasang_kb").val("<?php echo MyFormatter::formatDateTimeFOrUser(date('Y-m-d H:i:s')); ?>");
+        $("#tambah_pasang_kb").val('');
         $("#tambah_lepas_kb").val('');
     }
     
     function cekStatusKb(obj){ 
         var status = $(obj).val();
         var ya = $("#kbYa");
-        var no = $("#kbNo");
-        
-        if (status == 1){
-            ya.show();
-            no.hide();
+        var no = $("#kbNo");                          
+           
+        if($(obj).is(":checked")){
+            if (status == 1){
+                ya.show();
+                no.hide();
+            }else  if (status == 0){
+                ya.hide();
+                no.show();
+            }
         }else{
             ya.hide();
-            no.show();
-        }                
+            no.hide();
+        }
+            
     }
     
     $( document ).ready(function(){
-        cekStatusKb($("#statusKb"));
+        cekStatusKb($("#PSRiwayatkbT_kb_status"));       
     });
     
     /*pemeriksaan kb akhir*/

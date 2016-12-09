@@ -57,18 +57,26 @@ class PersalinanTController extends MyAuthController {
             if (empty($modGinekologi)){
                 $modGinekologi = new PSPemeriksaanginekologiT;
                 $modRiwayatKehamilan = null;
-
-                $modGinekologi->tglperiksaobgyn = date("d M Y H:i:s");
+                $modRiwayatKB = new PSRiwayatkbT;
+                
+                $modGinekologi->tglperiksaobgyn = date("d M Y H:i:s");                                                                
             }else{
                 $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForUser($modGinekologi->tglperiksaobgyn);
                 $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");            
-            }
-                       
+                
+                $modRiwayatKB = PSRiwayatkbT::model()->find(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' AND kb_status = TRUE");
+            }                       
         }else{           
             $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");                        
+            $modRiwayatKB = PSRiwayatkbT::model()->find(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."'  AND kb_status = TRUE ");
+            if (count($modRiwayatKB)< 1){
+                $modRiwayatKB = new PSRiwayatkbT;
+            }
+            
             $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForUser($modGinekologi->tglperiksaobgyn);
+            
         }
-
+        
         //simpan pemeriksaan ginekologi dipisah, dikarenakan pemeriksaan dalam kandungan .... tidak harus bersamaan dengan persalinan_t dan pemeriksaanfisik_t
         
         if ( (empty($_POST['PSPersalinanT']['paritaske'])) OR  (empty($_POST['PSPersalinanT']['jeniskegiatanpersalinan'])) ){
@@ -102,75 +110,133 @@ class PersalinanTController extends MyAuthController {
                     $modGinekologi->update_time = date('Y-m-d H:i:s');
                     $modGinekologi->update_loginpemakai_id = Yii::app()->user->id;
                 }
-                $modGinekologi->gin_keluhan = isset($_POST['PSPemeriksaanginekologiT']['gin_keluhan']) ? ((count($_POST['PSPemeriksaanginekologiT']['gin_keluhan'])>0) ? implode(', ', $_POST['PSPemeriksaanginekologiT']['gin_keluhan']) : '') : '';
-                //$successRiwayatKehamilan = false;
-                if ($modGinekologi->save()){
+                $modGinekologi->gin_keluhan = isset($_POST['PSPemeriksaanginekologiT']['gin_keluhan']) ? ((count($_POST['PSPemeriksaanginekologiT']['gin_keluhan'])>0) ? implode(',', $_POST['PSPemeriksaanginekologiT']['gin_keluhan']) : '') : '';
+                
+                
+                //$successRiwayatKehamilan = false;die
+                    if ($modGinekologi->save()){
 
-                    $cekRiwayatkehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+                        $cekRiwayatkehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
 
-                    if (!empty($cekRiwayatkehamilan)){
-                        $hapusRiwayatKehamilan = PSRiwayatkehamilanT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
-                    }
-                    //Riwayat Kehamilan
-                    if (isset($_POST['PSRiwayatkehamilanT'])){
-                            $cekRiwayatkehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
-
-                            //if ( count($_POST['PSRiwayatkehamilanT']) != count($cekRiwayatkehamilan) ){
-                            if (!empty($cekRiwayatkehamilan)){
-                                $hapusRiwayatKehamilan = PSRiwayatkehamilanT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
-                            }
-                            foreach($_POST['PSRiwayatkehamilanT'] as $i=>$item)
-                            {
-                                if(is_integer($i)) {
-                                    $modRiwayatKehamilan=new PSRiwayatkehamilanT;
-                                    if(isset($_POST['PSRiwayatkehamilanT'][$i])){
-                                        $modRiwayatKehamilan->attributes=$_POST['PSRiwayatkehamilanT'][$i];                                           
-                                        $modRiwayatKehamilan->pemeriksaanginekologi_id = $modGinekologi->pemeriksaanginekologi_id;                                            
-                                        
-                                        if($modRiwayatKehamilan->save()) {                                                                                                
-                                            //var_dump($modRiwayatKehamilan);die;
-                                           $successRiwayatKehamilan = true;
-                                        } else {
-                                            
-                                           $successRiwayatKehamilan = false; 
-                                        }
-
-                                    }
-                                }
-                            }
-
-
-                                if ( (empty($_POST['PSPersalinanT']['paritaske'])) OR  (empty($_POST['PSPersalinanT']['jeniskegiatanpersalinan'])) ){
-                                    if ($successRiwayatKehamilan){                                                                
-                                        $trans->commit();
-                                        Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
-                                        $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
-                                    }else{
-                                        $trans->rollback();
-                                        Yii::app()->user->setFlash('error',"Data Riwayat Persalinan gagal disimpan ");
-                                    }
-                                }
-
-                      /*  }else{
-                            $trans->commit();
-                            Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
-                            $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
-                        }*/
-
-                    }else{
-
-
-                        if ( (empty($_POST['PSPersalinanT']['paritaske'])) OR  (empty($_POST['PSPersalinanT']['jeniskegiatanpersalinan'])) ){
-
-                            $trans->commit();
-                            Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
-                            $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                        if (!empty($cekRiwayatkehamilan)){
+                            $hapusRiwayatKehamilan = PSRiwayatkehamilanT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
                         }
+                        //Riwayat Kehamilan     //Riwayat keluarga berencana
+                        if (isset($_POST['PSRiwayatkehamilanT']) || isset($_POST['PSRiwayatkbT'])){
+                                $cekRiwayatkehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+                                //if ( count($_POST['PSRiwayatkehamilanT']) != count($cekRiwayatkehamilan) ){
+                            if (!empty($_POST['PSRiwayatkehamilanT'])){    
+                                if (!empty($cekRiwayatkehamilan)){
+                                    $hapusRiwayatKehamilan = PSRiwayatkehamilanT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.''); 
+                                }
+                                foreach($_POST['PSRiwayatkehamilanT'] as $i=>$item)
+                                {
+                                    if(is_integer($i)) {
+                                        $modRiwayatKehamilan=new PSRiwayatkehamilanT;
+                                        if(isset($_POST['PSRiwayatkehamilanT'][$i])){
+                                            $modRiwayatKehamilan->attributes=$_POST['PSRiwayatkehamilanT'][$i];                                           
+                                            $modRiwayatKehamilan->pemeriksaanginekologi_id = $modGinekologi->pemeriksaanginekologi_id;                                            
 
-                    }
+                                            if($modRiwayatKehamilan->save()) {                                                                                                
+                                                //var_dump($modRiwayatKehamilan);die;
+                                               $successRiwayatKehamilan = true;
+                                            } else {
+
+                                               $successRiwayatKehamilan = false; 
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+
+                            
+                            if (isset($_POST['PSRiwayatkbT']['kb_status'])){                                                                                                                       
+                                if ($_POST['PSRiwayatkbT']['kb_status'] == 1) //true
+                                {                                    
+                                    $cekRiwayatKBYa = PSRiwayatkbT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' AND kb_status = TRUE ");
+                                    //if ( count($_POST['PSRiwayatkehamilanT']) != count($cekRiwayatkehamilan) ){
+                                    if (!empty($cekRiwayatKBYa)){
+                                        $hapusRiwayatKBYa = PSRiwayatkbT::model()->deleteAll('pemeriksaanginekologi_id='.$modGinekologi->pemeriksaanginekologi_id.' AND kb_status = TRUE '); 
+                                    }
+                                
+                                    foreach($_POST['PSRiwayatkbT'] as $i=>$item)
+                                    {                                        
+                                        if(is_integer($i)) {
+                                            $modRiwayatKB=new PSRiwayatkbT;
+                                            if(isset($_POST['PSRiwayatkbT'][$i])){
+                                                $modRiwayatKB->attributes=$_POST['PSRiwayatkbT'][$i];                                           
+                                                $modRiwayatKB->pemeriksaanginekologi_id = $modGinekologi->pemeriksaanginekologi_id;
+                                                $modRiwayatKB->kb_pasang = MyFormatter::formatDateTimeForDb($modRiwayatKB->kb_pasang);
+                                                $modRiwayatKB->kb_lepas = MyFormatter::formatDateTimeForDb($modRiwayatKB->kb_lepas);
+                                                $modRiwayatKB->kb_status = $_POST['PSRiwayatkbT']['kb_status'];
+                                                if($modRiwayatKB->save()) {                                                                                                
+                                                    //var_dump($modRiwayatKehamilan);die;
+                                                   $successRiwayatKB = true;
+                                                } else {
+
+                                                   $successRiwayatKB = false; 
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    $cekRiwayatKBNo = PSRiwayatkbT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' AND kb_status = FALSE ");
+                                    
+                                    
+                                    if (count($cekRiwayatKBNo)>0){
+                                        $modRiwayatKB = PSRiwayatkbT::model()->find("pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' AND kb_status = FALSE ");
+                                        $modRiwayatKB->attributes=$_POST['PSRiwayatkbT'];
+                                    }else{
+                                        $modRiwayatKB=new PSRiwayatkbT;
+                                        $modRiwayatKB->attributes=$_POST['PSRiwayatkbT'];                                                                                
+                                        $modRiwayatKB->pemeriksaanginekologi_id = $modGinekologi->pemeriksaanginekologi_id;
+                                    }
+                                    
+                                    if($modRiwayatKB->save()) {                                                                                                
+                                        //var_dump($modRiwayatKehamilan);die;
+                                       $successRiwayatKB = true;
+                                    } else {
+
+                                       $successRiwayatKB = false; 
+                                    }
+                                }
+                            }
+
+
+                                    if ( (empty($_POST['PSPersalinanT']['paritaske'])) OR  (empty($_POST['PSPersalinanT']['jeniskegiatanpersalinan'])) ){
+                                        if ($successRiwayatKehamilan){                                                                
+                                            $trans->commit();
+                                            Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                                            $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                                        }else{
+                                            $trans->rollback();
+                                            Yii::app()->user->setFlash('error',"Data Riwayat Persalinan gagal disimpan ");
+                                        }
+                                    }
+
+                          /*  }else{
+                                $trans->commit();
+                                Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                                $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                            }*/
+
+                        }else{
+
+
+                            if ( (empty($_POST['PSPersalinanT']['paritaske'])) OR  (empty($_POST['PSPersalinanT']['jeniskegiatanpersalinan'])) ){
+
+                                $trans->commit();
+                                Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                                $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                            }
+
+                        }
 
 
                 }else{
+                    
                     $trans->rollback();
                     Yii::app()->user->setFlash('error',"Data Pemeriksaan Ginekologi gagal disimpan ");
                 }
@@ -260,7 +326,8 @@ class PersalinanTController extends MyAuthController {
             'modPersalinan'=>$modPersalinan, 
             'modPemeriksaan'=>$modPemeriksaan,
             'modGinekologi'=>$modGinekologi,
-            'modRiwayatKehamilan'=>$modRiwayatKehamilan
+            'modRiwayatKehamilan'=>$modRiwayatKehamilan,
+            'modRiwayatKB' => $modRiwayatKB
                 ));
     }
     

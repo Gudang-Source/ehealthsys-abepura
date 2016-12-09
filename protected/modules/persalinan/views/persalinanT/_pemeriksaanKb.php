@@ -11,14 +11,15 @@
         </thead>
         <tbody>
         <?php 
-        if (!empty($modRiwayatKehamilan)){
+        $KBYa = PSRiwayatkbT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' AND kb_status = TRUE");
+        if (!empty($KBYa)){
        
-        foreach ($modRiwayatKehamilan as $i=>$detail){?>    
+        foreach ($KBYa as $i=>$detail){?>    
             
             <tr>   
-                <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']anak_ke', array('class'=>'', 'readonly'=>TRUE)); echo $detail->anak_ke; ?> </td>       
-                <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']keterangan', array('class'=>'', 'readonly'=>TRUE )); echo $detail->keterangan;  ?> </td>       
-                <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']keterangan', array('class'=>'', 'readonly'=>TRUE )); echo $detail->keterangan;  ?> </td>       
+                <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']kb_jenis', array('class'=>'', 'readonly'=>TRUE)); echo $detail->kb_jenis; ?> </td>       
+                <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']kb_pasang', array('class'=>'', 'readonly'=>TRUE )); echo MyFormatter::formatDateTimeForUser($detail->kb_pasang);  ?> </td>       
+                <td> <?php echo Chtml::activeHiddenField($detail, '['.$i.']kb_lepas', array('class'=>'', 'readonly'=>TRUE )); echo MyFormatter::formatDateTimeForUser($detail->kb_lepas);  ?> </td>       
                 <td style = "text-align:center;"> <?php echo CHtml::link('<i class="icon-form-silang"></i>', '#', array('onclick'=>'delRowKb(this); return false;')) ?> </td>
             </tr>   
         <?php }
