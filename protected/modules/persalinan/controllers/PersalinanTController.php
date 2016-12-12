@@ -70,11 +70,14 @@ class PersalinanTController extends MyAuthController {
             $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");                        
             $modRiwayatKB = PSRiwayatkbT::model()->find(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."'  AND kb_status = TRUE ");
             if (count($modRiwayatKB)< 1){
-                $modRiwayatKB = new PSRiwayatkbT;
+                $modRiwayatKB = PSRiwayatkbT::model()->find(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."'  AND kb_status = FALSE ");
+                if (count($modRiwayatKB)< 1){
+                    $modRiwayatKB = new PSRiwayatkbT;
+                }                
             }
             
             $modGinekologi->tglperiksaobgyn = MyFormatter::formatDateTimeForUser($modGinekologi->tglperiksaobgyn);
-            
+        
         }
         
         //simpan pemeriksaan ginekologi dipisah, dikarenakan pemeriksaan dalam kandungan .... tidak harus bersamaan dengan persalinan_t dan pemeriksaanfisik_t

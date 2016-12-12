@@ -238,16 +238,22 @@
                     <div class="control-group">
                         <?php echo Chtml::label("Sudah KB", 'kb_status', array('class'=>'control-label')); ?>
                         <div class="controls">                                                        
-                            <?php                                                        
+                            <?php              
+                                
                                 if (empty($modRiwayatKB->kb_status)){
                                     if ($modRiwayatKB->kb_status !== false)
                                     {
                                         $modRiwayatKB->kb_status = 3;
                                     }else{
                                         $modRiwayatKB->kb_status = 0;
-                                    }
+                                    }                                    
                                 }else{
-                                    $modRiwayatKB->kb_status = 1;
+                                    if ($modRiwayatKB->kb_status !== false)
+                                    {
+                                        $modRiwayatKB->kb_status = 1;
+                                    }else{
+                                        $modRiwayatKB->kb_status = 0;
+                                    }                                    
                                 }
                                 
                                 echo $form->radioButton($modRiwayatKB,'kb_status', array('uncheckValue' => null,'class'=>'statuskb', 'value'=>  1, 'onchange'=>'cekStatusKb(this);')); ?> Ya
@@ -455,8 +461,8 @@
     function cekStatusKb(obj){ 
         var status = $(obj).val();
         var ya = $("#kbYa");
-        var no = $("#kbNo");                          
-           
+        var no = $("#kbNo");  
+                            
         if($(obj).is(":checked")){
             if (status == 1){
                 ya.show();
@@ -473,7 +479,14 @@
     }
     
     $( document ).ready(function(){
-        cekStatusKb($("#PSRiwayatkbT_kb_status"));       
+        var cekStatus = '<?php echo $modRiwayatKB->kb_status ?>';
+        cekStatusKb($("#PSRiwayatkbT_kb_status"));  
+        
+        if (cekStatus == 0){
+            $("#kbYa").hide();
+            $("#kbNo").show();
+        }
+            
     });
     
     /*pemeriksaan kb akhir*/
