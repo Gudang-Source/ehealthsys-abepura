@@ -9,6 +9,7 @@ class GolonganPegawaiMController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
+	public $path_view = 'sistemAdministrator.views.golonganPegawaiM.';
 
 	/**
 	 * Displays a particular model.
@@ -16,7 +17,7 @@ class GolonganPegawaiMController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
+		$this->render($this->path_view.'view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -36,6 +37,10 @@ class GolonganPegawaiMController extends MyAuthController
 		if(isset($_POST['SAGolonganPegawaiM']))
 		{
 			$model->attributes=$_POST['SAGolonganPegawaiM'];
+			$model->kopjmlmininalplafon = str_replace(".", "", $model->kopjmlmininalplafon);
+			$model->kopjmlmaksimalplafon = str_replace(".", "", $model->kopjmlmaksimalplafon);
+			$model->kopsimpananpokok = str_replace(".", "", $model->kopsimpananpokok);
+			$model->kopsimpananwajib = str_replace(".", "", $model->kopsimpananwajib);
                         $model->golonganpegawai_aktif=true;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -43,7 +48,7 @@ class GolonganPegawaiMController extends MyAuthController
                         }
 		}
 
-		$this->render('create',array(
+		$this->render($this->path_view.'create',array(
 			'model'=>$model,
 		));
 	}
@@ -57,6 +62,10 @@ class GolonganPegawaiMController extends MyAuthController
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
+		$model->kopjmlmininalplafon = MyFormatter::formatNumberForPrint($model->kopjmlmininalplafon);
+		$model->kopjmlmaksimalplafon = MyFormatter::formatNumberForPrint($model->kopjmlmaksimalplafon);
+		$model->kopsimpananpokok = MyFormatter::formatNumberForPrint($model->kopsimpananpokok);
+		$model->kopsimpananwajib = MyFormatter::formatNumberForPrint($model->kopsimpananwajib);
 
 		// Uncomment the following line if AJAX validation is needed
 		
@@ -64,13 +73,18 @@ class GolonganPegawaiMController extends MyAuthController
 		if(isset($_POST['SAGolonganPegawaiM']))
 		{
 			$model->attributes=$_POST['SAGolonganPegawaiM'];
+			$model->kopjmlmininalplafon = str_replace(".", "", $model->kopjmlmininalplafon);
+			$model->kopjmlmaksimalplafon = str_replace(".", "", $model->kopjmlmaksimalplafon);
+			$model->kopsimpananpokok = str_replace(".", "", $model->kopsimpananpokok);
+			$model->kopsimpananwajib = str_replace(".", "", $model->kopsimpananwajib);
+			// var_dump($model->attributes); die;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin','id'=>$model->golonganpegawai_id));
                         }
 		}
 
-		$this->render('update',array(
+		$this->render($this->path_view.'update',array(
 			'model'=>$model,
 		));
 	}
@@ -81,7 +95,7 @@ class GolonganPegawaiMController extends MyAuthController
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('SAGolonganPegawaiM');
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
@@ -97,7 +111,7 @@ class GolonganPegawaiMController extends MyAuthController
 		if(isset($_GET['SAGolonganPegawaiM']))
 			$model->attributes=$_GET['SAGolonganPegawaiM'];
 
-		$this->render('admin',array(
+		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
 		));
 	}
@@ -199,12 +213,12 @@ class GolonganPegawaiMController extends MyAuthController
             if($caraPrint=='PRINT')
                 {
                     $this->layout='//layouts/printWindows';
-                    $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                    $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
                 }
             else if($caraPrint=='EXCEL')    
                 {
                     $this->layout='//layouts/printExcel';
-                    $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                    $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
                 }
             else if($_REQUEST['caraPrint']=='PDF')
                 {
@@ -216,7 +230,7 @@ class GolonganPegawaiMController extends MyAuthController
                     $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
                     $mpdf->WriteHTML($stylesheet,1);  
                     $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-                    $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+                    $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
                     $mpdf->Output();
                 }                       
          }

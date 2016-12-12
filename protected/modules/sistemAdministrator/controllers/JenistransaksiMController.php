@@ -9,6 +9,7 @@ class JenistransaksiMController extends MyAuthController
 	 */
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
+	public $path_view = 'sistemAdministrator.views.jenistransaksiM.';
 
 	/**
 	 * Menampilkan detail data.
@@ -17,7 +18,7 @@ class JenistransaksiMController extends MyAuthController
 	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
-		$this->render('view',array(
+		$this->render($this->path_view.'view',array(
 				'model'=>$model,
 		));
 	}
@@ -38,7 +39,7 @@ class JenistransaksiMController extends MyAuthController
 			}
 		}
 
-		$this->render('create',array(
+		$this->render($this->path_view.'create',array(
 			'model'=>$model,
 		));
 	}
@@ -63,7 +64,7 @@ class JenistransaksiMController extends MyAuthController
 			}
 		}
 
-		$this->render('update',array(
+		$this->render($this->path_view.'update',array(
 				'model'=>$model,
 		));
 	}
@@ -127,7 +128,7 @@ class JenistransaksiMController extends MyAuthController
 		if(isset($_GET['JenistransaksiM'])){
 			$model->attributes = $_GET['JenistransaksiM'];
 		}
-		$this->render('admin',array(
+		$this->render($this->path_view.'admin',array(
 				'model'=>$model,
 		));
 	}
@@ -167,11 +168,11 @@ class JenistransaksiMController extends MyAuthController
 		$caraPrint = $_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout = '//layouts/printWindows';
-			$this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($caraPrint=='EXCEL') {
 			$this->layout = '//layouts/printExcel';
-			$this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($_REQUEST['caraPrint']=='PDF') {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas'); //Ukuran Kertas Pdf
@@ -181,7 +182,7 @@ class JenistransaksiMController extends MyAuthController
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
 			$mpdf->Output();
 		}
 	}

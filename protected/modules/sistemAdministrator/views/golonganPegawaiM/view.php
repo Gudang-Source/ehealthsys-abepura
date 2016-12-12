@@ -31,7 +31,28 @@
                     ),
             ),
     )); ?>
-
+	
+	<?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
+            'data'=>$model,
+            'attributes'=>array(
+                    array(
+						'name'=>'kopjmlmininalplafon',
+						'value'=> MyFormatter::formatNumberForprint($model->kopjmlmininalplafon),
+					),
+					array(
+						'name'=>'kopjmlmaksimalplafon',
+						'value'=> MyFormatter::formatNumberForprint($model->kopjmlmaksimalplafon),
+					),
+					array(
+						'name'=>'kopsimpananpokok',
+						'value'=> MyFormatter::formatNumberForprint($model->kopsimpananpokok),
+					),
+					array(
+						'name'=>'kopsimpananwajib',
+						'value'=> MyFormatter::formatNumberForprint($model->kopsimpananwajib),
+					),
+            ),
+    )); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('update',array('id'=>$model->golonganpegawai_id,'modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>        
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Golongan Pegawai', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('/sistemAdministrator/GolonganPegawaiM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
