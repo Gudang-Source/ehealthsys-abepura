@@ -37,9 +37,9 @@ class GolonganpegawaiM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('golonganpegawai_nama', 'required'),
+			array('golonganpegawai_nama, kopjmlmininalplafon, kopjmlmaksimalplafon', 'required'),
 			array('golonganpegawai_nama, golonganpegawai_namalainnya', 'length', 'max'=>50),
-			array('golonganpegawai_aktif', 'safe'),
+			array('golonganpegawai_aktif, kopsimpananpokok, kopsimpananwajib', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('golonganpegawai_id, golonganpegawai_nama, golonganpegawai_namalainnya, golonganpegawai_aktif', 'safe', 'on'=>'search'),
@@ -67,6 +67,10 @@ class GolonganpegawaiM extends CActiveRecord
 			'golonganpegawai_nama' => 'Golongan',
 			'golonganpegawai_namalainnya' => 'Nama Lain',
 			'golonganpegawai_aktif' => 'Aktif',
+			'kopjmlmininalplafon' => 'Jumlah Minimal Pinjaman',
+			'kopjmlmaksimalplafon' => 'Jumlah Maksimal Pinjaman',
+			'kopsimpananpokok' => 'Simpanan Pokok',
+			'kopsimpananwajib' => 'Simpanan Wajib',
 		);
 	}
 
