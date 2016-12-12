@@ -123,11 +123,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'type'=>'raw',
                 'value'=>function($data) {
 					$dat = $data->attributes;
+					$kel = KelompokpegawaiM::model()->findByPk($data->kelompokpegawai_id);
 					$dat['namaLengkap'] = $data->namaLengkap;
 					$dat['jabatan'] = !empty($data->jabatan_id)?$data->jabatan->attributes:array();
 					$dat['pangkat'] = !empty($data->pangkat_id)?$data->pangkat->attributes:array();
 					$dat['pendidikan'] = !empty($data->pendidikan_id)?$data->pendidikan->attributes:array();
-					$dat['kelompokpegawai'] = !empty($data->kelompokpegawai_id)?$data->kelompokpegawai->attributes:array();
+					
+					$dat['kelompokpegawai'] = !empty($kel)?$kel->attributes:array();
 					
 					return CHtml::Link('<i class="icon-form-check"></i>',"",array("class"=>"btn-small", 
                         "id" => "selectPegawai",
