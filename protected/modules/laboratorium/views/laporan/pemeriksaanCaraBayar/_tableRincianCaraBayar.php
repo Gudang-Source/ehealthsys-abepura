@@ -1,14 +1,51 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $data = $model->searchLaporanRincianCarabayar();
+$table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
+$template = "{summary}\n{items}\n{pager}";
 if(isset($caraPrint)){
     $data = $model->searchPrintLaporanRincianCarabayar();
+    $template = '{items}';
+    if ($caraPrint == "EXCEL"){
+        $table = 'ext.bootstrap.widgets.BootExcelGridView';
+    }
+
+    if ($caraPrint=='PDF') {         
+        $table = 'ext.bootstrap.widgets.HeaderGroupGridViewPDF';                            
+    }
+
+    echo "
+         <style>
+        .border th, .border td{
+            border:1px solid #000;
+        }
+        .table thead:first-child{
+            border-top:1px solid #000;        
+        }
+
+        thead th{
+            background:none;
+            color:#333;
+        }
+
+        .border {
+            box-shadow:none;
+            border-spacing:0px;
+            padding:0px;
+        }
+
+        .table tbody tr:hover td, .table tbody tr:hover th {
+            background-color: none;
+        }
+    </style>";
+    $itemCssClass = 'table border';
 }
-$this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
+$this->widget($table,array(
     'id'=>'rincianPmeriksaanLab',
     'dataProvider'=>$data,
-    'template'=>"{summary}\n{items}\n{pager}",
+    'template'=>$template,
     'enableSorting'=>true,
-    'itemsCssClass'=>'table table-striped table-condensed',
+    'itemsCssClass'=>$itemCssClass,
     'mergeColumns' => array(
         'no_pendaftaran',
         'no_masukpenunjang',
@@ -16,31 +53,47 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
     ),
     'columns'=>array(
         array(
+            'header' => '<center>No.</center>',
+            'type'=>'raw',
+            'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1',
+            'htmlOptions'=>array(
+                'style'=>'text-align:center'
+            ),
+        ),
+        array(
+            'header' => 'Tanggal Tindakan',
+            'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_tindakan)'
+        ),
+        array(
             'header'=>'<center>No. Pendaftaran</center>',
             'type'=>'raw',
-            'name'=>'no_pendaftaran',
+            'value'=>'$data->no_pendaftaran',
         ),
         array(
             'header'=>'<center>No. Lab</center>',
             'type'=>'raw',
-            'name'=>'no_masukpenunjang',
+            'value'=>'$data->no_masukpenunjang',
         ),
         array(
-            'header'=>'<center>Nama Pasien</center>',
+            'header' => '<center>Nama Pasien</center>',
             'type'=>'raw',
-            'name'=>'nama_pasien',
+            'value' => function($data){
+                $p = PasienM::model()->findByPk($data->pasien_id);
+
+                return $p->namadepan.' '.$p->nama_pasien;
+            },
         ),
         array(
             'header'=>'<center>Pemeriksaan</center>',
             'type'=>'raw',
-            'name'=>'daftartindakan_nama',
+            'value'=>'$data->daftartindakan_nama',
         ),
         array(
             'header'=>'<center>Cara Bayar</center>',
             'type'=>'raw',
-            'name'=>'carabayar_nama',
+            'value'=>'$data->carabayar_nama',
             'footerHtmlOptions'=>array(
-                'colspan'=>6,
+                'colspan'=>8,
                 'style'=>'text-align:right;font-style:italic;'
             ),
             'footer'=>'Total',
@@ -48,13 +101,13 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
         array(
             'header'=>'<center>Penjamin</center>',
             'type'=>'raw',
-            'name'=>'penjamin_nama',
+            'value'=>'$data->penjamin_nama',
         ),
         array(
             'header' => '<center>Total Biaya</center>',
             'type'=>'raw',
             'name' => 'total_biaya',
-            'value'=>'number_format($data->total_biaya)',
+            'value'=>'number_format($data->total_biaya,0,"",".")',
             'htmlOptions'=>array(
                 'style'=>'text-align:right',
                 'class'=>'currency'
@@ -69,7 +122,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
             'header' => '<center>Bayar</center>',
             'type'=>'raw',
             'name' => 'bayartindakan',
-            'value'=>'number_format($data->bayartindakan)',
+            'value'=>'number_format($data->bayartindakan,0,"",".")',
             'htmlOptions'=>array(
                 'style'=>'text-align:right',
                 'class'=>'currency'
@@ -84,7 +137,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
             'header' => '<center>Sisa</center>',
             'type'=>'raw',
             'name' => 'sisatindakan',
-            'value'=>'number_format($data->sisatindakan)',
+            'value'=>'number_format($data->sisatindakan,0,"",".")',
             'htmlOptions'=>array(
                 'style'=>'text-align:right',
                 'class'=>'currency'

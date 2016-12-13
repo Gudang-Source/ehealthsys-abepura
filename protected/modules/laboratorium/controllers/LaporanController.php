@@ -385,36 +385,78 @@ class LaporanController extends MyAuthController {
     
     public function actionLaporanPemakaiObatAlkes()
     {
-        $model = new LBLaporanpemakaiobatalkesV;
+        $model = new LBLaporanpemakaiobatalkesruanganV;
         $format = new MyFormatter();
-        $model->unsetAttributes();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $jenisObat =CHtml::listData(JenisobatalkesM::model()->findAll('jenisobatalkes_aktif = true'),'jenisobatalkes_id','jenisobatalkes_id');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');   
+        $jenisObat =CHtml::listData($model->getJenisobatalkesItems(),'jenisobatalkes_id','jenisobatalkes_id');
         $model->jenisobatalkes_id = $jenisObat;
-        $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
-        $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir);
-        if(isset($_GET['LBLaporanpemakaiobatalkesV']))
+        
+        if(isset($_GET['LBLaporanpemakaiobatalkesruanganV']))
         {
-            $model->attributes = $_GET['LBLaporanpemakaiobatalkesV'];
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesV']['tgl_akhir']);
+            $model->attributes = $_GET['LBLaporanpemakaiobatalkesruanganV'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['LBLaporanpemakaiobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['bln_akhir']);
+            $model->thn_awal = $_GET['LBLaporanpemakaiobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['LBLaporanpemakaiobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal;
+            $model->tgl_akhir = $model->tgl_akhir;
         }
         $this->render('pemakaiObatAlkes/index',array('model'=>$model));
     }
 
     public function actionPrintLaporanPemakaiObatAlkes() {
-        $model = new LBLaporanpemakaiobatalkesV('search');
+        $model = new LBLaporanpemakaiobatalkesruanganV('search');
+        $format = new MyFormatter();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');   
         $judulLaporan = 'Laporan Info Pemakai Obat Alkes Laboratorium';
 
         //Data Grafik       
         $data['title'] = 'Grafik Laporan Pemakai Obat Alkes Laboratorium';
         $data['type'] = $_REQUEST['type'];
-        if (isset($_REQUEST['LBLaporanpemakaiobatalkesV'])) {
-            $model->attributes = $_REQUEST['LBLaporanpemakaiobatalkesV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['LBLaporanpemakaiobatalkesV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['LBLaporanpemakaiobatalkesV']['tgl_akhir']);
+        if (isset($_REQUEST['LBLaporanpemakaiobatalkesruanganV'])) {
+            $model->attributes = $_REQUEST['LBLaporanpemakaiobatalkesruanganV'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['LBLaporanpemakaiobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['bln_akhir']);
+            $model->thn_awal = $_GET['LBLaporanpemakaiobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['LBLaporanpemakaiobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal;
+            $model->tgl_akhir = $model->tgl_akhir;
         }
         
         $caraPrint = $_REQUEST['caraPrint'];
@@ -426,18 +468,39 @@ class LaporanController extends MyAuthController {
 
     public function actionFrameGrafikLaporanPemakaiObatAlkes() {
         $this->layout = '//layouts/iframe';
-        $model = new LBLaporanpemakaiobatalkesV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $model = new LBLaporanpemakaiobatalkesruanganV('search');
+        $format = new MyFormatter();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');   
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Pemakai Obat Alkes Laboratorium';
         $data['type'] = $_GET['type'];
-        if (isset($_GET['LBLaporanpemakaiobatalkesV'])) {
-            $model->attributes = $_GET['LBLaporanpemakaiobatalkesV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesV']['tgl_akhir']);
+        if (isset($_GET['LBLaporanpemakaiobatalkesruanganV'])) {
+            $model->attributes = $_GET['LBLaporanpemakaiobatalkesruanganV'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['LBLaporanpemakaiobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemakaiobatalkesruanganV']['bln_akhir']);
+            $model->thn_awal = $_GET['LBLaporanpemakaiobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['LBLaporanpemakaiobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal;
+            $model->tgl_akhir = $model->tgl_akhir;
         }
                 
         $this->render('_grafik', array(
@@ -1087,16 +1150,13 @@ class LaporanController extends MyAuthController {
         $modelRS = new LBLaporanpemeriksaanrujukanrsV('search');
         $format = new MyFormatter();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
-        $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir);
-        $model->bln_awal = $format->formatMonthForUser(date('Y-m',(strtotime($model->bln_awal))));
-        $model->bln_akhir = $format->formatMonthForUser(date('Y-m',(strtotime($model->bln_akhir))));
+        
         if (isset($_GET['LBLaporanpemeriksaanrujukanV'])) {
             $model->attributes = $_GET['LBLaporanpemeriksaanrujukanV'];
             $model->jns_periode = $_GET['LBLaporanpemeriksaanrujukanV']['jns_periode'];
@@ -1130,9 +1190,9 @@ class LaporanController extends MyAuthController {
         $modelRS = new LBLaporanpemeriksaanrujukanrsV('search');
         $format = new MyFormatter();
         $modelRS->jns_periode = "hari";
-        $modelRS->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $modelRS->tgl_awal = date('Y-m-d');
         $modelRS->tgl_akhir = date('Y-m-d');
-        $modelRS->bln_awal = date('Y-m', strtotime('first day of january'));
+        $modelRS->bln_awal = date('Y-m');
         $modelRS->bln_akhir = date('Y-m');
         $modelRS->thn_awal = date('Y');
         $modelRS->thn_akhir = date('Y');
@@ -1173,9 +1233,9 @@ class LaporanController extends MyAuthController {
         $data['title'] = 'Grafik Laporan Pemeriksaan Rujukan Pasien Luar';
         $format = new MyFormatter();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
@@ -1185,11 +1245,17 @@ class LaporanController extends MyAuthController {
         } else {
             $data['type'] = null;
         }
+        
+        
             if (isset($_REQUEST['LBLaporanpemeriksaanrujukanV'])) {
                 $model->attributes = $_REQUEST['LBLaporanpemeriksaanrujukanV'];
                 $model->jns_periode = $_GET['LBLaporanpemeriksaanrujukanV']['jns_periode'];
                 $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanV']['tgl_awal']);
                 $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanV']['tgl_akhir']);
+                $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemeriksaanrujukanV']['bln_awal']);
+                $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemeriksaanrujukanV']['bln_akhir']);
+                $model->thn_awal = $_GET['LBLaporanpemeriksaanrujukanV']['thn_awal'];
+                $model->thn_akhir = $_GET['LBLaporanpemeriksaanrujukanV']['thn_akhir'];
                 $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
                 $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
                 switch($model->jns_periode){
@@ -1197,13 +1263,10 @@ class LaporanController extends MyAuthController {
                     case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
                     default : null;
                 }
-//                $model->tgl_awal = $model->tgl_awal." 00:00:00";
-//                $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+                $model->tgl_awal = $model->tgl_awal." 00:00:00";
+                $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
             }
-        $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
-        $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir);
-        $model->bln_awal = $format->formatMonthForUser(date('Y-m',(strtotime($model->bln_awal))));
-        $model->bln_akhir = $format->formatMonthForUser(date('Y-m',(strtotime($model->bln_akhir))));
+        
         $tab = 'luar';
         $caraPrint = $_REQUEST['caraPrint'];
         $target = 'pemeriksaanRujukan/_printPemeriksaanRujukan';
@@ -1218,9 +1281,9 @@ class LaporanController extends MyAuthController {
         $data['title'] = 'Grafik Laporan Pemeriksaan Rujukan Pasien RS';
         $format = new MyFormatter();
         $modelRS->jns_periode = "hari";
-        $modelRS->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $modelRS->tgl_awal = date('Y-m-d');
         $modelRS->tgl_akhir = date('Y-m-d');
-        $modelRS->bln_awal = date('Y-m', strtotime('first day of january'));
+        $modelRS->bln_awal = date('Y-m');
         $modelRS->bln_akhir = date('Y-m');
         $modelRS->thn_awal = date('Y');
         $modelRS->thn_akhir = date('Y');
@@ -1229,26 +1292,26 @@ class LaporanController extends MyAuthController {
         } else {
             $data['type'] = null;
         }
-            if (isset($_REQUEST['LBLaporanpemeriksaanrujukanV'])) {
-                $modelRS->attributes = $_REQUEST['LBLaporanpemeriksaanrujukanV'];
-                $modelRS->jns_periode = $_GET['LBLaporanpemeriksaanrujukanV']['jns_periode'];
-                $modelRS->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanV']['tgl_awal']);
-                $modelRS->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanV']['tgl_akhir']);
+            if (isset($_REQUEST['LBLaporanpemeriksaanrujukanrsV'])) {
+                $modelRS->attributes = $_REQUEST['LBLaporanpemeriksaanrujukanrsV'];
+                $modelRS->jns_periode = $_GET['LBLaporanpemeriksaanrujukanrsV']['jns_periode'];
+                $modelRS->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['tgl_awal']);
+                $modelRS->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['tgl_akhir']);
+                $modelRS->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['bln_awal']);
+                $modelRS->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['bln_akhir']);
+                $modelRS->thn_awal = $_GET['LBLaporanpemeriksaanrujukanrsV']['thn_awal'];
+                $modelRS->thn_akhir = $_GET['LBLaporanpemeriksaanrujukanrsV']['thn_akhir'];
                 $bln_akhir = $modelRS->bln_akhir."-".date("t",strtotime($modelRS->bln_akhir));
                 $thn_akhir = $modelRS->thn_akhir."-".date("m-t",strtotime($modelRS->thn_akhir."-12"));
-//                switch($modelRS->jns_periode){
-//                    case 'bulan' : $modelRS->tgl_awal = $modelRS->bln_awal."-01"; $modelRS->tgl_akhir = $bln_akhir; break;
-//                    case 'tahun' : $modelRS->tgl_awal = $modelRS->thn_awal."-01-01"; $modelRS->tgl_akhir = $thn_akhir; break;
-//                    default : null;
-//                }
-//                $modelRS->tgl_awal = $modelRS->tgl_awal." 00:00:00";
-//                $modelRS->tgl_akhir = $modelRS->tgl_akhir." 23:59:59";
-//                $modelRS->no_pendaftaran =$_REQUEST['LBLaporanpemeriksaanrujukanV']['no_pendaftaran'];
+                switch($modelRS->jns_periode){
+                    case 'bulan' : $modelRS->tgl_awal = $modelRS->bln_awal."-01"; $modelRS->tgl_akhir = $bln_akhir; break;
+                    case 'tahun' : $modelRS->tgl_awal = $modelRS->thn_awal."-01-01"; $modelRS->tgl_akhir = $thn_akhir; break;
+                    default : null;
+                }
+                $modelRS->tgl_awal = $modelRS->tgl_awal." 00:00:00";
+                $modelRS->tgl_akhir = $modelRS->tgl_akhir." 23:59:59";
             }
-        $modelRS->tgl_awal = $format->formatDateTimeForUser($modelRS->tgl_awal);
-        $modelRS->tgl_akhir = $format->formatDateTimeForUser($modelRS->tgl_akhir);
-        $modelRS->bln_awal = $format->formatMonthForUser(date('Y-m',(strtotime($modelRS->bln_awal))));
-        $modelRS->bln_akhir = $format->formatMonthForUser(date('Y-m',(strtotime($modelRS->bln_akhir))));
+       
         $tab = 'rs';       
         $caraPrint = $_REQUEST['caraPrint'];
         $target = 'pemeriksaanRujukan/_printPemeriksaanRujukan';
@@ -1298,8 +1361,22 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
         $model = new LBLaporanpemeriksaanrujukanV('search');
         $modelRS = new LBLaporanpemeriksaanrujukanrsV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        
+        $modelRS->jns_periode = "hari";
+        $modelRS->tgl_awal = date('Y-m-d');
+        $modelRS->tgl_akhir = date('Y-m-d');
+        $modelRS->bln_awal = date('Y-m');
+        $modelRS->bln_akhir = date('Y-m');
+        $modelRS->thn_awal = date('Y');
+        $modelRS->thn_akhir = date('Y');
         //Data Grafik
         $data['title'] = 'Grafik Laporan Pemeriksaan Rujukan';
         if (isset($_GET['type'])){
@@ -1311,21 +1388,59 @@ class LaporanController extends MyAuthController {
         if (isset($_GET['LBLaporanpemeriksaanrujukanV'])) {
             $model->attributes = $_GET['LBLaporanpemeriksaanrujukanV'];
             $format = new MyFormatter();
+            $model->jns_periode = $_GET['LBLaporanpemeriksaanrujukanV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemeriksaanrujukanV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemeriksaanrujukanV']['bln_akhir']);
+            $model->thn_awal = $_GET['LBLaporanpemeriksaanrujukanV']['thn_awal'];
+            $model->thn_akhir = $_GET['LBLaporanpemeriksaanrujukanV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
 //            $model->no_pendaftaran = $_GET['LBLaporanpemeriksaanrujukanV']['no_pendaftaran'];
             
-            $modelRS->attributes = $_GET['LBLaporanpemeriksaanrujukanV'];
-            $format = new MyFormatter();
-            $modelRS->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanV']['tgl_awal']);
-            $modelRS->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanV']['tgl_akhir']);
+          //  $modelRS->attributes = $_GET['LBLaporanpemeriksaanrujukanrsV'];
+          //  $format = new MyFormatter();
+           // $modelRS->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['tgl_awal']);
+            //$modelRS->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['tgl_akhir']);
 //            $modelRS->no_pendaftaran = $_GET['LBLaporanpemeriksaanrujukanV']['no_pendaftaran'];
         }
-		if($_GET['id'] == "1r=laboratorium/laporan/LaporanPemeriksaanRujukanLuar"){
-			$model = $model;
-		}else if($_GET['id'] == "1r=laboratorium/laporan/LaporanPemeriksaanRujukanRS"){
-			$model = $modelRS;
-		}
+        
+        if (isset($_GET['LBLaporanpemeriksaanrujukanrsV'])) {
+            
+            $modelRS->attributes = $_GET['LBLaporanpemeriksaanrujukanrsV'];
+            $format = new MyFormatter();
+            $modelRS->jns_periode = $_GET['LBLaporanpemeriksaanrujukanrsV']['jns_periode'];
+            $modelRS->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['tgl_awal']);
+            $modelRS->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['tgl_akhir']);
+            $modelRS->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['bln_awal']);
+            $modelRS->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemeriksaanrujukanrsV']['bln_akhir']);
+            $modelRS->thn_awal = $_GET['LBLaporanpemeriksaanrujukanrsV']['thn_awal'];
+            $modelRS->thn_akhir = $_GET['LBLaporanpemeriksaanrujukanrsV']['thn_akhir'];
+            $bln_akhir = $modelRS->bln_akhir."-".date("t",strtotime($modelRS->bln_akhir));
+            $thn_akhir = $modelRS->thn_akhir."-".date("m-t",strtotime($modelRS->thn_akhir."-12"));
+            switch($modelRS->jns_periode){
+                case 'bulan' : $modelRS->tgl_awal = $modelRS->bln_awal."-01"; $modelRS->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $modelRS->tgl_awal = $modelRS->thn_awal."-01-01"; $modelRS->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $modelRS->tgl_awal = $modelRS->tgl_awal." 00:00:00";
+            $modelRS->tgl_akhir = $modelRS->tgl_akhir." 23:59:59";
+
+        }
+        
+        if($_GET['id'] == "1r=laboratorium/laporan/LaporanPemeriksaanRujukanLuar"){
+                $model = $model;
+        }else if($_GET['id'] == "1r=laboratorium/laporan/LaporanPemeriksaanRujukanRS"){
+                $model = $modelRS;
+        }
         $this->render('_grafik', array(
 //        $this->render('pemeriksaanRujukan/_grafik', array(
             'model' => $model,
@@ -1340,9 +1455,9 @@ class LaporanController extends MyAuthController {
         $modelPerusahaan = new LBLaporanpemeriksaanp3V('search');
         $format = new MyFormatter();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_awal = date('Y-m');
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
@@ -1374,16 +1489,28 @@ class LaporanController extends MyAuthController {
 
     public function actionPrintLaporanPemeriksaanCaraBayar() {
         $model = new LBLaporanpemeriksaangroupV('search');
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
         $modelPerusahaan = new LBLaporanpemeriksaanp3V('search');
         $judulLaporan = 'Laporan Pemeriksaan Cara Bayar';
 //        echo "<pre>";
 //        print_r($_GET);exit;
          if($_GET['filter_tab'] == "pemeriksaan"){
-            $judulLaporan = 'LAPORAN PEMERIKSAAN GROUP BK';
-            $data['title'] = 'Grafik Laporan Pemeriksaan Group BK';
+            //$judulLaporan = 'LAPORAN PEMERIKSAAN GROUP BK';
+            $judulLaporan = 'LAPORAN PEMERIKSAAN CARA BAYAR - PEMERIKSAAN';
+            //$data['title'] = 'Grafik Laporan Pemeriksaan Group BK';
+            $data['title'] = 'Grafik Laporan Pemeriksaan Cara Bayar - Pemeriksaan';
          }else if($_GET['filter_tab'] == "rincian"){           
-             $judulLaporan = 'LAPORAN PEMERIKSAAN KONTRAK P3';
-             $data['title'] = 'Grafik Laporan Pemeriksaan Kontrak P3';
+             //$judulLaporan = 'LAPORAN PEMERIKSAAN KONTRAK P3';
+             $judulLaporan = 'LAPORAN PEMERIKSAAN CARA BAYAR - RINCIAN';
+             //$data['title'] = 'Grafik Laporan Pemeriksaan Kontrak P3';
+             $data['title'] = 'Grafik Laporan Pemeriksaan Cara Bayar - Rincian';
          }
      
         if (isset($_GET['type'])){
@@ -1394,14 +1521,42 @@ class LaporanController extends MyAuthController {
         if (isset($_REQUEST['LBLaporanpemeriksaangroupV'])) {
             $model->attributes = $_REQUEST['LBLaporanpemeriksaangroupV'];
             $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['LBLaporanpemeriksaangroupV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['LBLaporanpemeriksaangroupV']['tgl_akhir']);
+            $model->jns_periode = $_GET['LBLaporanpemeriksaangroupV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemeriksaangroupV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemeriksaangroupV']['bln_akhir']);
+            $model->thn_awal = $_GET['LBLaporanpemeriksaangroupV']['thn_awal'];
+            $model->thn_akhir = $_GET['LBLaporanpemeriksaangroupV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
 //            $model->carabayar_id = $_REQUEST['LBLaporanpemeriksaangroupV']['carabayar_id'];
             
             $modelPerusahaan->attributes = $_REQUEST['LBLaporanpemeriksaangroupV'];
             $format = new MyFormatter();
-            $modelPerusahaan->tgl_awal = $format->formatDateTimeForDb($_REQUEST['LBLaporanpemeriksaangroupV']['tgl_awal']);
-            $modelPerusahaan->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['LBLaporanpemeriksaangroupV']['tgl_akhir']);
+            $modelPerusahaan->jns_periode = $_GET['LBLaporanpemeriksaangroupV']['jns_periode'];
+            $modelPerusahaan->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_awal']);
+            $modelPerusahaan->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_akhir']);
+            $modelPerusahaan->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemeriksaangroupV']['bln_awal']);
+            $modelPerusahaan->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemeriksaangroupV']['bln_akhir']);
+            $modelPerusahaan->thn_awal = $_GET['LBLaporanpemeriksaangroupV']['thn_awal'];
+            $modelPerusahaan->thn_akhir = $_GET['LBLaporanpemeriksaangroupV']['thn_akhir'];
+            $bln_akhir = $modelPerusahaan->bln_akhir."-".date("t",strtotime($modelPerusahaan->bln_akhir));
+            $thn_akhir = $modelPerusahaan->thn_akhir."-".date("m-t",strtotime($modelPerusahaan->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $modelPerusahaan->tgl_awal = $modelPerusahaan->bln_awal."-01"; $modelPerusahaan->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $modelPerusahaan->tgl_awal = $modelPerusahaan->thn_awal."-01-01"; $modelPerusahaan->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $modelPerusahaan->tgl_awal = $modelPerusahaan->tgl_awal." 00:00:00";
+            $modelPerusahaan->tgl_akhir = $modelPerusahaan->tgl_akhir." 23:59:59";
 //            $modelPerusahaan->carabayar_id = $_REQUEST['LBLaporanpemeriksaangroupV']['carabayar_id'];
         }
                
@@ -1414,27 +1569,61 @@ class LaporanController extends MyAuthController {
         $this->layout = '//layouts/iframe';
 		$format = new MyFormatter();
         $model = new LBLaporanpemeriksaangroupV('search');
-        $modelPerusahaan = new LBLaporanpemeriksaanp3V('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $modelPerusahaan = new LBLaporanpemeriksaangroupV('search');
+        //$modelPerusahaan = new LBLaporanpemeriksaanp3V('search');
+        
+        
         //Data Grafik
 		if($_GET['filter_tab'] == "pemeriksaan"){
             
-			$data['title'] = 'Grafik Laporan Pemeriksaan Group BK';
+			//$data['title'] = 'Grafik Laporan Pemeriksaan Group BK';
+                    $data['title'] = 'Grafik Laporan Pemeriksaan Cara Bayar - Pemeriksaan';
 			if (isset($_GET['LBLaporanpemeriksaangroupV'])) {
 				$model->attributes = $_GET['LBLaporanpemeriksaangroupV'];
-				$model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_awal']);
-				$model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_akhir']);
+				$format = new MyFormatter();
+                                $model->jns_periode = $_GET['LBLaporanpemeriksaangroupV']['jns_periode'];
+                                $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_awal']);
+                                $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_akhir']);
+                                $model->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemeriksaangroupV']['bln_awal']);
+                                $model->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemeriksaangroupV']['bln_akhir']);
+                                $model->thn_awal = $_GET['LBLaporanpemeriksaangroupV']['thn_awal'];
+                                $model->thn_akhir = $_GET['LBLaporanpemeriksaangroupV']['thn_akhir'];
+                                $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+                                $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+                                switch($model->jns_periode){
+                                    case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                                    case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                                    default : null;
+                                }
+                                $model->tgl_awal = $model->tgl_awal." 00:00:00";
+                                $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
 			}
-        }else if($_GET['filter_tab'] == "rincian"){
+        }elseif($_GET['filter_tab'] == "rincian"){
             
-			$data['title'] = 'Grafik Laporan Pemeriksaan Kontrak P3';
+			//$data['title'] = 'Grafik Laporan Pemeriksaan Kontrak P3';
+                        $data['title'] = 'Grafik Laporan Pemeriksaan Cara Bayar - Rincian';
 			if (isset($_GET['LBLaporanpemeriksaangroupV'])) {
 				$modelPerusahaan->attributes = $_GET['LBLaporanpemeriksaangroupV'];				
-				$modelPerusahaan->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_awal']);
-				$modelPerusahaan->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_akhir']);
+				$format = new MyFormatter();
+                                $modelPerusahaan->jns_periode = $_GET['LBLaporanpemeriksaangroupV']['jns_periode'];
+                                $modelPerusahaan->tgl_awal = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_awal']);
+                                $modelPerusahaan->tgl_akhir = $format->formatDateTimeForDb($_GET['LBLaporanpemeriksaangroupV']['tgl_akhir']);
+                                $modelPerusahaan->bln_awal = $format->formatMonthForDb($_GET['LBLaporanpemeriksaangroupV']['bln_awal']);
+                                $modelPerusahaan->bln_akhir = $format->formatMonthForDb($_GET['LBLaporanpemeriksaangroupV']['bln_akhir']);
+                                $modelPerusahaan->thn_awal = $_GET['LBLaporanpemeriksaangroupV']['thn_awal'];
+                                $modelPerusahaan->thn_akhir = $_GET['LBLaporanpemeriksaangroupV']['thn_akhir'];
+                                $bln_akhir = $modelPerusahaan->bln_akhir."-".date("t",strtotime($modelPerusahaan->bln_akhir));
+                                $thn_akhir = $modelPerusahaan->thn_akhir."-".date("m-t",strtotime($modelPerusahaan->thn_akhir."-12"));
+                                switch($modelPerusahaan->jns_periode){
+                                    case 'bulan' : $modelPerusahaan->tgl_awal = $modelPerusahaan->bln_awal."-01"; $modelPerusahaan->tgl_akhir = $bln_akhir; break;
+                                    case 'tahun' : $modelPerusahaan->tgl_awal = $modelPerusahaan->thn_awal."-01-01"; $modelPerusahaan->tgl_akhir = $thn_akhir; break;
+                                    default : null;
+                                }
+                                $modelPerusahaan->tgl_awal = $modelPerusahaan->tgl_awal." 00:00:00";
+                                $modelPerusahaan->tgl_akhir = $modelPerusahaan->tgl_akhir." 23:59:59";
 			}
         }
+        
         $data['type'] = isset($_GET['type']) ? $_GET['type'] : null;
         
         $this->render('pemeriksaanCaraBayar/_grafik', array(
@@ -2005,10 +2194,11 @@ class LaporanController extends MyAuthController {
     
     protected function printFunctionRujukan($model, $modelRS, $data, $caraPrint, $judulLaporan, $target, $tab=null){
         $format = new MyFormatter();
-        $periode = $this->parserTanggalRujukan($model->tgl_awal).' s/d '.$this->parserTanggalRujukan($model->tgl_akhir);
-
+       // $periode = $this->parserTanggalRujukan($model->tgl_awal).' s/d '.$this->parserTanggalRujukan($model->tgl_akhir);
+         $periode = $format->formatDateTimeForUser(date('Y-m-d', strtotime($model->tgl_awal))).' s/d '.$format->formatDateTimeForUser(date('Y-m-d', strtotime($model->tgl_akhir)));
+         
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
-            $this->layout = '//layouts/printWindows';
+            $this->layout = '//layouts/printWindows2';
             $this->render($target, array('model' => $model, 'modelRS'=>$modelRS, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'tab' => $tab));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
@@ -2017,12 +2207,18 @@ class LaporanController extends MyAuthController {
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
+            $footer = '<table width="100%"><tr>'
+                    . '<td style = "text-align:left;font-size:8px;"><i><b>Generated By Ehealthsys</b></i></td>'
+                    . '<td style = "text-align:right;font-size:8px;"><i><b>Print Count :</b></i></td>'
+                    . '</tr></table>';
+            $mpdf->SetHtmlFooter($footer,'E');
+            $mpdf->SetHtmlFooter($footer,'O');
             $mpdf->useOddEven = 2;
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'modelRS'=>$modelRS,'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'tab' => $tab), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
     
@@ -2067,7 +2263,7 @@ class LaporanController extends MyAuthController {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'modelPerusahaan'=>$modelPerusahaan,'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
     

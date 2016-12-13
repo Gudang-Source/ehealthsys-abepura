@@ -50,8 +50,13 @@
                     'type'=>'raw',
                     'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
                     'htmlOptions'=>array('style'=>'text-align:center'),
-                    'footerHtmlOptions'=>array('colspan'=>4,'style'=>'text-align:right;font-style:italic;'),
+                    'footerHtmlOptions'=>array('colspan'=>6,'style'=>'text-align:right;font-style:italic;'),
                     'footer'=>'Total',
+                ),
+                array(
+                    'header' => '<center>Tanggal Masuk Penunjang</center>',
+                    'type' => 'raw',
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)'
                 ),
                 array(
                     'header' => '<center>No. Pendaftaran Lab</center>',
@@ -59,14 +64,18 @@
                     'value' => '$data->no_pendaftaran',
                 ),
                 array(
-                    'header' => '<center>Nama Pasien</center>',
-                    'type'=>'raw',
-                    'value' => '$data->nama_pasien'
+                    'header' => '<center>No Rekam Medik</center>',
+                    'value' => '$data->no_rekam_medik'
                 ),
                 array(
-                    'header' => '<center>No. RM / Pelayanan</center>',
+                    'header' => '<center>Nama Pasien</center>',
                     'type'=>'raw',
-                    'value' => '$data->no_rekam_medik." / ".$data->daftartindakan_nama'
+                    'value' => '$data->namadepan." ".$data->nama_pasien'
+                ),
+                array(
+                    'header' => '<center>Pelayanan</center>',
+                    'type'=>'raw',
+                    'value' => '$data->daftartindakan_nama'
                 ),
                 array(
                     'header' => '<center>Total</center>',
@@ -81,7 +90,7 @@
                     'header' => '<center>Bayar</center>',
                     'name'=>'jmlbayar_tindakan',
                     'type'=>'raw',
-                    'value' => 'number_format($data->jmlbayar_tindakan)',
+                    'value' => 'number_format($data->jmlbayar_tindakan,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;font-style:italic;'),
                     'footer'=>'sum(jmlbayar_tindakan)',
