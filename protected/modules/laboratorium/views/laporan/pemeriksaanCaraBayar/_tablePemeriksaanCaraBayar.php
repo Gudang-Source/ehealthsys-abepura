@@ -1,16 +1,53 @@
 <?php
+    $itemCssClass = 'table table-striped table-condensed';
     $data = $model->searchLaporanCarabayar();
+    $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
+    $template = "{summary}\n{items}\n{pager}";
     if(isset($caraPrint)){
         $data = $model->searchPrintLaporanCarabayar();
+        $template = '{items}';
+        if ($caraPrint == "EXCEL"){
+            $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        
+        if ($caraPrint=='PDF') {         
+            $table = 'ext.bootstrap.widgets.HeaderGroupGridViewPDF';                            
+        }
+        
+        echo "
+             <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
     }
         
-    $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',
+    $this->widget($table,
         array(
             'id'=>'tableGroupPemeriksaanCaraBayar',
             'dataProvider'=>$data,
-            'template'=>"{summary}\n{items}\n{pager}",
+            'template'=>$template,
             'enableSorting'=>true,
-            'itemsCssClass'=>'table table-striped table-condensed',
+            'itemsCssClass'=>$itemCssClass,
             'columns'=>array(
                 array(
                     'header' => '<center>No.</center>',
@@ -20,20 +57,28 @@
                         'style'=>'text-align:center'
                     ),
                     'footerHtmlOptions'=>array(
-                        'colspan'=>6,
+                        'colspan'=>7,
                         'style'=>'text-align:right;font-style:italic;'
                     ),
                     'footer'=>'Total',
                 ),
                 array(
+                    'header' => 'Tanggal Tindakan',
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_tindakan)'
+                ),
+                array(
                     'header' => '<center>No. Pendaftaran</center>',
                     'type'=>'raw',
-                    'name' => 'no_pendaftaran',
+                    'value' => '$data->no_pendaftaran',
                 ),
                 array(
                     'header' => '<center>Nama Pasien</center>',
                     'type'=>'raw',
-                    'name' => 'nama_pasien',
+                    'value' => function($data){
+                        $p = PasienM::model()->findByPk($data->pasien_id);
+                        
+                        return $p->namadepan.' '.$p->nama_pasien;
+                    },
                 ),
                 array(
                     'header' => '<center>Alamat Pasien</center>',

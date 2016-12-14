@@ -2,6 +2,8 @@
 class LBLaporanpemeriksaanp3V extends Laporanpemeriksaanp3V
 {
 	public $total_biaya;
+        public $jns_periode;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

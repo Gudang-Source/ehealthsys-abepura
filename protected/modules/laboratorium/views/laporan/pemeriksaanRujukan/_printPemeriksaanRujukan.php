@@ -12,5 +12,5 @@
     $this->renderPartial('laboratorium.views.laporan.pemeriksaanRujukan/_printLaporanNew', array('model'=>$model,  'modelRS'=>$modelRS, 'caraPrint'=>$caraPrint, 'tab' => $tab)); 
 
     if ($caraPrint == 'GRAFIK')
-    echo $this->renderPartial('laboratorium.views.laporan.pemeriksaanRujukan/_grafik', array('model'=>$model, 'modelRS'=>$modelRS,'data'=>$data, 'caraPrint'=>$caraPrint, 'tab' => $tab), true); 
+    $this->renderPartial('laboratorium.views.laporan.pemeriksaanRujukan/_grafik', array('model'=>$model, 'modelRS'=>$modelRS,'data'=>$data, 'caraPrint'=>$caraPrint, 'tab' => $tab)); 
 ?>

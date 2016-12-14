@@ -23,7 +23,7 @@
 		}
 
     </style>
-	<div class="row-fluid">
+    <div class="row-fluid">
 		 <div class="span4">
             <?php echo CHtml::hiddenField('type', ''); ?>
             <?php echo CHtml::label('Periode Laporan', 'tgl_tindakan', array('class' => 'control-label')) ?>

@@ -1,15 +1,17 @@
 <?php
+    
     if($tab == "luar"){
-        $data = $model->searchGrafik();
+        $grafik = $model->searchGrafik();
     }else if($tab == "rs"){
-        $data = $modelRS->searchGrafik();
+        $grafik = $modelRS->searchGrafik();
     }
+    
 ?>
 <?php
     $this->Widget('ext.jQPlot.jQPlotWidget', array(
-        'dataProvider'=>$data,
+        'dataProvider' => $grafik,
         'id'=>'tes',
-        'type' => $data['type'],
+       'type' => $data['type'],
         'options' => array(
             'title' => $data['title'],
             'seriesDefaults'=>array(
@@ -28,6 +30,13 @@
                     'pointLabels'=>array( 'show'=> true ),
                     ),
             'animate'=>true,
+            'axesDefaults'=>array(
+                'tickRenderer'=> 'js:$.jqplot.CanvasAxisTickRenderer',
+                'tickOptions'=>array(
+                  'angle'=> -30,
+                  'fontSize'=> '10pt'
+                ),
+            ),
             'axes'=>array(
                 'xaxis'=>array(
                     'renderer'=> 'js:$.jqplot.CategoryAxisRenderer',

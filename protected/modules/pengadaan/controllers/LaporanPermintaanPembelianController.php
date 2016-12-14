@@ -164,7 +164,8 @@ class LaporanPermintaanPembelianController extends MyAuthController{
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
-            $mpdf->showImageErrors = true;//debug image not shown in simulasi or running
+            //$mpdf->showImageErrors = true;//debug image not shown in simulasi or running
+            //$mpdf->debug = true;
             $mpdf->useOddEven = 2;
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);

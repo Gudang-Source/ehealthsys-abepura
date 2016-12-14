@@ -47,6 +47,7 @@
     }
 ?>
 <?php
+
 $this->widget($table,
     array(
         'id'=>'tableLaporanPembayaranPemeriksaan',

@@ -1,4 +1,5 @@
 <?php 
+    $itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
     $sort = true;
     $row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
@@ -7,8 +8,40 @@
         $data = $model->searchPrint();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
+        
+        if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+        
+        echo "
+             <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
+        
     } else{
         $data = $model->searchTable();
          $template = "{summary}\n{items}\n{pager}";
@@ -23,50 +56,63 @@
         'mergeHeaders'=>array(
             array(
                 'name'=>'<center>Tindakan</center>',
-                'start'=>6, //indeks kolom 3
-                'end'=>11, //indeks kolom 4
+                'start'=>7, //indeks kolom 3
+                'end'=>13, //indeks kolom 4
             ),
             array(
                 'name'=>'<center>Karcis</center>',
-                'start'=>13, //indeks kolom 3
-                'end'=>16, //indeks kolom 4
+                'start'=>14, //indeks kolom 3
+                'end'=>18, //indeks kolom 4
             ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                 array(
                     'header'=>'No.',
                     'value' => $row,
                 ),
                 array(
-                    'header'=>'No. Rekam Medik/<br/>Nama Pasien',
-                    'value'=> '$data->noRMNamaPasien',
+                    'header' => 'No.Pendaftaran',
+                    'value'=>'$data->no_pendaftaran',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
-                    'header' => 'No.Pendaftaran/<br/> Kelas Pelayanan',
-                    'value'=>'$data->NoPendaftaranKelas',
+                    'header'=>'No. Rekam Medik',
+                    'value'=> '$data->no_rekam_medik',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
-                    'header'=>'Cara Bayar / Penjamin',
+                    'header'=>'Nama Pasien',
+                    'value'=> '$data->namadepan." ".$data->nama_pasien',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                ),
+                
+                array(
+                    'header'=>'Cara Bayar/ <br/>Penjamin',
                     'name' => 'carabayarPenjamin',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                ),
+            
+                array(
+                    'header' => 'Kelas Pelayanan',
+                    'value'=>'$data->kelaspelayanan_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
 //                array(
 //                    'name' => 'kelaspelayanan_nama',
 //                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
 //                ),
-                array(
-                    'name' => 'daftartindakan_nama',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'value'=>'($data->daftartindakan_karcis == false) ? $data->daftartindakan_nama : \'\'',
-                ),
+                
                 array(
                     'name' => 'tindakansudahbayar_id',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
 					'header'=>'Sudah Bayar',
                     'value'=>'!empty($data->tindakansudahbayar_id) ? \'LUNAS\' : \'BELUM LUNAS\' ',
+                ),
+                array(
+                    'name' => 'daftartindakan_nama',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    'value'=>'($data->daftartindakan_karcis == false) ? $data->daftartindakan_nama : \'\'',
                 ),
                 array(
                     'name' => 'qty_tindakan',
