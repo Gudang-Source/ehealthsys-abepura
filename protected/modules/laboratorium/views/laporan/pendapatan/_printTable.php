@@ -34,55 +34,66 @@
                     'value' => $row,
                 ),
                 array(
-                    'header'=>'No. Lab',
-                    'type'=>'raw',
-                    'value'=>'$data->no_masukpenunjang',
-                    'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                ),
-                array(
-                    'header'=>'Nama',
-                    'type'=>'raw',
-                    'value'=>'$data->nama_pasien',
-                    'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                ),
-                array(
-                    'header'=>'Kedatangan',
-                    'type'=>'raw',
-                    'value'=>'(empty($data->asalrujukan_nama) ? "Rumah Sakit" : $data->asalrujukan_nama)',
-                    'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    'footerHtmlOptions'=>array('colspan'=>4,'style'=>'text-align:right;font-style:italic;'),
-                    'footer'=>'Jumlah Total',
-                ),
-                array(
-                    'header'=>'Pend. Seharusnya',
-                    'type'=>'raw',
-                    'name'=>'pend_seharusnya',
-                    'value'=>'number_format($data->pend_seharusnya)',
-                    'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    'htmlOptions'=>array('style'=>'text-align:right;'),
-                    'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-                    'footer'=>'sum(pend_seharusnya)',
-                ),
-                array(
-                    'header'=>'Pend. Sebenarnya',
-                    'type'=>'raw',
-                    'name'=>'pend_sebenarnya',
-                    'value'=>'number_format($data->pend_sebenarnya)',
-                    'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    'htmlOptions'=>array('style'=>'text-align:right;'),
-                    'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-                    'footer'=>'sum(pend_sebenarnya)',
-                ),
-                array(
-                    'header'=>'Sisa',
-                    'type'=>'raw',
-                    'name'=>'sisa',
-                    'value'=>'number_format($data->sisa)',
-                    'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    'htmlOptions'=>array('style'=>'text-align:right;'),
-                    'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-                    'footer'=>'sum(sisa)',
-                ),
+                        'header'=>'No Pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'$data->no_pendaftaran',
+                        'headerHtmlOptions'=>array('style'=>'text-align:center'),
+                    ),
+                    array(
+                        'header'=>'Nama Pasien',
+                        'type'=>'raw',
+                        'value'=>'$data->namadepan." ".$data->nama_pasien',
+                        'headerHtmlOptions'=>array('style'=>'text-align:center'),
+                    ),
+                    array(
+                        'header'=>'Kedatangan',
+                        'type'=>'raw',
+                        //'value'=>'(empty($data->rujukan_id) ? "Rumah Sakit" : $data->asalrujukan_nama)',
+                        'value' => function($data){
+                            if (empty($data->rujukan_id)){
+                                return 'Rumah Sakit';
+                            }else{
+                                $r = RujukanT::model()->findByPk($data->rujukan_id);
+                                
+                                if (count($r)>0){
+                                    return $r->nama_perujuk;
+                                }
+                            }
+                        },
+                        'headerHtmlOptions'=>array('style'=>'text-align:center'),
+                        'footerHtmlOptions'=>array('colspan'=>4,'style'=>'text-align:right;font-style:italic;'),
+                        'footer'=>'Jumlah Total',
+                    ),
+                    array(
+                        'header'=>'Pend. Seharusnya',
+                        'type'=>'raw',
+                        'name'=>'pend_seharusnya',
+                        'value'=>'number_format($data->pend_seharusnya,0,",",".")',
+                        'headerHtmlOptions'=>array('style'=>'text-align:center'),
+                        'htmlOptions'=>array('style'=>'text-align:right;'),
+                        'footerHtmlOptions'=>array('style'=>'text-align:right;'),
+                        'footer'=>'sum(pend_seharusnya)',
+                    ),
+                    array(
+                        'header'=>'Pend. Sebenarnya',
+                        'type'=>'raw',
+                        'name'=>'pend_sebenarnya',
+                        'value'=>'number_format($data->pend_sebenarnya,0,",",".")',
+                        'headerHtmlOptions'=>array('style'=>'text-align:center'),
+                        'htmlOptions'=>array('style'=>'text-align:right;'),
+                        'footerHtmlOptions'=>array('style'=>'text-align:right;'),
+                        'footer'=>'sum(pend_sebenarnya)',
+                    ),
+                    array(
+                        'header'=>'Sisa',
+                        'type'=>'raw',
+                        'name'=>'sisa',
+                        'value'=>'number_format($data->sisa,0,",",".")',
+                        'headerHtmlOptions'=>array('style'=>'text-align:center'),
+                        'htmlOptions'=>array('style'=>'text-align:right;'),
+                        'footerHtmlOptions'=>array('style'=>'text-align:right;'),
+                        'footer'=>'sum(sisa)',
+                    ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); ?>

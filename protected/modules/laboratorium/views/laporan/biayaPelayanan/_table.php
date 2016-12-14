@@ -25,15 +25,17 @@
                     'header' => 'No.',
                     'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
             ),
+            'no_pendaftaran',
             'no_rekam_medik',
             array(
-                'header'=>'Nama Pasien / Alias',
-                'value'=>'$data->NamaNamaBIN',
+                'header'=>'Nama Pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
             ),
-//            'NamaNamaBIN',
-            'no_pendaftaran',
-            'umur',
-            'jeniskelamin',
+            array(
+                'header' => 'Umur/ <br/> Jenis Kelamin',
+                'type' => 'raw',
+                'value' => '$data->umur."/ <br/>".$data->jeniskelamin'
+            ),            
             array(
                 'header'=>'Jenis Kasus Penyakit',
                 'value'=>'$data->jeniskasuspenyakit_nama',
@@ -46,18 +48,19 @@
 //            'kelaspelayanan_nama',
             array(
                 'header'=>'Cara Bayar / Penjamin',
+                'type' => 'raw',
                 'value'=>'$data->carabayarPenjamin',
             ),
 //            'carabayarPenjamin',
             array(
-                'header'=>'Tanggungan Pasien',
-                'value'=>'"Rp. ".number_format($data->iurbiaya,0,",",".")',
+                'header'=>'Iur Biaya',
+                'value'=>'"Rp".number_format($data->iurbiaya,0,",",".")',
             ),
 //            'iurbiaya',
             array(
                 'header'=>'Total Biaya Pelayanan',
                 'type'=>'raw',
-                'value'=>'"Rp. ".number_format($data->total,0,",",".")',
+                'value'=>'"Rp".number_format($data->total,0,",",".")',
             ),
 //            'total',
 //            'alamat_pasien',   
