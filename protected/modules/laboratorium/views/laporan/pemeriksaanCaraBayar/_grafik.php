@@ -1,13 +1,14 @@
 <?php
-	if(isset($model)){
-		$model = $model->searchGrafik();
+	if($_GET['filter_tab'] == 'pemeriksaan'){
+		$grafik = $model->searchGrafik();
 	}else{
-		$model = $modelPerusahaan->searchGrafik();
+		$grafik = $modelPerusahaan->searchGrafik();                
 	}
+        
 ?>
 <?php
     $this->Widget('ext.jQPlot.jQPlotWidget', array(
-        'dataProvider' => $model,
+        'dataProvider' => $grafik,
         'id'=>'tes',
         'type' => $data['type'],
         'options' => array(

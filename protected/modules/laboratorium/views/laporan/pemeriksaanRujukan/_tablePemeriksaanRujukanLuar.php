@@ -5,13 +5,46 @@
     $data = $model->searchTableLaporan();
     $template = "{summary}\n{items}\n{pager}";
     $sort = true;
+    $itemCssClass = 'table table-striped table-condensed';
     if (isset($caraPrint)){
       $sort = false;
       $data = $model->searchPrintLaporan();
       $rim = '';
       $template = "{items}";
-      if ($caraPrint == "EXCEL")
+      if ($caraPrint == "EXCEL"){
           $table = 'ext.bootstrap.widgets.BootExcelGridView';
+      }
+      
+      if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.HeaderGroupGridViewPDF';
+        }
+        
+        echo "
+             <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
+      
     }
 ?>
 <?php
@@ -48,7 +81,7 @@
                  'dataProvider'=>$data,
                  'template'=>$template,
                  'enableSorting'=>$sort,
-                 'itemsCssClass'=>'table table-striped table-condensed',
+                 'itemsCssClass'=>$itemCssClass,
                  'mergeColumns' => array(
                      'no',
                      'no_pendaftaran',
@@ -67,16 +100,17 @@
                           */
                      ),
                      array(
+                        'header' => '<center>Tanggal Masuk Penunjang</center>',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s", strtotime($data->tglmasukpenunjang)))',
+                     ),
+                     array(
                          'header' => '<center>No. Pendaftaran Lab</center>',
                          'name'=>'no_pendaftaran',
                          'type'=>'raw',
                          'value' => '$data->no_pendaftaran'
                      ),
-                     array(
-                         'header' => '<center>Tanggal</center>',
-                         'type'=>'raw',
-                                             'value'=>'date("d/m/Y H:i:s", strtotime($data->tglmasukpenunjang))',
-                     ),
+                     
                      array(
                          'header' => '<center>Kode</center>',
                          'type'=>'raw',
