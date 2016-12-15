@@ -52,7 +52,7 @@ return false;
 		//'potongansumber_aktif',
 				array(
             	'header'=>'Status',
-               'value'=>'($data->potongansumber_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+               'value'=>'($data->potongansumber_aktif == true ) ? "Aktif" : "Tidak Aktif"',
                'htmlOptions'=>array('style'=>'text-align:center;'),
                //'headerHtmlOptions'=>array('style'=>'vertical-align:top;text-align:center;color:#373e4a;'),
             ),
@@ -81,6 +81,73 @@ return false;
 		)); ?>		
 
 		<div class="form-action">
-			<?php  echo Chtml::link('Tambah Sumber Potongan',$this->createUrl('create'), array('class' => 'btn btn-success',"rel"=>"tooltip","title"=>"Klik untuk Menambahkan Data Master Sumber Potongan")); ?>
+			<?php  echo Chtml::link('Tambah Sumber Potongan',$this->createUrl('create'), array('class' => 'btn btn-success',"rel"=>"tooltip","title"=>"Klik untuk Menambahkan Data Master Sumber Potongan"))."&nbsp&nbsp";
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
+                        
+                    
+                        
+                        $content = $this->renderPartial('sistemAdministrator.views.tips.master',array(),true);
+                        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                        $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
+                        $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+                        $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
+                        $url=Yii::app()->createAbsoluteUrl($module.'/'.$controller);
+                        $js = <<< JSCRIPT
+        function cekForm(obj)
+{
+    $("#sasubsubkelompok-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
+function print(caraPrint)
+{
+    window.open("${urlPrint}/"+$('#sasubsubkelompok-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+}
+JSCRIPT;
+Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+?>
+<script type="text/javascript">
+    function removeTemporary(id){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('potongansumber-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+	   });
+    }
+    
+    function deleteRecord(id){
+        var id = id;
+        var url = '<?php echo $url."/delete"; ?>';
+        myConfirm("Yakin Akan Menghapus Data ini ?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('potongansumber-m-grid');
+                            }else if(data.status == 'gagal_form'){
+                                myAlert('Maaf data ini tidak bisa dihapus dikarenakan digunakan pada table lain.')
+                            }else{
+                                myAlert('Data Gagal di Hapus')
+                            }
+                },"json");
+           }
+	   });
+    }
+    $(document).ready(function(){
+        //$('input[name="SASubsubkelompokM[subkelompok_kode]"]').focus();
+    })
+</script>
+</div>
+                        
+                        
 		</div>
 </div>
+

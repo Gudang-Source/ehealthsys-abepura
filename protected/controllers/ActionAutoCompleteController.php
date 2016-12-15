@@ -2976,4 +2976,53 @@ class ActionAutoCompleteController extends Controller
             
 	}
         
+        public function actionGetAnggotaByNo() {
+            if(Yii::app()->request->isAjaxRequest) {
+                    $criteria = new CDbCriteria;
+                    $criteria->with = array('pegawai');
+                    $criteria->addCondition('pegawai.isanggota = TRUE');                    
+                    $criteria->compare('LOWER(t.nokeanggotaan)', strtolower($_GET['term']), true);
+                    $criteria->order = "pegawai.nama_pegawai ASC";
+                    $models = KeanggotaanT::model()->findAll($criteria);
+                    
+
+                        foreach($models as $i=>$model)
+                        {
+                            $attributes = $model->attributeNames();
+                            foreach($attributes as $j=>$attribute) {
+                                $returnVal[$i]["$attribute"] = $model->$attribute;
+                            }
+                            $returnVal[$i]['label'] = $model->nokeanggotaan.' - '.$model->pegawai->namaLengkap;
+                             
+                            $returnVal[$i]['value'] = $model->pegawai_id;
+                        }
+                    echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
+	}
+        
+        public function actionGetAnggotaByNama() {
+            if(Yii::app()->request->isAjaxRequest) {
+                    $criteria = new CDbCriteria;
+                    $criteria->with = array('pegawai');
+                    $criteria->addCondition('pegawai.isanggota = TRUE');                    
+                    $criteria->compare('LOWER(pegawai.nama_pegawai)', strtolower($_GET['term']), true);
+                    $criteria->order = "pegawai.nama_pegawai ASC";
+                    $models = KeanggotaanT::model()->findAll($criteria);
+                    
+
+                        foreach($models as $i=>$model)
+                        {
+                            $attributes = $model->attributeNames();
+                            foreach($attributes as $j=>$attribute) {
+                                $returnVal[$i]["$attribute"] = $model->$attribute;
+                            }
+                            $returnVal[$i]['label'] = $model->nokeanggotaan.' - '.$model->pegawai->namaLengkap;
+                            $returnVal[$i]['value'] = $model->pegawai_id;
+                        }
+                    echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
+	}
+        
 }

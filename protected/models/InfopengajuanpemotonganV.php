@@ -72,7 +72,7 @@ class InfopengajuanpemotonganV extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'infopengajuanpemotongan_v';
+		return 'infopengajuanpotongan_v';
 	}
 
 	/**

@@ -104,6 +104,12 @@
         )); ?>
     </div>
 </div>
+
+<div class="block-tabel">
+        <?php $this->renderPartial('_tab'); ?>
+        <iframe class="biru" src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
+        </iframe>        
+    </div>
 <?php 
 $url = Yii::app()->createUrl('laboratorium/laporan/frameGrafikLaporanPendapatan&id=1');
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
@@ -113,9 +119,10 @@ $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporan
 ?>
 <div class="form-actions">
    <?php
-	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp";     
+	echo CHtml::htmlButton(Yii::t('mds','{icon} Cetak',array('{icon}'=>'<i class="entypo-print"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp";     
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp";     
+        echo CHtml::htmlButton(Yii::t('mds','{icon} Grafik',array('{icon}'=>'<i class="entypo-print"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'GRAFIK\')'))."&nbsp&nbsp";     
 	
     $content = $this->renderPartial('tips/tips',array(),true); 
     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
