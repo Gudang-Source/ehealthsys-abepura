@@ -50,7 +50,7 @@ class KeanggotaanV extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'keanggotaaan_v';
+		return 'keanggotaan_v';
 	}
 
 	/**
@@ -102,7 +102,7 @@ class KeanggotaanV extends CActiveRecord
 			'tgl_lahirpegawai' => 'Tgl Lahir',
 			'jeniskelamin' => 'Jeniskelamin',
 			'alamat_pegawai' => 'Alamat Anggota',
-			'tglkeanggotaaan' => 'Tgl Keanggotaan',
+			'tglkeanggotaaan' => 'Tanggal Keanggotaan',
 			'nokeanggotaan' => 'No Keanggotaan',
 			'keanggotaan_id' => 'Keanggotaan',
 			'tglpermintaanberhenti' => 'Tglpermintaanberhenti',
@@ -158,7 +158,7 @@ class KeanggotaanV extends CActiveRecord
 		//$criteria->compare('t.pegawai_id',$this->pegawai_id);
 		$criteria->compare('lower(t.gelardepan)',strtolower($this->gelardepan),true);
 		$criteria->compare('lower(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
-		$criteria->compare('t.gelarbelakang',$this->gelarbelakang,true);
+		$criteria->compare('LOWER(t.gelarbelakang_nama)',  strtolower($this->gelarbelakang_nama),true);
 		$criteria->compare('t.nama_keluarga',$this->nama_keluarga,true);
 		$criteria->compare('lower(t.tempatlahir_pegawai)',strtolower($this->tempatlahir_pegawai),true);
 		$criteria->compare('t.tgl_lahirpegawai',$this->tgl_lahirpegawai,true);
@@ -174,12 +174,10 @@ class KeanggotaanV extends CActiveRecord
 		$criteria->compare('t.alasanberhenti',$this->alasanberhenti,true);
 		$criteria->compare('t.tgldisetujuiperm',$this->tgldisetujuiperm,true);
 		$criteria->compare('t.mengetahui',$this->mengetahui,true);
-		if(!empty($this->unit_id)) $criteria->addCondition('t.unit_id = '.$this->unit_id);
-		//$criteria->compare('t.unit_id',$this->unit_id);
-		$criteria->compare('t.namaunit',$this->namaunit,true);
+		
 		$criteria->compare('t.photopegawai',$this->photopegawai,true);
-		$criteria->compare('t.norekening',$this->norekening,true);
-		$criteria->compare('t.banknorekening',$this->banknorekening,true);
+		$criteria->compare('t.no_rekening',$this->no_rekening,true);
+		$criteria->compare('t.bank_no_rekening',$this->bank_no_rekening,true);
 		$criteria->compare('t.npwp',$this->npwp,true);
 		$criteria->compare('t.kategoripegawai',$this->kategoripegawai,true);
 		$criteria->compare('t.jeniswaktukerja',$this->jeniswaktukerja,true);
