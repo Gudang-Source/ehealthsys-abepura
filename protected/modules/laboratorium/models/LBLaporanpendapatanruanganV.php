@@ -240,8 +240,8 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
         {
             $criteria = new CDbCriteria;
             $criteria = $this->functionCriteriaPendapatan();
-            $criteria->select = "count(pasien_id) AS jumlah, (asalrujukan_nama) AS data";
-            $criteria->group = "pasien_id, asalrujukan_nama";
+            $criteria->select = "count(t.pasien_id) AS jumlah, (CASE WHEN pe.rujukan_id IS NULL THEN 'Rumah Sakit' ELSE r.nama_perujuk END) AS data";
+            $criteria->group = "pe.rujukan_id, r.nama_perujuk";
             return new CActiveDataProvider($this,
                 array(
                     'criteria' => $criteria,
@@ -256,6 +256,7 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
 
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteriaPendapatan();
+        $criteria->order = " t.no_pendaftaran ASC";
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -269,6 +270,7 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteriaPendapatan();
+        $criteria->order = " t.no_pendaftaran ASC";
 
         return new CActiveDataProvider($this, array(
                     'pagination' => false,
@@ -278,13 +280,13 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
     
     public function functionCriteriaPendapatan(){
         $criteria = new CDbCriteria();
-        $criteria->join = " JOIN pendaftaran_t pe ON pe.pendaftaran_id = t.pendaftaran_id ";
+        $criteria->join = " JOIN pendaftaran_t pe ON pe.pendaftaran_id = t.pendaftaran_id "
+                        . " LEFT JOIN rujukan_t r ON r.rujukan_id = pe.rujukan_id ";
         $criteria->select = 'nama_pasien, namadepan, pe.rujukan_id,
                              sum(tarif_tindakan) as pend_seharusnya,
                              sum(iurbiaya_tindakan) as pend_sebenarnya,
                              sum(tarif_tindakan - iurbiaya_tindakan) as sisa, t.no_pendaftaran';
-        $criteria->group = 'nama_pasien, t.no_pendaftaran, namadepan, pe.rujukan_id';
-        $criteria->order ='nama_pasien asc';
+        $criteria->group = 'nama_pasien, t.no_pendaftaran, namadepan, pe.rujukan_id';        
         $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tgl_tindakan)', $this->tgl_awal, $this->tgl_akhir,true);
