@@ -485,6 +485,9 @@ Class Params
         const DAFTARTINDAKAN_ID_IGG = 3878;
         const DAFTARTINDAKAN_ID_IGM = 3964;
         
+        //koperasi
+        const JENISSIMPANAN_ID_DEPOSITO = 4;
+        
         //prefix pendaftaran
         const PREFIX_RAWAT_JALAN = 'RJ';
         const PREFIX_RAWAT_INAP = 'RI';
@@ -495,6 +498,7 @@ Class Params
         const PREFIX_REHAB_MEDIS = 'RM';
         const PREFIX_PEMULASARAN_JEN = 'PJ';
         const PREFIX_APOTIK = 'AP';
+        
         
         
 	//===   END KONSTANTA ===
@@ -514,6 +518,8 @@ Class Params
                 Params::PREFIX_APOTIK => Params::PREFIX_APOTIK,
             );
         }
+        
+        
 
 
 
@@ -1064,6 +1070,31 @@ Class Params
                         2 => 'Belum Diterima '
                     );
                 }
+                
+                public static function caraPembayaran(){
+                    return array(
+                            'TUNAI'=>'TUNAI',
+                            'TRANSFER'=>'TRANSFER',
+                            'TABUNGAN'=>'TABUNGAN',
+                    );
+                }
+                
+                public static function jenisPinjaman() {
+                    return array(
+                            'UANG'=>'UANG',
+                            'BARANG'=>'BARANG',
+                    );
+                }
+                
+                public static function caraBayarPinjaman() {
+      		return array(
+      			'TUNAI'=>'TUNAI',
+      			'TRANSFER'=>'TRANSFER',
+      			'TABUNGAN'=>'TABUNGAN',
+      		);
+      }
+                
+      
         
 }
 ?>

@@ -4,6 +4,7 @@ class PotongansumberMController extends MyAuthController
 {
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
+        public $path_view='koperasi.views.potongansumberM.';
 	// $menuActive = array(index menu,index sub menu);
 	// index menu dan sub menu dapat di lihat di Params.php -> function menu()
 	//public $menuActive = array(1,8); // default
@@ -182,4 +183,68 @@ echo CActiveForm::validate($model);
 Yii::app()->end();
 }
 }
+    public function actionRemoveTemporary()
+    {
+                //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+//                    SAPropinsiM::model()->updateByPk($id, array('propinsi_aktif'=>false));
+//                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+              
+        
+        $id = $_POST['id'];   
+        if(isset($_POST['id']))
+        {
+           $update = PotongansumberM::model()->updateByPk($id,array('potongansumber_aktif'=>false));
+           if($update)
+            {
+                if (Yii::app()->request->isAjaxRequest)
+                {
+                    echo CJSON::encode(array(
+                        'status'=>'proses_form', 
+                        ));
+                    exit;               
+                }
+             }
+        } else {
+                if (Yii::app()->request->isAjaxRequest)
+                {
+                    echo CJSON::encode(array(
+                        'status'=>'proses_form', 
+                        ));
+                    exit;               
+                }
+        }
+
+    }
+
+
+    public function actionPrint()
+    {
+        $model= new PotongansumberM;
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['PotongansumberM'])){
+                            $model->attributes=$_GET['PotongansumberM'];
+        }
+        $judulLaporan='Data Barang';
+        $caraPrint=$_REQUEST['caraPrint'];
+        if($caraPrint=='PRINT') {
+            $this->layout='//layouts/printWindows';
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+        }
+        else if($caraPrint=='EXCEL') {
+            $this->layout='//layouts/printExcel';
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+        }
+        else if($_REQUEST['caraPrint']=='PDF') {
+            $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
+            $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
+            $mpdf = new MyPDF('',$ukuranKertasPDF); 
+            $mpdf->useOddEven = 2;  
+            $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
+            $mpdf->WriteHTML($stylesheet,1);  
+            $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
+            $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+            $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
+        }                       
+    }
+
 }

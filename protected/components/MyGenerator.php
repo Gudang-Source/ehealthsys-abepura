@@ -2320,5 +2320,27 @@ class MyGenerator
             $kodeSubKelompok_baru = $kode_subkelompok.'.'.(!empty($kodeSubKelompok['nomaksimal']) ? (str_pad($kodeSubKelompok['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
             return $kodeSubKelompok_baru;          
         }
+        
+        public static  function generateNoPermohonan() {
+		$date = 'PP'.date('Ym');
+		$sql = "select cast(max(substr(nopermohonan, 9, 4)) as integer) as urut from permohonanpinjaman_t where substr(nopermohonan, 1, 8) ilike '%".$date."%'";
+		$dat =  Yii::app()->db->createCommand($sql)->queryRow();
+
+		$cnt = str_pad(($dat['urut']+1), 4, '0', STR_PAD_LEFT);
+		return $date.$cnt;
+	}
+        
+        public static function generateNoPinjaman($jenispinjaman) {
+		$head = '';
+		if (strtolower($jenispinjaman) == 'uang') $head = "PU";
+		else if (strtolower($jenispinjaman) == 'barang') $head = "PB";
+		$head .= date("Ym");
+
+		$sql = "select cast(max(substr(no_pinjaman, 9,4)) as integer) as urut from pinjaman_t where no_pinjaman ilike '%".$head."%'";
+		$dat =  Yii::app()->db->createCommand($sql)->queryRow();
+
+		$cnt = str_pad(($dat['urut']+1), 4, '0', STR_PAD_LEFT);
+		return $head.$cnt;
+	}
 }
 ?>

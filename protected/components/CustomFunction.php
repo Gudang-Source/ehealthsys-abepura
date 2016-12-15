@@ -615,6 +615,14 @@ class CustomFunction
             return $portBaru;
                 
         }
+        
+        public static function runAjaxF($controller, $post) {
+		if (isset($post['ajax'])) {
+			if (isset($post['param'])) call_user_func(array($controller, $post['f']), $post['param']);
+			else call_user_func(array($controller, $post['f']));
+			Yii::app()->end();
+		}
+	}
                 
     
 }
