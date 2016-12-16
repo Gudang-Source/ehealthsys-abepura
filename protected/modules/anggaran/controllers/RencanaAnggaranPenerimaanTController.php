@@ -25,7 +25,7 @@ class RencanaAnggaranPenerimaanTController extends MyAuthController{
 				$model->create_ruangan = Yii::app()->user->ruangan_id;
 				// menambahkan digitnilaianggaran dari tabel konfiganggaran_k
 				$modKonfig = AGKonfiganggaranK::model()->findByPk($model->konfiganggaran_id);
-				$digitNilai = isset($modKonfig->digitnilaianggaran) ? $modKonfig->digitnilaianggaran : null;
+				$digitNilai = null; isset($modKonfig->digitnilaianggaran) ? $modKonfig->digitnilaianggaran : null;
 				$model->nilaipenerimaananggaran = $model->nilaipenerimaananggaran.$digitNilai;
 				$model->total_renanggaranpen = $model->nilaipenerimaananggaran;  
 						if($model->save()){
@@ -87,12 +87,12 @@ class RencanaAnggaranPenerimaanTController extends MyAuthController{
 	public function actionCekDigit() {
 		if(Yii::app()->request->isAjaxRequest) {
 				$konfiganggaran_id=$_POST['konfig_id'];
-				$modKonfig=AGKonfiganggaranK::model()->findByPk($konfiganggaran_id);
-				if ($modKonfig->digitnilaianggaran === "0"){
+				//$modKonfig=AGKonfiganggaranK::model()->findByPk($konfiganggaran_id);
+				//if ($modKonfig->digitnilaianggaran === "0"){
 					 $data['digit'] = null;
-				}else {
-					$data['digit'] = (isset($modKonfig->digitnilaianggaran) ? " / ".$modKonfig->digitnilaianggaran : null);
-				}
+				//}else {
+				//	$data['digit'] = (isset($modKonfig->digitnilaianggaran) ? " / ".$modKonfig->digitnilaianggaran : null);
+				//}
                 echo json_encode($data);
                 Yii::app()->end();
             }

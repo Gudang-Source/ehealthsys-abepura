@@ -45,13 +45,13 @@ if (isset($caraPrint)){
 		),
 		array(
 			'header'=>'Nilai Anggaran',
-			'value'=>'number_format($data->nilaipenerimaananggaran)',
+			'value'=>'MyFormatter::formatNumberForPrint($data->nilaipenerimaananggaran)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),
 		),
 		array(
 			'header'=>'Nilai Realisasi',
-			'value'=>'number_format($data->realisasipenerimaan)',
+			'value'=>'MyFormatter::formatNumberForPrint($data->realisasipenerimaan)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),
 		),

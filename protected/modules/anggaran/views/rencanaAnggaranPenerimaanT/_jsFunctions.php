@@ -67,6 +67,12 @@ function tambahRencana()
 							}
 						)
 					);
+					$('input[name$="[tglrenanggaranpen]"]').each(function() {
+						var obj = $(this);
+						$(this).parent().find(".add-on").click(function() {
+							$(obj).focus();
+						});
+					});
                 },
                 error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
             });
