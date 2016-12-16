@@ -35,7 +35,7 @@ $this->widget('bootstrap.widgets.BootAlert');
         <?php
             $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 'id'=>'infoprogramkerjaunit-grid',
-                'dataProvider'=>$model->search(),
+                'dataProvider'=>$model->searchInformasi(),
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
@@ -62,31 +62,28 @@ $this->widget('bootstrap.widgets.BootAlert');
 							array(
 								'name'=>'Kode Program',
 								'type'=>'raw',
-								'value'=>'$data->programkerja_kode',
-								'htmlOptions'=>array('style'=>'width:100px')
-							),
-							array(
-								'name'=>'Kode Sub Program',
-								'type'=>'raw',
-								'value'=>'$data->subprogramkerja_kode',
-								'htmlOptions'=>array('style'=>'width:100px')
-							),
-							array(
-								'name'=>'Kode Kegiatan',
-								'type'=>'raw',
-								'value'=>'$data->kegiatanprogram_kode',
-								'htmlOptions'=>array('style'=>'width:100px')
-							),
-							array(
-								'name'=>'Kode Sub Kegiatan',
-								'type'=>'raw',
-								'value'=>'$data->subkegiatanprogram_kode',
+								'value'=>'$data->programkerja_kode.".".$data->subprogramkerja_kode.".".$data->kegiatanprogram_kode.".".$data->subkegiatanprogram_kode',
 								'htmlOptions'=>array('style'=>'width:100px')
 							),
 							array(
 								'name'=>'Program Kerja',
 								'type'=>'raw',
 								'value'=>'$data->programkerja_nama',
+							),
+							array(
+								'name'=>'Sub Program Kerja',
+								'type'=>'raw',
+								'value'=>'$data->subprogramkerja_nama',
+							),
+							array(
+								'name'=>'Kegiatan Program Kerja',
+								'type'=>'raw',
+								'value'=>'$data->kegiatanprogram_nama',
+							),
+							array(
+								'name'=>'Sub Kegiatan Program Kerja',
+								'type'=>'raw',
+								'value'=>'$data->subkegiatanprogram_nama',
 							),
                     ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
