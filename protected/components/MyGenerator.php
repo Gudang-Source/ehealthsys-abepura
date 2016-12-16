@@ -2342,5 +2342,14 @@ class MyGenerator
 		$cnt = str_pad(($dat['urut']+1), 4, '0', STR_PAD_LEFT);
 		return $head.$cnt;
 	}
+        
+        public static function generateNoBKK($tipe = null) {
+		$date = date('Ym');
+		$sql = "select count(no_bkk) as urut from buktikaskeluarkop_t where substr(no_bkk, 1, 12) ilike '%BKK".$date."%'";
+		$dat =  Yii::app()->db->createCommand($sql)->queryRow();
+
+		$cnt = str_pad(($dat['urut']+1), 4, '0', STR_PAD_LEFT);
+		return 'BKK'.$date.$cnt;
+	}
 }
 ?>

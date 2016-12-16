@@ -234,4 +234,28 @@ class InfopengajuanpemotonganV extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchInformasi() {
+		$provider = $this->search();
+
+		$provider->criteria->select = $provider->criteria->group =
+		'nopengajuan, tglpengajuanpemb, namaunit, namapotongan, nokeanggotaan, nama_pegawai,
+		simpananwajib, simpanansukarela, jmlpokok_pengangs, jmljasaangs_pengangs, jmljasaangs_pengangs,
+		jmlpengajuan_pengangsuran, jmlpengajuan_pengangsuran, pengajuanpembayaran_id, potongansumber_id, jmldendaangs_pengangs
+		 ';
+
+		return $provider;
+	}
+
+	public function searchNoPermintaan() {
+		$criteria = new CDbCriteria();
+		//$criteria->join = "left join pembayaranangsuran_t p on p.pengajuanpembayaran_id = t.pengajuanpembayaran_id";
+		$criteria->select = $criteria->group = "t.potongansumber_id, t.tglpengajuanpemb, t.nopengajuan, t.dibuatoleh_id_pengpemb, t.diperiksaoleh_id_pengpemb, t.disetujuioleh_id_pengpemb";
+		$criteria->addCondition('t.buktikasmasukkop_id is null');
+		$criteria->compare('lower(t.nopengajuan)', strtolower($this->nopengajuan), true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
 }
