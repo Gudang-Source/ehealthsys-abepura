@@ -35,7 +35,7 @@ if(isset($_GET['sukses'])){
                     <th>No.</th>
                     <th>Termin ke-</th>
                     <th>Tanggal Penerimaan</th>
-                    <th>Nilai Anggaran <span id="digitlabel"></span></th>
+                    <th>Nilai Anggaran (Rp)<span id="digitlabel"></span></th>
                     <th>Batal</th>
                 </tr>
             </thead>
