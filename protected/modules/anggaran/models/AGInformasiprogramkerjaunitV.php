@@ -35,5 +35,17 @@ class AGInformasiprogramkerjaunitV extends InformasiprogramkerjaunitV
 	{
 		return parent::model($className);
 	}
+	
+	public function searchInformasi() {
+		$prov = $this->search();
+		$prov->criteria->group = 'deskripsiperiode, namaunitkerja, programkerja_kode, subprogramkerja_kode, kegiatanprogram_kode, subkegiatanprogram_kode, '
+			. 'subkegiatanprogram_nama, kegiatanprogram_nama, subprogramkerja_nama, programkerja_nama';
+		$prov->criteria->select = $prov->criteria->group;
+		$prov->criteria->order = 'deskripsiperiode, namaunitkerja, programkerja_kode, subprogramkerja_kode, kegiatanprogram_kode, subkegiatanprogram_kode';
+		
+		// var_dump($prov->criteria); die;
+		
+		return $prov;
+	}
 
 }

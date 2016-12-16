@@ -44,9 +44,18 @@ $('.search-form form').submit(function(){
 				'type'=>'raw',
 				'htmlOptions'=>array('style'=>'text-align:right;'),
 			),
-			'kodesumberanggaran',
-		'sumberanggarannama',
-		'sumberanggarannamalain',
+			array(
+				'name'=>'kodesumberanggaran',
+				'filter'=>CHtml::activeTextField($model, 'kodesumberanggaran', array('class'=>'angkahuruf-only')),
+			),
+			array(
+				'name'=>'sumberanggarannama',
+				'filter'=>CHtml::activeTextField($model, 'sumberanggarannama', array('class'=>'angkahuruf-only')),
+			),
+			array(
+				'name'=>'sumberanggarannamalain',
+				'filter'=>CHtml::activeTextField($model, 'sumberanggarannamalain', array('class'=>'angkahuruf-only')),
+			),
 			array(
 					'header'=>'Status',
 					'type'=>'raw',
@@ -91,7 +100,12 @@ $('.search-form form').submit(function(){
 				)
 			),
 		),
-		'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+		'afterAjaxUpdate'=>'function(id, data){'
+		. 'jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+		. "	$('.angkahuruf-only').keyup(function() {
+				setAngkaHurufsOnly(this);
+			});"
+		. '}',
 	)); ?>
 <!--</div>-->
 <?php 
