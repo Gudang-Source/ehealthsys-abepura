@@ -1,6 +1,6 @@
 <?php
 
-class KoreksiAsuransiController extends MyAuthController
+class KoreksiAngsuranController extends MyAuthController
 {
 	public $layout='//layouts/column1';
 	// public $defaultAction = 'admin';
