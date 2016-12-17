@@ -54,7 +54,7 @@ $this->breadcrumbs=array(
                                     <?php echo $this->renderPartial('subview/_js', array('form'=>$form, 'kaskeluar'=>$kaskeluar, 'sp'=>$sp), true); ?>
                                     <?php echo $this->renderPartial('subview/_dialog', array(), true); ?>
 		</div>
-		<div class="panel-body" style="text-align: center;">
+		<div class="panel-body">
 			<?php /* $this->widget('bootstrap.widgets.TbButton', array(
 				'buttonType'=>'submit',
 				'type'=>'primary',
@@ -62,11 +62,43 @@ $this->breadcrumbs=array(
 				'visible'=>$kaskeluar->isNewRecord,
 				'htmlOptions'=>array('class'=>'btn-success', 'onclick'=>'if (!cekValidasi()) return false;', 'onkeypress'=>'return formSubmit(this,event)'),
 			));*/ ?>
-                         <?php if ($kaskeluar->isNewRecord) echo CHtml::submitButton('Simpan', array('class'=>'btn btn-primary')); ?>
+                         <?php //if ($kaskeluar->isNewRecord) echo CHtml::submitButton('Simpan', array('class'=>'btn btn-primary')); ?>
 			<?php //echo Yii::app()->modal->register($this->renderPartial('subview/_dialog', null, true)); ?>
 			<?php //echo !$pinjaman->isNewRecord?CHtml::link('Print', $this->createUrl('print', array('id'=>$pinjaman->pinjaman_id)), array('target'=>'_blank','class' => 'btn btn-success')):CHtml::link('Print', $this->createUrl('print', array('id'=>$pinjaman->pinjaman_id)), array('target'=>'_blank','class' => 'btn btn-success','disabled'=>true)); ?>
-			<?php echo !$kaskeluar->isNewRecord?CHtml::link('Print BKK', $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-blue')):CHtml::link('Print BKK', $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-blue','disabled'=>true)); ?>
-			<?php echo CHtml::link('Ulang', $this->createUrl('index'), array('class' => 'btn btn-default')); ?>
+			<?php //echo !$kaskeluar->isNewRecord?CHtml::link('Print BKK', $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-blue')):CHtml::link('Print BKK', $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-blue','disabled'=>true)); ?>
+			<?php //echo CHtml::link('Ulang', $this->createUrl('index'), array('class' => 'btn btn-default')); ?>
+                    
+                        <?php
+                                        if (!isset($_GET['sukses'])) {
+                                                echo CHtml::htmlButton(Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+                                            }else{
+                                                echo CHtml::htmlButton(Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)', 'disabled' => true));
+                                            }
+                                    ?>
+                                   <?php
+                                        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/index'), array('class' => 'btn btn-danger',
+                                            'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index') . '";}); return false;'));
+                                    ?>
+                                    <?php
+                                            if(isset($_GET['sukses'])){
+                                                    echo CHtml::link('Print BKK', $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-blue','disabled'=>true));
+                                            }else{
+                                                    echo CHtml::link('Print BKK', $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-blue','disabled'=>false));
+                                            }
+                                    ?>
+
+                                    <?php
+                                        $tips = array(
+                                            '0' => 'autocomplete-search',
+                                            '1' => 'tanggal',
+                                            '2' => 'simpan',
+                                            '3' => 'ulang',
+                                            '4' => 'print',
+                                            '5' => 'status_print'
+                                        );
+                                        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                                        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                                    ?>
 		</div>
 	</div>
 </div>
