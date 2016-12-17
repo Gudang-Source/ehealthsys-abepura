@@ -8,25 +8,25 @@
 			</div>
 			<div class="modal-body">
 				<?php 
-					$anggota = new SPKeanggotaanT;
-					if (isset($_GET['SPKeanggotaanT'])) {
-						$anggota->attributes = $_GET['SPKeanggotaanT'];
-						$anggota->nomorindukpegawai = $_GET['SPKeanggotaanT']['nomorindukpegawai'];
-						$anggota->no_kartupegawainegerisipil = $_GET['SPKeanggotaanT']['no_kartupegawainegerisipil'];
-						$anggota->nama_pegawai = $_GET['SPKeanggotaanT']['nama_pegawai'];
-						$anggota->noidentitas = $_GET['SPKeanggotaanT']['noidentitas'];
-						$anggota->tempatlahir_pegawai = $_GET['SPKeanggotaanT']['tempatlahir_pegawai'];
+					$anggota = new KOKeanggotaanT();
+					if (isset($_GET['KOKeanggotaanT'])) {
+						$anggota->attributes = $_GET['KOKeanggotaanT'];
+						$anggota->nomorindukpegawai = $_GET['KOKeanggotaanT']['nomorindukpegawai'];
+						$anggota->no_kartupegawainegerisipil = $_GET['KOKeanggotaanT']['no_kartupegawainegerisipil'];
+						$anggota->nama_pegawai = $_GET['KOKeanggotaanT']['nama_pegawai'];
+						$anggota->noidentitas = $_GET['KOKeanggotaanT']['noidentitas'];
+						$anggota->tempatlahir_pegawai = $_GET['KOKeanggotaanT']['tempatlahir_pegawai'];
 						//$anggota->tgl_lahirpegawai = $_GET['SPKeanggotaanT']['tgl_lahirpegawai'];
-						$anggota->jeniskelamin = $_GET['SPKeanggotaanT']['jeniskelamin'];
-						$anggota->alamat_pegawai = $_GET['SPKeanggotaanT']['alamat_pegawai'];
-						$anggota->unit_id = $_GET['SPKeanggotaanT']['unit_id'];
-						$anggota->golonganpegawai_id = $_GET['SPKeanggotaanT']['golonganpegawai_id'];
+						$anggota->jeniskelamin = $_GET['KOKeanggotaanT']['jeniskelamin'];
+						$anggota->alamat_pegawai = $_GET['KOKeanggotaanT']['alamat_pegawai'];
+						$anggota->unit_id = $_GET['KOKeanggotaanT']['unit_id'];
+						$anggota->golonganpegawai_id = $_GET['KOKeanggotaanT']['golonganpegawai_id'];
 					}
-					$this->widget('bootstrap.widgets.TbGridView',array(
+					$this->widget('ext.bootstrap.widgets.BootGridView',array(
 					'id'=>'anggota-m-grid',
 					'dataProvider'=>$anggota->searchAnggota(),
 					'filter'=>$anggota,
-					'itemsCssClass' => 'table-bordered datatable dataTable',
+					'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 					'columns'=>array(
 						
 						array(
@@ -140,11 +140,11 @@
 					echo CHtml::hiddenField('target_attr', null);
 					$pegawai = new PegawaiM;
 					if (isset($_GET['PegawaiM'])) $pegawai->attributes = $_GET['PegawaiM'];
-					$this->widget('bootstrap.widgets.TbGridView',array(
+					$this->widget('ext.bootstrap.widgets.BootGridView',array(
 					'id'=>'pegawai-pengurus-m-grid',
 					'dataProvider'=>$pegawai->searchPengurus(),
 					'filter'=>$pegawai,
-					'itemsCssClass' => 'table-bordered datatable dataTable',
+					'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 					'columns'=>array(
 						array(
 							'header'=>'Pilih',

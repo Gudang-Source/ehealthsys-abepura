@@ -1,7 +1,11 @@
 <?php 
 $idx = $simpanan->jenissimpanan_id; 
 $jenis = JenissimpananM::model()->findByPk($idx);
-$nos = SimpananT::model()->generateNoSimpanan($jenis->jenissimpanan_singkatan);
+if (count($jenis)>0){
+    $nos = MyGenerator::generateNoSimpanan($jenis->jenissimpanan_singkatan);
+}else{
+    $nos = '' ;
+}
 ?>
 <div class="panel-body col-sm-12">
 	<div class="form-group">

@@ -147,13 +147,7 @@ class SimpananT extends CActiveRecord
 	}
 
 
-	public function generateNoSimpanan($singkatan) {
-		$head = $singkatan.date('ym');
-		$sql = "select cast(max(substr(nosimpanan,7,4)) as integer) as nourut from simpanan_t where nosimpanan ilike '".$singkatan."%'";
-		$data = Yii::app()->db->createCommand($sql)->queryRow();
-		$roll = str_pad($data['nourut']+1, 4, 0, STR_PAD_LEFT);
-		return $head.$roll;
-	}
+	
 
 	public function getJasa() {
 		$dAwal = new DateTime($this->tglsimpanan);

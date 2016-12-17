@@ -195,6 +195,60 @@ function cekValidasi() {
 	return true;
 }
 
+function cekJenisSimpanan(obj){
+    var jenissimpanan = $(obj).val();
+    
+    $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('cekJenisSimpanan'); ?>',
+        data: {jenissimpanan:jenissimpanan},
+        dataType: "json",
+        success:function(data){           
+            if (data.pesan == 'sukses'){                
+                clearSimpanan();
+                $(".detail-simpanan").show();
+                setSimpanan(data);
+            }else{
+                clearSimpanan();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);            
+    }
+    });
+}
+
+function clearSimpanan(){
+    $("#SimpananT_nosimpanan").val('');
+    $("#SimpananT_jumlahsimpanan").val('0');
+    $("#SimpananT_jangkawaktusimpanan").val('0');
+    $("#SimpananT_persenjasa_thn").val('');
+    $("#SimpananT_satuan").val('');    
+}
+
+function setSimpanan(data){
+    $("#SimpananT_nosimpanan").val(data.nosimpanan);            
+    $("#SimpananT_persenjasa_thn").val(data.persenjasathn);    
+    
+    if ( data.jenissimpanan_id == '<?php echo Params::ID_SIMPANAN_POKOK ?>' || data.jenissimpanan_id == '<?php echo Params::ID_SIMPANAN_WAJIB ?>'){                        
+        $("#SimpananT_persenjasa_thn").prop("readonly", true );
+        $("#SimpananT_satuan").prop("disabled", true ); 
+        $("#SimpananT_jangkawaktusimpanan").prop("readonly", true );
+    }else if( data.jenissimpanan_id == '<?php echo Params::ID_SIMPANAN_SUKARELA ?>'){
+        $("#SimpananT_persenjasa_thn").prop("readonly", false );
+        $("#SimpananT_satuan").prop("disabled", true ); 
+        $("#SimpananT_jangkawaktusimpanan").prop("readonly", true );    
+    }else if (data.jenissimpanan_id == '<?php echo Params::ID_SIMPANAN_DEPOSITO ?>'){
+        $("#SimpananT_persenjasa_thn").prop("readonly", false );
+        $("#SimpananT_satuan").prop("disabled", false );     
+        $("#SimpananT_jangkawaktusimpanan").prop("readonly", false );   
+    }else{
+        $("#SimpananT_persenjasa_thn").prop("readonly", true );
+        $("#SimpananT_satuan").prop("disabled", true );    
+        $("#SimpananT_jangkawaktusimpanan").prop("readonly", true );
+        $("#SimpananT_jumlahsimpanan").prop("readonly", true );
+    }
+}
+
 //======================================================================
 $("input.num:not(#BuktikasmasukT_uangditerima)").blur(hitungPembayaran);
 $('input[name="BuktikasmasukT[uangditerima]"]').blur(hitungKembalian);

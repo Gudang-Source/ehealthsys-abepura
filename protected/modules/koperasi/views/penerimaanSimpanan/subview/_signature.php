@@ -1,6 +1,5 @@
-<div class="panel panel-primary col-sm-12">
-	<div class="panel-heading panel-heading2">
-		<div class="panel-title">Persetujuan</div>
+
+		
 		<?php 
 		$str = 
 		$form->hiddenField($kasmasuk, 'preparedby', array('id'=>'preparedby')).
@@ -14,11 +13,11 @@
 			$kasmasuk->approvedby = PegawaiM::model()->findByPk($kasmasuk->approvedby)->nama_pegawai;
 		
 		?> 
-	</div>
-	<div class="panel-body col-sm-4">
-		<div class="form-group">
+	
+	<div class="span4">
+		<div class="control-group">
 			<?php echo $form->label($kasmasuk, 'preparedby', array('class'=>'control-label col-sm-3')); ?>
-			<div class="col-sm-9">
+			<div class="controls">
 				<?php
 
 				$this->widget('MyJuiAutoComplete',array(
@@ -44,28 +43,40 @@
 			?>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="control-group">
 			<?php echo $form->labelEx($kasmasuk, 'prepareddate', array('class'=>'control-label col-sm-3')); ?>
-			<div class="col-sm-9">
-			<div class="input-group">
+			<div class="controls">
+			<!--<div class="input-group">-->
 			<?php 
-				$this->widget('bootstrap.widgets.TbDateTimePicker', array(
-					'model'=>$kasmasuk, 'attribute'=>'prepareddate', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
-				));
+				//$this->widget('bootstrap.widgets.TbDateTimePicker', array(
+				//	'model'=>$kasmasuk, 'attribute'=>'prepareddate', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
+				//));
 			?>
-			<div class='input-group-addon' onclick="$('#BuktikasmasukT_prepareddate').focus();">
+                        
+                         <?php   
+                                $this->widget('MyDateTimePicker',array(
+                                'model'=>$kasmasuk,
+                                'attribute'=>'prepareddate',
+                                'mode'=>'date',
+                                'options'=> array(
+                                        'dateFormat'=>Params::DATE_FORMAT,
+                                        'maxDate' => 'd',
+                                ),
+                                'htmlOptions'=>array('class'=>'dtPicker3', 'onkeyup'=>"return $(this).focusNextInputField(event)"),
+                        )); ?>
+			<!--<div class='input-group-addon' onclick="$('#BuktikasmasukT_prepareddate').focus();">
         					<a>
             			<i class='entypo-calendar'></i>
         					</a>
     					</div>
-    					</div>
+    					</div>-->
 			</div>
 		</div>
 	</div>
-	<div class="panel-body col-sm-4">
-		<div class="form-group">
+	<div class="span4">
+		<div class="control-group">
 			<?php echo $form->label($kasmasuk, 'reviewedby', array('class'=>'control-label col-sm-3')); ?>
-			<div class="col-sm-9">
+			<div class="controls">
 				<?php
 
 				$this->widget('MyJuiAutoComplete',array(
@@ -91,28 +102,39 @@
 		?>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="control-group">
 			<?php echo $form->labelEx($kasmasuk, 'revieweddate', array('class'=>'control-label col-sm-3')); ?>
-			<div class="col-sm-9">
-			<div class="input-group">
+			<div class="controls">
+			<!--<div class="input-group">-->
 			<?php 
-				$this->widget('bootstrap.widgets.TbDateTimePicker', array(
-					'model'=>$kasmasuk, 'attribute'=>'revieweddate', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
-				));
+				//$this->widget('bootstrap.widgets.TbDateTimePicker', array(
+					//'model'=>$kasmasuk, 'attribute'=>'revieweddate', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
+				//));
 			?>
-			<div class='input-group-addon' onclick="$('#BuktikasmasukT_revieweddate').focus();">
+                        <?php   
+                                $this->widget('MyDateTimePicker',array(
+                                'model'=>$kasmasuk,
+                                'attribute'=>'revieweddate',
+                                'mode'=>'date',
+                                'options'=> array(
+                                        'dateFormat'=>Params::DATE_FORMAT,
+                                        'maxDate' => 'd',
+                                ),
+                                'htmlOptions'=>array('class'=>'dtPicker3', 'onkeyup'=>"return $(this).focusNextInputField(event)"),
+                        )); ?>
+			<!--<div class='input-group-addon' onclick="$('#BuktikasmasukT_revieweddate').focus();">
         					<a>
             			<i class='entypo-calendar'></i>
         					</a>
     					</div>
-    					</div>
+    					</div>-->
 			</div>
 		</div>
 	</div>
-	<div class="panel-body col-sm-4">
-		<div class="form-group">
+	<div class="span4">
+		<div class="control-group">
 			<?php echo $form->label($kasmasuk, 'approvedby', array('class'=>'control-label col-sm-3')); ?>
-			<div class="col-sm-9">
+			<div class="controls">
 				<?php
 
 				$this->widget('MyJuiAutoComplete',array(
@@ -138,21 +160,21 @@
 		?>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="control-group">
 			<?php echo $form->labelEx($kasmasuk, 'approveddate', array('class'=>'control-label col-sm-3')); ?>
-			<div class="col-sm-9">
-			<div class="input-group">
+			<div class="controls">
+			<!--<div class="input-group">-->
 			<?php 
-				$this->widget('bootstrap.widgets.TbDateTimePicker', array(
-					'model'=>$kasmasuk, 'attribute'=>'approveddate', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
-				));
+				//$this->widget('bootstrap.widgets.TbDateTimePicker', array(
+					//'model'=>$kasmasuk, 'attribute'=>'approveddate', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
+				//));
 			?>
-			<div class='input-group-addon' onclick="$('#BuktikasmasukT_approveddate').focus();">
+			<!--<div class='input-group-addon' onclick="$('#BuktikasmasukT_approveddate').focus();">
         					<a>
             			<i class='entypo-calendar'></i>
         					</a>
     					</div>
-    					</div>
+    					</div>-->
 			</div>
 		</div>
 	</div>
