@@ -2,29 +2,29 @@
 
 class PenerimaanSimpananController extends MyAuthController
 {
-	public $layout='//layouts/admin/default';
+	public $layout='//layouts/column1';
 	// public $defaultAction = 'admin';
-	public $menuActive = array(4,0); // Default. Harap diubah sesuai menu aktif yang ada.
-	public function actionDeposit($id = null)
+	//public $menuActive = array(4,0); // Default. Harap diubah sesuai menu aktif yang ada.
+	public function actionIndex($id = null)
 	{
 		$simpanan = new SimpananT;
 		$anggota = new KeanggotaanT;
-		$kasmasuk = new BuktikasmasukT;
+		$kasmasuk = new BuktikasmasukkopT;
 		$pegawai = new PegawaiM;
-		$insert_notifikasi = new MyFunction();
-		$this->menuActive = array(4,2);
-		$this->pageTitle = 'ecoopsys - Transaksi Simpanan Deposito';
-		$jenis = JenissimpananM::model()->findByPk(Params::ID_SIMPANAN_DEPOSITO);
+		$insert_notifikasi = new CustomFunction();
+		//$this->menuActive = array(4,2);
+		//$this->pageTitle = 'ecoopsys - Transaksi Simpanan Deposito';
+		//$jenis = JenissimpananM::model()->findByPk(Params::ID_SIMPANAN_DEPOSITO);
 
-		$konfig = KonfigurasikoperasiK::model()->find(array('order'=>'kofigurasikoperasi_id asc', 'condition'=>'isberlaku = true'));
+		$konfig = KonfigkoperasiK::model()->find(array('order'=>'konfigkoperasi_id asc', 'condition'=>'status_aktif = true'));
 
 		$simpanan->tglsimpanan = date('d/m/Y H:i');
-		$simpanan->jenissimpanan_id = $jenis->jenissimpanan_id;
-		$simpanan->persenjasa_thn = $jenis->persenjasathn;
+		//$simpanan->jenissimpanan_id = $jenis->jenissimpanan_id;
+		//$simpanan->persenjasa_thn = $jenis->persenjasathn;
 
 		$kasmasuk->preparedby = Yii::app()->user->getState('pegawai_id');
 		$kasmasuk->reviewedby = $konfig->penguruskoperasi_id;
-		$kasmasuk->approvedby = $konfig->pimpiankoperasi_id;
+		$kasmasuk->approvedby = $konfig->pimpinankoperasi_id;
 		$kasmasuk->prepareddate = $kasmasuk->revieweddate = $kasmasuk->approveddate = date('d/m/Y H:i');
 
 		$ok = true;
@@ -63,11 +63,12 @@ class PenerimaanSimpananController extends MyAuthController
 			if (!empty($pegawai->golonganpegawai_id)) $pegawai->golonganpegawai_id = $pegawai->golonganpegawai->golonganpegawai_nama;
 		}
 
-		$this->render('deposit', array(
+		$this->render('index', array(
 			'simpanan'=>$simpanan, 'anggota'=>$anggota, 'pegawai'=>$pegawai, 'kasmasuk'=>$kasmasuk,
 		));
 	}
-
+        
+        /*
 	public function actionSukarela($id = null)
 	{
 		$simpanan = new SimpananT;
@@ -265,7 +266,7 @@ class PenerimaanSimpananController extends MyAuthController
 		$this->render('wajibPokok', array(
 			'simpanan'=>$simpanan, 'anggota'=>$anggota, 'pegawai'=>$pegawai, 'kasmasuk'=>$kasmasuk,
 		));
-	}
+	}*/
 
 	protected function saveBKM(&$kasmasuk, $postKasmasuk, $postSimpanan) {
 		$anggota = KeanggotaanT::model()->findByPk($postSimpanan['keanggotaan_id']);
@@ -329,4 +330,35 @@ class PenerimaanSimpananController extends MyAuthController
 			return $simpanan->save();
 		} return false;
 	}
+        
+        public function actionCekJenisSimpanan(){
+            if(Yii::app()->request->isPostRequest){
+                $jenissimpanan_id = isset($_POST['jenissimpanan'])?$_POST['jenissimpanan']:null;
+                
+                $data = array();
+                
+                if (!empty($jenissimpanan_id)){
+                    $models = KOJenissimpananM::model()->findAll(" jenissimpanan_aktif = TRUE AND jenissimpanan_id = '".$jenissimpanan_id."' ");
+                }else{
+                    $models = array();
+                }
+                
+                if (count($models)>0){
+                    foreach($models as $i=>$model)
+                    {
+                        $attributes = $model->attributeNames();
+                        foreach($attributes as $j=>$attribute) {
+                            $returnVal["$attribute"] = $model->$attribute;                            
+                        }                        
+                    }
+                    
+                    $returnVal["nosimpanan"] = MyGenerator::generateNoSimpanan($returnVal["jenissimpanan_singkatan"]);
+                    $returnVal["pesan"] = 'sukses';
+                }else{
+                    $returnVal["pesan"] = 'gagal';
+                }
+                echo json_encode($returnVal);
+                Yii::app()->end();
+            }
+        }
 }

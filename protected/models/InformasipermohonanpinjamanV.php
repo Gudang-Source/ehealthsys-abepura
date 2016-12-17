@@ -142,7 +142,7 @@ class InformasipermohonanpinjamanV extends CActiveRecord
 			'jabatan_nama' => 'Jabatan Nama',
 			'keanggotaan_id' => 'Keanggotaan',
 			'tglkeanggotaaan' => 'Tglkeanggotaaan',
-			'nokeanggotaan' => 'Nokeanggotaan',
+			'nokeanggotaan' => 'No Keanggotaan',
 			'permohonanpinjaman_id' => 'Permohonanpinjaman',
 			'tglpermohonanpinjaman' => 'Tglpermohonanpinjaman',
 			'nopermohonan' => 'No Permohonan',
