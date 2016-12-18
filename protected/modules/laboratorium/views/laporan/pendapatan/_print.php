@@ -12,7 +12,7 @@ if ($caraPrint != 'GRAFIK')
 $this->renderPartial('pendapatan/_printTable', array('model'=>$model, 'caraPrint'=>$caraPrint, 'tab' =>$tab)); 
 
 if ($caraPrint == 'GRAFIK')
-echo $this->renderPartial('_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint, 'tab' =>$tab), true); 
+echo $this->renderPartial('pendapatan/_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint, 'tab' =>$tab), true); 
 
 
 ?>

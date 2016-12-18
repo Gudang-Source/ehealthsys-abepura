@@ -124,8 +124,17 @@ $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporan
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp";     
         echo CHtml::htmlButton(Yii::t('mds','{icon} Grafik',array('{icon}'=>'<i class="entypo-print"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'GRAFIK\')'))."&nbsp&nbsp";     
 	
-    $content = $this->renderPartial('tips/tips',array(),true); 
-    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
+     $tips = array(
+        '0' => 'tanggal',
+        '1' => 'cari',
+        '2' => 'ulang2',
+        '3' => 'masterPRINT',
+        '4' => 'masterEXCEL',
+        '5' => 'masterPDF',
+        '6' => 'grafik'
+    );
+    $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips' => $tips),true); 
+    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>
 </div>
 <?php 
 $jsx = <<< JSCRIPT
