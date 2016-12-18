@@ -402,7 +402,7 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
         $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tgl_tindakan)', $this->tgl_awal, $this->tgl_akhir,true);
-        $criteria->addCondition("t.no_pendaftaran like '%LB%'");
+        $criteria->addCondition("t.no_pendaftaran like '%LB%'"); //pendapatan luar
              
         $criteria->compare('LOWER(tgl_rekam_medik)', strtolower($this->tgl_rekam_medik), true);
         $criteria->compare('LOWER(jenisidentitas)', strtolower($this->jenisidentitas), true);
