@@ -100,7 +100,7 @@ class LBLaporanpemeriksaangroupV extends LaporanpemeriksaangroupV
             $criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
             $criteria->compare('jmlbayar_tindakan',$this->jmlbayar_tindakan);
             $criteria->compare('jmlsisabayar_tindakan',$this->jmlsisabayar_tindakan);
-
+            $criteria->addCondition("ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
             return new CActiveDataProvider($this, array(
                         'pagination' => false,
                         'criteria' => $criteria,
@@ -290,12 +290,13 @@ class LBLaporanpemeriksaangroupV extends LaporanpemeriksaangroupV
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
 			}
-            $criteria->addInCondition('ruangan_id',$ruangan);
+            //$criteria->addInCondition('ruangan_id',$ruangan);
+            $criteria->addCondition("ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
             if($tipe == 'pendaftaran'){
                 $criteria->group = "pendaftaran_id, no_pendaftaran, 
                 pasien_id, nama_pasien, alamat_pasien, 
                 carabayar_id, carabayar_nama, 
-                penjamin_id, penjamin_nama";
+                penjamin_id, penjamin_nama, tgl_tindakan";
                 $criteria->select = $criteria->group.", SUM(tarif_satuan * qty_tindakan) AS total_biaya, 
                         SUM(jmlbayar_tindakan) AS bayartindakan,
                         SUM(jmlsisabayar_tindakan) AS sisatindakan";
@@ -305,12 +306,12 @@ class LBLaporanpemeriksaangroupV extends LaporanpemeriksaangroupV
                 carabayar_id, carabayar_nama, 
                 penjamin_id, penjamin_nama,
                 pasienmasukpenunjang_id, no_masukpenunjang,
-                daftartindakan_id, daftartindakan_nama";
+                daftartindakan_id, daftartindakan_nama, tgl_tindakan";
                 $criteria->select = $criteria->group.", SUM(tarif_tindakan) AS total_biaya, 
                         SUM(jmlbayar_tindakan) AS bayartindakan,
                         SUM(jmlsisabayar_tindakan) AS sisatindakan";
             }
-            $criteria->order ='nama_pasien asc';
+            $criteria->order ='tgl_tindakan asc';
             return $criteria;
         }
 

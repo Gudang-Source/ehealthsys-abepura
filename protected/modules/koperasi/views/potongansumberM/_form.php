@@ -32,7 +32,7 @@
                         array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
 	<?php
-	echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Asal Aset', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+	echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Sumber Potongan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
 		$content = $this->renderPartial('koperasi.views.tips.tips',array(),true);
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	?>	

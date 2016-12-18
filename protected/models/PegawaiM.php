@@ -79,7 +79,8 @@ class PegawaiM extends CActiveRecord
         public $namapegawai;
         public $shift_id;
         public $profilperusahaan_id;
-        public $statuspegawai;        
+        public $statuspegawai;      
+        public $umur;
         
 	/**
 	 * Returns the static model of the specified AR class.
@@ -786,6 +787,20 @@ class PegawaiM extends CActiveRecord
 //				return array();
                     return KelompokpegawaiM::model()->findAll("kelompokpegawai_aktif IS TRUE ");
             }
+    }
+    
+    public function searchPengurus() 
+    {
+            $criteria = new CDbCriteria;
+            //$criteria->with = array('kelurahan');
+            if(!empty($this->jabatan_id))$criteria->addCondition('t.jabatan_id = '.$this->jabatan_id);
+            //$criteria->compare('t.jabatan_id',$this->jabatan_id);
+            $criteria->compare('LOWER(nomorindukpegawai)', strtolower($this->nomorindukpegawai),true);
+            $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai),true);
+
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
     }
    
 /*

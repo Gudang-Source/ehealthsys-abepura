@@ -87,7 +87,23 @@ class PotongansumberM extends CActiveRecord
 		$criteria->compare('potongansumber_id',$this->potongansumber_id);
 		$criteria->compare('LOWER(namapotongan)',strtolower($this->namapotongan),true);
 		$criteria->compare('LOWER(namapotonganlainnya)',strtolower($this->namapotonganlainnya),true);
-		$criteria->compare('potongansumber_aktif',$this->potongansumber_aktif);
+		$criteria->compare('potongansumber_aktif',isset($this->potongansumber_aktif)?$this->potongansumber_aktif:true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+        public function searchPrint()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('potongansumber_id',$this->potongansumber_id);
+		$criteria->compare('LOWER(namapotongan)',strtolower($this->namapotongan),true);
+		$criteria->compare('LOWER(namapotonganlainnya)',strtolower($this->namapotonganlainnya),true);
+		$criteria->compare('potongansumber_aktif',isset($this->potongansumber_aktif)?$this->potongansumber_aktif:true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

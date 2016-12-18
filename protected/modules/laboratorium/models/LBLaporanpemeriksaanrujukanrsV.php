@@ -11,8 +11,10 @@ class LBLaporanpemeriksaanrujukanrsV extends LaporanpemeriksaanrujukanrsV
         
         public function searchGrafik() {
             $criteria = new CDbCriteria;
-            $criteria->select = 'count(pendaftaran_id) as jumlah, ruangan_nama as data';
-			$criteria->group = 'ruangan_nama';
+            $criteria = $this->functionCriteria();
+            $criteria->select = 'count(t.tglmasukpenunjang) as jumlah, t.ruanganasal_nama as data';
+            $criteria->group = 't.ruanganasal_nama';
+            $criteria->order = "jumlah DESC";
 			
 			return new CActiveDataProvider($this, array(
                         'pagination' => false,
@@ -28,7 +30,7 @@ class LBLaporanpemeriksaanrujukanrsV extends LaporanpemeriksaanrujukanrsV
 
             $criteria = new CDbCriteria;
             $criteria = $this->functionCriteria();
-
+            $criteria->order = "t.tglmasukpenunjang ASC";
             return new CActiveDataProvider($this, array(
                         'criteria' => $criteria,
                     ));
@@ -41,7 +43,7 @@ class LBLaporanpemeriksaanrujukanrsV extends LaporanpemeriksaanrujukanrsV
             $criteria = new CDbCriteria;
 
             $criteria = $this->functionCriteria();
-
+            $criteria->order = "t.tglmasukpenunjang ASC";
             return new CActiveDataProvider($this, array(
                         'pagination' => false,
                         'criteria' => $criteria,
@@ -54,15 +56,15 @@ class LBLaporanpemeriksaanrujukanrsV extends LaporanpemeriksaanrujukanrsV
             $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
             $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
             $criteria->addBetweenCondition('DATE(t.tglmasukpenunjang)',$this->tgl_awal,$this->tgl_akhir);
-            $criteria->select = 't.daftartindakan_kode, t.daftartindakan_nama,t.tarif_satuan,t.no_pendaftaran,t.tglmasukpenunjang,pasien_m.nama_pasien,pasien_m.no_rekam_medik,
+            $criteria->select = 't.namadepan, t.daftartindakan_kode, t.daftartindakan_nama,t.tarif_satuan,t.no_pendaftaran,t.tglmasukpenunjang,pasien_m.nama_pasien,pasien_m.no_rekam_medik,
                                 sum(t.qty_tindakan) as qty_tindakan,
                                 sum(tindakansudahbayar_t.jmlbayar_tindakan) as jmlbayar_tindakan,
                                 sum(tindakansudahbayar_t.jmlsisabayar_tindakan) as jmlsisabayar_tindakan,
                                 sum(t.tarif_satuan * t.qty_tindakan) as total';
-            $criteria->join = 'LEFT JOIN pendaftaran_t on pendaftaran_t.pendaftaran_id = t.pendaftaran_id 
-                               LEFT JOIN pasien_m on pasien_m.pasien_id = pendaftaran_t.pasien_id
+            $criteria->join = 'JOIN pendaftaran_t on pendaftaran_t.pendaftaran_id = t.pendaftaran_id 
+                               JOIN pasien_m on pasien_m.pasien_id = pendaftaran_t.pasien_id
                                LEFT JOIN tindakansudahbayar_t on tindakansudahbayar_t.tindakansudahbayar_id = t.tindakansudahbayar_id';
-            $criteria->group = 't.daftartindakan_kode, t.daftartindakan_nama, t.tarif_satuan, t.no_pendaftaran, t.tglmasukpenunjang, pasien_m.nama_pasien, pasien_m.no_rekam_medik';
+            $criteria->group = 't.namadepan, t.daftartindakan_kode, t.daftartindakan_nama, t.tarif_satuan, t.no_pendaftaran, t.tglmasukpenunjang, pasien_m.nama_pasien, pasien_m.no_rekam_medik';
 			if(!empty($this->tindakanpelayanan_id)){
 				$criteria->addCondition('t.tindakanpelayanan_id = '.$this->tindakanpelayanan_id);
 			}
@@ -100,9 +102,8 @@ class LBLaporanpemeriksaanrujukanrsV extends LaporanpemeriksaanrujukanrsV
             $criteria->compare('LOWER(t.ruangan_nama)',strtolower($this->ruangan_nama),true);
             $criteria->compare('LOWER(t.instalasi_nama)',strtolower($this->instalasi_nama),true);
             $criteria->compare('LOWER(t.nourut)',strtolower($this->nourut),true);
-            $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
-            $criteria->compare('LOWER(t.tglmasukpenunjang)',strtolower($this->tglmasukpenunjang),true);
-
+            $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);            
+            $criteria->addCondition(" t.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
             return $criteria;
         }   
         

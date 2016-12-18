@@ -12,6 +12,7 @@
         $this->renderPartial('laboratorium.views.laporan.pemeriksaanCaraBayar/_printLaporan', array('model'=>$model,  'modelPerusahaan'=>$modelPerusahaan, 'data'=>$data, 'caraPrint'=>$caraPrint)); 
     }
 
-    if ($caraPrint == 'GRAFIK')
-    echo $this->renderPartial('laboratorium.views.laporan.pemeriksaanCaraBayar/_grafik', array('model'=>$model, 'modelPerusahaan'=>$modelPerusahaan, 'data'=>$data, 'caraPrint'=>$caraPrint), true); 
+    if ($caraPrint == 'GRAFIK'){
+        $this->renderPartial('laboratorium.views.laporan.pemeriksaanCaraBayar/_grafik', array('model'=>$model, 'modelPerusahaan'=>$modelPerusahaan, 'data'=>$data, 'caraPrint'=>$caraPrint)); 
+    }
 ?>

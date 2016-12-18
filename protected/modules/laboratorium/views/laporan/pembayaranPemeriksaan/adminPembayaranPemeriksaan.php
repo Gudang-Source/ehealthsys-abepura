@@ -25,16 +25,16 @@
         <h6>tABEL <b>Pembayaran Pemeriksaan</b></h6>
         <?php $this->renderPartial('laboratorium.views.laporan.pembayaranPemeriksaan/_tablePembayaranPemeriksaan', array('model'=>$model)); ?>
     </div>
-    <!--<div class="block-tabel">-->
-        <?php // $this->renderPartial('laboratorium.views.laporan._tab'); ?>
-<!--        <iframe class="biru" src="" id="Grafik" width="100%" height='0' onload="javascript:resizeIframe(this);">
+    <div class="block-tabel">
+        <?php $this->renderPartial('laboratorium.views.laporan._tab'); ?>
+        <iframe class="biru" src="" id="Grafik" width="100%" height='0' onload="javascript:resizeIframe(this);">
         </iframe>       
-    </div>-->
+    </div>
     <?php   
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
         $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanPembayaranPemeriksaan');
-        $this->renderPartial('laboratorium.views.laporan._footerNoGrafik', array('urlPrint'=>$urlPrint, 'url'=>$url)); 
+        $this->renderPartial('laboratorium.views.laporan._footer', array('urlPrint'=>$urlPrint, 'url'=>$url)); 
         $this->renderPartial('_jsFunctions', array('model'=>$model));
     ?>
 </div>

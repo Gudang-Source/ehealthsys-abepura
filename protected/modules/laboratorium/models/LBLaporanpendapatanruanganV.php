@@ -3,6 +3,7 @@
 class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
         public $bulan,$tahun,$tanggal,$pend_seharusnya, $pend_sebenarnya,$sisa,$no_masukpenunjang;
         public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
+        public $rujukan_id;
         public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -239,8 +240,8 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
         {
             $criteria = new CDbCriteria;
             $criteria = $this->functionCriteriaPendapatan();
-            $criteria->select = "count(pasien_id) AS jumlah, (asalrujukan_nama) AS data";
-            $criteria->group = "pasien_id, asalrujukan_nama";
+            $criteria->select = "count(t.pasien_id) AS jumlah, (CASE WHEN pe.rujukan_id IS NULL THEN 'Rumah Sakit' ELSE r.nama_perujuk END) AS data";
+            $criteria->group = "pe.rujukan_id, r.nama_perujuk";
             return new CActiveDataProvider($this,
                 array(
                     'criteria' => $criteria,
@@ -255,6 +256,7 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
 
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteriaPendapatan();
+        $criteria->order = " t.no_pendaftaran ASC";
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -268,6 +270,7 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteriaPendapatan();
+        $criteria->order = " t.no_pendaftaran ASC";
 
         return new CActiveDataProvider($this, array(
                     'pagination' => false,
@@ -277,13 +280,13 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
     
     public function functionCriteriaPendapatan(){
         $criteria = new CDbCriteria();
-        
-        $criteria->select = 'nama_pasien,
+        $criteria->join = " JOIN pendaftaran_t pe ON pe.pendaftaran_id = t.pendaftaran_id "
+                        . " LEFT JOIN rujukan_t r ON r.rujukan_id = pe.rujukan_id ";
+        $criteria->select = 'nama_pasien, namadepan, pe.rujukan_id,
                              sum(tarif_tindakan) as pend_seharusnya,
                              sum(iurbiaya_tindakan) as pend_sebenarnya,
-                             sum(tarif_tindakan - iurbiaya_tindakan) as sisa';
-        $criteria->group = 'nama_pasien';
-        $criteria->order ='nama_pasien asc';
+                             sum(tarif_tindakan - iurbiaya_tindakan) as sisa, t.no_pendaftaran';
+        $criteria->group = 'nama_pasien, t.no_pendaftaran, namadepan, pe.rujukan_id';        
         $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tgl_tindakan)', $this->tgl_awal, $this->tgl_akhir,true);
@@ -313,8 +316,8 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
 		if(!empty($this->pendaftaran_id)){
 			$criteria->addCondition('pendaftaran_id = '.$this->pendaftaran_id);
 		}
-        $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
-        $criteria->compare('LOWER(tgl_pendaftaran)', strtolower($this->tgl_pendaftaran), true);
+        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+        $criteria->compare('LOWER(t.tgl_pendaftaran)', strtolower($this->tgl_pendaftaran), true);
         $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
         $criteria->compare('LOWER(no_asuransi)', strtolower($this->no_asuransi), true);
         $criteria->compare('LOWER(namapemilik_asuransi)', strtolower($this->namapemilik_asuransi), true);
@@ -323,9 +326,9 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
         $criteria->compare('LOWER(tglselesaiperiksa)', strtolower($this->tglselesaiperiksa), true);
 		if(!empty($this->penjamin_id)){
 			if(is_array($this->penjamin_id)){
-				$criteria->addInCondition('penjamin_id',$this->penjamin_id);
+				$criteria->addInCondition('t.penjamin_id',$this->penjamin_id);
 			}else{
-				$criteria->addCondition('penjamin_id = '.$this->penjamin_id);
+				$criteria->addCondition('t.penjamin_id = '.$this->penjamin_id);
 			}
 		}
         $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
@@ -380,7 +383,7 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
 		if(!empty($this->perawat_id)){
 			$criteria->addCondition('perawat_id = '.$this->perawat_id);
 		}
-        $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+        $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
 
         return $criteria;
     }
@@ -423,7 +426,7 @@ class LBLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
 		if(!empty($this->pendaftaran_id)){
 			$criteria->addCondition('pendaftaran_id = '.$this->pendaftaran_id);
 		}
-        $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+        $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
         $criteria->compare('LOWER(tgl_pendaftaran)', strtolower($this->tgl_pendaftaran), true);
         $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
         $criteria->compare('LOWER(no_asuransi)', strtolower($this->no_asuransi), true);

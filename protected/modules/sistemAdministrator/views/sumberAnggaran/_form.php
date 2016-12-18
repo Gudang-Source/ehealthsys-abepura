@@ -13,9 +13,9 @@
 	<div class="row-fluid">
 
 		<div class = "span6">
-			<?php echo $form->textFieldRow($model,'kodesumberanggaran',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>5)); ?>
-			<?php echo $form->textFieldRow($model,'sumberanggarannama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'maxlength'=>200)); ?>
-			<?php echo $form->textFieldRow($model,'sumberanggarannamalain',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+			<?php echo $form->textFieldRow($model,'kodesumberanggaran',array('class'=>'span3 angkahuruf-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>5)); ?>
+			<?php echo $form->textFieldRow($model,'sumberanggarannama',array('class'=>'span3 angkahuruf-only', 'onkeyup'=>"namaLain(this)", 'maxlength'=>200)); ?>
+			<?php echo $form->textFieldRow($model,'sumberanggarannamalain',array('class'=>'span3 angkahuruf-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
 			<?php echo $form->checkBoxRow($model,'sumberanggaran_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 		<div class = "span6">

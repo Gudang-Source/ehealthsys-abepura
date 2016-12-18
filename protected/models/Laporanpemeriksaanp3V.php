@@ -45,6 +45,8 @@ class Laporanpemeriksaanp3V extends CActiveRecord
 	 * @return Laporanpemeriksaanp3V the static model class
 	 */
         public $tgl_awal, $tgl_akhir, $bulan, $hari, $tahun;
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
         public $jumlah, $data, $tick;
 	public static function model($className=__CLASS__)
 	{

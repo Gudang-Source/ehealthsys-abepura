@@ -45,19 +45,19 @@ if (isset($caraPrint)){
 		),
 		array(
 			'header'=>'Total Nilai Alokasi',
-			'value'=>'number_format($data->total_nilairencpeng)',
+			'value'=>'MyFormatter::formatNumberForPrint($data->total_nilairencpeng)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),
 		),
 		array(
 			'header'=>'Nilai Yang Disetujui',
-			'value'=>'number_format($data->nilaiygdisetujui)',
+			'value'=>'MyFormatter::formatNumberForPrint($data->nilaiygdisetujui)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),
 		),
 		array(
 			'header'=>'<center>%</center>',
-			'value'=>'number_format(($data->nilaiygdisetujui / $data->total_nilairencpeng)*100,2)',
+			'value'=>'MyFormatter::formatNumberForPrint(($data->nilaiygdisetujui / $data->total_nilairencpeng)*100,2)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),
 		),
