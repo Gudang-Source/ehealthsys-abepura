@@ -43,7 +43,8 @@ if($sukses > 0)
     <div class='biru'>
         <div class="white">
     <?php echo $this->renderPartial('_formPersalinan', array('model' => $model, 'form'=>$form), true); ?>
-    <?php echo $this->renderPartial('_obsterikus', array('model'=>$model,'modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
+    <?php //echo $this->renderPartial('_obsterikus', array('model'=>$model,'modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
+    <?php echo $this->renderPartial('_obsterikusBaru', array('model'=>$model,'modPemeriksaan' => $modObsterikus, 'form'=>$form, 'modPeriksaKala4' => $modPeriksaKala4), true); ?>
     <?php echo $this->renderPartial('_ginekologi', array('form'=>$form, 'modRiwayatKehamilan'=>$modRiwayatKehamilan, 'modGinekologi'=>$modGinekologi, 'modRiwayatKB' => $modRiwayatKB), true); ?>
     <?php //echo $this->renderPartial('_partograf', array('form'=>$form, 'modRiwayatKehamilan'=>$modRiwayatKehamilan, 'modGinekologi'=>$modGinekologi), true); ?>
         </div>

@@ -4,6 +4,8 @@ class PersalinanTController extends MyAuthController {
 
     public function actionIndex($id) {
 
+        $getPersalinanId = PSPersalinanT::model()->find(" pendaftaran_id = '".$id."' ");
+        
         $modPendaftaran=PSPendaftaranT::model()->findByPk($id);
         $modPasien = PSPasienM::model()->findByPk($modPendaftaran->pasien_id);
         $modPemeriksaan = PemeriksaanfisikT::model()->findByAttributes(array(
@@ -20,6 +22,25 @@ class PersalinanTController extends MyAuthController {
         $modDetails = null;
         
         $format = new MyFormatter;
+        
+        if (count($getPersalinanId)>0){
+            $modObsterikus = PSPemeriksaanobstetrikT::model()->findByAttributes(array(
+                'persalinan_id'=>$getPersalinanId->persalinan_id,
+            ));
+            
+            $modPeriksaKala4 = PSPemeriksaankala4T::model()->findByAttributes(array(
+                'pemeriksaanobstetrik_id'=>$modObsterikus->pemeriksaanobstetrik_id,
+            ));
+            
+            if (count($modPeriksaKala4) < 1){
+                $modPeriksaKala4 = new PSPemeriksaankala4T;
+            }
+        }else{
+            $modObsterikus = new PSPemeriksaanobstetrikT;
+            
+            $modPeriksaKala4 = new PSPemeriksaankala4T;
+        }
+                
 
         if (count($modPersalinan) > 0) {
             $model = PSPersalinanT::model()->with(array('pendaftaran','pegawai'))->findByAttributes(array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id, 'pasien_id'=>$modPasien->pasien_id));
@@ -330,7 +351,9 @@ class PersalinanTController extends MyAuthController {
             'modPemeriksaan'=>$modPemeriksaan,
             'modGinekologi'=>$modGinekologi,
             'modRiwayatKehamilan'=>$modRiwayatKehamilan,
-            'modRiwayatKB' => $modRiwayatKB
+            'modRiwayatKB' => $modRiwayatKB,
+            'modObsterikus' => $modObsterikus,
+            'modPeriksaKala4' => $modPeriksaKala4
                 ));
     }
     
