@@ -76,7 +76,8 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 ),
                                 'htmlOptions'=>array(
                                         'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                        'onblur' => 'if(this.value === "") $("#barang_id").val(""); '
+                                        'onblur' => 'if(this.value === "") $("#barang_id").val(""); ',
+										'class' => 'angkahuruf-only',
                                 ),
                                 'tombolDialog'=>array('idDialog'=>'dialogBarangAset'),
                         )); 
