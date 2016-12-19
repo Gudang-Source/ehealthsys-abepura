@@ -189,7 +189,7 @@ $this->endWidget();
 <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'id' => 'dialogRincian',
         'options' => array(
-            'title' => 'Detail Rencana Anggaran Pengeluaran',
+            'title' => 'Detail Rencana Anggaran Penerimaan',
             'autoOpen' => false,
             'modal' => true,
             'width' => 800,

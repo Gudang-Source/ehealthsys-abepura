@@ -45,6 +45,7 @@
 class KeanggotaanV extends CActiveRecord
 {
 	public $golonganpegawai_id, $umur;
+        public $tgl_awal, $tgl_akhir;
 	/**
 	 * @return string the associated database table name
 	 */

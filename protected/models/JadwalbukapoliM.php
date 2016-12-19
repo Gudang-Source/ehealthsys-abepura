@@ -154,6 +154,9 @@ class JadwalbukapoliM extends CActiveRecord
         
         public function getRuanganItems()
         {
-            return RuanganM::model()->findAll('ruangan_aktif=TRUE AND instalasi_id='.Params::INSTALASI_ID_RJ.'  ORDER BY ruangan_nama');
+            return RuanganM::model()->findAll('ruangan_aktif=TRUE AND instalasi_id IN ('
+                    . ' '.Params::getInstalasiJadwalPoli().''                    
+                    . ')'
+                    . ' ORDER BY ruangan_nama');
         }
 }

@@ -44,7 +44,7 @@ if (isset($caraPrint)){
 			'type'=>'raw',
 		),
 		array(
-			'header'=>'Nilai Anggaran',
+			'header'=>'Nilai Anggaran (Rp)',
 			'value'=>'MyFormatter::formatNumberForPrint($data->nilaipenerimaananggaran)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),

@@ -17,7 +17,8 @@ Class Params
 	const DEFAULT_DELETE = 'Delete';
 	const DEFAULT_ADMIN = 'Admin';
 
-	const DEFAULT_PROFIL_RUMAH_SAKIT = 1; //profilrumahsakit_m         
+	const DEFAULT_PROFIL_RUMAH_SAKIT = 1; //profilrumahsakit_m     
+        const DEFAULT_PROFILKOPERASI = 1;
 
 	const DEFAULT_RUANGAN_KIOSK= 2;           //pendaftaran rawat jalan
 	const DEFAULT_RUANGAN_KIOSK_KASIR= 146;   //kasir sentral
@@ -162,6 +163,7 @@ Class Params
         const RUANGAN_ID_SIMRS = 1;
         const RUANGAN_ID_REKAM_MEDIS = 6;
         const RUANGAN_ID_POLIK_GIGI = 16;
+        const RUANGAN_ID_PERAWATAN_DARURAT = 7;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
@@ -785,6 +787,16 @@ Class Params
 	{
 		return Yii::app()->getBaseUrl('webroot').'/data/images/profil_rs/tumbs/';    //Untuk Menampilkan Gambar Tumbs
 	}  
+        
+        public static function urlProfilKoperasiRSDirectory()
+	{
+		return Yii::app()->getBaseUrl('webroot').'/data/images/profil_kop/';          //Untuk Menampilkan Gambar Asli
+	}
+
+	public static function urlProfilKoperasiRSTumbsDirectory()
+	{
+		return Yii::app()->getBaseUrl('webroot').'/data/images/profil_kop/tumbs/';    //Untuk Menampilkan Gambar Tumbs
+	}  
 
 	public static function pathPegawaiDirectory()
 	{
@@ -1027,6 +1039,19 @@ Class Params
                     Params::INSTALASI_ID_LAB.','.//laboratorium
                     Params::INSTALASI_ID_JZ.','.//pemulasaran jenazah
                     Params::INSTALASI_ID_GIZI;//gizi
+            
+        }
+        
+        public static function getInstalasiJadwalPoli() {
+            return  
+                    Params::INSTALASI_ID_RD.','.//rawat darurat
+                    Params::INSTALASI_ID_RJ.','.//rawat jalan
+                    Params::INSTALASI_ID_IBS.','.//bedah sentral
+                    Params::INSTALASI_ID_RAD.','.//radiologi
+                    Params::INSTALASI_ID_REHAB.','.//rehabilitasi
+                    Params::INSTALASI_ID_LAB.','.//laboratorium
+                    Params::INSTALASI_ID_JZ;//pemulasaran jenazah
+                    //gizi//Params::INSTALASI_ID_GIZI
             
         }
         
