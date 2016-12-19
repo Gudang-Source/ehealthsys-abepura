@@ -206,7 +206,7 @@ class AsalasetMController extends MyAuthController
         {
             $model= new SAAsalasetM;
             $model->attributes=$_REQUEST['SAAsalasetM'];
-            $judulLaporan='Laporan Data Asal Aset';
+            $judulLaporan='Data Asal Aset';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';
