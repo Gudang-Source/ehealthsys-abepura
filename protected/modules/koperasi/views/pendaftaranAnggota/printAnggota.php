@@ -43,12 +43,12 @@ body {
 <table>
 <tr>
 <td>
-<?php echo CHtml::image(Params::urlProfilGambar().$profil->path_valuesimage1, '', array('width'=>50)); ?>
+<?php //echo CHtml::image(Params::urlProfilGambar().$profil->logo_rumahsakit, '', array('width'=>50)); ?>
 </td>
 <td><h1><center>
 	<b>KOPERASI PEGAWAI REPUBLIK INDONESIA<br>
-	<?php echo $profil->nama_profil; ?></b><br>
-	<?php echo $profil->badanhukum; ?>
+	<?php echo $profil->nama_rumahsakit; ?></b><br>
+	<?php //echo $profil->badanhukum; ?>
 </center></h1>
 
 </td>
@@ -116,7 +116,7 @@ body {
 	<tr>
 		<td>Unit</td>
 		<td>:</td>
-		<td><?php echo $anggota->namaunit; ?></td>
+		<td><?php //echo $anggota->namaunit; ?></td>
 	</tr>
 	<tr>
 		<td>Golongan</td>

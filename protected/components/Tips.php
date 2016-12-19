@@ -97,6 +97,8 @@ Class Tips
                         .'  berfungsi untuk membatalkan data.',
             'terima' => 'icon ini  <i class="icon-form-terimaobalkes"></i>'
                         .'  berfungsi untuk melanjutkan ke transaksi penerimaan.',
+            'printKartu' => 'icon ini <i class="icon-form-print icon-white"></i>'
+                        .'  berfungsi untuk mencetak data.',
             
         );
     }
