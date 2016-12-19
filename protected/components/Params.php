@@ -162,6 +162,7 @@ Class Params
         const RUANGAN_ID_SIMRS = 1;
         const RUANGAN_ID_REKAM_MEDIS = 6;
         const RUANGAN_ID_POLIK_GIGI = 16;
+        const RUANGAN_ID_PERAWATAN_DARURAT = 7;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
@@ -1027,6 +1028,19 @@ Class Params
                     Params::INSTALASI_ID_LAB.','.//laboratorium
                     Params::INSTALASI_ID_JZ.','.//pemulasaran jenazah
                     Params::INSTALASI_ID_GIZI;//gizi
+            
+        }
+        
+        public static function getInstalasiJadwalPoli() {
+            return  
+                    Params::INSTALASI_ID_RD.','.//rawat darurat
+                    Params::INSTALASI_ID_RJ.','.//rawat jalan
+                    Params::INSTALASI_ID_IBS.','.//bedah sentral
+                    Params::INSTALASI_ID_RAD.','.//radiologi
+                    Params::INSTALASI_ID_REHAB.','.//rehabilitasi
+                    Params::INSTALASI_ID_LAB.','.//laboratorium
+                    Params::INSTALASI_ID_JZ;//pemulasaran jenazah
+                    //gizi//Params::INSTALASI_ID_GIZI
             
         }
         
