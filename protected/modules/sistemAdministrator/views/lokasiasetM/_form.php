@@ -47,6 +47,7 @@
                                             ),
                                             'htmlOptions'=>array(
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
+													'class'=>'angkahuruf-only',
                                             ),
                                             'tombolDialog'=>array('idDialog'=>'dialogInstalasi'),
                                         )); 
@@ -86,6 +87,7 @@
                                             ),
                                             'htmlOptions'=>array(
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
+													'class'=>'angkahuruf-only',
                                             ),
                                             'tombolDialog'=>array('idDialog'=>'dialogRuangan'),
                                         )); 
@@ -94,7 +96,7 @@
                 </div>
             <?php //echo $form->textFieldRow($model,'lokasiaset_namainstalasi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php //echo $form->textFieldRow($model,'lokasiaset_namabagian',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'lokasiaset_namalokasi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'lokasiaset_namalokasi',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			<div class="control-group ">
 					<?php echo CHtml::activeLabel($model, 'garis_latitude', array('class'=>'control-label')); ?>
 					<div class="controls">
