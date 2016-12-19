@@ -76,16 +76,20 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
         </tbody>
     </table>	
 </fieldset>
-<table width="80%" style="margin-top:20px;">
+<table width="100%" style="margin-top:20px;">
     <tr>
-        <td width="50%" align="center">
+        <td width="33%" align="center" valign="bottom">
 			Petugas 1,			
-            <div style="margin-top:50px;"></div><?php echo (isset($modPemeliharaan->pegmengetahui_id) ? $modPemeliharaan->pegmengetahui->nama_pegawai : ""); ?>
+            <div style="margin-top:50px;"></div><?php echo (!empty($modPemeliharaan->pegpetugas1_id) ? $modPemeliharaan->pegpetugas1->namaLengkap : ""); ?>
 		</td>	
-        <td width="50%" align="center">
+        <td width="33%" align="center" valign="bottom">
+            Petugas 2,
+            <div style="margin-top:50px;"></div><?php echo (!empty($modPemeliharaan->pegpetugas2_id) ? $modPemeliharaan->pegpetugas2->namaLengkap : Yii::app()->user->getState('nama_pegawai')); ?>
+        </td>
+		<td width="34%" align="center">
             <?php echo Yii::app()->user->getState('kabupaten_nama'); ?>, <?php echo $format->formatDateTimeForUser(date('Y-m-d')); ?><br>
             Pegawai Menyetujui,
-            <div style="margin-top:50px;"></div><?php echo (isset($modPemeliharaan->pegtugas1_id) ? $modPemeliharaan->pegtugas1->nama_pegawai : Yii::app()->user->getState('nama_pegawai')); ?>
+            <div style="margin-top:50px;"></div><?php echo (!empty($modPemeliharaan->pegmengetahui_id) ? $modPemeliharaan->pegmengetahui->namaLengkap : Yii::app()->user->getState('nama_pegawai')); ?>
         </td>
     </tr>
 </table>

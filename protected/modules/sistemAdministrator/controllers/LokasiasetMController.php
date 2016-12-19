@@ -206,7 +206,7 @@ class LokasiasetMController extends MyAuthController
         {
             $model= new SALokasiasetM;
             $model->attributes=$_REQUEST['SALokasiasetM'];
-            $judulLaporan='Data SALokasiasetM';
+            $judulLaporan='Data Lokasi Aset';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';

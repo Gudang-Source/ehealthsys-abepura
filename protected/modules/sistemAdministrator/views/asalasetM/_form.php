@@ -10,8 +10,8 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'asalaset_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'asalaset_singkatan',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
+            <?php echo $form->textFieldRow($model,'asalaset_nama',array('class'=>'span2 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'asalaset_singkatan',array('class'=>'span2 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
             <?php echo $form->checkBoxRow($model,'asalaset_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 

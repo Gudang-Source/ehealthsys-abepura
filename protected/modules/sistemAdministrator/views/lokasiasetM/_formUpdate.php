@@ -12,7 +12,7 @@
 	<?php echo $form->errorSummary($model); ?>
 
              <?php // Echo CHtml::hiddenField('tempKode', $model->lokasiaset_kode); ?>
-            <?php echo $form->textFieldRow($model,'lokasiaset_kode',array('class'=>'span3 ', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
+            <?php echo $form->textFieldRow($model,'lokasiaset_kode',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
             <div class="control-group ">
                     <label class="control-label" for="instalasi">Instalasi Lokasi Aset</label>
                     <div class="controls">
@@ -46,6 +46,7 @@
                                             ),
                                             'htmlOptions'=>array(
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
+													'class'=>'angkahuruf-only',
                                             ),
                                             'tombolDialog'=>array('idDialog'=>'dialogInstalasi'),
                                         )); 
@@ -85,6 +86,7 @@
                                             ),
                                             'htmlOptions'=>array(
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
+													'class'=>'angkahuruf-only',
                                             ),
                                             'tombolDialog'=>array('idDialog'=>'dialogRuangan'),
                                         )); 
@@ -93,7 +95,7 @@
                 </div>
             <?php //echo $form->textFieldRow($model,'lokasiaset_namainstalasi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php //echo $form->textFieldRow($model,'lokasiaset_namabagian',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'lokasiaset_namalokasi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'lokasiaset_namalokasi',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->checkBoxRow($model,'lokasiaset_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 

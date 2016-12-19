@@ -13,9 +13,9 @@
 	<?php echo $form->errorSummary($model); ?>
 
             <?php //Echo CHtml::hiddenField('tempKode', $model->pemilikbarang_kode); ?>
-            <?php echo $form->textFieldRow($model,'pemilikbarang_kode',array('class'=>'span2 ','onkeypress'=>"return $(this).focusNextInputField(event);", 'size'=>20,'maxlength'=>20,)); ?>
-            <?php echo $form->textFieldRow($model,'pemilikbarang_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'pemilikbarang_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'pemilikbarang_kode',array('class'=>'span2 angkahuruf-only','onkeypress'=>"return $(this).focusNextInputField(event);", 'size'=>20,'maxlength'=>20,)); ?>
+            <?php echo $form->textFieldRow($model,'pemilikbarang_nama',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'pemilikbarang_namalainnya',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->checkBoxRow($model,'pemilikbarang_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
