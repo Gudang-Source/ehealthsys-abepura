@@ -50,7 +50,7 @@ if (isset($caraPrint)){
 			'htmlOptions'=>array('style'=>'text-align: right;'),
 		),
 		array(
-			'header'=>'Nilai Realisasi',
+			'header'=>'Nilai Realisasi (Rp)',
 			'value'=>'MyFormatter::formatNumberForPrint($data->realisasipenerimaan)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),
