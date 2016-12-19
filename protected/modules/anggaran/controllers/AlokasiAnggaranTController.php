@@ -264,7 +264,10 @@ class AlokasiAnggaranTController extends MyAuthController{
     {
 		$this->layout='//layouts/iframe';
         $format = new MyFormatter;    
-        $model = AGAlokasianggaranT::model()->findAllByAttributes(array('alokasianggaran_id'=>$alokasianggaran_id));     
+        $mod = AGAlokasianggaranT::model()->findByAttributes(array('alokasianggaran_id'=>$alokasianggaran_id));     
+		$model  = AGAlokasianggaranT::model()->findAllByAttributes(array(
+			'no_alokasi'=>$mod->no_alokasi
+		));
 		$judulLaporan = 'Alokasi Anggaran';
 		$deskripsi = $model[0]->konfiganggaran->deskripsiperiode;
         $caraPrint = isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null;
