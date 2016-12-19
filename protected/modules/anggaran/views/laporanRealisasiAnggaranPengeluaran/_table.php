@@ -44,13 +44,13 @@ if (isset($caraPrint)){
 			'type'=>'raw',
 		),
 		array(
-			'header'=>'Total Nilai Alokasi',
+			'header'=>'Total Nilai Alokasi (Rp)',
 			'value'=>'MyFormatter::formatNumberForPrint($data->total_nilairencpeng)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),
 		),
 		array(
-			'header'=>'Nilai Yang Disetujui',
+			'header'=>'Nilai Yang Disetujui (Rp)',
 			'value'=>'MyFormatter::formatNumberForPrint($data->nilaiygdisetujui)',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align: right;'),
