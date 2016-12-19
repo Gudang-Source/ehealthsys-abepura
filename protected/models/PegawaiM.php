@@ -81,6 +81,7 @@ class PegawaiM extends CActiveRecord
         public $profilperusahaan_id;
         public $statuspegawai;      
         public $umur;
+        public $insentifpegawai;
         
 	/**
 	 * Returns the static model of the specified AR class.

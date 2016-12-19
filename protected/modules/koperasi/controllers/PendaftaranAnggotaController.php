@@ -134,7 +134,7 @@ class PendaftaranAnggotaController extends MyAuthController
 		$anggota->tgldisetujui = date('d/m/Y H:i', strtotime($anggota->tgldisetujui));
 
 		$pegawai->gajipokok = MyFormatter::formatNumberForPrint($pegawai->gajipokok);
-		$pegawai->insentifpegawai = MyFormatter::formatNumberForPrint($pegawai->insentifpegawai);
+		$pegawai->insentifpegawai = number_format($pegawai->insentifpegawai,2,',','.');
 
 		//var_dump($_POST); die;
 
@@ -157,6 +157,7 @@ class PendaftaranAnggotaController extends MyAuthController
 
 			if ($ok) {
 				if ($okUploadPegawai) $pegawai->photopegawai->saveAs(Params::pathPegawaiGambar().$pegawai->photopegawai); //.$model->photopegawai);
+                                
 				$trans->commit();
                                 Yii::app()->user->setFlash("success", "Data Keanggotaan berhasil disimpan");
 				$this->redirect(array('informasi', 'status'=>1));
@@ -203,21 +204,25 @@ class PendaftaranAnggotaController extends MyAuthController
 
 
 	public function actionInformasi() {
-		$this->menuActive = array(5,0);
-		$this->pageTitle = 'ecoopsys - Informasi Pendaftaran Anggota';
-		$anggota = new KeanggotaanV;
-		if (isset($_GET['KeanggotaanV'])) {
-			$anggota->attributes = $_GET['KeanggotaanV'];
-			$anggota->golonganpegawai_id = $_GET['KeanggotaanV']['golonganpegawai_id'];
+		
+		$anggota = new KOKeanggotaanV;
+                $format = new MyFormatter();
+                $anggota->tgl_awal = date('Y-m-d');
+                $anggota->tgl_akhir = date('Y-m-d');
+		if (isset($_GET['KOKeanggotaanV'])) {
+			$anggota->attributes = $_GET['KOKeanggotaanV'];
+			$anggota->golonganpegawai_id = $_GET['KOKeanggotaanV']['golonganpegawai_id'];
+                        $anggota->tgl_awal =  $format->formatDateTimeForDb($_GET['KOKeanggotaanV']['tgl_awal']);
+                        $anggota->tgl_akhir =  $format->formatDateTimeForDb($_GET['KOKeanggotaanV']['tgl_akhir']);
 		}
 		$this->render('informasi', array('anggota'=>$anggota));
 	}
 
 	public function actionPrint() {
-		$this->layout='//layouts/print';
-		$this->pageTitle = 'ecoopsys - Print Informasi Anggota Koperasi';
+		$this->layout='//layouts/printWindows';
+		
 		$anggota = new KeanggotaanV;
-		$profil = ProfilS::model()->find();
+		$profil = KOProfilkoperasiM::model()->find();
 		if (isset($_GET['KeanggotaanV'])) {
 			$anggota->attributes = $_GET['KeanggotaanV'];
 		}
@@ -226,9 +231,9 @@ class PendaftaranAnggotaController extends MyAuthController
 
 	public function actionPrintAnggota($id,$p = null) {
 		$this->layout = '//layouts/print';
-		$this->pageTitle = 'ecoopsys - Print Data Anggota';
+		
 		$anggota = KeanggotaanV::model()->findByAttributes(array('keanggotaan_id'=>$id));
-		$profil = ProfilS::model()->find();
+		$profil = KOProfilkoperasiM::model()->find();
 		$this->render('printAnggota', array('anggota'=>$anggota,'profil'=>$profil));
 	}
 
@@ -246,12 +251,13 @@ class PendaftaranAnggotaController extends MyAuthController
 	protected function savePegawai(&$pegawai, $postPegawai, &$cond) {
 		if (!empty($postPegawai['pegawai_id'])) {
 			$pegawai = PegawaiM::model()->findByPk($postPegawai['pegawai_id']);
-			$pegawai->peg_update_time = date('Y-m-d H:i:s');
-			$pegawai->peg_update_login = Yii::app()->user->name;
+			$pegawai->update_time = date('Y-m-d H:i:s');
+			$pegawai->update_loginpemakai_id = Yii::app()->user->id;
 		} else {
-			$pegawai->peg_create_time = date('Y-m-d H:i:s');
-			$pegawai->peg_create_login = Yii::app()->user->name;
+			$pegawai->create_time = date('Y-m-d H:i:s');
+			$pegawai->create_loginpemakai_id = Yii::app()->user->id;
 		}
+                                
 		$pegawai->isanggota = true;
 		$photoPath = $pegawai->photopegawai;
 		$pegawai->attributes = $postPegawai;
