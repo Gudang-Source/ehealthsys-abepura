@@ -17,7 +17,8 @@ Class Params
 	const DEFAULT_DELETE = 'Delete';
 	const DEFAULT_ADMIN = 'Admin';
 
-	const DEFAULT_PROFIL_RUMAH_SAKIT = 1; //profilrumahsakit_m         
+	const DEFAULT_PROFIL_RUMAH_SAKIT = 1; //profilrumahsakit_m     
+        const DEFAULT_PROFILKOPERASI = 1;
 
 	const DEFAULT_RUANGAN_KIOSK= 2;           //pendaftaran rawat jalan
 	const DEFAULT_RUANGAN_KIOSK_KASIR= 146;   //kasir sentral
@@ -785,6 +786,16 @@ Class Params
 	public static function urlProfilRSTumbsDirectory()
 	{
 		return Yii::app()->getBaseUrl('webroot').'/data/images/profil_rs/tumbs/';    //Untuk Menampilkan Gambar Tumbs
+	}  
+        
+        public static function urlProfilKoperasiRSDirectory()
+	{
+		return Yii::app()->getBaseUrl('webroot').'/data/images/profil_kop/';          //Untuk Menampilkan Gambar Asli
+	}
+
+	public static function urlProfilKoperasiRSTumbsDirectory()
+	{
+		return Yii::app()->getBaseUrl('webroot').'/data/images/profil_kop/tumbs/';    //Untuk Menampilkan Gambar Tumbs
 	}  
 
 	public static function pathPegawaiDirectory()
