@@ -28,12 +28,15 @@ class PersalinanTController extends MyAuthController {
                 'persalinan_id'=>$getPersalinanId->persalinan_id,
             ));
             
+            $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForUser($modObsterikus->plasenta_lahir);
+            $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForUser($modObsterikus->obs_periksadalam);
+            
             $modPeriksaKala4 = PSPemeriksaankala4T::model()->findByAttributes(array(
                 'pemeriksaanobstetrik_id'=>$modObsterikus->pemeriksaanobstetrik_id,
             ));
             
             if (count($modPeriksaKala4) < 1){
-                $modPeriksaKala4 = new PSPemeriksaankala4T;
+                $modPeriksaKala4 = new PSPemeriksaankala4T;                
             }
         }else{
             $modObsterikus = new PSPemeriksaanobstetrikT;
@@ -299,7 +302,70 @@ class PersalinanTController extends MyAuthController {
                     
                     if ($model->save()){
                         
-                        foreach ($_POST['PemeriksaanfisikT'] as $key=>$val) {
+                        $cekPemeriksaanKala4 = false;
+                        foreach($_POST['PSPemeriksaanobstetrikT'] as $i=>$item)
+                        {                                                                    
+                            if(is_integer($i)) {
+                               // $modObsterikus=new PSPemeriksaanobstetrikT;
+                                if ($modObsterikus->isNewRecord) {
+                                    //if(isset($_POST['PSPemeriksaanobstetrikT'][$i])){
+                                        $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];                                           
+                                        $modObsterikus->persalinan_id = $model->persalinan_id;
+                                        $modObsterikus->create_loginpemakai_id = Yii::app()->user->id;
+                                        $modObsterikus->create_time = date('Y-m-d H:i:s');
+                                        $modObsterikus->create_ruangan = Yii::app()->user->getState('ruangan_id');                                    
+                                        $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForDb( $modObsterikus->obs_periksadalam);
+                                        $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForDb( $modObsterikus->plasenta_lahir);                                         
+                                        $modObsterikus->save();                                        
+                                   // }
+                                }else{                                    
+                                    $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];
+                                    //var_dump($_POST['PSPemeriksaanobstetrikT'][$i]);die;
+                                    $modObsterikus->update_loginpemakai_id = Yii::app()->user->id;
+                                    $modObsterikus->update_time = date('Y-m-d H:i:s');
+                                    $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForDb( $modObsterikus->obs_periksadalam);
+                                    $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForDb( $modObsterikus->plasenta_lahir);                                    
+                                    $modObsterikus->save();                                    
+                                }
+                                
+                            }
+                                    
+                            
+                            foreach($_POST['PSPemeriksaankala4T'][$i] as $j=>$items)
+                            {  
+                                if(is_integer($j)) {
+                                    if (!isset($_POST['PSPemeriksaankala4T'][$i][$j]['pemeriksaankala4_id'])){                                        
+                                        $modPeriksaKala4 = new PSPemeriksaankala4T;
+                                        $modPeriksaKala4->attributes= $_POST['PSPemeriksaankala4T'][$i][$j];                                    
+                                        //var_dump($_POST['PSPemeriksaankala4T'][$i][$j]);die;
+                                        $modPeriksaKala4->pemeriksaanobstetrik_id = $modObsterikus->pemeriksaanobstetrik_id;
+                                        $modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForDb($modPeriksaKala4->kala4_tanggal);
+                                        $modPeriksaKala4->kala4_waktu = date('H:i:s', strtotime($modPeriksaKala4->kala4_tanggal));
+                                        $modPeriksaKala4->create_loginpemakai_id = Yii::app()->user->id;
+                                        $modPeriksaKala4->create_time = date('Y-m-d H:i:s');
+                                        $modPeriksaKala4->create_ruangan = Yii::app()->user->getState('ruangan_id');                                            
+                                        $modPeriksaKala4->save();
+                                        $cekPemeriksaanKala4 = true;
+                                    }else{
+                                        $modPeriksaKala4 = PSPemeriksaankala4T::model()->findByPk($_POST['PSPemeriksaankala4T'][$i][$j]['pemeriksaankala4_id']);
+                                        $modPeriksaKala4->attributes=$_POST['PSPemeriksaankala4T'][$i][$j];                                        
+                                        $modPeriksaKala4->update_loginpemakai_id = Yii::app()->user->id;
+                                        $modPeriksaKala4->update_time = date('Y-m-d H:i:s');
+                                        $modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForDb($modPeriksaKala4->kala4_tanggal);
+                                        $modPeriksaKala4->kala4_waktu = date('H:i:s', strtotime($modPeriksaKala4->kala4_tanggal));
+                                        $modPeriksaKala4->save();
+                                        $cekPemeriksaanKala4 = true;                                        
+                                    }  
+                                }
+                                
+                                
+                                    //if(is_integer($i)) {
+                                        
+                                    //}                        $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];  
+                            }
+                        }
+                        //var_dump($modPeriksaKala4->kala4_tanggal);die;
+                       /* foreach ($_POST['PemeriksaanfisikT'] as $key=>$val) {
                             $modPemeriksaan[$key] = $val;
                         }
                         
@@ -316,23 +382,22 @@ class PersalinanTController extends MyAuthController {
                         }else{
                             $modPemeriksaan->plasenta_lahir = (empty($modPemeriksaan->plasenta_lahir)?null:$format->formatDateTimeForDb($modPemeriksaan->plasenta_lahir));
                             $modPemeriksaan->obs_periksadalam = (empty($modPemeriksaan->obs_periksadalam)?null:$format->formatDateTimeForDb($modPemeriksaan->obs_periksadalam));
-                        }
+                        }*/
 
 
                         // var_dump($modPemeriksaan->attributes, $modPemeriksaan->validate(), $modPemeriksaan->errors); die;
-                        if ($modPemeriksaan->save()) {
+                        if ($cekPemeriksaanKala4) {
                             //var_dump();die;
                             $trans->commit();
                             Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
                             $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
 
-                        }else {                            
+                        }else {                                         
                             $trans->rollback();
-                            Yii::app()->user->setFlash('error',"Data gagal disimpan ");
+                            Yii::app()->user->setFlash('error',"Data Pemeriksaan Kala 4 Gagal Disimpan");
                         }
                     }
-                } else {
-                    
+                } else {                    
                     $trans->rollback();
                     Yii::app()->user->setFlash('error',"Data gagal disimpan ");
                 }

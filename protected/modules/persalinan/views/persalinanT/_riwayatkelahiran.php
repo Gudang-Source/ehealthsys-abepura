@@ -10,6 +10,9 @@
         </thead>
         <tbody>
         <?php 
+        
+        $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+                
         if (!empty($modRiwayatKehamilan)){
        
         foreach ($modRiwayatKehamilan as $i=>$detail){?>    

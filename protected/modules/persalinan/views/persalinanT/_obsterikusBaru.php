@@ -8,7 +8,7 @@
                         <?php echo Chtml::label('Fundus Uteri', '[]obs_fundusuteri', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_fundusuteri', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_fundusuteri', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?> <div class='additional-text'>cm</div>
                             <?php echo $form->error($modPemeriksaan, '[]obs_fundusuteri'); ?>
                         </div>
@@ -17,8 +17,8 @@
                         <?php echo CHtml::label("Letak Janin", 'letak janin', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                                $modPemeriksaan->obs_posisijanin = $model->posisijanin;
-                              echo $form->dropDownList($modPemeriksaan, '[]obs_posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                //$modPemeriksaan->obs_posisijanin = $model->posisijanin;
+                              echo $form->dropDownList($modPemeriksaan, '[0]obs_posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                               //echo CHtml::dropDownList('posisijanin', 'posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'value'=>$model->posisijanin));
                             ?>                          
                         </div>
@@ -29,7 +29,7 @@
                             <?php
                             $this->widget('MyDateTimePicker', array(
                                 'model' => $modPemeriksaan,
-                                'attribute' => '[]obs_periksadalam',
+                                'attribute' => '[0]obs_periksadalam',
                                 'mode' => 'datetime',
                                 'options' => array(
                                     'dateFormat' => Params::DATE_FORMAT,
@@ -48,7 +48,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'obs_portio', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_portio', array('class'=>'span3 angkahuruf-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_portio', array('class'=>'span3 angkahuruf-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_portio'); ?>
                         </div>
@@ -57,7 +57,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'konsistensi', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_konsistensigenitalia', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_konsistensigenitalia', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_konsistensigenitalia'); ?>
                         </div>
@@ -66,7 +66,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'arah', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_arah', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_arah', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_arah'); ?>
                         </div>
@@ -75,7 +75,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'obs_ketuban', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_ketuban', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_ketuban', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_ketuban'); ?>
                         </div>
@@ -93,7 +93,7 @@
                             $pegawai->addCondition('t.kelompokpegawai_id IN ('.Params::KELOMPOKPEGAWAI_ID_BIDAN.','.Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK.') ');
                             $pegawai->order = 't.nama_pegawai ASC';
                             
-                            echo $form->dropDownList($modPemeriksaan, '[]obs_pemeriksa', 
+                            echo $form->dropDownList($modPemeriksaan, '[0]obs_pemeriksa', 
                                     CHtml::listData(PSPegawaiM::model()->findAll($pegawai), 'namaLengkap', 'namaLengkap'),
                                     array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
@@ -104,7 +104,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'warna ketuban', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_warnaketuban', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_warnaketuban', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_warnaketuban'); ?>
                         </div>
@@ -113,7 +113,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'bagian terendah', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_bagrendah', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_bagrendah', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_bagrendah'); ?>
                         </div>
@@ -122,7 +122,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'hodge', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_hodge', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_hodge', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_hodge'); ?>
                         </div>
@@ -131,7 +131,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'posisi', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_posisigenital', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_posisigenital', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_posisigenital'); ?>
                         </div>
@@ -140,7 +140,7 @@
                         <?php echo CHtml::label('Imbang Fetopelvik', 'obs_fetopelvik', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_fetopelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_fetopelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_fetopelvik'); ?>
                         </div>
@@ -151,7 +151,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'presentasi', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_presentasigenital', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_presentasigenital', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_presentasigenital'); ?>
                         </div>
@@ -161,7 +161,7 @@
                         <?php echo CHtml::label('DJJ', '', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->dropDownList($modPemeriksaan, 'obs_djj', LookupM::getItems('denyutjantung'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->dropDownList($modPemeriksaan, '[0]obs_djj', LookupM::getItems('denyutjantung'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_djj'); ?>
                         </div>
@@ -170,7 +170,7 @@
                         <?php echo Chtml::label("Frekuensi", 'obs_frekuensi', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_frekuensi', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 3, 'style'=>'text-align:right;')).' /menit';
+                            echo $form->textField($modPemeriksaan, '[0]obs_frekuensi', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 3, 'style'=>'text-align:right;')).' /menit';
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_frekuensi'); ?>
                         </div>
@@ -179,7 +179,7 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'pemeriksaan', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, '[]obs_pemeriksaan', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->textField($modPemeriksaan, '[0]obs_pemeriksaan', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, '[]obs_pemeriksaan'); ?>
                         </div>
@@ -202,7 +202,7 @@
                         <?php
                         $this->widget('MyDateTimePicker', array(
                             'model' => $modPemeriksaan,
-                            'attribute' => '[]plasenta_lahir',
+                            'attribute' => '[0]plasenta_lahir',
                             'mode' => 'datetime',
                             'options' => array(
                                 'dateFormat' => Params::DATE_FORMAT,
@@ -219,7 +219,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]plasenta_spontanitas', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($modPemeriksaan, '[]plasenta_spontanitas', LookupM::getItems('plasenta_spontanitas'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->dropDownList($modPemeriksaan, '[0]plasenta_spontanitas', LookupM::getItems('plasenta_spontanitas'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]plasenta_spontanitas'); ?>
                     </div>
@@ -228,7 +228,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]plasenta_kelengkapan', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($modPemeriksaan, '[]plasenta_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->dropDownList($modPemeriksaan, '[0]plasenta_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]plasenta_kelengkapan'); ?>
                     </div>
@@ -237,7 +237,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]plasenta_berat', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]plasenta_berat', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]plasenta_berat', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?> <div class='additional-text'>gram</div>
                         <?php echo $form->error($modPemeriksaan, '[]plasenta_berat'); ?>
                     </div>
@@ -246,7 +246,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]plasenta_diameter', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]plasenta_diameter', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]plasenta_diameter', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?> <div class='additional-text'>cm</div>
                         <?php echo $form->error($modPemeriksaan, '[]plasenta_diameter'); ?>
                     </div>
@@ -263,7 +263,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]pusar_insersi', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]pusar_insersi', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]pusar_insersi', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]pusar_insersi'); ?>
                     </div>
@@ -272,7 +272,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]pusar_panjang', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]pusar_panjang', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]pusar_panjang', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?> <div class='additional-text'>cm</div>
                         <?php echo $form->error($modPemeriksaan, '[]pusar_panjang'); ?>
                     </div>
@@ -281,7 +281,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]pusar_kelengkapan', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($modPemeriksaan, '[]pusar_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->dropDownList($modPemeriksaan, '[0]pusar_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]pusar_kelengkapan'); ?>
                     </div>
@@ -290,7 +290,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]pusar_robekan', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]pusar_robekan', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]pusar_robekan', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]pusar_robekan'); ?>
                     </div>
@@ -299,7 +299,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]pusar_lainlain', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]pusar_lainlain', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]pusar_lainlain', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]pusar_lainlain'); ?>
                     </div>
@@ -315,7 +315,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]luka_perineum', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]luka_perineum', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]luka_perineum', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]luka_perineum'); ?>
                     </div>
@@ -324,7 +324,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]luka_vagina', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]luka_vagina', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]luka_vagina', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]luka_vagina'); ?>
                     </div>
@@ -333,7 +333,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]luka_serviks', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]luka_serviks', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]luka_serviks', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, 'luka_serviks'); ?>
                     </div>
@@ -342,7 +342,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]luka_episiotomi', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($modPemeriksaan, '[]luka_episiotomi', LookupM::getItems('episiotomi'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->dropDownList($modPemeriksaan, '[0]luka_episiotomi', LookupM::getItems('episiotomi'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]luka_episiotomi'); ?>
                     </div>
@@ -351,7 +351,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]luka_rupturaperinei', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($modPemeriksaan, '[]luka_rupturaperinei', LookupM::getItems('rupturaperinei'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->dropDownList($modPemeriksaan, '[0]luka_rupturaperinei', LookupM::getItems('rupturaperinei'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]luka_rupturaperinei'); ?>
                     </div>
@@ -370,7 +370,7 @@
                     <?php echo CHtml::label('Kala III', '', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]kala3_darahcc', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]kala3_darahcc', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)).' cc';
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]kala3_darahcc'); ?>
                     </div>
@@ -386,7 +386,7 @@
                     <?php echo Chtml::label("Infeksi", '[]nifas_inveksi', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]nifas_inveksi', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]nifas_inveksi', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]nifas_inveksi'); ?>
                     </div>
@@ -395,7 +395,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]nifas_laktasi', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]nifas_laktasi', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]nifas_laktasi', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]nifas_laktasi'); ?>
                     </div>
@@ -404,7 +404,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]nifas_febris', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]nifas_febris', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]nifas_febris', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]nifas_febris'); ?>
                     </div>
@@ -413,7 +413,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, '[]nifas_lainlain', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, '[]nifas_lainlain', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->textField($modPemeriksaan, '[0]nifas_lainlain', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, '[]nifas_lainlain'); ?>
                     </div>
@@ -576,8 +576,112 @@
         
         <div class ="span12">
             <div class="block-tabel">
+                <h6>Pemantauan Persalinan Kala IV</h6>
+                <table class="table table-striped table-condensed" id="periksaKala4">
+                    <thead>
+                    <tr>
+                        <th>Tanggal/ <br/>Waktu</th>        
+                        <th>Anemia</th>        
+                        <th>Tekanan Darah</th>        
+                        <th>Denyut Nadi/ <br/> Pernapasan</th>
+                        <th>Tinggi Fundus</th>
+                        <th>Kontraksi Uterus</th>
+                        <th>Kandung Kemih</th>
+                        <th>Pendarahan</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                 <?php $this->renderPartial('_pemeriksaanKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan)); ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </fieldset>
+            
+            
+<script>
+    function inputKala4(obj){
+        
+	var buttonMinus = '<?php echo CHtml::link('<i class="icon-minus-sign icon-white"></i>', '#', array('class'=>'btn btn-danger','onclick'=>'delRowKala4(this); return false;')) ?>';
+        //var tr = $('#periksaKala4 tbody tr:first').html();	
+        var tr = new String(<?php echo CJSON::encode($this->renderPartial('_getFormKala4',array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan),true));?>);
+                
+        //$('#periksaKala4 tr:last').after('<tr>'+tr+'</tr>');
+        
+        $(obj).parents('table').children('tbody').append(tr.replace());
+        $('#periksaKala4 tr:last td:last').append(buttonMinus);
+        
+        
+	renameInput('PSPemeriksaankala4T','kala4_tanggal');
+        renameInput('PSPemeriksaankala4T','kala4_anemia');
+        renameInput('PSPemeriksaankala4T','kala4_systolic');
+        renameInput('PSPemeriksaankala4T','kala4_diastolic');
+        renameInput('PSPemeriksaankala4T','kala4_tekanandarah');
+        renameInput('PSPemeriksaankala4T','kala4_meanarteripressure');
+        renameInput('PSPemeriksaankala4T','kala4_detaknadi');
+        renameInput('PSPemeriksaankala4T','kala4_pernapasan');
+        renameInput('PSPemeriksaankala4T','kala4_tinggifundus');
+        renameInput('PSPemeriksaankala4T','kala4_kontraksi');
+        renameInput('PSPemeriksaankala4T','kala4_kandungkemih');
+        renameInput('PSPemeriksaankala4T','kala4_darahcc');
+        
+        $('#periksaKala4 tr:last').find('input').val('');
+        $('#periksaKala4 tr:last').find('input[name*="kala4_tanggal"]').val('<?php echo MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s')); ?>');
+        
+        $('#periksaKala4 tbody').each(function(){
+        jQuery('input[name$="[kala4_tanggal]"]').datetimepicker(
+			jQuery.extend(
+				{showMonthAfterYear:true},
+				jQuery.datepicker.regional['id'],
+				{
+					'dateFormat':'<?php echo Params::DATE_FORMAT; ?>',
+					'changeYear':true,
+					'changeMonth':true,
+					'showAnim':'fold',
+					'maxDate':'d'
+				}
+			)
+		);
+        });
+        //renameInput('PSPemeriksaankala4T','kala4_');                                
+    }
+    
+    function renameInput(modelName,attributeName)
+    {
+        var trLength = $('#periksaKala4 tbody tr').length;
+        var i = 0;
+        $('#periksaKala4 tbody tr').each(function(){
+            $(this).find('input[name$="['+attributeName+']"]').attr('name',modelName+'[0]['+i+']['+attributeName+']').attr('id',modelName+'_0_'+i+'_'+attributeName+'');     //PSPemeriksaankala4T_0_0_kala4_anemia       
+            $(this).find('span[id*="'+attributeName+'"]').attr('id',modelName+'_0_'+i+'_'+attributeName+'_date');                        
+        i++;    
+        });
+        
+        $('.numbers-only').keyup(function(){
+            setNumbersOnly(this);
+        });
+         $('.numbersOnly').keyup(function(){
+            setNumbersOnly(this);
+        });
+    }
+    
+    function delRowKala4(obj)
+    {
+	$(obj).parent().parent().remove();
+        
+	renameInput('PSPemeriksaankala4T','kala4_tanggal');
+        renameInput('PSPemeriksaankala4T','kala4_anemia');
+        renameInput('PSPemeriksaankala4T','kala4_systolic');
+        renameInput('PSPemeriksaankala4T','kala4_diastolic');
+        renameInput('PSPemeriksaankala4T','kala4_tekanandarah');
+        renameInput('PSPemeriksaankala4T','kala4_meanarteripressure');
+        renameInput('PSPemeriksaankala4T','kala4_detaknadi');
+        renameInput('PSPemeriksaankala4T','kala4_pernapasan');
+        renameInput('PSPemeriksaankala4T','kala4_tinggifundus');
+        renameInput('PSPemeriksaankala4T','kala4_kontraksi');
+        renameInput('PSPemeriksaankala4T','kala4_kandungkemih');
+        renameInput('PSPemeriksaankala4T','kala4_darahcc');
+    }
+    
+</script>

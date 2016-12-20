@@ -111,7 +111,7 @@
                         </div>
                     </div>
                                                             
-                        <?php $this->renderPartial('_riwayatkelahiran', array('modRiwayatKehamilan' => $modRiwayatKehamilan)); ?>
+                        <?php $this->renderPartial('_riwayatkelahiran', array('modRiwayatKehamilan' => $modRiwayatKehamilan, 'modGinekologi' => $modGinekologi)); ?>
                     
                     <!--akhir riwayat kelahiran-->
                     
@@ -488,6 +488,7 @@
         }
             
     });
+    
     
     /*pemeriksaan kb akhir*/
 </script>
