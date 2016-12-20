@@ -195,4 +195,24 @@ class ProfilkoperasiM extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getPropinsiNama(){
+            $propinsi = PropinsiM::model()->findByPk($this->propinsi_profil);
+            
+            if (count($propinsi)>0){
+                return $propinsi->propinsi_nama;
+            }else{
+                return '';
+            }                        
+        }
+        
+        public function getKabupatenNama(){
+            $kabupaten = KabupatenM::model()->findByPk($this->kota_kab_profil);
+            
+            if (count($kabupaten)>0){
+                return $kabupaten->kabupaten_nama;
+            }else{
+                return '';
+            }                        
+        }
 }
