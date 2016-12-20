@@ -35,9 +35,37 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
   
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($model, 'invjalan_panjang', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
-                    <?php echo $form->textFieldRow($model, 'invjalan_lebar', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
-                    <?php echo $form->textFieldRow($model, 'invjalan_luas', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
+					<?php
+					
+					$model->invjalan_panjang = "0,00";
+					$model->invjalan_lebar = "0,00";
+					$model->invjalan_luas = "0,00";
+					
+					?>
+					<div class="control-group">
+						<?php echo $form->labelEx($model,'invjalan_panjang',array('class'=>'control-label')); ?>
+						<div class="controls">
+							<?php echo $form->textField($model,'invjalan_panjang',array('class'=>'span2 float2 panjang', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right', 'onKeyUp'=>'hitungLuas();')); ?>
+							<?php echo CHtml::label('m', 'm'); ?>
+						</div>
+                    </div>
+					<div class="control-group">
+						<?php echo $form->labelEx($model,'invjalan_lebar',array('class'=>'control-label')); ?>
+						<div class="controls">
+							<?php echo $form->textField($model,'invjalan_lebar',array('class'=>'span2 float2 lebar', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right', 'onKeyUp'=>'hitungLuas();')); ?>
+							<?php echo CHtml::label('m', 'm'); ?>
+						</div>
+                    </div>
+					<div class="control-group">
+						<?php echo $form->labelEx($model,'invjalan_luas',array('class'=>'control-label')); ?>
+						<div class="controls">
+							<?php echo $form->textField($model,'invjalan_luas',array('class'=>'span2 float2 luas', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
+							<?php echo CHtml::label('m2', 'm2'); ?>
+						</div>
+                    </div>
+                    <?php // echo $form->textFieldRow($model, 'invjalan_panjang', array('class' => 'span2 float2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
+                    <?php // echo $form->textFieldRow($model, 'invjalan_lebar', array('class' => 'span2 float2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
+                    <?php // echo $form->textFieldRow($model, 'invjalan_luas', array('class' => 'span2 float2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
                     <?php echo $form->textFieldRow($model, 'invjalan_letak', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
                     <div class="control-group">
 						<?php echo $form->labelEx($model,'invjalan_umurekonomis',array('class'=>'control-label')); ?>
@@ -117,6 +145,17 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         ?>
     </div>
 </div>
+<script>
+function hitungLuas() {
+	var panjang = parseFloat(unformatNumber($(".panjang").val()));
+	var lebar = parseFloat(unformatNumber($(".lebar").val()));
+	var luas = 0;
+	
+	luas = panjang * lebar;
+	
+	$(".luas").val(formatFloat(luas));
+}
+</script>
 <?php $this->endWidget(); ?>
 <?php
 //========= Dialog buat cari data Pemilik Barang =========================
