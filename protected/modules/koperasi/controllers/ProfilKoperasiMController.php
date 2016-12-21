@@ -34,12 +34,21 @@ class ProfilKoperasiMController extends MyAuthController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['KOProfilkoperasiM']))
+		if(isset($_POST['ProfilkoperasiM']))
 		{
-			$model->attributes=$_POST['KOProfilkoperasiM'];
+			$model->attributes=$_POST['ProfilkoperasiM'];                        
 			$model->path_valuesimage1 = CUploadedFile::getInstance($model, 'path_valuesimage1');
 			$model->path_valuesimage2 = CUploadedFile::getInstance($model, 'path_valuesimage2');
 			$model->path_valuesimage3 = CUploadedFile::getInstance($model, 'path_valuesimage3');
+                        $model->profilrs_id = Yii::app()->user->getState('profilrs_id');
+                        $model->propinsi_profil = (!empty($model->propinsi_profil))?$model->getPropinsiNama():null;
+                        $model->kota_kab_profil = (!empty($model->kota_kab_profil))?$model->getKabupatenNama():null;
+                        $model->create_time = date('Y-m-d H:i:s');
+                        $model->create_loginpemakai_id = Yii::app()->user->id;
+                        $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                        
+                        
+                      //  var_dump($_POST['ProfilkoperasiM']);die;
                         if($model->save()){
                             if (isset($model->path_valuesimage1))
                                     $model->path_valuesimage1->saveAs('' .Params::pathProfilGambar().$model->path_valuesimage1);
@@ -47,8 +56,10 @@ class ProfilKoperasiMController extends MyAuthController
 	                                    $model->path_valuesimage2->saveAs('' .Params::pathProfilGambar().$model->path_valuesimage2);
                             if (isset($model->path_valuesimage3))
                                     $model->path_valuesimage3->saveAs('' .Params::pathProfilGambar().$model->path_valuesimage3);
+                            $this->redirect(array('admin','status'=>1));
                         }
-                        $this->redirect(array('admin','status'=>1));
+                        
+                        
 		}
 
 		$this->render('create',array(
@@ -67,26 +78,32 @@ class ProfilKoperasiMController extends MyAuthController
 		$temp_path_valuesimage1 = $model->path_valuesimage1;
 		$temp_path_valuesimage2 = $model->path_valuesimage2;
 		$temp_path_valuesimage3 = $model->path_valuesimage3;
+                $model->propinsi_profil = PropinsiM::model()->find(" propinsi_nama = '".$model->propinsi_profil."' ")->propinsi_id;
+                $model->kota_kab_profil = KabupatenM::model()->find(" kabupaten_nama = '".$model->kota_kab_profil."' ")->kabupaten_id;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['ADProfilS']))
+		if(isset($_POST['ProfilkoperasiM']))
 		{
-			$model->attributes=$_POST['ADProfilS'];
+			$model->attributes=$_POST['ProfilkoperasiM'];
 			$model->path_valuesimage1 = CUploadedFile::getInstance($model, 'path_valuesimage1');
 			$model->path_valuesimage2 = CUploadedFile::getInstance($model, 'path_valuesimage2');
 			$model->path_valuesimage3 = CUploadedFile::getInstance($model, 'path_valuesimage3');
+                        $model->propinsi_profil = !empty($model->propinsi_profil)?$model->getPropinsiNama():null;
+                        $model->kota_kab_profil = !empty($model->kota_kab_profil)?$model->getKabupatenNama():null;
+                        $model->update_time = date('Y-m-d H:i:s');
+                        $model->update_loginpemakai_id = Yii::app()->user->id;                        
 
-                if (!isset($model->path_valuesimage1)) {
-                	$model->path_valuesimage1 = $temp_path_valuesimage1;
-                }
-            if (!isset($model->path_valuesimage2)) {
-                $model->path_valuesimage2 = $temp_path_valuesimage2;
-            }
-                if (!isset($model->path_valuesimage3)) {
-                	$model->path_valuesimage3 = $temp_path_valuesimage3;
-                }
+                            if (!isset($model->path_valuesimage1)) {
+                                    $model->path_valuesimage1 = $temp_path_valuesimage1;
+                            }
+                        if (!isset($model->path_valuesimage2)) {
+                            $model->path_valuesimage2 = $temp_path_valuesimage2;
+                        }
+                            if (!isset($model->path_valuesimage3)) {
+                                    $model->path_valuesimage3 = $temp_path_valuesimage3;
+                            }
 						if($model->save()){
 
                             if (isset($model->path_valuesimage1) && ($model->path_valuesimage1 != $temp_path_valuesimage1)) {
@@ -159,7 +176,7 @@ class ProfilKoperasiMController extends MyAuthController
 	*/
 	public function loadModel($id)
 	{
-		$model=ADProfilS::model()->findByPk($id);
+		$model=ProfilkoperasiM::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -177,4 +194,38 @@ class ProfilKoperasiMController extends MyAuthController
 			Yii::app()->end();
 		}
 	}
+        
+        public function actionSetDropdownKabupaten($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $model = new ProfilkoperasiM;
+                if($model_nama !=='' && $attr == ''){
+                    $propinsi_id = $_POST["$model_nama"]['propinsi_profil'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $propinsi_id = $_POST["$attr"];
+                }
+                 elseif ($model_nama !== '' && $attr !== '') {
+                    $propinsi_id = $_POST["$model_nama"]["$attr"];
+                }
+                $kabupaten = null;
+                if($propinsi_id){
+                    $kabupaten = KabupatenM::model()->findAll(" propinsi_id= '".$propinsi_id."' AND kabupaten_aktif = TRUE ORDER BY kabupaten_nama");
+                    $kabupaten = CHtml::listData($kabupaten,'kabupaten_id','kabupaten_nama');
+                }
+                if($encode){
+                    echo CJSON::encode($kabupaten);
+                } else {
+                    if(empty($kabupaten)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    } else {
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($kabupaten as $value=>$name) {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
 }
