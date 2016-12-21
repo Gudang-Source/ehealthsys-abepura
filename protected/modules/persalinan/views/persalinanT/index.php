@@ -116,6 +116,13 @@ if($sukses > 0)
     
     $(document).ready(function()
     {
+        var obs = $("#periksaOBS").find('tr').length;          
+        for (var a = 0; a <= obs; a++){
+            $("#obsP"+a+"").hide();          
+            $("#obsP0").show();          
+        }
+        
+        
         $('.numbersOnly').keyup(function() {
             var d = $(this).attr('numeric');
             var value = $(this).val();

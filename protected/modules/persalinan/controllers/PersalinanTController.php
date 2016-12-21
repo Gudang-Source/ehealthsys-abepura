@@ -303,38 +303,42 @@ class PersalinanTController extends MyAuthController {
                     if ($model->save()){
                         
                         $cekPemeriksaanKala4 = false;
+                       // var_dump(empty($_POST['PSPemeriksaanobstetrikT'][1]['pemeriksaanobstetrik_id']));die;
                         foreach($_POST['PSPemeriksaanobstetrikT'] as $i=>$item)
                         {                                                                    
                             if(is_integer($i)) {
-                               // $modObsterikus=new PSPemeriksaanobstetrikT;
-                                if ($modObsterikus->isNewRecord) {
-                                    //if(isset($_POST['PSPemeriksaanobstetrikT'][$i])){
-                                        $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];                                           
-                                        $modObsterikus->persalinan_id = $model->persalinan_id;
-                                        $modObsterikus->create_loginpemakai_id = Yii::app()->user->id;
-                                        $modObsterikus->create_time = date('Y-m-d H:i:s');
-                                        $modObsterikus->create_ruangan = Yii::app()->user->getState('ruangan_id');                                    
+                                if (empty($_POST['PSPemeriksaanobstetrikT'][$i]['pemeriksaanobstetrik_id'])){
+                                            $modObsterikus=new PSPemeriksaanobstetrikT;
+                                    //if ($modObsterikus->isNewRecord) {
+                                        //if(isset($_POST['PSPemeriksaanobstetrikT'][$i])){
+                                            $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];                                           
+                                            $modObsterikus->persalinan_id = $model->persalinan_id;
+                                            $modObsterikus->create_loginpemakai_id = Yii::app()->user->id;
+                                            $modObsterikus->create_time = date('Y-m-d H:i:s');
+                                            $modObsterikus->create_ruangan = Yii::app()->user->getState('ruangan_id');                                    
+                                            $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForDb( $modObsterikus->obs_periksadalam);
+                                            $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForDb( $modObsterikus->plasenta_lahir);                                         
+                                            $modObsterikus->save();                                        
+                                       // }
+                                }else{//   }else{             
+                                        $modObsterikus = $modObsterikus::model()->findByPk($_POST['PSPemeriksaanobstetrikT'][$i]['pemeriksaanobstetrik_id']);
+                                        $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];
+                                        //var_dump($_POST['PSPemeriksaanobstetrikT'][$i]);die;
+                                        $modObsterikus->update_loginpemakai_id = Yii::app()->user->id;
+                                        $modObsterikus->update_time = date('Y-m-d H:i:s');
                                         $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForDb( $modObsterikus->obs_periksadalam);
-                                        $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForDb( $modObsterikus->plasenta_lahir);                                         
-                                        $modObsterikus->save();                                        
+                                        $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForDb( $modObsterikus->plasenta_lahir);                                    
+                                        $modObsterikus->save();                                    
                                    // }
-                                }else{                                    
-                                    $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];
-                                    //var_dump($_POST['PSPemeriksaanobstetrikT'][$i]);die;
-                                    $modObsterikus->update_loginpemakai_id = Yii::app()->user->id;
-                                    $modObsterikus->update_time = date('Y-m-d H:i:s');
-                                    $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForDb( $modObsterikus->obs_periksadalam);
-                                    $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForDb( $modObsterikus->plasenta_lahir);                                    
-                                    $modObsterikus->save();                                    
                                 }
                                 
                             }
                                     
-                            
+                           
                             foreach($_POST['PSPemeriksaankala4T'][$i] as $j=>$items)
                             {  
                                 if(is_integer($j)) {
-                                    if (!isset($_POST['PSPemeriksaankala4T'][$i][$j]['pemeriksaankala4_id'])){                                        
+                                    if (empty($_POST['PSPemeriksaankala4T'][$i][$j]['pemeriksaankala4_id'])){                                        
                                         $modPeriksaKala4 = new PSPemeriksaankala4T;
                                         $modPeriksaKala4->attributes= $_POST['PSPemeriksaankala4T'][$i][$j];                                    
                                         //var_dump($_POST['PSPemeriksaankala4T'][$i][$j]);die;

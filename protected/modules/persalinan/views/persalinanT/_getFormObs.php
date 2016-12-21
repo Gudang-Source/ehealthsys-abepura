@@ -2,15 +2,15 @@
         <div class="white">
             <fieldset class='box'>
                 <legend class='rim'>Status Obsterikus</legend>        
-                  <table width="100%" class="table-condensed" id='statusObs'>
+                <table width="100%" class="table-condensed" id='statusObs'>
                     <tr>
                         <td>
-                            <?php echo $form->hiddenField($modPemeriksaan,'['.$id.']pemeriksaanobstetrik_id') ?>
+                            <?php echo $form->hiddenField($modPemeriksaan,'[0]pemeriksaanobstetrik_id') ?>
                             <div class="control-group ">
                                 <?php echo Chtml::label('Fundus Uteri', '[]obs_fundusuteri', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_fundusuteri', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_fundusuteri', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?> <div class='additional-text'>cm</div>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_fundusuteri'); ?>
                                 </div>
@@ -20,7 +20,7 @@
                                 <div class="controls">
                                     <?php
                                         //$modPemeriksaan->obs_posisijanin = $model->posisijanin;
-                                      echo $form->dropDownList($modPemeriksaan, '['.$id.']obs_posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                      echo $form->dropDownList($modPemeriksaan, '[0]obs_posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                       //echo CHtml::dropDownList('posisijanin', 'posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'value'=>$model->posisijanin));
                                     ?>                          
                                 </div>
@@ -31,7 +31,7 @@
                                     <?php
                                     $this->widget('MyDateTimePicker', array(
                                         'model' => $modPemeriksaan,
-                                        'attribute' => '['.$id.']obs_periksadalam',
+                                        'attribute' => '[0]obs_periksadalam',
                                         'mode' => 'datetime',
                                         'options' => array(
                                             'dateFormat' => Params::DATE_FORMAT,
@@ -50,7 +50,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'obs_portio', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_portio', array('class'=>'span3 angkahuruf-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_portio', array('class'=>'span3 angkahuruf-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_portio'); ?>
                                 </div>
@@ -59,7 +59,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'konsistensi', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_konsistensigenitalia', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_konsistensigenitalia', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_konsistensigenitalia'); ?>
                                 </div>
@@ -68,7 +68,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'arah', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_arah', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_arah', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_arah'); ?>
                                 </div>
@@ -77,7 +77,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'obs_ketuban', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_ketuban', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_ketuban', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_ketuban'); ?>
                                 </div>
@@ -95,7 +95,7 @@
                                     $pegawai->addCondition('t.kelompokpegawai_id IN ('.Params::KELOMPOKPEGAWAI_ID_BIDAN.','.Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK.') ');
                                     $pegawai->order = 't.nama_pegawai ASC';
 
-                                    echo $form->dropDownList($modPemeriksaan, '['.$id.']obs_pemeriksa', 
+                                    echo $form->dropDownList($modPemeriksaan, '[0]obs_pemeriksa', 
                                             CHtml::listData(PSPegawaiM::model()->findAll($pegawai), 'namaLengkap', 'namaLengkap'),
                                             array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
@@ -106,7 +106,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'warna ketuban', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_warnaketuban', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_warnaketuban', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_warnaketuban'); ?>
                                 </div>
@@ -115,7 +115,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'bagian terendah', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_bagrendah', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_bagrendah', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_bagrendah'); ?>
                                 </div>
@@ -124,7 +124,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'hodge', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_hodge', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_hodge', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_hodge'); ?>
                                 </div>
@@ -133,7 +133,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'posisi', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_posisigenital', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_posisigenital', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_posisigenital'); ?>
                                 </div>
@@ -142,7 +142,7 @@
                                 <?php echo CHtml::label('Imbang Fetopelvik', 'obs_fetopelvik', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_fetopelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_fetopelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_fetopelvik'); ?>
                                 </div>
@@ -153,7 +153,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'presentasi', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_presentasigenital', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_presentasigenital', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_presentasigenital'); ?>
                                 </div>
@@ -163,7 +163,7 @@
                                 <?php echo CHtml::label('DJJ', '', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modPemeriksaan, '['.$id.']obs_djj', LookupM::getItems('denyutjantung'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->dropDownList($modPemeriksaan, '[0]obs_djj', LookupM::getItems('denyutjantung'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_djj'); ?>
                                 </div>
@@ -172,7 +172,7 @@
                                 <?php echo Chtml::label("Frekuensi", 'obs_frekuensi', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_frekuensi', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 3, 'style'=>'text-align:right;')).' /menit';
+                                    echo $form->textField($modPemeriksaan, '[0]obs_frekuensi', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 3, 'style'=>'text-align:right;')).' /menit';
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_frekuensi'); ?>
                                 </div>
@@ -181,7 +181,7 @@
                                 <?php echo $form->labelEx($modPemeriksaan, 'pemeriksaan', array('class' => 'control-label')) ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modPemeriksaan, '['.$id.']obs_pemeriksaan', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                    echo $form->textField($modPemeriksaan, '[0]obs_pemeriksaan', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                     ?>
                                     <?php echo $form->error($modPemeriksaan, '[]obs_pemeriksaan'); ?>
                                 </div>
@@ -195,8 +195,9 @@
                     <fieldset class='box'>
                         <!--<legend class='rim'>Plasenta</legend>-->                
                         <h5 align="center">Plasenta</h5>
+                        
                         <hr/>
-                        <table width="100%" class="table-condensed" id='plasenta'>
+                          <table width="100%" class="table-condensed" id='plasenta'>
                             <tr>
                                 <td>
                                 <div class="control-group ">
@@ -207,7 +208,7 @@
                                         <?php
                                         $this->widget('MyDateTimePicker', array(
                                             'model' => $modPemeriksaan,
-                                            'attribute' => '['.$id.']plasenta_lahir',
+                                            'attribute' => '[0]plasenta_lahir',
                                             'mode' => 'datetime',
                                             'options' => array(
                                                 'dateFormat' => Params::DATE_FORMAT,
@@ -224,7 +225,7 @@
                                     <?php echo $form->labelEx($modPemeriksaan, '[]plasenta_spontanitas', array('class' => 'control-label')) ?>
                                     <div class="controls">
                                         <?php
-                                        echo $form->dropDownList($modPemeriksaan, '['.$id.']plasenta_spontanitas', LookupM::getItems('plasenta_spontanitas'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                        echo $form->dropDownList($modPemeriksaan, '[0]plasenta_spontanitas', LookupM::getItems('plasenta_spontanitas'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                         ?>
                                         <?php echo $form->error($modPemeriksaan, '[]plasenta_spontanitas'); ?>
                                     </div>
@@ -233,7 +234,7 @@
                                     <?php echo $form->labelEx($modPemeriksaan, '[]plasenta_kelengkapan', array('class' => 'control-label')) ?>
                                     <div class="controls">
                                         <?php
-                                        echo $form->dropDownList($modPemeriksaan, '['.$id.']plasenta_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                        echo $form->dropDownList($modPemeriksaan, '[0]plasenta_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                         ?>
                                         <?php echo $form->error($modPemeriksaan, '[]plasenta_kelengkapan'); ?>
                                     </div>
@@ -242,7 +243,7 @@
                                     <?php echo $form->labelEx($modPemeriksaan, '[]plasenta_berat', array('class' => 'control-label')) ?>
                                     <div class="controls">
                                         <?php
-                                        echo $form->textField($modPemeriksaan, '['.$id.']plasenta_berat', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                        echo $form->textField($modPemeriksaan, '[0]plasenta_berat', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                         ?> <div class='additional-text'>gram</div>
                                         <?php echo $form->error($modPemeriksaan, '[]plasenta_berat'); ?>
                                     </div>
@@ -251,13 +252,13 @@
                                     <?php echo $form->labelEx($modPemeriksaan, '[]plasenta_diameter', array('class' => 'control-label')) ?>
                                     <div class="controls">
                                         <?php
-                                        echo $form->textField($modPemeriksaan, '['.$id.']plasenta_diameter', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                        echo $form->textField($modPemeriksaan, '[0]plasenta_diameter', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                                         ?> <div class='additional-text'>cm</div>
                                         <?php echo $form->error($modPemeriksaan, '[]plasenta_diameter'); ?>
                                     </div>
                                 </div>
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
                         </table>
                     </fieldset>
                 </div>
@@ -265,58 +266,56 @@
                     <fieldset class='box'>
                         <!--<legend class='rim'>Tali Pusat</legend>-->
                         <h5 align="center">Tali Pusar</h5>
+                    <table width="100%" class="table-condensed" id='taliPusar'>
+                    <tr>
+                        <td>
                         <hr/>
-                        <table width="100%" class="table-condensed" id='taliPusar'>
-                            <tr>
-                                <td>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]pusar_insersi', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']pusar_insersi', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]pusar_insersi'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]pusar_panjang', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']pusar_panjang', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?> <div class='additional-text'>cm</div>
-                                            <?php echo $form->error($modPemeriksaan, '[]pusar_panjang'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]pusar_kelengkapan', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->dropDownList($modPemeriksaan, '['.$id.']pusar_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]pusar_kelengkapan'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]pusar_robekan', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']pusar_robekan', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]pusar_robekan'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]pusar_lainlain', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']pusar_lainlain', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]pusar_lainlain'); ?>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]pusar_insersi', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]pusar_insersi', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]pusar_insersi'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]pusar_panjang', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]pusar_panjang', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?> <div class='additional-text'>cm</div>
+                                <?php echo $form->error($modPemeriksaan, '[]pusar_panjang'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]pusar_kelengkapan', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->dropDownList($modPemeriksaan, '[0]pusar_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]pusar_kelengkapan'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]pusar_robekan', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]pusar_robekan', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]pusar_robekan'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]pusar_lainlain', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]pusar_lainlain', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]pusar_lainlain'); ?>
+                            </div>
+                        </div>
+                        </td></tr></table>
                     </fieldset>
                 </div>
                 <div class="span4">
@@ -324,57 +323,55 @@
                         <!--<legend class='rim'>Perlukaan Jalan Lahir</legend>-->
                         <h5 align="center">Perlukaan Jalan Lahir</h5>
                         <hr/>
-                        <table width="100%" class="table-condensed" id='perlukaan'>
-                            <tr>
-                                <td>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]luka_perineum', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']luka_perineum', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]luka_perineum'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]luka_vagina', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']luka_vagina', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]luka_vagina'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]luka_serviks', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']luka_serviks', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, 'luka_serviks'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]luka_episiotomi', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->dropDownList($modPemeriksaan, '['.$id.']luka_episiotomi', LookupM::getItems('episiotomi'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]luka_episiotomi'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]luka_rupturaperinei', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->dropDownList($modPemeriksaan, '['.$id.']luka_rupturaperinei', LookupM::getItems('rupturaperinei'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]luka_rupturaperinei'); ?>
-                                        </div>
-                                    </div>
-                            </td>
-                        </tr>
-                        </table>
+                         <table width="100%" class="table-condensed" id='perlikaan'>
+                        <tr>
+                            <td>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]luka_perineum', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]luka_perineum', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]luka_perineum'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]luka_vagina', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]luka_vagina', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]luka_vagina'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]luka_serviks', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]luka_serviks', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, 'luka_serviks'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]luka_episiotomi', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->dropDownList($modPemeriksaan, '[0]luka_episiotomi', LookupM::getItems('episiotomi'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]luka_episiotomi'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]luka_rupturaperinei', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->dropDownList($modPemeriksaan, '[0]luka_rupturaperinei', LookupM::getItems('rupturaperinei'), array('empty'=>'-- Pilih --','class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]luka_rupturaperinei'); ?>
+                            </div>
+                        </div>
+                            <td></tr></table>
                     </fieldset>            
                 </div>
             </div>   
@@ -385,21 +382,19 @@
                         <!--<legend class='rim'>Pendarahan</legend>-->
                         <h5 align="center">Pendarahan</h5>
                         <hr/>
-                        <table width="100%" class="table-condensed" id='pendarahan'>
-                            <tr>
-                                <td>                                
-                                    <div class="control-group ">
-                                        <?php echo CHtml::label('Kala III', '', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']kala3_darahcc', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)).' cc';
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]kala3_darahcc'); ?>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                         <table width="100%" class="table-condensed" id='pendarahan'>
+                        <tr>
+                            <td>
+                        <div class="control-group ">
+                            <?php echo CHtml::label('Kala III', '', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]kala3_darahcc', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)).' cc';
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]kala3_darahcc'); ?>
+                            </div>
+                        </div>
+                            </td></tr></table>
                     </fieldset>
                 </div>  
                 <div class="span4">
@@ -408,46 +403,46 @@
                         <h5 align="center">Nifas</h5>
                         <hr/>
                          <table width="100%" class="table-condensed" id='nifas'>
-                            <tr>
-                                <td>         
-                                    <div class="control-group ">
-                                        <?php echo Chtml::label("Infeksi", '[]nifas_inveksi', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']nifas_inveksi', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]nifas_inveksi'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]nifas_laktasi', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']nifas_laktasi', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]nifas_laktasi'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]nifas_febris', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']nifas_febris', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]nifas_febris'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group ">
-                                        <?php echo $form->labelEx($modPemeriksaan, '[]nifas_lainlain', array('class' => 'control-label')) ?>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($modPemeriksaan, '['.$id.']nifas_lainlain', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                            ?>
-                                            <?php echo $form->error($modPemeriksaan, '[]nifas_lainlain'); ?>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                    <tr>
+                        <td>
+                        <div class="control-group ">
+                            <?php echo Chtml::label("Infeksi", '[]nifas_inveksi', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]nifas_inveksi', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]nifas_inveksi'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]nifas_laktasi', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]nifas_laktasi', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]nifas_laktasi'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]nifas_febris', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]nifas_febris', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]nifas_febris'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($modPemeriksaan, '[]nifas_lainlain', array('class' => 'control-label')) ?>
+                            <div class="controls">
+                                <?php
+                                echo $form->textField($modPemeriksaan, '[0]nifas_lainlain', array('class'=>'span2','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                                ?>
+                                <?php echo $form->error($modPemeriksaan, '[]nifas_lainlain'); ?>
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
                          </table>
                     </fieldset>
                 </div>
@@ -623,9 +618,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <?php                                     
-                                    $this->renderPartial('_pemeriksaanKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan, 'id'=>$id)); 
-                                ?>
+                                <?php $this->renderPartial('_getFormKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan)); ?>
                             </tbody>
                         </table>
                     </div>

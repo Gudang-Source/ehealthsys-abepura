@@ -1,7 +1,6 @@
 
    
-    <?php       
-            
+    <?php                       
                 $i=0;
                 $modPeriksaKala4 = new PSPemeriksaankala4T;
                 $modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));                
@@ -80,8 +79,9 @@
                     <td>
                          <?php 
                                 echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', 
-                                    array('onclick' => 'inputKala4(this);',
+                                    array('onclick' => 'inputKala4(this,0);',
                                         'class' => 'btn btn-primary',
+                                        'id' => 'tambahKala4',
                                         'onkeypress' => "return $(this).focusNextInputField(event)",
                                         'rel' => "tooltip",
                                         'title' => "Klik untuk menambahkan pemeriksaan kala 4",));
