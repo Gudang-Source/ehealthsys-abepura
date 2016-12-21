@@ -17,7 +17,7 @@
                 }elseif ($a == $count){
                     $tab[]= array('label'=>'+', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTabObs(this, "+");'));
                 }else{
-                    $tab[]= array('label'=>'P '.($a+1), 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTabObs(this, '.$a.');'));
+                    $tab[]= array('label'=>'P '.($a+1), 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTabObs(this, '.$a.');'),'icon'=>'icon-form-sialng');
                 }
             }                                           
         }else{
