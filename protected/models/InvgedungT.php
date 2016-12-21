@@ -65,8 +65,8 @@ class InvgedungT extends CActiveRecord
 			array('pemilikbarang_id, barang_id, lokasi_id, asalaset_id', 'numerical', 'integerOnly'=>true),
 			array('invgedung_luaslantai, invgedung_harga, invgedung_akumsusut', 'numerical'),
 			array('invgedung_kode, invgedung_noregister', 'length', 'max'=>50),
-			array('invgedung_namabrg, invgedung_ket', 'length', 'max'=>100),
-			array('invgedung_kontruksi, invgedung_nodokumen', 'length', 'max'=>20),
+			array('invgedung_kontruksi, invgedung_namabrg, invgedung_ket', 'length', 'max'=>100),
+			array('invgedung_nodokumen', 'length', 'max'=>20),
 			array('invgedung_tgldokumen, invgedung_tglguna, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
