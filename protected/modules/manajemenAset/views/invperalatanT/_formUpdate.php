@@ -70,9 +70,9 @@
             </td>
             <td>
                 <?php echo $form->textAreaRow($model,'invperalatan_ket',array('rows'=>4, 'cols'=>50, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'invperalatan_kapasitasrata',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
+                <?php echo $form->textFieldRow($model,'invperalatan_kapasitasrata',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->checkBoxRow($model,'invperalatan_ijinoperasional', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'invperalatan_serftkkalibrasi',array('class'=>'span3 all-caps', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+                <?php echo $form->textFieldRow($model,'invperalatan_serftkkalibrasi',array('class'=>'span3 all-caps', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 
                 
                 <?php echo $form->dropDownListRow($model,'invperalatan_keadaan',LookupM::getItems('inventariskeadaan'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>

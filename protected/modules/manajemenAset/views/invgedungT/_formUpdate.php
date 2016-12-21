@@ -30,11 +30,11 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                 <?php echo $form->textFieldRow($model, 'invgedung_namabrg', array('class' => 'span3 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model, 'invgedung_kontruksi', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>
+                <?php echo $form->textFieldRow($model, 'invgedung_kontruksi', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
                 <div class="control-group">
                     <?php echo $form->label($model, 'invgedung_luaslantai', array('class'=>'control-label')); ?>
                     <div class="controls">
-                        <?php echo $form->textField($model,'invgedung_luaslantai',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
+                        <?php echo $form->textField($model,'invgedung_luaslantai',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
                         <?php echo CHtml::label(' m<sup>2</sup>', 'm2'); ?>
                     </div>
                 </div>
