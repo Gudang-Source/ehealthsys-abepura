@@ -60,7 +60,7 @@
 					),
 					'htmlOptions' => array(
 						'placeholder'=>'Ketikan Pegawai Mengetahui',
-						'class'=>'pegmengetahui_nama',
+						'class'=>'pegmengetahui_nama', // angkahuruf-only',
 						'onkeyup'=>"return $(this).focusNextInputField(event)",
 						'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modPemeliharaanAset, 'pegmengetahui_id') . '").val(""); '
 					),
@@ -103,7 +103,7 @@
 					),
 					'htmlOptions' => array(
 						'placeholder'=>'Ketikan Pegawai Menyetujui',
-						//'class'=>'pegpenyimpanan_nama',
+						//'class'=>'angkahuruf-only',
 						'onkeyup'=>"return $(this).focusNextInputField(event)",
 						'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modPemeliharaanAset, 'pegpetugas1_id') . '").val(""); '
 					),
@@ -146,7 +146,7 @@
 					),
 					'htmlOptions' => array(
 						'placeholder'=>'Ketikan Pegawai Menyetujui',
-						//'class'=>'pegpenyimpan_nama',
+						//'class'=>'angkahuruf-only',
 						'onkeyup'=>"return $(this).focusNextInputField(event)",
 						'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modPemeliharaanAset, 'pegpetugas2_id') . '").val(""); '
 					),
@@ -157,7 +157,7 @@
 		</div>		
 	</div>
 	<div class="span4">
-		<?php echo $form->textAreaRow($modPemeliharaanAset,'pemeliharaanaset_ket',array('rows'=>3, 'cols'=>50, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Keterangan Dekontaminasi')); ?>
+		<?php echo $form->textAreaRow($modPemeliharaanAset,'pemeliharaanaset_ket',array('rows'=>3, 'cols'=>50, 'class'=>'span3 angkahuruf-only', 'onkeyup'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Keterangan Dekontaminasi')); ?>
 	</div>	
 </div>
 
