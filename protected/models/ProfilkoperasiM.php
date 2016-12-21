@@ -104,37 +104,37 @@ class ProfilkoperasiM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'profilkoperasi_id' => 'Profilkoperasi',
-			'profilrs_id' => 'Profilrs',
+			'profilkoperasi_id' => 'ID',
+			'profilrs_id' => 'Profil RS',
 			'nama_profil' => 'Nama Profil',
-			'alamat_profil' => 'Alamat Profil',
-			'propinsi_profil' => 'Propinsi Profil',
-			'kota_kab_profil' => 'Kota Kab Profil',
-			'telp_profil' => 'Telp Profil',
-			'fax_profil' => 'Fax Profil',
-			'email_profil' => 'Email Profil',
-			'visi_profil' => 'Visi Profil',
-			'misi_profil' => 'Misi Profil',
+			'alamat_profil' => 'Alamat',
+			'propinsi_profil' => 'Propinsi',
+			'kota_kab_profil' => 'Kabupaten',
+			'telp_profil' => 'Telp',
+			'fax_profil' => 'Fax',
+			'email_profil' => 'Email',
+			'visi_profil' => 'Visi',
+			'misi_profil' => 'Misi',
 			'waktu_layanan' => 'Waktu Layanan',
-			'textinfo1' => 'Textinfo1',
-			'textinfo2' => 'Textinfo2',
-			'textinfo3' => 'Textinfo3',
-			'textinfo4' => 'Textinfo4',
-			'valuestext1' => 'Valuestext1',
-			'valuestext2' => 'Valuestext2',
-			'valuestext3' => 'Valuestext3',
-			'path_valuesimage1' => 'Path Valuesimage1',
-			'path_valuesimage2' => 'Path Valuesimage2',
-			'path_valuesimage3' => 'Path Valuesimage3',
+			'textinfo1' => 'Text Info 1',
+			'textinfo2' => 'Text Info 2',
+			'textinfo3' => 'Text Info 3',
+			'textinfo4' => 'Text Info 4',
+			'valuestext1' => 'Values Text 1',
+			'valuestext2' => 'Values Text 2',
+			'valuestext3' => 'Values Text 3',
+			'path_valuesimage1' => 'Gambar 1',
+			'path_valuesimage2' => 'Gambar 2',
+			'path_valuesimage3' => 'Gambar 3',
 			'longitude' => 'Longitude',
 			'latitude' => 'Latitude',
-			'sloganwebsite1' => 'Sloganwebsite1',
-			'sloganwebsite2' => 'Sloganwebsite2',
-			'onlinesupport1' => 'Onlinesupport1',
-			'onlinesupport2' => 'Onlinesupport2',
-			'onlinemarketing1' => 'Onlinemarketing1',
-			'onlinemarketing2' => 'Onlinemarketing2',
-			'badanhukum' => 'Badanhukum',
+			'sloganwebsite1' => 'Slogan Website 1',
+			'sloganwebsite2' => 'Slogan Website 2',
+			'onlinesupport1' => 'Online Support 1',
+			'onlinesupport2' => 'Online Support 2',
+			'onlinemarketing1' => 'Online Marketing 1',
+			'onlinemarketing2' => 'Online Marketing 2',
+			'badanhukum' => 'Badan Hukum',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',
 			'create_loginpemakai_id' => 'Create Loginpemakai',
@@ -195,4 +195,24 @@ class ProfilkoperasiM extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getPropinsiNama(){
+            $propinsi = PropinsiM::model()->findByPk($this->propinsi_profil);
+            
+            if (count($propinsi)>0){
+                return $propinsi->propinsi_nama;
+            }else{
+                return '';
+            }                        
+        }
+        
+        public function getKabupatenNama(){
+            $kabupaten = KabupatenM::model()->findByPk($this->kota_kab_profil);
+            
+            if (count($kabupaten)>0){
+                return $kabupaten->kabupaten_nama;
+            }else{
+                return '';
+            }                        
+        }
 }
