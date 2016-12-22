@@ -18,47 +18,31 @@
     } 
     function ambilDataPenghapusan()
     {
-        $('#JenispengeluaranrekeningV_1_saldodebit').val(0);
-        $('#JenispengeluaranrekeningV_2_saldokredit').val(0);
-        
-        var periode     = $('#InvperalatanT_0_tglpenghapusan').val();
-        var jenisInven  = "peralatan";
-        $.post('<?php echo $this->createUrl('GetDataPenghapusan');?>', {periode:periode, jenis:jenisInven}, function(data){
-				if(data !== null){
-	                $("#tblInputUraian > tbody").empty();
-					$("#tblInputUraian > tbody").append(data.replace());
-				}
-                hitungRekening();
-
-                maskMoneyAll();
-        }, 'json');
+        ambilDataPenghapusanBase("peralatan");
     }
 	
-    function ambilDataPenghapusanPeralatanNonMedis()
+	function ambilDataPenghapusanPeralatanNonMedis() {
+		ambilDataPenghapusanBase("peralatan_non_medis");
+	}
+	
+	function ambilDataPenghapusanGedung() {
+		ambilDataPenghapusanBase("gedung");
+	}
+	
+	function ambilDataPenghapusanTanah() {
+		ambilDataPenghapusanBase("tanah");
+	}
+	
+	function ambilDataPenghapusanKendaraan() {
+		ambilDataPenghapusanBase("kendaraan");
+	}
+	
+	function ambilDataPenghapusanBase(jenisInven)
     {
         $('#JenispengeluaranrekeningV_1_saldodebit').val(0);
         $('#JenispengeluaranrekeningV_2_saldokredit').val(0);
         
-        var periode     = $('#InvperalatanT_0_tglpenghapusan').val();
-        var jenisInven  = "peralatan_non_medis";
-        $.post('<?php echo $this->createUrl('GetDataPenghapusan');?>', {periode:periode, jenis:jenisInven}, function(data){
-				if(data !== null){
-	                $("#tblInputUraian > tbody").empty();
-					$("#tblInputUraian > tbody").append(data.replace());
-				}
-                hitungRekening();
-
-                maskMoneyAll();
-        }, 'json');
-    }
-	
-    function ambilDataPenghapusanGedung()
-    {
-        $('#JenispengeluaranrekeningV_1_saldodebit').val(0);
-        $('#JenispengeluaranrekeningV_2_saldokredit').val(0);
-        
-        var periode     = $('#InvgedungT_0_tglpenghapusan').val();
-        var jenisInven  = "gedung";
+        var periode     = $('.tglpenghapusan').val();
         $.post('<?php echo $this->createUrl('GetDataPenghapusan');?>', {periode:periode, jenis:jenisInven}, function(data){
 				if(data !== null){
 	                $("#tblInputUraian > tbody").empty();

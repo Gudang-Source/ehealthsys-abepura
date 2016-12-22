@@ -58,7 +58,7 @@ class MAReevaluasiasetT extends ReevaluasiasetT
 							   join penyusutanasetdetail_t on (penyusutanaset_t.penyusutanaset_id=penyusutanasetdetail_t.penyusutanaset_id)
 							";
 			$criteria->select="t.*,
-						date_part('month', age(penyusutanaset_t.tgl_penyusutan,penyusutanaset_t.create_time) * penyusutanasetdetail_t.penyusutanaset_saldo) as penyusutan
+						date_part('month', age(now(),penyusutanaset_t.tgl_penyusutan)) * penyusutanasetdetail_t.penyusutanaset_saldo as penyusutan
 						,penyusutanasetdetail_t.penyusutanaset_saldo as saldo,penyusutanaset_t.hargaperolehan as hrg_peroleh,penyusutanaset_t.umurekonomis as umur_ekonomis,
 						concat(t.invasetlain_noregister,t.invtanah_noregister,t.invperalatan_noregister,t.invgedung_noregister,t.invjalan_noregister) as noreg";
 			

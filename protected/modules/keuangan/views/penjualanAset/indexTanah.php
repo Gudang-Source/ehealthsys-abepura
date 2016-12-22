@@ -32,8 +32,8 @@
 					),
 					'htmlOptions' => array('readonly' => true,
 						'onkeypress' => "return $(this).focusNextInputField(event)",
-						'class' => 'dtPicker3',
-						'onChange' => 'ambilDataPenghapusan()',
+						'class' => 'dtPicker3 tglpenghapusan',
+						'onChange' => 'ambilDataPenghapusanTanah()',
 					),
 				));
 				?> 
@@ -52,7 +52,7 @@
 						<th>Alamat</th>
 						<th>Harga</th>
 						<th>Harga Jual Aktiva</th>
-						<th>&nbsp;</th>
+						<!--th>&nbsp;</th-->
 					</tr>
 				</thead>
 				<tbody>

@@ -67,7 +67,7 @@ class PemeliharaanasetT extends CActiveRecord
 			'pegmengetahui' => array(self::BELONGS_TO, 'PegawaiM', 'pegmengetahui_id'),
 			'pegpetugas1' => array(self::BELONGS_TO, 'PegawaiM', 'pegpetugas1_id'),
 			'pegpetugas2' => array(self::BELONGS_TO, 'PegawaiM', 'pegpetugas2_id'),	
-                        'asalaset' => array(self::BELONGS_TO, 'AsalasetM', 'asalaset_id')
+            'asalaset' => array(self::BELONGS_TO, 'AsalasetM', 'asalaset_id')
 		);
 	}
 
