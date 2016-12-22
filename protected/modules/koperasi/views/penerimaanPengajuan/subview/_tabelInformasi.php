@@ -1,13 +1,9 @@
-<div class="panel panel-primary col-sm-12">
-	<div class="panel-heading panel-heading2">
-		<div class="panel-title">Data Penerimaan Pemotongan</div>  
-	</div>
-	<div class="panel-body col-sm-12">
-		<?php	$this->widget('bootstrap.widgets.TbGridView',array(
+
+		<?php	 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 				'id'=>'penerimaanpemotongan-m-grid',
-				'dataProvider'=>$penerimaanPemotongan->search(),
+				'dataProvider'=>$penerimaanPemotongan->searchInformasi(),
 				'filter'=>null,
-				'itemsCssClass' => 'table-bordered datatable dataTable',
+				'itemsCssClass' => 'table table-striped table-condensed',
 				'columns'=>array(
 					array(
 						'header'=>'Tgl BKM /<br/>No BKM',
@@ -19,10 +15,10 @@
 						'header'=>'No BKM',
 						'name'=>'nobuktimasuk',
 					), */
-					array(
-						'name'=>'namaunit',
-						'headerHtmlOptions'=>array('style'=>'vertical-align:middle;color:#373E4A'),
-						),
+					//array(
+					//	'name'=>'namaunit',
+						//'headerHtmlOptions'=>array('style'=>'vertical-align:middle;color:#373E4A'),
+					//	),
 					'namapotongan',
 					'nokeanggotaan',
 					array(
@@ -73,7 +69,7 @@
 						'header'=>'Sisa',
 						'value'=>'MyFormatter::formatNumberForPrint($data->jmlpengajuan_pengangsuran - $data->jmlbayar_pembangsuran)',					
 						'htmlOptions'=>array('style'=>'text-align: right'),
-						'headerHtmlOptions'=>array('style'=>'vertical-align:middle;color:#373E4A'),					
+					//	'headerHtmlOptions'=>array('style'=>'vertical-align:middle;color:#373E4A'),					
 					)
 					/*
 					array(
@@ -88,8 +84,8 @@
 				//'afterAjaxUpdate'=>'function(id, data) {registerNum(); hitungTotalAngsuran(); }',
 			));
 		?>
-	</div>
+	<!--</div>
 	<div class="panel-body col-sm-12">
-		<?php  echo Chtml::link('<i class="entypo-print"></i> Print','#', array('class' => 'btn btn-success', 'onclick'=>'iPrint(); return false;')); ?>
+		<?php  //echo Chtml::link('<i class="entypo-print"></i> Print','#', array('class' => 'btn btn-success', 'onclick'=>'iPrint(); return false;')); ?>
 	</div>
-</div>
+</div>-->

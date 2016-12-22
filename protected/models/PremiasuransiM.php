@@ -63,7 +63,7 @@ class PremiasuransiM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'premiasuransi_id' => 'Premiasuransi',
+			'premiasuransi_id' => 'ID',
 			'umur' => 'Umur',
 			'tahun' => 'Tahun',
 			'persen' => 'Persen',
@@ -84,10 +84,29 @@ class PremiasuransiM extends CActiveRecord
 		$criteria->compare('premiasuransi_id',$this->premiasuransi_id);
 		$criteria->compare('umur',$this->umur);
 		$criteria->compare('tahun',$this->tahun);
-		$criteria->compare('persen',$this->persen);
+		$criteria->compare('persen',  str_replace(',', '.', $this->persen));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchPrint()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('premiasuransi_id',$this->premiasuransi_id);
+		$criteria->compare('umur',$this->umur);
+		$criteria->compare('tahun',$this->tahun);
+		$criteria->compare('persen',  str_replace(',', '.', $this->persen));
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+
 }
+
