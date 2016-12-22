@@ -1,32 +1,28 @@
-<div class="panel panel-primary col-sm-12">
-	<div class="panel-heading panel-heading2">
-		<div class="panel-title">Data Pengajuan Pemotongan</div>
-	</div>
-	<div class="panel-body col-sm-12">
-		<?php	$this->widget('bootstrap.widgets.TbGridView',array(
+
+		<?php	 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 				'id'=>'pengajuanpemotongan-m-grid',
 				'dataProvider'=>$pengajuanPemotongan->searchInformasi(),
 				'filter'=>null,
-				'itemsCssClass' => 'table-bordered datatable dataTable',
+				'itemsCssClass' => 'table table-striped table-condensed',
 				'columns'=>array(
 					array(
 						'header'=>'Tgl Pengajuan / <br/> No Pengajuan',
 						'type'=>'raw',
 						'value'=>function($data) {
 							$link = CHtml::link('<i class="entypo-print"></i>'.$data->nopengajuan, Yii::app()->controller->createUrl('print', array('no'=>$data->nopengajuan)), array('target'=>'_blank'));
-							return date("d/m/Y", strtotime($data->tglpengajuanpemb))."<br/>".$link;
+							return MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($data->tglpengajuanpemb)))."<br/>".$link;
 						},
-						'headerHtmlOptions'=>array('style'=>'text-align:center;color:#373E4A')
+						//'headerHtmlOptions'=>array('style'=>'text-align:center;color:#373E4A')
 					), /*
 					array(
 						'name'=>'nopengajuan',
 						'headerHtmlOptions'=>array('style'=>'text-align:center')
 						), */
-					array(
+					/*array(
 						'name'=>'namaunit',
 						'header'=>'Unit',
 						'headerHtmlOptions'=>array('style'=>'text-align:center'),
-					),
+					),*/
 					array(
 						'header'=>'Sumber Potongan',
 						'name'=>'namapotongan',
@@ -128,16 +124,15 @@
 							return '-';
 						},
 						//'CHtml::link("<i class=\'entypo-credit-card\'></i>", Yii::app()->createUrl("pinjaman/penerimaanPengajuan/index", array("no"=>$data->nopengajuan)), array("target"=>"_blank","rel"=>"tooltip","title"=>"Klik untuk melakukan transaksi penerimaan"))',
-						'headerHtmlOptions'=>array('style'=>'text-align:center;color:#373E4A'),
+						//'headerHtmlOptions'=>array('style'=>'text-align:center;color:#373E4A'),
 						'htmlOptions'=>array('style'=>'text-align:center'),
 					),
 				),
 				//'afterAjaxUpdate'=>'function(id, data) {registerNum(); hitungTotalAngsuran(); }',
 			));
 		?>
-	</div>
-</div>
-<?php echo Yii::app()->modal->register($this->renderPartial('subview/_dialogRincianPengajuan', null, true)); ?>
+	
+<?php //echo $this->renderPartial('subview/_dialogRincianPengajuan', array(), true); ?>
 
 
 <?php $url = $this->createUrl('informasi'); ?>

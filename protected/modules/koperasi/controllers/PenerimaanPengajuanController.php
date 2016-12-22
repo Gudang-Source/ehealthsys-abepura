@@ -79,20 +79,19 @@ class PenerimaanPengajuanController extends MyAuthController
 
 	public function actionInformasi($bkm=null)
 	{
-		$this->menuActive = array(5,6);
-		$this->pageTitle = 'ecoopsys - Informasi Penerimaan Pemotongan';
-		$penerimaanPemotongan = new InfopenerimaanpemotonganV;
-		$penerimaanPemotongan->nobuktimasuk = $bkm;
-		$penerimaanPemotongan->tglAwal = date('Y-m-01');
-		$penerimaanPemotongan->tglAkhir = date('Y-m-t');
-		if (isset($_GET['InfopenerimaanpemotonganV'])) {
-			$penerimaanPemotongan->attributes = $_GET['InfopenerimaanpemotonganV'];
-			if (!empty($_GET['InfopenerimaanpemotonganV']['tglAwal'])) $penerimaanPemotongan->tglAwal = MyFormatter::formatDateForDb(($_GET['InfopenerimaanpemotonganV']['tglAwal']));
-			if (!empty($_GET['InfopenerimaanpemotonganV']['tglAkhir'])) $penerimaanPemotongan->tglAkhir = MyFormatter::formatDateForDb(($_GET['InfopenerimaanpemotonganV']['tglAkhir']));
+		
+		$penerimaanPemotongan = new KOInfopenerimaanpotonganV;
+		//$penerimaanPemotongan->nobuktimasuk = $bkm;
+		$penerimaanPemotongan->tgl_awal = date('Y-m-d');
+		$penerimaanPemotongan->tgl_akhir = date('Y-m-d');
+		if (isset($_GET['KOInfopenerimaanpotonganV'])) {
+			$penerimaanPemotongan->attributes = $_GET['KOInfopenerimaanpotonganV'];
+			$penerimaanPemotongan->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['KOInfopenerimaanpotonganV']['tgl_awal']);
+                        $penerimaanPemotongan->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['KOInfopenerimaanpotonganV']['tgl_akhir']);
 			//$penerimaanPemotongan->nobuktimasuk = $_GET['InfopenerimaanpemotonganV']['nobuktimasuk'];
 		}
                 
-		$periode = MyFormatter::formatDateTimeId($penerimaanPemotongan->tglAwal).' s/d '.MyFormatter::formatDateTimeId($penerimaanPemotongan->tglAkhir);
+		//$periode = MyFormatter::formatDateTimeId($penerimaanPemotongan->tglAwal).' s/d '.MyFormatter::formatDateTimeId($penerimaanPemotongan->tglAkhir);
 		$this->render('informasi',array('penerimaanPemotongan'=>$penerimaanPemotongan));
                 
 	}
@@ -100,7 +99,7 @@ class PenerimaanPengajuanController extends MyAuthController
 	public function actionPrint($id=null)
 	{
 		$this->layout = '//layouts/print';
-		$model= InfopenerimaanpemotonganV::model()->findAllByAttributes(array('buktikasmasuk_id'=>$id));
+		$model= KOInfopenerimaanpotonganV::model()->findAllByAttributes(array('buktikasmasuk_id'=>$id));
 		$profil = ProfilS::model()->find();
 
 		$content = array(
@@ -121,7 +120,7 @@ class PenerimaanPengajuanController extends MyAuthController
 			);
 		}
 
-		$model = new InfopenerimaanpemotonganV;
+		$model = new KOInfopenerimaanpotonganV;
 		$model->buktikasmasuk_id = $id;
 
 		$this->render('print', array(
@@ -136,7 +135,7 @@ class PenerimaanPengajuanController extends MyAuthController
 	public function actionPrintInformasi() {
 		$this->layout = '//layouts/print';
 		$this->pageTitle = 'ecoopsys - Print Informasi Pengajuan Pemotongan';
-		$penerimaanPemotongan = new InfopenerimaanpemotonganV;
+		$penerimaanPemotongan = new KOInfopenerimaanpotonganV;
 		$profil = ProfilS::model()->find();
 
 		if (isset($_GET['InfopenerimaanpemotonganV'])) {

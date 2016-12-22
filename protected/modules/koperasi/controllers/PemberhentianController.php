@@ -223,30 +223,27 @@ class PemberhentianController extends MyAuthController
 	}
 
 	public function actionInformasi()
-	{
-		$this->menuActive = array(5,8);
-		$this->pageTitle = 'ecoopsys - Informasi Pemberhentian Anggota';
-		$anggota = new PemberhentiananggotaV;
-		$anggota->tglAwal = date('Y-m-1')." 00:00:00";
-		$anggota->tglAkhir = date('Y-m-t')." 23:59:59";
-		if (isset($_GET['PemberhentiananggotaV'])) {
-			$anggota->attributes = $_GET['PemberhentiananggotaV'];
-			if (!empty($_GET['PemberhentiananggotaV']['tglAwal'])) $anggota->tglAwal = MyFormatter::formatDateTimeForDb($_GET['PemberhentiananggotaV']['tglAwal']).':00';
-			if (!empty($_GET['PemberhentiananggotaV']['tglAkhir'])) $anggota->tglAkhir = MyFormatter::formatDateTimeForDb($_GET['PemberhentiananggotaV']['tglAkhir']).':00';
-			$anggota->golonganpegawai_id = $_GET['PemberhentiananggotaV']['golonganpegawai_id'];
+	{		
+		$anggota = new KOPemberhentiananggotaV;
+		$anggota->tgl_awal = date('Y-m-d');
+		$anggota->tgl_akhir = date('Y-m-d');
+		if (isset($_GET['KOPemberhentiananggotaV'])) {
+			$anggota->attributes = $_GET['KOPemberhentiananggotaV'];
+			$anggota->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['KOPemberhentiananggotaV']['tgl_awal']);
+                        $anggota->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['KOPemberhentiananggotaV']['tgl_akhir']);
 		}
 		$this->render('informasi', array('anggota'=>$anggota));
 	}
 
 	public function actionPrintInformasi() {
-		$this->layout='//layouts/print';
-		$this->pageTitle = 'ecoopsys - Print Informasi Pemberhentian Anggota Koperasi';
-		$anggota = new PemberhentiananggotaV;
+		$this->layout='//layouts/printWidnows';
+		
+		$anggota = new KOPemberhentiananggotaV;
 		$profil = ProfilS::model()->find();
-		if (isset($_GET['PemberhentiananggotaV'])) {
-			$anggota->attributes = $_GET['PemberhentiananggotaV'];
-			if (!empty($_GET['PemberhentiananggotaV']['tglAwal'])) $anggota->tglAwal = MyFormatter::formatDateTimeForDb($_GET['PemberhentiananggotaV']['tglAwal']).':00';
-			if (!empty($_GET['PemberhentiananggotaV']['tglAkhir'])) $anggota->tglAkhir = MyFormatter::formatDateTimeForDb($_GET['PemberhentiananggotaV']['tglAkhir']).':00';
+		if (isset($_GET['KOPemberhentiananggotaV'])) {
+			$anggota->attributes = $_GET['KOPemberhentiananggotaV'];
+			if (!empty($_GET['KOPemberhentiananggotaV']['tglAwal'])) $anggota->tglAwal = MyFormatter::formatDateTimeForDb($_GET['PemberhentiananggotaV']['tglAwal']).':00';
+			if (!empty($_GET['KOPemberhentiananggotaV']['tglAkhir'])) $anggota->tglAkhir = MyFormatter::formatDateTimeForDb($_GET['PemberhentiananggotaV']['tglAkhir']).':00';
 		}
 				$periode = MyFormatter::formatDateTimeId($anggota->tglAwal).' s/d '.MyFormatter::formatDateTimeId($anggota->tglAkhir);
 		$this->render('printInformasi', array('anggota'=>$anggota,'profil'=>$profil,'periode'=>$periode));
