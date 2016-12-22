@@ -1,13 +1,15 @@
 <?php
 
 /**
- * This is the model class for table "infopengajuanpemotongan_v".
+ * This is the model class for table "infopenerimaanpotongan_v".
  *
- * The followings are the available columns in table 'infopengajuanpemotongan_v':
+ * The followings are the available columns in table 'infopenerimaanpotongan_v':
  * @property integer $pegawai_id
  * @property string $nomorindukpegawai
  * @property string $gelardepan
  * @property string $nama_pegawai
+ * @property integer $gelarbelakang_id
+ * @property string $gelarbelakang_nama
  * @property string $tempatlahir_pegawai
  * @property string $tgl_lahirpegawai
  * @property string $jeniskelamin
@@ -26,19 +28,16 @@
  * @property integer $pengajuanpembayaran_id
  * @property string $tglpengajuanpemb
  * @property string $nopengajuan
- * @property string $tglpembjthtempo
- * @property string $sampaidgntgljthtempo
- * @property double $simpananwajib
- * @property double $simpanansukarela
- * @property double $jmlpokok_pengangs
- * @property double $jmljasaangs_pengangs
- * @property double $jmldendaangs_pengangs
- * @property double $jmlpengajuan_pengangsuran
- * @property double $jmlsisapeng_pengangs
  * @property integer $pembayaranangsuran_id
  * @property string $tglpembayaranangsuran
  * @property integer $byrangsuranke
  * @property integer $lamahari_sdhjthtempo
+ * @property double $simpananwajib
+ * @property double $simpanansukarela
+ * @property double $jmlpokok_byrangsuran
+ * @property double $jmljasa_byrangsuran
+ * @property double $jmldenda_byrangsuran
+ * @property double $jmlpengajuan_pengangsuran
  * @property double $jmlsisa_pembangsuran
  * @property double $jmlbayar_pembangsuran
  * @property integer $buktikasmasukkop_id
@@ -48,19 +47,18 @@
  * @property string $sebagaipembayaran_bkm
  * @property double $jmlpembayaran
  * @property double $uangditerima
- * @property string $tgldibuat_pengpemb
- * @property integer $dibuatoleh_id_pengpemb
- * @property string $tgldiperiksa_pengpemb
- * @property integer $diperiksaoleh_id_pengpemb
- * @property string $tgldisetujui_pengpemb
- * @property integer $disetujuioleh_id_pengpemb
+ * @property string $create_time
+ * @property string $update_time
+ * @property integer $create_loginpemakai_id
+ * @property integer $update_loginpemakai_id
+ * @property integer $create_ruangan
  */
-class InfopengajuanpemotonganV extends CActiveRecord
+class InfopenerimaanpotonganV extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return InfopengajuanpemotonganV the static model class
+	 * @return InfopenerimaanpotonganV the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -72,7 +70,7 @@ class InfopengajuanpemotonganV extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'infopengajuanpotongan_v';
+		return 'infopenerimaanpotongan_v';
 	}
 
 	/**
@@ -83,18 +81,19 @@ class InfopengajuanpemotonganV extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pegawai_id, golonganpegawai_id, jabatan_id, pangkat_id, keanggotaan_id, potongansumber_id, pengajuanpembayaran_id, pembayaranangsuran_id, byrangsuranke, lamahari_sdhjthtempo, buktikasmasukkop_id, dibuatoleh_id_pengpemb, diperiksaoleh_id_pengpemb, disetujuioleh_id_pengpemb', 'numerical', 'integerOnly'=>true),
-			array('simpananwajib, simpanansukarela, jmlpokok_pengangs, jmljasaangs_pengangs, jmldendaangs_pengangs, jmlpengajuan_pengangsuran, jmlsisapeng_pengangs, jmlsisa_pembangsuran, jmlbayar_pembangsuran, jmlpembayaran, uangditerima', 'numerical'),
+			array('pegawai_id, gelarbelakang_id, golonganpegawai_id, jabatan_id, pangkat_id, keanggotaan_id, potongansumber_id, pengajuanpembayaran_id, pembayaranangsuran_id, byrangsuranke, lamahari_sdhjthtempo, buktikasmasukkop_id, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
+			array('simpananwajib, simpanansukarela, jmlpokok_byrangsuran, jmljasa_byrangsuran, jmldenda_byrangsuran, jmlpengajuan_pengangsuran, jmlsisa_pembangsuran, jmlbayar_pembangsuran, jmlpembayaran, uangditerima', 'numerical'),
 			array('nomorindukpegawai, tempatlahir_pegawai', 'length', 'max'=>30),
 			array('gelardepan', 'length', 'max'=>10),
 			array('nama_pegawai, golonganpegawai_nama, pangkat_nama, nokeanggotaan, nopengajuan, nobuktimasuk, carapembayaran', 'length', 'max'=>50),
+			array('gelarbelakang_nama', 'length', 'max'=>15),
 			array('jeniskelamin', 'length', 'max'=>20),
 			array('kategoripegawai', 'length', 'max'=>128),
 			array('jabatan_nama, namapotongan, sebagaipembayaran_bkm', 'length', 'max'=>100),
-			array('tgl_lahirpegawai, alamat_pegawai, tglpengajuanpemb, tglpembjthtempo, sampaidgntgljthtempo, tglpembayaranangsuran, tglbuktibayar, tgldibuat_pengpemb, tgldiperiksa_pengpemb, tgldisetujui_pengpemb', 'safe'),
+			array('tgl_lahirpegawai, alamat_pegawai, tglpengajuanpemb, tglpembayaranangsuran, tglbuktibayar, create_time, update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('pegawai_id, nomorindukpegawai, gelardepan, nama_pegawai, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, alamat_pegawai, kategoripegawai, golonganpegawai_id, golonganpegawai_nama, jabatan_id, jabatan_nama, pangkat_id, pangkat_nama, keanggotaan_id, nokeanggotaan, potongansumber_id, namapotongan, pengajuanpembayaran_id, tglpengajuanpemb, nopengajuan, tglpembjthtempo, sampaidgntgljthtempo, simpananwajib, simpanansukarela, jmlpokok_pengangs, jmljasaangs_pengangs, jmldendaangs_pengangs, jmlpengajuan_pengangsuran, jmlsisapeng_pengangs, pembayaranangsuran_id, tglpembayaranangsuran, byrangsuranke, lamahari_sdhjthtempo, jmlsisa_pembangsuran, jmlbayar_pembangsuran, buktikasmasukkop_id, tglbuktibayar, nobuktimasuk, carapembayaran, sebagaipembayaran_bkm, jmlpembayaran, uangditerima, tgldibuat_pengpemb, dibuatoleh_id_pengpemb, tgldiperiksa_pengpemb, diperiksaoleh_id_pengpemb, tgldisetujui_pengpemb, disetujuioleh_id_pengpemb', 'safe', 'on'=>'search'),
+			array('pegawai_id, nomorindukpegawai, gelardepan, nama_pegawai, gelarbelakang_id, gelarbelakang_nama, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, alamat_pegawai, kategoripegawai, golonganpegawai_id, golonganpegawai_nama, jabatan_id, jabatan_nama, pangkat_id, pangkat_nama, keanggotaan_id, nokeanggotaan, potongansumber_id, namapotongan, pengajuanpembayaran_id, tglpengajuanpemb, nopengajuan, pembayaranangsuran_id, tglpembayaranangsuran, byrangsuranke, lamahari_sdhjthtempo, simpananwajib, simpanansukarela, jmlpokok_byrangsuran, jmljasa_byrangsuran, jmldenda_byrangsuran, jmlpengajuan_pengangsuran, jmlsisa_pembangsuran, jmlbayar_pembangsuran, buktikasmasukkop_id, tglbuktibayar, nobuktimasuk, carapembayaran, sebagaipembayaran_bkm, jmlpembayaran, uangditerima, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -116,55 +115,53 @@ class InfopengajuanpemotonganV extends CActiveRecord
 	{
 		return array(
 			'pegawai_id' => 'Pegawai',
-			'nomorindukpegawai' => 'Nomorindukpegawai',
+			'nomorindukpegawai' => 'NIP',
 			'gelardepan' => 'Gelardepan',
 			'nama_pegawai' => 'Nama Pegawai',
-			'tempatlahir_pegawai' => 'Tempatlahir Pegawai',
+			'gelarbelakang_id' => 'Gelar belakang',
+			'gelarbelakang_nama' => 'Gelar Belakang',
+			'tempatlahir_pegawai' => 'Tempat Lahir Pegawai',
 			'tgl_lahirpegawai' => 'Tgl Lahirpegawai',
-			'jeniskelamin' => 'Jeniskelamin',
+			'jeniskelamin' => 'Jenis Kelamin',
 			'alamat_pegawai' => 'Alamat Pegawai',
-			'kategoripegawai' => 'Kategoripegawai',
-			'golonganpegawai_id' => 'Golonganpegawai',
-			'golonganpegawai_nama' => 'Golonganpegawai Nama',
+			'kategoripegawai' => 'Kategori Pegawai',
+			'golonganpegawai_id' => 'Golongan Pegawai',
+			'golonganpegawai_nama' => 'Golongan Pegawai',
 			'jabatan_id' => 'Jabatan',
-			'jabatan_nama' => 'Jabatan Nama',
+			'jabatan_nama' => 'Jabatan',
 			'pangkat_id' => 'Pangkat',
-			'pangkat_nama' => 'Pangkat Nama',
+			'pangkat_nama' => 'Pangkat',
 			'keanggotaan_id' => 'Keanggotaan',
 			'nokeanggotaan' => 'No Keanggotaan',
-			'potongansumber_id' => 'Potongan Sumber',
-			'namapotongan' => 'Namapotongan',
+			'potongansumber_id' => 'Potongansumber',
+			'namapotongan' => 'Potongan',
 			'pengajuanpembayaran_id' => 'Pengajuanpembayaran',
-			'tglpengajuanpemb' => 'Tglpengajuanpemb',
+			'tglpengajuanpemb' => 'Tgl Pengajuanpemb',
 			'nopengajuan' => 'No Pengajuan',
-			'tglpembjthtempo' => 'Tglpembjthtempo',
-			'sampaidgntgljthtempo' => 'Sampaidgntgljthtempo',
-			'simpananwajib' => 'Simpananwajib',
-			'simpanansukarela' => 'Simpanansukarela',
-			'jmlpokok_pengangs' => 'Jmlpokok Pengangs',
-			'jmljasaangs_pengangs' => 'Jmljasaangs Pengangs',
-			'jmldendaangs_pengangs' => 'Jmldendaangs Pengangs',
-			'jmlpengajuan_pengangsuran' => 'Jmlpengajuan Pengangsuran',
-			'jmlsisapeng_pengangs' => 'Jmlsisapeng Pengangs',
-			'pembayaranangsuran_id' => 'Pembayaranangsuran',
-			'tglpembayaranangsuran' => 'Tglpembayaranangsuran',
-			'byrangsuranke' => 'Byrangsuranke',
+			'pembayaranangsuran_id' => 'Pembayaran Angsuran',
+			'tglpembayaranangsuran' => 'Tgl Pembayaran Angsuran',
+			'byrangsuranke' => 'Bayar Angsuran Ke',
 			'lamahari_sdhjthtempo' => 'Lamahari Sdhjthtempo',
+			'simpananwajib' => 'Simpanan Wajib',
+			'simpanansukarela' => 'Simpanan Sukarela',
+			'jmlpokok_byrangsuran' => 'Jml Pokok Byrangsuran',
+			'jmljasa_byrangsuran' => 'Jml Jasa Byrangsuran',
+			'jmldenda_byrangsuran' => 'Jml Denda Byrangsuran',
+			'jmlpengajuan_pengangsuran' => 'Jmlpengajuan Pengangsuran',
 			'jmlsisa_pembangsuran' => 'Jmlsisa Pembangsuran',
 			'jmlbayar_pembangsuran' => 'Jmlbayar Pembangsuran',
 			'buktikasmasukkop_id' => 'Buktikasmasukkop',
 			'tglbuktibayar' => 'Tglbuktibayar',
-			'nobuktimasuk' => 'Nobuktimasuk',
+			'nobuktimasuk' => 'No Bukti Masuk',
 			'carapembayaran' => 'Carapembayaran',
 			'sebagaipembayaran_bkm' => 'Sebagaipembayaran Bkm',
 			'jmlpembayaran' => 'Jmlpembayaran',
 			'uangditerima' => 'Uangditerima',
-			'tgldibuat_pengpemb' => 'Tgldibuat Pengpemb',
-			'dibuatoleh_id_pengpemb' => 'Dibuatoleh Id Pengpemb',
-			'tgldiperiksa_pengpemb' => 'Tgldiperiksa Pengpemb',
-			'diperiksaoleh_id_pengpemb' => 'Diperiksaoleh Id Pengpemb',
-			'tgldisetujui_pengpemb' => 'Tgldisetujui Pengpemb',
-			'disetujuioleh_id_pengpemb' => 'Disetujuioleh Id Pengpemb',
+			'create_time' => 'Create Time',
+			'update_time' => 'Update Time',
+			'create_loginpemakai_id' => 'Create Loginpemakai',
+			'update_loginpemakai_id' => 'Update Loginpemakai',
+			'create_ruangan' => 'Create Ruangan',
 		);
 	}
 
@@ -183,6 +180,8 @@ class InfopengajuanpemotonganV extends CActiveRecord
 		$criteria->compare('nomorindukpegawai',$this->nomorindukpegawai,true);
 		$criteria->compare('gelardepan',$this->gelardepan,true);
 		$criteria->compare('nama_pegawai',$this->nama_pegawai,true);
+		$criteria->compare('gelarbelakang_id',$this->gelarbelakang_id);
+		$criteria->compare('gelarbelakang_nama',$this->gelarbelakang_nama,true);
 		$criteria->compare('tempatlahir_pegawai',$this->tempatlahir_pegawai,true);
 		$criteria->compare('tgl_lahirpegawai',$this->tgl_lahirpegawai,true);
 		$criteria->compare('jeniskelamin',$this->jeniskelamin,true);
@@ -201,19 +200,16 @@ class InfopengajuanpemotonganV extends CActiveRecord
 		$criteria->compare('pengajuanpembayaran_id',$this->pengajuanpembayaran_id);
 		$criteria->compare('tglpengajuanpemb',$this->tglpengajuanpemb,true);
 		$criteria->compare('nopengajuan',$this->nopengajuan,true);
-		$criteria->compare('tglpembjthtempo',$this->tglpembjthtempo,true);
-		$criteria->compare('sampaidgntgljthtempo',$this->sampaidgntgljthtempo,true);
-		$criteria->compare('simpananwajib',$this->simpananwajib);
-		$criteria->compare('simpanansukarela',$this->simpanansukarela);
-		$criteria->compare('jmlpokok_pengangs',$this->jmlpokok_pengangs);
-		$criteria->compare('jmljasaangs_pengangs',$this->jmljasaangs_pengangs);
-		$criteria->compare('jmldendaangs_pengangs',$this->jmldendaangs_pengangs);
-		$criteria->compare('jmlpengajuan_pengangsuran',$this->jmlpengajuan_pengangsuran);
-		$criteria->compare('jmlsisapeng_pengangs',$this->jmlsisapeng_pengangs);
 		$criteria->compare('pembayaranangsuran_id',$this->pembayaranangsuran_id);
 		$criteria->compare('tglpembayaranangsuran',$this->tglpembayaranangsuran,true);
 		$criteria->compare('byrangsuranke',$this->byrangsuranke);
 		$criteria->compare('lamahari_sdhjthtempo',$this->lamahari_sdhjthtempo);
+		$criteria->compare('simpananwajib',$this->simpananwajib);
+		$criteria->compare('simpanansukarela',$this->simpanansukarela);
+		$criteria->compare('jmlpokok_byrangsuran',$this->jmlpokok_byrangsuran);
+		$criteria->compare('jmljasa_byrangsuran',$this->jmljasa_byrangsuran);
+		$criteria->compare('jmldenda_byrangsuran',$this->jmldenda_byrangsuran);
+		$criteria->compare('jmlpengajuan_pengangsuran',$this->jmlpengajuan_pengangsuran);
 		$criteria->compare('jmlsisa_pembangsuran',$this->jmlsisa_pembangsuran);
 		$criteria->compare('jmlbayar_pembangsuran',$this->jmlbayar_pembangsuran);
 		$criteria->compare('buktikasmasukkop_id',$this->buktikasmasukkop_id);
@@ -223,39 +219,101 @@ class InfopengajuanpemotonganV extends CActiveRecord
 		$criteria->compare('sebagaipembayaran_bkm',$this->sebagaipembayaran_bkm,true);
 		$criteria->compare('jmlpembayaran',$this->jmlpembayaran);
 		$criteria->compare('uangditerima',$this->uangditerima);
-		$criteria->compare('tgldibuat_pengpemb',$this->tgldibuat_pengpemb,true);
-		$criteria->compare('dibuatoleh_id_pengpemb',$this->dibuatoleh_id_pengpemb);
-		$criteria->compare('tgldiperiksa_pengpemb',$this->tgldiperiksa_pengpemb,true);
-		$criteria->compare('diperiksaoleh_id_pengpemb',$this->diperiksaoleh_id_pengpemb);
-		$criteria->compare('tgldisetujui_pengpemb',$this->tgldisetujui_pengpemb,true);
-		$criteria->compare('disetujuioleh_id_pengpemb',$this->disetujuioleh_id_pengpemb);
+		$criteria->compare('create_time',$this->create_time,true);
+		$criteria->compare('update_time',$this->update_time,true);
+		$criteria->compare('create_loginpemakai_id',$this->create_loginpemakai_id);
+		$criteria->compare('update_loginpemakai_id',$this->update_loginpemakai_id);
+		$criteria->compare('create_ruangan',$this->create_ruangan);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
         
-        public function searchInformasi() {
+        public function searchPrint(){
 		$provider = $this->search();
-
-		$provider->criteria->select = $provider->criteria->group =
-		'nopengajuan, tglpengajuanpemb, namaunit, namapotongan, nokeanggotaan, nama_pegawai,
-		simpananwajib, simpanansukarela, jmlpokok_pengangs, jmljasaangs_pengangs, jmljasaangs_pengangs,
-		jmlpengajuan_pengangsuran, jmlpengajuan_pengangsuran, pengajuanpembayaran_id, potongansumber_id, jmldendaangs_pengangs
-		 ';
-
+		$provider->setPagination(false);
+		$provider->setSort(false);
 		return $provider;
 	}
 
-	public function searchNoPermintaan() {
-		$criteria = new CDbCriteria();
-		//$criteria->join = "left join pembayaranangsuran_t p on p.pengajuanpembayaran_id = t.pengajuanpembayaran_id";
-		$criteria->select = $criteria->group = "t.potongansumber_id, t.tglpengajuanpemb, t.nopengajuan, t.dibuatoleh_id_pengpemb, t.diperiksaoleh_id_pengpemb, t.disetujuioleh_id_pengpemb";
-		$criteria->addCondition('t.buktikasmasukkop_id is null');
-		$criteria->compare('lower(t.nopengajuan)', strtolower($this->nopengajuan), true);
+	public function getTotSW($provider) {
+		$prov = clone $provider;
+		$prov->pagination = false;
+		$total = 0;
+		foreach ($prov->data as $item) {
+			$total += $item->simpananwajib;
+		}
+		return $total;
+	}
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+	public function getTotSS($provider) {
+		$prov = clone $provider;
+		$prov->pagination = false;
+		$total = 0;
+		foreach ($prov->data as $item) {
+			$total += $item->simpanansukarela;
+		}
+		return $total;
+	}
+
+	public function getTotPA($provider) {
+		$prov = clone $provider;
+		$prov->pagination = false;
+		$total = 0;
+		foreach ($prov->data as $item) {
+			$total += $item->jmlpokok_byrangsuran;
+		}
+		return $total;
+	}
+
+	public function getTotJA($provider) {
+		$prov = clone $provider;
+		$prov->pagination = false;
+		$total = 0;
+		foreach ($prov->data as $item) {
+			$total += $item->jmljasa_byrangsuran;
+		}
+		return $total;
+	}
+
+	public function getTotDA($provider) {
+		$prov = clone $provider;
+		$prov->pagination = false;
+		$total = 0;
+		foreach ($prov->data as $item) {
+			$total += $item->jmldenda_byrangsuran;
+		}
+		return $total;
+	}
+
+	public function getTotPengajuan($provider) {
+		$prov = clone $provider;
+		$prov->pagination = false;
+		$total = 0;
+		foreach ($prov->data as $item) {
+			$total += $item->jmlpengajuan_pengangsuran;
+		}
+		return $total;
+	}
+
+	public function getTotPotongan($provider) {
+		$prov = clone $provider;
+		$prov->pagination = false;
+		$total = 0;
+		foreach ($prov->data as $item) {
+			$total += $item->jmlbayar_pembangsuran;
+		}
+		return $total;
+	}
+
+	public function getTotSisa($provider) {
+		$prov = clone $provider;
+		$prov->pagination = false;
+		$total = 0;
+		foreach ($prov->data as $item) {
+			$total += $item->jmlsisa_pembangsuran;
+		}
+		return $total;
 	}
 }

@@ -1,83 +1,104 @@
-<?php
-$pengajuan = clone $pengajuanPemotongan;
-$pengajuan->tglAwal = date('d/m/Y', strtotime($pengajuan->tglAwal));
-$pengajuan->tglAkhir = date('d/m/Y', strtotime($pengajuan->tglAkhir));
+<?php $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+	'id'=>'informasi-pengajuanpemotongan-form',
+	'enableAjaxValidation'=>false,
+	'type'=>'horizontal',
+	'focus' => '#adcontact-form div.form-group:first-child div input',
+	'htmlOptions'=>array('class'=>'form-groups-bordered','onKeyPress'=>'return disableKeyPress(event);', //, 'onsubmit'=>'return requiredCheck(this);', 
+	'enctype' => 'multipart/form-data'),
+)); ?>
+<?php 
+
+$format = new MyFormatter();
 ?>
-<div class="panel panel-primary col-sm-12" id="panel-pencarian">
-	<div class="panel-heading panel-heading2">
-		<div class="panel-title">Pencarian</div>
-	</div>
-	<div class="panel-body col-sm-12">
-		<div class="panel-body col-sm-6">
-			<div class="form-group">
-				<?php echo $form->label($pengajuanPemotongan, 'tglpengajuanpemb', array('class'=>'control-label col-sm-4')); ?>
-				<div class="col-sm-8">
-					<div class="input-group">
-					<?php
-					$this->widget('bootstrap.widgets.TbDatePicker', array(
-						'model'=>$pengajuan, 'attribute'=>'tglAwal', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy'),
-					));
-					?>
-					<div class='input-group-addon' onclick="$('#InfopengajuanpemotonganV_tglAwal').focus();">
-        					<a href='#'>
-            			<i class='entypo-calendar'></i>
-        					</a>
-    					</div>
-    					</div>
-				</div>
+<table width="100%">
+    <tr>
+        <td>
+                        <div class="control-group">	
+                                <label class="control-label" >				
+                                    Tanggal Pengajuan
+                                </label>
+				<div class="controls">					
+                                    <?php   
+                                        $pengajuanPemotongan->tgl_awal = $format->formatDateTimeForUser($pengajuanPemotongan->tgl_awal);
+                                        $this->widget('MyDateTimePicker',array(
+                                        'model'=>$pengajuanPemotongan,
+                                        'attribute'=>'tgl_awal',
+                                        'mode'=>'date',
+                                        'options'=> array(
+                                            'dateFormat'=>Params::DATE_FORMAT,
+                                            'maxDate' => 'd',
+                                        ),
+                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                    ));?>					
+    				</div>    				
 			</div>
-			<div class="form-group">
-				<?php echo $form->label($pengajuanPemotongan, 'tglAkhir', array('class'=>'control-label col-sm-4')); ?>
-				<div class="col-sm-8">
-					<div class="input-group">
-					<?php
-					$this->widget('bootstrap.widgets.TbDatePicker', array(
-						'model'=>$pengajuan, 'attribute'=>'tglAkhir', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy'),
-					));
-					?>
-					<div class='input-group-addon' onclick="$('#InfopengajuanpemotonganV_tglAkhir').focus();">
-        					<a href='#'>
-            			<i class='entypo-calendar'></i>
-        					</a>
-    					</div>
-    					</div>
-				</div>
+			
+            
+                        <div class="control-group">				
+				<?php echo Chtml::label('Sampai Dengan', 'tgl_akhir', array('class' => 'control-label')); ?>
+				<div class="controls">					
+                                    <?php   
+                                        $pengajuanPemotongan->tgl_akhir = $format->formatDateTimeForUser($pengajuanPemotongan->tgl_akhir);
+                                        $this->widget('MyDateTimePicker',array(
+                                        'model'=>$pengajuanPemotongan,
+                                        'attribute'=>'tgl_akhir',
+                                        'mode'=>'date',
+                                        'options'=> array(
+                                            'dateFormat'=>Params::DATE_FORMAT,
+                                            'maxDate' => 'd',
+                                        ),
+                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                    ));?>					
+    				</div>    				
 			</div>
-			<div class="form-group">
-				<?php echo $form->label($pengajuanPemotongan, 'nopengajuan', array('class'=>'control-label col-sm-4')); ?>
-				<div class="col-sm-8">
-				<?php echo $form->textField($pengajuanPemotongan,'nopengajuan',array('class'=>'form-control','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$pengajuanPemotongan->getAttributeLabel('nopengajuan'),)); ?>
-				</div>
-			</div>
-		</div>
-		<div class="panel-body col-sm-6">
-			<div class="form-group">
-				<?php echo $form->label($pengajuanPemotongan, 'nokeanggotaan', array('class'=>'control-label col-sm-4')); ?>
-				<div class="col-sm-8">
-				<?php echo $form->textField($pengajuanPemotongan,'nokeanggotaan',array('class'=>'form-control','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$pengajuanPemotongan->getAttributeLabel('nokeanggotaan'),)); ?>
-				</div>
-			</div>
-			<div class="form-group">
-				<?php echo $form->label($pengajuanPemotongan, 'nama_pegawai', array('class'=>'control-label col-sm-4')); ?>
-				<div class="col-sm-8">
-				<?php echo $form->textField($pengajuanPemotongan,'nama_pegawai',array('class'=>'form-control','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$pengajuanPemotongan->getAttributeLabel('nama_pegawai'),)); ?>
-				</div>
-			</div>
-			<div class="form-group">
-				<?php echo $form->label($pengajuanPemotongan, 'unit_id', array('class'=>'control-label col-sm-4')); ?>
-				<div class="col-sm-8">
-				<?php echo $form->dropDownList($pengajuanPemotongan,'unit_id',CHtml::listData(UnitM::model()->findAll(array('order'=>'namaunit', 'condition'=>'unit_aktif = true')), 'unit_id', 'namaunit'), array('empty'=>'-- Pilih --', 'class'=>'form-control','maxlength'=>100, 'placeholder'=>$pengajuanPemotongan->getAttributeLabel('nopengajuan'),)); ?>
-				</div>
-			</div>
-			<div class="form-group">
-				<?php echo $form->label($pengajuanPemotongan, 'potongansumber_id', array('class'=>'control-label col-sm-4')); ?>
-				<div class="col-sm-8">
-				<?php echo $form->dropDownList($pengajuanPemotongan,'potongansumber_id',CHtml::listData(PotongansumberM::model()->findAll(array('order'=>'namapotongan', 'condition'=>'potongansumber_aktif = true')), 'potongansumber_id', 'namapotongan'), array('empty'=>'-- Pilih --', 'class'=>'form-control','maxlength'=>100, 'placeholder'=>$pengajuanPemotongan->getAttributeLabel('nopengajuan'),)); ?>
+            
+                        <?php echo $form->textFieldRow($pengajuanPemotongan,'nopengajuan',array('class'=>'span3 angkahuruf-only','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$pengajuanPemotongan->getAttributeLabel('no_pinjaman'),)); ?>	
+        </td>
+        <td>
+                <?php echo $form->textFieldRow($pengajuanPemotongan,'nokeanggotaan',array('class'=>'span3 numbers-only','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$pengajuanPemotongan->getAttributeLabel('nokeanggotaan'),)); ?>	
+		
+                <?php echo $form->textFieldRow($pengajuanPemotongan,'nama_pegawai',array('class'=>'span3 hurufs-only','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$pengajuanPemotongan->getAttributeLabel('nama_anggota'),)); ?>	
+            
+                <div class="control-group">
+				<?php echo Chtml::label('Sumber Potongan', 'golonganpegawai_id', array('class'=>'control-label col-sm-4')); ?>
+				<div class="controls">
+					<?php echo $form->dropDownList($pengajuanPemotongan, 'potongansumber_id', CHtml::listData(PotongansumberM::model()->findAll(array('condition'=>'potongansumber_aktif = true', 'order'=>'namapotongan asc')), 'potongansumber_id', 'namapotongan'), array('empty'=>'-- Pilih --', 'class'=>'form-control')); ?>
 				</div>
 			</div>
 		</div>
-		<div class="panel-body col-sm-12">
-			<?php echo CHtml::button('Cari', array('class'=>'btn btn-blue', 'id'=>'btn-cari')); ?>
-		</div>
-	</div>
-</div>
+		
+		
+		
+		
+        </td>
+    </tr>
+		
+			
+			
+</table>
+<div class="span12">
+			<?php //echo CHtml::submitButton('Cari', array('class'=>'btn btn-blue', 'id'=>'btn-cari')); ?>
+			<?php //echo CHtml::link('Pengajuan Pemotongan', $this->createUrl('pengajuanPemotongan/index'), array('class'=>'btn btn-green', 'id'=>'btn-cari', 'target'=>'_blank')); ?>
+                    <?php
+                echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit'));
+            ?>
+            <?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
+                                        $this->createUrl($this->id.'/index'), 
+                                        array('class'=>'btn btn-danger',
+                                            'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));  ?>
+		
+             <?php
+                    $tips = array(
+                        '0' => 'tanggal',
+                        '1' => 'ubah',
+                        '2' => 'printKartu',
+                        '3' => 'batal',
+                        '4' => 'cari',
+                        '5' => 'ulang2',
+                        
+                    );
+                    $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                ?>
+		</div> 
+<?php $this->endWidget(); ?>
