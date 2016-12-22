@@ -24,10 +24,10 @@
 				echo "<td>".$value['invgedung_namabrg'];
 				echo "</td>";
 
-				echo "<td>".number_format($value['invgedung_harga']);
+				echo "<td style='text-align: right;'>".MyFormatter::formatNumberForPrint($value['invgedung_harga']);
 				echo "</td>";
 
-				echo "<td>".number_format($value['hargajualaktiva']);
+				echo "<td style='text-align: right;'>".MyFormatter::formatNumberForPrint($value['hargajualaktiva']);
 				echo "</td>";
 			echo"</tr>";
 		}
