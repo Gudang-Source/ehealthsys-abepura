@@ -318,7 +318,9 @@ class PenjualanAsetController extends MyAuthController
 		$criteria       = new CDbCriteria;
 		$criteria->addCondition($conditions);
 		if($jenis_inventori=="peralatan"){
-		  $criteria->addCondition("split_part(invperalatan_noregister, '-',3)='04' ");
+			$criteria->join = "join barang_v b on b.barang_id = t.barang_id";
+			$criteria->addCondition("b.bidang_id in (8, 9)");
+		  // $criteria->addCondition("split_part(invperalatan_noregister, '-',3)='04' ");
 		  $modPenggajian  = InvperalatanT::model()->findAll($criteria);
 		  if(count($modPenggajian)>0){
 			foreach ($modPenggajian as $i => $model) {
@@ -340,8 +342,10 @@ class PenjualanAsetController extends MyAuthController
 			  $this->renderPartial($this->path_view.'_rincian', array('modRincian'=>null), false)
 			  );
 		  }
-		}elseif($jenis_inventori=="peralatan_non_medis"){
-		  $criteria->addCondition("split_part(invperalatan_noregister, '-',3)='05' ");
+		} elseif($jenis_inventori=="peralatan_non_medis"){
+			$criteria->join = "join barang_v b on b.barang_id = t.barang_id";
+			$criteria->addCondition("b.bidang_id not in (8, 9, 3)");
+		  // $criteria->addCondition("split_part(invperalatan_noregister, '-',3)='05' ");
 		  $modPenggajian  = InvperalatanT::model()->findAll($criteria);
 		  if(count($modPenggajian)>0){
 			foreach ($modPenggajian as $i => $model) {
@@ -408,7 +412,9 @@ class PenjualanAsetController extends MyAuthController
 			  );
 		  }
 		}elseif($jenis_inventori=="kendaraan"){
-		  $criteria->addCondition("split_part(invperalatan_noregister, '-',3)='03' ");
+			$criteria->join = "join barang_v b on b.barang_id = t.barang_id";
+		  $criteria->addCondition("b.bidang_id = 3");
+		  //$criteria->addCondition("split_part(invperalatan_noregister, '-',3)='03' ");
 		  $modPenggajian  = InvperalatanT::model()->findAll($criteria);
 		  if(count($modPenggajian)>0){
 			foreach ($modPenggajian as $i => $model) {

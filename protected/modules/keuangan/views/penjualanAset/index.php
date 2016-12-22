@@ -29,7 +29,7 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 					'onkeypress'=>"return $(this).focusNextInputField(event)",
-					'class'=>'dtPicker3',
+					'class'=>'dtPicker3 tglpenghapusan',
 					'onChange'=>'ambilDataPenghapusan()',
 				),
 			)); ?> 
@@ -48,7 +48,7 @@
                 <th>Nama Barang</th>
                 <th>Harga</th>
                 <th>Harga Jual Aktiva</th>
-                <th>&nbsp;</th>
+                <!--th>&nbsp;</th-->
             </tr>
         </thead>
         <tbody>
