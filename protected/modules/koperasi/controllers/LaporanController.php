@@ -460,7 +460,7 @@ class LaporanController extends MyAuthController
         $data['title'] = 'Grafik Laporan Angsuran Pinjaman Anggota';
         $data['type'] = (isset($_GET['type']) ? $_GET['type'] : null);
                         
-        if (isset($_GET['KOLaporanangsuranV'])) {
+        if (isset($_GET['KOLaporanangsuranV'])) {//angsuan
             $model->attributes = $_GET['KOLaporanangsuranV'];
             $model->jns_periode = $_GET['KOLaporanangsuranV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['KOLaporanangsuranV']['tgl_awal']);
