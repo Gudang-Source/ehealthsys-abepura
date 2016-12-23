@@ -37,7 +37,7 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
                 $loadKunjungan = BKInfokunjunganrdV::model()->findByAttributes(array('pendaftaran_id'=>$_GET['pendaftaran_id']));;
             }else if($_GET['instalasi_id'] == Params::INSTALASI_ID_RI){
 				//$loadKunjungan = BKInfopasienmasukkamarV::model()->findByAttributes(array('pendaftaran_id'=>$_GET['pendaftaran_id'],'pasienadmisi_id'=>@$_POST['pasienadmisi_id']));;
-				$loadKunjungan = BKInfopasienmasukkamarV::model()->findByAttributes(array('pendaftaran_id'=>$_GET['pendaftaran_id']));;
+				$loadKunjungan = BKInformasikasirinappulangV::model()->findByAttributes(array('pendaftaran_id'=>$_GET['pendaftaran_id']));;
 			}
             if(isset($loadKunjungan)){
                 $modKunjungan = $loadKunjungan;
@@ -68,8 +68,10 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
 
                 // SMS GATEWAY
                 
+				
                 $sms = new Sms();
                 $smspasien = 1;
+				/*
                 foreach ($modSmsgateway as $i => $smsgateway) {
                     $isiPesan = $smsgateway->templatesms;
 
@@ -97,8 +99,10 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
                     }
                     
                 }
+				 * 
+				 */
                 // END SMS GATEWAY
-
+				// die;
                 $transaction->commit();
                 Yii::app()->user->setFlash('success',"Data berhasil disimpan");
                 if(empty($modBayaruangmuka->bayaruangmuka_id))
@@ -151,7 +155,7 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
                 }else if($_POST['instalasi_id'] == Params::INSTALASI_ID_RD){
                     $modKunjungan = BKInfokunjunganrdV::model()->find($criteria);
                 }else if($_POST['instalasi_id'] == Params::INSTALASI_ID_RI){
-                    $modKunjungan = BKInfopasienmasukkamarV::model()->find($criteria);
+                    $modKunjungan = BKInformasikasirinappulangV::model()->find($criteria);
                 }
                 $model = new BKBayaruangmukaT;
                 $modTandabukti = new BKTandabuktibayarT;
@@ -220,6 +224,10 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
 
     protected function saveBayarUangMuka($modTandaBukti,$modPendaftaran,$modPasien)
     {
+		// var_dump($modPendaftaran->attributes); die;
+		
+		$admisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
+		
         $modUangMuka = new BayaruangmukaT;
         $modUangMuka->tandabuktibayar_id = $modTandaBukti->tandabuktibayar_id;
         $modUangMuka->tgluangmuka = $modTandaBukti->tglbuktibayar;
@@ -228,10 +236,12 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
         $modUangMuka->pasien_id = $modPendaftaran->pasien_id;
         $modUangMuka->pasienadmisi_id = $modPendaftaran->pasienadmisi_id;
 //      --RND-9743  $modUangMuka->ruangan_id = Yii::app()->user->getState('ruangan_id');
-        $modUangMuka->ruangan_id = $modPendaftaran->ruangan_id;
+        $modUangMuka->ruangan_id = empty($admisi)?$modPendaftaran->ruangan_id:$admisi->ruangan_id;
 		$modUangMuka->create_ruangan = Yii::app()->user->getState('ruangan_id');
 		$modUangMuka->create_time = date("Y-m-d H:i:s");
 		$modUangMuka->create_loginpemakai_id = Yii::app()->user->id;
+		
+		// var_dump($modUangMuka->attributes); die;
 		
         if($modUangMuka->validate())
         {
@@ -308,7 +318,7 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
             }else if($instalasi_id == Params::INSTALASI_ID_RD){
                 $models = BKInfokunjunganrdV::model()->findAll($criteria);
             }else if($instalasi_id == Params::INSTALASI_ID_RI){
-                $models = BKInfopasienmasukkamarV::model()->findAll($criteria);
+                $models = BKInformasikasirinappulangV::model()->findAll($criteria);
             }
             foreach($models as $i=>$model)
             {
@@ -352,16 +362,19 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
 				$criteria->addCondition("pasienadmisi_id = ".$pasienadmisi_id);					
 			}
 			if(!empty($instalasi_id)){
-				$criteria->addCondition("instalasi_id = ".$instalasi_id);					
+				// $criteria->addCondition("instalasi_id = ".$instalasi_id);					
 			}
+			
+			// var_dump($pendaftaran_id); die;
             $criteria->compare('LOWER(no_pendaftaran)',strtolower(trim($no_pendaftaran)));
             $criteria->compare('LOWER(no_rekam_medik)',strtolower(trim($no_rekam_medik)));
+			// var_dump($criteria); die;
             if($instalasi_id == Params::INSTALASI_ID_RJ){
                 $model = BKInfokunjunganrjV::model()->find($criteria);
             }else if($instalasi_id == Params::INSTALASI_ID_RD){
                 $model = BKInfokunjunganrdV::model()->find($criteria);
             }else if($instalasi_id == Params::INSTALASI_ID_RI){
-                $model = BKInfopasienmasukkamarV::model()->find($criteria);
+                $model = BKInformasikasirinappulangV::model()->find($criteria);
             }
             
             $attributes = $model->attributeNames();
