@@ -128,20 +128,20 @@ function checkDisableInput() {
 	});
 }
 
-$('#pegawai-m-grid').find("table >thead >tr >th").css({ 'color': '#373E4A'});
-$('#pegawai-m-grid').find("table >thead >tr >th").hover(function() {
-  $(this).css("color","#818DA2");
-},function(){
-  $(this).css("color","#373E4A");
-});
+//$('#pegawai-m-grid').find("table >thead >tr >th").css({ 'color': '#373E4A'});
+//$('#pegawai-m-grid').find("table >thead >tr >th").hover(function() {
+  //$(this).css("color","#818DA2");
+//},function(){
+  //$(this).css("color","#373E4A");
+//});
 
 $(document).ajaxSuccess(function() {
-   $('#pegawai-m-grid').find("table >thead >tr >th").css({ 'color': '#373E4A'});
-	$('#pegawai-m-grid').find("table >thead >tr >th").hover(function() {
-	  $(this).css("color","#818DA2");
-     },function(){
-		  $(this).css("color","#373E4A");
-	  });
+  // $('#pegawai-m-grid').find("table >thead >tr >th").css({ 'color': '#373E4A'});
+//	$('#pegawai-m-grid').find("table >thead >tr >th").hover(function() {
+//	  $(this).css("color","#818DA2");
+  //   },function(){
+//		  $(this).css("color","#373E4A");
+//	  });
 });
 
 updateWarnaStatus();

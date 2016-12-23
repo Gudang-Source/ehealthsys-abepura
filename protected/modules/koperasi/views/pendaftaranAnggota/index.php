@@ -57,7 +57,7 @@ $this->breadcrumbs=array(
 			
 			
 			<div class="form-group">
-				<div class="col-sm-12" style="text-align: center;">
+				<div class="col-sm-12">
 					<?php /* $this->widget('bootstrap.widgets.TbButton', array(
 						'buttonType'=>'submit',
 						'type'=>'primary',
@@ -74,11 +74,42 @@ $this->breadcrumbs=array(
 						'visible'=>!$anggota->isNewRecord,
 						'htmlOptions'=>array('class'=>'btn-success', 'onclick'=>'printAnggota()'),
 					));*/ ?>
-					<?php if ($anggota->isNewRecord) echo CHtml::submitButton('Simpan', array('class'=>'btn btn-primary')); ?>
+					<?php //if ($anggota->isNewRecord) echo CHtml::submitButton('Simpan', array('class'=>'btn btn-primary')); ?>
 					
-					<?php echo !$anggota->isNewRecord ? '&nbsp;&nbsp;'.CHtml::ResetButton('Print', array('class' => 'btn btn-primary', 'onclick'=>'printAnggota()')) : ""; ?>
+					<?php //echo !$anggota->isNewRecord ? '&nbsp;&nbsp;'.CHtml::ResetButton('Print', array('class' => 'btn btn-primary', 'onclick'=>'printAnggota()')) : ""; ?>
 					
-					<?php echo $anggota->isNewRecord ? '&nbsp;&nbsp;'.CHtml::ResetButton('Ulang', array('class' => 'btn btn-default', 'onclick'=>'resetInput()')) : CHtml::link('Kembali', $this->createUrl('index'),array('class' => 'btn btn-default')); ?>
+					<?php //echo $anggota->isNewRecord ? '&nbsp;&nbsp;'.CHtml::ResetButton('Ulang', array('class' => 'btn btn-default', 'onclick'=>'resetInput()')) : CHtml::link('Kembali', $this->createUrl('index'),array('class' => 'btn btn-default')); ?>
+                                          <?php
+                                        if ($anggota->isNewRecord) {
+                                                echo CHtml::htmlButton(Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+                                            }else{
+                                                echo CHtml::htmlButton(Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)', 'disabled' => true));
+                                            }
+                                    ?>
+                                   <?php
+                                        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/index'), array('class' => 'btn btn-danger',
+                                            'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index') . '";}); return false;'));
+                                    ?>
+                                    <?php
+                                            if(isset($_GET['sukses'])){
+                                                    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')",'disabled'=>false));                                                    
+                                            }else{
+                                                    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','disabled'=>true));                                                    
+                                            }
+                                    ?>
+
+                                    <?php
+                                        $tips = array(
+                                            '0' => 'autocomplete-search',
+                                            '1' => 'tanggal',
+                                            '2' => 'simpan',
+                                            '3' => 'ulang',
+                                            '4' => 'print',
+                                            '5' => 'status_print'
+                                        );
+                                        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                                        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                                    ?>
 					
 					
 				</div>

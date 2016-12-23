@@ -70,9 +70,9 @@ $this->breadcrumbs=array(
                                     ?>
                                     <?php
                                             if(isset($_GET['sukses'])){
-                                                    echo CHtml::link('Print', $this->createUrl('print', array('id'=>$permintaan->permohonanpinjaman_id)), array('target'=>'_blank','class' => 'btn btn-info','disabled'=>false));
+                                                    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="entypo-print"></i>')), $this->createUrl('print', array('id'=>$permintaan->permohonanpinjaman_id)), array('target'=>'_blank','class' => 'btn btn-info','disabled'=>false));
                                             }else{
-                                                    echo CHtml::link('Print', '', array('target'=>'_blank','class' => 'btn btn-info','disabled'=>true));
+                                                    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="entypo-print"></i>')), '', array('target'=>'_blank','class' => 'btn btn-info','disabled'=>true));
                                             }
                                     ?>
 
