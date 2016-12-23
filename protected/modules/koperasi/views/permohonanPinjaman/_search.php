@@ -1,86 +1,120 @@
-<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
+<?php $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	//'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'get',
 	'type'=>'horizontal',
 	'htmlOptions'=>array('class'=>'form-groups-bordered'),
 	'id'=>'pencarian-pinjaman',
 ));
-
-$model2 = clone $model;
-$model2->tglAwal = date('d/m/Y', strtotime($model->tglAwal));
-$model2->tglAkhir = date('d/m/Y', strtotime($model->tglAkhir));
+$format = new MyFormatter();
 
 ?>
-		<div class="form-group">
-			<?php echo $form->label($model, 'tglAwal', array('class'=>'control-label col-sm-3')); ?>
-			<div class="col-sm-5">
-				<div class="input-group">
-				<?php
-				$this->widget('bootstrap.widgets.TbDatePicker', array(
-					'model'=>$model2, 'attribute'=>'tglAwal', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy'),
-				));
-				?>
-				<div class='input-group-addon'  onclick="$('#InformasipermohonanpinjamanV_tglAwal').focus()">
-					<a><i class='entypo-calendar'></i></a>
-				</div>
-				</div>
+<table width="100%">
+    <tr>
+        <td>
+                        <div class="control-group">	
+                                <label class="control-label" >				
+                                    Tanggal Permohonan
+                                </label>
+				<div class="controls">					
+                                    <?php   
+                                        $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
+                                        $this->widget('MyDateTimePicker',array(
+                                        'model'=>$model,
+                                        'attribute'=>'tgl_awal',
+                                        'mode'=>'date',
+                                        'options'=> array(
+                                            'dateFormat'=>Params::DATE_FORMAT,
+                                            'maxDate' => 'd',
+                                        ),
+                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                    ));?>					
+    				</div>    				
 			</div>
-		</div>
-		<div class="form-group">
-			<?php echo $form->label($model, 'tglAkhir', array('class'=>'control-label col-sm-3')); ?>
-			<div class="col-sm-5">
-				<div class="input-group">
-				<?php
-				$this->widget('bootstrap.widgets.TbDatePicker', array(
-					'model'=>$model2, 'attribute'=>'tglAkhir', 'htmlOptions'=>array('class'=>'form-control'), 'options'=>array('format'=>'dd/mm/yyyy'),
-				));
-				?>
-				<div class='input-group-addon' onclick="$('#InformasipermohonanpinjamanV_tglAkhir').focus()">
-					<a><i class='entypo-calendar'></i></a>
-				</div>
-				</div>
+			
+            
+                        <div class="control-group">				
+				<?php echo Chtml::label('Sampai Dengan', 'tgl_akhir', array('class' => 'control-label')); ?>
+				<div class="controls">					
+                                    <?php   
+                                        $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir);
+                                        $this->widget('MyDateTimePicker',array(
+                                        'model'=>$model,
+                                        'attribute'=>'tgl_akhir',
+                                        'mode'=>'date',
+                                        'options'=> array(
+                                            'dateFormat'=>Params::DATE_FORMAT,
+                                            'maxDate' => 'd',
+                                        ),
+                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                    ));?>					
+    				</div>    				
 			</div>
-		</div>
-                <?php echo $form->textFieldRow($model,'nopermohonan',array('class'=>'form-control', 'placeholder'=>'Cari Berdasarkan '.$model->getAttributeLabel('nopermohonan'),)); ?>
-		<?php echo $form->textFieldRow($model,'nokeanggotaan',array('class'=>'form-control', 'placeholder'=>'Cari Berdasarkan '.$model->getAttributeLabel('nokeanggotaan'),)); ?>
-		<div class="form-group">
-			<?php echo $form->label($model, 'nama_anggota', array('class'=>'control-label col-sm-3')); ?>
-				<div class="col-sm-5">
-					<?php echo $form->textField($model,'nama_pegawai',array('class'=>'form-control', 'placeholder'=>'Cari Berdasarkan '.$model->getAttributeLabel('nama_anggota'),)); ?>
+                <?php echo $form->textFieldRow($model,'nopermohonan',array('class'=>'span3 numbers-only','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$model->getAttributeLabel('nopermohonan'),)); ?>	                    
+        </td>
+        <td>
+                <?php echo $form->textFieldRow($model,'nokeanggotaan',array('class'=>'span3 numbers-only','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$model->getAttributeLabel('nokeanggotaan'),)); ?>	
+		
+                <?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3 hurufs-only','maxlength'=>100, 'placeholder'=>'Cari Berdasarkan '.$model->getAttributeLabel('nama_anggota'),)); ?>	
+            
+                <div class="control-group">
+				<?php echo Chtml::label('Golongan', 'golonganpegawai_id', array('class'=>'control-label col-sm-4')); ?>
+				<div class="controls">
+					<?php echo $form->dropDownList($model, 'golonganpegawai_id', CHtml::listData(GolonganpegawaiM::model()->findAll(array('condition'=>'golonganpegawai_aktif = true', 'order'=>'golonganpegawai_nama asc')), 'golonganpegawai_id', 'golonganpegawai_nama'), array('empty'=>'-- Pilih --', 'class'=>'form-control')); ?>
 				</div>
-		</div>
-
-
-		<?php //echo $form->textFieldRow($model,'namaunit',array('class'=>'form-control', 'placeholder'=>'Cari Berdasarkan '.$model->getAttributeLabel('namaunit'),)); ?>
-		<div class="form-group">
-                    <?php echo $form->labelEx($model, 'Golongan',array('class'=>'control-label col-sm-3')); ?>
-                    <div class="col-sm-5">
-                        <?php echo $form->dropDownList($model, 'golonganpegawai_id', CHtml::listData(GolonganpegawaiM::model()->findAll(array('condition'=>'golonganpegawai_aktif = true', 'order'=>'golonganpegawai_nama asc')), 'golonganpegawai_id', 'golonganpegawai_nama'), array('empty'=>'-- Pilih --', 'class'=>'form-control')); ?>
-                    </div>
+			</div>		
+		
+		
+		
+		
+        </td>
+        <td>
+            <?php echo $form->dropDownListRow($model,'jenispinjaman_permohonan',Params::jenisPinjaman(),array('empty'=>'-- Pilih --', 'class'=>'form-control')); ?>
+            
+            <div class="control-group">
+                    <?php echo $form->labelEx($model, 'Status Persetujuan',array('class'=>'control-label col-sm-3')); ?>
+                <div class="controls">
+                    <?php echo $form->dropDownList($model,'status_disetujui',array(3=>'Menunggu Persetujuan', 1=>'Disetujui', 2=>'Tidak Disetujui'),array('empty'=>'-- Pilih --', 'class'=>'form-control')); ?>
                 </div>
-		<?php //echo $form->textFieldRow($model,'jenispinjaman_permohonan',array('class'=>'form-control', 'placeholder'=>'Cari Berdasarkan '.$model->getAttributeLabel('jenispinjaman_permohonan'),)); ?>
-		<?php echo $form->dropDownListRow($model,'jenispinjaman_permohonan',Params::jenisPinjaman(),array('empty'=>'-- Pilih --', 'class'=>'form-control')); ?>
-		<div class="form-group">
-            <?php echo $form->labelEx($model, 'Status Persetujuan',array('class'=>'control-label col-sm-3')); ?>
-            <div class="col-sm-5">
-				<?php echo $form->dropDownList($model,'status_disetujui',array(3=>'Menunggu Persetujuan', 1=>'Disetujui', 2=>'Tidak Disetujui'),array('empty'=>'-- Pilih --', 'class'=>'form-control')); ?>
-			</div>
-		</div>
-		<div class="form-group">
+            </div>
+            <div class="control-group">
             <?php echo $form->labelEx($model, 'Status Pencairan',array('class'=>'control-label col-sm-3')); ?>
-            <div class="col-sm-5">
+            <div class="controls">
 				<?php echo $form->dropDownList($model,'cair',array(1=>'Sudah Dicairkan', 2=>'Belum Dicairkan'),array('empty'=>'-- Pilih --', 'class'=>'form-control')); ?>
 			</div>
-		</div>
-	<div class="form-group">
-		<div class="col-sm-offset-3 col-sm-5">
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
-			'buttonType' => 'submit',
-			'type'=>'primary',
-			'label'=>'Cari',
-			'htmlOptions'=>array('class'=>'btn-primary'),
-		)); ?>
-		</div>
-	</div>
+            </div>
+        </td>
+    </tr>
+		
+			
+			
+</table>
+	<div class="span12">
+			<?php //echo CHtml::submitButton('Cari', array('class'=>'btn btn-blue', 'id'=>'btn-cari')); ?>
+			<?php //echo CHtml::link('Pengajuan Pemotongan', $this->createUrl('pengajuanPemotongan/index'), array('class'=>'btn btn-green', 'id'=>'btn-cari', 'target'=>'_blank')); ?>
+                    <?php
+                echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit'));
+            ?>
+            <?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
+                                        $this->createUrl($this->id.'/index'), 
+                                        array('class'=>'btn btn-danger',
+                                            'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));  ?>
+		
+             <?php
+                    $tips = array(
+                        '0' => 'tanggal',                       
+                        '1' => 'batal',
+                        '2' => 'cari',
+                        '3' => 'ulang2',
+                        
+                    );
+                    $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                ?>
+		</div> 	
+
+
+		
+           
+	
 
 <?php $this->endWidget(); ?>

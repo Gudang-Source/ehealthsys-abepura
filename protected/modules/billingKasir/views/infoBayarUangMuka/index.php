@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Informasi <b>Pasien Uang Muka</b></legend>
+    <legend class="rim2">Informasi Pembayaran Uang Muka Pasien</legend>
 	<?php
 	$this->breadcrumbs = array(
 		'Daftar Pasien' => array('/billingKasir/daftarPasien'),
@@ -30,7 +30,7 @@
 		<?php
 		$this->widget('ext.bootstrap.widgets.BootGridView', array(
 			'id' => 'pencarianpasien-grid',
-			'dataProvider' => $model->search(),
+			'dataProvider' => $model->searchInformasi(),
 			'template' => "{summary}\n{items}\n{pager}",
 			'itemsCssClass' => 'table table-striped table-condensed',
 			'columns' => array(
@@ -44,7 +44,8 @@
 					'header' => 'Uang Muka Untuk',
 					'name' => 'instalasi',
 					'type' => 'raw',
-					'value' => 'isset($data->instalasi_id)?$data->instalasi_nama. " / ".$data->ruangan_nama:" - "',
+					'value' => 'isset($data->instalasi_nama)?$data->ruangan_nama. " / ".$data->ruangan_nama:" - "',
+					
 				),
 				array(
 					'header' => 'No. Pendaftaran<br>No. RM',
@@ -158,7 +159,7 @@
                 <td>
                     <div class="control-group ">
 						<?php //$model->tgl_awal = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($model->tgl_awal, 'yyyy-MM-dd hh:mm:ss'),'medium','medium');  ?>
-						<?php echo CHtml::label('Tanggal Pendaftaran', 'tglPendaftaran', array('class' => 'control-label inline')) ?>
+						<?php echo CHtml::label('Tanggal Deposit', 'tglDeposit', array('class' => 'control-label inline')) ?>
                         <div class="controls">
 							<?php
 							$this->widget('MyDateTimePicker', array(

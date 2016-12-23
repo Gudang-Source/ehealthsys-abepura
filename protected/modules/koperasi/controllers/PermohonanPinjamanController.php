@@ -129,23 +129,24 @@ class PermohonanPinjamanController extends MyAuthController
 
 	public function actionInformasi($no=null)
 	{
-		MyFunction::runAjaxF($this, $_POST);
+		//MyFunction::runAjaxF($this, $_POST);
 
-		$this->menuActive = array(5,4);
-		$this->pageTitle = 'ecoopsys - Informasi Persetujuan Permohonan Pinjaman';
-		$model = new InformasipermohonanpinjamanV('search');
-		$model->tglAwal = date('Y-m-1 00:00:00');
-		$model->tglAkhir = date('Y-m-t 23:59:59');
+		
+		$model = new KOInfomohonpinjamanV('search');
+		$model->tgl_awal = date('Y-m-d');
+		$model->tgl_akhir = date('Y-m-d');
 		$model->unsetAttributes();  // clear any default values
 		$model->nopermohonan = $no;
 
-		if(isset($_GET['InformasipermohonanpinjamanV'])) {
-			$model->attributes=$_GET['InformasipermohonanpinjamanV'];
-                        if (isset($_GET['InformasipermohonanpinjamanV']['surat_peminjaman'])) $model->surat_peminjaman = $_GET['InformasipermohonanpinjamanV']['surat_peminjaman'];
-			if (isset($_GET['InformasipermohonanpinjamanV']['cair'])) $model->cair = $_GET['InformasipermohonanpinjamanV']['cair'];
-			if (isset($_GET['InformasipermohonanpinjamanV']['potongansumber_id'])) $model->potongansumber_id = $_GET['InformasipermohonanpinjamanV']['potongansumber_id'];
-			if (!empty($_GET['InformasipermohonanpinjamanV']['tglAwal'])) $model->tglAwal = MyFormatter::formatDateTimeForDb($_GET['InformasipermohonanpinjamanV']['tglAwal']." 00:00:00");
-			if (!empty($_GET['InformasipermohonanpinjamanV']['tglAkhir'])) $model->tglAkhir = MyFormatter::formatDateTimeForDb($_GET['InformasipermohonanpinjamanV']['tglAkhir']." 23:59:59");
+		if(isset($_GET['KOInfomohonpinjamanV'])) {
+			$model->attributes=$_GET['KOInfomohonpinjamanV'];
+                        $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['KOInfomohonpinjamanV']['tgl_awal']);
+                        $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['KOInfomohonpinjamanV']['tgl_akhir']);
+                        //if (isset($_GET['KOInfomohonpinjamanV']['surat_peminjaman'])) $model->surat_peminjaman = $_GET['InformasipermohonanpinjamanV']['surat_peminjaman'];
+			//if (isset($_GET['KOInfomohonpinjamanV']['cair'])) $model->cair = $_GET['InformasipermohonanpinjamanV']['cair'];
+			//if (isset($_GET['KOInfomohonpinjamanV']['potongansumber_id'])) $model->potongansumber_id = $_GET['InformasipermohonanpinjamanV']['potongansumber_id'];
+			//if (!empty($_GET['KOInfomohonpinjamanV']['tglAwal'])) $model->tglAwal = MyFormatter::formatDateTimeForDb($_GET['InformasipermohonanpinjamanV']['tglAwal']." 00:00:00");
+			//if (!empty($_GET['KOInfomohonpinjamanV']['tglAkhir'])) $model->tglAkhir = MyFormatter::formatDateTimeForDb($_GET['InformasipermohonanpinjamanV']['tglAkhir']." 23:59:59");
 		}
 
 		$this->render('informasi', array(
@@ -158,7 +159,7 @@ class PermohonanPinjamanController extends MyAuthController
 		//var_dump($_GET); die;
 		$this->layout='//layouts/print';
 		$this->pageTitle = 'ecoopsys - Print Informasi Permohonan Pinjaman Anggota';
-		$model=new InformasipermohonanpinjamanV('search');
+		$model=new KOInfomohonpinjamanV('search');
 		$profil = ProfilS::model()->find();
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['InformasipermohonanpinjamanV'])) {

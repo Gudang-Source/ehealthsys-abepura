@@ -48,7 +48,7 @@ return false;
 							'header'=>'Nama Anggota',
 							'type'=>'raw',
 							'name'=>'nama_pegawai',
-							'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+							'value'=>'$data->namaLengkap',
 						),	
 						/*array(
 							'header'=>'Umur',
