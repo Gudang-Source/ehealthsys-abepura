@@ -366,6 +366,126 @@ class LaporanController extends MyAuthController
         ));
     }
     
+    public function actionAngsuranPinjamanAnggota()
+	{		
+		$model = new KOLaporanangsuranV();
+		$format = new MyFormatter();
+                $model->unsetAttributes();
+                $model->jns_periode = "hari";
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');
+                $model->bln_awal = date('Y-m', strtotime('first day of january'));
+                $model->bln_akhir = date('Y-m');
+                $model->thn_awal = date('Y');
+                $model->thn_akhir = date('Y');
+
+		if (isset($_GET['KOLaporanangsuranV'])) {
+			$model->attributes = $_GET['KOLaporanangsuranV'];
+			$model->jns_periode = $_GET['KOLaporanangsuranV']['jns_periode'];
+                        $model->tgl_awal = $format->formatDateTimeForDb($_GET['KOLaporanangsuranV']['tgl_awal']);
+                        $model->tgl_akhir = $format->formatDateTimeForDb($_GET['KOLaporanangsuranV']['tgl_akhir']);
+                        $model->bln_awal = $format->formatMonthForDb($_GET['KOLaporanangsuranV']['bln_awal']);
+                        $model->bln_akhir = $format->formatMonthForDb($_GET['KOLaporanangsuranV']['bln_akhir']);
+                        $model->thn_awal = $_GET['KOLaporanangsuranV']['thn_awal'];
+                        $model->thn_akhir = $_GET['KOLaporanangsuranV']['thn_akhir'];
+                        $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+                        $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+                        switch($model->jns_periode){
+                            case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                            case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                            default : null;
+                        }
+                        $model->tgl_awal = $model->tgl_awal." 00:00:00";
+                        $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+		}
+	$this->render('angsuranPinjamanAnggota/index',array('model'=>$model,'format'=>$format));
+	}
+
+	public function actionPrintAngsuranPinjamanAnggota()
+	{
+		//$this->layout = '//layouts/print';
+		$model = new KOLaporanangsuranV();
+		$format = new MyFormatter();
+                $model->unsetAttributes();
+                $model->jns_periode = "hari";
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');
+                $model->bln_awal = date('Y-m');
+                $model->bln_akhir = date('Y-m');
+                $model->thn_awal = date('Y');
+                $model->thn_akhir = date('Y');
+                $judulLaporan = 'Laporan Angsuran Pinjaman Anggota';
+
+                $data['title'] = 'Grafik Laporan Angsuran Pinjaman Anggota';
+                $data['type'] = $_REQUEST['type'];
+		if (isset($_GET['KOLaporanangsuranV'])) {
+			$model->attributes = $_GET['KOLaporanangsuranV'];
+			$model->jns_periode = $_GET['KOLaporanangsuranV']['jns_periode'];
+                        $model->tgl_awal = $format->formatDateTimeForDb($_GET['KOLaporanangsuranV']['tgl_awal']);
+                        $model->tgl_akhir = $format->formatDateTimeForDb($_GET['KOLaporanangsuranV']['tgl_akhir']);
+                        $model->bln_awal = $format->formatMonthForDb($_GET['KOLaporanangsuranV']['bln_awal']);
+                        $model->bln_akhir = $format->formatMonthForDb($_GET['KOLaporanangsuranV']['bln_akhir']);
+                        $model->thn_awal = $_GET['KOLaporanangsuranV']['thn_awal'];
+                        $model->thn_akhir = $_GET['KOLaporanangsuranV']['thn_akhir'];
+                        $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+                        $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+                        switch($model->jns_periode){
+                            case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                            case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                            default : null;
+                        }
+                        $model->tgl_awal = $model->tgl_awal." 00:00:00";
+                        $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+		}
+		$caraPrint = $_REQUEST['caraPrint'];
+                $target = 'angsuranPinjamanAnggota/_print';
+
+                $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+        }
+        
+	public function actionFrameGrafikAngsuranPinjamanAnggota() {
+        $this->layout = '//layouts/iframe';
+        $model = new KOLaporanangsuranV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Angsuran Pinjaman Anggota';
+        $data['type'] = (isset($_GET['type']) ? $_GET['type'] : null);
+                        
+        if (isset($_GET['KOLaporanangsuranV'])) {//angsuan
+            $model->attributes = $_GET['KOLaporanangsuranV'];
+            $model->jns_periode = $_GET['KOLaporanangsuranV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['KOLaporanangsuranV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['KOLaporanangsuranV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['KOLaporanangsuranV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['KOLaporanangsuranV']['bln_akhir']);
+            $model->thn_awal = $_GET['KOLaporanangsuranV']['thn_awal'];
+            $model->thn_akhir = $_GET['KOLaporanangsuranV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+        
+        $this->render('_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    
     protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target){
         $format = new MyFormatter();
         $periode = $format->formatDateTimeForUser($model->tgl_awal).' s/d '.$format->formatDateTimeForUser($model->tgl_akhir);
