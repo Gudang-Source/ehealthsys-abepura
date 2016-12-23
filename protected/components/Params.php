@@ -1125,6 +1125,13 @@ Class Params
                 'TAHUN'=>'TAHUN',
         );
     }
+    
+    public static function statusPinjaman() {
+      		return array(
+      			'LUNAS'=>'LUNAS',
+      			'BELUM LUNAS'=>'BELUM LUNAS',
+      		);
+      }
                 
       
         

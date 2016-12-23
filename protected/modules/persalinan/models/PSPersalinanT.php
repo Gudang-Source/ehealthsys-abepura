@@ -38,7 +38,7 @@ class PSPersalinanT extends PersalinanT {
                 $pegawai->with = array('ruanganpegawai');
                 $pegawai->addCondition("t.pegawai_aktif = TRUE ");
                 $pegawai->addCondition("ruanganpegawai.ruangan_id = ".$ruangan_id); 
-                $pegawai->addCondition('t.kelompokpegawai_id IN ('.Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN.') ');
+                $pegawai->addCondition('t.kelompokpegawai_id IN ('.Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN.', '.Params::KELOMPOKPEGAWAI_ID_BIDAN.') ');
                 $pegawai->order = 't.nama_pegawai ASC';
                 return PSPegawaiM::model()->findAll($pegawai);
                 //return PegawaiM::model()->findAll("ruangan_id = '$ruangan_id' AND kelompokpegawai_id IN (20,2) AND pegawai_aktif = TRUE ORDER BY nama_pegawai ASC");

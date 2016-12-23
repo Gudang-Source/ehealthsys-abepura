@@ -1,3 +1,4 @@
+<div class="white-container">
 <?php $js = <<<'EOF'
 
 $(".sidebar-collapse > a").click();
@@ -14,37 +15,42 @@ $this->breadcrumbs=array(
 	'Penerimaan Pemotongan'=>array('/pinjaman/penerimaanPengajuan'),
 	'Informasi',
 );
+
+Yii::app()->clientScript->registerScript('search', "
+	$('#informasi-penerimaanpemotongan-form').submit(function(){
+		$.fn.yiiGridView.update('penerimaanpemotongan-m-grid', {
+			data: $(this).serialize()
+		});
+		return false;
+	});
+");
 ?>
-<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
-	'id'=>'informasi-penerimaanpemotongan-form',
-	'enableAjaxValidation'=>false,
-	'type'=>'horizontal',
-	'focus' => '#adcontact-form div.form-group:first-child div input',
-	'htmlOptions'=>array('class'=>'form-groups-bordered','onKeyPress'=>'return disableKeyPress(event);', //, 'onsubmit'=>'return requiredCheck(this);', 
-	'enctype' => 'multipart/form-data'),
-)); ?>
+
 <style type="text/css">
 	.input-group-addon{
 		cursor: pointer;	
 	}
 </style>
-<div class="col-md-12">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<div class="panel-title">
-				Informasi Penerimaan Pemotongan
-			</div>
-		</div>
-		<div class="panel-body" style="text-align: center">
-			<?php echo $this->renderPartial('subview/_pencarianInformasi', array('form'=>$form, 'penerimaanPemotongan'=>$penerimaanPemotongan)); ?>
-			<?php echo $this->renderPartial('subview/_tabelInformasi', array('form'=>$form, 'penerimaanPemotongan'=>$penerimaanPemotongan)); ?>
-		</div>
+<legend class="rim2">Informasi <b>Penerimaan Pengajuan</b></legend>
+<div class="col-md-12">			
+    <div class="block-tabel">
+        <h6>Informasi <b>Penerimaan Pengajuan</b></h6>
+            <?php echo $this->renderPartial('subview/_tabelInformasi', array('penerimaanPemotongan'=>$penerimaanPemotongan)); ?>
+    </div>
+</div>
+
+			
+		<!--</div>
 		<!--div class="panel-footer" style="text-align:center">
 			<?php  //echo Chtml::link('<i class="entypo-print"></i> Print','#', array('class' => 'btn btn-success', 'onclick'=>'iPrint(); return false;')); ?>
 		</div-->
-	</div>
+	<!--</div>-->
+         <fieldset class="box search-form">
+        <legend class="rim"><i class="entypo-search"></i> Pencarian</legend> 
+            <?php echo $this->renderPartial('subview/_pencarianInformasi', array('penerimaanPemotongan'=>$penerimaanPemotongan)); ?>
+        </fieldset>
 </div>
-<?php $this->endWidget(); ?>
+
 
 <?php $urlPrint = $this->createUrl('printInformasi'); ?>
 <script type="text/javascript">
