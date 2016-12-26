@@ -89,7 +89,20 @@ echo CHtml::css('.control-label{
                 <tr>
                     <td>Unit Pelayanan</td>
                     <td>:</td>
-                    <td><?php echo CHtml::encode($modPendaftaran->instalasi->instalasi_nama); ?></td>
+                    <td><?php 
+					$penunjang = PasienmasukpenunjangV::model()->findAllByAttributes(array(
+						'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+					), array(
+						'select'=>'ruangan_nama', 'group'=>'ruangan_nama',
+					));
+					echo "<ul>";
+					foreach ($penunjang as $item) {
+						echo "<li>".$item->ruangan_nama."</li>";
+					}
+					echo "</ul>";
+					
+					// echo CHtml::encode($modPendaftaran->instalasi->instalasi_nama); 
+					?></td>
                     <td>Nama Rujukan</td>
                     <td>:</td>
                     <td>
@@ -175,8 +188,9 @@ echo CHtml::css('.control-label{
                 $id_tindakan = "";
                 foreach($modRincian as $i=>$val)
                 {
-                    $ruangan_id = $val->ruangan_id;
-                    $row[$ruangan_id]['nama'] = $val->ruangan_nama;
+                    $ruangan_id = $val->ruanganpenunjang_id;
+					$r = RuanganM::model()->findByPk($ruangan_id);
+                    $row[$ruangan_id]['nama'] = $r->ruangan_nama;
                     $row[$ruangan_id]['ruangan_id'] = $val->ruangan_id;
                     $row[$ruangan_id]['kategori'][$i]['nama_pegawai'] = null;
                     $row[$ruangan_id]['kategori'][$i]['tindakanpelayanan_id'] = $val->tindakanpelayanan_id;

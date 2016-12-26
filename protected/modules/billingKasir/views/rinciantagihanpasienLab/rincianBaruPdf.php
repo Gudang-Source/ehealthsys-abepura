@@ -10,7 +10,6 @@
         border-collapse: collapse;
         font-size: 11px;
         font-family: tahoma;
-        //border:1px solid #000;
     }
     .grid td,th{
         padding: 5px;

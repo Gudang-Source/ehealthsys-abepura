@@ -58,6 +58,8 @@ class InvperalatanT extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public $barang_nama;
 
 	/**
 	 * @return string the associated database table name

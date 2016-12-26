@@ -19,14 +19,26 @@ class PenjualanAsetController extends MyAuthController
 		$modAset = new InvperalatanT;
 
 		if(isset($_POST['InvperalatanT'])){
+			// var_dump($_POST['InvperalatanT']['detail']);
 	        $transaction = Yii::app()->db->beginTransaction();
 	        try {
 
-	        	foreach ($_POST['InvperalatanT'] as $key => $value) {
-	        		if($value['is_checked']){
+	        	foreach ($_POST['InvperalatanT']['detail'] as $key => $value) {
+	        		if(isset($value['is_checked'])){
 	        			$id 	= $value['invperalatan_id'];
-	        			$model 	= InvperalatanT::model()->findByPk($id);;
-	        			$model->tipepenghapusan = "penjualan telah dijurnal";
+	        			$model 	= InvperalatanT::model()->findByPk($id);
+						$model->tglpenghapusan = date('Y-m-d H:i:s');
+	        			$model->tipepenghapusan = "penjualan";
+						$model->hargajualaktiva = str_replace(".", "", $value['hargajualaktiva']);
+						
+						if ($model->invperalatan_harga < $model->hargajualaktiva) {
+							$model->keuntungan = $model->hargajualaktiva - $model->invperalatan_harga;
+						} else {
+							$model->kerugian = $model->invperalatan_harga - $model->hargajualaktiva;
+						}
+						
+						
+						// var_dump($model->attributes); die;
 	        			$model->save();
 	        		}
 	        	}
@@ -48,7 +60,7 @@ class PenjualanAsetController extends MyAuthController
                     //==================================================
                     
                 }
-
+				// die;
                 if($this->succesSave){
                     $transaction->commit();
                     Yii::app()->user->setFlash('success',"Data berhasil disimpan");
@@ -74,13 +86,26 @@ class PenjualanAsetController extends MyAuthController
 
         if(isset($_POST['InvtanahT'])){
             $transaction = Yii::app()->db->beginTransaction();
+			// var_dump($_POST['InvtanahT']['detail']); die;
             try {
 
-                foreach ($_POST['InvtanahT'] as $key => $value) {
-                    if($value['is_checked']){
+                foreach ($_POST['InvtanahT']['detail'] as $key => $value) {
+					// var_dump($value); die;
+                    if(isset($value['is_checked'])){
                         $id     = $value['invtanah_id'];
                         $model  = InvtanahT::model()->findByPk($id);
-                        $model->tipepenghapusan = "penjualan telah dijurnal";
+						$model->tglpenghapusan = date('Y-m-d H:i:s');
+                        $model->tipepenghapusan = "penjualan";
+						$model->hargajualaktiva = str_replace(".", "", $value['hargajualaktiva']);
+						
+						if ($model->invtanah_harga < $model->hargajualaktiva) {
+							$model->keuntungan = $model->hargajualaktiva - $model->invtanah_harga;
+						} else {
+							$model->kerugian = $model->invtanah_harga - $model->hargajualaktiva;
+						}
+						
+						// var_dump($value, $model->attributes); die;
+						
                         $model->save();
                     }
                 }
@@ -101,7 +126,8 @@ class PenjualanAsetController extends MyAuthController
                     }
                     //==================================================
                 }
-
+				//var_dump($this->succesSave);
+				//die;
                 if($this->succesSave){
                     $transaction->commit();
                     Yii::app()->user->setFlash('success',"Data berhasil disimpan");
@@ -150,11 +176,19 @@ class PenjualanAsetController extends MyAuthController
             $transaction = Yii::app()->db->beginTransaction();
             try {
 
-                foreach ($_POST['InvgedungT'] as $key => $value) {
+                foreach ($_POST['InvgedungT']['detail'] as $key => $value) {
                     if($value['is_checked']){
                         $id     = $value['invgedung_id'];
                         $model  = InvgedungT::model()->findByPk($id);;
-                        $model->tipepenghapusan = "penjualan telah dijurnal";
+                        $model->tglpenghapusan = date('Y-m-d H:i:s');
+                        $model->tipepenghapusan = "penjualan";
+						$model->hargajualaktiva = str_replace(".", "", $value['hargajualaktiva']);
+						
+						if ($model->invgedung_harga < $model->hargajualaktiva) {
+							$model->keuntungan = $model->hargajualaktiva - $model->invgedung_harga;
+						} else {
+							$model->kerugian = $model->invgedung_harga - $model->hargajualaktiva;
+						}
                         $model->save();
                     }
                 }
@@ -202,11 +236,19 @@ class PenjualanAsetController extends MyAuthController
 		if(isset($_POST['InvperalatanT'])){
 	        $transaction = Yii::app()->db->beginTransaction();
 	        try {
-	        	foreach ($_POST['InvperalatanT'] as $key => $value) {
-	        		if($value['is_checked']){
+	        	foreach ($_POST['InvperalatanT']['detail'] as $key => $value) {
+	        		if(isset($value['is_checked'])){
 	        			$id 	= $value['invperalatan_id'];
 	        			$model 	= InvperalatanT::model()->findByPk($id);;
-	        			$model->tipepenghapusan = "penjualan telah dijurnal";
+	        			$model->tglpenghapusan = date('Y-m-d H:i:s');
+	        			$model->tipepenghapusan = "penjualan";
+						$model->hargajualaktiva = str_replace(".", "", $value['hargajualaktiva']);
+						
+						if ($model->invperalatan_harga < $model->hargajualaktiva) {
+							$model->keuntungan = $model->hargajualaktiva - $model->invperalatan_harga;
+						} else {
+							$model->kerugian = $model->invperalatan_harga - $model->hargajualaktiva;
+						}
 	        			$model->save();
 	        		}
 	        	}
@@ -255,11 +297,20 @@ class PenjualanAsetController extends MyAuthController
         if(isset($_POST['InvperalatanT'])){
             $transaction = Yii::app()->db->beginTransaction();
             try {
-                foreach ($_POST['InvperalatanT'] as $key => $value) {
-                    if($value['is_checked']){
+                foreach ($_POST['InvperalatanT']['detail'] as $key => $value) {
+                    if(isset($value['is_checked'])){
                         $id     = $value['invperalatan_id'];
                         $model  = InvperalatanT::model()->findByPk($id);;
-                        $model->tipepenghapusan = "penjualan telah dijurnal";
+                        $model->tglpenghapusan = date('Y-m-d H:i:s');
+	        			$model->tipepenghapusan = "penjualan";
+						$model->hargajualaktiva = str_replace(".", "", $value['hargajualaktiva']);
+						
+						if ($model->invperalatan_harga < $model->hargajualaktiva) {
+							$model->keuntungan = $model->hargajualaktiva - $model->invperalatan_harga;
+						} else {
+							$model->kerugian = $model->invperalatan_harga - $model->hargajualaktiva;
+						}
+						
                         $model->save();
                     }
                 }
@@ -305,16 +356,21 @@ class PenjualanAsetController extends MyAuthController
 	{
 	  if(Yii::app()->getRequest()->getIsAjaxRequest()) 
 	  {
-		$periode        = explode(' ', $_POST['periode']);
-		$periode_bulan  = $periode[0];
-		$periode_tahun  = $periode[1];
-		$format         = new MyFormatter;
-		$bulan_angka    = $format->getMonthDb($periode_bulan);
-		$periode_hapus   = $periode_tahun.'-'.$bulan_angka;
-
+		$conditions = "t.tipepenghapusan <> '".Params::TIPE_PENGHAAPUSAN_PENJUALAN."' "
+			. "or t.tipepenghapusan is null";
+		/*
+		if (isset($_POST['periode'])) {
+			$periode        = explode(' ', $_POST['periode']);
+			$periode_bulan  = $periode[0];
+			$periode_tahun  = $periode[1];
+			$format         = new MyFormatter;
+			$bulan_angka    = $format->getMonthDb($periode_bulan);
+			$periode_hapus   = $periode_tahun.'-'.$bulan_angka;
+			$conditions = "to_char(tglpenghapusan,'yyyy-mm') = '".$periode_hapus."' AND tipepenghapusan='penjualan'";
+		}
+		 * 
+		 */
 		$jenis_inventori = $_POST['jenis'];
-
-		$conditions = "to_char(tglpenghapusan,'yyyy-mm') = '".$periode_hapus."' AND tipepenghapusan='penjualan'";
 		$criteria       = new CDbCriteria;
 		$criteria->addCondition($conditions);
 		if($jenis_inventori=="peralatan"){
@@ -368,6 +424,7 @@ class PenjualanAsetController extends MyAuthController
 			  );
 		  }
 		}elseif($jenis_inventori=="tanah"){
+			// var_dump($criteria); die;
 		  $modPenggajian  = InvtanahT::model()->findAll($criteria);
 		  if(count($modPenggajian)>0){
 			foreach ($modPenggajian as $i => $model) {
@@ -381,6 +438,7 @@ class PenjualanAsetController extends MyAuthController
 			  $models[$i]['kerugian']         = $model->kerugian;
 			  $models[$i]['invtanah_alamat']  = $model->invtanah_alamat;
 			}
+			// var_dump($models); die;
 			echo CJSON::encode(
 			  $this->renderPartial($this->path_view.'_rincianTanah', array('modRincian'=>$models), true)
 			); 
