@@ -29,12 +29,12 @@ class MAInvtanahT extends InvtanahT
     {
         $criteria = new CDbCriteria();
         $criteria->with = array('barang');
-        $criteria->addBetweenCondition('t.tglpenghapusan', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('t.tglpenghapusan::date', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(t.invtanah_kode)', strtolower($this->invtanah_kode), TRUE);        
         $criteria->compare('LOWER(t.invtanah_noregister)', strtolower($this->invtanah_noregister), TRUE);
         $criteria->compare('LOWER(barang.barang_nama)', strtolower($this->barang_nama), TRUE);
         $criteria->addCondition(" t.tipepenghapusan iLIKE '".Params::TIPE_PENGHAAPUSAN_PENJUALAN."' ");
-        $criteria->limit = 10;
+        // $criteria->limit = 10;
         
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
