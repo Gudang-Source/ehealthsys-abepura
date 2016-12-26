@@ -1,18 +1,18 @@
 <script type="text/javascript">
 	function maskMoneyAll()
     {
-        $('#tblInputRekening tbody tr').each(function(){
-            $(this).find("input[class*='integer']").maskMoney(
-                {"symbol":"Rp. ","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+        $('#tblInputRekening tbody tr, #tblInputUraian tbody tr').each(function(){
+            $(this).find(".integer2").maskMoney(
+                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
             );            
         });
     }
     
     function unMaskMoneyAll()
     {
-        $('#tblInputRekening tbody tr').each(function(){
-            $(this).find("input[class*='integer']").unmaskMoney(
-                {"symbol":"Rp. ","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+        $('#tblInputRekening tbody tr, #tblInputUraian tbody tr').each(function(){
+            $(this).find(".integer2").unmaskMoney(
+                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
             );            
         });
     } 
@@ -42,7 +42,7 @@
         $('#JenispengeluaranrekeningV_1_saldodebit').val(0);
         $('#JenispengeluaranrekeningV_2_saldokredit').val(0);
         
-        var periode     = $('.tglpenghapusan').val();
+        var periode = $('.tglpenghapusan').val();
         $.post('<?php echo $this->createUrl('GetDataPenghapusan');?>', {periode:periode, jenis:jenisInven}, function(data){
 				if(data !== null){
 	                $("#tblInputUraian > tbody").empty();
@@ -163,7 +163,7 @@
 	function cekSimpanGedung(){
 		if(requiredCheck($("form"))){
 			var jmltr = $('#tblInputUraian tbody tr').length;
-			if(jmltr <= 0){
+			if(jmltr > 0){
 				disableOnSubmit('.btn-primary');
 				$('#akpenjualanaset-t-form').submit();
 			}else{
@@ -214,7 +214,7 @@
 	function cekSimpanTanah(){
 		if(requiredCheck($("form"))){
 			var jmltr = 0;
-			$('#tblInputUraian tbody tr').find('input[name*="invperalatan_id"]').each(function(){ jmltr++; });
+			jmltr = $('#tblInputUraian tbody tr').length;
 			if(jmltr > 0){
 				disableOnSubmit('.btn-primary');
 				$('#akpenjualanaset-t-form').submit();

@@ -1,3 +1,3 @@
 <tr>
-	<td colspan='8'>Data Tidak Ditemukan, silahkan tentukan tgl penjualan</td>
+	<td colspan='8'>Data Tidak Ditemukan</td>
 </tr>
