@@ -85,11 +85,11 @@ $this->breadcrumbs=array(
                                             if(isset($_GET['sukses'])){
                                                     echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')",'disabled'=>false));
                                                     echo '&nbsp;';
-                                                    echo CHtml::link('Print BKM', $this->createUrl('/printKwitansi/kasmasuk', array('id'=>$kasmasuk->buktikasmasukkop_id)), array('disabled'=>$kasmasuk->isNewRecord, 'target'=>'_blank','class' => 'btn btn-info')); 
+                                                    echo CHtml::link(Yii::t('mds', '{icon} Print BKM', array('{icon}'=>'<i class="entypo-print"></i>')), $this->createUrl('/printKwitansi/kasmasuk', array('id'=>$kasmasuk->buktikasmasukkop_id)), array('disabled'=>$kasmasuk->isNewRecord, 'target'=>'_blank','class' => 'btn btn-info')); 
                                             }else{
                                                     echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','disabled'=>true));
                                                     echo '&nbsp;';
-                                                    echo CHtml::link('Print BKM', $this->createUrl('/printKwitansi/kasmasuk', array('id'=>$kasmasuk->buktikasmasukkop_id)), array('disabled'=>$kasmasuk->isNewRecord, 'target'=>'_blank','class' => 'btn btn-info', 'disabeld' => true)); 
+                                                    echo CHtml::link(Yii::t('mds', '{icon} Print BKM', array('{icon}'=>'<i class="entypo-print"></i>')), $this->createUrl('/printKwitansi/kasmasuk', array('id'=>$kasmasuk->buktikasmasukkop_id)), array('disabled'=>$kasmasuk->isNewRecord, 'target'=>'_blank','class' => 'btn btn-info', 'disabeld' => true)); 
                                             }
                                     ?>
 

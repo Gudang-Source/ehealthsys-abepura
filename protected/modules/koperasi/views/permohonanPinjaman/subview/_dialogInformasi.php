@@ -32,12 +32,13 @@
 											<?php echo CHtml::activeTextField($permintaan, 'nama_pegawai', array('readonly'=>true, 'class'=>'form-control peg')); ?>			
 										</div>
 									</div>
+                                                                    <?php /*
 									<div class="form-group">
 										<?php echo CHtml::activeLabel($permintaan, 'unit', array('class'=>'control-label col-sm-4')); ?>
 										<div class="col-sm-8">
 											<?php echo CHtml::activeTextField($permintaan, 'namaunit', array('readonly'=>true, 'class'=>'form-control peg')); ?>			
 										</div>
-									</div>
+									</div> */ ?>
 									<div class="form-group">
 										<?php echo CHtml::activeLabel($permintaan, 'golongan', array('class'=>'control-label col-sm-4')); ?>
 										<div class="col-sm-8">
@@ -101,10 +102,23 @@
 										<?php echo CHtml::activeLabel($approval, 'tgl disetujui', array('class'=>'control-label col-sm-2')); ?>
 										<div class="col-sm-5">
 											<?php
-											$this->widget('bootstrap.widgets.TbDateTimePicker', array(
-												'model'=>$approval, 'attribute'=>'tglapproval', 'htmlOptions'=>array('class'=>'form-control tanggal'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
-											));
+											//$this->widget('bootstrap.widgets.TbDateTimePicker', array(
+												//'model'=>$approval, 'attribute'=>'tglapproval', 'htmlOptions'=>array('class'=>'form-control tanggal'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
+											//));
 											?>
+                                                                                    
+                                                                                        <?php   
+                                                                                            
+                                                                                            $this->widget('MyDateTimePicker',array(
+                                                                                            'model'=>$approval,
+                                                                                            'attribute'=>'tglapproval',
+                                                                                            'mode'=>'date',
+                                                                                            'options'=> array(
+                                                                                                'dateFormat'=>Params::DATE_FORMAT,
+                                                                                                'maxDate' => 'd',
+                                                                                            ),
+                                                                                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                                                                        ));?>	
 										</div>
 										<div class="col-sm-5">
 											<?php echo CHtml::activeDropDownList($approval, 'status_disetujui', array(true=>'Diterima', false=>'Ditolak'), array('class'=>'form-control')); ?>
@@ -156,10 +170,22 @@
 										<?php echo CHtml::activeLabel($approval, 'tanggal', array('class'=>'control-label col-sm-3')); ?>
 										<div class="col-sm-9">
 											<?php
-											$this->widget('bootstrap.widgets.TbDateTimePicker', array(
-												'model'=>$approval, 'attribute'=>'appr_tgldiperiksa', 'htmlOptions'=>array('class'=>'form-control tanggal'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
-											));
+											//$this->widget('bootstrap.widgets.TbDateTimePicker', array(
+												//'model'=>$approval, 'attribute'=>'appr_tgldiperiksa', 'htmlOptions'=>array('class'=>'form-control tanggal'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
+											//));
 											?>
+                                                                                         <?php   
+                                                                                            
+                                                                                            $this->widget('MyDateTimePicker',array(
+                                                                                            'model'=>$approval,
+                                                                                            'attribute'=>'appr_tgldiperiksa',
+                                                                                            'mode'=>'date',
+                                                                                            'options'=> array(
+                                                                                                'dateFormat'=>Params::DATE_FORMAT,
+                                                                                                'maxDate' => 'd',
+                                                                                            ),
+                                                                                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                                                                        ));?>	
 										</div>
 									</div>
 								</div>
@@ -195,10 +221,22 @@
 										<?php echo CHtml::activeLabel($approval, 'tanggal', array('class'=>'control-label col-sm-3')); ?>
 										<div class="col-sm-9">
 											<?php
-											$this->widget('bootstrap.widgets.TbDateTimePicker', array(
-												'model'=>$approval, 'attribute'=>'appr_tgldisetujui', 'htmlOptions'=>array('class'=>'form-control tanggal'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
-											));
+											//$this->widget('bootstrap.widgets.TbDateTimePicker', array(
+											//	'model'=>$approval, 'attribute'=>'appr_tgldisetujui', 'htmlOptions'=>array('class'=>'form-control tanggal'), 'options'=>array('format'=>'dd/mm/yyyy H:i'),
+											//));
 											?>
+                                                                                         <?php   
+                                                                                            
+                                                                                            $this->widget('MyDateTimePicker',array(
+                                                                                            'model'=>$approval,
+                                                                                            'attribute'=>'appr_tgldisetujui',
+                                                                                            'mode'=>'date',
+                                                                                            'options'=> array(
+                                                                                                'dateFormat'=>Params::DATE_FORMAT,
+                                                                                                'maxDate' => 'd',
+                                                                                            ),
+                                                                                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                                                                        ));?>	
 										</div>
 									</div>
 									<?php echo CHtml::hiddenField('pengurus-switcher'); ?>
@@ -230,11 +268,11 @@
 					echo CHtml::hiddenField('target_attr', null);
 					$pegawai = new PegawaiM;
 					if (isset($_GET['PegawaiM'])) $pegawai->attributes = $_GET['PegawaiM'];
-					$this->widget('bootstrap.widgets.TbGridView',array(
+					$this->widget('ext.bootstrap.widgets.BootGridView',array(
 					'id'=>'pegawai-pengurus-m-grid',
 					'dataProvider'=>$pegawai->searchPengurus(),
 					'filter'=>$pegawai,
-					'itemsCssClass' => 'table-bordered datatable dataTable',
+					'itemsCssClass' => 'table table-striped table-condensed',
 					'columns'=>array(
 						array(
 							'type'=>'raw',
@@ -250,7 +288,7 @@
 							'header'=>'Nama Pegawai',
 							'type'=>'raw',
 							'name'=>'nama_pegawai',
-							'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang',
+							'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
 						)
 						),
 					)); 
