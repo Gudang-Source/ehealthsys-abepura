@@ -211,12 +211,12 @@
 
                         </div>
                     </div>
-                    <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik no. rekam medik')); ?>
-                    <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik nama pasien')); ?>
+                    <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik no. rekam medik')); ?>
+                    <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik nama pasien')); ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik nama panggilan')); ?>
-                    <?php echo $form->textFieldRow($model,'alamat_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik alamat pasien')); ?>
+                    <?php //echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik nama panggilan')); ?>
+                    <?php echo $form->textFieldRow($model,'alamat_pasien',array('class'=>'span3 custom-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik alamat pasien')); ?>
                     <div class="control-group ">
                         <?php echo $form->labelEx($model,'rt', array('class'=>'control-label inline')) ?>
                         <div class="controls">

@@ -109,13 +109,13 @@
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model,'bookingkamar_no',array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo $form->textField($model,'bookingkamar_no',array('placeholder'=>'Ketik No. Pemesanan','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+                <?php echo $form->textField($model,'bookingkamar_no',array('placeholder'=>'Ketik No. Pemesanan','class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
             </div>
         </div>
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model,'noRekamMedik',array('class'=>'control-label')); ?>
             <div class="controls">
-               <?php echo $form->textField($model,'noRekamMedik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+               <?php echo $form->textField($model,'noRekamMedik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength' => 6)); ?>
             </div>
         </div> 
     </div>
