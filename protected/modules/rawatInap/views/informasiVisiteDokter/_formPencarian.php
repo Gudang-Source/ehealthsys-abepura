@@ -85,7 +85,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 										}',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogDokter'),
-                            'htmlOptions' => array("rel" => "tooltip", "title" => "Data Dokter", 'onkeypress' => "return $(this).focusNextInputField(event)",
+                            'htmlOptions' => array('class'=>'hurufs-only',"rel" => "tooltip", "title" => "Data Dokter", 'onkeypress' => "return $(this).focusNextInputField(event)",
                                 'onblur' => 'if(this.value === "") $("#' . CHtml::activeId($model, 'dokter_id') . '").val(""); '),
                         ));
                         ?>
@@ -146,15 +146,42 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 					))'
         ),
         array(
+            'header' => 'NIP',
+            'name' => 'nomorindukpegawai',
+            'value' => '$data->nomorindukpegawai',
+            'filter' => Chtml::activeTextField($modDokter, 'nomorindukpegawai', array('class' => 'numbers-only'))
+        ),
+        array(
             'name' => 'nama_pegawai',
             'header' => 'Nama Dokter Resep',
             'type' => 'raw',
             'value' => '$data->NamaLengkap',
+            'filter' => Chtml::activeTextField($modDokter, 'nama_pegawai', array('class' => 'hurufs-only'))
         ),
-        'jeniskelamin',
-        'nomorindukpegawai',
+        array(
+            'header' => 'Jabatan',
+            'name' => 'jabatan_id',
+            'value' => function($data){
+                $j = JabatanM::model()->findByPk($data->jabatan_id);
+                    
+                if (count($j) > 0){
+                    return $j->jabatan_nama;
+                }else{
+                    return '-';
+                }
+            },
+            'filter' => Chtml::activeDropDownList($modDokter, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll('jabatan_aktif = TRUE ORDER BY jabatan_nama ASC'), 'jabatan_id', 'jabatan_nama'), array('empty' => '-- Pilih --'))
+        ),        
+        
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+                    . '$(".numbers-only").keyup(function(){'
+                    . '     setNumbersOnly(this);'
+                    . '});'
+                    . '$(".hurufs-only").keyup(function(){'
+                    . '     setHurufsOnly(this);'
+                    . '});'
+                    . '}',
 ));
 $this->endWidget();
 ?>

@@ -35,6 +35,12 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 		if(!empty($this->caramasuk_id)){
 			$criteria->addCondition("caramasuk_id = ".$this->caramasuk_id); 	
 		}
+                if(!empty($this->kelaspelayanan_id)){
+			$criteria->addCondition("kelaspelayanan_id = ".$this->kelaspelayanan_id); 	
+		}
+                if(!empty($this->jeniskasuspenyakit_id)){
+			$criteria->addCondition("jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id); 	
+		}
 		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->prefix_pendaftaran.$this->no_pendaftaran),true);
@@ -501,6 +507,8 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 		}		
 		return $status_dokumen;
    }
+   
+   
    
    
 	        

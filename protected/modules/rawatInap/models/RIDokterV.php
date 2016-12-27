@@ -45,6 +45,7 @@ class RIDokterV extends DokterV
 		$criteria->compare('pangkat_id',$this->pangkat_id);
 		$criteria->compare('kelompokpegawai_id',$this->kelompokpegawai_id);
 		$criteria->compare('jabatan_id',$this->jabatan_id);
+                $criteria->limit = 10;
                 $criteria->order = 'LOWER(nama_pegawai) ASC';
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

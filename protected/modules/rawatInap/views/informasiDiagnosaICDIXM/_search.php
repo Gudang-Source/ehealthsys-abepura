@@ -8,10 +8,10 @@
 <table width="100%">
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'diagnosaicdix_kode',array('placeholder'=>'Ketik Kode Diagnosa','class'=>'span3','maxlength'=>10)); ?>
+            <?php echo $form->textFieldRow($model,'diagnosaicdix_kode',array('placeholder'=>'Ketik Kode Diagnosa','class'=>'span3 angkadot-only','maxlength'=>10)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'diagnosaicdix_nama',array('placeholder'=>'Ketik Nama Diagnosa','class'=>'span3','maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'diagnosaicdix_nama',array('placeholder'=>'Ketik Nama Diagnosa','class'=>'span3 hurufs-only','maxlength'=>50)); ?>
         </td>
     </tr>
 </table>
@@ -23,13 +23,17 @@
 <?php //echo $form->checkBoxRow($model,'diagnosaicdix_aktif',array('checked'=>'diagnosaicdix_aktif')); ?>
 
 <div class="form-actions">
-    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
-    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
         Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
         array('class'=>'btn btn-danger',
               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
     <?php 
-        $content = $this->renderPartial('gudangFarmasi.views.tips.informasiStokObatAlkesRJ',array(),true);
+        $tips = array(
+            '0' => 'cari',
+            '1' => 'ulang2'
+        );
+        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips' => $tips),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
     ?>
 </div>

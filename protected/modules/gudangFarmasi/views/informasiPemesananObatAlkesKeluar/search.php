@@ -71,17 +71,17 @@
                         , array('class'=>'span3','empty'=>'-- Pilih --')); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan','class'=>'numberOnly','style'=>'width:204px')); ?>
+                <?php echo $form->textFieldRow($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan','class'=>'angkahuruf-only','style'=>'width:204px')); ?>
             </td>
         </tr>
     </table>
     <div class="form-actions">
-        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="ntypo-arrows-ccw"></i>')), 
                                 $this->createUrl($this->id.'/index'), 
                                 array('class'=>'btn btn-danger',
 //                                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
-                                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
+                                      'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
         <?php
            $content = $this->renderPartial('gudangFarmasi.views.tips.informasiPemesananObatAlkesKeluar',array(),true);
            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 

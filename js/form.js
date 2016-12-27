@@ -334,6 +334,32 @@ function setCustomOnly(obj){
 		$(obj).val(orignalValue);
 	}
 }
+
+function setKodeICD(obj){
+	
+	var value = $(obj).val();
+	var orignalValue = value;
+	value = value.replace(/[-a-zA-Z0-9.+]*/g, "");
+	var msg = "Only Alphabet Values allowed.";
+
+	if (value != '') {
+		orignalValue = orignalValue.replace(/([^-a-zA-Z0-9.+].*)/g, "")
+		$(obj).val(orignalValue);
+	}
+}
+
+function setKodeDTD(obj){
+	
+	var value = $(obj).val();
+	var orignalValue = value;
+	value = value.replace(/[-a-zA-Z0-9]*/g, "");
+	var msg = "Only Alphabet Values allowed.";
+
+	if (value != '') {
+		orignalValue = orignalValue.replace(/([^-a-zA-Z0-9].*)/g, "")
+		$(obj).val(orignalValue);
+	}
+}
 /**
  * Set functions on ready windows 
  */
@@ -379,6 +405,14 @@ $( document ).ready(function(){
     
     $('.custom-only').keyup(function() {
         setCustomOnly(this);
+    });
+    
+    $('.kode-icd').keyup(function() {
+        setKodeICD(this);
+    });
+    
+     $('.kode-dtd').keyup(function() {
+        setKodeDTD(this);
     });
     
     /**class : all-caps = kapital semua */

@@ -1600,5 +1600,32 @@ class ActionDynamicController extends Controller
         }
         Yii::app()->end();
     }   
+    
+    public function actionGetKondisiKeluar($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $carakeluar_id = $_POST["$namaModel"]['carakeluar_id'];
+
+           if($encode)
+           {
+                echo CJSON::encode($kondisikeluar);
+           } else {
+                if(empty($carakeluar_id)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                } else {
+                    $kondisikeluar = KondisiKeluarM::model()->findAllByAttributes(array('carakeluar_id'=>$carakeluar_id,'kondisikeluar_aktif'=>true), array('order'=>'kondisikeluar_nama ASC'));
+                    if(count($kondisikeluar) > 1)
+                    {
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }
+                    $kondisikeluar = CHtml::listData($kondisikeluar,'kondisikeluar_id','kondisikeluar_nama');
+                    foreach($kondisikeluar as $value=>$name) {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+           }
+        }
+        Yii::app()->end();
+    }
 }
 ?>

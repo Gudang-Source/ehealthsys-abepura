@@ -225,7 +225,7 @@ class PasienygpulangriV extends CActiveRecord
 			'no_asuransi' => 'No. Asuransi',
 			'namapemilik_asuransi' => 'Namapemilik Asuransi',
 			'nopokokperusahaan' => 'Nopokokperusahaan',
-			'carabayar_id' => 'Cara bayar',
+			'carabayar_id' => 'Cara Bayar',
 			'carabayar_nama' => 'Cara bayar Nama',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin Nama',
@@ -579,6 +579,11 @@ class PasienygpulangriV extends CActiveRecord
         public function getPenjaminItems()
         {
             return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE');
+        }
+        
+        public function getCaraKeluarItems()
+        {
+            return CarakeluarM::model()->findAll("carakeluar_aktif = TRUE ORDER BY carakeluar_nama ASC");
         }
         
        

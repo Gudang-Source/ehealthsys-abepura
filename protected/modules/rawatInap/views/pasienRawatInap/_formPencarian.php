@@ -77,6 +77,23 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                 <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                 <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                 
+                <div class="control-group">
+                    <?php echo CHtml::label("Kelas Pelayanan",'kelaspelayanan_id', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php 
+                            echo $form->dropDownList($model, 'kelaspelayanan_id' , CHtml::listData($model->getKelasPelayananRuangan(), 'kelaspelayanan_id', 'kelaspelayanan_nama'), array('empty' => '-- Pilih --'))
+                        ?>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <?php echo CHtml::label("Kasus Penyakit",'jeniskasuspenyakit_id', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php 
+                            echo $form->dropDownList($model, 'jeniskasuspenyakit_id' , CHtml::listData($model->getKasusPenyakit(), 'jeniskasuspenyakit_id', 'jeniskasuspenyakit_nama'), array('empty' => '-- Pilih --'))
+                        ?>
+                    </div>
+                </div>
             </td>
             <td>
                 <?php echo $form->dropDownListRow($model,'caramasuk_id', CHtml::listData($model->getCaraMasukItems(), 'caramasuk_id', 'caramasuk_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
