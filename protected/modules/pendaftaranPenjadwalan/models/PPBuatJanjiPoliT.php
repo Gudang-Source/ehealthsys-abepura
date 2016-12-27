@@ -42,6 +42,9 @@ class PPBuatJanjiPoliT extends BuatjanjipoliT
                 $criteria->addBetweenCondition('DATE(tglbuatjanji)', $this->tgl_awal, $this->tgl_akhir);
 		$criteria->compare('LOWER(pegawai.nama_pegawai)',strtolower($this->nama_pegawai),true);
                 $criteria->compare('LOWER(ruangan.ruangan_nama)',strtolower($this->ruangan_nama),true);
+                if (!empty($this->ruangan_id)){
+                    $criteria->addCondition(" t.ruangan_id = '".$this->ruangan_id."' ");
+                }
                 $criteria->compare('LOWER(pasien.nama_pasien)',strtolower($this->nama_pasien),true);
                 $criteria->compare('LOWER(pasien.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		$criteria->with=array('pegawai','ruangan','pasien');

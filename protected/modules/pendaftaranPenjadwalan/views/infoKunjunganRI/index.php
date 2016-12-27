@@ -305,9 +305,9 @@ $('.search-form form').submit(function(){
                             <?php $modPPInfoKunjunganRIV->tgl_akhir=$format->formatDateTimeForDb($modPPInfoKunjunganRIV->tgl_akhir); ?>
                            </div> 
                     </div>
-                        <?php echo $form->textFieldRow($modPPInfoKunjunganRIV,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                        <?php echo $form->textFieldRow($modPPInfoKunjunganRIV,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                        <?php echo $form->textAreaRow($modPPInfoKunjunganRIV,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>          
+                        <?php echo $form->textFieldRow($modPPInfoKunjunganRIV,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                        <?php echo $form->textFieldRow($modPPInfoKunjunganRIV,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3 hurufs-only', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                        <?php echo $form->textAreaRow($modPPInfoKunjunganRIV,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>          
                 </td>
                 <td>
                         <?php echo $form->dropDownListRow($modPPInfoKunjunganRIV, 'caramasuk_id', CHtml::listData(CaramasukM::model()->findAllByAttributes(array(

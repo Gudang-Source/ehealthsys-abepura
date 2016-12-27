@@ -44,7 +44,9 @@ class RKPegawaiM extends PegawaiM
         public function getPegawai()
         {
             $criteria=new CDbCriteria();
-            $criteria->with = array('ruanganpegawai');
+            $criteria->select = "t.nama_pegawai, lp.loginpemakai_id as loginpemakai_id";
+            $criteria->join = 'JOIN loginpemakai_k lp ON lp.pegawai_id = t.pegawai_id';
+            $criteria->with = array('ruanganpegawai');            
             $criteria->addCondition('ruanganpegawai.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
             $criteria->addCondition('t.pegawai_aktif = TRUE');
             $criteria->order = 't.nama_pegawai ASC';

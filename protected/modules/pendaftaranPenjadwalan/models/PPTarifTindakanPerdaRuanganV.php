@@ -30,6 +30,9 @@ class PPTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		if (!empty($this->ruangan_id)){
 			$criteria->addCondition('ruangan_id ='.$this->ruangan_id);
 		}
+                if (!empty($this->instalasi_id)){
+			$criteria->addCondition('instalasi_id ='.$this->instalasi_id);
+		}
 		if(!empty($this->jenistarif_id)){
 			$criteria->addCondition('jenistarif_id = '.$this->jenistarif_id);
 		}

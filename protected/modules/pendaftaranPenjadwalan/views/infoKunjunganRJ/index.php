@@ -354,9 +354,9 @@ $('.search-form form').submit(function(){
                         ?>
                     </div> 
                 </div>
-                <?php echo $form->textFieldRow($modPPInfoKunjunganRJV,'no_rekam_medik',array('class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik No. Rekam Medis')); ?>
-                <?php echo $form->textFieldRow($modPPInfoKunjunganRJV,'nama_pasien',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Nama Pasien')); ?>
-                <?php echo $form->textAreaRow($modPPInfoKunjunganRJV,'alamat_pasien',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Alamat Pasien')); ?>
+                <?php echo $form->textFieldRow($modPPInfoKunjunganRJV,'no_rekam_medik',array('class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik No. Rekam Medis')); ?>
+                <?php echo $form->textFieldRow($modPPInfoKunjunganRJV,'nama_pasien',array('class'=>'span3 hurufs-only', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Nama Pasien')); ?>
+                <?php echo $form->textAreaRow($modPPInfoKunjunganRJV,'alamat_pasien',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Alamat Pasien')); ?>
             </td>
             <td>
                 <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV,'status_konfirmasi',CustomFunction::getStatusKonfirmasi(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>

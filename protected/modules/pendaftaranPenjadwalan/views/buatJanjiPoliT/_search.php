@@ -46,13 +46,21 @@
                         </div>
                 </div> 
         </td>
-        <td>
-            <?php echo $form->textFieldRow($model,'nama_pegawai',array('placeholder'=>'Ketik Nama Dokter')); ?>
+        <td>            
             <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'numberOnly')); ?>
+            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien', 'class'=>'hurufs-only')); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien')); ?>
-            <?php echo $form->textFieldRow($model,'ruangan_nama',array('placeholder'=>'Ketik Nama Ruangan')); ?>
+            <?php echo $form->textFieldRow($model,'nama_pegawai',array('placeholder'=>'Ketik Nama Dokter', 'class' => 'hurufs-only')); ?>
+            
+            <div class="control-group">
+                <?php echo Chtml::label('Ruangan', 'ruangan_id', array('class' => 'control-label')) ?>
+                <div class="controls">
+            <?php //echo $form->textFieldRow($model,'ruangan_nama',array('placeholder'=>'Ketik Nama Ruangan')); 
+                echo $form->dropDownList($model,'ruangan_id', Chtml::listData(PPRuanganM::model()->findAll('ruangan_aktif = TRUE ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --')); 
+            ?>
+                </div>
+            </div>
             
         </td>
     </tr>
