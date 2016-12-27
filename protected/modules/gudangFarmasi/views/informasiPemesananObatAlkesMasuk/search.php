@@ -51,7 +51,7 @@
                 </div>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan','class'=>'numberOnly')); ?>
+                <?php echo $form->textFieldRow($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan','class'=>'angkahuruf-only')); ?>
                 <?php echo $form->dropDownListRow($model,'instalasipemesan_id', $instalasiPemesanans, 
                         array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',

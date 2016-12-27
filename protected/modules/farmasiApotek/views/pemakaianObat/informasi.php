@@ -122,7 +122,7 @@
                         <?php echo CHtml::label('No. Pemakaian Obat','nopemakaian_obat', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <div class="controls">
-                                <?php echo $form->textField($model, 'nopemakaian_obat', array('class'=>'span3')); ?>
+                                <?php echo $form->textField($model, 'nopemakaian_obat', array('class'=>'span3 angkahuruf-only')); ?>
                             </div>
                         </div>
                     </div>

@@ -17,10 +17,15 @@
                    'type'=>'raw',
                    'value'=>'CHtml::link($data->tabularlist_chapter, "javascript:cariDtd(this,\'$data->tabularlist_id\');",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Klik Untuk Melihat DTD"))',
                    'htmlOptions'=>array('style'=>'text-align: left; width:120px'),
+                   'filter' => CHtml::activeTextField($modTabularList, 'tabularlist_chapter', array('class'=>'angkahuruf-only'))
                     ),
 
                  ),
-                'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                    . '$(".angkahuruf-only").keyup(function(){'
+                    . 'setAngkaHurufsOnly(this);'
+                    . '});'
+                    . '}',
                 )); ?>
                  </div>   
             </td>
@@ -40,10 +45,28 @@
                                'value'=>'CHtml::link($data->dtd_kode, "javascript:cariDiagnosa(\'$data->dtd_id\');",array("id"=>"$data->dtd_id","rel"=>"tooltip","title"=>"Klik Untuk Melihat Diagnosa"))',
                                'htmlOptions'=>array('style'=>'text-align: left; width:120px')
                             ),
-                            'dtd_kode',	
-                            'dtd_nama',
+                            array(
+                                'header' => 'Kode',
+                                'name' => 'dtd_kode',
+                                'value' => '$data->dtd_kode',
+                                'filter' => Chtml::activeTextField($modDTDM, 'dtd_kode', array('class' => 'kode-dtd'))
+                            ),
+                            array(
+                                'header' => 'Nama',
+                                'name' => 'dtd_nama',
+                                'value' => '$data->dtd_nama',
+                                'filter' => Chtml::activeTextField($modDTDM, 'dtd_nama', array('class' => 'custom-only'))
+                            ),
+                            
                      ),
-                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                         . '$(".kode-dtd").keyup(function(){'
+                         . 'setKodeDTD(this);'
+                         . '});'
+                         . '$(".custom-only").keyup(function(){'
+                         . 'setCustomOnly(this);'
+                         . '});'
+                         . '}',
                     )); ?>
                 </div>
 
@@ -54,6 +77,7 @@
                     'template'=>"{summary}\n{items}\n{pager}",
                     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
                     'columns'=>array(	
+                            
                             'diagnosa_kode',	
                             'diagnosa_nama',
                      ),
@@ -80,15 +104,15 @@
                 <table width="100%">
                     <tr>
                         <td>
-                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_kode',array('placeholder'=>'Ketik Kode','class'=>'span3','maxlength'=>10)); ?>
-                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_nama',array('placeholder'=>'Ketik Nama','class'=>'span3','maxlength'=>50)); ?>
+                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_kode',array('placeholder'=>'Ketik Kode','class'=>'span3 kode-icd','maxlength'=>10)); ?>
+                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_nama',array('placeholder'=>'Ketik Nama','class'=>'span3  custom-only','maxlength'=>50)); ?>
                         </td>
                         <td>
-                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_namalainnya',array('placeholder'=>'Ketik Nama Lain','class'=>'span3','maxlength'=>50)); ?>
-                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_katakunci',array('placeholder'=>'Ketik Kata Kunci','class'=>'span3','maxlength'=>50)); ?>
+                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_namalainnya',array('placeholder'=>'Ketik Nama Lain','class'=>'span3  custom-only','maxlength'=>50)); ?>
+                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_katakunci',array('placeholder'=>'Ketik Kata Kunci','class'=>'span3  custom-only','maxlength'=>50)); ?>
                         </td>
                         <td>
-                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_nourut',array('class'=>'span3')); ?>
+                            <?php echo $form->textFieldRow($modDiagnosa,'diagnosa_nourut',array('class'=>'span3 numbers-only')); ?>
                             <?php echo $form->checkBoxRow($modDiagnosa,'diagnosa_imunisasi'); ?>
                         </td>
                     </tr>
@@ -99,28 +123,28 @@
                 <table width="100%">
                     <tr>
                         <td>
-                            <?php echo $form->textFieldRow($modDTDM,'dtd_kode',array('placeholder'=>'Ketik Kode','class'=>'span3','maxlength'=>10)); ?>
-                            <?php echo $form->textFieldRow($modDTDM,'dtd_nama',array('placeholder'=>'Ketik Nama','class'=>'span3','maxlength'=>50)); ?>
+                            <?php echo $form->textFieldRow($modDTDM,'dtd_kode',array('placeholder'=>'Ketik Kode','class'=>'span3 kode-dtd','maxlength'=>10)); ?>
+                            <?php echo $form->textFieldRow($modDTDM,'dtd_nama',array('placeholder'=>'Ketik Nama','class'=>'span3 custom-only','maxlength'=>50)); ?>
                         </td>
                         <td>
-                            <?php echo $form->textFieldRow($modDTDM,'dtd_namalainnya',array('placeholder'=>'Ketik Nama Lainnya','class'=>'span3','maxlength'=>50)); ?>
-                            <?php echo $form->textFieldRow($modDTDM,'dtd_katakunci',array('placeholder'=>'Ketik Kata Kunci','class'=>'span3','maxlength'=>50)); ?>
+                            <?php echo $form->textFieldRow($modDTDM,'dtd_namalainnya',array('placeholder'=>'Ketik Nama Lainnya','class'=>'span3  custom-only','maxlength'=>50)); ?>
+                            <?php echo $form->textFieldRow($modDTDM,'dtd_katakunci',array('placeholder'=>'Ketik Kata Kunci','class'=>'span3 custom-only','maxlength'=>50)); ?>
                         </td>
                         <td>
-                            <?php echo $form->textFieldRow($modDTDM,'dtd_nourut',array('class'=>'span3')); ?>
+                            <?php echo $form->textFieldRow($modDTDM,'dtd_nourut',array('class'=>'span3 numbers-only')); ?>
                         </td>
                     </tr>
                 </table>
             </div>
 
             <div class="form-actions">
-                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),
                                                             array('class'=>'btn btn-primary', 'type'=>'submit','id'=>'btn_simpan'));
                  ?>
-                <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                    Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
-                    array('class'=>'btn btn-danger',
-                          'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                 <?php
+                        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="entypo-arrows-ccw"></i>')), Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . ''), array('class' => 'btn btn-danger',
+                        'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
+                ?>	               
                 <?php 
                     $content = $this->renderPartial('gudangFarmasi.views.tips.informasiStokObatAlkesRJ',array(),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
