@@ -19,7 +19,7 @@ $('#rmpengirimanrm-t-search').submit(function(){
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'informasipengiriman-t-grid',
             'dataProvider'=>$model->searchInformasi(),
-            'filter'=>$model,
+           // 'filter'=>$model,
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(

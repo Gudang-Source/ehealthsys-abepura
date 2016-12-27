@@ -216,10 +216,10 @@ class PengirimanrmTController extends MyAuthController
 		$model->unsetAttributes();
 		$model->tgl_awal = date('Y-m-d');
 		$model->tgl_akhir = date('Y-m-d');
-		$model->instalasipengirim_id = Yii::app()->user->getState('instalasi_id');
-		$model->ruanganpengirim_id = Yii::app()->user->getState('ruangan_id');
-		$model->instalasitujuan_id = null;
-		$model->ruangantujuan_id = null;
+		//$model->instalasipengirim_id = Yii::app()->user->getState('instalasi_id');
+                //$model->ruanganpengirim_id = Yii::app()->user->getState('ruangan_id');
+		//$model->instalasitujuan_id = null;
+		//$model->ruangantujuan_id = null;
 		if(isset($_GET['RKInformasipengirimanrmV'])){ 
 			$model->attributes = $_GET['RKInformasipengirimanrmV'];
 			$model->tgl_awal  = $format->formatDateTimeForDb($_GET['RKInformasipengirimanrmV']['tgl_awal']);

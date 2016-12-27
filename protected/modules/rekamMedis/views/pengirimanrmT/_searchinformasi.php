@@ -93,7 +93,7 @@
                         <div class="control-group">
                                 <?php echo CHtml::label('Ruangan Asal', 'ruanganpengirim_id', array('class'=>'control-label')) ?>
                                 <div class="controls">
-                                        <?php echo $form->dropDownList($model,'ruanganpengirim_id',CHtml::listData($model->getRuanganItems($model->instalasipengirim_id), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                                        <?php echo $form->dropDownList($model,'ruanganpengirim_id',array(),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'empty' => '-- Pilih --')); //CHtml::listData($model->getRuanganItems($model->instalasipengirim_id), 'ruangan_id', 'ruangan_nama')?>
                                 </div>
                         </div>						
 
@@ -111,7 +111,7 @@
                         <div class="control-group">
                                 <?php echo CHtml::label('Ruangan Tujuan', 'ruangantujuan_id', array('class'=>'control-label')) ?>
                                 <div class="controls">
-                                        <?php echo $form->dropDownList($model,'ruangantujuan_id',CHtml::listData($model->getRuanganItems($model->instalasitujuan_id), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>
+                                        <?php echo $form->dropDownList($model,'ruangantujuan_id',array(),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--'));//CHtml::listData($model->getRuanganItems($model->instalasitujuan_id), 'ruangan_id', 'ruangan_nama') ?>
                                 </div>
                         </div>		                        
                         <?php // echo CHtml::label('Nama Pasien','nama_pasien',array('class'=>'control-label')); ?>
@@ -150,9 +150,13 @@
         <td>
             <div id="searching">
                 <div class = "control-group">
-                    <?php echo Chtml::label('Petugas Pengirim','create_loginpemakai_id',array('class'=>'control-label')) ?>
+                    <?php echo Chtml::label('Petugas Pengirim','create_loginpemakai_id',array('class'=>'control-label'));                             
+ 
+                            ?>
                     <div class = "controls">
-                    <?php echo $form->DropDownList($model,'create_loginpemakai_id', Chtml::ListData(RKPegawaiM::model()->getPegawai(),'loginpemakai_id','namaLengkap'),array('class'=>'span3','empty'=>'-- Pilih --')) ?>
+                    <?php 
+                        
+                        echo $form->DropDownList($model,'create_loginpemakai_id', Chtml::ListData(RKPegawaiM::model()->getPegawai(),'loginpemakai_id','namaLengkap'),array('class'=>'span3','empty'=>'-- Pilih --')) ?>
                     </div>
                 </div>
                 
