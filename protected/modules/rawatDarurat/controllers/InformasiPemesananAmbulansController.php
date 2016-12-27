@@ -12,7 +12,7 @@ class InformasiPemesananAmbulansController extends MyAuthController
             $modPemesanan = new RDPesanambulansT('search');
             $modPemesanan->tgl_awal  = date('Y-m-d');
             $modPemesanan->tgl_akhir  = date('Y-m-d'); 
-            $modPemesanan->ruangan_id = Yii::app()->user->getState('ruangan_id');
+           // $modPemesanan->ruangan_id = Yii::app()->user->getState('ruangan_id');
             if(isset($_GET['RDPesanambulansT'])){
                 $modPemesanan->unsetAttributes();
                 $modPemesanan->attributes = $_GET['RDPesanambulansT'];

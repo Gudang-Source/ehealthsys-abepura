@@ -24,7 +24,7 @@
                 'columns'=>array(
         //                'tglpasienpulang',
                         array(
-                            'header'=>'Tanggal Pasien Pulang',
+                            'header'=>'Tanggal Pulang',
                             'value'=>'$data->tglpasienpulang',
                         ),
                         array(
@@ -36,9 +36,9 @@
                         
         //                'tgladmisi',
                         array(
-                            'header'=>'No. Pendaftaran',
+                            'header'=>'Tanggal Pendaftaran/ <br/> No. Pendaftaran',
                             'type'=>'raw',
-                            'value'=>'$data->no_pendaftaran'
+                            'value'=>'$data->tgl_pendaftaran."/ <br/>".$data->no_pendaftaran'
                         ),
                         array(
                             'header'=>'No Rekam Medik',
@@ -50,6 +50,11 @@
                             'type'=>'raw',
                             'value'=>'$data->namadepan." ".$data->nama_pasien'
                         ),    
+                        array(
+                            'header' => 'Kamar/ <br/> No Bed',
+                            'type'=>'raw',
+                            'value'=>'$data->kamarruangan_nokamar."/ <br/>".$data->kamarruangan_nobed'
+                        ),
         //                'umur',
         //                 array(
         //                       'header'=>'Cara Bayar/ Penjamin',
@@ -62,15 +67,20 @@
                             'value'=>'$data->kelaspelayanan_nama'
                         ),   
                         array(
-                            'header'=>'Lama Dirawat/ <br/> Nama Kamar',
-                            'type' => 'raw',
-                            'value'=>'$data->lamadirawat_kamar." hari/ <br/>".$data->kamarruangan_nokamar."-".$data->kamarruangan_nobed',
-                        ),
-                        
-                        array(
-                            'header'=>'Nama Jenis Kasus Penyakit',
+                            'header'=>'Kasus Penyakit',
                             'value'=>'$data->jeniskasuspenyakit_nama',
                         ),
+                        array(
+                            'header'=>'Dokter PJP',
+                            'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama' ,
+                        ),
+                        array(
+                            'header'=>'Lama Dirawat',
+                            'type' => 'raw',
+                            'value'=>'$data->lamadirawat_kamar',
+                        ),
+                        
+                        
                         array(
                             'header'=>'Cara/ Kondisi Pulang',
                             'type'=>'raw',
