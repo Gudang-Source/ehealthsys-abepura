@@ -49,22 +49,22 @@
             </div>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3', 'maxlength'=>20)); ?>
-            <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3', 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3 angkahuruf-only', 'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbers-only', 'maxlength'=>6)); ?>
+            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3 hurufs-only', 'maxlength'=>50)); ?>
         </td>
-        <td>
-            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3', 'maxlength'=>50)); ?>
+        <td>            
             <?php echo $form->dropDownListRow($model,'statusBayar', LookupM::getItems('statusbayar'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>20)); ?>
         </td>
     </tr>
 </table>
 <div class="form-actions">
-    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('autofocus'=>true, 'class'=>'btn btn-primary', 'type'=>'submit' , 'onKeyUp'=>'return formSubmit(this,event)' )); ?>
-    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('autofocus'=>true, 'class'=>'btn btn-primary', 'type'=>'submit' , 'onKeyUp'=>'return formSubmit(this,event)' )); ?>
+    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                         $this->createUrl($this->id.'/index'), 
                         array('class'=>'btn btn-danger',
 //                                      'onclick'=>'if(!confirm("Apakah anda ingin mengulang ini ?")) return false;'));
-                              'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>   
+                              'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>   
     <?php 
         $content = $this->renderPartial('laboratorium.views.tips.informasi_rincian',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 

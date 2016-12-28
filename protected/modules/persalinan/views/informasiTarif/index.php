@@ -35,7 +35,15 @@
                 ),
 
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+             'afterAjaxUpdate'=>'function(id, data){
+                jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                $("table").find("input[type=text]").each(function(){
+                    cekForm(this);
+                })
+                $("table").find("select").each(function(){
+                    cekForm(this);
+                })
+            }',
         )); ?>
     </div>
     <fieldset class="box">
@@ -84,8 +92,9 @@
         )); 
         ?>
         <table width="100%">
-            <tr>
+            <tr>                
                 <td>
+                    <?php echo $form->hiddenField($modTarifTindakanRuanganV, 'jenistarif_nama'); ?>
                     <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true), array('order'=>'jenistarif_nama ASC')), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
                     <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'kelompoktindakan_id', CHtml::listData(KelompoktindakanM::model()->findAllByAttributes(array('kelompoktindakan_aktif'=>true), array('order'=>'kelompoktindakan_nama ASC')), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
                 </td>
@@ -95,7 +104,8 @@
                 </td>
                 <td>
                     <?php echo $form->dropDownListRow($modTarifTindakanRuanganV,'kelaspelayanan_id',CHtml::listData($modTarifTindakanRuanganV->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
-                    <?php echo $form->textFieldRow($modTarifTindakanRuanganV,'daftartindakan_nama',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'placeholder'=>'Ketik nama daftar tindakan')); ?>
+                    <?php echo $form->textFieldRow($modTarifTindakanRuanganV,'daftartindakan_nama',array( 'class' => 'hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'placeholder'=>'Ketik nama daftar tindakan')); ?>
+                    
                 </td>
             </tr>
         </table>           
@@ -106,7 +116,7 @@
                                     array('class'=>'btn btn-danger',
                                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href ;}); return false;'));  ?>
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
-                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
+                                                    array('class'=>'btn btn-blue', 'type'=>'button','onclick'=>'print("PRINT")')); ?>
                 <?php 
                     $content = $this->renderPartial('../informasiTarif/tips/informasiTarifPersalinan',array(),true);
                     $this->widget('UserTips',array('type'=>'admin','content'=>$content));
@@ -115,10 +125,20 @@
     </fieldset>
     <?php $this->endWidget(); ?>
 </div>
-<?php $urlPrint = $this->createUrl('print'); ?>
-<script>
-    function printTarif() {
-        //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
-        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
+<?php 
+    $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
+    $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+    $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print'); 
+
+$js = <<< JSCRIPT
+    function cekForm(obj)
+    {
+        $("#formCari :input[name='"+ obj.name +"']").val(obj.value);
     }
-</script>
+    function print(caraPrint)
+    {
+        window.open("${urlPrint}/"+$('#formCari').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+    }
+JSCRIPT;
+    Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+    ?>
