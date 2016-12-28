@@ -237,6 +237,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     if(isset($_GET['BKRinciantagihanpasienpenunjangV'])) {
         $modDialogKunjungan->attributes = $_GET['BKRinciantagihanpasienpenunjangV'];
         $modDialogKunjungan->instalasi_id = $_GET['BKRinciantagihanpasienpenunjangV']['instalasi_id'];
+		$modDialogKunjungan->statusperiksa = $_GET['BKRinciantagihanpasienpenunjangV']['statusperiksa'];
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -300,6 +301,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'name'=>'penjamin_nama',
                         'filter'=>false,
                     ),
+					array(
+						'header'=>'Status Periksa',
+						'name'=>'statusperiksa',
+						'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --')),
+					),
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
         . ' $(".numbers-only").keyup(function() {

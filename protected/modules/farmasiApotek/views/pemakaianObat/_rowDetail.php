@@ -4,7 +4,9 @@
     <td>
         <?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]obatalkes_id'); ?>
 		<?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]stokobatalkes_id'); ?>
-        <span name="[ii][obatalkes_kode]"><?php echo (!empty($modPemakaianObatDetail->obatalkes_id) ? $modPemakaianObatDetail->obatalkes->obatalkes_kode : "") ?></span> /
+        <span name="[ii][obatalkes_kode]"><?php echo (!empty($modPemakaianObatDetail->obatalkes_id) ? $modPemakaianObatDetail->obatalkes->obatalkes_kode : "") ?></span>        
+    </td>
+    <td>
         <span name="[ii][obatalkes_nama]"><?php echo (!empty($modPemakaianObatDetail->obatalkes_id) ? $modPemakaianObatDetail->obatalkes->obatalkes_nama : "") ?></span>
     </td>
     <td hidden>
@@ -20,10 +22,10 @@
     </td>
     <td>
 		<?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]harganetto_satuanpakai',array('readonly'=>true)); ?>
-        <?php echo CHtml::activeTextField($modPemakaianObatDetail, '[ii]harga_satuanpakai',array('readonly'=>true,'style'=>'width:100px;', 'class'=>'integer')); //,'onblur'=>'hitungSubTotal(this)'?>
+        <?php echo CHtml::activeTextField($modPemakaianObatDetail, '[ii]harga_satuanpakai',array('readonly'=>true,'style'=>'width:100px;', 'class'=>'integer2')); //,'onblur'=>'hitungSubTotal(this)'?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modPemakaianObatDetail, '[ii]subtotal',array('readonly'=>true,'style'=>'width:100px;', 'class'=>'integer')); //,'onblur'=>'hitungSubTotal(this)'?>
+        <?php echo CHtml::activeTextField($modPemakaianObatDetail, '[ii]subtotal',array('readonly'=>true,'style'=>'width:100px;', 'class'=>'integer2')); //,'onblur'=>'hitungSubTotal(this)'?>
     </td>
 	<?php if(!isset($_GET['sukses'])){ ?>
 		<td>
@@ -37,7 +39,9 @@
     <td>
         <?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]obatalkes_id'); ?>
 		<?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]stokobatalkes_id'); ?>
-        <span name="[ii][obatalkes_kode]"><?php echo (!empty($modPemakaianObatDetail->obatalkes_id) ? $modPemakaianObatDetail->obatalkes->obatalkes_kode : "") ?></span> /
+        <span name="[ii][obatalkes_kode]"><?php echo (!empty($modPemakaianObatDetail->obatalkes_id) ? $modPemakaianObatDetail->obatalkes->obatalkes_kode : "") ?></span> 
+    </td>
+    <td>
         <span name="[ii][obatalkes_nama]"><?php echo (!empty($modPemakaianObatDetail->obatalkes_id) ? $modPemakaianObatDetail->obatalkes->obatalkes_nama : "") ?></span>
     </td>
     <td hidden>

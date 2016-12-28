@@ -164,6 +164,7 @@ Class Params
         const RUANGAN_ID_REKAM_MEDIS = 6;
         const RUANGAN_ID_POLIK_GIGI = 16;
         const RUANGAN_ID_PERAWATAN_DARURAT = 7;
+        const RUANGAN_ID_VERLOS_KAMER = 246;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;

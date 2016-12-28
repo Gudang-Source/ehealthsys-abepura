@@ -380,16 +380,14 @@ class PemakaianBmhpController extends MyAuthController
             if(Yii::app()->request->isAjaxRequest)
             {
                 $criteria = new CDbCriteria();
-                $criteria->join = "JOIN sumberdana_m ON sumberdana_m.sumberdana_id = t.sumberdana_id 
-                                JOIN satuankecil_m ON satuankecil_m.satuankecil_id = t.satuankecil_id
-                                LEFT JOIN jenisobatalkes_m ON jenisobatalkes_m.jenisobatalkes_id = t.jenisobatalkes_id
-                                ";
+                $criteria->join = " JOIN stokobatalkes_t stok ON stok.obatalkes_id = t.obatalkes_id ";
                 $criteria->compare('LOWER(t.obatalkes_nama)', strtolower($_GET['term']), true);
-                $criteria->addCondition('obatalkes_farmasi = TRUE');
-                $criteria->addCondition('obatalkes_aktif = true');
-                $criteria->order = 'obatalkes_nama';
+                $criteria->addCondition('t.obatalkes_farmasi = TRUE');
+                $criteria->addCondition('t.obatalkes_aktif = true');
+                $criteria->addCondition("stok.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+                $criteria->order = 't.obatalkes_nama';
                 $criteria->limit = 5;
-                $models = ObatalkesM::model()->findAll($criteria);
+                $models = ObatalkesM::model()->with('sumberdana','satuankecil')->findAll($criteria);
                 $format = new MyFormatter();
                 foreach($models as $i=>$model)
                 {

@@ -69,7 +69,7 @@ $masukkamar = MasukkamarT::model()->findByAttributes(array(
         <td>Ruangan</td><td>:</td><td nowrap><?php echo empty($modPendaftaran->pasienadmisi_id)?$modPendaftaran->ruangan->ruangan_nama:$admisi->ruangan->ruangan_nama; ?></td>
     </tr>
     <tr>
-        <td>Alamat</td><td>:</td><td nowrap><?php echo $pasien->no_rekam_medik; ?></td>
+        <td>Alamat</td><td>:</td><td nowrap><?php echo $pasien->alamat_pasien; ?></td>
         
         <?php if (!empty($modPendaftaran->pasienadmisi_id)): ?> 
         <td nowrap>Kamar / No. Bed</td><td>:</td><td nowrap><?php echo (empty($masukkamar) || empty($masukkamar->kamarruangan_id))?"-":($masukkamar->kamarruangan->kamarruangan_nokamar." / ".$masukkamar->kamarruangan->kamarruangan_nobed); ?></td>

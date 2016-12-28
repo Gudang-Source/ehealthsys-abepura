@@ -8,6 +8,7 @@
                     <?php echo CHtml::hiddenField('obatalkes_kode'); ?>
                     <?php echo CHtml::hiddenField('jenisobatalkes_nama'); ?>
                     <?php echo CHtml::hiddenField('tglkadaluarsa'); ?>
+                    <?php echo CHtml::hiddenField('stokoa'); ?>
                 <?php 
                     $this->widget('MyJuiAutoComplete', array(
                         'name'=>'obatalkes_nama',
@@ -17,6 +18,7 @@
                                            dataType: "json",
                                            data: {
                                                term: request.term,
+                                               ruangan_id: $("#GFPesanobatalkesT_ruangan_id").val()
                                            },
                                            success: function (data) {
                                                    response(data);
@@ -58,7 +60,7 @@
                                   'class'=>'btn btn-primary',
                                   'onkeyup'=>"tambahObatAlkes();",
                                   'rel'=>"tooltip",
-                                  'title'=>"Klik untuk menambahkan resep",)); ?>
+                                  'title'=>"Klik untuk menambahkan Obat & Alkes",)); ?>
                 </div>
             </div>
         </td>
@@ -100,16 +102,29 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                    /*'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectObat",
                                     "onClick" => "
                                         $(\'#obatalkes_id\').val($data->obatalkes_id);
                                         $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
                                         $(\'#jenisobatalkes_nama\').val(\'$data->jenisobatalkes_nama\');
-                                        $(\'#tglkadaluarsa\').val(\'$data->tglkadaluarsa\');
+                                        $(\'#tglkadaluarsa\').val(\'$data->tglkadaluarsa\');                                        
                                         $(\'#dialogObatAlkes\').dialog(\'close\');
                                         return false;"
-                                        ))',
+                                        ))',*/
+                    'value' => function ($data) use (&$modObatAlkes){
+                       return CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectObat",
+                                    "onClick" => '
+                                        $(\'#obatalkes_id\').val("'.$data->obatalkes_id.'");
+                                        $(\'#obatalkes_nama\').val("'.$data->obatalkes_nama.'");
+                                        $(\'#jenisobatalkes_nama\').val("'.$data->jenisobatalkes_nama.'");
+                                        $(\'#tglkadaluarsa\').val("'.$data->tglkadaluarsa.'");
+                                        $(\'#stokoa\').val("'.$data->getStokObatRuanganPemesan($modObatAlkes->ruangan_id).'");
+                                        $(\'#dialogObatAlkes\').dialog(\'close\');
+                                        return false;'
+                                        ));
+                    }
                 ),
                 array(
                     'name'=>'jenisobatalkes_id',
@@ -157,7 +172,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Jumlah Stok',
                     'type'=>'raw',
-                    'value'=>'$data->getStokObatRuanganPemesan('.$modObatAlkes->ruangan_id.')." ".(empty($data->satuankecil_id)?"":$data->satuankecil->satuankecil_nama)',
+                    'value'=>'$data->getStokObatRuanganPemesan('.$modObatAlkes->ruangan_id.')." ".$data->satuankecil_nama',
                     'htmlOptions'=>array('style' => 'text-align: right;')
                 ),  
 	),

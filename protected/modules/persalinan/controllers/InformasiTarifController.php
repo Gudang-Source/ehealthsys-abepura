@@ -6,11 +6,11 @@ class InformasiTarifController extends MyAuthController
     public function actionIndex()
     {
         $modTarifTindakanRuanganV = new PSTarifTindakanPerdaRuanganV('search');
-                $modTarifTindakanRuanganV->instalasi_id = Params::INSTALASI_ID_RJ;
-		$modTarifTindakanRuanganV->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;                
+              //  $modTarifTindakanRuanganV->instalasi_id = Params::INSTALASI_ID_RJ;
+		//$modTarifTindakanRuanganV->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;                
         if(isset($_GET['PSTarifTindakanPerdaRuanganV'])){
             $modTarifTindakanRuanganV->attributes=$_GET['PSTarifTindakanPerdaRuanganV'];            
-            $modTarifTindakanRuanganV->komponenunit_id=$_GET['PSTarifTindakanPerdaRuanganV']['komponenunit_id']; 
+            $modTarifTindakanRuanganV->komponenunit_id=$_GET['PSTarifTindakanPerdaRuanganV']['komponenunit_id'];             
         }
         $this->render('index',array('modTarifTindakanRuanganV'=>$modTarifTindakanRuanganV));
     }
@@ -53,15 +53,13 @@ class InformasiTarifController extends MyAuthController
    
     public function actionPrint() {
             $this->layout = '//layouts/iframe';
-            $modTarifRad = new PSTarifTindakanPerdaRuanganV('searchInformasi');
-          //  $modTarifRad->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
+            $modTarifRad = new PSTarifTindakanPerdaRuanganV('searchInformasi');            
             $modTarifRad->instalasi_id = Yii::app()->user->getState('instalasi_id');
-            //$modTarifRad->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
-            //$modTarifRad->penjamin_id = Params::PENJAMIN_ID_UMUM;
+            
             if(isset($_GET['PSTarifTindakanPerdaRuanganV'])){
                     $modTarifRad->attributes=$_GET['PSTarifTindakanPerdaRuanganV'];
-                    //$modTarifRad->carabayar_id=$_GET['ROTarifpemeriksaanradruanganV']['carabayar_id'];
-                    //$modTarifRad->penjamin_id=$_GET['ROTarifpemeriksaanradruanganV']['penjamin_id'];
+                    $modTarifRad->jenistarif_id=$_GET['PSTarifTindakanPerdaRuanganV']['jenistarif_id'];                    
+                    
             }
             $this->render('print',array('modTarifRad'=>$modTarifRad));
         }

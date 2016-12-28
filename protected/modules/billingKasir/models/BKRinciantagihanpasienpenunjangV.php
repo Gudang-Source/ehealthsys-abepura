@@ -21,10 +21,11 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
             
             $str_bayar = '(case when t.tindakansudahbayar_id is null then true else false end)';
             
-            $criteria->group = 't.tgl_pendaftaran,t.no_pendaftaran, t.pendaftaran_id, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin ,t.pendaftaran_id, t.carabayar_nama, t.penjamin_nama, t.ruangan_nama, t.pembayaranpelayanan_id, t.instalasi_id, t.instalasi_nama, '
+            $criteria->group = 't.tgl_pendaftaran,t.no_pendaftaran, t.pendaftaran_id, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin ,t.pendaftaran_id, t.carabayar_nama, t.penjamin_nama, t.ruangan_nama, t.pembayaranpelayanan_id, t.instalasi_id, t.instalasi_nama, p.statusperiksa, '
                     . $str_bayar;
             $criteria->select = $criteria->group.' , sum(case when t.tindakansudahbayar_id is null then t.tarif_tindakan else 0 end) as totaltagihan, '
                     . $str_bayar;
+			$criteria->join = 'join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id = p.pendaftaran_id';
             if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
                 $criteria->addBetweenCondition('date(t.tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
             }
@@ -53,6 +54,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 			if(!empty($this->jeniskasuspenyakit_id)){
 				$criteria->addCondition("t.jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);					
 			}
+			$criteria->compare('lower(p.statusperiksa)', strtolower($this->statusperiksa));
                         /*
 			$ruangans = array();
 			$criteria_ruangan = new CDbCriteria();

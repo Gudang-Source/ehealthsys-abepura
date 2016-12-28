@@ -245,18 +245,26 @@
                                         $ini = ModulK::model()->findByPk(Yii::app()->session['modul_id']);
                                         $pr = Params::getPrefixNoPendaftaran();
                                         
-                                        if (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_RI)
+                                        if(Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_RI)
                                         {
                                             $prefix = array(
                                                 0 => Params::PREFIX_RAWAT_DARURAT,
                                                 1 => Params::PREFIX_RAWAT_INAP,
                                                 2 => Params::PREFIX_RAWAT_JALAN
                                             );                                            
+                                        }elseif(Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_VERLOS_KAMER){
+                                            $prefix = array(
+                                                0 => Params::PREFIX_RAWAT_DARURAT,                                               
+                                            );
                                         }else{
-                                            if (count($pr[$ini->modul_key])>0){
-                                                $prefix = array(
-                                                    0 => $pr[$ini->modul_key]
-                                                );
+                                            if (isset($pr[$ini->modul_key])){
+                                                if (count($pr[$ini->modul_key])>0){
+                                                    $prefix = array(
+                                                        0 => $pr[$ini->modul_key]
+                                                    );
+                                                }else{
+                                                    $prefix='';
+                                                }
                                             }else{
                                                 $prefix='';
                                             }
@@ -367,7 +375,7 @@
                         <?php echo CHtml::label('Nama Obat','obatalkes_nama', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <div class="controls">
-                                <?php echo $form->textField($model, 'obatalkes_nama', array('class'=>'span3')); ?>
+                                <?php echo $form->textField($model, 'obatalkes_nama', array('class'=>'span3 custom-only')); ?>
                             </div>
                         </div>
                     </div>

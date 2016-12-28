@@ -4,12 +4,12 @@
  * @param {type} pasien_id
  * @returns {undefined}
  */
-function setKunjungan(pasienadmisi_id){
+function setKunjungan(pasienadmisi_id, pendaftaran_id){
     $("#form-datakunjungan > div").addClass("animation-loading");
     $.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('GetDataKunjungan'); ?>',
-        data: {pasienadmisi_id:pasienadmisi_id},
+        data: {pasienadmisi_id:pasienadmisi_id, pendaftaran_id:pendaftaran_id},
         dataType: "json",
         success:function(data){
             if(data.pesan != ""){
@@ -210,7 +210,7 @@ function setRiwayatObatAlkesPasien(){
     $.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('setRiwayatObatAlkesPasien'); ?>',
-        data: {pasienadmisi_id:$("#pasienadmisi_id").val()},
+        data: {pasienadmisi_id:$("#pasienadmisi_id").val(), pendaftaran_id:$("#pendaftaran_id").val()},
         dataType: "json",
         success:function(data){
             $('#riwayat-obatalkespasien-t table > tbody').html(data.rows);
