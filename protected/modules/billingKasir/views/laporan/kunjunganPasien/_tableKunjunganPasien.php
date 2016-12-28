@@ -25,7 +25,10 @@
                 'instalasi_nama',
                 'ruangan_nama',
                 'no_rekam_medik',
-                'nama_pasien',
+                array(
+                    'header' => 'Nama Pasien',
+                    'value' => '$data->namadepan." ".$data->nama_pasien',
+                ),                
                 'alamat_pasien',
                 'jeniskelamin',
                 'umur',
@@ -34,7 +37,7 @@
                 array(
                   'name'=>'tgl_pendaftaran',
                   'type'=>'raw',
-                  'value'=>'date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran))',
+                  'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s",strtotime($data->tgl_pendaftaran)))',
                 ),
                 array(
                   'header'=>'Nama Dokter',
