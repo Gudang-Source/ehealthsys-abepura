@@ -336,7 +336,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                 ), array('order'=>'ruangan_nama')), 'ruangan_id', 'ruangan_nama'), array(
                                     'empty'=>'-- Pilih --',
                                 )),
-                    ), /*
+                    ), 
+					array(
+						'name'=>'statusperiksa',
+						'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'statusperiksa', Params::statusPeriksa(), array(
+							'empty'=>'-- Pilih --'
+						)),
+					),
+				/*
                     array(
                         'name'=>'carabayar_nama',
                         'type'=>'raw',

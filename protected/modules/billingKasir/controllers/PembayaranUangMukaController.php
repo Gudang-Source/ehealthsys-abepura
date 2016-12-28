@@ -394,6 +394,10 @@ class PembayaranUangMukaController extends PembayaranTagihanPasienController
             $crit_uangmuka->addCondition("pemakaianuangmuka_id IS NULL");
             $crit_uangmuka->select = "sum(jumlahuangmuka) as jumlahuangmuka";
             $modUangMuka = BKBayaruangmukaT::model()->find($crit_uangmuka);
+			
+			$carabayar = CarabayarM::model()->findByPk($model->carabayar_id);
+			$returnVal["metode_pembayaran"] = strtoupper($carabayar->metode_pembayaran);
+			
             $returnVal["jumlahuangmuka"] = (isset($modUangMuka->jumlahuangmuka) ? $modUangMuka->jumlahuangmuka : 0);
             echo CJSON::encode($returnVal);
         }
