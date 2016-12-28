@@ -7,6 +7,7 @@ function tambahObatAlkes()
     var jenisobatalkes_nama = $('#jenisobatalkes_nama').val();
     var tglkadaluarsa = $('#tglkadaluarsa').val();
     var jumlah = $('#qty_input').val();
+    var stok = $('#stokoa').val();
     
     if(obatalkes_id != '')
     {
@@ -14,9 +15,14 @@ function tambahObatAlkes()
         $.ajax({
             type:'POST',
             url:'<?php echo $this->createUrl('setFormDetailPemesanan'); ?>',
-            data: {obatalkes_id:obatalkes_id,jumlah:jumlah,tglkadaluarsa:tglkadaluarsa},//
+            data: {obatalkes_id:obatalkes_id,jumlah:jumlah,tglkadaluarsa:tglkadaluarsa,stok:stok},//
             dataType: "json",
             success:function(data){
+                if (data.jumlah > data.stok){
+                    myAlert("Jumlah Pesan Melebihi Stok",'Perhatian');
+                    return false;
+                }
+                
                 if(data.pesan !== ""){
                     myAlert(data.pesan);
                     var params = [];
@@ -56,6 +62,7 @@ function tambahObatAlkes()
                 $('#obatalkes_nama').val('');
                 $('#jenisobatalkes_nama').val('');
                 $('#tglkadaluarsa').val('');
+                $('#stokoa').val('');
             },
             error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
         });

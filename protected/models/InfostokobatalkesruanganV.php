@@ -207,13 +207,13 @@ class InfostokobatalkesruanganV extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 		$criteria=new CDbCriteria;                
-                $criteria->select = "obatalkes_nama, obatalkes_id";
+                $criteria->select = "satuankecil_nama, obatalkes_nama, obatalkes_id, jenisobatalkes_id, jenisobatalkes_nama, obatalkes_golongan, obatalkes_kategori";
 		$criteria->compare('ruangan_id',Yii::app()->user->ruangan_id);		
                 $criteria->compare('LOWER(obatalkes_golongan)', strtolower($this->obatalkes_golongan), TRUE);		
                 $criteria->compare('LOWER(obatalkes_kategori)', strtolower($this->obatalkes_golongan), TRUE);
                 $criteria->compare('LOWER(obatalkes_nama)', strtolower($this->obatalkes_nama), TRUE);
                 $criteria->compare('jenisobatalkes_id',$this->jenisobatalkes_id);//obatalkes_nama
-                $criteria->group = "obatalkes_nama, obatalkes_id";
+                $criteria->group = "satuankecil_nama, obatalkes_nama, obatalkes_id, jenisobatalkes_id, jenisobatalkes_nama, obatalkes_golongan, obatalkes_kategori";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -283,4 +283,6 @@ class InfostokobatalkesruanganV extends CActiveRecord
         {
             return SumberdanaM::model()->findAll();
         }
+        
+       
 }

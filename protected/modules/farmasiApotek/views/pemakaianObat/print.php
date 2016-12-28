@@ -30,7 +30,8 @@
 <table id="tableObatAlkes" class="table">
     <thead>
         <tr>
-			<th>Kode / Nama Obat</th>
+			<th>Kode</th>
+                        <th>Nama Obat</th>
 			<th hidden>Satuan Kecil</th>
 			<th>Jumlah</th>
 			<th hidden>Stok</th>

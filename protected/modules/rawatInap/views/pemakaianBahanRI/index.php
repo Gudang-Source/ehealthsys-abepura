@@ -80,7 +80,11 @@
     <div class="row-fluid">
         <div class="form-actions">
                 <?php 
-                    echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'formSubmit(this,event);', 'onkeypress'=>'formSubmit(this,event);')); 
+                    if(!isset($_GET['sukses'])){
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'formSubmit(this,event);', 'onkeypress'=>'formSubmit(this,event);')); 
+                    }else{
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onkeypress'=>'formSubmit(this,event);', 'disabled' => TRUE)); 
+                    }
                     echo '&nbsp;';
                     if(!isset($_GET['frame'])){
                        echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
@@ -88,12 +92,12 @@
                                 array('class'=>'btn btn-danger',
                                     'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));
                        echo '&nbsp;';
-                    }
-                    if($modKunjungan->isNewRecord){
+                    }                                      
+                    if(!isset($_GET['sukses'])){
                         echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'disabled'=>'true'));
                         echo '&nbsp;';
                     }else{
-                        echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print(".$modKunjungan->pasienadmisi_id.");return false"));
+                        echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print('".(!empty($modKunjungan->pasienadmisi_id)?$modKunjungan->pasienadmisi_id:'')."','".$modKunjungan->pendaftaran_id."');return false"));
                         echo '&nbsp;';
                     }
 

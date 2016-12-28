@@ -9,6 +9,7 @@ $jenis = JenisobatalkesM::model()->findByPk($oa->jenisobatalkes_id);
         <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
         <?php echo CHtml::activeHiddenField($modDetail,'[ii]obatalkes_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modDetail,'[ii]sumberdana_id',array('readonly'=>true,'class'=>'span1')); ?>
+        <?php echo CHtml::activeHiddenField($modDetail,'[ii]stok',array('readonly'=>true,'class'=>'span1')); ?>
     </td>
     <td hidden>
         <span name="[ii][sumberdana_nama]"><?php echo (!empty($modDetail->sumberdana_id) ? $modDetail->sumberdana->sumberdana_nama : "") ?></span>
