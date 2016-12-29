@@ -1,10 +1,6 @@
 <div class='white-container'>
     <legend class='rim2'>Tambah <b>Bank</b></legend>
     <?php
-    $this->breadcrumbs=array(
-            'Bank Ms'=>array('index'),
-            'Create',
-    );
 
     $arrMenu = array();
     //                array_push($arrMenu,array('label'=>Yii::t('mds','Create').' Bank ', 'header'=>true, 'itemOptions'=>array('class'=>'heading-master'))) ;
@@ -14,10 +10,10 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php echo $this->renderPartial($this->path_view. '_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+    <?php // echo $this->renderPartial($this->path_view. '_tabMenu',array()); ?>
+    <!--div class="biru">
+        <div class="white"-->
             <?php echo $this->renderPartial($this->path_view.'_form', array('model'=>$model)); ?>
-        </div>
-    </div>
+        <!--/div>
+    </div-->
 </div>

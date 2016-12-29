@@ -1,17 +1,23 @@
-<?php
-    $this->breadcrumbs=array(
-            'Bank Ms'=>array('index'),
-            $model->bank_id=>array('view','id'=>$model->bank_id),
-            'Update',
-    );
+<div class='white-container'>
+    <legend class='rim2'>Ubah <b>Bank</b></legend>
+    <?php
 
     $arrMenu = array();
-                  array_push($arrMenu,array('label'=>Yii::t('mds','Update').' Bank', 'header'=>true, 'itemOptions'=>array('class'=>'heading-master'))) ;
-                    (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Bank', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
+    //                array_push($arrMenu,array('label'=>Yii::t('mds','Create').' Bank ', 'header'=>true, 'itemOptions'=>array('class'=>'heading-master'))) ;
+                   //  (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Bank', 'icon'=>'folder-open', 'url'=>array('Admin'))) :  '' ;
 
     $this->menu=$arrMenu;
 
-    $this->widget('bootstrap.widgets.BootAlert'); 
-?>
+    $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-<?php echo $this->renderPartial($this->path_view. '_formUpdate',array('model'=>$model)); ?>
+    <?php // echo $this->renderPartial($this->path_view. '_tabMenu',array()); ?>
+    <!--div class="biru">
+        <div class="white"-->
+            <?php echo $this->renderPartial($this->path_view.'_formUpdate', array(
+				'model'=>$model,
+				'modeld'=>$modeld,
+				'modelk'=>$modelk,
+			)); ?>
+        <!--/div>
+    </div-->
+</div>
