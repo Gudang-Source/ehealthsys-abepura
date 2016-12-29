@@ -82,4 +82,15 @@ function print(caraPrint)
     var pengperawatanlinen_id = '<?php echo isset($_GET['pengperawatanlinen_id']) ? $_GET['pengperawatanlinen_id'] : null; ?>';
     window.open('<?php echo $this->createUrl('print'); ?>&pengperawatanlinen_id='+pengperawatanlinen_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
+
+
+function cekValidasi() {
+	if ($("#LAPengperawatanlinenT_mengetahui_id").val().trim() === "") {
+		myAlert("Pegawai Megetahui Harus Diisi."); return false;
+	}
+	if ($("#table-linen tbody tr").length === 0) {
+		myAlert("Linen Belum Ditambahkan."); return false;
+	}
+	return true;
+}
 </script>
