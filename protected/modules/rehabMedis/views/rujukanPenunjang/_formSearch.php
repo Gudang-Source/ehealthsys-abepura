@@ -79,13 +79,13 @@ $format = new MyFormatter;
             <div class="control-group ">
                 <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
                 <div class="controls">
-                    <?php echo CHtml::activeTextField($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik')); ?>
+                    <?php echo CHtml::activeTextField($model,'no_rekam_medik',array('class' => 'numbers-only','placeholder'=>'Ketik No. Rekam Medik')); ?>
                 </div>
             </div>    
             <div class="control-group ">
                 <label for="namaPasien" class="control-label">Nama Pasien </label>
                 <div class="controls">
-                    <?php echo CHtml::activeTextField($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien')); ?>
+                    <?php echo CHtml::activeTextField($model,'nama_pasien',array('class' => 'hurufs-only','placeholder'=>'Ketik Nama Pasien')); ?>
                 </div>
             </div> 
         </td>

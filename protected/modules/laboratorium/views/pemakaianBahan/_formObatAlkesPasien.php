@@ -47,7 +47,7 @@
                                                     return false;
                                                 }',
                                         ),
-                                        'htmlOptions'=>array(
+                                        'htmlOptions'=>array('class' => 'custom-only',
                                                 'onkeyup'=>"return $(this).focusNextInputField(event)",
                                         ),
                                         'tombolDialog'=>array('idDialog'=>'dialogObatAlkes'),

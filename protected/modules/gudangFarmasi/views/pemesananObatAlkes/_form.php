@@ -128,7 +128,7 @@
                     ),
                     'htmlOptions' => array(
                                             'placeholder'=>'Ketikan Pegawai Mengetahui',
-                        'class'=>'pegawaimengetahui_nama required',
+                        'class'=>'pegawaimengetahui_nama required hurufs-only',
                         'onkeyup'=>"return $(this).focusNextInputField(event)",
                         'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
                     ),

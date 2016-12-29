@@ -264,6 +264,8 @@ class PemakaianbarangTController extends MyAuthController
 	{
 		if(Yii::app()->request->isAjaxRequest) {
 			$criteria = new CDbCriteria();
+                        $criteria->join = "JOIN inventarisasiruangan_t inv ON inv.barang_id = t.barang_id";
+                        $criteria->addCondition("inv.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 			$criteria->compare('LOWER(t.barang_nama)', strtolower($_GET['term']), true);
 			$criteria->order = 't.barang_id';
 			$models = GUBarangM::model()->findAll($criteria);
