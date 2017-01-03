@@ -57,19 +57,19 @@
         <div class="form-actions">
                 <?php 
                     if (isset($_GET['pasienmasukpenunjang_id'])){
-                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary disabled', 'type'=>'button','onkeypress'=>'formSubmit(this,event);')); 
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),array('class'=>'btn btn-primary disabled', 'type'=>'button','onkeypress'=>'formSubmit(this,event);')); 
                     }else{
-                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'formSubmit(this,event);', 'onkeypress'=>'formSubmit(this,event);')); 
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'formSubmit(this,event);', 'onkeypress'=>'formSubmit(this,event);')); 
                     }
                     echo "&nbsp;";
                     if(!isset($_GET['frame'])){
-                         echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                         echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                             $this->createUrl($this->id.'/index'), 
                             array('class'=>'btn btn-danger',
                                 'onclick'=>'return refreshForm(this);')); 
                         echo "&nbsp;";
                     }                   
-                    echo CHtml::link(Yii::t('mds', '{icon} Print Status', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printStatus();return false"));                    
+                    echo CHtml::link(Yii::t('mds', '{icon} Print Status', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printStatus();return false"));                    
                     
                     echo "&nbsp;";
                     $content = $this->renderPartial('tips/tipsPemeriksaanPasienLaboratorium',array(),true);

@@ -502,6 +502,8 @@ class MutasiObatAlkesController extends MyAuthController
     {
         if(Yii::app()->request->isAjaxRequest) {
             $criteria = new CDbCriteria();
+            $criteria->join = "join ruanganpegawai_m p on p.pegawai_id = t.pegawai_id";
+            $criteria->addCondition("p.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
             $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
             $criteria->order = 'nama_pegawai';
             $criteria->limit = 5;

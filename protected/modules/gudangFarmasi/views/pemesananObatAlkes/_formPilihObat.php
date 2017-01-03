@@ -42,7 +42,7 @@
                         'htmlOptions'=>array(
                                             'placeholder'=>'Ketikan Nama Obat & Kesehatan',
                                             'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                            'class'=>'span3',
+                                            'class'=>'span3 custom-only',
                         ),
                         'tombolDialog'=>array('idDialog'=>'dialogObatAlkes','idTombol' => 'tombolDialogObatAlkes'),
                     )); 

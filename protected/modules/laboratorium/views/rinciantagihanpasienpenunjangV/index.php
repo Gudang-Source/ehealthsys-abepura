@@ -42,24 +42,31 @@
         //	'filter'=>$model,
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
-                'columns'=>array(
-                        'tgl_pendaftaran',
+                'columns'=>array(                        
                         array(
-                            'header'=>'No. Rekam Medik<br/>No. Pendaftaran',
-                            'type'=>'raw',
-                            'value'=>'$data->no_rekam_medik.\'<br/>\'.$data->no_pendaftaran',
+                            'header' => 'Tanggal Pendaftaran/ <br/> No Pendaftaran',
+                            'type' => 'raw',
+                            'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran'
                         ),
                         array(
-                            'header'=>'Nama Pasien / Alias',
+                            'header'=>'No. Rekam Medik',
                             'type'=>'raw',
-                            'value'=>'$data->nama_pasien.\'<br/>\'.$data->nama_bin',
+                            'value'=>'$data->no_rekam_medik',
                         ),
                         array(
-                            'header'=>'Cara Bayar<br/>Penjamin',
+                            'header'=>'Nama Pasien',
                             'type'=>'raw',
-                            'value'=>'$data->CaraBayarPenjamin',
+                            'value'=>'$data->namadepan." ".$data->nama_pasien',
                         ),
-                        'nama_pegawai',
+                        array(
+                            'header'=>'Cara Bayar/ <br/>Penjamin',
+                            'type'=>'raw',
+                            'value'=>'$data->carabayar_nama."/ <br/>".$data->penjamin_nama',
+                        ),
+                        array(
+                            'header' => 'Dokter Pemeriksa',
+                            'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama'
+                        ),                        
                         'jeniskasuspenyakit_nama',
                         array(
                             'header'=>'Status Bayar',
