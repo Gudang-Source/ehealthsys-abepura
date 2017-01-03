@@ -11,9 +11,9 @@
     <td><?php echo $modBarang->barang_type; ?></td>
     <td><?php echo $modBarang->barang_nama; ?></td>
     <td><?php echo $modBarang->barang_merk; ?></td>    
-    <td><?php echo CHtml::activeTextField($modDetail, '[ii]harganetto', array('class'=>'span2 integer beli',)); ?></td>
-    <td><?php echo CHtml::activeTextField($modDetail, '[ii]hargajual', array('class'=>'span2 integer satuan', )); ?></td>
-    <td><?php echo CHtml::activeTextField($modDetail, '[ii]jmlpakai', array('class'=>'span1 float qty', )); ?></td>
+    <td><?php echo CHtml::activeTextField($modDetail, '[ii]harganetto', array('class'=>'span2 integer2 beli',)); ?></td>
+    <td><?php echo CHtml::activeTextField($modDetail, '[ii]hargajual', array('class'=>'span2 integer2 satuan', )); ?></td>
+    <td><?php echo CHtml::activeTextField($modDetail, '[ii]jmlpakai', array('class'=>'span1 integer2 qty', )); ?></td>
     <td><?php echo CHtml::activeDropDownList($modDetail, '[ii]satuanpakai', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
     <td><?php echo $modBarang->barang_ukuran; ?></td>
     <td><?php echo $modBarang->barang_ekonomis_thn; ?></td>

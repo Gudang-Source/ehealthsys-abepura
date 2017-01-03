@@ -69,7 +69,8 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                         }',
                     ),
                     'htmlOptions' => array(
-                        'class'=>'nopsn',
+                        'class'=>'nopsn alphanumeric-only',
+                        'placeholder' => 'Ketik No Pemesanan',
                         'onkeyup' => "return $(this).focusNextInputField(event)",
                         'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($modPesan, 'nopemesanan') . '").val(""); '
                     ),
@@ -114,7 +115,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                             <?php echo $form->labelEx($model, 'tglmutasibrg', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            $this->widget('MyDateTimePicker', array(
+                            /*$this->widget('MyDateTimePicker', array(
                                 'model' => $model,
                                 'attribute' => 'tglmutasibrg',
                                 'mode' => 'datetime',
@@ -123,7 +124,8 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                                     'maxDate' => 'd',
                                 ),
                                 'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)",),
-                            ));
+                            ));*/
+                                echo $form->textField($model, 'tglmutasibrg', array('class' => 'realtime', 'readonly' => TRUE))
                             ?>
                     <?php echo $form->error($model, 'tglmutasibrg'); ?>
                         </div>
@@ -180,7 +182,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                 </td>
                 <td>
                     <div class="control-group ">
-                            <?php echo $form->labelEx($model, 'pegmengetahui_id', array('class' => 'control-label')); ?>
+                            <?php echo Chtml::label("Pegawai Mengetahui <font style='color:red;'>*</font>", 'pegmengetahui_id', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->hiddenField($model, 'pegmengetahui_id'); ?>
                             <!--                <div class="input-append" style='display:inline'>-->
@@ -214,7 +216,8 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                                 ),
                                 'htmlOptions' => array(
                                     'onkeypress' => "return $(this).focusNextInputField(event)",
-                                    'placeholder' => 'Ketikan Nama Pegawai Mengetahui'
+                                    'placeholder' => 'Ketikan Nama Pegawai Mengetahui',
+                                    'class' => 'required hurufs-only'
                                 ),
                                 'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
                             ));
@@ -305,7 +308,7 @@ if(isset($_GET['GUPesanbarangT'])) {
     $modPesann->attributes = $_GET['GUPesanbarangT'];
     $modPesann->ruangantujuan_id = Yii::app()->user->getState('ruangan_id');
     $modPesann->ruanganpemesan_id = $_GET['GUPesanbarangT']['ruanganpemesan_id'];
-    $modPesann->pegawaipemesan_id = $_GET['GUPesanbarangT']['pegpemesan_id'];
+    $modPesann->pegpemesan_id = $_GET['GUPesanbarangT']['pegpemesan_id'];
 }
 //$provider = $modPesann->searchPesanBarang();
 //$provider->criteria->addCondition('mutasibrg_id is null');
@@ -340,7 +343,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                   'value'=>'MyFormatter::formatDateTimeForUser($data->tglpesanbarang)',
                   'filter'=>false
                   ),
-                'nopemesanan',
+                  array(
+                      'header' => 'No Pemesanan',
+                      'name' => 'nopemesanan',
+                      'filter' => Chtml::activeTextField($modPesann, 'nopemesanan', array('class' => 'alphanumeric-only'))
+                  ),                
                 array(
                   'header'=>'Ruangan Pemesan',
                   'name'=>'ruanganpemesan_id',
@@ -354,7 +361,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 'keterangan_pesan'
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                . '$(".alphanumeric-only").keyup(function(){'
+                . '  setAlphaNumericOnly(this);'
+                . ' });'
+                . '}',
         ));
 $this->endWidget();
 //========= end pemesanan barang dialog =============================

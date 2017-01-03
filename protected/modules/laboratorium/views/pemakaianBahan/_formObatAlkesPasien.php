@@ -47,7 +47,7 @@
                                                     return false;
                                                 }',
                                         ),
-                                        'htmlOptions'=>array('class' => 'custom-only',
+                                        'htmlOptions'=>array('class' => 'custom-only', 'placeholder' => 'Ketik Nama Obat & Alkes',
                                                 'onkeyup'=>"return $(this).focusNextInputField(event)",
                                         ),
                                         'tombolDialog'=>array('idDialog'=>'dialogObatAlkes'),
@@ -66,7 +66,7 @@
                                   'class'=>'btn btn-primary',
                                   'onkeyup'=>"tambahObatAlkesPasien(this);",
                                   'rel'=>"tooltip",
-                                  'title'=>"Klik untuk menambahkan resep",)); ?>
+                                  'title'=>"Klik untuk menambahkan Obat & Alkes",)); ?>
                 </div>
             </div>
         </td>

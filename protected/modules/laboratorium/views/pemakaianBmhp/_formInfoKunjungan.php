@@ -282,8 +282,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Pencarian Data Kunjungan Pasien '.Yii::app()->user->getState('ruangan_nama'),
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>980,
-        'height'=>480,
+        'width'=>1100,
+        'height'=>620,
         'resizable'=>false,
     ),
 ));
@@ -293,6 +293,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     if(isset($_GET['LBPasienMasukPenunjangV'])) {
         $modDialogKunjungan->attributes = $_GET['LBPasienMasukPenunjangV'];
     }
+    
+    $cri = new CDbCriteria();
+    if (!empty($modDialogKunjungan->instalasiasal_id)){
+        $cri->addCondition(" ruangan_aktif = TRUE AND instalasi_id = '".$modDialogKunjungan->instalasiasal_id."' ");
+        $ruangan = Chtml::listData(RuanganM::model()->findAll($cri), 'ruangan_id', 'ruangan_nama');
+    }else{
+        $ruangan = array();
+    }
+    
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'datakunjungan-grid',
@@ -311,33 +320,79 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                             $(\"#dialogKunjungan\").dialog(\"close\");
                                         "))',
                     ),
-                    'no_pendaftaran',
-                    'no_masukpenunjang',
+                    array(
+                        'header' => 'No Pendaftaran',
+                        'name' => 'no_pendaftaran',
+                        'value' => '$data->no_pendaftaran',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'no_pendaftaran', array('class' => 'alphanumeric-only'))
+                    ),                    
+                    array(
+                        'header' => 'No Masuk Penunjang',
+                        'name' => 'no_masukpenunjang',
+                        'value' => '$data->no_masukpenunjang',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'no_masukpenunjang', array('class' => 'alphanumeric-only'))
+                    ),                    
                     array(
                         'name'=>'tglmasukpenunjang',
                         'type'=>'raw',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)',
                         'filter'=> false,
                     ),
-                    'no_rekam_medik',
-                    'nama_pasien',
                     array(
+                        'header' => 'No Rekam Medik',
+                        'name' => 'no_rekam_medik',
+                        'value' => '$data->no_rekam_medik',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'no_rekam_medik', array('class' => 'numbers-only'))
+                    ),                    
+                    array(
+                        'header' => 'Nama Pasien',
+                        'name' => 'nama_pasien',
+                        'value' => '$data->nama_pasien',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'nama_pasien', array('class' => 'hurufs-only'))
+                    ),                      
+                    array(
+                        'header' => 'Jenis Kelamin',
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
                         'filter'=> CHtml::dropDownList('LBPasienMasukPenunjangV[jeniskelamin]',$modDialogKunjungan->jeniskelamin,LookupM::model()->getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
                     ),
-                    'instalasiasal_nama',
-                    'ruanganasal_nama',
+                    array(
+                        'header' => 'Instalasi Asal',
+                        'name' => 'instalasiasal_id',
+                        'value' => '$data->instalasiasal_nama',
+                        'filter' => Chtml::activeDropDownList($modDialogKunjungan, 'instalasiasal_id', Chtml::listData(InstalasiM::model()->findAll("instalasi_aktif = TRUE ORDER BY instalasi_nama ASC"), 'instalasi_id', 'instalasi_nama'),array('empty' => '-- Pilih --'))
+                    ),                    
+                    array(
+                        'header' => 'Ruangan Asal',
+                        'name' => 'ruanganasal_id',
+                        'value' => '$data->ruanganasal_nama',
+                        'filter' => Chtml::activeDropDownList($modDialogKunjungan, 'ruanganasal_id', $ruangan ,array('empty' => '-- Pilih --'))
+                    ),                        
                     array(
                         'name'=>'carabayar_id',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
                         'filter'=> CHtml::dropDownList('LBPasienMasukPenunjangV[carabayar_id]',$modDialogKunjungan->carabayar_id, CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC"),'carabayar_id','carabayar_nama'), array('empty'=>'--Pilih--')),
                     ),
+                    array(
+                        'header' => 'Status Periksa',
+                        'name' => 'statusperiksa',
+                        'filter' => Chtml::activeDropDownList($modDialogKunjungan, 'statusperiksa', LookupM::getItems('statusperiksa'), array('empty' => '-- Pilih -- '))
+                    ),
 
 
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                . '$(".alphanumeric-only").keyup(function(){'
+                . ' setAlphaNumericOnly(this);'
+                . '});'
+                . '$(".numbers-only-only").keyup(function(){'
+                . ' setNumbersOnly(this);'
+                . '});'
+                . '$(".hurufs-only").keyup(function(){'
+                . ' setHurufsOnly(this);'
+                . '});'
+        . '}',
     ));
 
 $this->endWidget();
