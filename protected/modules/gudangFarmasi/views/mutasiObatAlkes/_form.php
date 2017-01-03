@@ -92,9 +92,9 @@
     </div>
     <div class = "span4">
         <div class="control-group ">
-            <?php echo $form->labelEx($model, 'pegawaimengetahui_id', array('class'=>'control-label')); ?>
+            <?php echo Chtml::label("Pegawai Mengetahui <font style='color:red'>*</font>", 'pegawaimengetahui_id', array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id',array('readonly'=>true)); ?>
+                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id',array('class' => 'required','readonly'=>true)); ?>
                 <?php
                 $this->widget('MyJuiAutoComplete', array(
                     'model'=>$model,
@@ -125,7 +125,7 @@
                     ),
                     'htmlOptions' => array(
                         'placeholder' => 'Ketik Pegawai Mengetahui',
-                        'class' => 'hurufs-only',
+                        'class' => 'hurufs-only required',
                         'onkeyup' => "return $(this).focusNextInputField(event)",
                         'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
                     ),

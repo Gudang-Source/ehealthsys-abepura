@@ -387,9 +387,15 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
             $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
             $criteria->compare('LOWER(t.pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
             $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+            $criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
             $criteria->order = 't.tglmasukpenunjang DESC';
             $criteria->join = 'join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id';
-            
+            if (!empty($this->instalasiasal_id)){
+                $criteria->addCondition(" t.instalasiasal_id = '".$this->instalasiasal_id."' ");
+            }
+            if (!empty($this->ruanganasal_id)){
+                $criteria->addCondition(" t.ruanganasal_id = '".$this->ruanganasal_id."' ");
+            }
             $criteria->addCondition('p.pasienbatalperiksa_id is null');
             $criteria->limit = 10;
             return new CActiveDataProvider($this, array(
