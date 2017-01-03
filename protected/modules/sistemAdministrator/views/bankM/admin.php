@@ -121,6 +121,19 @@
                                     ),
                             ),
                     ),
+					array(
+                            'header'=>Yii::t('zii','Update'),
+                            'class'=>'bootstrap.widgets.BootButtonColumn',
+                            'template'=>'{update}',
+                            'buttons'=>array(
+                                    'update' => array (
+                                            'label'=>"<i class='icon-form-ubah'></i>",
+                                            'options'=>array('title'=>Yii::t('mds','Update')),
+                                            'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>$data->bank_id))',
+
+                                    ),
+                            ),
+                    ),
                     array(
                             'header'=>Yii::t('zii','Delete'),
                 'class'=>'bootstrap.widgets.BootButtonColumn',

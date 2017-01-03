@@ -43,7 +43,7 @@ echo $form->errorSummary($modDetails);
                             ),
                             'htmlOptions' => array(
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                'class' => 'span2',
+                                'class' => 'span2 custom-only',
                                                 'placeholder'=>'Ketikan Nama Barang'
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogBarang'),
@@ -57,7 +57,7 @@ echo $form->errorSummary($modDetails);
                 <div class="control-group ">
                     <label class='control-label'>Jumlah</label>
                     <div class="controls">
-                        <?php echo Chtml::textField('jumlah', 1, array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>                
+                        <?php echo Chtml::textField('jumlah', 1, array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)", 'style' => 'text-align:right;')); ?>                
                         <?php echo Chtml::dropDownList('satuan', '', LookupM::getItems('satuanbarang'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>                
                         <?php
                         echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', 

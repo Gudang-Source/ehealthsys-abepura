@@ -27,6 +27,23 @@ echo CHtml::css('.control-label{
     .border{
         border:1px solid;
     }
+    .border th, .border td{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+
+    thead th{
+        background:none;
+        color:#333;
+    }
+
+    .border {
+        box-shadow:none;
+        border-spacing:0px;
+        padding:0px;
+    }
 ');
 ?>  
 <?php
@@ -40,22 +57,22 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
 <body class="kertas">
     <table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
         <tr>
-            <td>Tanggal Pemakaian Barang</td>
+            <td><b>Tanggal Pemakaian Barang</b></td>
             <td>:</td>
             <td><?php echo isset($modPemakaianBarang->tglpemakaianbrg) ? $format->formatDateTimeId($modPemakaianBarang->tglpemakaianbrg) : "-"; ?></td>
         </tr>
         <tr>
-            <td>No. Pemakaian Barang</td>
+            <td><b>No. Pemakaian Barang</b></td>
             <td>:</td>
             <td><?php echo isset($modPemakaianBarang->nopemakaianbrg) ? $modPemakaianBarang->nopemakaianbrg : "-"; ?></td>
         </tr>
         <tr>
-            <td>Untuk Keperluan</td>
+            <td><b>Untuk Keperluan</b></td>
             <td>:</td>
             <td><?php echo isset($modPemakaianBarang->untukkeperluan) ? $modPemakaianBarang->untukkeperluan : "-"; ?></td>
         </tr>
         <tr>
-            <td>Keterangan</td>
+            <td><b>Keterangan</b></td>
             <td>:</td>
             <td><?php echo isset($modPemakaianBarang->keteranganpakai) ? $modPemakaianBarang->keteranganpakai : "-"; ?></td>
         </tr>
@@ -80,15 +97,15 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
                              $brg = $modBarang->barang;
         ?>                 
             <tr>
-                <td><?php echo !empty($brg->bidang_id)?$brg->barang_kode:null;  ?></td>
-                <td><?php echo !empty($brg->bidang_id)? $brg->barang_type:null; ?></td>
-				<td><?php echo !empty($brg->bidang_id)?$brg->barang_nama:null; ?></td>
-				<td><?php echo !empty($brg->bidang_id)?$brg->barang_merk." / ".$brg->barang_noseri:null; ?></td>
-                                <td><?php echo !empty($brg->bidang_id)?$brg->barang_ukuran." / ".$brg->barang_bahan:null; ?></td>
+                <td><?php echo !empty($brg->barang_kode)?$brg->barang_kode:null;  ?></td>
+                <td><?php echo !empty($brg->barang_type)? $brg->barang_type:null; ?></td>
+                <td><?php echo !empty($brg->barang_nama)?$brg->barang_nama:null; ?></td>
+                <td><?php echo !empty($brg->barang_merk)?$brg->barang_merk."/ <br/>".$brg->barang_noseri:null; ?></td>
+                <td><?php echo !empty($brg->barang_ukuran)?$brg->barang_ukuran."/ <br/>".$brg->barang_bahan:null; ?></td>
                 <!--td><?php //echo $modBarang->satuanpakai; ?></td-->
 				<td style="text-align:center;"><?php echo ($modBarang->jmlpakai)." ".$modBarang->satuanpakai; ?></td>
-                <td style="text-align:right;"><?php echo $format::formatNumberForUser($modBarang->harganetto); ?></td>
-				<td style="text-align:right;"><?php echo $format::formatNumberForUser($modBarang->hargajual); ?></td>
+                <td style="text-align:right;"><?php echo $format::formatNumberForPrint($modBarang->harganetto); ?></td>
+				<td style="text-align:right;"><?php echo $format::formatNumberForPrint($modBarang->hargajual); ?></td>
 				<?php
 					$total_harganetto += $modBarang->harganetto;
 					$total_hargajual += $modBarang->hargajual;

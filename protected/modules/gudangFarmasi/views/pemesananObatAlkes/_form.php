@@ -51,10 +51,10 @@
     </div>
     <div class = "span4">
         <div class="control-group ">
-            <?php echo $form->labelEx($model, 'pegawaipemesan_id', array('class' => 'control-label')); ?>
+            <?php echo Chtml::label("Pegawai Pemesan <font style='color:red'>*</font>", 'pegawaipemesan_id', array('class' => 'control-label')); ?>
             <div class="controls">
                 <?php echo $form->hiddenField($model, 'pegawaipemesan_id'); ?>
-                <?php echo $form->textField($model, 'pegawaipemesan_nama', array('readonly' => true)); ?>
+                <?php echo $form->textField($model, 'pegawaipemesan_nama', array('readonly' => true, 'class' => 'required')); ?>
                 <?php
             /*    $this->widget('MyJuiAutoComplete', array(
                     'model'=>$model,
@@ -128,7 +128,7 @@
                     ),
                     'htmlOptions' => array(
                                             'placeholder'=>'Ketikan Pegawai Mengetahui',
-                        'class'=>'pegawaimengetahui_nama required',
+                        'class'=>'pegawaimengetahui_nama required hurufs-only',
                         'onkeyup'=>"return $(this).focusNextInputField(event)",
                         'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
                     ),

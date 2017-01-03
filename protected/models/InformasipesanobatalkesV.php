@@ -175,7 +175,7 @@ class InformasipesanobatalkesV extends CActiveRecord
                 $criteria->compare('terimamutasi_id',$this->terimamutasi_id);
 		$criteria->compare('tglterima',$this->tglterima,true);
 		$criteria->compare('noterimamutasi',$this->noterimamutasi,true);
-
+                $criteria->order = "tglpemesanan DESC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

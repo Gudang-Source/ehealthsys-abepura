@@ -30,7 +30,7 @@
                                                     }',
                     ),
                     'tombolDialog' => array('idDialog' => 'dialogObat', 'idTombol' => 'tombolDialogOa'),
-                    'htmlOptions' => array("rel" => "tooltip", "title" => "Pencarian Data Obat/Alkes",'class'=>'span3', 'onkeypress' => "return $(this).focusNextInputField(event)"),
+                    'htmlOptions' => array("rel" => "tooltip", "title" => "Pencarian Data Obat/Alkes",'class'=>'span3 custom-only', 'onkeypress' => "return $(this).focusNextInputField(event)"),
                 ));
                 ?>
             </div>

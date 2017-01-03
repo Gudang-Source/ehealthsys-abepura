@@ -244,8 +244,8 @@ class PemakaianbarangTController extends MyAuthController
             $modDetail->barang_id = $barang_id;
             $modDetail->satuanpakai = $satuan;
             $modDetail->jmlpakai = $jumlah;
-            $modDetail->harganetto=		$modBarang->barang_harganetto;
-            $modDetail->hargajual = $modBarang->barang_hargajual;
+            $modDetail->harganetto= number_format($modBarang->barang_harganetto,0,"",".");
+            $modDetail->hargajual = number_format($modBarang->barang_hargajual,0,"",".");
             $modDetail->ppn = $modBarang->barang_ppn;
             $modDetail->disc = $modBarang->barang_persendiskon;
             $modDetail->hpp = $modBarang->barang_hpp;
@@ -264,6 +264,8 @@ class PemakaianbarangTController extends MyAuthController
 	{
 		if(Yii::app()->request->isAjaxRequest) {
 			$criteria = new CDbCriteria();
+                        $criteria->join = "JOIN inventarisasiruangan_t inv ON inv.barang_id = t.barang_id";
+                        $criteria->addCondition("inv.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
 			$criteria->compare('LOWER(t.barang_nama)', strtolower($_GET['term']), true);
 			$criteria->order = 't.barang_id';
 			$models = GUBarangM::model()->findAll($criteria);

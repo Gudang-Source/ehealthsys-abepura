@@ -42,6 +42,8 @@
                         }',
                 ),
                 'htmlOptions'=>array(
+                    'placeholder'=>'Ketik Nama Obat & Alkes',
+                    'class' => 'custom-only',
                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                     'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); '
                 ),

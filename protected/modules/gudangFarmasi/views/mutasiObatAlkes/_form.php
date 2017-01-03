@@ -40,7 +40,8 @@
                         }',
                     ),
                     'htmlOptions' => array(
-                        'class'=>'nopsn',
+                        'placeholder' => 'Ketik No Pemesanan',
+                        'class'=>'nopsn alphanumeric-only',
                         'onkeyup' => "return $(this).focusNextInputField(event)",
                         'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($modPemesanan, 'nopemesanan') . '").val(""); '
                     ),
@@ -91,9 +92,9 @@
     </div>
     <div class = "span4">
         <div class="control-group ">
-            <?php echo $form->labelEx($model, 'pegawaimengetahui_id', array('class'=>'control-label')); ?>
+            <?php echo Chtml::label("Pegawai Mengetahui <font style='color:red'>*</font>", 'pegawaimengetahui_id', array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id',array('readonly'=>true)); ?>
+                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id',array('class' => 'required','readonly'=>true)); ?>
                 <?php
                 $this->widget('MyJuiAutoComplete', array(
                     'model'=>$model,
@@ -123,6 +124,8 @@
                         }',
                     ),
                     'htmlOptions' => array(
+                        'placeholder' => 'Ketik Pegawai Mengetahui',
+                        'class' => 'hurufs-only required',
                         'onkeyup' => "return $(this).focusNextInputField(event)",
                         'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
                     ),
@@ -196,7 +199,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                   'value'=>'MyFormatter::formatDateTimeForUser($data->tglpemesanan)',
                   'filter'=>false
                   ),
-                'nopemesanan',
+                  array(
+                      'header' => 'No Pemesanan',
+                      'name' => 'nopemesanan',
+                      'value' => '$data->nopemesanan',
+                      'filter' => Chtml::activeTextField($modPesan, 'nopemesanan', array('class' => 'alphanumeric-only')),
+                  ),                
                 array(
                   'header'=>'Ruangan Pemesan',
                   'name'=>'ruanganpemesan_id',
@@ -210,7 +218,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 'keterangan_pesan'
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                . '$(".alphanumeric-only").keyup(function(){'
+                . '     setAlphaNumericOnly(this);'
+                . '});'
+                . '}',
         ));
 $this->endWidget();
 //========= end Pegawai Mengetahui dialog =============================
@@ -260,7 +272,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 array(
                     'header'=>'NIP',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nomorindukpegawai'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nomorindukpegawai', array('class' => 'numbers-only')),
                     'value'=>'$data->nomorindukpegawai',
                 ), /*
                 array(
@@ -270,7 +282,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ), */
                 array(
                     'header'=>'Nama Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai', array('class' => 'hurufs-only')),
                     'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                 ), /*
                 array(
@@ -279,13 +291,28 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->gelarbelakang_nama',
                 ), */
                 array(
-                    'header'=>'Alamat Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
-                    'value'=>'$data->alamat_pegawai',
+                    'header'=>'Jabatan',
+                    'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty' => '-- Pilih --')),
+                    'value'=> function($data){
+                        $j = JabatanM::model()->findByPk($data->jabatan_id);
+                        
+                        if (count($j) > 0){
+                            return $j->jabatan_nama;
+                        }else{
+                            return '-';
+                        }
+                    }
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){
-            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+            . '$(".numbers-only").keyup(function(){'
+            . ' setNumbersOnly(this);'
+            . '});'
+            . '$(".hurufs-only").keyup(function(){'
+            . ' setHurufsOnly(this);'
+            . '});'
+            . '}',
         ));
 $this->endWidget();
 //========= end Pegawai Mengetahui dialog =============================

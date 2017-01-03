@@ -654,14 +654,32 @@ class LaporanController extends MyAuthController {
     public function actionLaporanBukuRegister() {
         $model = new ROBukuregisterpenunjangV('search');
         $format = new MyFormatter();
+        $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
-        $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir);
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        
         if (isset($_GET['ROBukuregisterpenunjangV'])) {
             $model->attributes = $_GET['ROBukuregisterpenunjangV'];
+            $model->jns_periode = $_GET['ROBukuregisterpenunjangV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['ROBukuregisterpenunjangV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ROBukuregisterpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['ROBukuregisterpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['ROBukuregisterpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['ROBukuregisterpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['ROBukuregisterpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $this->render('bukuRegister/index', array(
@@ -671,6 +689,14 @@ class LaporanController extends MyAuthController {
 
     public function actionPrintLaporanBukuRegister() {
         $model = new ROBukuregisterpenunjangV('search');
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
         $judulLaporan = 'Laporan Buku Register Pasien Radiologi';
 
         //Data Grafik
@@ -678,9 +704,22 @@ class LaporanController extends MyAuthController {
         $data['type'] = $_REQUEST['type'];
         if (isset($_REQUEST['ROBukuregisterpenunjangV'])) {
             $model->attributes = $_REQUEST['ROBukuregisterpenunjangV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['ROBukuregisterpenunjangV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ROBukuregisterpenunjangV']['tgl_akhir']);
+            $model->jns_periode = $_GET['ROBukuregisterpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['ROBukuregisterpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ROBukuregisterpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['ROBukuregisterpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['ROBukuregisterpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['ROBukuregisterpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['ROBukuregisterpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         
         $caraPrint = $_REQUEST['caraPrint'];
@@ -692,17 +731,36 @@ class LaporanController extends MyAuthController {
     public function actionFrameGrafikBukuRegister() {
         $this->layout = '//layouts/iframe';
         $model = new ROBukuregisterpenunjangV('search');
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m');
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Buku Register Pasien Radiologi';
         $data['type'] = $_GET['type'];
         if (isset($_GET['ROBukuregisterpenunjangV'])) {
             $model->attributes = $_GET['ROBukuregisterpenunjangV'];
-            $format = new MyFormatter();
+            $model->jns_periode = $_GET['ROBukuregisterpenunjangV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['ROBukuregisterpenunjangV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ROBukuregisterpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['ROBukuregisterpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['ROBukuregisterpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['ROBukuregisterpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['ROBukuregisterpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         
         $this->render('_grafik', array(
