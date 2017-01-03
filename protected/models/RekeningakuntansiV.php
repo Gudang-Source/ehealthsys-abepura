@@ -77,7 +77,7 @@ class RekeningakuntansiV extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id, nourutrek, kelrekening_id', 'numerical', 'integerOnly' => true),
-            array('kdrekening1, kdrekening2, kdrekening3, kdrekening4, kdrekening5', 'length', 'max' => 5),
+            array('kdrekening1, kdrekening2, kdrekening3, kdrekening4, kdrekening5', 'length', 'max' => 20),
             array('nmrekening1, nmrekeninglain1, namakelrekening', 'length', 'max' => 100),
             array('rekening5_nb', 'length', 'max' => 1),
             array('nmrekening2, nmrekeninglain2', 'length', 'max' => 200),

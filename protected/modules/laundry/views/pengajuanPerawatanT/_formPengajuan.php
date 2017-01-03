@@ -196,9 +196,10 @@ $modPegawaiMengetahui = new PegawairuanganV('pegawaiMengetahui');
 $modPegawaiMengetahui->unsetAttributes();
 $modPegawaiMengetahui->pegawai_aktif = true;
 $modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
-if(isset($_GET['LAPegawaiV'])) {
-    $modPegawaiMengetahui->attributes = $_GET['LAPegawaiV'];
+if(isset($_GET['PegawairuanganV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['PegawairuanganV'];
     $modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
+	$modPegawaiMengetahui->jabatan_id = $_GET['PegawairuanganV']['jabatan_id'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimengetahui-grid',
@@ -230,11 +231,26 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
                     'value'=>'$data->namaLengkap',
                 ),
+				array(
+					'header'=>'Jabatan',
+					'name'=>'jabatan_id',
+					'value'=>function($data) {
+						$dat = JabatanM::model()->findByPk($data->jabatan_id);
+						return (empty($dat))?"":$dat->jabatan_nama;
+					},
+					'filter'=>CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', 
+						CHtml::listData(JabatanM::model()->findAll(array(
+							'condition'=>'jabatan_aktif = true',
+							'order'=>'jabatan_nama',
+						)),'jabatan_id', 'jabatan_nama'), array(
+							'empty'=>'-- Pilih --',
+						)),
+				), /*
                 array(
                     'header'=>'Alamat Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
                     'value'=>'$data->alamat_pegawai',
-                ),
+                ), */
             ),
             'afterAjaxUpdate' => 'function(id, data){
             jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',

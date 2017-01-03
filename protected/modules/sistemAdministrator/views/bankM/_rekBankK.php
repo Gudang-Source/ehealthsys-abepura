@@ -8,14 +8,15 @@ WHERE
 bankrek_m.bank_id = $bank_id AND bankrek_m.debitkredit = 'K'");
     if(COUNT($modRekBank)>0)
     {   
+		echo "<ul>";
         foreach($modRekBank as $i=>$data)
         {
             
-            if(isset($_GET['caraPrint'])){
-                echo "<pre>";
+            //if(isset($_GET['caraPrint'])){
+                echo "<li>";
                 echo $data->rekeningdebit->nmrekening5;
-                echo "</pre>";
-            }else{
+                echo "</li>";
+            /*}else{
                 echo "<pre>";
                 echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-pencil\"></i>",
                                 Yii::app()->controller->createUrl(Yii::app()->controller->id ."/ubahRekeningKredit",array("id"=>$data->bankrek_id)),
@@ -27,7 +28,10 @@ bankrek_m.bank_id = $bank_id AND bankrek_m.debitkredit = 'K'");
                                 ));
                 echo "</pre>";
             }
+			 * 
+			 */
         }
+		echo "</lu>";
     }
     else
     {
