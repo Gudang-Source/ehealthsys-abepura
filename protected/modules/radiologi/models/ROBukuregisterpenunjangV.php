@@ -27,7 +27,7 @@ class ROBukuregisterpenunjangV extends BukuregisterpenunjangV {
     public static function criteriaGrafik($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
         $criteria->select = 'count(pendaftaran_id) as jumlah';
-        if ($_GET['filter'] == 'carabayar') {
+        if ($_GET['tampilGrafik'] == 'carabayar') {
             if (!empty($model->penjamin_id)) {
                 $criteria->select .= ', penjamin_nama as '.$type;
                 $criteria->group .= 'penjamin_nama';
@@ -38,7 +38,7 @@ class ROBukuregisterpenunjangV extends BukuregisterpenunjangV {
                 $criteria->select .= ', carabayar_nama as '.$type;
                 $criteria->group = 'carabayar_nama';
             }
-        } else if ($_GET['filter'] == 'wilayah') {
+        } else if ($_GET['tampilGrafik'] == 'wilayah') {
             if (!empty($model->kelurahan_id)) {
                 $criteria->select .= ', kelurahan_nama as '.$type;
                 $criteria->group .= 'kelurahan_nama';
@@ -57,10 +57,10 @@ class ROBukuregisterpenunjangV extends BukuregisterpenunjangV {
             }
         }
 
-        if (!isset($_GET['filter'])){
-            $criteria->select .= ', propinsi_nama as '.$type;
-            $criteria->group .= 'propinsi_nama';
-        }
+      //  if (!isset($_GET['filter'])){
+          //  $criteria->select .= ', propinsi_nama as '.$type;
+          //  $criteria->group .= 'propinsi_nama';
+      //  }
 
         if (count($addCols) > 0){
             if (is_array($addCols)){
