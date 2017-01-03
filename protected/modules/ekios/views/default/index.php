@@ -203,38 +203,38 @@ function denah(){
 				<?php $this->renderPartial('_slide_picture',array(
 					'model'=>$model,
 				)); ?>
-				<?/**php $this->renderPartial('_fasilitas',array(
+				<?php /**$this->renderPartial('_fasilitas',array(
 					'model'=>$model,
 				)); **/?>
-				<?/**php $this->renderPartial('_asuransi',array(
+				<?php /**$this->renderPartial('_asuransi',array(
 					'model'=>$model,
 				)); **/?>
-				<?/**php $this->renderPartial('_kamarperawatan',array(
+				<?php /**$this->renderPartial('_kamarperawatan',array(
 					'model'=>$model,
 				)); **/?>
-				<?/**php $this->renderPartial('_jadwaldokter',array(
+				<?php /**$this->renderPartial('_jadwaldokter',array(
 					'model'=>$model,
 					'format'=>$format,
 				)); **/?>
-				<?/**php $this->renderPartial('_paketpelayanan',array(
+				<?php /**$this->renderPartial('_paketpelayanan',array(
 					'model'=>$model,
 				)); **/?>
-				<?/**php $this->renderPartial('_infokamar',array(
+				<?php /**$this->renderPartial('_infokamar',array(
 					'model'=>$model,
 					'row'=>$row,
 				)); **/?>
-				<?/**php $this->renderPartial('_kritiksaran',array(
+				<?php /**$this->renderPartial('_kritiksaran',array(
 					'model'=>$modKomentar,
 				)); **/?>
-				<?/**php $this->renderPartial('_buatjanji',array(
+				<?php /**$this->renderPartial('_buatjanji',array(
 					'format'=>$format,
 					'model'=>$model,
 				)); **/?>
-				<?/**php $this->renderPartial('_bookingkamar',array(
+				<?php /**$this->renderPartial('_bookingkamar',array(
 					'format'=>$format,
 					'model'=>$model,
 				)); **/?>
-				<?/**php $this->renderPartial('_denah',array(
+				<?php /**$this->renderPartial('_denah',array(
 					'model'=>$model,
 				)); **/?>
 
