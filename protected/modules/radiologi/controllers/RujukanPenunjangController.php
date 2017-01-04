@@ -12,6 +12,7 @@ class RujukanPenunjangController extends MyAuthController
                 $model->attributes = $_GET['PasienkirimkeunitlainV'];
                 $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['PasienkirimkeunitlainV']['tgl_awal']);
                 $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['PasienkirimkeunitlainV']['tgl_akhir']);
+                $model->namaDokter = $_GET['PasienkirimkeunitlainV']['namaDokter'];
             }
             
             $dataProvider = $model->searchRujukRad();
