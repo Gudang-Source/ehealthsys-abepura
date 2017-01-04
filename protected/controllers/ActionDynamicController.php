@@ -669,6 +669,38 @@ class ActionDynamicController extends Controller
         Yii::app()->end();
     }
     
+    public function actionGetPenjaminForDropCheck($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+           $carabayar_id = $_POST["$namaModel"]['carabayar_id'];
+
+           if($encode) {
+                echo CJSON::encode($penjamin);
+           } else {
+                if(empty($carabayar_id)){
+//                    $penjamin = PenjaminpasienM::model()->findAll();
+                    
+                } else {
+                    $penjamindata = PenjaminpasienM::model()->findAllByAttributes(array('carabayar_id'=>$carabayar_id), array('order'=>'penjamin_nama ASC'));
+                    $penjamin = CHtml::listData($penjamindata,'penjamin_id','penjamin_nama');                    
+                    $i = 0;
+                    if (count($penjamin) > 0){
+                        foreach($penjamin as $value=>$name) {
+                            echo '<label class="checkbox inline">';
+                            echo CHtml::checkBox(''.$namaModel.'[penjamin_id][]', true, array('value'=>$value));
+                            echo '<label for="'.$namaModel.'_penjamin_id_'.$i.'">'.$name.'</label></label>';
+
+                            $i++;
+                        }
+                    } else{
+                      
+                    }
+                }
+           }
+        }
+        Yii::app()->end();
+    }
+    
     
     public function actionGetPenjaminPasien($encode=false,$namaModel='')
     {
@@ -1158,6 +1190,43 @@ class ActionDynamicController extends Controller
                 }
                 else{
                     echo '<label>Data Tidak Ditemukan</label>';
+                }
+           }
+        }
+        Yii::app()->end();
+    }
+    
+    public function actionGetRuangAslForDropCheck($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+           $instalasi_id = $_POST["$namaModel"]['instalasiasal_id'];
+           if($encode){
+                echo CJSON::encode($ruangan);
+           } else {
+                if(empty($instalasi_id)){
+                    $ruangan = RuanganM::model()->findAll('ruangan_aktif = TRUE and instalasi_id=9999');
+                } else {
+                    $ruangan = RuanganM::model()->findAll('ruangan_aktif = TRUE and instalasi_id='.$instalasi_id.' ORDER BY ruangan_nama ASC');
+                }
+                $ruangan = CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
+               // echo CHtml::hiddenField(''.$namaModel.'[ruanganasal_id]');
+                $i = 0;
+                if (count($ruangan) > 0){
+                     
+                    foreach($ruangan as $value=>$name) {
+
+//                        
+                        //$selects[] = $value;
+                        //$i++;
+                         echo "<label class='checkbox inline'>";
+                    echo CHtml::checkBox(''.$namaModel."[ruanganasal_id][]", true, array('value' =>$value));
+                    echo '<label for="'.$namaModel.'ruanganasal_id_'.$i.'">'.$name.'</label>';
+                    echo "</label>";
+                    }
+                   
+                }
+                else{
+                   
                 }
            }
         }
