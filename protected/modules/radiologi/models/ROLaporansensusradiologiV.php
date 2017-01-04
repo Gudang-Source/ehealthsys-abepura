@@ -12,7 +12,7 @@ class ROLaporansensusradiologiV extends LaporansensusradiologiV {
 
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
-        $criteria->select = 'count(tglmasukpenunjang) as jumlah, kunjungan as data';
+       /* $criteria->select = 'count(tglmasukpenunjang) as jumlah, kunjungan as data';
         $criteria->group = 'kunjungan';
         if ($this->pilihan == 'carabayar'){
             if (!empty($this->penjamin_id)) {
@@ -29,7 +29,25 @@ class ROLaporansensusradiologiV extends LaporansensusradiologiV {
         else{
             $criteria->select .= ', pemeriksaanrad_nama as tick';
             $criteria->group .= ', pemeriksaanrad_nama';
+        }*/
+         if ($_GET['tampilGrafik'] == 'kunjungan'){
+            $criteria->select = 'count(pendaftaran_id) as jumlah, kunjungan as data';
+            $criteria->group = 'kunjungan';
+        }elseif ($_GET['tampilGrafik'] == 'carabayar'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, carabayar_nama as data';
+            $criteria->group = 'carabayar_nama';
+        }elseif ($_GET['tampilGrafik'] == 'jenispemeriksaan'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, jenispemeriksaanlab_nama as data';
+            $criteria->group = 'jenispemeriksaanlab_nama';
+        }elseif ($_GET['tampilGrafik'] == 'instalasiasal'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, instalasiasal_nama as data';
+            $criteria->group = 'instalasiasal_nama';
+        }elseif ($_GET['tampilGrafik'] == 'ruanganasal'){            
+            $criteria->select = 'count(pendaftaran_id) as jumlah, ruanganasal_nama as data';
+            $criteria->group = 'ruanganasal_nama';
         }
+        
+        $criteria->order = 'jumlah DESC';
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
@@ -68,7 +86,19 @@ class ROLaporansensusradiologiV extends LaporansensusradiologiV {
 		
         if (!is_array($this->kunjungan)){
             $this->kunjungan = 0;
+        }else{
+            $data = array();
+            foreach(  $this->kunjungan as $i => $values ){
+                                
+                if( $values == "KUNJUNGAN ULANG"){
+                    $data[]="KUNJUNGAN LAMA";
+                } else{
+                    $data[]=$values;
+                }
+            }                                            
+            $criteria->addInCondition('kunjungan', $data);
         }
+        
         if ($this->pilihan == 'jenis'){
             if (!is_array($this->jenispemeriksaanrad_id)){
                 $this->pemeriksaanrad_id = 0;
@@ -120,7 +150,7 @@ class ROLaporansensusradiologiV extends LaporansensusradiologiV {
 			$criteria->addCondition("shift_id = ".$this->shift_id);					
 		}
 		if(!empty($this->ruanganasal_id)){
-			$criteria->addCondition("ruanganasal_id = ".$this->ruanganasal_id);					
+			$criteria->addInCondition("ruanganasal_id",$this->ruanganasal_id);					
 		}
         $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
 		if(!empty($this->jeniskasuspenyakit_id)){
@@ -144,9 +174,7 @@ class ROLaporansensusradiologiV extends LaporansensusradiologiV {
 		if(!empty($this->pasienadmisi_id)){
 			$criteria->addCondition("pasienadmisi_id = ".$this->pasienadmisi_id);					
 		}
-		if (!empty($this->kunjungan)){
-			$criteria->addInCondition('kunjungan', $this->kunjungan);
-		}
+		
         $criteria->compare('LOWER(create_time)', strtolower($this->create_time), true);
         $criteria->compare('LOWER(update_time)', strtolower($this->update_time), true);
         $criteria->compare('LOWER(create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
@@ -159,9 +187,9 @@ class ROLaporansensusradiologiV extends LaporansensusradiologiV {
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);					
 		}
         $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
-		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("penjamin_id = ".$this->penjamin_id);					
-		}
+        if(!empty($this->penjamin_id)){
+                $criteria->addInCondition("penjamin_id",$this->penjamin_id);					
+        }
         $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
 		if(!empty($this->daftartindakan_id)){
 			$criteria->addCondition("daftartindakan_id = ".$this->daftartindakan_id);					

@@ -21,6 +21,10 @@
                         'header'=>' Instalasi/<br/>Ruangan Asal',
                         'value'=>'$data->InstalasiNamaRuanganNama',
                     ),
+                    array(
+                        'header' => 'Dokter Pengirim',
+                        'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama'
+                    ),
                     //'tgl_pendaftaran',
                     // 'ruangan_id',
                     

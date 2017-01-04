@@ -79,6 +79,9 @@
 class LaporansensusradiologiV extends CActiveRecord
 {
         public $tgl_awal, $tgl_akhir, $data, $tick, $jumlah, $pilihan;
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
+        public $jns_periode;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -417,7 +420,7 @@ class LaporansensusradiologiV extends CActiveRecord
         
         public function getAlamatRTRW()
         {
-            return $this->alamat_pasien.'<br>'.$this->rt.' / '.$this->rw;
+            return $this->alamat_pasien.'<br>'.$this->rt.'/ <br/>'.$this->rw;
         }
         
         public function getNoRMNoPend(){
@@ -425,13 +428,13 @@ class LaporansensusradiologiV extends CActiveRecord
         }
         
         public function getTglMasukNoPenunjang(){
-            return date("d/m/Y", strtotime($this->tglmasukpenunjang)).'<br/>'.PHP_EOL.$this->no_masukpenunjang;
+            return MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($this->tglmasukpenunjang))).'/ <br/>'.PHP_EOL.$this->no_masukpenunjang;
         }
         
         public function getJenisKelaminUmur(){
-            return $this->jeniskelamin.'<br/>'.$this->umur;
+            return $this->jeniskelamin.'/ <br/>'.$this->umur;
         }
         public function getInstalasiRuangan(){
-            return $this->instalasiasal_nama.'<br/>'.$this->ruanganasal_nama;
+            return $this->instalasiasal_nama.'/ <br/>'.$this->ruanganasal_nama;
         }
 }
