@@ -134,7 +134,11 @@ class ActionDynamicController extends Controller
             if(empty($ruangan)){
                 echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
             }else{
-                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                if (count($ruangan) > 1){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }elseif (count($ruangan) == 0){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
                 foreach($ruangan as $value=>$name)
                 {
                     echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
