@@ -1,4 +1,4 @@
- .checkbox.inline + .checkbox.inline{
+    .checkbox.inline + .checkbox.inline{
         margin-left: 0px;
         display: block;
     }
@@ -25,5 +25,5 @@
         display: block;
     }
     .checkboxes label:hover {
-        background-color: #1e90ff;
+        background-color: #B8E7AF;;
     }

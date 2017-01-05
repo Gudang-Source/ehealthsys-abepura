@@ -118,8 +118,19 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
-        if(!is_array($this->kunjungan)){
+        if (!is_array($this->kunjungan)){
             $this->kunjungan = 0;
+        }else{
+            $data = array();
+            foreach(  $this->kunjungan as $i => $values ){
+                                
+                if( $values == "KUNJUNGAN ULANG"){
+                    $data[]="KUNJUNGAN LAMA";
+                } else{
+                    $data[]=$values;
+                }
+            }                                            
+            $criteria->addInCondition('kunjungan', $data);
         }
         $criteria->compare('kunjungan', $this->kunjungan);
 
@@ -148,9 +159,21 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 
         $criteria = new CDbCriteria;
         $format = new MyFormatter();
-        if(!is_array($this->kunjungan)){
+        if (!is_array($this->kunjungan)){
             $this->kunjungan = 0;
+        }else{
+            $data = array();
+            foreach(  $this->kunjungan as $i => $values ){
+                                
+                if( $values == "KUNJUNGAN ULANG"){
+                    $data[]="KUNJUNGAN LAMA";
+                } else{
+                    $data[]=$values;
+                }
+            }                                            
+            $criteria->addInCondition('kunjungan', $data);
         }
+        
         $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
@@ -221,7 +244,7 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 		if(!empty($this->pasienadmisi_id)){
 			$criteria->addCondition("pasienadmisi_id = ".$this->pasienadmisi_id);					
 		}
-        $criteria->compare('kunjungan', $this->kunjungan);
+        
         $criteria->compare('LOWER(create_time)', strtolower($this->create_time), true);
         $criteria->compare('LOWER(update_time)', strtolower($this->update_time), true);
         $criteria->compare('LOWER(create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
@@ -263,7 +286,7 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);					
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
-        $criteria->addCondition('ruanganasal_id not in(21)');
+        //$criteria->addCondition('ruanganasal_id not in(21)');
         return $criteria;
     }    
     
