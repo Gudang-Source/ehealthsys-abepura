@@ -85,6 +85,7 @@ class LaporanpasienpenunjangV extends CActiveRecord
         public $tgl_awal, $bln_awal, $thn_awal;
         public $tgl_akhir, $bln_akhir, $thn_akhir;
         public $jns_periode;
+        public $jumlha, $data;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
