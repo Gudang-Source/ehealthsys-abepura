@@ -1216,7 +1216,11 @@ class ActionDynamicController extends Controller
                // echo CHtml::hiddenField(''.$namaModel.'[ruanganasal_id]');
                 $i = 0;
                 if (count($ruangan) > 0){
-                     
+                    echo "<label class='checkbox inline'>";
+                    echo CHtml::checkBox('checkAllRuangan',true, array('onkeypress'=>"return $(this).focusNextInputField(event)"
+                                ,'onclick'=>'checkAll()','checked'=>'checked'));
+                    echo '<label>Pilih Semua</label>';
+                    echo "</label>";
                     foreach($ruangan as $value=>$name) {
 
 //                        

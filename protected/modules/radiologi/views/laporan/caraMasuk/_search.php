@@ -1,3 +1,4 @@
+<legend class="rim"><i class="entypo-search"></i> Pencarian </legend>
 <?php
             Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/dropCheck.css');
                    
@@ -192,17 +193,33 @@
                     )); ?>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <?php 
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'kunjungan5',
+                        'slide'=>false,
+                        'content'=>array(
+                        'content5'=>array(
+                            'header'=>'Opsi Grafik',
+                            'isi'=>  '<table>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'instalasiasal')).' <label>Instalasi Asal</label></td>                                               
+                                             <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'ruanganasal')).' <label>Ruangan Asal</label></td>                                               
+                                        </tr>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'rujukan')).' <label>Rujukan</label></td>                                                                                            
+                                        </tr>
+                                    </table>',          
+                            'active'=>TRUE,
+                                ),
+                        ),
+    //                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>	
+                </td>
+            </tr>
         </table>
-        
-        
-    <div id='searching'>
-       
-        <fieldset class="box2">
-            <legend class="rim">Opsi Grafik</legend>
-            <?php $model->pilihan = 'instalasi'; ?>
-            <?php echo $form->radioButtonList($model, 'pilihan', $model->pilihanGrafik()); ?>
-        </fieldset>
-    </div>
+  
     <div class="form-actions">
         <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
         ?>
@@ -246,7 +263,19 @@ $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dip
                 $(this).removeAttr('checked');
             })
         }
+        
+        if($('#checkAllRuangan').is(':checked')){
+           $('#searchLaporan input[name*="ruanganasal_id"]').each(function(){
+                $(this).attr('checked',true);
+           });
+        }else{
+             $('#searchLaporan input[name*="ruanganasal_id"]').each(function(){
+                $(this).removeAttr('checked');
+           });
+        }
     }
+    
+    checkAll();
 </script>
 
 <?php

@@ -17,11 +17,11 @@
     });
     ");
     ?>
-    <div class="box search-form">
+    <fieldset class="box search-form">
         <?php $this->renderPartial('caraMasuk/_search',array(
             'model'=>$model
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form --> 
     <div class="block-tabel"> 
         <h6>Tabel <b>Cara Masuk</b></h6>
         <?php $this->renderPartial('caraMasuk/_table', array('model'=>$model)); ?>
