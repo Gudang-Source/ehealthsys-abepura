@@ -209,12 +209,13 @@ class BKLaporankunjunganPasien extends LaporankunjunganrsV {
  
     public function getNamaDokter()
     {
-        $query = "SELECT pegawai_m.nama_pegawai FROM pegawai_m
+        $query = "SELECT pegawai_m.nama_pegawai, pegawai_m.gelardepan, gelarbelakang_m.gelarbelakang_nama as gelarbelakang FROM pegawai_m
         JOIN pendaftaran_t ON pendaftaran_t.pegawai_id = pegawai_m.pegawai_id
+        LEFT JOIN gelarbelakang_m ON gelarbelakang_m.gelarbelakang_id = pegawai_m.gelarbelakang_id 
         WHERE pendaftaran_id = '". $this->pendaftaran_id ."'
         ";
         $result = YII::app()->db->createCommand($query)->queryRow();
-        return $result['nama_pegawai'];
+        return $result['gelardepan'].' '.$result['nama_pegawai'].' '.$result['gelarbelakang'];
     }
 
 }

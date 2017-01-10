@@ -57,7 +57,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 				array(
 					'header' => 'Pilih',
 					'type' => 'raw',
-					'value'=>'CHtml::checkBox("pilih[$row]",null,array("value"=>1,"id"=>"pilih"))',					
+					'value'=>'CHtml::checkBox("pilih[$row]",null,array("value"=>1,"id"=>"pilih", "class"=>"cb_pilih", "onchange"=>"harga();"))',					
 				),
 				array(
 				   'header' => 'No. Registrasi',
@@ -92,7 +92,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 				   'name' => 'harga_pasar',
 				   'type'=>'raw',
                                    'htmlOptions'=>array('style'=>'text-align: right'),
-				   'value'=>'CHtml::textField("det[$row][hargapasar]","",array("class"=>"integer2 hargapasar","style"=>"width:100px;",
+				   'value'=>'CHtml::textField("det[$row][hargapasar]",MyFormatter::formatNumberForPrint($data->hrg_peroleh - $data->penyusutan),array("class"=>"integer2 hargapasar","style"=>"width:100px;",
 					   "onkeypress"=>"return $(this).focusNextInputField(event)","onkeyup"=>"harga()"))
 					   .CHtml::hiddenField("det[$row][penyusutan]",$data->penyusutan,array("class"=>"integer2","style"=>"width:100px;"))
 					   .CHtml::hiddenField("det[$row][hrgperolehan]",$data->hrg_peroleh,array("class"=>"integer2","style"=>"width:100px; text-align: right;"))'
@@ -103,7 +103,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 				   //'name' => 'selisih',
 				   'type'=>'raw',
                                    'htmlOptions'=>array('style'=>'text-align: right'),
-				   'value'=>'CHtml::textField("det[$row][selisih]","",array("class"=>"integer2 selisih","style"=>"width:100px; text-align: right;"))'					
+				   'value'=>'CHtml::textField("det[$row][selisih]","0",array("class"=>"integer2 selisih","style"=>"width:100px; text-align: right;"))'					
 			   ),				
             ),
             'afterAjaxUpdate'=>'function(id, data){'
@@ -121,6 +121,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                 var hg = parseFloat(unformatNumber($(this).val()));
                 var nb = parseFloat(unformatNumber($(this).parents("tr").find(".nb").val()));
                 var selisih = hg - nb;
+				if (!$(this).parents("tr").find(".cb_pilih").is(":checked")) selisih = 0;
                 $(this).parents("tr").find(".selisih").val(formatNumber(selisih));
             });
             /*
@@ -162,7 +163,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 						<?php echo $form->error($model, 'reevaluasiaset_tgl'); ?>
 					</div>
 				</div>
-					<?php echo $form->textFieldRow($model,'reevaluasiaset_no',array('class'=>'span3 all-caps', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
+					<?php echo $form->textFieldRow($model,'reevaluasiaset_no',array('class'=>'span3 all-caps angkahuruf-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
 			</div>
 			<div class="span4">
 				
@@ -444,15 +445,18 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 "id"=>"selectAset",
                 "onClick"=>"
                             $(\"#pegawai_id\").val(\"$data->pegawai_id\");
-							$(\"#nama_pegawai\").val(\"$data->nama_pegawai\");
+							$(\"#nama_pegawai\").val(\"$data->namaLengkap\");
                             $(\"#dialogPegawai\").dialog(\"close\");
                             return false;
                 ",
                ))'
         ),
-		'nama_pegawai',
+		'namaLengkap',
 		'tempatlahir_pegawai',
-		'tgl_lahirpegawai',
+		array(
+			'name'=>'tgl_lahirpegawai',
+			'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)',
+		),
 		'jeniskelamin',
 		'statusperkawinan'
     ),
@@ -494,15 +498,18 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 "id"=>"selectAset",
                 "onClick"=>"
                             $(\"#pegawai_id_\").val(\"$data->pegawai_id\");
-							$(\"#nama_pegawai_\").val(\"$data->nama_pegawai\");
+							$(\"#nama_pegawai_\").val(\"$data->namaLengkap\");
                             $(\"#dialogPegawai_\").dialog(\"close\");
                             return false;
                 ",
                ))'
         ),
-		'nama_pegawai',
+		'namaLengkap',
 		'tempatlahir_pegawai',
-		'tgl_lahirpegawai',
+		array(
+			'name'=>'tgl_lahirpegawai',
+			'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)',
+		),
 		'jeniskelamin',
 		'statusperkawinan'
     ),

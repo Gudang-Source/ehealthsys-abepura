@@ -276,4 +276,9 @@ class KeanggotaanV extends CActiveRecord
 									$golongan = GolonganpegawaiM::model()->findByPk($id->golonganpegawai_id);
 									return $golongan->golonganpegawai_nama;
 	}
+        
+        public function getNamaLengkap()
+        {
+            return $this->gelardepan.' '.$this->nama_pegawai.' '.$this->gelarbelakang_nama;
+        }
 }

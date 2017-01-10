@@ -26,7 +26,7 @@
                     <?php echo $form->labelEx($model, 'tglpesanbarang', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        $this->widget('MyDateTimePicker', array(
+                      /*  $this->widget('MyDateTimePicker', array(
                             'model' => $model,
                             'attribute' => 'tglpesanbarang',
                             'mode' => 'datetime',
@@ -35,7 +35,8 @@
                                 'maxDate' => 'd',
                             ),
                             'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)",),
-                        ));
+                        ));*/
+                                echo $form->textField($model,'tglpesanbarang', array('readonly' => TRUE, 'class' => 'realtime'));
                         ?>
                         <?php echo $form->error($model, 'tglpesanbarang'); ?>
                     </div>
@@ -127,9 +128,9 @@
                     </div>
                 </div>
                 <div class="control-group ">
-                    <?php echo $form->labelEx($model, 'pegmengetahui_id', array('class' => 'control-label')); ?>
+                    <?php echo Chtml::label("Pegawai Mengetahui <font style='color:red'>*</font>", 'pegmengetahui_id', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?php echo $form->hiddenField($model, 'pegmengetahui_id'); ?>
+                        <?php echo $form->hiddenField($model, 'pegmengetahui_id', array('class' => 'required')); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
                         <?php
                         $this->widget('MyJuiAutoComplete', array(
@@ -161,7 +162,7 @@
                             ),
                             'htmlOptions' => array(
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                'class' => 'span3',
+                                'class' => 'span3 required',
 								'placeholder'=>'Ketikan nama pegawai mengetahui',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),

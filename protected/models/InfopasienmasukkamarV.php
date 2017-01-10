@@ -222,7 +222,7 @@ class InfopasienmasukkamarV extends CActiveRecord
 			'no_asuransi' => 'No. Asuransi',
 			'namapemilik_asuransi' => 'Nama Pemilik Asuransi',
 			'nopokokperusahaan' => 'No. Pokok Perusahaan',
-			'carabayar_id' => 'Cara bayar',
+			'carabayar_id' => 'Cara Bayar',
 			'carabayar_nama' => 'Cara Bayar',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin',
@@ -581,4 +581,21 @@ class InfopasienmasukkamarV extends CActiveRecord
             );
             return (isset($kamarKosong->kamarruangan_nokamar ) ? $kamarKosong->kamarruangan_nokamar : ""). ' - ' . (isset($kamarKosong->kamarruangan_nobed) ? $kamarKosong->kamarruangan_nobed : "");
         } 
+        
+        public function getKelasPelayananRuangan()
+        {
+            $cri = new CDbCriteria();
+            $cri->join = " JOIN kelasruangan_m kr ON kr.kelaspelayanan_id = t.kelaspelayanan_id ";
+            $cri->addCondition(" kr.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+            $cri->addCondition(" t.kelaspelayanan_aktif = TRUE ");
+            $cri->order = " t.kelaspelayanan_nama ASC ";
+
+            return RIKelasPelayananM::model()->findAll($cri);
+        }
+        
+        public function getKasusPenyakit()
+        {            
+
+            return JeniskasuspenyakitM::model()->findAll("jeniskasuspenyakit_aktif = TRUE ORDER BY jeniskasuspenyakit_nama ASC");
+        }
 }

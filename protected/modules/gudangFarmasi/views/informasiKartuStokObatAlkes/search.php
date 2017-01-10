@@ -74,12 +74,12 @@
             <?php echo $form->dropDownListRow($model,'obatalkes_kategori', ObatAlkesKategori::items() ,array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
         <div class="span4">
-            <?php echo $form->textFieldRow($model,'obatalkes_kode',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'obatalkes_kode',array('class'=>'span3 custom-only','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3 custom-only','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->dropDownListRow($model,'satuankecil_nama',  CHtml::listData(SatuankecilM::model()->findAll("satuankecil_aktif = TRUE ORDER BY satuankecil_nama ASC"), 'satuankecil_nama', 'satuankecil_nama'),array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 			<?php // echo $form->dropDownListRow($model,'transaksi',$model->getNamaTransaksiKartuStok(),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 			<?php // echo $form->textFieldRow($model,'obatalkes_golongan',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-			<?php echo $form->textFieldRow($model,'nobatch',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+			<?php echo $form->textFieldRow($model,'nobatch',array('class'=>'span3 custom-only','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 			<div class="control-group ">
 				<?php echo $form->labelEx($model,'tglkadaluarsa', array('class'=>'control-label')) ?>
 				<div class="controls">

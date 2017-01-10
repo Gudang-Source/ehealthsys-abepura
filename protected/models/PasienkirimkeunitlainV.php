@@ -60,6 +60,7 @@ class PasienkirimkeunitlainV extends CActiveRecord
 {
 	  public $cbTglMasuk = false;
           public $prefix_pendaftaran;
+          public $namaDokter;
 //	  public $tgl_awal;
 //      public $tgl_akhir;
 	/**
@@ -188,6 +189,7 @@ class PasienkirimkeunitlainV extends CActiveRecord
             $criteria->compare('lower(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
             $criteria->compare('lower(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
             $criteria->compare('lower(t.nama_pasien)', strtolower($this->nama_pasien), true);
+            $criteria->compare('lower(t.nama_pegawai)', strtolower($this->namaDokter), true);
             $criteria->compare('t.ruangan_id', Params::RUANGAN_ID_RAD);
             $criteria->compare('t.instalasiasal_id', $this->instalasiasal_id);
             $criteria->compare('t.ruanganasal_id', $this->ruanganasal_id);

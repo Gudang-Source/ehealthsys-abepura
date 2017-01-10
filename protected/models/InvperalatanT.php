@@ -58,6 +58,8 @@ class InvperalatanT extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public $barang_nama;
 
 	/**
 	 * @return string the associated database table name
@@ -79,10 +81,10 @@ class InvperalatanT extends CActiveRecord
             array('lokasi_id, barang_id, asalaset_id, pemilikbarang_id, invperalatan_umurekonomis, terimapersdetail_id, umurekonomis', 'numerical', 'integerOnly'=>true),
             array('invperalatan_harga, invperalatan_akumsusut, invperalatan_nilairesidu, hargajualaktiva, kerugian, keuntungan', 'numerical'),
             array('invperalatan_kode, invperalatan_noregister, invperalatan_merk, invperalatan_ukuran, invperalatan_nopabrik, invperalatan_norangka, invperalatan_nomesin, invperalatan_nopolisi, invperalatan_nobpkb, invperalatan_keadaan', 'length', 'max'=>50),
-            array('invperalatan_namabrg, invperalatan_bahan', 'length', 'max'=>100),
+            array('invperalatan_kapasitasrata, invperalatan_serftkkalibrasi, invperalatan_namabrg, invperalatan_bahan', 'length', 'max'=>100),
             array('invperalatan_thnpembelian', 'length', 'max'=>5),
-            array('invperalatan_kapasitasrata', 'length', 'max'=>10),
-            array('invperalatan_serftkkalibrasi', 'length', 'max'=>20),
+            // array('invperalatan_kapasitasrata', 'length', 'max'=>10),
+            // array('invperalatan_serftkkalibrasi', 'length', 'max'=>20),
             array('tipepenghapusan', 'length', 'max'=>25),
             array('invperalatan_tglguna, invperalatan_ket, invperalatan_ijinoperasional, update_time, update_loginpemakai_id, tglpenghapusan', 'safe'),
             // The following rule is used by search().

@@ -190,7 +190,7 @@
                 <?php
                     echo $form->textFieldRow($modTarifTindakanRuanganV,'daftartindakan_nama',
                         array(
-                            'class'=>'span3',
+                            'class'=>'span3 custom-only',
                             'onkeypress'=>"return $(this).focusNextInputField(event);",
                             'maxlength'=>30
                         )

@@ -51,10 +51,10 @@
     </div>
     <div class = "span4">
         <div class="control-group ">
-            <?php echo $form->labelEx($model, 'pegawaipemesan_id', array('class' => 'control-label')); ?>
+            <?php echo Chtml::label("Pegawai Pemesan <font style='color:red'>*</font>", 'pegawaipemesan_id', array('class' => 'control-label')); ?>
             <div class="controls">
                 <?php echo $form->hiddenField($model, 'pegawaipemesan_id'); ?>
-                <?php echo $form->textField($model, 'pegawaipemesan_nama', array('readonly' => true)); ?>
+                <?php echo $form->textField($model, 'pegawaipemesan_nama', array('readonly' => true, 'class' => 'required')); ?>
                 <?php
             /*    $this->widget('MyJuiAutoComplete', array(
                     'model'=>$model,
@@ -95,9 +95,9 @@
             </div>
         </div>
         <div class="control-group ">
-            <?php echo $form->labelEx($model, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
+            <?php echo CHtml::label("Pegawai Mengetahui <font style='color:red;'>*</font>", 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
             <div class="controls">
-                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id'); ?>
+                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id', array('class' => 'required')); ?>
                 <?php
                 $this->widget('MyJuiAutoComplete', array(
                     'model'=>$model,
@@ -128,7 +128,7 @@
                     ),
                     'htmlOptions' => array(
                                             'placeholder'=>'Ketikan Pegawai Mengetahui',
-                        'class'=>'pegawaimengetahui_nama',
+                        'class'=>'pegawaimengetahui_nama required hurufs-only',
                         'onkeyup'=>"return $(this).focusNextInputField(event)",
                         'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
                     ),
@@ -186,6 +186,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'NIP',
                     'name' => 'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
+                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nomorindukpegawai' ,array('class' => 'numbers-only')),
                 ), /*
                 array(
                     'header'=>'Gelar Depan',
@@ -195,7 +196,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ), */
                 array(
                     'header'=>'Nama Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai' ,array('class' => 'hurufs-only')),
                     'name' => 'nama_pegawai',
                     'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                 ), /*
@@ -206,14 +207,29 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->gelarbelakang_nama',
                 ), */
                 array(
-                    'header'=>'Alamat Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
-                    'name' => 'alamat_pegawai',
-                    'value'=>'$data->alamat_pegawai',
+                    'header'=>'Jabatan',
+                    'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --')),
+                    'name' => 'jabatan_id',
+                    'value'=>function($data){
+                        $j = JabatanM::model()->findByPk($data->jabatan_id);
+                        
+                        if (count($j)>0){
+                            return $j->jabatan_nama;
+                        }else{
+                            return '-';
+                        }
+                    },
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){
-            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+            . '$(".numbers-only").keyup(function(){'
+                . 'setNumbersOnly(this);'
+            . '});'
+            . '$(".hurufs-only").keyup(function(){'
+                . 'setHurufsOnly(this);'
+            . '});'
+            . '}',
         ));
 $this->endWidget();
 //========= end Pegawai Mengetahui dialog =============================
@@ -283,12 +299,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name' => 'gelarbelakang_nama',
                     'value'=>'$data->gelarbelakang_nama',
                 ), */
-                array(
-                    'header'=>'Alamat Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiPemesanan, 'alamat_pegawai'),
-                    'name' => 'alamat_pegawai',
-                    'value'=>'$data->alamat_pegawai',
-                ),
+                
             ),
             'afterAjaxUpdate' => 'function(id, data){
             jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',

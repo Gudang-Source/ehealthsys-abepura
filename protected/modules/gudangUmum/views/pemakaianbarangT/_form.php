@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'gupemakaianbarang-t-form',
 	'enableAjaxValidation'=>false,
@@ -18,7 +20,7 @@
 					<div class="controls">
 						<?php
 						$model->tglpemakaianbrg = !empty($model->tglpemakaianbrg) ? MyFormatter::formatDateTimeForUser($model->tglpemakaianbrg) : date('d M Y H:i:s');
-						$this->widget('MyDateTimePicker', array(
+						/*$this->widget('MyDateTimePicker', array(
 							'model' => $model,
 							'attribute' => 'tglpemakaianbrg',
 							'mode' => 'date',
@@ -27,7 +29,8 @@
 								'maxDate' => 'd',
 							),
 							'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)",),
-						));
+						));*/
+                                                echo $form->textField($model, 'tglpemakaianbrg', array('class' => 'realtime', 'readonly' => TRUE));
 						$model->tglpemakaianbrg = !empty($model->tglpemakaianbrg) ? MyFormatter::formatDateTimeForDb($model->tglpemakaianbrg) : date('Y-m-d H:i:s');
 						?>
 						<?php echo $form->error($model, 'tglpemakaianbrg'); ?>

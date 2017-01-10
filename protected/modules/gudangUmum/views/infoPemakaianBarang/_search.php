@@ -51,7 +51,7 @@
 		<div class="control-group ">
 			<?php echo CHtml::activeLabel($model,'nopemakaianbrg',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'nopemakaianbrg',array('placeholder'=>'Ketik No. Pemakaian Barang', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'nopemakaianbrg',array('placeholder'=>'Ketik No. Pemakaian Barang', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 	</div>
@@ -71,7 +71,7 @@
 		<div class="control-group ">
 			<?php echo CHtml::activeLabel($model,'untukkeperluan',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'untukkeperluan',array('placeholder'=>'Ketik Untuk Keperluan', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'untukkeperluan',array('placeholder'=>'Ketik Untuk Keperluan', 'class'=>'span3 custom-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 	</div>

@@ -134,21 +134,19 @@ class PengajuanPemotonganController extends MyAuthController
 
 	public function actionInformasi($no = null)
 	{
-		MyFunction::runAjaxF($this, $_POST);
+                //CustomFunction::runAjaxF($this, $_POST);
+		
+		$pengajuanPemotongan = new KOInfopengajuanpemotonganV;
+		//$pengajuanPemotongan->nopengajuan = $no;
 
-		$this->menuActive = array(5,5);
-		$this->pageTitle = 'ecoopsys - Informasi Pengajuan Pemotongan';
-		$pengajuanPemotongan = new InfopengajuanpemotonganV;
-		$pengajuanPemotongan->nopengajuan = $no;
+		$pengajuanPemotongan->tgl_awal = date('Y-m-d');
+		$pengajuanPemotongan->tgl_akhir = date('Y-m-d');
 
-		$pengajuanPemotongan->tglAwal = date('Y-m-01');
-		$pengajuanPemotongan->tglAkhir = date('Y-m-t');
-
-		if (isset($_GET['InfopengajuanpemotonganV'])) {
-			$pengajuanPemotongan->attributes = $_GET['InfopengajuanpemotonganV'];
-			if (!empty($_GET['InfopengajuanpemotonganV']['tglAwal'])) $pengajuanPemotongan->tglAwal = MyFormatter::formatDateForDb(($_GET['InfopengajuanpemotonganV']['tglAwal']));
-			if (!empty($_GET['InfopengajuanpemotonganV']['tglAkhir'])) $pengajuanPemotongan->tglAkhir = MyFormatter::formatDateForDb(($_GET['InfopengajuanpemotonganV']['tglAkhir']));
-			$pengajuanPemotongan->nopengajuan = $_GET['InfopengajuanpemotonganV']['nopengajuan'];
+		if (isset($_GET['KOInfopengajuanpemotonganV'])) {
+			$pengajuanPemotongan->attributes = $_GET['KOInfopengajuanpemotonganV'];			
+                        $pengajuanPemotongan->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['KOInfopengajuanpemotonganV']['tgl_awal']);
+                        $pengajuanPemotongan->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['KOInfopengajuanpemotonganV']['tgl_akhir']);
+			//$pengajuanPemotongan->nopengajuan = $_GET['InfopengajuanpemotonganV']['nopengajuan'];
 
 			//var_dump($pengajuanPemotongan->attributes); die;
 		}

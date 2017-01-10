@@ -121,6 +121,7 @@ class PemakaianObatController extends MyAuthController
 		$format = new MyFormatter();
 		$model = new FAPemakaianobatT();
 		$model->attributes = $postpemakaian;
+                $model->tglpemakaianobat = MyFormatter::formatDateTimeForDb($model->tglpemakaianobat);
 		$model->nopemakaian_obat = MyGenerator::noPemakaianObat();
 		$model->create_time = date("Y-m-d H:i:s");
 		$model->pegawai_id = Yii::app()->user->getState('pegawai_id'); //Yii::app()->user->id;
@@ -235,12 +236,14 @@ class PemakaianObatController extends MyAuthController
                 $obatalkes_nama = isset($term[0])?$term[0]:'';
                 $hargajual = isset($term[1])?$term[1]:'';
                 $criteria = new CDbCriteria();
+                $criteria->join = " JOIN stokobatalkes_t stok ON stok.obatalkes_id = t.obatalkes_id ";
                 $criteria->compare('LOWER(obatalkes_nama)', strtolower($obatalkes_nama), true);
                 if($hargajual!=''){
                     $criteria->addCondition('hargajual ='.$hargajual,'or');
                 }
                 $criteria->addCondition('obatalkes_farmasi = TRUE');
                 $criteria->addCondition('obatalkes_aktif = true');
+                $criteria->addCondition("stok.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
                 $criteria->order = 'obatalkes_nama';
                 $criteria->limit = 5;
                 $models = ObatalkesM::model()->with('sumberdana','satuankecil')->findAll($criteria);

@@ -77,6 +77,8 @@
  */
 class InformasibayaruangmukaV extends CActiveRecord
 {
+	
+	public $tgl_awal,$tgl_akhir;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -221,6 +223,8 @@ class InformasibayaruangmukaV extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->addBetweenCondition('tgluangmuka::date', $this->tgl_awal, $this->tgl_akhir);
+		
 		if(!empty($this->bayaruangmuka_id)){
 			$criteria->addCondition('bayaruangmuka_id = '.$this->bayaruangmuka_id);
 		}

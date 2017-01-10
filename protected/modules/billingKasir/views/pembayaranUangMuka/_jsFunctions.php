@@ -55,6 +55,8 @@ function setKunjungan(pendaftaran_id, no_pendaftaran, no_rekam_medik, pasienadmi
             }else{
                 $('#photo-preview').attr('src','<?php echo Params::urlPasienTumbsDirectory()."kecil_"?>'+data.photopasien);
             }
+			$("#BKTandabuktibayarT_carapembayaran").val(data.metode_pembayaran);
+			
             //uangmuka
             $("#<?php echo CHtml::activeId($modPemakaianuangmuka, 'totaluangmuka') ?>").val(data.jumlahuangmuka);
 
@@ -650,6 +652,8 @@ function setVerifikasi(){
         var pendaftaran_id=$("#pendaftaran_id").val();
         if(pendaftaran_id === ""){
             myAlert("Silahkan cari data kunjungan terlabih dahulu !");
+		} else if ($("#BKBayaruangmukaT_jumlahuangmuka").val().trim() == "0") {
+			myAlert("Uang muka tidak boleh nol.");
         }else{
             $('#dialog-verifikasi').dialog("open");
             $.ajax({

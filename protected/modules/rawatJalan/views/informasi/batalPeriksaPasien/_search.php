@@ -66,15 +66,23 @@
                                 1 => Params::PREFIX_RAWAT_INAP,
                                 2 => Params::PREFIX_RAWAT_JALAN
                             );                                            
-                        }else{
-                            if (count($pr[$ini->modul_key])>0){
-                                $prefix = array(
-                                    0 => $pr[$ini->modul_key]
-                                );
-                            }else{
-                                $prefix='';
-                            }
-                        }
+                        }elseif(Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_VERLOS_KAMER){
+                                            $prefix = array(
+                                                0 => Params::PREFIX_RAWAT_DARURAT,                                               
+                                            );
+                                        }else{
+                                            if (isset($pr[$ini->modul_key])){
+                                                if (count($pr[$ini->modul_key])>0){
+                                                    $prefix = array(
+                                                        0 => $pr[$ini->modul_key]
+                                                    );
+                                                }else{
+                                                    $prefix='';
+                                                }
+                                            }else{
+                                                $prefix='';
+                                            }
+                                        }
                         echo $form->dropDownList($model,'prefix_pendaftaran', PendaftaranT::model()->getColumn($prefix),array('class'=>'numbers-only', 'style'=>'width:75px;')); 
                     ?>
                     <?php echo $form->textField($model, 'no_pendaftaran', array('class' => 'span2 numbers-only', 'maxlength' => 10,'placeholder'=>'Ketik No. Pendaftaran')); ?>

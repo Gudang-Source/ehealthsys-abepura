@@ -170,6 +170,7 @@ class PemesananObatAlkesController extends MyAuthController{
             $obatalkes_id = $_POST['obatalkes_id'];
             $jumlah = $_POST['jumlah'];
             $tglkadaluarsa = $_POST['tglkadaluarsa'];
+            $stok = $_POST['stok'];
             $form = "";
             $pesan = "";
             $format = new MyFormatter();
@@ -182,11 +183,12 @@ class PemesananObatAlkesController extends MyAuthController{
                                 $modDetailPesanOA->tglkadaluarsa = $tglkadaluarsa;
 				$modDetailPesanOA->satuankecil_id = $modObatAlkes->satuankecil_id;
 				$modDetailPesanOA->sumberdana_id = $modObatAlkes->sumberdana_id;
+                                $modDetailPesanOA->stok = $stok;
 				$form = $this->renderPartial($this->path_view.'_rowDetailPemesanan', array('modDetail'=>$modDetailPesanOA), true);
 			}else{
 				$pesan = "Obat alkes tidak ada!";
 			}
-            echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan));
+            echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan, 'stok'=>$stok, 'jumlah' => $jumlah));
             Yii::app()->end(); 
         }
     }
@@ -222,6 +224,8 @@ class PemesananObatAlkesController extends MyAuthController{
         if(Yii::app()->request->isAjaxRequest) {
 	    $returnVal = array();
             $criteria = new CDbCriteria();
+            $criteria->join = "join ruanganpegawai_m p on p.pegawai_id = t.pegawai_id";
+            $criteria->addCondition("p.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
             $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
             $criteria->order = 'nama_pegawai';
             $criteria->limit = 5;
@@ -251,16 +255,20 @@ class PemesananObatAlkesController extends MyAuthController{
         {
 	    $returnVal = array();
             $criteria = new CDbCriteria();
-            $criteria->join = "JOIN sumberdana_m ON sumberdana_m.sumberdana_id = t.sumberdana_id 
-                            JOIN satuankecil_m ON satuankecil_m.satuankecil_id = t.satuankecil_id
-                            LEFT JOIN jenisobatalkes_m ON jenisobatalkes_m.jenisobatalkes_id = t.jenisobatalkes_id
-                            ";
+          //  $criteria->join = "JOIN sumberdana_m ON sumberdana_m.sumberdana_id = t.sumberdana_id 
+                //            JOIN satuankecil_m ON satuankecil_m.satuankecil_id = t.satuankecil_id
+               //             LEFT JOIN jenisobatalkes_m ON jenisobatalkes_m.jenisobatalkes_id = t.jenisobatalkes_id
+              //              ";
+            $criteria->join = " JOIN stokobatalkes_t stok ON stok.obatalkes_id = t.obatalkes_id ";
             $criteria->compare('LOWER(t.obatalkes_nama)', strtolower($_GET['term']), true);
-            $criteria->addCondition('obatalkes_farmasi = TRUE');
-            $criteria->addCondition('obatalkes_aktif = true');
+            $criteria->addCondition('t.obatalkes_farmasi = TRUE');
+            $criteria->addCondition('t.obatalkes_aktif = true');
+            $criteria->addCondition("stok.ruangan_id = '".$_GET['ruangan_id']."' ");
             $criteria->order = 'obatalkes_nama';
             $criteria->limit = 5;
-            $models = ObatalkesM::model()->findAll($criteria);
+            
+            //$models = ObatalkesM::model()->findAll($criteria);
+            $models = ObatalkesM::model()->with('sumberdana','satuankecil')->findAll($criteria);
             $format = new MyFormatter();
             foreach($models as $i=>$model)
             {
@@ -268,9 +276,10 @@ class PemesananObatAlkesController extends MyAuthController{
 
                 foreach($attributes as $j=>$attribute) {
                     $returnVal[$i]["$attribute"] = $model->$attribute;
-                }
-                $qty_stok = StokobatalkesT::getJumlahStok($model->obatalkes_id, Yii::app()->user->getState('ruangan_id'));
-                $returnVal[$i]['label'] = $model->obatalkes_kode." - ".$model->obatalkes_nama." - Harga ".$model->hargajual." - Jumlah Stok ".$qty_stok;
+                }//$_GET['ruangan_id']
+               // $qty_stok = StokobatalkesT::getJumlahStok($model->obatalkes_id, Yii::app()->user->getState('ruangan_id'));
+                $qty_stok = StokobatalkesT::getJumlahStok($model->obatalkes_id, $_GET['ruangan_id']);
+                $returnVal[$i]['label'] = $model->obatalkes_kode." - ".$model->obatalkes_nama." - Harga ".number_format($model->hargajual,0,',','.')." - Jumlah Stok ".$qty_stok;
                 $returnVal[$i]['value'] = $model->obatalkes_nama;
                 $returnVal[$i]['qty_stok'] = $qty_stok;
                 $returnVal[$i]['satuankecil_nama'] = $model->satuankecil->satuankecil_nama;

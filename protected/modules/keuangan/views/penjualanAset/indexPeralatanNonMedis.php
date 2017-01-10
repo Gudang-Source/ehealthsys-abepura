@@ -10,31 +10,38 @@
 )); ?>
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 	<legend class="rim2">Transaksi <b>Penjualan Aset Peralatan Non Medis</b></legend>
-	<div class="control-group">
-		<?php echo $form->labelEx($modAset, 'Tanggal penjualan <span class="required">*</span>', array('class' => 'control-label required')); ?>  
-		<div class="controls">
-			<?php $this->widget('MyDateTimePicker',array(
-				'model'=>$modAset,
-				'attribute'=>'[0]tglpenghapusan',
-				'mode'=>'date',
-				'options'=> array(
-					'dateFormat'=> 'MM yy',
-					'changeYear' => true,
-					'changeMonth' => true,
-					'changeDate' => false,
-					'showSecond' => false,
-					'showDate' => false,
-					'showMonth' => false,
-					// 'timeFormat' => 'hh:mm:ss',
-				),
-				'htmlOptions'=>array('readonly'=>true,
-					'onkeypress'=>"return $(this).focusNextInputField(event)",
-					'class'=>'dtPicker3',
-					'onChange'=>'ambilDataPenghapusanPeralatanNonMedis()',
-				),
-			)); ?> 
+	<fieldset class="box">
+        <legend class="rim">Pencarian Aset Peralatan Non Medis</legend>
+		<div class="control-group">
+			<?php echo $form->labelEx($modAset, 'Nama Peralatan', array('class' => 'control-label')); ?>  
+			<div class="controls">
+				<?php echo $form->textField($modAset, 'barang_nama'); ?>
+				<?php /* $this->widget('MyDateTimePicker',array(
+					'model'=>$modAset,
+					'attribute'=>'[0]tglpenghapusan',
+					'mode'=>'date',
+					'options'=> array(
+						'dateFormat'=> 'MM yy',
+						'changeYear' => true,
+						'changeMonth' => true,
+						'changeDate' => false,
+						'showSecond' => false,
+						'showDate' => false,
+						'showMonth' => false,
+						// 'timeFormat' => 'hh:mm:ss',
+					),
+					'htmlOptions'=>array('readonly'=>true,
+						'onkeypress'=>"return $(this).focusNextInputField(event)",
+						'class'=>'dtPicker3 tglpenghapusan',
+						'onChange'=>'ambilDataPenghapusanPeralatanNonMedis()',
+					),
+				)); */ ?> 
+			</div>
 		</div>
-	</div>
+		<div class="form-actions">
+			<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'ambilDataPenghapusanPeralatanNonMedis(); return false;')); ?>
+		</div>
+	</fieldset>
         
 <div id="div_tblInputUraian" class="block-tabel">
 	<h6>Tabel <b>Peralatan Non-Medis</b></h6>
@@ -49,7 +56,7 @@
                 <th>Nama Barang</th>
                 <th>Harga</th>
                 <th>Harga Jual Aktiva</th>
-                <th>&nbsp;</th>
+                <!--th>&nbsp;</th-->
             </tr>
         </thead>
         <tbody>

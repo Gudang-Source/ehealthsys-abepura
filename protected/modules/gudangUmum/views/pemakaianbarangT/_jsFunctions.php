@@ -24,8 +24,8 @@ function inputBarang(){
 				success:function(data){
 					$('#table-detailbarang > tbody').append(data);
 					$('#table-detailbarang').removeClass("animation-loading");
-					$("#table-detailbarang").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+					$("#table-detailbarang").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
 					renameInputRowBarang($("#table-detailbarang"));
 					clear();

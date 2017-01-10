@@ -34,6 +34,8 @@
                         }',
                 ),
                 'htmlOptions'=>array(
+                    'placeholder' => 'Ketik Nama Barang',
+                    'class' => 'custom-only',
                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                     'onblur' => 'if(this.value === "") $("#barang_id").val(""); '
                 ),

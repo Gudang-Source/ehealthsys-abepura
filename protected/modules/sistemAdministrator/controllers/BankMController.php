@@ -40,17 +40,39 @@ class BankMController extends MyAuthController {
 
 
 		if (isset($_POST['SABankM'])) {
+			$trans = Yii::app()->db->beginTransaction();
 			$model->attributes = $_POST['SABankM'];
 			$model->bank_aktif = TRUE;
 			if ($model->save()) {
+				if (isset($_POST['SABankM']['rekening'])) {
+					$this->simpanRekening($model, $_POST['SABankM']['rekening']);
+				}
+				$trans->commit();
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('create', 'sukses' => 1));
+				$this->redirect(array('admin', 'sukses' => 1));
+			} else {
+				$trans->rollback();
+				Yii::app()->user->setFlash('success', '<strong>Error!</strong> Data gagal disimpan.');
+				// $this->redirect(array('create', 'sukses' => 0));
 			}
 		}
 
 		$this->render($this->path_view . 'create', array(
 			'model' => $model,
 		));
+	}
+	
+	function simpanRekening($model, $post) {
+		// var_dump($post, $model->attributes);
+		foreach ($post as $item) {
+			$dat = new BankrekM;
+			$dat->attributes = $item;
+			$dat->bank_id = $model->bank_id;
+			$dat->debitkredit = $item['rekening5_nb'];
+			$dat->save();
+			//var_dump($dat->attributes, $dat->validate());
+		}
+		// die;
 	}
 
 	/**
@@ -60,23 +82,43 @@ class BankMController extends MyAuthController {
 	 */
 	public function actionUpdate($id, $sukses='') {
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-		$model = $this->loadModel($id);
+		//$model = $this->loadModel($id);
                  if ($sukses == 1):
                      Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                  endif;
 		// Uncomment the following line if AJAX validation is needed
+		$model = SABankM::model()->findByPk($id);
+		$modeld = BankrekM::model()->findByAttributes(array('bank_id'=>$id, 'debitkredit'=>'D'));
+		$modelk = BankrekM::model()->findByAttributes(array('bank_id'=>$id, 'debitkredit'=>'K'));
 
+		if (empty($modeld)) $modeld = new BankrekM ();
+		if (empty($modelk)) $modelk = new BankrekM ();
+		
+		
 
 		if (isset($_POST['SABankM'])) {
+			$trans = Yii::app()->db->beginTransaction();
 			$model->attributes = $_POST['SABankM'];
 			if ($model->save()) {
+				BankrekM::model()->deleteAllByAttributes(array(
+					'bank_id'=>$model->bank_id,
+				));
+				if (isset($_POST['SABankM']['rekening'])) {
+					$this->simpanRekening($model, $_POST['SABankM']['rekening']);
+				}
+				$trans->commit();
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array($this->path_view . 'admin', 'id' => $model->bank_id));
+				$this->redirect(array('admin', 'id' => $model->bank_id));
+			} else {
+				$trans->rollback();
+				Yii::app()->user->setFlash('success', '<strong>Error!</strong> Data gagal disimpan.');
 			}
 		}
 
 		$this->render($this->path_view . 'update', array(
-			'model' => $model,
+			'model'=>$model,
+			'modeld'=>$modeld,
+			'modelk'=>$modelk,
 		));
 	}
 
@@ -90,6 +132,7 @@ class BankMController extends MyAuthController {
 			// we only allow deletion via POST request
 			//if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 			$model = SABankRekM::model()->deleteAllByAttributes(array('bank_id' => $id));
+			BankM::model()->deleteByPk($id);
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if (!isset($_GET['ajax']))

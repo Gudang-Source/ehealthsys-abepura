@@ -28,9 +28,15 @@ echo CHtml::css('.control-label{
         border:1px solid;
     }
     .kertas{
-     width:20cm;
-     height:12cm;
+     width:100%;
     }
+	.table {
+		border: none;
+		box-shadow: none;
+	}
+	.table td {
+		padding: 2px;
+	}
 ');
 ?>  
 <?php
@@ -45,22 +51,28 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
 	<table class='table'>
     <tr>
         <td>
-            <b><?php echo CHtml::encode($modPemeliharaanAset->getAttributeLabel('pemeliharaanaset_no')); ?> :</b>
-            <?php echo isset($modPemeliharaanAset->pemeliharaanaset_no) ? $modPemeliharaanAset->pemeliharaanaset_no : "-"; ?>
-            <br />
-            <b>Tanggal Pemeliharaan Aset :</b>
-            <?php echo isset($modPemeliharaanAset->pemeliharaanaset_tgl) ? $format->formatDateTimeId($modPemeliharaanAset->pemeliharaanaset_tgl) : "-"; ?>
-             <br/>
+            <?php echo CHtml::encode($modPemeliharaanAset->getAttributeLabel('pemeliharaanaset_no')); ?>
         </td>
-        <td>
-            <b>Keterangan Pemeliharaan Aset :</b>
-			<?php echo !empty($modPemeliharaanAset->pemeliharaanaset_ket) ? $modPemakaianBarang->pemeliharaanaset_ket : "-"; ?>
-            <br />
+		<td>:</td>
+		<td width="100%">
+			<?php echo isset($modPemeliharaanAset->pemeliharaanaset_no) ? $modPemeliharaanAset->pemeliharaanaset_no : "-"; ?>
+		</td>
+		<td nowrap>
+			Tanggal Pemeliharaan Aset
+		</td>
+		<td>:</td>
+		<td nowrap>
+			<?php echo isset($modPemeliharaanAset->pemeliharaanaset_tgl) ? $format->formatDateTimeId($modPemeliharaanAset->pemeliharaanaset_tgl) : "-"; ?>
+		</td>
+	</tr>
+	<tr>
+        <td nowrap>
+            Keterangan Pemeliharaan Aset
         </td>
+		<td>:</td>
+		<td><?php echo !empty($modPemeliharaanAset->pemeliharaanaset_ket) ? $modPemakaianBarang->pemeliharaanaset_ket : "-"; ?></td>
     </tr>   
 	</table>
-	
-	<br/><br>
     <table width="100%" style='margin-left:auto; margin-right:auto;'>
         <thead class="border">
             <th class="border">Kode Barang</th>
@@ -102,15 +114,18 @@ if (isset($_GET['frame'])){
         <td width="100%" align="left" align="top">
             <table width="100%">
                 <tr>
-                    <td width="35%" align="center">
+                    <td width="33%" align="center">
                         <div>Mengetahui<br></div>
                         <div style="margin-top:60px;"><?php echo !empty($modPemeliharaanAset->pegmengetahui_id)?$modPemeliharaanAset->pegmengetahui->namaLengkap:"-"; ?></div>
                     </td>
-                    <td width="35%" align="center">
+                    <td width="33%" align="center">
+                        <div>Petugas 1:</div>
+                        <div style="margin-top:60px;"><?php echo !empty($modPemeliharaanAset->pegpetugas1_id)?$modPemeliharaanAset->pegpetugas1->namaLengkap:"-"; ?></div>
+                        <div></div>
                     </td>
-                    <td width="35%" align="center">
-                        <div>Dibuat Oleh :</div>
-                        <div style="margin-top:60px;"><?php echo Yii::app()->user->getState('nama_pegawai'); ?></div>
+                    <td width="34%" align="center">
+                        <div>Petugas 2:</div>
+                        <div style="margin-top:60px;"><?php echo !empty($modPemeliharaanAset->pegpetugas2_id)?$modPemeliharaanAset->pegpetugas2->namaLengkap:"-"; ?></div>
                         <div></div>
                     </td>
                 </tr>

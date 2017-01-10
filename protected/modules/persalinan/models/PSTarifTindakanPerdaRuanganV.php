@@ -1,7 +1,8 @@
 <?php
 class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 {   public $komponenunit_nama;
-	/**
+    public $jenistarif_id;
+   /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return TariftindakanperdaruanganV the static model class
@@ -45,6 +46,7 @@ class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
         
         public function searchTarifPrint() {
             $provider = $this->searchInformasi();
+            
             $provider->criteria->limit = -1;
             $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
             $provider->pagination = false;

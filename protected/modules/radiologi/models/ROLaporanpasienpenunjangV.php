@@ -12,6 +12,7 @@
  */
 class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 
+    public $jumlah;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -37,7 +38,7 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
     public static function criteriaGrafik($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
         $criteria->select = 'count(pendaftaran_id) as jumlah';
-        if ($_GET['filter'] == 'carabayar') {
+        if ($_GET['tampilGrafik'] == 'carabayar') {
             if (!empty($model->penjamin_id)) {
                 $criteria->select .= ', penjamin_nama as '.$type;
                 $criteria->group .= 'penjamin_nama';
@@ -48,7 +49,7 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
                 $criteria->select .= ', carabayar_nama as '.$type;
                 $criteria->group = 'carabayar_nama';
             }
-        } else if ($_GET['filter'] == 'wilayah') {
+        }elseif ($_GET['tampilGrafik'] == 'wilayah') {
             if (!empty($model->kelurahan_id)) {
                 $criteria->select .= ', kelurahan_nama as '.$type;
                 $criteria->group .= 'kelurahan_nama';
@@ -65,21 +66,26 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
                 $criteria->select .= ', propinsi_nama as '.$type;
                 $criteria->group .= 'propinsi_nama';
             }
+        }elseif ($_GET['tampilGrafik'] == 'kunjungan') {
+            $criteria->select .= ', kunjungan as '.$type;
+            $criteria->group .= 'kunjungan';
+        }elseif ($_GET['tampilGrafik'] == 'instalasiasal') {
+            $criteria->select .= ', instalasiasal_nama as '.$type;
+            $criteria->group .= 'instalasiasal_nama';
+        }elseif ($_GET['tampilGrafik'] == 'ruanganasal') {
+            $criteria->select .= ', ruanganasal_nama as '.$type;
+            $criteria->group .= 'ruanganasal_nama';
         }
 
-        if (!isset($_GET['filter'])){
-            $criteria->select .= ', propinsi_nama as '.$type;
-            $criteria->group .= 'propinsi_nama';
-        }
 
-        if (count($addCols) > 0){
+       /* if (count($addCols) > 0){
             if (is_array($addCols)){
                 foreach ($addCols as $i => $v){
                     $criteria->group .= ','.$v;
                     $criteria->select .= ','.$v.' as '.$i;
                 }
             }            
-        }
+        }*/
 
         return $criteria;
     }
@@ -89,9 +95,8 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-        $criteria = $this->criteriaGrafik($this, 'tick');
-        $criteria->select .= ', kunjungan as data';
-        $criteria->group .= ', kunjungan';
+        $criteria = $this->criteriaGrafik($this, 'data');
+        
         $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id);					
@@ -118,10 +123,23 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
-        if(!is_array($this->kunjungan)){
+        if (!is_array($this->kunjungan)){
             $this->kunjungan = 0;
+        }else{
+            $data = array();
+            foreach(  $this->kunjungan as $i => $values ){
+                                
+                if( $values == "KUNJUNGAN ULANG"){
+                    $data[]="KUNJUNGAN LAMA";
+                } else{
+                    $data[]=$values;
+                }
+            }                                            
+            $criteria->addInCondition('kunjungan', $data);
         }
-        $criteria->compare('kunjungan', $this->kunjungan);
+        if (!empty($this->ruanganasal_id)){
+            $criteria->addInCondition('ruanganasal_id', $this->ruanganasal_id);
+        }
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -148,9 +166,21 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 
         $criteria = new CDbCriteria;
         $format = new MyFormatter();
-        if(!is_array($this->kunjungan)){
+        if (!is_array($this->kunjungan)){
             $this->kunjungan = 0;
+        }else{
+            $data = array();
+            foreach(  $this->kunjungan as $i => $values ){
+                                
+                if( $values == "KUNJUNGAN ULANG"){
+                    $data[]="KUNJUNGAN LAMA";
+                } else{
+                    $data[]=$values;
+                }
+            }                                            
+            $criteria->addInCondition('kunjungan', $data);
         }
+        
         $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
@@ -196,9 +226,9 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 		if(!empty($this->shift_id)){
 			$criteria->addCondition("shift_id = ".$this->shift_id);					
 		}
-		if(!empty($this->ruanganasal_id)){
-			$criteria->addCondition("ruanganasal_id = ".$this->ruanganasal_id);					
-		}
+		//if(!empty($this->ruanganasal_id)){
+		//	$criteria->addCondition("ruanganasal_id = ".$this->ruanganasal_id);					
+		//}
         $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
 		if(!empty($this->jeniskasuspenyakit_id)){
 			$criteria->addCondition("jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);					
@@ -221,7 +251,7 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 		if(!empty($this->pasienadmisi_id)){
 			$criteria->addCondition("pasienadmisi_id = ".$this->pasienadmisi_id);					
 		}
-        $criteria->compare('kunjungan', $this->kunjungan);
+        
         $criteria->compare('LOWER(create_time)', strtolower($this->create_time), true);
         $criteria->compare('LOWER(update_time)', strtolower($this->update_time), true);
         $criteria->compare('LOWER(create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
@@ -263,7 +293,10 @@ class ROLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 			$criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);					
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
-        $criteria->addCondition('ruanganasal_id not in(21)');
+        
+        if (!empty($this->ruanganasal_id)){
+            $criteria->addInCondition('ruanganasal_id', $this->ruanganasal_id);
+        }
         return $criteria;
     }    
     

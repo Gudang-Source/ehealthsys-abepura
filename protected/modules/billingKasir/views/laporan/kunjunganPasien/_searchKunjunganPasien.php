@@ -19,7 +19,7 @@
             margin-top:5px;
         }
         #ruangan label{
-            width: 120px;
+            width: 170px;
             display:inline-block;
         }
         .nav-tabs>li>a{display:block; cursor:pointer;}
@@ -28,7 +28,7 @@
      <div class="span4">
                     <?php $format = new MyFormatter(); ?>
                     <?php echo CHtml::hiddenField('type', ''); ?>
-                    <?php echo CHtml::label('Tanggal Retur Pembayaran', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Periode Laporan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
                     </div>
@@ -139,7 +139,7 @@
                     <fieldset>
                         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                                     'id'=>'big',
-                                    'slide'=>false,
+                                    'slide'=>TRUE,
                                     'content'=>array(
                                         'content2'=>array(
                                         'header'=>'Berdasarkan Instalasi dan Ruangan',
@@ -182,7 +182,7 @@
                         <?php 
                             $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                                     'id'=>'kunjungan',
-                                    'slide'=>false,
+                                    'slide'=>true,
 //                                    'parent'=>false,
 //                                    'disabled'=>true,
 //                                    'accordion'=>false, //default
@@ -206,10 +206,10 @@
     </table>
     <div class="form-actions">
         <?php
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
         ?>
         <?php
-        echo CHtml::htmlButton(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
+        echo CHtml::htmlButton(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')),
                                                                         array('class'=>'btn btn-danger','onclick'=>'konfirmasi()','onKeypress'=>'return formSubmit(this,event)'));
         ?>
     </div>

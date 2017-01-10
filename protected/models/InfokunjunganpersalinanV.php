@@ -117,7 +117,8 @@
 class InfokunjunganpersalinanV extends CActiveRecord
 {
         public $kamarruangan_id;
-	/**
+        public $tgladmisi;
+        /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return InfokunjunganpersalinanV the static model class
@@ -500,5 +501,35 @@ class InfokunjunganpersalinanV extends CActiveRecord
         }
         public function getInstalasiRuangan(){
             return $this->instalasiasal_nama.'<br/>'.$this->ruanganasal_nama;
+        }
+        
+        public function searchDialogKunjungan()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+                $criteria->addCondition("ruangan_id = '".$this->ruangan_id."' ");
+                $criteria->compare("LOWER(no_pendaftaran)", strtolower($this->no_pendaftaran), TRUE);
+                $criteria->compare("LOWER(nama_pasien)", strtolower($this->nama_pasien), TRUE);
+                $criteria->compare("LOWER(no_rekam_medik)", strtolower($this->no_rekam_medik), TRUE);
+                $criteria->compare("LOWER(statusperiksa)", strtolower($this->statusperiksa), TRUE);
+               // $criteria->addBetweenCondition("tgl_pendaftaran::date", MyFormatter::formatDateTimeForDb($this->tgl_pendaftaran).' 00:00:00', MyFormatter::formatDateTimeForDb($this->tgl_pendaftaran).' 23:59:59');
+                if (!empty($this->jeniskelamin)){
+                    $criteria->addCondition("jeniskelamin = '".$this->jeniskelamin."' ");
+                }               
+                 if (!empty($this->carabayar_id)){
+                    $criteria->addCondition("carabayar_id = '".$this->carabayar_id."' ");
+                }    
+		 if (!empty($this->penjamin_id)){
+                    $criteria->addCondition("penjamin_id = '".$this->penjamin_id."' ");
+                }  
+		
+		$criteria->limit = 10;
+
+		return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+                    //'pagination'=>false,
+            ));
         }
 }

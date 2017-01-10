@@ -47,7 +47,8 @@
             <?php echo $form->labelEx($modTandabukti,'tglbuktibayar', array('class'=>'control-label inline','style'=>'font-weight:bold;')) ?>
             <div class="controls">
                 <?php   
-                        $this->widget('MyDateTimePicker',array(
+				echo $form->textField($modTandabukti, 'tglbuktibayar', array('class'=>'realtime span2'));
+                        /* $this->widget('MyDateTimePicker',array(
                                         'model'=>$modTandabukti,
                                         'attribute'=>'tglbuktibayar',
                                         'mode'=>'datetime',
@@ -57,8 +58,10 @@
                                         ),
                                         'htmlOptions'=>array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                         ),
-                )); ?>
-
+                ));
+						 *  
+						 */
+				?>
             </div>
         </div>
     </div>

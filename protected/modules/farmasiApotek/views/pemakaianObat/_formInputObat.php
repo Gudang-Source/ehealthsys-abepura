@@ -2,7 +2,7 @@
         <div class="control-group ">
             <?php echo CHtml::hiddenField('obatalkes_id'); ?>
             <?php echo CHtml::hiddenField('obatalkes_kode'); ?>
-            <label class="control-label" for="namaObat">Nama Obat</label>
+            <label class="control-label" for="namaObat">Nama Obat & Alkes</label>
             <div class="controls">
                 <?php
                 $this->widget('MyJuiAutoComplete', array(
@@ -30,7 +30,7 @@
                                                     }',
                     ),
                     'tombolDialog' => array('idDialog' => 'dialogObat', 'idTombol' => 'tombolDialogOa'),
-                    'htmlOptions' => array("rel" => "tooltip", "title" => "Pencarian Data Obat/Alkes",'class'=>'span3', 'onkeypress' => "return $(this).focusNextInputField(event)"),
+                    'htmlOptions' => array("rel" => "tooltip", "title" => "Pencarian Data Obat/Alkes",'class'=>'span3 custom-only', 'onkeypress' => "return $(this).focusNextInputField(event)"),
                 ));
                 ?>
             </div>
@@ -41,13 +41,13 @@
 	<div class="control-group ">
 		<label class="control-label" for="qty">Jumlah</label>
 		<div class="controls">
-			<?php echo CHtml::textField('qtyNonRacik', '1', array('readonly' => false, 'onblur' => '$("#qty").val(this.value);', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'inputFormTabel span1 numbers-only')) ?>
+			<?php echo CHtml::textField('qtyNonRacik', '1', array('readonly' => false, 'onblur' => '$("#qty").val(this.value);', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'inputFormTabel span1 numbers-only', 'style' => 'text-align:right;')) ?>
 			<?php
 			echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', array('onclick' => 'tambahObat(this);return false;',
 				'class' => 'btn btn-primary',
 				'onkeypress' => "tambahObat(this);return false;",
 				'rel' => "tooltip",
-				'title' => "Klik untuk menambahkan resep",));
+				'title' => "Klik untuk menambahkan Obat & Alkes",));
 			?>
 		</div>
 	</div>

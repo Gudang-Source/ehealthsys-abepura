@@ -339,7 +339,7 @@ class PembayaranTagihanPasienPenunjangController extends PembayaranTagihanPasien
                         foreach($modRuangans AS $i => $ruangan){
                             $ruangan_ids[$i] = $ruangan->ruangan_id;
                         }
-                        $criteria->addInCondition("ruangan_id", $ruangan_ids);
+                        // $criteria->addInCondition("ruangan_id", $ruangan_ids);
                     }
                 }
                 $modPasienMasukPenunjangs = BKPasienmasukpenunjangV::model()->findAll($criteria);

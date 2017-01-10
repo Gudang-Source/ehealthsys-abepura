@@ -1,5 +1,5 @@
 <div class="control-group ">
-    <?php echo CHtml::label('Nama Obat & Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
+    <?php echo CHtml::label('Nama Obat & Alat Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
     <div class="controls">
         <?php echo CHtml::hiddenField('obatalkes_id'); ?>
         <?php echo CHtml::hiddenField('obatalkes_kode'); ?>
@@ -55,7 +55,7 @@
 </div>
 
 <div class="control-group ">
-    <?php echo CHtml::label('jumlah', 'qty_input', array('class'=>'control-label')); ?>
+    <?php echo CHtml::label('Jumlah', 'qty_input', array('class'=>'control-label')); ?>
     <div class="controls">
         <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer')) ?>
         <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
@@ -63,7 +63,7 @@
                       'class'=>'btn btn-primary',
                       'onkeyup'=>"tambahObatAlkesPasien(this);",
                       'rel'=>"tooltip",
-                      'title'=>"Klik untuk menambahkan resep",)); ?>
+                      'title'=>"Klik untuk menambahkan Obat & Alkes",)); ?>
     </div>
 </div>
 
@@ -135,7 +135,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'empty'=>'-- Pilih --'
                     ))
                 ),
-                'obatalkes_nama',
+                array(
+                    'header' => 'Nama Obat Alkes',
+                    'name' => 'obatalkes_nama',
+                    'filter' => Chtml::activeTextField($modObatAlkes, 'obatalkes_nama', array('class' => 'custom-only'))
+                ),
+                
                 /*
                 array(
                     'name'=>'satuankecil_id',
@@ -162,7 +167,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
                 
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+    . '$(".custom-only").keyup(function(){'
+    . ' setCustomOnly(this);'
+    . '});'
+    . '}',
 )); 
 
 $this->endWidget();

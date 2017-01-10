@@ -5,7 +5,7 @@ class InformasiTarifController extends MyAuthController
 	public function actionIndex()
 	{
 		$modTarifTindakanRuanganV = new RITarifTindakanPerdaRuanganV('search');
-		$modTarifTindakanRuanganV->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
+		//$modTarifTindakanRuanganV->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
 		if(isset($_GET['RITarifTindakanPerdaRuanganV'])){
 			$modTarifTindakanRuanganV->attributes=$_GET['RITarifTindakanPerdaRuanganV'];
 		}

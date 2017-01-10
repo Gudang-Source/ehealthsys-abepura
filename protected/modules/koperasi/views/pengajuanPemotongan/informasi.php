@@ -1,3 +1,4 @@
+<div class="white-container">
 <?php
 /* @var $this PengajuanPemotonganController */
 
@@ -5,37 +6,41 @@ $this->breadcrumbs=array(
 	'Pengajuan Pemotongan'=>array('/pinjaman/pengajuanPemotongan'),
 	'Informasi',
 );
+Yii::app()->clientScript->registerScript('search', "
+	$('#informasi-pengajuanpemotongan-form').submit(function(){
+		$.fn.yiiGridView.update('pengajuanpemotongan-m-grid', {
+			data: $(this).serialize()
+		});
+		return false;
+	});
+");
 ?>
-<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
-	'id'=>'informasi-pengajuanpemotongan-form',
-	'enableAjaxValidation'=>false,
-	'type'=>'horizontal',
-	'focus' => '#adcontact-form div.form-group:first-child div input',
-	'htmlOptions'=>array('class'=>'form-groups-bordered','onKeyPress'=>'return disableKeyPress(event);', //, 'onsubmit'=>'return requiredCheck(this);', 
-	'enctype' => 'multipart/form-data'),
-)); ?>
-<div class="col-md-12">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<div class="panel-title">
-				Informasi Pengajuan Pemotongan
-			</div>
-		</div>
-		<div class="panel-body" style="text-align: center">
-			<?php echo $this->renderPartial('subview/_pencarianInformasi', array('form'=>$form, 'pengajuanPemotongan'=>$pengajuanPemotongan)); ?>
-			<?php echo $this->renderPartial('subview/_tabelInformasi', array('form'=>$form, 'pengajuanPemotongan'=>$pengajuanPemotongan)); ?>
-		</div>
-		<div class="panel-footer" style="text-align:center">
-			<?php  echo Chtml::link('<i class="entypo-print"></i> Print','#', array('class' => 'btn btn-success', 'onclick'=>'iPrint(); return false;')); ?>
-		</div>
-	</div>
+
+
+<legend class="rim2">Informasi <b>Pengajuan Pemotongan</b></legend>
+<div class="col-md-12">			
+    <div class="block-tabel">
+        <h6>Informasi <b>Pengajuan Pemotongan</b></h6>
+            <?php echo $this->renderPartial('subview/_tabelInformasi', array('pengajuanPemotongan'=>$pengajuanPemotongan)); ?>
+    </div>
 </div>
-<?php $this->endWidget(); ?>
+     <fieldset class="box search-form">
+        <legend class="rim"><i class="entypo-search"></i> Pencarian</legend> 
+            <?php echo $this->renderPartial('subview/_pencarianInformasi', array('pengajuanPemotongan'=>$pengajuanPemotongan)); ?>
+     </fieldset>
+			
+		<!--</div>-->
+		<div class="panel-footer" style="text-align:center">
+			<?php  //echo Chtml::link('<i class="entypo-print"></i> Print','#', array('class' => 'btn btn-success', 'onclick'=>'iPrint(); return false;')); ?>
+		</div>
+	<!--</div>
+</div>-->
+
 <?php $urlPrint = $this->createUrl('printInformasi'); ?>
 <script type="text/javascript">
-	$("#btn-cari").click(function() {
-		$.fn.yiiGridView.update('pengajuanpemotongan-m-grid', {data:$("#panel-pencarian :input").serialize()});
-	});
+	//$("#btn-cari").click(function() {
+		//$.fn.yiiGridView.update('pengajuanpemotongan-m-grid', {data:$("#panel-pencarian :input").serialize()});
+//	});
 	function iPrint() {
 		var url = ($("#panel-pencarian :input").serialize()); //.split('&');
 		//url.shift();
@@ -44,3 +49,4 @@ $this->breadcrumbs=array(
 		//window.open('<?php echo $urlPrint; ?>&' + url, "print", "width=800,height=600");
 	}
 </script>
+</div>

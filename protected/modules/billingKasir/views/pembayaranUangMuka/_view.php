@@ -5,7 +5,10 @@
             <?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
                 'data'=>$modKunjungan,
                 'attributes'=>array(
-                    'instalasi_nama',
+					array(
+						'label'=>'Instalasi',
+						'name'=>'instalasi_nama',
+					),
                     'no_pendaftaran',
                     array(
                         'name'=>'tgl_pendaftaran',
@@ -17,19 +20,31 @@
                         'value'=>$modKunjungan->ruangan_nama,
                     ),
                     'kelaspelayanan_nama',
-                    'jeniskasuspenyakit_nama',
+                    array(
+						'label'=>'Jenis Kasus Penyakit',
+						'name'=>'jeniskasuspenyakit_nama',
+					),
+					array(
+						'label'=>'Penjamin',
+						'name'=>'penjamin_nama',
+					),
     //                'carabayar_nama',
-                    'penjamin_nama',
                     'no_rekam_medik',
                     'nama_pasien',
     //                'nama_bin',
-                    'jeniskelamin',
+					array(
+						'label'=>'Jenis Kelamin',
+						'name'=>'jeniskelamin',
+					),
                     array(
                         'name'=>'tanggal_lahir',
                         'value'=>MyFormatter::formatDateTimeForUser($modKunjungan->tanggal_lahir),
                     ),
     //                'umur',
-                    'nama_pj',
+					array(
+						'label'=>'Penanggung Jawab',
+						'name'=>'nama_pj',
+					),
     //                array(
     //                    'name'=>'pengantar',
     //                    'label'=>'Status Penanggung Jawab',

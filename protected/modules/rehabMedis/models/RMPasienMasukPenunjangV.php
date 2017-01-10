@@ -103,6 +103,12 @@ class RMPasienMasukPenunjangV extends PasienmasukpenunjangV
 			if (!empty($this->ruangan_id)){
 				$criteria->addCondition('ruangan_id ='.$this->ruangan_id);
 			}
+                        if (!empty($this->ruanganasal_id)){
+				$criteria->addCondition('ruanganasal_id ='.$this->ruanganasal_id);
+			}
+                         if (!empty($this->instalasiasal_id)){
+				$criteria->addCondition('instalasiasal_id ='.$this->instalasiasal_id);
+			}
             $criteria->compare('LOWER(nama_pegawai)',($this->nama_pegawai));
             $criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
             $criteria->compare('LOWER(pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);

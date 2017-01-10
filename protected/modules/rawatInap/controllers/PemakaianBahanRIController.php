@@ -21,10 +21,19 @@ class PemakaianBahanRIController extends PemakaianBahanController
         $dataOas = array();
 
         if(!empty($pasienadmisi_id)){
-            $modKunjungan= RIInfopasienmasukkamarV::model()->findByAttributes(array('pasienadmisi_id'=>$pasienadmisi_id));
-            $modKunjungan->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modKunjungan->tgl_pendaftaran);
-            $modKunjungan->tgladmisi = MyFormatter::formatDateTimeForUser($modKunjungan->tgladmisi);
-            $modKunjungan->tanggal_lahir = MyFormatter::formatDateTimeForUser($modKunjungan->tanggal_lahir);
+            if (Yii::app()->user->getState('instalasi_id') != Params::INSTALASI_ID_RD){
+                $modKunjungan= RIInfopasienmasukkamarV::model()->findByAttributes(array('pasienadmisi_id'=>$pasienadmisi_id));
+                $modKunjungan->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modKunjungan->tgl_pendaftaran);
+                $modKunjungan->tgladmisi = MyFormatter::formatDateTimeForUser($modKunjungan->tgladmisi);
+                $modKunjungan->tanggal_lahir = MyFormatter::formatDateTimeForUser($modKunjungan->tanggal_lahir);
+            }else{
+                $modKunjungan= InfokunjunganpersalinanV::model()->findByAttributes(array('pasienadmisi_id'=>$pasienadmisi_id));
+                $modKunjungan->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modKunjungan->tgl_pendaftaran);
+                $a = PasienadmisiT::model()->findByPk($modKunjungan->pasienadmisi_id);
+                $modKunjungan->tgladmisi = (count($a)>0)?MyFormatter::formatDateTimeForUser($a->tgladmisi):null;
+                $modKunjungan->tanggal_lahir = MyFormatter::formatDateTimeForUser($modKunjungan->tanggal_lahir);
+                
+            }
         }
         
         if(isset($_POST['LBObatalkespasienT'])){
@@ -82,7 +91,7 @@ class PemakaianBahanRIController extends PemakaianBahanController
                     // var_dump($this->obatalkespasientersimpan&&$this->stokobatalkestersimpan); die;
                     if($this->obatalkespasientersimpan&&$this->stokobatalkestersimpan){
                         $transaction->commit();
-                        $this->redirect(array('index','pasienadmisi_id'=>$modPasienAdmisi->pasienadmisi_id,'sukses'=>1));
+                        $this->redirect(array('index','pasienadmisi_id'=>$modPasienAdmisi->pasienadmisi_id,'pendaftaran_id'=>$modPasienAdmisi->pendaftaran_id,'sukses'=>1));
                     }else{
                         $transaction->rollback();
                         Yii::app()->user->setFlash('error',"Data pemakaian BMHP gagal disimpan !");
@@ -214,7 +223,11 @@ class PemakaianBahanRIController extends PemakaianBahanController
             $returnVal = array();
             $returnVal['pesan'] = "";
             $criteria = new CDbCriteria();
-            $model = $this->loadModPasienRawatInap($_POST['pasienadmisi_id']);
+            if (Yii::app()->user->getState('instalasi_id') != Params::INSTALASI_ID_RD){
+                $model = $this->loadModPasienRawatInap($_POST['pasienadmisi_id']);
+            }else{
+                $model = $this->loadModPasienPersalinan($_POST['pasienadmisi_id'], $_POST['pendaftaran_id']);
+            }
             if(isset($model)){
                 $loadHasilPemeriksaan = LBHasilPemeriksaanLabT::model()->findByAttributes(array('pasienadmisi_id'=>$model->pasienadmisi_id));
                 if(isset($loadHasilPemeriksaan)){
@@ -230,7 +243,12 @@ class PemakaianBahanRIController extends PemakaianBahanController
             }
             $returnVal["tanggal_lahir"] = $format->formatDateTimeForUser($model->tanggal_lahir);
             $returnVal["tgl_pendaftaran"] = $format->formatDateTimeForUser($model->tgl_pendaftaran);
-            $returnVal["tgladmisi"] = $format->formatDateTimeForUser($model->tgladmisi);
+            if (Yii::app()->user->getState('instalasi_id') != Params::INSTALASI_ID_RD){
+                $returnVal["tgladmisi"] = (!empty($model->tgladmisi))?$format->formatDateTimeForUser($model->tgladmisi):'';
+            }else{
+                $a = PasienadmisiT::model()->findByPk($model->pasienadmisi_id);
+                $returnVal["tgladmisi"] = (count($a)>0)?$format->formatDateTimeForUser($a->tgladmisi):'';
+            }
             echo CJSON::encode($returnVal);
         }
         Yii::app()->end();
@@ -247,6 +265,17 @@ class PemakaianBahanRIController extends PemakaianBahanController
             return $model;
     }
     
+    public function loadModPasienPersalinan($pasienadmisi_id, $pendaftaran_id){
+            $criteria=new CDbCriteria;
+            if (!empty($pasienadmisi_id)){
+                $criteria->addCondition("t.pasienadmisi_id = ".$pasienadmisi_id);
+            }else{
+                $criteria->addCondition("t.pendaftaran_id = ".$pendaftaran_id);
+            }
+            $model = InfokunjunganpersalinanV::model()->find($criteria);
+            return $model;
+    }
+    
     /**
      * set LKTindakanpelayananT yang sudah ada di database
      * @params pasienmasukpenunjang_id
@@ -255,7 +284,12 @@ class PemakaianBahanRIController extends PemakaianBahanController
         if(Yii::app()->request->isAjaxRequest) {
             $format = new MyFormatter();
             $rows = "";
-            $loadOaPasiens = RIObatalkespasienT::model()->findAllByAttributes(array('pasienadmisi_id'=>$_POST['pasienadmisi_id']));
+            if (!empty($_POST['pasienadmisi_id'])){
+                $loadOaPasiens = RIObatalkespasienT::model()->findAllByAttributes(array('pasienadmisi_id'=>$_POST['pasienadmisi_id']));
+            }else{
+                $loadOaPasiens = RIObatalkespasienT::model()->findAllByAttributes(array('pendaftaran_id'=>$_POST['pendaftaran_id']));
+            }
+            
             if(count($loadOaPasiens) > 0){
                 foreach($loadOaPasiens AS $i => $modObatAlkesPasien){
                     $modObatAlkesPasien->tglpelayanan = $format->formatDateTimeForUser($modObatAlkesPasien->tglpelayanan);
@@ -271,11 +305,15 @@ class PemakaianBahanRIController extends PemakaianBahanController
         Yii::app()->end();
     }
     
-    public function actionPrint($pasienadmisi_id) 
+    public function actionPrint($pasienadmisi_id, $pendaftaran_id=null) 
     {
         $this->layout='//layouts/printWindows';
         $format = new MyFormatter;    
-        $modPasienAdmisi = RIInfopasienmasukkamarV::model()->findByAttributes(array('pasienadmisi_id'=>$pasienadmisi_id));     
+        if (Yii::app()->user->getState('instalasi_id') != Params::INSTALASI_ID_RD){
+            $modPasienAdmisi = RIInfopasienmasukkamarV::model()->findByAttributes(array('pasienadmisi_id'=>$pasienadmisi_id));     
+        }else{
+            $modPasienAdmisi = InfokunjunganpersalinanV::model()->findByAttributes(array('pasienadmisi_id'=>$pasienadmisi_id));     
+        }
         $modObatAlkesPasien = RIObatalkespasienT::model()->findAllByAttributes(array('pasienadmisi_id'=>$pasienadmisi_id));
 
         $judul_print = 'Pemakaian Bahan '.$modPasienAdmisi->ruangan_nama;

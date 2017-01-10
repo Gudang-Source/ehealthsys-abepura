@@ -23,7 +23,7 @@ class MAInvperalatanT extends InvperalatanT
     {
         $criteria = new CDbCriteria();
         $criteria->with = array('barang');
-        $criteria->addBetweenCondition('t.tglpenghapusan', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('t.tglpenghapusan::date', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(t.invperalatan_kode)', strtolower($this->invperalatan_kode), TRUE);        
         $criteria->compare('LOWER(t.invperalatan_noregister)', strtolower($this->invperalatan_noregister), TRUE);
         $criteria->compare('LOWER(barang.barang_nama)', strtolower($this->barang_nama), TRUE);
@@ -40,7 +40,7 @@ class MAInvperalatanT extends InvperalatanT
     {
         $criteria = new CDbCriteria();
         $criteria->with = array('barang');
-        $criteria->addBetweenCondition('t.tglpenghapusan', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('t.tglpenghapusan::date', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(t.invperalatan_kode)', strtolower($this->invperalatan_kode), TRUE);        
         $criteria->compare('LOWER(t.invperalatan_noregister)', strtolower($this->invperalatan_noregister), TRUE);
         $criteria->compare('LOWER(barang.barang_nama)', strtolower($this->barang_nama), TRUE);
@@ -57,7 +57,7 @@ class MAInvperalatanT extends InvperalatanT
     {
         $criteria = new CDbCriteria();
         $criteria->with = array('barang');
-        $criteria->addBetweenCondition('t.tglpenghapusan', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('t.tglpenghapusan::date', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(t.invperalatan_kode)', strtolower($this->invperalatan_kode), TRUE);        
         $criteria->compare('LOWER(t.invperalatan_noregister)', strtolower($this->invperalatan_noregister), TRUE);
         $criteria->compare('LOWER(barang.barang_nama)', strtolower($this->barang_nama), TRUE);

@@ -50,23 +50,31 @@
                     ),
                                     array(
                             'name'=>'pemilikbarang_id',
-                            'filter'=>  CHtml::listData($model->PemilikItems, 'pemilikbarang_id', 'pemilikbarang_nama'),
+                            'filter'=>  CHtml::activeDropDownList($model, 'pemilikbarang_id', 
+								CHtml::listData($model->PemilikItems, 'pemilikbarang_id', 'pemilikbarang_nama'),
+								array('empty'=>'-- Pilih --')),
                             'value'=>'$data->pemilik->pemilikbarang_nama',
                     ),
                                     array(
                             'name'=>'barang_id',
-                            'filter'=>  CHtml::listData($model->BarangItems, 'barang_id', 'barang_nama'),
+                            'filter'=>  CHtml::activeDropDownList($model, 'barang_id', 
+								CHtml::listData($model->BarangItems, 'barang_id', 'barang_nama'),
+								array('empty'=>'-- Pilih --')),
                             'value'=>'$data->barang->barang_nama',
 
                     ),
                                     array(
                             'name'=>'asalaset_id',
-                            'filter'=>  CHtml::listData($model->AsalAsetItems, 'asalaset_id', 'asalaset_nama'),
+                            'filter'=>  CHtml::activeDropDownList($model, 'asalaset_id', 
+								CHtml::listData($model->AsalAsetItems, 'asalaset_id', 'asalaset_nama'),
+								array('empty'=>'-- Pilih --')),
                             'value'=>'isset($data->asalaset_id)?$data->asal->asalaset_nama:" - "',
                     ),
-                                    array(
+                    array(
                             'name'=>'lokasi_id',
-                            'filter'=>  CHtml::listData($model->LokasiAsetItems, 'lokasi_id', 'lokasiaset_namalokasi'),
+                            'filter'=>  CHtml::activeDropDownList($model, 'lokasi_id', 
+								CHtml::listData($model->LokasiAsetItems, 'lokasi_id', 'lokasiaset_namalokasi'),
+								array('empty'=>'-- Pilih --')),
 							'value'=>'isset($data->lokasi_id)?$data->lokasi->lokasiaset_namalokasi:" - "',
                     ),
                     array(

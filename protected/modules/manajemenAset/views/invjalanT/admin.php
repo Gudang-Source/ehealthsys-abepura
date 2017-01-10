@@ -74,9 +74,18 @@
                     'invjalan_noregister',
                     'invjalan_namabrg',
                     'invjalan_kontruksi',
-                    'invjalan_panjang',
-                    'invjalan_lebar',
-                    'invjalan_luas',
+					array(
+						'header'=>'Panjang (m)',
+						'name'=>'invjalan_panjang',
+					),
+					array(
+						'header'=>'Lebar (m)',
+						'name'=>'invjalan_lebar',
+					),
+					array(
+						'header'=>'Luas (m2)',
+						'name'=>'invjalan_luas',
+					),
                     //'invjalan_letak',
                     //'invjalan_tgldokumen',
                     'invjalan_tglguna',

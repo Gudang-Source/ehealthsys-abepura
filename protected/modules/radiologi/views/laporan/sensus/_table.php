@@ -25,20 +25,26 @@
                 'value' => '$row+1'
             ),
             array(
-                'header'=>'No. Rekam Medik /<br/> No. Pendaftaran',
+                'header'=>'Tanggal Pendaftaran/<br/> No. Pendaftaran',
                 'type'=>'raw',
-                'value'=>'$data->noRMNoPend',
+                'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran',
             ),   
-            array(
-                'header'=>'Nama Pasien / Alias',
-                'value'=>'$data->NamaNamaBIN',
-            ),
-//            'NamaNamaBIN',
             array(
                 'header'=>'Tanggal Masuk Penunjang /<br/> No. Penunjang',
                 'type'=>'raw',
                 'value'=>'$data->TglMasukNoPenunjang',
             ),
+            array(
+                'header'=>'No. Rekam Medik',
+                'type'=>'raw',
+                'value'=>'$data->no_rekam_medik',
+            ),   
+            array(
+                'header'=>'Nama Pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
+            ),
+//            'NamaNamaBIN',
+            
             array(
                 'header'=>'Jenis Kelamin /<br/>Umur',
                 'type'=>'raw',

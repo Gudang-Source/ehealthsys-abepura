@@ -70,8 +70,8 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
         // should not be searched.
 
         $criteria=new CDbCriteria;
-                $criteria->select = 't.tgl_pendaftaran, t.no_rekam_medik,t.no_pendaftaran,t.nama_pasien,t.nama_bin,t.carabayar_nama,t.nama_pegawai,t.jeniskasuspenyakit_nama,t.pendaftaran_id,t.pembayaranpelayanan_id,t.pembayaranpelayanan_id';
-        $criteria->group = 't.tgl_pendaftaran, t.no_rekam_medik,t.no_pendaftaran,t.nama_pasien,t.nama_bin,t.carabayar_nama,t.nama_pegawai,t.jeniskasuspenyakit_nama,t.pendaftaran_id,t.pembayaranpelayanan_id,t.pembayaranpelayanan_id';
+                $criteria->select = 't.gelardepan, t.gelarbelakang_nama, t.penjamin_nama ,t.namadepan, t.tgl_pendaftaran, t.no_rekam_medik,t.no_pendaftaran,t.nama_pasien,t.nama_bin,t.carabayar_nama,t.nama_pegawai,t.jeniskasuspenyakit_nama,t.pendaftaran_id,t.pembayaranpelayanan_id,t.pembayaranpelayanan_id';
+        $criteria->group = 't.gelardepan, t.gelarbelakang_nama, t.penjamin_nama ,t.namadepan, t.tgl_pendaftaran, t.no_rekam_medik,t.no_pendaftaran,t.nama_pasien,t.nama_bin,t.carabayar_nama,t.nama_pegawai,t.jeniskasuspenyakit_nama,t.pendaftaran_id,t.pembayaranpelayanan_id,t.pembayaranpelayanan_id';
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id = '.$this->pasien_id);
 		}
@@ -387,9 +387,15 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
             $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
             $criteria->compare('LOWER(t.pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
             $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+            $criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
             $criteria->order = 't.tglmasukpenunjang DESC';
             $criteria->join = 'join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id';
-            
+            if (!empty($this->instalasiasal_id)){
+                $criteria->addCondition(" t.instalasiasal_id = '".$this->instalasiasal_id."' ");
+            }
+            if (!empty($this->ruanganasal_id)){
+                $criteria->addCondition(" t.ruanganasal_id = '".$this->ruanganasal_id."' ");
+            }
             $criteria->addCondition('p.pasienbatalperiksa_id is null');
             $criteria->limit = 10;
             return new CActiveDataProvider($this, array(

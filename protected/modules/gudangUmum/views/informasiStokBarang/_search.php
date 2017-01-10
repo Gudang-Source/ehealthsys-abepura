@@ -7,18 +7,18 @@
 <div class="row-fluid">
 	<div class="span4">
 		<?php echo $form->dropDownListRow($model,'barang_type',  LookupM::getItems('barangumumtype'),array('class'=>'span3','empty'=>'-- Pilih --')); ?>
-		<?php echo $form->textFieldRow($model,'barang_kode',array('class'=>'span3')); ?>
-		<?php echo $form->textFieldRow($model,'barang_nama',array('class'=>'span3')); ?>
+		<?php echo $form->textFieldRow($model,'barang_kode',array('class'=>'span3 custom-only')); ?>
+		<?php echo $form->textFieldRow($model,'barang_nama',array('class'=>'span3 custom-only')); ?>
 
 	</div>
 	<div class="span4">
-		<?php echo $form->textFieldRow($model,'barang_merk',array('class'=>'span3')); ?>
-		<?php echo $form->textFieldRow($model,'barang_noseri',array('class'=>'span3')); ?>
-		<?php echo $form->textFieldRow($model,'barang_ukuran',array('class'=>'span3')); ?>
+		<?php echo $form->textFieldRow($model,'barang_merk',array('class'=>'span3 hurufs-only')); ?>
+		<?php echo $form->textFieldRow($model,'barang_noseri',array('class'=>'span3 angkahuruf-only')); ?>
+		<?php echo $form->textFieldRow($model,'barang_ukuran',array('class'=>'span3 angkahuruf-only')); ?>
 
 	</div>
 	<div class="span4">
-		<?php echo $form->textFieldRow($model,'barang_thnbeli',array('class'=>'span3')); ?>
+		<?php echo $form->textFieldRow($model,'barang_thnbeli',array('class'=>'span3 numbers-only', 'maxlength' => 4)); ?>
 		
 		<?php
 		echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('disabled'=>$disabled,'empty' => '-- Pilih --', 'class' => 'span3',

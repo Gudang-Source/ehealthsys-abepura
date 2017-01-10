@@ -311,8 +311,17 @@ class InformasikamarController extends MyAuthController {
                     $dataRuangan ='';
 					
                         if (count($ruangan) == 1){
+                            if (!empty($ruangan->ruangan_image)){
+                                if (file_exists(Params::pathKamarRuanganDirectory().$ruangan->ruangan_image)){
+                                    $file_exist = $ruangan->ruangan_image;
+                                }else{
+                                    $file_exist = 'no_photo.jpeg';                                
+                                }
+                            }else{
+                                $file_exist = 'no_photo.jpeg';                                
+                            }
                             $dataRuangan .='<table width=\'300\'>';
-                            $dataRuangan .='<tr><td rowspan=2><img src=\''.Yii::app()->baseUrl.'/images/'.$ruangan->ruangan_image.'\' class=\'image_ruangan\'></td><td>Fasilitas</td><td>'.((!empty($ruangan->ruangan_fasilitas)) ? $ruangan->ruangan_fasilitas : " - ").'</td></tr>';
+                            $dataRuangan .='<tr><td rowspan=2><img src=\''.Yii::app()->baseUrl.'/data/images/kamarruangan/'.$file_exist.'\' class=\'image_ruangan\'></td><td>Fasilitas</td><td>'.((!empty($ruangan->ruangan_fasilitas)) ? $ruangan->ruangan_fasilitas : " - ").'</td></tr>';
                             $dataRuangan .='<tr><td>Lokasi</td><td>'.((!empty($ruangan->ruangan_lokasi)) ? $ruangan->ruangan_lokasi : " - ").'</td></tr>';
                             $dataRuangan .='<tr><td>Jumlah Bed</td><td>{$jmlbed}</td></tr>';
                             $dataRuangan .='<tr><td>Jumlah Terisi</td><td>{$jmlterisi}</td></tr>';

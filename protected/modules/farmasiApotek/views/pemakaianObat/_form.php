@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'fapemakaianobat-t-form',
 	'enableAjaxValidation'=>false,
@@ -21,16 +23,17 @@
 						<div class="controls">
 							<?php
 								$model->tglpemakaianobat = !empty($model->tglpemakaianobat) ? MyFormatter::formatDateTimeForUser($model->tglpemakaianobat) : date('d M Y H:i:s');
-								$this->widget('MyDateTimePicker', array(
+								/*$this->widget('MyDateTimePicker', array(
 									'model' => $model,
 									'attribute' => 'tglpemakaianobat',
-									'mode' => 'date',
+									'mode' => 'datetime',
 									'options' => array(
 										'dateFormat' => Params::DATE_FORMAT,
 										'maxDate' => 'd',
 									),
-									'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)",),
-								));
+									'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3 realtime', 'onkeypress' => "return $(this).focusNextInputField(event)",),
+								));*/
+                                                                 echo $form->textField($model,'tglpemakaianobat', array('class'=>'realtime span3', 'readonly'=>TRUE));
 								$model->tglpemakaianobat = !empty($model->tglpemakaianobat) ? MyFormatter::formatDateTimeForDb($model->tglpemakaianobat) : date('Y-m-d H:i:s');
 							?>
 							<?php echo $form->error($model, 'tglpemakaianobat'); ?>
@@ -59,12 +62,13 @@
         <table class="items table table-striped table-condensed" id="table-obatalkespasien">
             <thead>
                 <tr>
-                    <th>Kode / Nama Obat</th>
+                    <th>Kode</th>
+                    <th>Nama Obat</th>
                     <th hidden>Satuan Kecil</th>
                     <th>Jumlah</th>
                     <th hidden>Stok</th>
-                    <th>Harga Satuan</th>
-                    <th>Sub Total</th>
+                    <th>Harga Satuan (Rp)</th>
+                    <th>Subtotal</th>
                                         <?php echo ($disabled)?"":"<th>Batal</th>"; ?>
                 </tr>
             </thead>
@@ -81,8 +85,8 @@
             </tbody>
                         <tfoot>
                                 <tr>
-                    <th colspan="3" style="text-align: right;">Total</th>
-                    <th><?php echo $form->textField($model, 'totalharga',array('class'=>'integer','style'=>'width:100px;', 'readonly'=>'true')); ?></th>
+                    <th colspan="4" style="text-align: right;">Total</th>
+                    <th><?php echo $form->textField($model, 'totalharga',array('class'=>'integer2','style'=>'width:100px;', 'readonly'=>'true')); ?></th>
                     <th></th>
                 </tr>
                         </tfoot>
@@ -91,18 +95,18 @@
 </fieldset>
 <?php } ?>
 <div class="form-actions">
-	<?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
-		Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+	<?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="entypo-check"></i>')) : 
+		Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="entypo-check"></i>')),
 		array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'cekObat();', 'onKeypress'=>'return formSubmit(this,event)','disabled'=>$disabled)); ?>
-	<?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+	<?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
 							$this->createUrl($this->module->id.'/Index'), 
 							array('class'=>'btn btn-danger',
 								'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('Index').'";} ); return false;'));  ?>
 	<?php
 		if(isset($_GET['sukses'])){
-			echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')",'disabled'=>false));
+			echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')",'disabled'=>false));
 		}else{
-			echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','disabled'=>true));
+			echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="entypo-print"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','disabled'=>true));
 		}
 	?>
 	<?php

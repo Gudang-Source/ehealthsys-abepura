@@ -81,9 +81,9 @@ $this->breadcrumbs=array(
                                     ?>
                                     <?php
                                             if(isset($_GET['sukses'])){
-                                                    echo CHtml::link('Print BKK', $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-blue','disabled'=>true));
+                                                    echo CHtml::link(Yii::t('mds', '{icon} Print BKK', array('{icon}'=>'<i class="entypo-print"></i>')), $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-info disabled','disabled'=>true));
                                             }else{
-                                                    echo CHtml::link('Print BKK', $this->createUrl('/printKwitansi/kaskeluar', array('id'=>$kaskeluar->buktikaskeluarkop_id)), array('target'=>'_blank','class' => 'btn btn-blue','disabled'=>false));
+                                                    echo CHtml::link(Yii::t('mds', '{icon} Print BKK', array('{icon}'=>'<i class="entypo-print"></i>')),  '#', array('target'=>'_blank','class' => 'btn btn-info','disabled'=>false));
                                             }
                                     ?>
 
