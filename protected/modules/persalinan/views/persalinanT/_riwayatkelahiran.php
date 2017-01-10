@@ -10,8 +10,11 @@
         </thead>
         <tbody>
         <?php 
-        
-        $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+        if (!empty($modGinekologi->pemeriksaanginekologi_id)){
+            $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+        }else{
+            $modRiwayatKehamilan = '';
+        }
                 
         if (!empty($modRiwayatKehamilan)){
        

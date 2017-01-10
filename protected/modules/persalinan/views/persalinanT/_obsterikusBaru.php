@@ -13,11 +13,11 @@
             for ($a=0;$a<=$count;$a++){                
                 
                 if ($a == 0){
-                    $tab[]= array('label'=>'P '.($a+1), 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTabObs(this, '.$a.');'), 'active'=>true);
+                    $tab[]= array('label'=>'P '.($a+1), 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTabObs(this, '.$a.');', 'id' => 'P'.$a), 'active'=>true);
                 }elseif ($a == $count){
                     $tab[]= array('label'=>'+', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTabObs(this, "+");'));
                 }else{
-                    $tab[]= array('label'=>'P '.($a+1), 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTabObs(this, '.$a.');'),'icon'=>'icon-form-sialng');
+                    $tab[]= array('label'=>'P '.($a+1), 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTabObs(this, '.$a.');', 'id' => 'P'.$a));//,'icon'=>'icon-form-silang'
                 }
             }                                           
         }else{
@@ -42,20 +42,30 @@
             $i=0;
             if (!empty($model->persalinan_id)){
                 $modObstetrik = PSPemeriksaanobstetrikT::model()->findAll("persalinan_id = '".$model->persalinan_id."' ORDER BY pemeriksaanobstetrik_id");
-                 foreach($modObstetrik as $data){
+                
+                if (count($modObstetrik)>0){
+                    foreach($modObstetrik as $data){
         ?>
-                    <tr id='obsP<?php echo $i; ?>'>
-                        <td><?php $this->renderPartial('_pemeriksaanObs', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$data, 'id'=>$i)); ?></td>
-                    </tr>
+                        <tr id='obsP<?php echo $i; ?>'>
+                            <td><?php $this->renderPartial('_pemeriksaanObs', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$data, 'id'=>$i)); ?></td>
+                        </tr>
         <?php
-                $i++;
+                    $i++;
+                    }
+                }else{
+                    $modObstetrik = new PSPemeriksaanobstetrikT;
+        ?>
+                     <tr id='obsP<?php echo $i; ?>'>
+                        <td><?php $this->renderPartial('_pemeriksaanObs', array('model' => $model,'modPemeriksaLama' => $modPemeriksaLama,'form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modObstetrik, 'id'=>$i)); ?></td>
+                    </tr>   
+        <?php
                 }
         
             }else{
                 $modObstetrik = new PSPemeriksaanobstetrikT;
         ?>
                     <tr id='obsP<?php echo $i; ?>'>
-                        <td><?php $this->renderPartial('_pemeriksaanObs', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modObstetrik, 'id'=>$i)); ?></td>
+                        <td><?php $this->renderPartial('_pemeriksaanObs', array('model' => $model,'modPemeriksaLama' => $modPemeriksaLama,'form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modObstetrik, 'id'=>$i)); ?></td>
                     </tr>
                     
         <?php
@@ -171,6 +181,7 @@
         }else if (v=='+') {        
             $(obj).html("<a href = 'javascript:void(0);'>P "+liLength+"</a>");
             $(obj).attr('onclick',"setTabObs(this, "+id+")");
+            $(obj).attr('id',"P"+id);
             $('#tabberObs').append(li);   
             $('#periksaOBS').append('<tr id= "obsP'+(id)+'"><td>'+periksaObs.replace()+'</td></tr>');
             
@@ -200,6 +211,7 @@
           //  renameInputObs('PSPemeriksaankala4T','kala4_darahcc','obsP'+id,id);
             //$('#periksaKala4 tr:last').find('input[name*="kala4_tanggal"]').val('<?php //echo MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s')); ?>');
             $('#obsP'+id).find('#statusObs tbody tr:last').find('input[name*="pemeriksaanobstetrik_id]"').val('');
+            $('#obsP'+id).find('#hapusObs tbody').append("<tr><td><a href = '#' onclick='delTrObs("+id+");' ><i class='icon-form-silang'></i></a></td></tr>");
             $('#obsP'+id).find('#periksaKala4 tbody').each(function(){
             jQuery('input[name$="[kala4_tanggal]"]').datetimepicker(
                             jQuery.extend(
@@ -308,6 +320,12 @@
          $('.numbersOnly').keyup(function(){
             setNumbersOnly(this);
         });
+    }
+    
+    function delTrObs(id)
+    {
+	$("#periksaOBS").find("#obsP"+id).remove();
+        $("#tabberObs").find("#P"+id).remove();
     }
     
 </script>

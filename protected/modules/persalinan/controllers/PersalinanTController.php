@@ -28,16 +28,23 @@ class PersalinanTController extends MyAuthController {
                 'persalinan_id'=>$getPersalinanId->persalinan_id,
             ));
             
-            $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForUser($modObsterikus->plasenta_lahir);
-            $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForUser($modObsterikus->obs_periksadalam);
-            
-            $modPeriksaKala4 = PSPemeriksaankala4T::model()->findByAttributes(array(
-                'pemeriksaanobstetrik_id'=>$modObsterikus->pemeriksaanobstetrik_id,
-            ));
-            
-            if (count($modPeriksaKala4) < 1){
-                $modPeriksaKala4 = new PSPemeriksaankala4T;                
+            if (count($modObsterikus)>0){
+                $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForUser($modObsterikus->plasenta_lahir);
+                $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForUser($modObsterikus->obs_periksadalam);
+                
+                 $modPeriksaKala4 = PSPemeriksaankala4T::model()->findByAttributes(array(
+                    'pemeriksaanobstetrik_id'=>$modObsterikus->pemeriksaanobstetrik_id,
+                ));
+
+                if (count($modPeriksaKala4) < 1){
+                    $modPeriksaKala4 = new PSPemeriksaankala4T;                
+                }
+            }else{
+                $modObsterikus = new PSPemeriksaanobstetrikT;
+                $modPeriksaKala4 = new PSPemeriksaankala4T;
             }
+            
+           
         }else{
             $modObsterikus = new PSPemeriksaanobstetrikT;
             
@@ -89,6 +96,10 @@ class PersalinanTController extends MyAuthController {
                 $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");            
                 
                 $modRiwayatKB = PSRiwayatkbT::model()->find(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' AND kb_status = TRUE");
+                
+                if (count($modRiwayatKB)< 1){
+                    $modRiwayatKB = new PSRiwayatkbT;
+                }  
             }                       
         }else{           
             $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");                        
@@ -310,7 +321,7 @@ class PersalinanTController extends MyAuthController {
                                 if (empty($_POST['PSPemeriksaanobstetrikT'][$i]['pemeriksaanobstetrik_id'])){
                                             $modObsterikus=new PSPemeriksaanobstetrikT;
                                     //if ($modObsterikus->isNewRecord) {
-                                        //if(isset($_POST['PSPemeriksaanobstetrikT'][$i])){
+                                        //if(isset($_POST['PSPemeriksaanobstetrikT'][$i])){                                            
                                             $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];                                           
                                             $modObsterikus->persalinan_id = $model->persalinan_id;
                                             $modObsterikus->create_loginpemakai_id = Yii::app()->user->id;
@@ -321,6 +332,7 @@ class PersalinanTController extends MyAuthController {
                                             $modObsterikus->save();                                        
                                        // }
                                 }else{//   }else{             
+                                        var_dump($_POST['PSPemeriksaanobstetrikT'] );die;
                                         $modObsterikus = $modObsterikus::model()->findByPk($_POST['PSPemeriksaanobstetrikT'][$i]['pemeriksaanobstetrik_id']);
                                         $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];
                                         //var_dump($_POST['PSPemeriksaanobstetrikT'][$i]);die;
@@ -411,8 +423,7 @@ class PersalinanTController extends MyAuthController {
                     Yii::app()->user->setFlash('error',"Data gagal disimpan ");
                 }
         }
-             
-            
+                         
         $this->render('index', array('format'=>$format,'model' => $model, 
             'modPendaftaran'=>$modPendaftaran, 
             'modPasien'=>$modPasien, 

@@ -3,7 +3,9 @@
     <?php                       
                 $i=0;
                 $modPeriksaKala4 = new PSPemeriksaankala4T;
-                $modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));                
+              
+                $modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));                           
+                
     ?>
                  <tr>
                     <td>
@@ -11,7 +13,7 @@
                         $form->hiddenField($modPeriksaKala4,'[0]['.$i.']pemeriksaankala4_id');
                         $this->widget('MyDateTimePicker', array(
                             'model' => $modPeriksaKala4,
-                            'attribute' => '[0]['.$i.']kala4_tanggal',
+                            'attribute' => '[0['.$i.']kala4_tanggal',
                             'mode' => 'datetime',
                             'options' => array(
                                 'dateFormat' => Params::DATE_FORMAT,

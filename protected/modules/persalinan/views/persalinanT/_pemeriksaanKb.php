@@ -11,7 +11,11 @@
         </thead>
         <tbody>
         <?php 
-        $KBYa = PSRiwayatkbT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' AND kb_status = TRUE");
+        if (!empty($modGinekologi->pemeriksaanginekologi_id)){
+            $KBYa = PSRiwayatkbT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' AND kb_status = TRUE");
+        }else{
+            $KBYa = '';
+        }
         if (!empty($KBYa)){
        
         foreach ($KBYa as $i=>$detail){?>    

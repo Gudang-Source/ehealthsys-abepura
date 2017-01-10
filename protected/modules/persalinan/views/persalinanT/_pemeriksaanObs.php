@@ -1,3 +1,59 @@
+<?php
+    if (isset($modPemeriksaLama)){
+        if (count($modPemeriksaLama)>0){
+            // obstetrik
+            $modPemeriksaan->obs_fundusuteri = $modPemeriksaLama->obs_fundusufen;
+            $modPemeriksaan->obs_posisijanin = $model->posisijanin;
+            $modPemeriksaan->obs_periksadalam = $modPemeriksaLama->obs_periksadalam;
+            $modPemeriksaan->obs_portio = $modPemeriksaLama->portio_genitalia;
+            $modPemeriksaan->obs_konsistensigenitalia = $modPemeriksaLama->obs_konsistensigenitalia;
+            $modPemeriksaan->obs_arah = $modPemeriksaLama->obs_arah;
+            $modPemeriksaan->obs_ketuban = $modPemeriksaLama->ketuban_genitalia;
+            $modPemeriksaan->obs_pemeriksa = $modPemeriksaLama->obs_pemeriksa;
+            $modPemeriksaan->obs_warnaketuban = $modPemeriksaLama->obs_warnaketuban;
+            $modPemeriksaan->obs_bagrendah = $modPemeriksaLama->penurunan_genitalia;
+            $modPemeriksaan->obs_hodge = $modPemeriksaLama->obs_hodge;
+            $modPemeriksaan->obs_posisigenital = $modPemeriksaLama->posisi_genitalia;
+            $modPemeriksaan->obs_fetopelvik = $modPemeriksaLama->obs_fetofelvik;
+            $modPemeriksaan->obs_presentasigenital = $modPemeriksaLama->presentasi_genitalia;
+            $modPemeriksaan->obs_frekuensi = $modPemeriksaLama->frek_auskultasi;
+            $modPemeriksaan->obs_djj = $modPemeriksaLama->denyutjantung_janin;
+            $modPemeriksaan->obs_pemeriksaan = $modPemeriksaLama->obs_pemeriksaan;                        
+            
+            // plasenta
+            $modPemeriksaan->plasenta_lahir = $modPemeriksaLama->plasenta_lahir;
+            $modPemeriksaan->plasenta_spontanitas = $modPemeriksaLama->plasentaspontanitas;
+            $modPemeriksaan->plasenta_kelengkapan = $modPemeriksaLama->plasentakelengkapan;
+            $modPemeriksaan->plasenta_berat = $modPemeriksaLama->plasenta_berat;
+            $modPemeriksaan->plasenta_diameter = $modPemeriksaLama->plasenta_diameter;
+            
+            //tali pusar
+            $modPemeriksaan->pusar_insersi = $modPemeriksaLama->pusar_insersi;
+            $modPemeriksaan->pusar_panjang = $modPemeriksaLama->pusar_panjang;
+            $modPemeriksaan->pusar_kelengkapan = $modPemeriksaLama->pusar_kelengkapan;
+            $modPemeriksaan->pusar_robekan = $modPemeriksaLama->pusar_robekan;
+            $modPemeriksaan->pusar_lainlain = $modPemeriksaLama->pusar_lainlain;
+            
+            //perlukaan  jalan lahir
+            $modPemeriksaan->luka_perineum = $modPemeriksaLama->luka_perineum;
+            $modPemeriksaan->luka_vagina = $modPemeriksaLama->luka_vagina;
+            $modPemeriksaan->luka_serviks = $modPemeriksaLama->luka_serviks;
+            $modPemeriksaan->luka_episiotomi = $modPemeriksaLama->episiotomi;
+            $modPemeriksaan->luka_rupturaperinei = $modPemeriksaLama->rupturaperinei;
+            
+            //pendarahan
+            $modPemeriksaan->kala3_darahcc = $modPemeriksaLama->pendarahan;
+            
+            //nifas            
+            $modPemeriksaan->nifas_inveksi = $modPemeriksaLama->nifas_inveksi;
+            $modPemeriksaan->nifas_laktasi = $modPemeriksaLama->nifas_laktasi;
+            $modPemeriksaan->nifas_febris = $modPemeriksaLama->nifas_febris;
+            $modPemeriksaan->nifas_lainlain = $modPemeriksaLama->nifas_lainlain;
+        }
+    }
+
+?>
+
 <div class='biru' id = 'p0'>
         <div class="white">
             <fieldset class='box'>

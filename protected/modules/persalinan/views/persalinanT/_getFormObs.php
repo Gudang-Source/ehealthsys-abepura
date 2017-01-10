@@ -2,6 +2,10 @@
         <div class="white">
             <fieldset class='box'>
                 <legend class='rim'>Status Obsterikus</legend>        
+                <table width="100%" class="table-condensed" id='hapusObs'>
+                    <tbody>                        
+                    </tbody>
+                </table>
                 <table width="100%" class="table-condensed" id='statusObs'>
                     <tr>
                         <td>
@@ -618,7 +622,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <?php $this->renderPartial('_getFormKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan)); ?>
+                                <?php $this->renderPartial('_getFormKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4)); ?>
                             </tbody>
                         </table>
                     </div>
