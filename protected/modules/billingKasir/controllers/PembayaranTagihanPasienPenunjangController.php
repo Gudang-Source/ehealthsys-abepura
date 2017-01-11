@@ -385,7 +385,7 @@ class PembayaranTagihanPasienPenunjangController extends PembayaranTagihanPasien
         $modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
         $criteria = new CDbCriteria();
         $criteria->addCondition('pendaftaran_id = '.$pendaftaran_id);
-        $criteria->addCondition('instalasi_id = '.$instalasi_id);
+        $criteria->compare('instalasi_id', $instalasi_id);
         $criteria->order = 'ruangan_id';
         $modRincian = BKRinciantagihanpasienpenunjangV::model()->findAll($criteria);
         $this->render('printRincianPenunjangBelumBayar', array('modPendaftaran'=>$modPendaftaran,'modPasien'=>$modPasien,'modRincian'=>$modRincian, 'data'=>$data));

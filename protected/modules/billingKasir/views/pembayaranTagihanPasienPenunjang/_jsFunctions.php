@@ -106,11 +106,11 @@
     {
         var instalasi_id = $("#instalasi_id").val();
         var pendaftaran_id = $("#pendaftaran_id").val();
-        if(instalasi_id && pendaftaran_id){
+        //if(instalasi_id && pendaftaran_id){
             window.open("<?php echo $this->createUrl('printRincianPenunjangBelumBayar') ?>&instalasi_id="+instalasi_id+"&pendaftaran_id="+pendaftaran_id,"",'location=_new, width=1024px');
-        }else{
-            myAlert("Silahkan cari data kunjungan terlabih dahulu !");
-        }
+        //}else{
+        //    myAlert("Silahkan cari data kunjungan terlabih dahulu !");
+        //}
     }
     
 </script>
