@@ -336,6 +336,18 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
         $("#multiselect3").find("#checkboxes3").slideToggle('fast');
     }
     
+    function checkAll(){
+         if($('#checkAllRuangan').is(':checked')){
+           $('#searchLaporan input[name*="ruanganasal_id"]').each(function(){
+                $(this).attr('checked',true);
+           });
+        }else{
+             $('#searchLaporan input[name*="ruanganasal_id"]').each(function(){
+                $(this).removeAttr('checked');
+           });
+        }
+    }
+    
     $(document).bind('click', function(e) {
         var $clicked = $(e.target);
         if (!$clicked.parents().hasClass("multiselect")){             

@@ -384,6 +384,17 @@ $this->endWidget();
 ?>
 <?php $this->renderPartial('_jsFunctions', array('model'=>$model));?>
 <script>
+    function checkAll(){
+         if($('#checkAllRuangan').is(':checked')){
+           $('#searchLaporan input[name*="ruanganasal_id"]').each(function(){
+                $(this).attr('checked',true);
+           });
+        }else{
+             $('#searchLaporan input[name*="ruanganasal_id"]').each(function(){
+                $(this).removeAttr('checked');
+           });
+        }
+    }
     var expanded = false;
     function showCheckboxes3() {
         $("#multiselect3").find("#checkboxes3").slideToggle('fast');

@@ -9,6 +9,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 	 */
         public $totaltagihan;
         public $is_sudahbayar;
+		public $statusperiksa;
         
 	public static function model($className=__CLASS__)
 	{

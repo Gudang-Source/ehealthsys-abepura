@@ -237,7 +237,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     if(isset($_GET['BKRinciantagihanpasienpenunjangV'])) {
         $modDialogKunjungan->attributes = $_GET['BKRinciantagihanpasienpenunjangV'];
         $modDialogKunjungan->instalasi_id = $_GET['BKRinciantagihanpasienpenunjangV']['instalasi_id'];
-		$modDialogKunjungan->statusperiksa = $_GET['BKRinciantagihanpasienpenunjangV']['statusperiksa'];
+		if (isset($_GET['BKRinciantagihanpasienpenunjangV']['statusperiksa'])) 
+			$modDialogKunjungan->statusperiksa = $_GET['BKRinciantagihanpasienpenunjangV']['statusperiksa'];
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
