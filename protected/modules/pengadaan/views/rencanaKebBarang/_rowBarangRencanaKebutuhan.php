@@ -8,29 +8,38 @@
         <?php echo CHtml::activeHiddenField($modRencanaDetailKebBarang,'[ii]stokakhir_barangdet',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:90px;')); ?>		
     </td>
     <td>
-        <span><?php echo (!empty($modRencanaDetailKebBarang->asal_barang) ? $modRencanaDetailKebBarang->asal_barang : "") ?></span> 
-	</td>
-	<td>
-		<span><?php echo (!empty($modRencanaDetailKebBarang->barang_nama) ? $modRencanaDetailKebBarang->barang_nama : "") ?></span>
-	</td>	
-    <td>
-        <?php echo CHtml::activeDropDownList($modRencanaDetailKebBarang, '[ii]satuanbarangdet', LookupM::getItems('satuanbarang'),array('onChange'=>'pilihSatuan(this);','style'=>'width:100px;')); ?><br>     
+        <?php echo $modRencanaDetailKebBarang->barang->barang_type ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]jmlpermintaanbarangdet',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $modRencanaDetailKebBarang->barang->barang_kode ?>
     </td>
+    <!--<td>
+        <span><?php //echo (!empty($modRencanaDetailKebBarang->asal_barang) ? $modRencanaDetailKebBarang->asal_barang : "") ?></span> 
+	</td>-->
+    <td>
+            <span><?php echo (!empty($modRencanaDetailKebBarang->barang_nama) ? $modRencanaDetailKebBarang->barang_nama : "") ?></span>
+    </td>
+    <td>
+        <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]stokakhir_barangdet',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;')).' '.$modRencanaDetailKebBarang->barang->barang_satuan; ?>
+    </td>
+    <td>
+        <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]minstok_barangdet',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;')).' '.$modRencanaDetailKebBarang->barang->barang_satuan; ?>
+    </td>
+    <td>
+        <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]makstok_barangdet',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;')).' '.$modRencanaDetailKebBarang->barang->barang_satuan; ?>
+    </td>
+    <td>
+        <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]jmlpermintaanbarangdet',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")).' '.$modRencanaDetailKebBarang->barang->barang_satuan; ?>
+    </td>
+   <!-- <td>
+        <?php //echo CHtml::activeDropDownList($modRencanaDetailKebBarang, '[ii]satuanbarangdet', LookupM::getItems('satuanbarang'),array('onChange'=>'pilihSatuan(this);','style'=>'width:100px;')); ?><br>     
+    </td>-->
+    
     <td>
         <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]harga_barang',array('readonly'=>false,'class'=>'span2 integer2','onblur'=>'hitungTotal();','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
-    <td>
-        <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]stokakhir_barangdet',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;')); ?>
-    </td>
-    <td>
-        <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]minstok_barangdet',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;')); ?>
-    </td>
-    <td>
-        <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]makstok_barangdet',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;')); ?>
-    </td>
+    
+    
     <td>
         <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]subtotal',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:90px;')); ?>
     </td>

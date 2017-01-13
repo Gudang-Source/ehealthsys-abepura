@@ -10,8 +10,8 @@
             <?php echo $form->labelEx($modRencanaKebBarang,'renkebbarang_tgl', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php   
-                        $modRencanaKebBarang->renkebbarang_tgl = (!empty($modRencanaKebBarang->renkebbarang_tgl) ? date("d/m/Y H:i:s",strtotime($modRencanaKebBarang->renkebbarang_tgl)) : null);
-                        $this->widget('MyDateTimePicker',array(
+                        $modRencanaKebBarang->renkebbarang_tgl = (!empty($modRencanaKebBarang->renkebbarang_tgl) ? MyFormatter::formatDateTimeForUser(date("d/m/Y H:i:s",strtotime($modRencanaKebBarang->renkebbarang_tgl))) : null);
+                        /*$this->widget('MyDateTimePicker',array(
                             'model'=>$modRencanaKebBarang,
                             'attribute'=>'renkebbarang_tgl',
                             'mode'=>'datetime',
@@ -23,7 +23,9 @@
                             ),
                             'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
                             ),
-                    )); ?>
+                    ));*/       
+                        echo    $form->textField($modRencanaKebBarang, 'renkebbarang_tgl', array('class' => 'realtime span3', 'readonly' => TRUE));
+                        ?>
                 </div>
         </div>
 	</div>
@@ -81,16 +83,25 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'NIP',
                     'value'=>'$data->nomorindukpegawai',
+                    'filter' => Chtml::activeTextField($modPegawaiMengetahui, 'nomorindukpegawai', array('class' => 'numbers-only'))
                 ),
                 array(
                     'header'=>'Nama Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai', array('class' => 'hurufs-only')),
                     'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                 ),
                 array(
-                    'header'=>'Alamat Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
-                    'value'=>'$data->alamat_pegawai',
+                    'header'=>'Jabatan',
+                    'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER  BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama')),
+                    'value'=> function($data){
+                            $j = JabatanM::model()->findByPk($data->jabatan_id);
+                            
+                            if (count($j)>0){
+                                return $j->jabatan_nama;
+                            }else{
+                                return '-';
+                            }
+                    }
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){
@@ -141,23 +152,34 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                                   return false;
                                         "))',
                 ),
-                array(
+               array(
                     'header'=>'NIP',
                     'value'=>'$data->nomorindukpegawai',
+                    'filter' => Chtml::activeTextField($modPegawaiMenyetujui, 'nomorindukpegawai', array('class' => 'numbers-only'))
                 ),
                 array(
                     'header'=>'Nama Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'nama_pegawai'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'nama_pegawai', array('class' => 'hurufs-only')),
                     'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                 ),
                 array(
-                    'header'=>'Alamat Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'alamat_pegawai'),
-                    'value'=>'$data->alamat_pegawai',
+                    'header'=>'Jabatan',
+                    'filter'=>  CHtml::activeDropDownList($modPegawaiMenyetujui, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER  BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'), ARRAY('empty' => '-- Pilih --')),
+                    'value'=> function($data){
+                            $j = JabatanM::model()->findByPk($data->jabatan_id);
+                            
+                            if (count($j)>0){
+                                return $j->jabatan_nama;
+                            }else{
+                                return '-';
+                            }
+                    }
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){
-            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+                        . '$(".numbers-only").keyup(function(){setNumbersOnly(this);});'
+                        . '$(".hurufs-only").keyup(function(){setHurufsOnly(this);});}',
         ));
 $this->endWidget();
 //========= end Pegawai Menyetujui dialog =============================
