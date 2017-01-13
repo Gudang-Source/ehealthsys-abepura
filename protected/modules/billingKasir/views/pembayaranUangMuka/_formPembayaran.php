@@ -42,7 +42,10 @@
             </div>
         </div>
         <?php echo $form->textFieldRow($modTandabukti,'uangkembalian',array('readonly'=>true,'class'=>'span2 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->dropDownListRow($modTandabukti,'carapembayaran',LookupM::getItems('carapembayaran'),array('readonly'=>true,'onchange'=>'hitungUangKembalian();','class'=>'span2','onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+        <?php 
+		echo $form->textFieldRow($modTandabukti,'carapembayaran',array('readonly'=>true,'onchange'=>'hitungUangKembalian();','class'=>'span2','onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); 
+		//echo $form->dropDownListRow($modTandabukti,'carapembayaran',LookupM::getItems('carapembayaran'),array('readonly'=>true,'onchange'=>'hitungUangKembalian();','class'=>'span2','onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); 
+		?>
         <div class="control-group ">
             <?php echo $form->labelEx($modTandabukti,'tglbuktibayar', array('class'=>'control-label inline','style'=>'font-weight:bold;')) ?>
             <div class="controls">
