@@ -60,7 +60,7 @@
                                                                     }',
                             ),
                             'htmlOptions' => array(
-                                'class' => 'namaPegawai',
+                                'class' => 'namaPegawai alphanumeric-only',
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                 'placeholder' => 'Ketikan nomor Rencana Pembelian Barang',
                             ),
@@ -75,7 +75,7 @@
 				<div class="control-group">
 					<?php echo $form->label($renc, 'renkebbarang_tgl', array('class' => 'control-label')); ?>
 					<div class="controls">
-						<?php echo $form->textField($renc, 'renkebbarang_tgl'); ?>
+						<?php echo $form->textField($renc, 'renkebbarang_tgl', array('readonly' => TRUE)); ?>
 					</div>
 				</div>
 			</td>
@@ -176,7 +176,7 @@
             </td>
             <td>
                 <div class="control-group ">
-                        <?php echo $form->labelEx($model, 'peg_mengetahui_id', array('class' => 'control-label')); ?>
+                        <?php echo Chtml::label("Pegawai Mengetahui <font style='color:red'>*</font>", 'peg_mengetahui_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'peg_mengetahui_id'); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
@@ -209,7 +209,7 @@
                                                                     }',
                             ),
                             'htmlOptions' => array(
-                                'class' => 'namaPegawai',
+                                'class' => 'namaPegawai required hurufs-only',
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                 'placeholder' => 'Ketikan nama pegawai mengetahui',
                             ),
@@ -220,7 +220,7 @@
                     </div>
                 </div>
                 <div class="control-group ">
-                        <?php echo $form->labelEx($model, 'peg_menyetujui_id', array('class' => 'control-label')); ?>
+                        <?php echo Chtml::label("Pegawai Menyetujui <font style='color:red'>*</font>", 'peg_menyetujui_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'peg_menyetujui_id'); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
@@ -253,7 +253,7 @@
                                                                     }',
                             ),
                             'htmlOptions' => array(
-                                'class' => 'namaPegawai',
+                                'class' => 'namaPegawai required hurufs-only',
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                 'placeholder' => 'Ketikan nama pegawai menyetujui',
                             ),
@@ -354,12 +354,37 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                     return false;"))',
         ),
         array(
-			'name'=>'renkebbarang_tgl',
+			'header'=>'Tanggal Rencana',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->renkebbarang_tgl)',
+                         'filter'=>$this->widget('MyDateTimePicker', array(
+                                'model'=>$modrencana, 
+                                'attribute'=>'renkebbarang_tgl', 
+                                'mode' => 'date',    
+                                //'language' => 'ja',
+                                // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                                'htmlOptions' => array(
+                                    'id' => 'datepicker_for_due_date',
+                                    'size' => '10',
+                                    'style'=>'width:80%'
+                                ),
+                                'options' => array(  // (#3)                    
+                                    'dateFormat' => Params::DATE_FORMAT,                    
+                                    'maxDate' => 'd',
+                                ),                              
+                            ), 
+                            true),
 		),
-		'renkebbarang_no',
-		'ro_barang_bulan',
+                array(
+                    'header' => 'No Rencana',
+                    'name' => 'renkebbarang_no',
+                    'filter' => Chtml::activeTextField($modrencana, 'renkebbarang_no', array('class' => 'alphanumeric-only'))
+                ),		
+                array(
+                    'header' => 'Recomended Order(RO)',
+                    'name' => 'ro_barang_bulan',
+                    'filter' => Chtml::activeTextField($modrencana, 'ro_barang_bulan', array('class' => 'numbers-only'))
+                ),		
 		array(
 			'header'=>'Pegawai Mengetahui',
 			'type'=>'raw',
@@ -371,10 +396,23 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 			'value'=>'ADInformasirenkebbarangV::pegawaimengetahui($data->pegmenyetujui_id)',
 		),
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    . 'reinstallDatePicker();'
+    . '$(".alphanumeric-only").keyup(function() {
+        setAlphaNumericOnly(this);
+        });
+        $(".numbers-only").keyup(function() {
+        setNumbersOnly(this);
+        });
+    }',
 ));
 
 $this->endWidget();
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {        
+    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+");
 ?>
 
 

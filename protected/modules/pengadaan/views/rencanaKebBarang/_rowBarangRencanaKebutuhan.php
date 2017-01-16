@@ -6,6 +6,7 @@
         <?php echo CHtml::activeHiddenField($modRencanaDetailKebBarang,'[ii]minstok_barangdet',array('readonly'=>true,'class'=>'span1')); ?>                
         <?php echo CHtml::activeHiddenField($modRencanaDetailKebBarang,'[ii]makstok_barangdet',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:90px;')); ?>
         <?php echo CHtml::activeHiddenField($modRencanaDetailKebBarang,'[ii]stokakhir_barangdet',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:90px;')); ?>		
+        <?php echo CHtml::activeHiddenField($modRencanaDetailKebBarang, '[ii]satuanbarangdet', LookupM::getItems('satuanbarang'),array('onChange'=>'pilihSatuan(this);','style'=>'width:100px;')); ?>
     </td>
     <td>
         <?php echo $modRencanaDetailKebBarang->barang->barang_type ?>
@@ -32,7 +33,7 @@
         <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]jmlpermintaanbarangdet',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")).' '.$modRencanaDetailKebBarang->barang->barang_satuan; ?>
     </td>
    <!-- <td>
-        <?php //echo CHtml::activeDropDownList($modRencanaDetailKebBarang, '[ii]satuanbarangdet', LookupM::getItems('satuanbarang'),array('onChange'=>'pilihSatuan(this);','style'=>'width:100px;')); ?><br>     
+        <?php //echo CHtml::activeTextField($modRencanaDetailKebBarang, '[ii]satuanbarangdet', LookupM::getItems('satuanbarang'),array('onChange'=>'pilihSatuan(this);','style'=>'width:100px;')); ?><br>     
     </td>-->
     
     <td>

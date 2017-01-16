@@ -224,7 +224,7 @@ class PesanbarangTController extends MyAuthController
                 $instalasi_id = $_POST["$model_nama"]["$attr"];
             }
             $models = null;
-            $models = CHtml::listData(RuanganM::getRuanganByInstalasi($instalasi_id),'ruangan_id','ruangan_nama');
+            $models = CHtml::listData(RuanganM::getRuanganByInstalasi2($instalasi_id),'ruangan_id','ruangan_nama');
 
             if($encode){
                 echo CJSON::encode($models);

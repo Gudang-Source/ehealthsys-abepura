@@ -162,7 +162,7 @@
                             ),
                             'htmlOptions' => array(
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                'class' => 'span3 required',
+                                'class' => 'span3 required hurufs-only',
 								'placeholder'=>'Ketikan nama pegawai mengetahui',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
