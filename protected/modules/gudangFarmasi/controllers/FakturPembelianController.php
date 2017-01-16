@@ -185,10 +185,12 @@ class FakturPembelianController extends MyAuthController
 	
 	public function actionAutoCompletePenerimaanBarang(){
 		if(Yii::app()->request->isAjaxRequest) {
-            $criteria = new CDbCriteria();
+            $criteria = GFInformasipenerimaanbarangV::model()->searchDialog()->criteria;
             $criteria->compare('LOWER(noterima)', strtolower($_GET['term']), true);
             $criteria->order = 'noterima';
             $criteria->limit = 5;
+			// var_dump($criteria); die;
+			//$criteria->
             $models = GFInformasipenerimaanbarangV::model()->findAll($criteria);
             $returnVal = array();
             foreach($models as $i=>$model)
