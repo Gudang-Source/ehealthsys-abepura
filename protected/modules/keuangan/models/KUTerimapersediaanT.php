@@ -20,7 +20,12 @@ class KUTerimapersediaanT extends TerimapersediaanT
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->with=array('pembelianbarang');
+		
+		$criteria->join = ''
+			. 'left join pembelianbarang_t on pembelianbarang_t.pembelianbarang_id = t.pembelianbarang_id '
+			. 'left join pegawai_m on pegawai_m.pegawai_id = t.peg_penerima_id';
+		
+		//$criteria->with=array('pembelianbarang');
 		$criteria->compare('terimapersediaan_id',$this->terimapersediaan_id);
 		$criteria->compare('pembelianbarang_id',$this->pembelianbarang_id);
 		$criteria->compare('sumberdana_id',$this->sumberdana_id);
@@ -49,6 +54,7 @@ class KUTerimapersediaanT extends TerimapersediaanT
 		$criteria->compare('LOWER(tgljatuhtempo)',strtolower($this->tgljatuhtempo),true);
 //		$criteria->addCondition('nofaktur is NULL');
 		$criteria->compare('pembelianbarang.supplier_id',$this->supplier_id);
+		$criteria->compare('lower(pegawai_m.nama_pegawai)', strtolower($this->peg_penerima_nama), true);
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

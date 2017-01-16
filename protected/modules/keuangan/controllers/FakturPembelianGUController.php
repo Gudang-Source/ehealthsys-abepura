@@ -57,8 +57,10 @@ class FakturPembelianGUController extends MyAuthController {
 			$model->tglfaktur = $format->formatDateTimeForDB($model->tglfaktur);
 			$model->tgljatuhtempo = $format->formatDateTimeForDB($model->tgljatuhtempo);
 			$model->terimapersediaan_id = $_POST['terimapersediaan_id'];
+			
+			// echo "Kick2"; die;
                         
-                        
+            // var_dump($model->validate()); die;
                         
 			if ($model->validate()) {
 				$transaction = Yii::app()->db->beginTransaction();
@@ -79,6 +81,7 @@ class FakturPembelianGUController extends MyAuthController {
 					));
 
 					$modPembelianbarang = PembelianbarangT::model()->findByAttributes(array('terimapersediaan_id' => $model->terimapersediaan_id));
+					
 					if (!empty($modPembelianbarang)) $supplier_id = $modPembelianbarang->supplier_id;
 //							  RND-9646
 //                            $modFakturPembelian->terimapersediaan_id = $model->terimapersediaan_id;
@@ -102,6 +105,12 @@ class FakturPembelianGUController extends MyAuthController {
 //
 //                            $modFakturPembelian->save();
 
+					if (!isset($_POST['TerimapersdetailT'])) {
+						throw new Exception("Data detail penerimaan tidak ditemukan.");
+					}
+					// echo "Kick2";
+					// die;
+					
 					$modDetails = $_POST['TerimapersdetailT'];
 
 					foreach ($modDetails as $i => $data) {
@@ -142,8 +151,9 @@ class FakturPembelianGUController extends MyAuthController {
 						Yii::app()->user->setFlash('error', "Data gagal disimpan ");
 					}
 				} catch (Exception $ex) {
+					// echo "Kick5"; die;
 					$transaction->rollback();
-					Yii::app()->user->setFlash('error', "Data gagal disimpan " . MyExceptionMessage::getMessage($ex, true));
+					Yii::app()->user->setFlash('error', "Data gagal disimpan<br/>" . $ex->getMessage() ."<br/>" . MyExceptionMessage::getMessage($ex, true));
 				}
 			}
 		}

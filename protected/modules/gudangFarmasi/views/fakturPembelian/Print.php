@@ -28,6 +28,14 @@ echo CHtml::css('.control-label{
     }
 ');
 ?>  
+
+<style>
+	.det td, .det th {
+		border: 1px solid black;
+		padding: 2px;
+	}
+</style>
+
 <?php
 if(!$modFakturPembelianDetail){
     echo "Data tidak ditemukan"; exit;
@@ -81,7 +89,7 @@ if (!isset($_GET['frame'])){
         </tr>
         
     </table><br/>
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
+    <table width="100%" style='margin-left:auto; margin-right:auto;' class="det">
         <thead class="border">
             <th style="text-align: center;">No.</th>
             <th style="text-align: center;">Asal Barang</th>
@@ -95,6 +103,7 @@ if (!isset($_GET['frame'])){
             <th style="text-align: center;">PPH (%)</th>
             <th style="text-align: center;">Sub Total</th>
         </thead>
+		<tbody>
         <?php 
         $total = 0;
         $subtotal = 0;
@@ -107,8 +116,8 @@ if (!isset($_GET['frame'])){
                 <td style="text-align:center;"><?php echo $modObat->jmlterima; ?></td>
                 <td style="text-align:center;"><?php echo $modObat->jmlterima; ?></td>                
                 <td style="text-align:center;"><?php echo $modObat->persendiscount; ?></td>
-                <td style="text-align:right;"><?php echo $format->formatUang($modObat->jmldiscount); ?></td>
-                <td style="text-align:right;"><?php echo $format->formatUang($modObat->harganettofaktur); ?></td>
+                <td style="text-align:right;"><?php echo $format->formatNumberForPrint($modObat->jmldiscount); ?></td>
+                <td style="text-align:right;"><?php echo $format->formatNumberForPrint($modObat->harganettofaktur); ?></td>
                 <td style="text-align:center;"><?php echo $modObat->persenppnfaktur; ?></td>
                 <td style="text-align:center;"><?php echo $modObat->persenpphfaktur; ?></td>
                 <td style="text-align:right;"><?php 
@@ -126,14 +135,17 @@ if (!isset($_GET['frame'])){
 					
 					$total += $subtotal;
 					
-                    echo $format->formatUang($subtotal); ?>
+                    echo $format->formatNumberForPrint($subtotal); ?>
                 </td>
             </tr>
         <?php } ?>
-        <tr>
-            <td colspan="10" align="center"><strong>Total</strong></td>
-            <td style="text-align:right;"><?php echo $format->formatUang($total); ?></td>
-        </tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="10" align="right"><strong>Total</strong></td>
+				<td style="text-align:right;"><strong><?php echo $format->formatNumberForPrint($total); ?></strong></td>
+			</tr>
+		</tfoot>
     </table>
 <?php
 if (isset($_GET['frame'])){
