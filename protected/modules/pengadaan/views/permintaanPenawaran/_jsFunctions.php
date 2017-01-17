@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 function tambahObatAlkes()
 {
@@ -16,8 +19,8 @@ function tambahObatAlkes()
                 {
                     $('#table-obatalkespasien > tbody').append(data.form);
                     $("#table-obatalkespasien").find('input[name$="[ii][obatalkes_id]"]').val(obatalkes_id);
-                    $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                    $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
                     renameInputRowObatAlkes($("#table-obatalkespasien"));
                     hitungTotal();
@@ -100,20 +103,20 @@ function pilihSatuan(obj){
     }
 }
 /**
- * class integer di unformat 
+ * class integer2 di unformat 
  * @returns {undefined}
  */
 function unformatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(parseInt(unformatNumber($(this).val())));
     });
 }
 /**
- * class integer di format kembali
+ * class integer2 di format kembali
  * @returns {undefined}
  */
 function formatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(formatInteger($(this).val()));
     });
 }
