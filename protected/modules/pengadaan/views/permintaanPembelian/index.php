@@ -41,14 +41,14 @@
                     <th>Kategori / Nama Obat</th>
                     <th>Satuan</th>
                     <th>Jumlah Pembelian</th>
-                    <th>Harga Satuan</th>
+                    <th>Harga Satuan (Rp.)</th>
                     <th>Stok Akhir</th>
                     <th>PPN (%)</th>
                     <th>PPH (%)</th>
                     <th>Diskon (%)</th>
                     <th>Diskon Total (Rp.)</th>
                     <th>Minimal Stok</th>
-                    <th>Sub Total</th>
+                    <th>Sub Total (Rp.)</th>
                     <th>Batal</th>
                 </tr>
         </thead>
@@ -63,7 +63,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="12">Total</td>
-					<td><?php echo CHtml::textField('total','',array('class'=>'span2 integer','style'=>'width:90px;'))?></td>
+					<td><?php echo CHtml::textField('total','',array('class'=>'span2 integer2','style'=>'width:90px;'))?></td>
 					<td></td>
 				</tr>
 			</tfoot>
@@ -110,7 +110,7 @@
 								}',
 							),
 							'htmlOptions' => array(
-								'class'=>'pegawaimengetahui_nama required',
+								'class'=>'pegawaimengetahui_nama required angkahuruf-only',
 								'onkeyup'=>"return $(this).focusNextInputField(event)",
 								'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modPermintaanPembelian, 'pegawaimengetahui_id') . '").val(""); '
 							),
@@ -154,7 +154,7 @@
 								}',
 							),
 							'htmlOptions' => array(
-								'class'=>'pegawaimenyetujui_nama required',
+								'class'=>'pegawaimenyetujui_nama required angkahuruf-only',
 								'onkeyup'=>"return $(this).focusNextInputField(event)",
 								'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modPermintaanPembelian, 'pegawaimenyetujui_id') . '").val(""); '
 							),
