@@ -1,0 +1,415 @@
+<?php
+$modPartograf->pto_tglperiksa = MyFormatter::formatDateTimeForUser(date('D m Y H:i:s'));
+?>
+<div class='biru' id = 'par0'>
+        <div class="white">
+            <fieldset class='box'>
+        <legend class='rim'>Pemeriksaan Partograf</legend>
+        <table width="100%" class="table-condensed" id='hapusPar'>
+            <tbody>                        
+            </tbody>
+        </table>
+        <table width="100%" class="table-condensed" id='statusPar'>
+            <tr>
+                <td>
+                    <?php echo $form->hiddenField($modPartograf,'[0]pemeriksaanpartograf_id') ?>
+                    <?php echo $form->hiddenField($modPartograf,'[0]pemeriksaanobstetrik_id') ?>
+                    <div class="control-group ">
+                        <?php echo Chtml::label('Waktu Pemeriksaan', 'pto_tglperiksa', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            
+                             <?php
+                            $this->widget('MyDateTimePicker', array(
+                                'model' => $modPartograf,
+                                'attribute' => '[0]pto_tglperiksa',
+                                'mode' => 'datetime',
+                                'options' => array(
+                                    'dateFormat' => Params::DATE_FORMAT,
+                                    'maxDate' => 'd',
+                                ),
+                                'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)"
+                                ),
+                            ));                            
+                            ?>                            
+                            <?php echo $form->error($modPartograf, 'pto_tglperiksa'); ?>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group ">
+                        <?php echo Chtml::label('Ketuban Pecah', 'pto_ketubanpecah', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                             <?php
+                            $this->widget('MyDateTimePicker', array(
+                                'model' => $modPartograf,
+                                'attribute' => '[0]pto_ketubanpecah',
+                                'mode' => 'date',
+                                'options' => array(
+                                    'dateFormat' => Params::DATE_FORMAT,
+                                    'maxDate' => 'd',
+                                ),
+                                'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)"
+                                ),
+                            ));                            
+                            ?>                            
+                            <?php echo $form->error($modPartograf, 'pto_ketubanpecah'); ?>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group ">
+                        <?php echo Chtml::label('Mules', 'pto_mules', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                             <?php
+                            $this->widget('MyDateTimePicker', array(
+                                'model' => $modPartograf,
+                                'attribute' => '[0]pto_mules',
+                                'mode' => 'datetime',
+                                'options' => array(
+                                    'dateFormat' => Params::DATE_FORMAT,
+                                    'maxDate' => 'd',
+                                ),
+                                'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)"
+                                ),
+                            ));                            
+                            ?>                            
+                            <?php echo $form->error($modPartograf, 'pto_mules'); ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("DJJ",'pto_djj_menit', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modPartograf, '[0]pto_djj_menit', array('class'=>'numbers-only span1', 'style' => 'text-align:right;')).' /menit'; ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Air Ketuban",'pto_airketuban', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modPartograf, '[0]pto_airketuban', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'empty' => '-- Pilih --')); ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Penyusupan",'pto_penyusupan', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modPartograf, '[0]pto_penyusupan',  LookupM::getItems('jeniskelamin'),array('class'=>'span2', 'empty' => '-- Pilih --')); ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Pembukaan",'pto_pembukaan', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modPartograf, '[0]pto_pembukaan', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')); ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Penutupan",'pto_penutupan', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modPartograf, '[0]pto_penutupan', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')); ?>
+                        </div>
+                    </div>
+                    
+                    <br/>
+                    
+                    <!--kontraksi-->
+                    <div class = "control-group">
+                        <?php echo Chtml::label("KONTRAKSI :",'djj', array('class' => 'control-label'));  ?>
+                        <div class="controls">                            
+                        </div>
+                    </div>
+                    
+                                         
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Jumlah",'kontraksi_jml', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modPartograf, '[0]kontraksi_jml', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')); ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Lama",'kontraksi_lama_detik', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modPartograf, '[0]kontraksi_lama_detik', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'empty' => '-- Pilih --')).' detik'; ?>
+                        </div>
+                    </div>
+                    <br/>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Oksitosin",'kontraksi_oksitosin_unit', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modPartograf, '[0]kontraksi_oksitosin_unit', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')).' unit'; ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Tetes",'kontraksi_tetes_menit', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modPartograf, '[0]kontraksi_tetes_menit', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')).' /menit'; ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Obat / Cairan",'djj', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php  
+                                 echo CHtml::hiddenField('obatalkes_id'); 
+                                $this->widget('MyJuiAutoComplete', array(
+                                     'model' => $modPartograf,
+                                    'attribute' => '[0]obatalkes_nama',                                    
+                                    'source'=>'js: function(request, response) {
+                                                   $.ajax({
+                                                       url: "'.$this->createUrl('AutocompleteObatAlkes').'",
+                                                       dataType: "json",
+                                                       data: {
+                                                           term: request.term,                                                           
+                                                       },
+                                                       success: function (data) {
+                                                               response(data);
+                                                       }
+                                                   })
+                                                }',
+                                     'options'=>array(
+                                           'showAnim'=>'fold',
+                                           'minLength' => 2,
+                                           'focus'=> 'js:function( event, ui ) {
+                                                $(this).val("");
+                                                return false;
+                                            }',
+                                           'select'=>'js:function( event, ui ) {
+                                                $(this).val(ui.item.value);
+                                                $("#obatalkes_id").val(ui.item.obatalkes_id);
+                                                $("#obatalkes_nama").val(ui.item.obatalkes_nama);
+                                                return false;
+                                            }',
+                                    ),
+                                    'htmlOptions'=>array(
+                                        'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                        'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); '
+                                    ),
+                                    'tombolDialog'=>array('idDialog'=>'dialogObatAlkes'),
+                                )); 
+                               ?>
+                            
+                        </div>
+                    </div>
+                </td> 
+                <td>
+                  
+                    <div class = "control-group">                        
+                        <div class="controls">
+                            <?php echo Chtml::label("TEKANAN DARAH :",'djj', array('style' => 'margin:80px;'));  ?>
+                            <?php //echo $form->textField($modGinekologi, 'gin_jmlkawin_kali', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')).' /menit'; ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("mm",'pto_systolic', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php 
+                            echo $form->textField($modPartograf, '[vc]pto_systolic', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; 
+                            echo Chtml::label("Hg",'pto_diastolic', array()).'&nbsp;&nbsp;'; 
+                            echo $form->textField($modPartograf, '[0]pto_diastolic', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')).'&nbsp;&nbsp;&nbsp;'; 
+                            ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Nadi",'pto_tekanandarah', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php 
+                            echo $form->textField($modPartograf, '[0]pto_tekanandarah', array('class'=>'span3 numbers-only', 'style' => 'text-align:right;','readonly' => TRUE));                             
+                            ?>
+                        </div>
+                    </div>
+                    <br/>
+                    
+                     <div class = "control-group">                        
+                        <div class="controls">
+                            <?php echo Chtml::label("URINE :",'djj', array('style' => 'margin:80px;'));  ?>
+                            <?php //echo $form->textField($modGinekologi, 'gin_jmlkawin_kali', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')).' /menit'; ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Protein",'urine_protein', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php 
+                                echo $form->dropDownList($modPartograf, '[0]urine_protein', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'empty' => '-- Pilih --')).' detik';
+                            ?>
+                        </div>
+                    </div>
+                    
+                    <div class = "control-group">
+                        <?php echo Chtml::label("Aseton",'urine_aseton', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php 
+                                echo $form->dropDownList($modPartograf, '[0]urine_aseton', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'empty' => '-- Pilih --')).' detik';
+                            ?>
+                        </div>
+                    </div>
+                    
+                     <div class = "control-group">
+                        <?php echo Chtml::label("Volume",'urine_volumen', array('class' => 'control-label'));  ?>
+                        <div class="controls">
+                            <?php 
+                                echo $form->textField($modPartograf, '[0]urine_volumen', array('class'=>'span1 numbers-only', 'style' => 'text-align:right;')).' cc';                             
+                            ?>
+                        </div>
+                    </div>
+                </td>
+            </tr>           
+        </table>
+    </fieldset>               
+    </div>
+</div>
+
+<?php
+//========= Dialog buat cari data Alat Kesehatan =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogObatAlkes0',
+    'options'=>array(
+        'title'=>'Daftar Stok Ruangan -'.Yii::app()->user->getState('ruangan_nama').'-',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>980,
+        'height'=>620,
+        'resizable'=>false,
+    ),
+));
+$format = new MyFormatter();
+$modObatAlkes = new PSInfostokobatalkesruanganV('searchDialogMutasi');
+$modObatAlkes->unsetAttributes();
+$modObatAlkes->ruangan_id = Yii::app()->user->getState('ruangan_id');
+$modObatAlkes->instalasi_id = Yii::app()->user->getState('instalasi_id');
+if(isset($_GET['PSInfostokobatalkesruanganV'])){
+    $modObatAlkes->attributes = $_GET['PSInfostokobatalkesruanganV'];
+    $modObatAlkes->obatalkes_kode = isset($_GET['PSInfostokobatalkesruanganV']['obatalkes_kode']) ? $_GET['GFInfostokobatalkesruanganV']['obatalkes_kode'] : null;
+    $modObatAlkes->jenisobatalkes_nama = isset($_GET['PSInfostokobatalkesruanganV']['jenisobatalkes_nama']) ? $_GET['GFInfostokobatalkesruanganV']['jenisobatalkes_nama'] : null;
+    $modObatAlkes->satuankecil_nama = isset($_GET['PSInfostokobatalkesruanganV']['satuankecil_nama']) ? $_GET['GFInfostokobatalkesruanganV']['satuankecil_nama'] : null;
+    $modObatAlkes->tglkadaluarsa = isset($_GET['PSInfostokobatalkesruanganV']['tglkadaluarsa']) ? $format->formatDateTimeForDb($_GET['GFInfostokobatalkesruanganV']['tglkadaluarsa']) : null;
+}
+
+$provider = $modObatAlkes->searchDataObat();
+$provider->sort->defaultOrder = 'obatalkes_nama asc';
+
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+	'id'=>'obatalkes-m-grid0',
+	'dataProvider'=>$modObatAlkes->searchDataObat(),
+	'filter'=>$modObatAlkes,
+	'template'=>"{summary}\n{items}\n{pager}",
+	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'columns'=>array(
+                array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectObat",
+                                    "onClick" => "
+                                        $(\'#obatalkes_id\').val($data->obatalkes_id);
+                                        $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
+                                        $(\'#dialogObatAlkes\').dialog(\'close\');
+                                        return false;"
+                                        ))',
+                ),
+                array(
+                    'header'=>'Jenis Obat Alkes',
+                    'name'=>'jenisobatalkes_id',
+                    'type'=>'raw',
+                    'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes_nama : "")',
+                    'filter'=>  CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(array(
+                        'condition'=>'jenisobatalkes_aktif = true',
+                        'order'=>'jenisobatalkes_nama'
+                    )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+                ),
+                
+                array(
+                    'name'=>'obatalkes_kategori',
+                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --'))
+                ),
+                array(
+                    'name'=>'obatalkes_golongan',
+                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
+                ),
+                'obatalkes_kode',
+                'obatalkes_nama',
+                //'obatalkes_kategori',
+                //'obatalkes_golongan',
+                // 'nobatch',
+		array(
+                    'header'=>'Tgl Kadaluarsa',
+                    'name'=>'tglkadaluarsa',
+                    'type'=>'raw',
+                    'value'=>'(!empty($data->tglkadaluarsa) ? MyFormatter::formatDateTimeForUser($data->tglkadaluarsa) : "")',
+                    'filter'=>$this->widget('MyDateTimePicker',array(
+						'model'=>$modObatAlkes,
+						'attribute'=>'tglkadaluarsa',
+						'mode'=>'date',
+						'options'=> array(
+                                                    'dateFormat'=>Params::DATE_FORMAT,
+						),
+						'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3 datemask','placeholder'=>'00/00/0000', 'id'=>'tglkadaluarsa'),
+						),true
+					),
+                ), /*
+                array(
+                    'name'=>'satuankecil_id',
+                    'type'=>'raw',
+//                    'value'=>'isset($data->satuankecil->satuankecil_nama) ? $data->satuankecil->satuankecil_nama : isset($data->satuankecil_nama) ? $data->satuankecil_nama : ""',
+                    'value'=>'$data->satuankecil_nama',
+                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'satuankecil_nama'),
+                ), */
+		// dicomment karena RND-5732
+//                array(
+//                    'name'=>'hargajual',
+//                    'type'=>'raw',
+//                    'value'=>'"Rp.".MyFormatter::formatNumberForPrint($data->hargajual)',
+//                    'filter'=>false,
+//                ),
+                array(
+                    'header'=>'Jumlah Stok',
+                    'value'=>function($data) {
+                        //$stok = StokobatalkesT::model()->findAllByAttributes(array(
+                          //  'obatalkes_id'=>$data->obatalkes_id,
+                            //'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                        //));
+    
+                        $r = Yii::app()->user->getState('ruangan_id');
+    
+                        $criteria = new CDbCriteria();
+                        $criteria->compare('obatalkes_id',$data->obatalkes_id);
+                        $criteria->addCondition("tglkadaluarsa = '".MyFormatter::formatDateTimeForDb($data->tglkadaluarsa)."' ");
+                      //  if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI)
+                       // {
+                            $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
+                        //}
+                        $stok = StokobatalkesT::model()->findAll($criteria);
+                        $total = 0;
+                        foreach ($stok as $item) {
+                            $total += $item->qtystok_in - $item->qtystok_out;
+                        }
+                        $satuan = ($data->satuankecil_nama==null)?$data->satuankecil->satuankecil_nama:$data->satuankecil_nama;
+
+                        return $total." ".$satuan;
+
+                    },
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: right;'
+                    )
+                ),
+
+                
+	),
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+			jQuery(\'#tglkadaluarsa\').datepicker(jQuery.extend({
+                        showMonthAfterYear:false}, 
+                        jQuery.datepicker.regional[\'id\'], 
+                       {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
+                       \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
+                       \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
+                jQuery(\'#tglkadaluarsa_date\').on(\'click\', function(){jQuery(\'#tanggal_lahir\').datepicker(\'show\');});}',
+)); 
+
+$this->endWidget();
+?>
+

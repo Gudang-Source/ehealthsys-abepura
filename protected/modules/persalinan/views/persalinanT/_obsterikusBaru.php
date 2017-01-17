@@ -324,8 +324,13 @@
     
     function delTrObs(id)
     {
-	$("#periksaOBS").find("#obsP"+id).remove();
-        $("#tabberObs").find("#P"+id).remove();
+         myConfirm('Apakah Anda yakin ingin membatalkan pemeriksaan obsterikus ini ?','Perhatian!',function(r){
+            if (r){
+                $("#periksaOBS").find("#obsP"+id).remove();
+                $("#tabberObs").find("#P"+id).remove();
+           }
+        });
+	
     }
     
 </script>

@@ -14,7 +14,7 @@
         text-align: right;
     }
 </style>
-<?php
+<?php 
 $sukses = null;
 if(isset($_GET['sukses'])){
     $sukses = $_GET['sukses'];
@@ -46,12 +46,12 @@ if($sukses > 0)
     <?php //echo $this->renderPartial('_obsterikus', array('model'=>$model,'modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
     <?php echo $this->renderPartial('_obsterikusBaru', array('model'=>$model,'modPemeriksaan' => $modObsterikus, 'form'=>$form, 'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaLama' => $modPemeriksaan), true); ?>
     <?php echo $this->renderPartial('_ginekologi', array('form'=>$form, 'modRiwayatKehamilan'=>$modRiwayatKehamilan, 'modGinekologi'=>$modGinekologi, 'modRiwayatKB' => $modRiwayatKB), true); ?>
-    <?php //echo $this->renderPartial('_partograf', array('form'=>$form, 'modRiwayatKehamilan'=>$modRiwayatKehamilan, 'modGinekologi'=>$modGinekologi), true); ?>
+    <?php echo $this->renderPartial('_partograf', array('form'=>$form, 'modPartografObat'=>$modPartografObat, 'modPartograf'=>$modPartograf, 'model'=>$model,'modObsterikus' => $modObsterikus, ), true); ?>
         </div>
     </div>
     
     <div class="form-actions"> 
-        <?php
+        <?php 
                 echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="entypo-check"></i>')) :
                     Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="entypo-check"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
         ?>

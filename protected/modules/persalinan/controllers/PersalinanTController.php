@@ -32,23 +32,44 @@ class PersalinanTController extends MyAuthController {
                 $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForUser($modObsterikus->plasenta_lahir);
                 $modObsterikus->obs_periksadalam = MyFormatter::formatDateTimeForUser($modObsterikus->obs_periksadalam);
                 
-                 $modPeriksaKala4 = PSPemeriksaankala4T::model()->findByAttributes(array(
+                $modPeriksaKala4 = PSPemeriksaankala4T::model()->findByAttributes(array(
                     'pemeriksaanobstetrik_id'=>$modObsterikus->pemeriksaanobstetrik_id,
                 ));
+                
+                $modPartograf = PSPemeriksaanpartografT::model()->findByAttributes(array(
+                    'pemeriksaanobstetrik_id'=>$modObsterikus->pemeriksaanobstetrik_id,
+                ));                                
 
                 if (count($modPeriksaKala4) < 1){
                     $modPeriksaKala4 = new PSPemeriksaankala4T;                
                 }
+                
+                if (count($modPartograf) < 1){
+                    $modPartograf = new PSPemeriksaanpartografT;                
+                }else{
+                    $modPartografObat = PSPemeriksaanpartografobatT::model()->findByAttributes(array(
+                        'pemeriksaanpartograf_id'=>$modPartograf->pemeriksaanpartograf_id,
+                    ));
+                    
+                    if (count($modPartografObat) < 1){
+                        $modPartografObat = new PSPemeriksaanpartografobatT;                
+                    }
+                }
             }else{
                 $modObsterikus = new PSPemeriksaanobstetrikT;
                 $modPeriksaKala4 = new PSPemeriksaankala4T;
+                $modPartograf = new PSPemeriksaanpartografT;
+                $modPartografObat = new PSPemeriksaanpartografobatT;    
+                            
             }
             
            
         }else{
-            $modObsterikus = new PSPemeriksaanobstetrikT;
-            
+            $modObsterikus = new PSPemeriksaanobstetrikT;            
             $modPeriksaKala4 = new PSPemeriksaankala4T;
+            $modPartograf = new PSPemeriksaanpartografT;
+            $modPartografObat = new PSPemeriksaanpartografobatT;    
+                        
         }
                 
 
@@ -433,7 +454,9 @@ class PersalinanTController extends MyAuthController {
             'modRiwayatKehamilan'=>$modRiwayatKehamilan,
             'modRiwayatKB' => $modRiwayatKB,
             'modObsterikus' => $modObsterikus,
-            'modPeriksaKala4' => $modPeriksaKala4
+            'modPeriksaKala4' => $modPeriksaKala4,
+            'modPartograf' => $modPartograf,
+            'modPartografObat' => $modPartografObat,
                 ));
     }
     
