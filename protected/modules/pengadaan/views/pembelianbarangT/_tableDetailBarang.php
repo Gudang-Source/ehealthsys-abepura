@@ -12,13 +12,14 @@
             <th>Kode Barang</th>
             <th>Nama Barang</th>
             <th>Merk</th>    
-            <th>Jumlah Beli</th>    
-            <th>Harga Satuan</th>    
-            <th>Harga Beli</th>
-            <th>Satuan</th>
-            <th>Jumlah Dalam Kemasan</th>
             <th>Ukuran</th>
             <th>Tahun Ekonomis</th>
+            <th>Isi Dalam Kemasan</th>
+            <th>Jumlah Permintaan</th>    
+            <th>Harga Satuan</th>    
+            <th>Harga Beli</th>
+            <!--<th>Satuan</th>            -->
+            
 			<?php if ($model->isNewRecord) { ?>
             <th>Batal</th>
 			<?php } ?>
@@ -42,13 +43,19 @@
                 <td><?php //echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok_id->subsubkelompok_id_nama:null; ?></td>-->
                 <td>
                     <?php echo CHtml::activeHiddenField($detail, '['.$i.']barang_id',array('class'=>'barang')); ?>
+                    <?php echo CHtml::activeHiddenField($detail, '['.$i.']satuanbeli');  ?>
                     <?php echo $modBarang->barang_type; ?></td>
                 <td><?php echo $modBarang->barang_kode; ?></td>
                 <td><?php echo $modBarang->barang_nama; ?></td>
                 <td><?php echo $modBarang->barang_merk; ?></td>
+                <td><?php echo $modBarang->barang_ukuran; ?></td>
+                <td><?php echo $modBarang->barang_ekonomis_thn; ?></td>
+                <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldlmkemasan', array('class'=>'span1 numbersOnly qty', 'onchange'=>'hitungTotal(this);', 'style'=>'text-align: right;'));
+                    echo '<br/>';
+                    echo $form->error($detail, '['.$i.']jmlbeli'); ?></td>                
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbersOnly qty', 'onblur'=>'hitungTotal(this);', 'style'=>'text-align: right;'));
+                    echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbersOnly qty', 'onblur'=>'hitungTotal(this);', 'style'=>'text-align: right;')).' '.$modBarang->barang_satuan;
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']jmlbeli');
                 ?>
@@ -67,12 +74,7 @@
                     echo $form->error($detail, '['.$i.']hargabeli');
                 ?>
                 </td>
-                <td><?php echo CHtml::activeDropDownList($detail, '['.$i.']satuanbeli', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
-                <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldlmkemasan', array('class'=>'span1 numbersOnly qty', 'onchange'=>'hitungTotal(this);', 'style'=>'text-align: right;'));
-                    echo '<br/>';
-                    echo $form->error($detail, '['.$i.']jmlbeli'); ?></td>
-                <td><?php echo $modBarang->barang_ukuran; ?></td>
-                <td><?php echo $modBarang->barang_ekonomis_thn; ?></td>
+              <!--  <td><?php //echo CHtml::activeDropDownList($detail, '['.$i.']satuanbeli', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>                -->
 				<?php if ($model->isNewRecord) { ?>
                 <td><?php echo Chtml::link('<icon class="icon-remove"></icon>', '', array('onclick'=>'batal(this);', 'style'=>'cursor:pointer;', 'class'=>'cancel')); ?></td>
 				<?php } ?>

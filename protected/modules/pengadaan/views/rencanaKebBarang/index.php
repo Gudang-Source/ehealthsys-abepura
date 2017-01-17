@@ -44,15 +44,15 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Asal Barang</th>
+                    <th>Tipe Barang</th>
+                    <th>Kode Barang</th>
                     <th>Nama Barang</th>
-                    <th>Satuan </th>
-                    <th>Jumlah Permintaan</th>
-                    <th>Harga</th>
                     <th>Stok Akhir</th>
-                    <th>Minimal Stok</th>
-					<th>Maksimal Stok</th>
-                    <th>Sub Total</th>
+                    <th>Min Stok</th>
+                    <th>Maks Stok</th>                    
+                    <th>Jumlah Kebutuhan</th>
+                    <th>Harga (Rp)</th>                    
+                    <th>Sub Total (Rp)</th>
                     <th>Batal</th>
                 </tr>
             </thead>
@@ -66,7 +66,7 @@
                 ?>
                 <tfoot>
                     <tr>
-                        <td colspan="9">Total</td>
+                        <td colspan="9" style = "text-align:right;">Total</td>
                         <td><?php echo CHtml::textField('total','',array('class'=>'span2 integer2','style'=>'width:90px;'))?></td>					
 						<td></td>
                     </tr>
@@ -82,10 +82,10 @@
 			</div>
 			<div class="span4">
 				<div class="control-group ">
-					<?php echo $form->labelEx($modRencanaKebBarang, 'pegmengetahui_id', array('class' => 'control-label')); ?>
+					<?php echo Chtml::label("Pegawai Mengetahui <font style='color:red;'>*</font>", 'pegmengetahui_id', array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo $form->hiddenField($modRencanaKebBarang, 'pegmengetahui_id',array('readonly'=>true)); ?>
-                                                <?php echo $form->textField($modRencanaKebBarang, 'pegmengetahui_nama',array('readonly'=>true)); ?>
+                                                <?php echo $form->textField($modRencanaKebBarang, 'pegmengetahui_nama',array('readonly'=>true, 'class' => 'required')); ?>
 						<?php
 						/*$this->widget('MyJuiAutoComplete', array(
 							'model'=>$modRencanaKebBarang,
@@ -127,7 +127,7 @@
 			</div>
 			<div class="span4">
 				<div class="control-group ">
-					<?php echo $form->labelEx($modRencanaKebBarang, 'pegmenyetujui_id', array('class' => 'control-label')); ?>
+					<?php echo Chtml::label("Pegawai Menyetujui <font style='color:red;'>*</font>", 'pegmenyetujui_id', array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo $form->hiddenField($modRencanaKebBarang, 'pegmenyetujui_id',array('readonly'=>true)); ?>
 						<?php
@@ -159,7 +159,7 @@
 								}',
 							),
 							'htmlOptions' => array(
-								'class'=>'pegawaimenyetujui_nama',
+								'class'=>'pegawaimenyetujui_nama required hurufs-only',
 								'onkeyup'=>"return $(this).focusNextInputField(event)",
 								'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modRencanaKebBarang, 'pegmenyetujui_id') . '").val(""); '
 							),

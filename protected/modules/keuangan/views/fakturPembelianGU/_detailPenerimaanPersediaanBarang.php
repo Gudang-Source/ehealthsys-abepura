@@ -8,7 +8,7 @@
         $subsubkelompok = "";
         
         if (!empty($modBarang->subsubkelompok_id)) {
-            if (!empty($modBarang->subusbkelompok->subkelompok_id)) {
+            if (!empty($modBarang->subsubkelompok->subkelompok_id)) {
                 if (!empty($modBarang->subsubkelompok->subkelompok->kelompok_id)) {
                     if (!empty($modBarang->subsubkelompok->subkelompok->kelompok->bidang_id)) {
                         if (!empty($modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan_id)) {

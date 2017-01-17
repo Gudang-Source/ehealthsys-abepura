@@ -472,7 +472,7 @@
 	?>
     <div class="form-actions">
 		<?php
-		if (!empty($model->nofaktur)) {
+		if (!empty($model->nofaktur) && isset($_GET['id'])) {
 			$urlPrint = Yii::app()->createAbsoluteUrl('gudangFarmasi/penerimaanItems/printFaktur', array('idFaktur' => $modFakturPembelian->fakturpembelian_id));
 			$js = <<< JSCRIPT
 function print(caraPrint)
@@ -488,7 +488,7 @@ JSCRIPT;
 		}
 		?>
 	<?php
-	echo "&nbsp;" . CHtml::htmlButton(Yii::t('mds', '{icon} Cancel', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-danger', 'type' => 'button'));
+	echo "&nbsp;" . CHtml::htmlButton(Yii::t('mds', '{icon} Cancel', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-danger', 'type' => 'button'))."&nbsp;";
 	?>
 <?php
 $content = $this->renderPartial('keuangan.views.tips.transaksi', array(), true);
@@ -515,7 +515,7 @@ $format = new MyFormatter();
 $modTerimaPers = new KUTerimapersediaanT;
 if (isset($_GET['KUTerimapersediaanT'])) {
 	$modTerimaPers->attributes = $_GET['KUTerimapersediaanT'];
-	$modTerimaPers->peg_penerima_id = $_GET['KUTerimapersediaanT']['peg_penerima_id'];
+	$modTerimaPers->peg_penerima_nama = $_GET['KUTerimapersediaanT']['peg_penerima_nama'];
 	// $modTerimaPers->tglterima = $format->formatDateTimeForDb($_GET['KUTerimapersediaanT']['tglterima']);
 }
 
@@ -570,7 +570,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		array(
 			'header' => 'Nama Pegawai Penerima',
 			'type' => 'raw',
-			'name' => 'peg_penerima_id',
+			'name' => 'peg_penerima_nama',
 			'value' => '$data->penerima->nama_pegawai',
 		)
 	),
