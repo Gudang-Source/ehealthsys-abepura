@@ -19,8 +19,63 @@ class Controller extends CController
 	 * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
 	 * for more details on how to specify this property.
 	 */
+	
+	public $isDebug = false;
+	
 	public $breadcrumbs=array();
         
+	/**
+	 * @author Deni Hamdani <denihamdani@piindonesia.co.id>
+	 * 
+	 * Debugging/tracing variabel dengan memakai print_r.
+	 * 
+	 * @param string $desc Judul Debug.
+	 * @param mixed $data data yang akan ditracking.
+	 * @param boolean $die jika true, maka program akan berhenti secara keseluruhan.
+	 * @return boolean Eksekusi diberhentikan jika $isDebug tidak diset true.
+	 */
+	protected function debug_r($desc, $data, $die = false) {
+		if (!$this->isDebug) return false;
+		
+		print_r($desc." : \n");
+		
+		if (is_array($data)) {
+			foreach ($data as $item) {
+				print_r($item);
+			}
+		} else print_t($data);
+		
+		print_r("\n");
+		
+		if ($die) die;
+	}
+	
+	/**
+	 * @author Deni Hamdani <denihamdani@piindonesia.co.id>
+	 * 
+	 * Debugging/tracing variabel dengan memakai var_dump
+	 * 
+	 * @param string $desc Judul Debug.
+	 * @param mixed $data data yang akan ditracking.
+	 * @param boolean $die jika true, maka program akan berhenti secara keseluruhan.
+	 * @return boolean Eksekusi diberhentikan jika $isDebug tidak diset true.
+	 */
+	protected function debug_dump($desc, $data, $die = false) {
+		if (!$this->isDebug) return false;
+		
+		echo $desc." : <br/>";
+		
+		if (is_array($data)) {
+			foreach ($data as $item) {
+				var_dump($item);
+			}
+		} else var_dump($data);
+		
+		echo "<br/>";
+		
+		if ($die) die;
+	}
+	
         public function checkRoles($roles)
         {
            $cek = AssignmentsK::model()->findByAttributes(array('userid'=>Yii::app()->user->id,'itemname'=>$roles));

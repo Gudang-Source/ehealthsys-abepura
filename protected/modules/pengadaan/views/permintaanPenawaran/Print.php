@@ -28,6 +28,14 @@ echo CHtml::css('.control-label{
     }
 ');
 ?>  
+
+<style>
+	.det td, .det th {
+		border: 1px solid black;
+		padding: 2px;
+	}
+</style>
+
 <?php
 if(!$modPenawaranDetail){
     echo "Data tidak ditemukan"; exit;
@@ -37,7 +45,7 @@ if (!isset($_GET['frame'])){
     echo $this->renderPartial($this->path_view.'_headerPrint'); 
 }
 ?>
-<table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+<table width="100%" style="margin:0px;" cellpadding="0" cellspacing="0">
     <tr>
         <td align="center" valig="middle" colspan="3">
             <b><?php echo $judul_print ?></b>
@@ -45,12 +53,12 @@ if (!isset($_GET['frame'])){
     </tr>
     <tr>
         <td>No. Permintaan</td>
-        <td>:</td>
-        <td><?php echo $modPermintaanPenawaran->nosuratpenawaran; ?></td>
+        <td>: </td>
+        <td width="100%"><?php echo $modPermintaanPenawaran->nosuratpenawaran; ?></td>
     </tr>
     <tr>
-        <td>Tanggal Permintaan</td>
-        <td>:</td>
+        <td nowrap>Tanggal Permintaan</td>
+        <td>: </td>
         <td><?php echo $format->formatDateTimeForUser($modPermintaanPenawaran->tglpenawaran); ?></td>
     </tr>
 <!--    <tr>
@@ -65,51 +73,53 @@ if (!isset($_GET['frame'])){
     </tr>-->
     <tr>
         <td>Status Penawaran</td>
-        <td>:</td>
+        <td>: </td>
         <td><?php echo $modPermintaanPenawaran->statuspenawaran; ?></td>
     </tr>
     <tr>
-        <td><i>Merupakan penawaran <?= ($modPermintaanPenawaran->ispenawaranmasuk)?"masuk":"keluar"; ?> dari supplier <?= $modPermintaanPenawaran->supplier->supplier_nama; ?></i></td>
+        <td colspan="3"><i>Merupakan penawaran <?= ($modPermintaanPenawaran->ispenawaranmasuk)?"masuk":"keluar"; ?> dari supplier <?= $modPermintaanPenawaran->supplier->supplier_nama; ?></i></td>
     </tr>
 </table><br/>
-<table width="100%" style='margin-left:auto; margin-right:auto;'>
+<table width="100%" style='margin-left:auto; margin-right:auto;' class="det">
     <thead class="border">
         <th style="text-align: center;">No.</th>
         <th style="text-align: center;">Asal Barang</th>
         <th style="text-align: center;">Kategori / Nama Obat</th>
         <th style="text-align: center;">Jumlah Kemasan (Satuan) </th>
         <th style="text-align: center;">Jumlah Permintaan</th>
-        <th style="text-align: center;">Harga Netto</th>
+        <th style="text-align: center;">Harga Netto (Rp)</th>
         <th style="text-align: center;">Stok</th>
         <th style="text-align: center;">Minimal Stok</th>
-        <th style="text-align: center;">Sub Total</th>
+        <th style="text-align: center;">Sub Total (Rp)</th>
     </thead>
     <?php 
     $total = 0;
     $subtotal = 0;
     foreach ($modPenawaranDetail as $i=>$modObat){ 
+		$oa = ObatalkesM::model()->findByPk($modObat->obatalkes_id);
+		//var_dump($modObat->attributes); die;
     ?>
         <tr>
             <td><?php echo ($i+1)."."; ?></td>
             <td><?php echo $modObat->sumberdana->sumberdana_nama; ?></td>
             <td><?php echo (!empty($modObat->obatalkes->obatalkes_kategori) ? $modObat->obatalkes->obatalkes_kategori."/ " : "") ."". $modObat->obatalkes->obatalkes_nama; ?></td>
-            <td style="text-align: center;"><?php echo $modObat->kemasanbesar; ?></td>
-            <td style="text-align: center;"><?php echo $modObat->qty; ?></td>
-            <td><?php echo $format->formatUang($modObat->harganetto); ?></td>
+            <td style="text-align: center;"><?php echo $modObat->kemasanbesar." ".$oa->satuankecil->satuankecil_nama; ?></td>
+            <td style="text-align: center;"><?php echo $modObat->qty." ".$oa->satuanbesar->satuanbesar_nama; ?></td>
+            <td style="text-align: right;"><?php echo $format->formatNumberForPrint($modObat->harganetto); ?></td>
             <td style="text-align: center;"><?php
             $modObat->stokakhir = StokobatalkesT::getJumlahStok($modObat->obatalkes_id, Yii::app()->user->getState('ruangan_id'));
-            echo $modObat->stokakhir; ?></td>
+            echo $modObat->stokakhir." ".$oa->satuankecil->satuankecil_nama; ?></td>
             <td style="text-align: center;"><?php echo $modObat->minimalstok; ?></td>
-            <td><?php 
+            <td style="text-align: right;"><?php 
                 $subtotal = ($modObat->harganetto * $modObat->qty);
                 $total += $subtotal;
-                echo $format->formatUang($subtotal); ?>
+                echo $format->formatNumberForPrint($subtotal); ?>
             </td>
         </tr>
     <?php } ?>
     <tr>
         <td colspan="8" align="center"><strong>Total</strong></td>
-        <td><?php echo $format->formatUang($total); ?></td>
+        <td style="text-align: right;"><?php echo $format->formatNumberForPrint($total); ?></td>
     </tr>
 </table>
 <?php
