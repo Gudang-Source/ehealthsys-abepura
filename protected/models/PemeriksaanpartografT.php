@@ -61,14 +61,14 @@ class PemeriksaanpartografT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pemeriksaanobstetrik_id, pto_tglperiksa, create_time, create_loginpemakai_id, create_ruangan', 'required'),
-			array('pemeriksaanobstetrik_id, pto_djj_menit, pto_pembukaan, pto_penutupan, kontraksi_jml, kontraksi_lama_detik, kontraksi_oksitosin_unit, kontraksi_tetes_menit, pto_systolic, pto_diastolic, urine_volumen, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
+			array('persalinan_id, pto_tglperiksa, create_time, create_loginpemakai_id, create_ruangan', 'required'),
+			array('persalinan_id, pto_djj_menit, pto_pembukaan, pto_penutupan, kontraksi_jml, kontraksi_oksitosin_unit, kontraksi_tetes_menit, pto_systolic, pto_diastolic, urine_volumen, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
 			array('pto_airketuban, pto_penyusupan, urine_protein, urine_aseton', 'length', 'max'=>100),
 			array('pto_tekanandarah', 'length', 'max'=>20),
-			array('pto_ketubanpecah, pto_mules, update_time', 'safe'),
+			array('kontraksi_lama_detik, pto_ketubanpecah, pto_mules, update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('pemeriksaanpartograf_id, pemeriksaanobstetrik_id, pto_tglperiksa, pto_ketubanpecah, pto_mules, pto_djj_menit, pto_airketuban, pto_penyusupan, pto_pembukaan, pto_penutupan, kontraksi_jml, kontraksi_lama_detik, kontraksi_oksitosin_unit, kontraksi_tetes_menit, pto_tekanandarah, pto_systolic, pto_diastolic, urine_protein, urine_aseton, urine_volumen, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),
+			array('pemeriksaanpartograf_id, persalinan_id, pto_tglperiksa, pto_ketubanpecah, pto_mules, pto_djj_menit, pto_airketuban, pto_penyusupan, pto_pembukaan, pto_penutupan, kontraksi_jml, kontraksi_lama_detik, kontraksi_oksitosin_unit, kontraksi_tetes_menit, pto_tekanandarah, pto_systolic, pto_diastolic, urine_protein, urine_aseton, urine_volumen, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -80,7 +80,7 @@ class PemeriksaanpartografT extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'pemeriksaanobstetrik' => array(self::BELONGS_TO, 'PemeriksaanobstetrikT', 'pemeriksaanobstetrik_id'),
+			'persalinan' => array(self::BELONGS_TO, 'PersalinanT', 'persalinan_id'),
 		);
 	}
 
@@ -91,7 +91,7 @@ class PemeriksaanpartografT extends CActiveRecord
 	{
 		return array(
 			'pemeriksaanpartograf_id' => 'Pemeriksaanpartograf',
-			'pemeriksaanobstetrik_id' => 'Pemeriksaanobstetrik',
+			'persalinan_id' => 'Persalinan',
 			'pto_tglperiksa' => 'Pto Tglperiksa',
 			'pto_ketubanpecah' => 'Pto Ketubanpecah',
 			'pto_mules' => 'Pto Mules',
@@ -130,7 +130,7 @@ class PemeriksaanpartografT extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('pemeriksaanpartograf_id',$this->pemeriksaanpartograf_id);
-		$criteria->compare('pemeriksaanobstetrik_id',$this->pemeriksaanobstetrik_id);
+		$criteria->compare('persalinan_id',$this->persalinan_id);
 		$criteria->compare('pto_tglperiksa',$this->pto_tglperiksa,true);
 		$criteria->compare('pto_ketubanpecah',$this->pto_ketubanpecah,true);
 		$criteria->compare('pto_mules',$this->pto_mules,true);

@@ -37,16 +37,19 @@ class PersalinanTController extends MyAuthController {
                 ));
                 
                 $modPartograf = PSPemeriksaanpartografT::model()->findByAttributes(array(
-                    'pemeriksaanobstetrik_id'=>$modObsterikus->pemeriksaanobstetrik_id,
-                ));                                
+                    'persalinan_id'=>$getPersalinanId->persalinan_id,
+                ));               
+                
+                
 
                 if (count($modPeriksaKala4) < 1){
                     $modPeriksaKala4 = new PSPemeriksaankala4T;                
                 }
                 
                 if (count($modPartograf) < 1){
-                    $modPartograf = new PSPemeriksaanpartografT;                
-                }else{
+                    $modPartograf = new PSPemeriksaanpartografT;   
+                     $modPartografObat = new PSPemeriksaanpartografobatT;        
+                }else{                    
                     $modPartografObat = PSPemeriksaanpartografobatT::model()->findByAttributes(array(
                         'pemeriksaanpartograf_id'=>$modPartograf->pemeriksaanpartograf_id,
                     ));
@@ -335,6 +338,7 @@ class PersalinanTController extends MyAuthController {
                     if ($model->save()){
                         
                         $cekPemeriksaanKala4 = false;
+                        $cekPemeriksaanPartograf = false;
                        // var_dump(empty($_POST['PSPemeriksaanobstetrikT'][1]['pemeriksaanobstetrik_id']));die;
                         foreach($_POST['PSPemeriksaanobstetrikT'] as $i=>$item)
                         {                                                                    
@@ -352,8 +356,7 @@ class PersalinanTController extends MyAuthController {
                                             $modObsterikus->plasenta_lahir = MyFormatter::formatDateTimeForDb( $modObsterikus->plasenta_lahir);                                         
                                             $modObsterikus->save();                                        
                                        // }
-                                }else{//   }else{             
-                                        var_dump($_POST['PSPemeriksaanobstetrikT'] );die;
+                                }else{//   }else{                                                     
                                         $modObsterikus = $modObsterikus::model()->findByPk($_POST['PSPemeriksaanobstetrikT'][$i]['pemeriksaanobstetrik_id']);
                                         $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];
                                         //var_dump($_POST['PSPemeriksaanobstetrikT'][$i]);die;
@@ -401,6 +404,43 @@ class PersalinanTController extends MyAuthController {
                                     //}                        $modObsterikus->attributes=$_POST['PSPemeriksaanobstetrikT'][$i];  
                             }
                         }
+                        
+                        if ($model->carapersalinan == Params::CARAPERSALINAN_NORMAL ){
+                            foreach($_POST['PSPemeriksaanpartografT'] as $i=>$item)
+                            {
+                                if(is_integer($i)) {
+                                    if (empty($_POST['PSPemeriksaanpartografT'][$i]['pemeriksaanpartograf_id'])){
+                                                $modPartograf=new PSPemeriksaanpartografT;
+                                        //if ($modObsterikus->isNewRecord) {
+                                            //if(isset($_POST['PSPemeriksaanobstetrikT'][$i])){                                            
+                                                $modPartograf->attributes=$_POST['PSPemeriksaanpartografT'][$i];                                           
+                                                $modPartograf->persalinan_id = $model->persalinan_id;
+                                                $modPartograf->create_loginpemakai_id = Yii::app()->user->id;
+                                                $modPartograf->create_time = date('Y-m-d H:i:s');
+                                                $modPartograf->create_ruangan = Yii::app()->user->getState('ruangan_id');                                    
+                                                $modPartograf->pto_tglperiksa = MyFormatter::formatDateTimeForDb( $modPartograf->pto_tglperiksa);
+                                                $modPartograf->pto_ketubanpecah = MyFormatter::formatDateTimeForDb( $modPartograf->pto_ketubanpecah);
+                                                $modPartograf->pto_mules = MyFormatter::formatDateTimeForDb( $modPartograf->pto_mules);
+                                               // var_dump($modPartograf->attributes);die;
+                                                $modPartograf->save();                                                    
+                                           // }
+                                    }else{//   }else{             
+                                            //var_dump($_POST['PSPemeriksaanobstetrikT'] );die;
+                                            $modPartograf = $modPartograf::model()->findByPk($_POST['PSPemeriksaanpartografT'][$i]['pemeriksaanpartograf_id']);
+                                            $modPartograf->attributes=$_POST['PSPemeriksaanpartografT'][$i];
+                                            //var_dump($_POST['PSPemeriksaanobstetrikT'][$i]);die;
+                                            $modPartograf->update_loginpemakai_id = Yii::app()->user->id;
+                                            $modPartograf->update_time = date('Y-m-d H:i:s');
+                                            $modPartograf->pto_tglperiksa = MyFormatter::formatDateTimeForDb( $modPartograf->pto_tglperiksa);
+                                            $modPartograf->pto_ketubanpecah = MyFormatter::formatDateTimeForDb( $modPartograf->pto_ketubanpecah);
+                                            $modPartograf->pto_mules = MyFormatter::formatDateTimeForDb( $modPartograf->pto_mules);
+                                            $modPartograf->save();                                                    
+                                       // }
+                                    }
+
+                                }
+                            }
+                        }
                         //var_dump($modPeriksaKala4->kala4_tanggal);die;
                        /* foreach ($_POST['PemeriksaanfisikT'] as $key=>$val) {
                             $modPemeriksaan[$key] = $val;
@@ -423,12 +463,24 @@ class PersalinanTController extends MyAuthController {
 
 
                         // var_dump($modPemeriksaan->attributes, $modPemeriksaan->validate(), $modPemeriksaan->errors); die;
-                        if ($cekPemeriksaanKala4) {
+                        if ($cekPemeriksaanKala4) {                            
                             //var_dump();die;
-                            $trans->commit();
-                            Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
-                            $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
-
+                            if ($model->carapersalinan == Params::CARAPERSALINAN_NORMAL){
+                                if ($modPartograf->save()){
+                                    
+                                    $trans->commit();
+                                    Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                                    $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                                }else{                                    
+                                    $trans->rollback();
+                                    Yii::app()->user->setFlash('error',"Data Pemeriksaan Partograf Gagal Disimpan ");
+                                }
+                                
+                            }else{
+                                $trans->commit();
+                                Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                                $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));                                
+                            }                            
                         }else {                                         
                             $trans->rollback();
                             Yii::app()->user->setFlash('error',"Data Pemeriksaan Kala 4 Gagal Disimpan");

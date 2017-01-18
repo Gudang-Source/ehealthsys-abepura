@@ -13,7 +13,7 @@
             <tr>
                 <td>
                     <?php echo $form->hiddenField($modPartograf,'['.$id.']pemeriksaanpartograf_id') ?>
-                    <?php echo $form->hiddenField($modPartograf,'['.$id.']pemeriksaanobstetrik_id') ?>
+                    <?php echo $form->hiddenField($modPartograf,'['.$id.']persalinan_id') ?>
                     <div class="control-group ">
                         <?php echo Chtml::label('Waktu Pemeriksaan', 'pto_tglperiksa', array('class' => 'control-label')) ?>
                         <div class="controls">
@@ -61,7 +61,7 @@
                             $this->widget('MyDateTimePicker', array(
                                 'model' => $modPartograf,
                                 'attribute' => '['.$id.']pto_mules',
-                                'mode' => 'datetime',
+                                'mode' => 'date',
                                 'options' => array(
                                     'dateFormat' => Params::DATE_FORMAT,
                                     'maxDate' => 'd',
@@ -84,14 +84,14 @@
                     <div class = "control-group">
                         <?php echo Chtml::label("Air Ketuban",'pto_airketuban', array('class' => 'control-label'));  ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modPartograf, '['.$id.']pto_airketuban', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'empty' => '-- Pilih --')); ?>
+                            <?php echo $form->dropDownList($modPartograf, '['.$id.']pto_airketuban', LookupM::getItems('partografketuban'), array('class'=>'span2', 'empty' => '-- Pilih --')); ?>
                         </div>
                     </div>
                     
                     <div class = "control-group">
                         <?php echo Chtml::label("Penyusupan",'pto_penyusupan', array('class' => 'control-label'));  ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modPartograf, '['.$id.']pto_penyusupan',  LookupM::getItems('jeniskelamin'),array('class'=>'span2', 'empty' => '-- Pilih --')); ?>
+                            <?php echo $form->dropDownList($modPartograf, '['.$id.']pto_penyusupan',  LookupM::getItems('partografpenyusupan'),array('class'=>'span2', 'empty' => '-- Pilih --')); ?>
                         </div>
                     </div>
                     
@@ -129,7 +129,7 @@
                     <div class = "control-group">
                         <?php echo Chtml::label("Lama",'kontraksi_lama_detik', array('class' => 'control-label'));  ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modPartograf, '['.$id.']kontraksi_lama_detik', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'empty' => '-- Pilih --')).' detik'; ?>
+                            <?php echo $form->dropDownList($modPartograf, '['.$id.']kontraksi_lama_detik', LookupM::getItems('partograflama'), array('class'=>'span2', 'empty' => '-- Pilih --')).' detik'; ?>
                         </div>
                     </div>
                     <br/>
@@ -233,7 +233,7 @@
                         <?php echo Chtml::label("Protein",'urine_protein', array('class' => 'control-label'));  ?>
                         <div class="controls">
                             <?php 
-                                echo $form->dropDownList($modPartograf, '['.$id.']urine_protein', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'empty' => '-- Pilih --')).' detik';
+                                echo $form->dropDownList($modPartograf, '['.$id.']urine_protein', LookupM::getItems('partografproteinaseton'), array('class'=>'span2', 'empty' => '-- Pilih --'));
                             ?>
                         </div>
                     </div>
@@ -242,7 +242,7 @@
                         <?php echo Chtml::label("Aseton",'urine_aseton', array('class' => 'control-label'));  ?>
                         <div class="controls">
                             <?php 
-                                echo $form->dropDownList($modPartograf, '['.$id.']urine_aseton', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'empty' => '-- Pilih --')).' detik';
+                                echo $form->dropDownList($modPartograf, '['.$id.']urine_aseton', LookupM::getItems('partografproteinaseton'), array('class'=>'span2', 'empty' => '-- Pilih --'));
                             ?>
                         </div>
                     </div>
@@ -262,152 +262,5 @@
     </div>
 </div>
 
-<?php 
-//========= Dialog buat cari data Alat Kesehatan =========================
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
-    'id'=>'dialogObatAlkes',
-    'options'=>array(
-        'title'=>'Daftar Stok Ruangan -'.Yii::app()->user->getState('ruangan_nama').'-',
-        'autoOpen'=>false,
-        'modal'=>true,
-        'width'=>980,
-        'height'=>620,
-        'resizable'=>false,
-    ),
-));
-$format = new MyFormatter();
-$modObatAlkes = new PSInfostokobatalkesruanganV('searchDialogMutasi');
-$modObatAlkes->unsetAttributes();
-$modObatAlkes->ruangan_id = Yii::app()->user->getState('ruangan_id');
-$modObatAlkes->instalasi_id = Yii::app()->user->getState('instalasi_id');
-if(isset($_GET['PSInfostokobatalkesruanganV'])){
-    $modObatAlkes->attributes = $_GET['PSInfostokobatalkesruanganV'];
-    $modObatAlkes->obatalkes_kode = isset($_GET['PSInfostokobatalkesruanganV']['obatalkes_kode']) ? $_GET['GFInfostokobatalkesruanganV']['obatalkes_kode'] : null;
-    $modObatAlkes->jenisobatalkes_nama = isset($_GET['PSInfostokobatalkesruanganV']['jenisobatalkes_nama']) ? $_GET['GFInfostokobatalkesruanganV']['jenisobatalkes_nama'] : null;
-    $modObatAlkes->satuankecil_nama = isset($_GET['PSInfostokobatalkesruanganV']['satuankecil_nama']) ? $_GET['GFInfostokobatalkesruanganV']['satuankecil_nama'] : null;
-    $modObatAlkes->tglkadaluarsa = isset($_GET['PSInfostokobatalkesruanganV']['tglkadaluarsa']) ? $format->formatDateTimeForDb($_GET['GFInfostokobatalkesruanganV']['tglkadaluarsa']) : null;
-}
 
-$provider = $modObatAlkes->searchDataObat();
-$provider->sort->defaultOrder = 'obatalkes_nama asc';
-
-$this->widget('ext.bootstrap.widgets.BootGridView',array(
-	'id'=>'obatalkes-m-grid'.$id,
-	'dataProvider'=>$modObatAlkes->searchDataObat(),
-	'filter'=>$modObatAlkes,
-	'template'=>"{summary}\n{items}\n{pager}",
-	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-	'columns'=>array(
-                array(
-                    'header'=>'Pilih',
-                    'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-                                    "id" => "selectObat",
-                                    "onClick" => "
-                                        $(\'#obatalkes_id\').val($data->obatalkes_id);
-                                        $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
-                                        $(\'#dialogObatAlkes\').dialog(\'close\');
-                                        return false;"
-                                        ))',
-                ),
-                array(
-                    'header'=>'Jenis Obat Alkes',
-                    'name'=>'jenisobatalkes_id',
-                    'type'=>'raw',
-                    'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes_nama : "")',
-                    'filter'=>  CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(array(
-                        'condition'=>'jenisobatalkes_aktif = true',
-                        'order'=>'jenisobatalkes_nama'
-                    )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
-                ),
-                
-                array(
-                    'name'=>'obatalkes_kategori',
-                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --'))
-                ),
-                array(
-                    'name'=>'obatalkes_golongan',
-                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
-                ),
-                'obatalkes_kode',
-                'obatalkes_nama',
-                //'obatalkes_kategori',
-                //'obatalkes_golongan',
-                // 'nobatch',
-		array(
-                    'header'=>'Tgl Kadaluarsa',
-                    'name'=>'tglkadaluarsa',
-                    'type'=>'raw',
-                    'value'=>'(!empty($data->tglkadaluarsa) ? MyFormatter::formatDateTimeForUser($data->tglkadaluarsa) : "")',
-                    'filter'=>$this->widget('MyDateTimePicker',array(
-						'model'=>$modObatAlkes,
-						'attribute'=>'tglkadaluarsa',
-						'mode'=>'date',
-						'options'=> array(
-                                                    'dateFormat'=>Params::DATE_FORMAT,
-						),
-						'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3 datemask','placeholder'=>'00/00/0000', 'id'=>'tglkadaluarsa'),
-						),true
-					),
-                ), /*
-                array(
-                    'name'=>'satuankecil_id',
-                    'type'=>'raw',
-//                    'value'=>'isset($data->satuankecil->satuankecil_nama) ? $data->satuankecil->satuankecil_nama : isset($data->satuankecil_nama) ? $data->satuankecil_nama : ""',
-                    'value'=>'$data->satuankecil_nama',
-                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'satuankecil_nama'),
-                ), */
-		// dicomment karena RND-5732
-//                array(
-//                    'name'=>'hargajual',
-//                    'type'=>'raw',
-//                    'value'=>'"Rp.".MyFormatter::formatNumberForPrint($data->hargajual)',
-//                    'filter'=>false,
-//                ),
-                array(
-                    'header'=>'Jumlah Stok',
-                    'value'=>function($data) {
-                        //$stok = StokobatalkesT::model()->findAllByAttributes(array(
-                          //  'obatalkes_id'=>$data->obatalkes_id,
-                            //'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
-                        //));
-    
-                        $r = Yii::app()->user->getState('ruangan_id');
-    
-                        $criteria = new CDbCriteria();
-                        $criteria->compare('obatalkes_id',$data->obatalkes_id);
-                        $criteria->addCondition("tglkadaluarsa = '".MyFormatter::formatDateTimeForDb($data->tglkadaluarsa)."' ");
-                      //  if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI)
-                       // {
-                            $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
-                        //}
-                        $stok = StokobatalkesT::model()->findAll($criteria);
-                        $total = 0;
-                        foreach ($stok as $item) {
-                            $total += $item->qtystok_in - $item->qtystok_out;
-                        }
-                        $satuan = ($data->satuankecil_nama==null)?$data->satuankecil->satuankecil_nama:$data->satuankecil_nama;
-
-                        return $total." ".$satuan;
-
-                    },
-                    'htmlOptions'=>array(
-                        'style'=>'text-align: right;'
-                    )
-                ),
-
-                
-	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
-			jQuery(\'#tglkadaluarsa\').datepicker(jQuery.extend({
-                        showMonthAfterYear:false}, 
-                        jQuery.datepicker.regional[\'id\'], 
-                       {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
-                       \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
-                       \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
-                jQuery(\'#tglkadaluarsa_date\').on(\'click\', function(){jQuery(\'#tanggal_lahir\').datepicker(\'show\');});}',
-)); 
-
-$this->endWidget();
-?>
 
