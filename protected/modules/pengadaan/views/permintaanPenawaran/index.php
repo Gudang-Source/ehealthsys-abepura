@@ -42,8 +42,8 @@
                         <th>Satuan Kecil/Besar</th>
                         <th>Jumlah Permintaan<br>(Satuan Besar)</th>
                         <th>Minimal Stok</th>
-                        <th>Harga Satuan (Rp)</th>
-                        <th>Sub Total (Rp)</th>
+                        <th>Harga Satuan (Rp.)</th>
+                        <th>Sub Total (Rp.)</th>
                         <?php echo ((!isset($_GET['sukses'])) ? "<th>Batal</th>" : ""); ?>
                     </tr>
                 </thead>    
