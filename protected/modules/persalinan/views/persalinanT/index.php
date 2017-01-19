@@ -143,13 +143,13 @@ if($sukses > 0)
         });
         
         setTimeout(function() {
-            setTekanan($("#PemeriksaanfisikT_kala4_systolic"));
+            //setTekanan($("#PemeriksaanfisikT_kala4_systolic"));
         }, 500);
     });
-    function setTekanan(obj)
+    function setTekanan(obj, a, i)
     {
-        var sis = parseFloat($(".systolic").val());
-        var dia = parseFloat($(".diastolic").val());
+        var sis = parseFloat($(".systolic"+a+i).val());
+        var dia = parseFloat($(".diastolic"+a+i).val());
         var art = 0;
 
         if (isNaN(sis)) sis = 0;
@@ -159,15 +159,14 @@ if($sukses > 0)
         
         $.post('<?php echo Yii::app()->createUrl('persalinan/pemeriksaanFisikTPS/GetTextTekananDarah'); ?>', {diastolic:dia, systolic:sis}, function(data){
             if (data.text == null){
-                $('#tekananDarah').val('Tekanan Darah Tidak Ditemukan');
+                $('#tekananDarah'+a+i).val('Tekanan Darah Tidak Ditemukan');
             } else {
-                $('#tekananDarah').val(data.text);
+                $('#tekananDarah'+a+i).val(data.text);
             }
-        },'json');
-        $('#PemeriksaanfisikT_kala4_meanarteripressure').val(Math.floor(art));
-        
+        },'json');        
+        $('#PSPemeriksaankala4T_'+a+'_'+i+'_kala4_meanarteripressure').val(Math.floor(art));        
 
-        $(".td").val(sis + " / " + dia);
+        $(".td"+a+i).val(sis + " / " + dia);
 
     }
     

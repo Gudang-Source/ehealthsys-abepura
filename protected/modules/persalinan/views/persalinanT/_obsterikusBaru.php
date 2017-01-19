@@ -102,6 +102,7 @@
         renameInput('PSPemeriksaankala4T','kala4_kontraksi', id);
         renameInput('PSPemeriksaankala4T','kala4_kandungkemih', id);
         renameInput('PSPemeriksaankala4T','kala4_darahcc', id);
+        renameInput('','tekananDarah', id);
         
         $('#obsP'+id).find('#periksaKala4 tr:last').find('input').val('');
         $('#obsP'+id).find('#periksaKala4 tr:last').find('input[name*="kala4_tanggal"]').val('<?php echo MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s')); ?>');
@@ -134,6 +135,21 @@
             $(this).find('input[name*="['+attributeName+']"]').attr('name',modelName+'['+id+']['+i+']['+attributeName+']').attr('id',modelName+'_'+id+'_'+i+'_'+attributeName+'');     //PSPemeriksaankala4T_0_0_kala4_anemia       
             $(this).find('span[id*="'+attributeName+'"]').attr('id',modelName+'_'+id+'_'+i+'_'+attributeName+'_date');                        
             $(this).find('#tambahKala4').attr('onclick',"inputKala4(this,"+id+")");
+            if (attributeName == 'kala4_systolic'){
+                $(this).find('input[name*="['+attributeName+']"]').attr('onkeyup', 'setTekanan(this, '+id+' , '+i+');').
+                         attr('class', 'span1 numbers-only systolic'+id+i);
+            }
+            if (attributeName == 'kala4_diastolic'){
+                $(this).find('input[name*="['+attributeName+']"]').attr('onkeyup', 'setTekanan(this, '+id+' , '+i+');').
+                        attr('class', 'span1 numbers-only diastolic'+id+i);
+            }
+            if (attributeName == 'kala4_tekanandarah'){
+                $(this).find('input[name*="['+attributeName+']"]').attr('class', 'span2 td'+id+i);
+            }
+            
+            if (attributeName == 'tekananDarah'){                
+                $(this).find('#tekananDarah').attr('id', 'tekananDarah'+id+i);
+            }
         i++;    
         });
         
@@ -303,6 +319,21 @@
                 if(old_name_arr.length == 4){
                     $(this).attr("id",old_name_arr[0]+"_"+id+"_"+i+"_"+old_name_arr[3]);
                     $(this).attr("name",old_name_arr[0]+"["+id+"]["+i+"]["+old_name_arr[3]+"]");
+                    
+                    if (old_name_arr[3] == 'kala4_systolic'){
+                        $(this).attr('onkeyup', 'setTekanan(this, '+id+' , '+i+');').
+                                 attr('class', 'span1 numbers-only systolic'+id+i);
+                    }
+                    if (old_name_arr[3] == 'kala4_diastolic'){
+                        $(this).attr('onkeyup', 'setTekanan(this, '+id+' , '+i+');').
+                                attr('class', 'span1 numbers-only diastolic'+id+i);
+                    }
+                    if (old_name_arr[3] == 'kala4_tekanandarah'){
+                        $(this).attr('class', 'span2 td'+id+i);
+                    }
+
+                    
+            
                 }else if(old_name_arr.length == 3){
                     $(this).attr("id",old_name_arr[0]+"_"+id+"_"+old_name_arr[2]+"");
                     $(this).attr("name",old_name_arr[0]+"["+id+"]["+old_name_arr[2]+"]");          

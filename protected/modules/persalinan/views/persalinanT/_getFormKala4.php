@@ -4,8 +4,7 @@
                 $i=0;
                 $modPeriksaKala4 = new PSPemeriksaankala4T;
               
-                $modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));                           
-                
+                $modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));                                                           
     ?>
                  <tr>
                     <td>
