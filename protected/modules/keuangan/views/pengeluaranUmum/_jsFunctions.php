@@ -97,6 +97,7 @@ function simpanPengeluaran(params)
                             $("#reseter").click();
 							url = '<?php echo $this->createUrl("Print"); ?>&id=' + data.id;
 							$('#url').val(url);
+							$('#btn_print').prop('disabled', false);
                             $("#input-pengeluaran").find("input[name$='[nopengeluaran]']").val(data.pesan.nopengeluaran);
                             $("#input-pengeluaran").find("input[name$='[nokaskeluar]']").val(data.pesan.nokaskeluar);
                             $("#tblInputRekening > tbody").find('tr').detach();
