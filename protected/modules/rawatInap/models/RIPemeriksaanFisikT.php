@@ -18,14 +18,20 @@ class RIPemeriksaanFisikT extends PemeriksaanfisikT
 	* @return type
 	*/
 	public function getParamedisItems()
-	{
-	    $criteria = new CDbCriteria;
+	{	               
+            $criteria = new CDbCriteria;
 	    $criteria->join = 'LEFT JOIN pegawai_m ON pegawai_m.pegawai_id = t.pegawai_id LEFT JOIN kelompokpegawai_m ON kelompokpegawai_m.kelompokpegawai_id = pegawai_m.kelompokpegawai_id';
-	    $ruangan_id = Yii::app()->user->getState('ruangan_id');
+	    $ruangan_id = Yii::app()->user->getState('ruangan_id');            
 	    $criteria->addCondition('t.ruangan_id='.$ruangan_id);
+            
+            
 	    $paramedis = Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN;
-	    $criteria->addCondition('kelompokpegawai_m.kelompokpegawai_id='.$paramedis);
 	    
+            if ($ruangan_id == 8)://ruang bersalin
+                $paramedis .= ','.Params::KELOMPOKPEGAWAI_ID_BIDAN;               
+            endif;
+	    $criteria->addCondition("kelompokpegawai_m.kelompokpegawai_id IN(".$paramedis.")");
+            $criteria->order = "pegawai_m.nama_pegawai ASC";
 	    return RuanganpegawaiM::model()->findAll($criteria);
 	}
 
