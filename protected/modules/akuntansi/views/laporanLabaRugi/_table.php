@@ -20,70 +20,185 @@ $spasi4 = "&emsp;&emsp;&emsp;&emsp;";
 
 $betwens = "";
 
+if (!empty($model->periodeposting_id)) {
+	$criteria = new CDbCriteria;
+	$criteria->select = 'r.*, (case when t.jumlah is null then 0 else t.jumlah end) as jumlah';
+	$criteria->order = 'r.kdrekening1,r.kdrekening2,r.kdrekening5';
+	$criteria->addCondition('periodeposting_id = '.$model->periodeposting_id." or periodeposting_id is null");
+	$criteria->join = "right join rekeningakuntansi_v r on r.rekening5_id = t.rekening5_id";
+	$criteria->addCondition("t.kelrekening_id in ('5','6')");
 
+	// var_dump($criteria); die;
+
+	$modelLaporan = AKLaporanlabarugiV::model()->findAll($criteria);
+} else $modelLaporan = array();
+
+/*
 $criteria = new CDbCriteria;
 //$criteria->group = 'rekening1_id,nmrekening1,kdrekening1';
 //$criteria->select = $criteria->group . " ,sum(jumlah) as jumlah";
 $criteria->order = 'rekening1_id,nmrekening1,kdrekening1';
 $criteria->compare('periodeposting_id', $dataID);
 $modelLaporan = AKLaporanlabarugiV::model()->findAll($criteria);
-
-$detail = array();
+*/
+$detail = array(
+	'pendapatan'=>array(
+		'total'=>0,
+		'rek2'=>array(),
+	),
+	'beban'=>array(
+		'total'=>0,
+		'rek2'=>array(),
+	),
+);
 $labarugi = 0;
+$totals = 0;
+$flag = '';
+
 
 foreach ($modelLaporan as $item) {
-	// var_dump($item->attributes); die;
-	if (empty($detail[$item->kdrekening1])) {
-		$detail[$item->kdrekening1] = array(
-			'nama'=>$item->nmrekening1,
-			'total'=>0,
-			'rek2'=>array(),
-		);
+	//var_dump($item->attributes); die;
+	if ($item->kelrekening_id == '5') {
+		$flag = 'pendapatan';
+		$totals = 0 - $item->jumlah;
+	} else if ($item->kelrekening_id == '6') {
+		$flag = 'beban';
+		$totals = $item->jumlah;
 	}
-	$detail[$item->kdrekening1]['total'] += $item->jumlah;
 	
-	if (empty($detail[$item->kdrekening1]['rek2'][$item->kdrekening2])) {
-		$detail[$item->kdrekening1]['rek2'][$item->kdrekening2] = array(
+	$detail[$flag]['total'] += $totals;
+	
+	if (empty($detail[$flag]['rek2'][$item->kdrekening2])) {
+		$detail[$flag]['rek2'][$item->kdrekening2] = array(
 			'nama'=>$item->nmrekening2,
-			'total'=>0,
-			'rek3'=>array(),
-		);
-	}
-	$detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['total'] += $item->jumlah;
-	
-	if (empty($detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3])) {
-		$detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3] = array(
-			'nama'=>$item->nmrekening3,
-			'total'=>0,
-			'rek4'=>array(),
-		);
-	}
-	$detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3]['total'] += $item->jumlah;
-	
-	if (empty($detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3]['rek4'][$item->kdrekening4])) {
-		$detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3]['rek4'][$item->kdrekening4] = array(
-			'nama'=>$item->nmrekening4,
 			'total'=>0,
 			'rek5'=>array(),
 		);
 	}
-	$detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3]['rek4'][$item->kdrekening4]['total'] += $item->jumlah;
+	$detail[$flag]['rek2'][$item->kdrekening2]['total'] += $totals;
 	
-	if (empty($detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3]['rek4'][$item->kdrekening4]['rek5'][$item->kdrekening5])) {
-		$detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3]['rek4'][$item->kdrekening4]['rek5'][$item->kdrekening5] = array(
+	if (empty($detail[$flag]['rek2'][$item->kdrekening2]['rek5'][$item->kdrekening5])) {
+		$detail[$flag]['rek2'][$item->kdrekening2]['rek5'][$item->kdrekening5] = array(
 			'nama'=>$item->nmrekening5,
 			'total'=>0,
 		);
 	}
-	$detail[$item->kdrekening1]['rek2'][$item->kdrekening2]['rek3'][$item->kdrekening3]['rek4'][$item->kdrekening4]['rek5'][$item->kdrekening5]['total'] += $item->jumlah;
-
-	$labarugi += $item->jumlah;
+	
+	$detail[$flag]['rek2'][$item->kdrekening2]['rek5'][$item->kdrekening5]['total'] += $totals;
 }
 
 // var_dump($detail);
 
 
+
+
+if (isset($_GET['caraPrint'])) :
+	echo $this->renderPartial('_tablePrint', array('detail'=>$detail), true);
+else :
+
 ?>
+
+<div style="width: 50%; float:left;">
+	<table class="table table-striped table-bordered table-condensed">
+		<thead>
+			<tr>
+				<th>Rincian</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="2" style="font-weight: bold; font-style:italic;">PENDAPATAN</td>
+			</tr>
+			<?php echo $this->renderPartial('_subTabel', array(
+				'detail'=>$detail['pendapatan']['rek2'],
+			), true); ?>
+			<tr>
+				<td style="font-weight: bold; font-style:italic; text-align: center;">TOTAL PENDAPATAN</td>
+				<td style="font-weight: bold; font-style:italic; text-align: right;">
+					<?php echo MyFormatter::formatNumberForPrint($detail['pendapatan']['total']); ?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div style="width: 50%; float:left;">
+	<table class="table table-striped table-bordered table-condensed">
+		<thead>
+			<tr>
+				<th>Rincian</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="2" style="font-weight: bold; font-style:italic;">BIAYA</td>
+			</tr>
+			<?php echo $this->renderPartial('_subTabel', array(
+				'detail'=>$detail['beban']['rek2'],
+			), true); ?>
+			<tr>
+				<td style="font-weight: bold; font-style:italic; text-align: center;">TOTAL BIAYA</td>
+				<td style="font-weight: bold; font-style:italic; text-align: right;">
+					<?php echo MyFormatter::formatNumberForPrint($detail['beban']['total']); ?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<?php 
+
+$labarugi = $detail['pendapatan']['total'] - $detail['beban']['total'];
+if ($labarugi < 0) {
+	$labarugi = "(".MyFormatter::formatNumberForPrint($labarugi).")";
+} else {
+	$labarugi = MyFormatter::formatNumberForPrint($labarugi);
+}
+
+?>
+<div style="width: 100%">
+	<table class="table table-striped table-bordered table-condensed tots">
+		<tbody>
+			<tr>
+				<td>TOTAL PENDAPATAN</td>
+				<td class="tot"><?php echo MyFormatter::formatNumberForPrint($detail['pendapatan']['total']); ?></td>
+			</tr>
+			<tr>
+				<td>TOTAL BIAYA</td>
+				<td class="tot"><?php echo MyFormatter::formatNumberForPrint($detail['beban']['total']); ?></td>
+			</tr>
+			<tr>
+				<td>LABA/RUGI</td>
+				<td class="totlr"><?php echo $labarugi; ?></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<style>
+	.tots td {
+		font-weight: bold;
+	}
+	.tot {
+		text-align: right !important;
+		font-weight: bold;
+		font-style: italic;
+	}
+	.totlr {
+		text-align: right !important;
+		font-weight: bold;
+		font-style: italic;
+		text-decoration: underline;
+	}
+</style>
+
+
+
+
+<?php endif; ?>
+
+<?php /**
 <table class="table table-striped table-bordered table-condensed">
     <thead>
 		
