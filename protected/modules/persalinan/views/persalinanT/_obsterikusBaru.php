@@ -364,4 +364,10 @@
 	
     }
     
+    function ubahNomor(id)
+    {
+        $("#nomor").val(id);
+        $('#dialogObatAlkes').dialog("open");return false;
+    }
+    
 </script>

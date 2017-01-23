@@ -42,6 +42,7 @@ if($sukses > 0)
     <?php echo $this->renderPartial('_tabMenu', array(), true); ?>
     <div class='biru'>
         <div class="white">
+            <?php echo Chtml::hiddenField('nomor', '0') ?>
     <?php echo $this->renderPartial('_formPersalinan', array('model' => $model, 'form'=>$form), true); ?>
     <?php //echo $this->renderPartial('_obsterikus', array('model'=>$model,'modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
     <?php echo $this->renderPartial('_obsterikusBaru', array('model'=>$model,'modPemeriksaan' => $modObsterikus, 'form'=>$form, 'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaLama' => $modPemeriksaan), true); ?>
@@ -120,6 +121,12 @@ if($sukses > 0)
         for (var a = 0; a <= obs; a++){
             $("#obsP"+a+"").hide();          
             $("#obsP0").show();          
+        }
+        
+        var partog = $("#periksaPartograf").find('tr').length;          
+        for (var i =0;i<partog;i++){
+            $("#parP"+i+"").hide();
+            $("#parP0").show(); 
         }
         
         

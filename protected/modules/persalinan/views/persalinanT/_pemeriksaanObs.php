@@ -680,7 +680,7 @@
                             </thead>
                             <tbody>
                                 <?php                                     
-                                    $this->renderPartial('_pemeriksaanKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan, 'id'=>$id, 'modPemeriksaLama' => $modPemeriksaLama)); 
+                                    $this->renderPartial('_pemeriksaanKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan, 'id'=>$id)); 
                                 ?>
                             </tbody>
                         </table>

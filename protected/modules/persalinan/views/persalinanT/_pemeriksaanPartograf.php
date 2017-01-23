@@ -13,7 +13,7 @@
             <tr>
                 <td>
                     <?php echo $form->hiddenField($modPartograf,'['.$id.']pemeriksaanpartograf_id') ?>
-                    <?php echo $form->hiddenField($modPartograf,'['.$id.']persalinan_id') ?>
+                    <?php echo $form->hiddenField($modPartograf,'['.$id.']persalinan_id') ?>                                        
                     <div class="control-group ">
                         <?php echo Chtml::label('Waktu Pemeriksaan', 'pto_tglperiksa', array('class' => 'control-label')) ?>
                         <div class="controls">
@@ -152,7 +152,7 @@
                         <?php echo Chtml::label("Obat / Cairan",'djj', array('class' => 'control-label'));  ?>
                         <div class="controls">
                             <?php  
-                                 echo CHtml::hiddenField('obatalkes_id'); 
+                                 echo CHtml::hiddenField('obatalkes_id'.$id); 
                                 $this->widget('MyJuiAutoComplete', array(
                                     'name'=>'['.$id.']obatalkes_nama',
                                     'source'=>'js: function(request, response) {
@@ -185,7 +185,7 @@
                                         'onkeyup'=>"return $(this).focusNextInputField(event)",
                                         'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); '
                                     ),
-                                    'tombolDialog'=>array('idDialog'=>'dialogObatAlkes'),
+                                    'tombolDialog'=>array('idDialog'=>'dialogObatAlkes', 'jsFunction'=>'ubahNomor("'.$id.'")'),
                                 )); 
                                ?>
                             

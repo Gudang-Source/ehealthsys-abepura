@@ -285,7 +285,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectObat",
                                     "onClick" => "
-                                        $(\'#obatalkes_id\').val($data->obatalkes_id);
+                                        $(\'#obatalkes_id\'+$(\'#nomor\').val()).val($data->obatalkes_id);                                        
                                         $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
                                         $(\'#dialogObatAlkes\').dialog(\'close\');
                                         return false;"
