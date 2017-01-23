@@ -310,7 +310,7 @@
             </table>
         </fieldset>      
         <div class="form-actions">
-            <div style="float:left;margin-right:6px;">
+            <!--div style="float:left;margin-right:6px;"-->
 				<?php
 				$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 				$module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai    
@@ -341,13 +341,18 @@
 								),
 							)
 						),
+						
+					),
+					'htmlOptions'=>array(
+						'style'=>'float:left; margin-top: 2px; margin-right: 5px;'
 					),
 				));
 				echo CHtml::hiddenField('url');
 				echo CHtml::htmlButton(Yii::t('mds', '{icon} Reset', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), array('style' => 'display:none', 'id' => 'reseter', 'class' => 'btn btn-danger', 'type' => 'reset'));
 				?>
-            </div>
-			<?php echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), '#', array('class'=>'btn btn-primary','onclick'=>"print(\"PRINT\")",'disabled'=>false)); ?>
+            <!--/div-->
+			<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'id'=>'btn_print', 'onclick'=>'print(\'PRINT\')', 'disabled'=>true));  ?>
+			<?php // echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), '#', array('class'=>'btn btn-primary','id'=>'btn_print','onclick'=>"print(\"PRINT\")",'disabled'=>true)); ?>
 			<?php
 			echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), Yii::app()->createUrl($this->module->id . '/pengeluaranUmum/index'), array('class' => 'btn btn-danger',
 				'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
