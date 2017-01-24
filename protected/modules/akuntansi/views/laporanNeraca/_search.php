@@ -19,7 +19,19 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         float:left;
 	}
 </style>
-
+<div class="row-fluid">
+	<div class="span6">
+		<div class="control-group">
+			<label class="control-label">Periode Posting</label>
+			<div class="controls">
+				<?php echo $form->dropDownList($model, 'periodeposting_id', CHtml::listData(
+					PeriodepostingM::model()->findAll(array('order'=>'tglperiodeposting_awal')), 'periodeposting_id', 'periodeposting_nama'
+				)); ?>
+			</div>
+		</div>
+	</div>
+</div>
+<?php /**
 <div class="row-fluid">
 	<div class="span4">
                 <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
@@ -58,7 +70,10 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                             ),       
                             )); 
 				 * ?>
-				 */ ?>
+				 */
+
+/**
+ ?>
                             
 	</div>
 	<div class="span8">
@@ -100,7 +115,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 		'onkeypress' => "return $(this).focusNextInputField(event)",
 		'class' => 'dtPicker3',
 	),
-));*/
+));*/ /*
 ?> 
             </div>
         </div>
@@ -121,13 +136,15 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 		'onkeypress' => "return $(this).focusNextInputField(event)",
 		'class' => 'dtPicker3',
 	),
-)); */
+)); *//*
 ?> 
             </div>
         </div>
         </td>
     </tr>
 </table>-->
+ * 
+ */ ?>
 
 <div class="form-actions">
 	<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>            

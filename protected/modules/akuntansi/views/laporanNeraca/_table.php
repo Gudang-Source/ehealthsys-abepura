@@ -36,17 +36,35 @@ foreach ($models AS $row => $data) {
 		),
 	);
 
-	if (count($dataID) != 0) {
+	if (!empty($model->periodeposting_id)) {
+		$periode = PeriodepostingM::model()->findByPk($model->periodeposting_id);
+		
+		$cperiode = new CDbCriteria();
+		$cperiode->addCondition("tglperiodeposting_akhir::date <= '".$periode->tglperiodeposting_akhir."'");
+		$periodes = PeriodepostingM::model()->findAll($cperiode);
+		
 		$criteria = new CDbCriteria();
-		$criteria->compare('periodeposting_id', $dataID);
+		
+		$criteria->join = "right join rekeningakuntansi_v r on r.rekening5_id = t.rekening5_id";
+		
+		$criteria->select = "r.*, "
+			. "case when t.saldodebit is null then 0 else t.saldodebit end as saldodebit, "
+			. "case when t.saldokredit is null then 0 else t.saldokredit end as saldokredit, "
+			. "t.rekening5_nb";
+		
+
+		$criteria->compare('periodeposting_id', $model->periodeposting_id);
+
+		$criteria->addCondition('r.rekening5_aktif = true');
+		$criteria->order = 'r.kdrekening1, r.kdrekening2, r.kdrekening3, r.kdrekening4, r.kdrekening5';
+		
+		// var_dump($criteria);
 		
 		$dat = AKLaporanneracaV::model()->findAll($criteria);
 		
+		
 		foreach ($dat as $item) {
-			$rek1 = RekeningakuntansiV::model()->findByAttributes(array(
-				'rekening5_id'=>$item->rekening5_id,
-			));
-			if ($rek1->rekening5_nb == 'D') {
+			if ($item->rekening5_nb == 'D') {
 				$saldo = $item->saldodebit - $item->saldokredit;
 				$tipe = 'aktiva';
 			} else {
@@ -54,23 +72,23 @@ foreach ($models AS $row => $data) {
 				$tipe = 'passiva';
 			}
 			
-			if (empty($detail[$tipe]['det'][$rek1->kdrekening1])) {
-				$detail[$tipe]['det'][$rek1->kdrekening1] = array(
-					'nama'=>$rek1->nmrekening1,
+			if (empty($detail[$tipe]['det'][$item->rekening2_id])) {
+				$detail[$tipe]['det'][$item->rekening2_id] = array(
+					'nama'=>$item->nmrekening2,
 					'total'=>0,
 					'det'=>array(),
 				);
 			}
 			
-			if (empty($detail[$tipe]['det'][$rek1->kdrekening1]['det'][$item->kdrekening5])) {
-				$detail[$tipe]['det'][$rek1->kdrekening1]['det'][$item->kdrekening5] = array(
+			if (empty($detail[$tipe]['det'][$item->rekening2_id]['det'][$item->rekening5_id])) {
+				$detail[$tipe]['det'][$item->rekening2_id]['det'][$item->rekening5_id] = array(
 					'nama'=>$item->nmrekening5,
 					'total'=>0,
 				);
 			}
 			
-			$detail[$tipe]['det'][$rek1->kdrekening1]['det'][$item->kdrekening5]['total'] += $saldo;
-			$detail[$tipe]['det'][$rek1->kdrekening1]['total'] += $saldo;
+			$detail[$tipe]['det'][$item->rekening2_id]['det'][$item->rekening5_id]['total'] += $saldo;
+			$detail[$tipe]['det'][$item->rekening2_id]['total'] += $saldo;
 			$detail[$tipe]['total'] += $saldo;
 		}
 	}
@@ -125,7 +143,66 @@ foreach ($models AS $row => $data) {
 }
  * */
 ?>
-<div id="tableLaporan" class="grid-view">
+
+<?php if (isset($_GET['caraPrint'])): 
+	echo $this->renderPartial('_tablePrint', array('detail'=>$detail, 'table'=>$table), true);
+else : ?>
+
+<div id="tableLaporan" class="grid-view" style="width: 50%; float: left;">
+<table class="table table-striped table-bordered table-condensed">
+	<thead>
+		<tr>
+			<th id="tableLaporan_c0">
+				Nama Rekening
+			</th>
+			<th id="tableLaporan_c0" class="span3">
+				Total Saldo
+			</th>
+		</tr>
+		</thead>
+    <tbody>
+		<tr>
+			<td colspan="2" style="font-weight: bold; font-style: italic;">AKTIVA</td>
+		</tr>
+		<?php foreach ($detail['aktiva']['det'] as $item): ?>
+		<tr>
+			<td style="font-weight:bold;" colspan="2">&emsp;<?php echo strtoupper($item['nama']); ?></td>
+		</tr>
+			<?php foreach ($item['det'] as $item2): 
+				$v2 = MyFormatter::formatNumberForPrint($item2['total']);
+				if ($item2['total'] < 0) {
+					$v2 = "(".MyFormatter::formatNumberForPrint(abs($item2['total'])).")";
+				} ?>
+		<tr>
+			<td>&emsp;&emsp;<?php echo $item2['nama']; ?></td>
+			<td style="text-align: right; padding-right: 80px;"><?php echo $v2; ?></td>
+		</tr>
+			<?php endforeach; ?>
+		<tr>
+			<?php 
+			$v2 = MyFormatter::formatNumberForPrint($item['total']);
+			if ($item['total'] < 0) {
+				$v2 = "(".MyFormatter::formatNumberForPrint(abs($item['total'])).")";
+			}
+			?>
+			<td style="font-weight: bold;">&emsp;&emsp;TOTAL <?php echo strtoupper($item['nama']); ?></td>
+			<td style="font-weight: bold; text-align: right;"><?php echo $v2; ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+			<?php 
+			$v2 = MyFormatter::formatNumberForPrint($detail['aktiva']['total']);
+			if ($detail['aktiva']['total'] < 0) {
+				$v2 = "(".MyFormatter::formatNumberForPrint(abs($detail['aktiva']['total'])).")";
+			}
+			?>
+			<td style="font-weight: bold; font-style: italic; text-align: center;">TOTAL AKTIVA</td>
+			<td style="font-weight: bold; font-style: italic; text-align: right;"><?php echo $v2; ?></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<div id="tableLaporan2" class="grid-view" style="width: 50%; float: left;">
 <table class="table table-striped table-bordered table-condensed">
     <thead>
 		<tr>
@@ -175,6 +252,45 @@ foreach ($models AS $row => $data) {
 
     </thead>
     <tbody>
+		<tr>
+			<td colspan="2" style="font-weight: bold; font-style: italic;">PASSIVA</td>
+		</tr>
+		<?php foreach ($detail['passiva']['det'] as $item): ?>
+		<tr>
+			<td style="font-weight:bold;" colspan="2">&emsp;<?php echo strtoupper($item['nama']); ?></td>
+		</tr>
+			<?php foreach ($item['det'] as $item2): 
+				$v2 = MyFormatter::formatNumberForPrint($item2['total']);
+				if ($item2['total'] < 0) {
+					$v2 = "(".MyFormatter::formatNumberForPrint(abs($item2['total'])).")";
+				} ?>
+		<tr>
+			<td>&emsp;&emsp;<?php echo $item2['nama']; ?></td>
+			<td style="text-align: right; padding-right: 80px;"><?php echo $v2; ?></td>
+		</tr>
+			<?php endforeach; ?>
+		<tr>
+			<?php 
+			$v2 = MyFormatter::formatNumberForPrint($item['total']);
+			if ($item['total'] < 0) {
+				$v2 = "(".MyFormatter::formatNumberForPrint(abs($item['total'])).")";
+			}
+			?>
+			<td style="font-weight: bold;">&emsp;&emsp;TOTAL <?php echo strtoupper($item['nama']); ?></td>
+			<td style="font-weight: bold; text-align: right;"><?php echo $v2; ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+			<?php 
+			$v2 = MyFormatter::formatNumberForPrint($detail['aktiva']['total']);
+			if ($detail['aktiva']['total'] < 0) {
+				$v2 = "(".MyFormatter::formatNumberForPrint(abs($detail['aktiva']['total'])).")";
+			}
+			?>
+			<td style="font-weight: bold; font-style: italic; text-align: center;">TOTAL PASSIVA</td>
+			<td style="font-weight: bold; font-style: italic; text-align: right;"><?php echo $v2; ?></td>
+		</tr>
+		<?php /**
 		<tr>
 			<td colspan="2" style="font-weight: bold; font-style: italic;">AKTIVA</td>
 		</tr>
@@ -244,6 +360,8 @@ foreach ($models AS $row => $data) {
 			<td style="font-weight: bold; font-style: italic; text-align: center;">TOTAL PASSIVA</td>
 			<td style="font-weight: bold; font-style: italic; text-align: right;"><?php echo $detail['passiva']['total']; ?></td>
 		</tr>
+		 * 
+		 */ ?>
 		
 		<?php /*
 		$criteria = new CDbCriteria;
@@ -562,6 +680,7 @@ foreach ($models AS $row => $data) {
 		</table>
     </div>
 </div>
+<?php endif; ?>
 <?php /*if(isset($caraPrint)){ ?>
 <script type="text/javascript">
 pilihSegmen();
