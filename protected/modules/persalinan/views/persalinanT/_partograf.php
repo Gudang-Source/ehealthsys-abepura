@@ -286,7 +286,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     "id" => "selectObat",
                                     "onClick" => "
                                         $(\'#obatalkes_id\'+$(\'#nomor\').val()).val($data->obatalkes_id);                                        
-                                        $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
+                                        $(\'#obatalkes_nama_\'+$(\'#nomor\').val()).val(\'$data->obatalkes_nama\');
                                         $(\'#dialogObatAlkes\').dialog(\'close\');
                                         return false;"
                                         ))',

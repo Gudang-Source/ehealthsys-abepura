@@ -154,7 +154,7 @@
                             <?php  
                                  echo CHtml::hiddenField('obatalkes_id'.$id); 
                                 $this->widget('MyJuiAutoComplete', array(
-                                    'name'=>'['.$id.']obatalkes_nama',
+                                    'name'=>'obatalkes_nama['.$id.']',
                                     'source'=>'js: function(request, response) {
                                                    $.ajax({
                                                        url: "'.$this->createUrl('AutocompleteObatAlkes').'",
@@ -187,9 +187,21 @@
                                     ),
                                     'tombolDialog'=>array('idDialog'=>'dialogObatAlkes', 'jsFunction'=>'ubahNomor("'.$id.'")'),
                                 )); 
-                               ?>
-                            
+                               ?>                                 
+                              
+                                       
+                                   
                         </div>
+                          <div class="controls">
+                              <label>Qty</label>
+                         <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer2')) ?>
+                                        <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
+                                                array('onclick'=>'tambahObat();return false;',
+                                                      'class'=>'btn btn-primary',                                                      
+                                                      'rel'=>"tooltip",
+                                                      'id'=>"btn_input",
+                                                      'title'=>"Klik untuk menambahkan obat / cariran",)); ?>
+                          </div>
                     </div>
                 </td> 
                 <td>
@@ -258,6 +270,25 @@
                 </td>
             </tr>           
         </table>
+        
+        <div class="block-tabel">
+                        <h6>Pemakaian Obat / Cairan</h6>
+                        <table class="table table-striped table-condensed" id="periksaParObat">
+                            <thead>
+                            <tr>
+                                <th>Kode</th>        
+                                <th>Obat</th>        
+                                <th>Jumlah</th>                                        
+                                <th>Batal</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <?php                                     
+                                    $this->renderPartial('_pemeriksaanPartogObat', array('form'=>$form, 'modPartograf' => $modPartograf, 'id'=>$id)); 
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
     </fieldset>               
     </div>
 </div>
