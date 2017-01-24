@@ -170,6 +170,15 @@ class RuanganM extends CActiveRecord
                 return array();
         }
         
+        public static function getRuanganByInstalasi2($instalasi='')
+        {
+            if(!empty($instalasi)){
+                return RuanganM::model()->findAll("instalasi_id = '".$instalasi."' AND ruangan_aktif=TRUE AND ruangan_id != '".Yii::app()->user->getState('ruangan_id')."' ORDER BY ruangan_nama");
+            }else {
+                return array();
+            }
+        }
+        
          public function getPropinsiItems()
         {
             return PropinsiM::model()->findAll('propinsi_aktif=TRUE ORDER BY propinsi_nama');

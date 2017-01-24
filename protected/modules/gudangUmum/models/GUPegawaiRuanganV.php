@@ -24,6 +24,9 @@ class GUPegawaiRuanganV extends PegawairuanganV
                 $criteria->compare('LOWER(agama)', strtolower($this->agama),TRUE);
                 $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai),TRUE);
                 $criteria->compare('ruangan_id',Yii::app()->user->ruangan_id);
+                if (!empty($this->jabatan_id)){
+                    $criteria->addCondition("jabatan_id = '".$this->jabatan_id."' ");
+                }
                 $criteria->order = "nama_pegawai, nomorindukpegawai ASC";
 		//$criteria->limit = 10;
 		

@@ -162,7 +162,7 @@
                             ),
                             'htmlOptions' => array(
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                'class' => 'span3 required',
+                                'class' => 'span3 required hurufs-only',
 								'placeholder'=>'Ketikan nama pegawai mengetahui',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
@@ -271,18 +271,48 @@
                                             $(\'#dialogPegawaiMengetahui\').dialog(\'close\');
                                             return false;"))',
             ),
-            'nomorindukpegawai',
-            'nama_pegawai',            
-            'alamat_pegawai',
+            array(
+                'header' => 'NIP',
+                'name' => 'nomorindukpegawai',
+                'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class' => 'numbers-only'))
+            ),
+            array(
+                'header' => 'Nama Pegawai',
+                'name' => 'nama_pegawai',
+                'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class' => 'hurufs-only'))
+            ),
+            array(
+                'header' => 'Jabatan',
+                'name' => 'jabatan_id',
+                'value' => function($data){
+                    $j = JabatanM::model()->findByPk($data->jabatan_id);
+                    
+                    if(count($j)>0){
+                        return $j->jabatan_nama;
+                    }else{
+                        return '-';
+                    }
+                },
+                'filter' => Chtml::activeDropDownList($modPegawai, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'), array('empty' => '-- Pilih --'))
+            ),
+           /* 'alamat_pegawai',
             'agama',
             array(
                 'name' => 'jeniskelamin',
                 'filter' => CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                 'value' => '$data->jeniskelamin',
-            ),
+            ),*/
 
         ),
-        'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+        'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+                        . '$(".numbers-only").keyup(function(){'
+                        . 'setNumbersOnly(this);'
+                        . '});'
+                        . '$(".hurufs-only").keyup(function(){'
+                        . 'setHurufsOnly(this);'
+                        . '});'
+                        . '}',
     ));
 
     $this->endWidget();

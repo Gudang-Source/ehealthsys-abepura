@@ -42,8 +42,8 @@
                         <th>Satuan Kecil/Besar</th>
                         <th>Jumlah Permintaan<br>(Satuan Besar)</th>
                         <th>Minimal Stok</th>
-                        <th>Harga Satuan</th>
-                        <th>Sub Total</th>
+                        <th>Harga Satuan (Rp.)</th>
+                        <th>Sub Total (Rp.)</th>
                         <?php echo ((!isset($_GET['sukses'])) ? "<th>Batal</th>" : ""); ?>
                     </tr>
                 </thead>    
@@ -59,7 +59,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="8">Total</td>
-                        <td><?php echo CHtml::textField('total','',array('class'=>'span2 integer','style'=>'width:90px;'))?></td>
+                        <td><?php echo CHtml::textField('total','',array('class'=>'span2 integer2','style'=>'width:90px;'))?></td>
                         <td></td>
                     </tr>
                 </tfoot>

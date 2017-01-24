@@ -42,8 +42,8 @@ echo $form->errorSummary($modDetail);
                             ),
                             'htmlOptions' => array(
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                'class' => 'span2',
-                                                'placeholder'=>'Ketikan nama barang',
+                                'class' => 'span2 custom-only',
+                                'placeholder'=>'Ketikan nama barang',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogBarang'),
                         ));
@@ -56,7 +56,7 @@ echo $form->errorSummary($modDetail);
                 <div class="control-group ">
                     <label class='control-label'>Jumlah</label>
                     <div class="controls">
-                        <?php echo Chtml::textField('jumlah', 1, array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>                
+                        <?php echo Chtml::textField('jumlah', 1, array('class' => 'span1 numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event)", 'style' => 'text-align:right;')); ?>                
                         <?php echo Chtml::dropDownList('satuan', '', LookupM::getItems('satuanbarang'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>                
                         <?php
                         echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', 
@@ -95,7 +95,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
     'dataProvider'=>$modBarang->searchDialog(),
     'filter'=>$modBarang,
-        'template'=>"{items}\n{pager}",
+        'template'=>"{summary}\n{items}\n{pager}",
 //        'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(

@@ -18,6 +18,11 @@ class ADInformasirenkebbarangV extends InformasirenkebbarangV
 		if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
 			$criteria->addBetweenCondition('DATE(t.renkebbarang_tgl)',$this->tgl_awal,$this->tgl_akhir,true);
 		}
+                
+                if (!empty($this->renkebbarang_tgl)){
+                    $criteria->addBetweenCondition('t.renkebbarang_tgl',$this->renkebbarang_tgl,$this->renkebbarang_tgl);
+                }
+                
 		$criteria->compare('LOWER(t.renkebbarang_no)',strtolower($this->renkebbarang_no),true);
 		//$criteria->distinct="renkebbarang_no,renkebbarang_tgl,renkebbarang_id";
 		if(!empty($this->pegmengetahui_id)){

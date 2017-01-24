@@ -94,12 +94,13 @@
 				{
 					if (data.action == 'insert')
 					{
-						alert("Simpan data berhasil");
+						myAlert("Simpan data berhasil");
 						$("#tblInputUraian").find('tr[class$="child"]').detach();
                                                 // location.reload();
 						$("#reseter").click();
 						url = '<?php echo $this->createUrl("Print&id='+data.pesan.id+'"); ?>';
 						$('#url').val(url);
+						$('#btn_print').prop('disabled', false);
 						$("#input-penerimaan-kas").find("input[name$='[nopenerimaan]']").val(data.pesan.nopenerimaan);
 						$("#tblInputRekening > tbody").find('tr').detach();
 					} else {

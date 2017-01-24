@@ -79,7 +79,8 @@ function hitungTotal(){
         
         if($('#termasukPPH').is(':checked')){
             pph = '<?php echo Yii::app()->user->getState('persenpph'); ?>';
-            rppph = harganetto * (pph/100);            
+            rppph = harganetto * (pph/100);   
+			console.log(pph);
         }
         
         subtotal = (harganetto + rppph + rpppn) * jmlterima;
@@ -280,7 +281,7 @@ function setFakturObatAlkes(penerimaanbarang_id){
 					$('#table-obatalkespasien > tbody').append(data.form);
 					$("#table-obatalkespasien").find('input[name$="[ii][penerimaanbarang_id]"]').val(penerimaanbarang_id);
 					$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
-						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 					);
 					renameInputRowObatAlkes($("#table-obatalkespasien"));                    
 					hitungTotal();

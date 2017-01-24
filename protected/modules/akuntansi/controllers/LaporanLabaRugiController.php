@@ -5,15 +5,22 @@ class LaporanLabaRugiController extends MyAuthController{
 	
 	public function actionIndex() {
         $model = new AKLaporanlabarugiV('searchLaporan2');
-		$model->tgl_awal = date('m-d', strtotime('first day of this month'));
-		$model->thn_awal = date('Y');
+		//$model->tgl_awal = date('m-d', strtotime('first day of this month'));
+		//$model->thn_awal = date('Y');
+		
+		$criteria = new CDbCriteria();
+		$criteria->addCondition("'".date("Y-m-d")."'::date between tglperiodeposting_awal and tglperiodeposting_akhir");
+		$periode = PeriodepostingM::model()->find($criteria);
+		
+		if (!empty($periode))
+			$model->periodeposting_id = $periode->periodeposting_id;
 		
 		if (isset($_GET['AKLaporanlabarugiV'])) {
 			
 			$model->attributes = $_GET['AKLaporanlabarugiV'];
 			$format = new MyFormatter();
-			$model->bulan = $_GET['AKLaporanlabarugiV']['bulan'];
-			$model->thn_awal = $_GET['AKLaporanlabarugiV']['thn_awal'];
+			//$model->bulan = $_GET['AKLaporanlabarugiV']['bulan'];
+			//$model->thn_awal = $_GET['AKLaporanlabarugiV']['thn_awal'];
 		}
 		
 		//var_dump($model->bulan); die;
@@ -29,8 +36,8 @@ class LaporanLabaRugiController extends MyAuthController{
     public function actionPrintLaporanLabaRugi() {
         $model = new AKLaporanlabarugiV('searchLaporan2');
 		$model->unsetAttributes();
-		$model->tgl_awal = date('m-d', strtotime('first day of this month'));
-		$model->thn_awal = date('Y');
+		//$model->tgl_awal = date('m-d', strtotime('first day of this month'));
+		//$model->thn_awal = date('Y');
 		$judulLaporan = 'Laporan Laba Rugi';
 
 		//Data Grafik       
@@ -40,8 +47,8 @@ class LaporanLabaRugiController extends MyAuthController{
 			$model->attributes = $_REQUEST['AKLaporanlabarugiV'];
 			$format = new MyFormatter();
 //			$model->periodeposting_id = $_GET['AKLaporanlabarugiV']['periodeposting_id'];
-			$model->bulan = $_GET['AKLaporanlabarugiV']['bulan'];
-			$model->thn_awal = $_GET['AKLaporanlabarugiV']['thn_awal'];
+			//$model->bulan = $_GET['AKLaporanlabarugiV']['bulan'];
+			//$model->thn_awal = $_GET['AKLaporanlabarugiV']['thn_awal'];
 		}
 		$models = $model->findAll($model->searchLaporan2());
 		$caraPrint = $_REQUEST['caraPrint'];
