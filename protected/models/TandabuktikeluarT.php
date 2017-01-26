@@ -262,4 +262,13 @@ class TandabuktikeluarT extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+		
+		public function searchBayarSupplier() {
+			$criteria = $this->criteriaSearch();
+			$criteria->addCondition('bayarkesupplier_id IS NOT NULL');
+			
+			return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
+		}
 }

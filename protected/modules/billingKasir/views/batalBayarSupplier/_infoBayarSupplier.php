@@ -36,6 +36,7 @@
                                                         return false;
                                                     }',
                                             ),
+											'tombolDialog'=>array('idDialog'=>'dialogBayarSupplier'),
                                         )
                             ); 
                         ?>
@@ -117,3 +118,96 @@ function cekOtorisasi()
     return true;
 }
 </script>
+
+
+<?php 
+//========= Dialog buat cari data pendaftaran / kunjungan =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogBayarSupplier',
+    'options'=>array(
+        'title'=>'Pencarian Data Bayar Supplier',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>1100,
+        'height'=>550,
+        'resizable'=>false,
+    ),
+));
+    $modBayarSupplier = new TandabuktikeluarT();
+    $modBayarSupplier->unsetAttributes();
+    if(isset($_GET['TandabuktikeluarT'])) {
+        $modBayarSupplier->attributes = $_GET['TandabuktikeluarT'];
+    }
+
+    $this->widget('ext.bootstrap.widgets.BootGridView',array(
+            'id'=>'datakunjungan-grid',
+            'dataProvider'=>$modBayarSupplier->searchBayarSupplier(),
+            'filter'=>$modBayarSupplier,
+            'template'=>"{summary}\n{items}\n{pager}",
+            'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+            'columns'=>array(
+                    array(
+                        'header'=>'Pilih',
+                        'type'=>'raw',
+                        'value'=>function($data) use (&$sup) {
+							$sup = BayarkesupplierT::model()->findByPk($data->bayarkesupplier_id);
+							// $data->jmlkaskeluar = MyFormatter::formatNumberForPrint($data->jmlkaskeluar);
+							$res = $data->attributes;
+							$res['label'] = $data->nokaskeluar.' - '.$data->namapenerima;
+							$res['value'] = $data->nokaskeluar;
+							$res['jmlkaskeluar'] = MyFormatter::formatNumberForPrint($data->jmlkaskeluar);
+							$res['tglkaskeluar'] = MyFormatter::formatDateTimeForUser($data->tglkaskeluar);
+							if (!empty($sup)) {
+								$res['tglbayarkesupplier'] = MyFormatter::formatDateTimeForUser($sup->tglbayarkesupplier);
+								$res['totaltagihan'] = MyFormatter::formatNumberForPrint($sup->totaltagihan);
+								$res['jmldibayarkan'] = MyFormatter::formatNumberForPrint($sup->jmldibayarkan);
+							}
+							return CHtml::Link("<i class='icon-form-check'></i>","javascript:void(0);",array("class"=>"btn-small", 
+                                        "id" => "selectSupplier",
+                                        "onClick" => "
+                                            isiInfoBayarSupplier(".CJSON::encode($res).");
+											$('#BKTandabuktikeluarT_nokaskeluar').val('".$data->nokaskeluar."');
+                                            $('#dialogBayarSupplier').dialog('close');
+                                        "));
+						},
+						/*
+						'CHtml::Link("<i class=\"icon-form-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
+                                        "id" => "selectPendaftaran",
+                                        "onClick" => "
+                                            setKunjungan($data->pendaftaran_id, \"\", \"\", \"\");
+                                            $(\"#dialogKunjungan\").dialog(\"close\");
+                                        "))',
+						 * 
+						 */
+                    ),
+					array(
+						'header'=>'No. Kas Keluar',
+						'name'=>'nokaskeluar',
+					),
+					array(
+						'name'=>'tglkaskeluar',
+						'value'=>'MyFormatter::formatDateTimeForUser($data->tglkaskeluar)',
+						'filter'=>false,
+					),
+					array(
+						'name'=>'namapenerima',
+					),
+					array(
+						'name'=>'carabayarkeluar',
+						'filter'=> CHtml::activeDropDownList($modBayarSupplier,'carabayarkeluar', LookupM::getItems('carabayarkeluar'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")),
+					),
+					array(
+						'name'=>'jmlkaskeluar',
+						'value'=>'MyFormatter::formatNumberForPrint($data->jmlkaskeluar)',
+						'filter'=>false,
+						'htmlOptions'=>array('style'=>'text-align: right;'),	
+					),
+
+
+            ),
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+    ));
+
+$this->endWidget();
+////======= end pendaftaran dialog =============
+?>
