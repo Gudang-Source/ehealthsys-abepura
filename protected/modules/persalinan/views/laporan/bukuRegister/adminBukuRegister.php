@@ -6,7 +6,7 @@
     //    'Manage',
     //);
 
-    $url = Yii::app()->createUrl('persalinan/laporan/frameGrafikBukuRegister&id=1');
+    $url = Yii::app()->createUrl('persalinan/Laporan/FrameGrafikBukuRegister&id=1');
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();
