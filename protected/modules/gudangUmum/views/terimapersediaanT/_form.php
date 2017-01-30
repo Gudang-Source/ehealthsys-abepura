@@ -73,7 +73,7 @@
                         <?php echo $form->error($model, 'tglsuratjalan'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model,'nosuratjalan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>'Ketikan No. Surat Jalan')); ?>
+                <?php echo $form->textFieldRow($model,'nosuratjalan',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>'Ketikan No. Surat Jalan')); ?>
                 <?php //echo $form->textFieldRow($model,'tglfaktur',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'tglfaktur', array('class' => 'control-label')) ?>
@@ -94,16 +94,17 @@
                         <?php echo $form->error($model, 'tglsuratjalan'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model,'nofaktur',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>'Ketikan No. Faktur')); ?>
+                <?php echo $form->textFieldRow($model,'nofaktur',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>'Ketikan No. Faktur')); ?>
             </td>
             <td>
                 <div class="control-group ">
-                    <?php echo $form->labelEx($model, 'peg_penerima_id', array('class' => 'control-label')); ?>
+                    <?php echo Chtml::label( "Pegawai Penerima <font style='color:red;'>*</font>", 'peg_penerima_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'peg_penerima_id'); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
                         <?php
-                        $this->widget('MyJuiAutoComplete', array(
+                            echo $form->textField($model,'peg_penerima_nama', array('readonly' => TRUE));
+                       /* $this->widget('MyJuiAutoComplete', array(
                             'model'=>$model,
                             'attribute' => 'peg_penerima_nama',
                             'source' => 'js: function(request, response) {
@@ -131,18 +132,18 @@
                                                                         }',
                             ),
                             'htmlOptions' => array(
-                                'class'=>'namaPegawai',
+                                'class'=>'namaPegawai required',
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'placeholder'=>'Ketikan Nama Pegawai penerimaan'
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogPegawai'),
-                        ));
+                        ));*/
                         ?>
                         <?php echo $form->error($model, 'peg_penerima_id'); ?>
                     </div>
                 </div>
                 <div class="control-group ">
-                    <?php echo $form->labelEx($model, 'peg_mengetahui_id', array('class' => 'control-label')); ?>
+                    <?php echo Chtml::label("Pegawai Mengetahui <font style='color:red;'>*</font>", 'peg_mengetahui_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'peg_mengetahui_id'); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
@@ -175,7 +176,7 @@
                                                                         }',
                             ),
                             'htmlOptions' => array(
-                                'class'=>'namaPegawai',
+                                'class'=>'namaPegawai required hurufs-only',
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'placeholder'=>'Ketikan Nama Pegawai mengetahui'
                             ),
@@ -216,8 +217,14 @@
                 <?php //echo $form->textFieldRow($model,'discount',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->textFieldRow($model,'biayaadministrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
                 <?php echo $form->textFieldRow($model,'pajakpph',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
-                <?php echo $form->textFieldRow($model,'pajakppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
-                <?php echo $form->textFieldRow($model,'nofakturpajak',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'Ketikan No. Faktur Pajak')); ?>
+                <div class="control-group ">
+                        <?php echo Chtml::label("PPN (10%)", 'pajakppn', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'pajakppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                    </div>
+                </div>
+                </div>
+                <?php echo $form->textFieldRow($model,'nofakturpajak',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'Ketikan No. Faktur Pajak')); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model,'tgljatuhtempo', array('class'=>'control-label')) ?>
                     <div class="controls">
@@ -248,7 +255,7 @@
     <?php //echo $form->textFieldRow($model,'update_loginpemakai_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
     <?php //echo $form->textFieldRow($model,'create_ruangan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
     <div class="block-tabel">
-        <h6>Detail <b>Barang</b></h6>
+        <h6>Penerimaan <b>Barang</b></h6>
         <?php if (isset($modDetails)){
             echo $form->errorSummary($modDetails);
         } ?>
@@ -560,6 +567,16 @@ function loadPembelian(id)
         $("#tableDetailBarang tbody .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null});
         clear();
         setTotalHarga();
+        totPPN($("#GUTerimapersediaanT_totalharga"));
 	}, "json");
+}
+
+function totPPN(obj)
+{    
+    var total_harga = unformatNumber($(obj).val());
+
+    var ppn = (10/100) * total_harga;
+    
+    $("#GUTerimapersediaanT_pajakppn").val(formatNumber(ppn));
 }
 </script>

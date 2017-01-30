@@ -29,21 +29,22 @@
 							'showAnim' => 'fold',
 							'minLength' => 2,
 							'focus' => 'js:function( event, ui ) {
-																	$(this).val( ui.item.label);
-																	return false;
-																}',
-							'select' => 'js:function( event, ui ) {
-																	$("#' . Chtml::activeId($modBeli, 'nopembelian') . '").val(ui.item.label); 
-																	$("#' . Chtml::activeId($modBeli, 'pembelianbarang_id') . '").val(ui.item.value); 
-																	$("#' . Chtml::activeId($modBeli, 'supplier_id') . '").val(ui.item.supplier_id);
-																	$("#' . Chtml::activeId($modBeli, 'tglpembelian') . '").val(ui.item.tglpembelian);
-																	$("#' . Chtml::activeId($model, 'sumberdana_id') . '").val(ui.item.sumberdana_id);
-																	loadPembelian(ui.item.value);
-																	return false;
-																}',
+                                                                        $(this).val( ui.item.label);
+                                                                        return false;
+                                                                }',
+'select' => 'js:function( event, ui ) {
+                                                                        $("#' . Chtml::activeId($modBeli, 'nopembelian') . '").val(ui.item.label); 
+                                                                        $("#' . Chtml::activeId($modBeli, 'pembelianbarang_id') . '").val(ui.item.value); 
+                                                                        $("#' . Chtml::activeId($modBeli, 'supplier_id') . '").val(ui.item.supplier_id);
+                                                                        $("#' . Chtml::activeId($modBeli, 'supplier_nama') . '").val(ui.item.supplier_nama);
+                                                                        $("#' . Chtml::activeId($modBeli, 'tglpembelian') . '").val(ui.item.tglpembelian);
+                                                                        $("#' . Chtml::activeId($model, 'sumberdana_id') . '").val(ui.item.sumberdana_id);
+                                                                        loadPembelian(ui.item.value);
+                                                                        return false;
+                                                                }',
 						),
 						'htmlOptions' => array(
-							'class' => 'namaPegawai',
+							'class' => 'namaPegawai alphanumeric-only',
 							'onkeypress' => "return $(this).focusNextInputField(event)",
 							'placeholder' => 'Ketikan Nomor Pembelian Barang',
 						),
@@ -69,7 +70,8 @@
                 <div class="controls">
 				
                     <?php
-						echo CHtml::activeDropDownList($modBeli,'supplier_id', CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true ORDER BY supplier_nama ASC'), 'supplier_id', 'supplier_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event);"));
+                            echo CHtml::activeHiddenField($modBeli, 'supplier_id');
+                            echo CHtml::activeTextField($modBeli,'supplier_nama', array('readonly'=>TRUE, 'class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event);"));
                     ?>
                 </div>
             </div>
@@ -119,7 +121,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 									$(\"#PembelianbarangT_pembelianbarang_id\").val(\"".($data->pembelianbarang_id)."\");
 									$(\"#PembelianbarangT_nopembelian\").val(\"".($data->nopembelian)."\");
 									$(\"#PembelianbarangT_supplier_id\").val(\"".($data->supplier_id)."\");
-									$(\"#GUTerimapersediaanT_sumberdana_id\").val(\"".($data->sumberdana_id)."\");
+                                                                        $(\"#PembelianbarangT_supplier_nama\").val(\"".($data->supplier->supplier_nama)."\");
+									$(\"#GUTerimapersediaanT_sumberdana_id\").val(\"".($data->sumberdana_id)."\");                                                                        
 									loadPembelian(".$data->pembelianbarang_id.");
 									$(\'#dialogPembelian\').dialog(\'close\');
                                     return false;"));',
