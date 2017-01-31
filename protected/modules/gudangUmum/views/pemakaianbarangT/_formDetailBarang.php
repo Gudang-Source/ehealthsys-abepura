@@ -112,16 +112,38 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'filter' => CHtml::dropDownList('GUInformasistokbarangV[barang_type]',$modBarang->barang_type,LookupM::getItems('barangumumtype'),array('empty'=>'-- Pilih --')),    
             'value' => '$data->barang_type',
         ),
-        'barang_kode',
-        'barang_nama',
-        'barang_merk',        
+        array(
+            'header' => 'Kode Barang',
+            'name' => 'barang_kode',
+            'filter' => Chtml::activeTextField($modBarang, 'barang_kode', array('class' => 'custom-only'))
+        ),
+        array(
+            'header' => 'Nama Barang',
+            'name' => 'barang_nama',
+            'filter' => Chtml::activeTextField($modBarang, 'barang_nama', array('class' => 'custom-only'))
+        ),
+        array(
+            'header' => 'Merk',
+            'name' => 'barang_merk',
+            'filter' => Chtml::activeTextField($modBarang, 'barang_merk', array('class' => 'custom-only'))
+        ),                
+        array(
+            'header' => 'Ukuran',
+            'name' => 'barang_ukuran',
+            'filter' => Chtml::activeTextField($modBarang, 'barang_ukuran', array('class' => 'custom-only'))
+        ),                
+        array(
+            'header' => 'Tahun Ekonomis',
+            'name' => 'barang_ekonomis_thn',
+            'filter' => Chtml::activeTextField($modBarang, 'barang_ekonomis_thn', array('class' => 'numbers-only', 'maxlength' => 4))
+        ),                
+        
         array(
             'name'=>'barang_satuan',
             'filter'=> CHtml::dropDownList('GUInformasistokbarangV[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
-        'barang_ukuran',
-        'barang_ekonomis_thn',
+        
     ),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
