@@ -46,16 +46,37 @@ function getTotal(){
     unformatNumberSemua();
     var totalNetto = 0;
     var totalVolume = 0;
-    $(".netto").each(function(){
-        if ($(this).parents("tr").find(".cekList").is(":checked")){
-            totalNetto += parseFloat($(this).parents("tr").find('input[name$="[harga_netto]"]').val());
-            totalVolume += parseFloat($(this).parents("tr").find('input[name$="[volume_inventaris]"]').val());
-        }
-    });
-    $("#<?php echo CHtml::activeId($model,'forminvbarang_totalharga'); ?>").val(totalNetto);
-    $("#<?php echo CHtml::activeId($model,'forminvbarang_totalvolume'); ?>").val(totalVolume);
+    var subTotal = 0;    
+    
+    if ($("#carikata").val () == ''){
+        $(".netto").each(function(){        
+            if ($(this).parents("tr").find(".cekList").is(":checked")){            
+                totalNetto += parseFloat($(this).parents("tr").find('input[name$="[harga_netto]"]').val());
+                totalVolume += parseFloat($(this).parents("tr").find('input[name$="[volume_inventaris]"]').val());            
+                subTotal += parseFloat($(this).parents("tr").find('input[name$="[volume_inventaris]"]').val()) * parseFloat($(this).parents("tr").find('input[name$="[harga_netto]"]').val());                                                   
+            }
+            
+            $(this).parents("tr").find('input[name$="[subtotal]"]').val(parseFloat($(this).parents("tr").find('input[name$="[volume_inventaris]"]').val()) * parseFloat($(this).parents("tr").find('input[name$="[harga_netto]"]').val()));
+        });
+    }else{
+        $("td:Contains('"+$("#carikata").val()+"')").each(function(){        
+            if ($(this).parents("tr").find(".cekList").is(":checked")){            
+                totalNetto += parseFloat($(this).parents("tr").find('input[name$="[harga_netto]"]').val());
+                totalVolume += parseFloat($(this).parents("tr").find('input[name$="[volume_inventaris]"]').val());            
+                subTotal += parseFloat($(this).parents("tr").find('input[name$="[volume_inventaris]"]').val()) * parseFloat($(this).parents("tr").find('input[name$="[harga_netto]"]').val());                                                   
+            }
+            
+            $(this).parents("tr").find('input[name$="[subtotal]"]').val(parseFloat($(this).parents("tr").find('input[name$="[volume_inventaris]"]').val()) * parseFloat($(this).parents("tr").find('input[name$="[harga_netto]"]').val()));
+        });
+    }
+    $("#<?php echo CHtml::activeId($model,'forminvbarang_totalharga'); ?>").val(subTotal);
+    $("#<?php echo CHtml::activeId($model,'forminvbarang_totalvolume'); ?>").val(totalVolume);    
     formatNumberSemua();
     renameInputRowBarang();
+}
+
+function ubahSubTotal(obj){
+    GUBarangV[".$data->barang_id."][subtotal]
 }
 
 /**
