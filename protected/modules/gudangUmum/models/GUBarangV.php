@@ -6,7 +6,7 @@ class GUBarangV extends BarangV
 	 * @param string $className active record class name.
 	 * @return BarangV the static model class
 	 */
-	public $invbarang_jenis,$qtystok,$invbarangdet_id,$inventarisasi;
+	public $invbarang_jenis,$qtystok,$invbarangdet_id,$inventarisasi, $subtotal;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
