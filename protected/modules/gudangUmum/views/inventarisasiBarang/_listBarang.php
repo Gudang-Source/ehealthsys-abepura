@@ -9,10 +9,11 @@ echo CHtml::css('#isiScroll{max-height:500px;overflow-y:scroll;margin-bottom:10p
 <label><i>Maksimal data yang ditampilkan = 1000</i></label>
 <div id='isiScroll'>
 <?php 
-
+$modInvBrgDet = new GUInvbarangdetT;
+$row = 0;
 $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     'id'=>'barang-m-grid',
-    'dataProvider'=>$modBarang->searchBarangInventarisasi(), //RND-6011
+    'dataProvider'=>$modBarang->searchBarangInventarisasi(),
     'mergeHeaders'=>array(
 		array(
 			'name'=>'<center>Inventarisasi</center>',
@@ -88,8 +89,27 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 		array(
 			'header'=>'Waktu Cek Fisik',
 			'type'=>'raw',
-			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][tglperiksafisik]", '
-			. '(isset($data->tglperiksafisik) ? (empty($data->tglperiksafisik) ?  date("d/m/Y H:i:s") : date("d/m/Y H:i:s",strtotime($data->tglperiksafisik))) : date("d/m/Y H:i:s"))  , array("class"=>"span2 datetimemask cekFisik", "style"=>"width:105px;","onkeyup"=>"return $(this).focusNextInputField(event);"))',
+			//'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][tglperiksafisik]", '
+			//. '(isset($data->tglperiksafisik) ? (empty($data->tglperiksafisik) ?  date("d/m/Y H:i:s") : date("d/m/Y H:i:s",strtotime($data->tglperiksafisik))) : date("d/m/Y H:i:s"))  , array("class"=>"span2 datetimemask cekFisik", "style"=>"width:105px;","onkeyup"=>"return $(this).focusNextInputField(event);"))',
+                        'value' => function($data) use (&$modInvBrgDet){     
+                            $modInvBrgDet->tglperiksafisik = (isset($data->tglperiksafisik) ? (empty($data->tglperiksafisik) ?  date("d M Y H:i:s") : date("d M Y H:i:s",strtotime($data->tglperiksafisik))) : date("d M Y H:i:s"));
+    
+                           return  $this->widget('MyDateTimePicker', array(
+                                'model'=>$modInvBrgDet, 
+                                'attribute'=>'[]tglperiksafisik',                                
+                                'mode' => 'datetime',                                 
+                                'htmlOptions' => array(
+                                    'id' => 'GUInvbarangdetT_'.($modInvBrgDet->invbarangdet_id+1).'_tglperiksafisik',
+                                    'size' => '10',
+                                    'style'=>'width:80%'
+                                ),
+                                'options' => array(  // (#3)                    
+                                    'dateFormat' => Params::DATE_FORMAT,                    
+                                    'maxDate' => 'd',
+                                ),                                
+                            ), 
+                            true);
+                        }
 		),
 		array(
 			'header'=>'Kondisi Barang',
@@ -103,8 +123,20 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
             $("#barang-m-grid .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null})
             $("#barang-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
             getTotal();
+            reinstallDatePicker();
                 }',
-)); ?> 
+)); 
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {      
+    var tr = $('#barang-m-grid').find('table tbody tr');
+    
+    for (var i =1;i<=tr.length;i++){
+    $('#GUInvbarangdetT_'+(i-1)+'_tglperiksafisik').datetimepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d','timeText':'Waktu','hourText':'Jam','minuteText':'Menit','secondText':'Detik','showSecond':true,'timeFormat':'hh:mm:ss'}));
+        }
+}
+");
+                
+                ?> 
     </div>
 
 <?php

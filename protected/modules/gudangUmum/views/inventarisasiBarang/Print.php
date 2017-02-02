@@ -112,7 +112,7 @@ echo CHtml::css('.control-label{
             <td style="text-align:right;"><?php echo $format->formatNumberForPrint($barang->harga_netto); ?></td>
             <td style="text-align:right;"><?php echo $format->formatNumberForPrint($barang->harga_satuan); ?></td>
             <td style="text-align:center;"><?php echo $format->formatNumberForPrint($barang->volume_fisik); ?></td>
-            <td style="text-align:center;"></td>
+            <td style="text-align:center;"><?php echo $format->formatDateTimeForUser($barang->tglperiksafisik) ?></td>
             <td><?php echo $barang->kondisi_barang ?></td>
         </tr>
         <?php } ?>
