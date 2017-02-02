@@ -20,7 +20,7 @@
             <?php } ?>
             <!--<th>Satuan</th>-->
             
-            <th>kondisi Barang</th>
+            <th>Kondisi Barang</th>
             <th>Batal</th>
         </tr>
     </thead>

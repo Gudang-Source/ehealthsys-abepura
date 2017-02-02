@@ -218,9 +218,13 @@
                 <?php echo $form->textFieldRow($model,'biayaadministrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
                 <?php echo $form->textFieldRow($model,'pajakpph',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
                 <div class="control-group ">
-                        <?php echo Chtml::label("PPN (10%)", 'pajakppn', array('class' => 'control-label')); ?>
+                        <?php //echo Chtml::label("PPN (10%)", 'pajakppn', array('class' => 'control-label')); ?>
+                    <label class="control-label">                       
+                        <?php echo CHtml::checkbox('termasukPPN',true,array('onclick'=>'persenPpn(this)','style'=>'width : 10px', 'onkeyup' => "return $(this).focusNextInputField(event)"))?>
+                        PPN (10%)                        
+                    </label>
                     <div class="controls">
-                        <?php echo $form->textField($model,'pajakppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                        <?php echo $form->textField($model,'pajakppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;', 'readonly' => true)); ?>
                     </div>
                 </div>
                 </div>
@@ -534,6 +538,7 @@ $js = <<< JS
         if(jQuery.isNumeric(discountPersen)){
             $('#${discount}').val(totalHarga*discountPersen/100);
         }
+        totPPN($("#GUTerimapersediaanT_pajakppn"));
             formatNumberSemua();
     }
 
@@ -609,12 +614,30 @@ function loadPembelian(id)
 	}, "json");
 }
 
-function totPPN(obj)
-{    
-    var total_harga = unformatNumber($(obj).val());
+function totPPN()
+{                 
+    if ($('#termasukPPN').is(":checked")){
+        var total_harga = unformatNumber($("#GUTerimapersediaanT_totalharga").val());
 
-    var ppn = (10/100) * total_harga;
+        var ppn = (10/100) * total_harga;
     
-    $("#GUTerimapersediaanT_pajakppn").val(formatNumber(ppn));
+        $("#GUTerimapersediaanT_pajakppn").val(formatNumber(ppn));
+    }else{
+        $("#GUTerimapersediaanT_pajakppn").val(formatNumber(0));
+    }
+}
+
+function persenPpn(obj){
+    if(obj.checked == true){
+        $('#<?php echo CHtml::activeId($model,'pajakppn'); ?>').attr("readonly",true);
+        $('#<?php echo CHtml::activeId($model,'pajakppn'); ?>').attr('checked',true);
+        $('#termasukPPN').val(1);
+    }else{
+        $('#<?php echo CHtml::activeId($model,'pajakppn'); ?>').attr("readonly",true);
+        $('#<?php echo CHtml::activeId($model,'pajakppn'); ?>').removeAttr('checked');
+        $('#termasukPPN').val(0);
+    }
+    
+    totPPN($("#GUTerimapersediaanT_pajakppn"));
 }
 </script>
