@@ -132,7 +132,7 @@ if ($model->jns_periode == "bulan") {
             <label for="pelayanan">Kegiatan Laboratorium:</label>
             <select class="form-control" id="pelayanan" onchange="setDataSet(this.options[this.selectedIndex].value);" style="display: inline-block;
                     width: auto;">
-                    <?php
+                    <?php                    
                     foreach ($dataPemeriksaanLab as $data) {
                         $id = $data['id'];
                         $nama = $data['nama'];

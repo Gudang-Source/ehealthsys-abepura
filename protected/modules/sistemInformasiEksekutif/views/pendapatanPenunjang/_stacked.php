@@ -18,6 +18,9 @@
         chart_stacked.marginBottom = 0;
         chart_stacked.startDuration = 1;
         chart_stacked.dataDateFormat = "YYYY-MM-DD JJ:NN:SS";
+        chart_stacked.numberFormatter = {
+            precision:0,decimalSeparator:",",thousandsSeparator:"."
+          };
         // AXES
         // category
         var categoryAxis = chart_stacked.categoryAxis;
