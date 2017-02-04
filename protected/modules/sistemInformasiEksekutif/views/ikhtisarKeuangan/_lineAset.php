@@ -32,6 +32,9 @@ if ($model->jns_periode == "bulan") {
         chart_line_aset.dataDateFormat = "YYYY-MM-DD JJ:NN:SS";
         // listen for "dataUpdated" event (fired when chart is inited) and call zoomChart method when it happens
         chart_line_aset.addListener("dataUpdated", zoomChartAset);
+        chart_line_aset.numberFormatter = {
+                    precision:0,decimalSeparator:",",thousandsSeparator:"."
+                  };
 
         // AXES
         // category

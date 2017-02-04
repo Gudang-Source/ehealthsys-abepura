@@ -50,14 +50,14 @@
 					'header' => 'Penerimaan',
 					'name' => 'jumlah_penerimaan',
 					'type' => 'raw',
-					'value' => 'number_format($data->jumlah_penerimaan)',
+					'value' => 'number_format($data->jumlah_penerimaan,0,"",".")',
 					'footer' => 'sum(jumlah_penerimaan)',
 				),
 				array(
 					'header' => 'Pengeluaran',
 					'name' => 'jumlah_pengeluaran',
 					'type' => 'raw',
-					'value' => 'number_format($data->jumlah_pengeluaran)',
+					'value' => 'number_format($data->jumlah_pengeluaran,0,"",".")',
 					'footer' => 'sum(jumlah_pengeluaran)',
 				)
 			),

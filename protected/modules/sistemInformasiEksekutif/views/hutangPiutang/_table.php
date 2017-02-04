@@ -51,14 +51,14 @@
                     'header' => 'Hutang',
                     'name' => 'jumlah_hutang',
                     'type' => 'raw',
-                    'value' => 'number_format($data->jumlah_hutang)',
+                    'value' => 'number_format($data->jumlah_hutang,0,"",".")',
                     'footer' => 'sum(jumlah_hutang)',
                 ),
                 array(
                     'header' => 'Piutang',
                     'name' => 'jumlah_piutang',
                     'type' => 'raw',
-                    'value' => 'number_format($data->jumlah_piutang)',
+                    'value' => 'number_format($data->jumlah_piutang,0,"",".")',
                     'footer' => 'sum(jumlah_piutang)',
                 )
             ),

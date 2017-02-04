@@ -433,6 +433,10 @@ Class Params
         const REKENING4_LEN = 8;
         const REKENING5_LEN = 10;
         
+        const REKENING1_BEBAN_PELAYANAN = 27;
+        const REKENING1_BEBAN_UMUM = 28;
+        const REKENING1_BEBAN_LAINNYA = 29;
+        
         const STATUSKEHADIRAN_HADIR = 1;
         const STATUSKEHADIRAN_SAKIT = 2;
         const STATUSKEHADIRAN_IZIN = 3;
