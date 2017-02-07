@@ -35,6 +35,7 @@
                                 }',
                         ),
                         'htmlOptions'=>array(
+                            'class' => 'custom-only',
                             'onkeyup'=>"return $(this).focusNextInputField(event)",
                             'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); '
                         ),
@@ -48,7 +49,7 @@
             <div class="control-group ">
                 <?php echo CHtml::label('Jumlah', 'qty_input', array('class'=>'control-label')); ?>
                 <div class="controls">
-                    <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer')) ?>
+                    <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 numbers-only', 'style' => 'text-align:right;')) ?>
                     <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
                             array('onclick'=>'tambahObatAlkes();return false;',
                                   'class'=>'btn btn-primary',
@@ -118,8 +119,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name' => 'obatalkes_golongan',
                     'value' => '$data->obatalkes_golongan',                    
                     'filter' => CHtml::dropDownList('ADObatalkesM[obatalkes_golongan]', $modObatAlkes->obatalkes_golongan, LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
-                ),                  
-                'obatalkes_nama',                
+                ),       
+                array(
+                    'header' => 'Nama Obat Alkes',
+                    'name' => 'obatalkes_nama',
+                    'filter' => Chtml::activeTextField($modObatAlkes, 'obatalkes_nama', array('class' => 'custom-only'))
+                ),                   
                 array(
                     'name'=>'satuankecil_id',
                     'type'=>'raw',
@@ -139,7 +144,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->StokObatRuangan',
                 ),
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+    . '$(".custom-only").keyup(function(){setCustomOnly(this);});'
+    . '}',
 )); 
 
 $this->endWidget();
