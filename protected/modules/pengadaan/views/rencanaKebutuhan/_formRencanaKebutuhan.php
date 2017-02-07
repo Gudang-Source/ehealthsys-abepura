@@ -6,7 +6,8 @@
                 <div class="controls">
                     <?php   
                         $modRencanaKebFarmasi->tglperencanaan = (!empty($modRencanaKebFarmasi->tglperencanaan) ? date("d/m/Y H:i:s",strtotime($modRencanaKebFarmasi->tglperencanaan)) : null);
-                        $this->widget('MyDateTimePicker',array(
+                        echo $form->textField($modRencanaKebFarmasi, 'tglperencanaan', array('class' => 'span3 realtime'));
+						/* $this->widget('MyDateTimePicker',array(
                             'model'=>$modRencanaKebFarmasi,
                             'attribute'=>'tglperencanaan',
                             'mode'=>'datetime',
@@ -18,7 +19,7 @@
                             ),
                             'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
                             ),
-                    )); ?>
+                    )); */ ?>
                 </div>
         </div>
     <div class="control-group ">
@@ -196,11 +197,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiGudang = new PegawairuanganV('search');
+$modPegawaiGudang = new ADPegawaiV('search');
 $modPegawaiGudang->unsetAttributes();
-$modPegawaiGudang->ruangan_id = Yii::app()->user->getState('ruangan_id');
-if(isset($_GET['PegawairuanganV'])) {
-    $modPegawaiGudang->attributes = $_GET['PegawairuanganV'];
+if(isset($_GET['ADPegawaiV'])) {
+    $modPegawaiGudang->attributes = $_GET['ADPegawaiV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaigudang-grid',
@@ -224,6 +224,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 array(
                     'header'=>'NIP',
+					'name'=>'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
                 ), /*
                 array(
@@ -242,9 +243,17 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->gelarbelakang_nama',
                 ), */
                 array(
-                    'header'=>'Alamat Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'alamat_pegawai'),
-                    'value'=>'$data->alamat_pegawai',
+                    'header'=>'Jabatan',
+					'name'=>'jabatan_id',
+                    'filter'=>  CHtml::activeDropDownList($modPegawaiGudang, 'jabatan_id', CHtml::listData(
+					JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'
+					),
+					array('empty'=>'-- Pilih --')),
+                    'value'=>function($data) {
+						if (empty($data->jabatan_id)) return "-";
+						$jabatan = JabatanM::model()->findByPk($data->jabatan_id);
+						return $jabatan->jabatan_nama;
+					},
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){
@@ -269,10 +278,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new ADPegawaiV('search');
+$modPegawaiMengetahui = new PegawairuanganV('search');
 $modPegawaiMengetahui->unsetAttributes();
-if(isset($_GET['ADPegawaiV'])) {
-    $modPegawaiMengetahui->attributes = $_GET['ADPegawaiV'];
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['PegawairuanganV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['PegawairuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimengetahui-grid',
@@ -296,11 +306,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 array(
                     'header'=>'NIP',
+					'name'=>'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
                 ), /*
                 array(
                     'header'=>'Gelar Depan',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'gelardepan'),
                     'value'=>'$data->gelardepan',
                 ), */
                 array(
@@ -310,13 +321,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ), /*
                 array(
                     'header'=>'Gelar Belakang',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'gelarbelakang_nama'),
                     'value'=>'$data->gelarbelakang_nama',
                 ), */
                 array(
-                    'header'=>'Alamat Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
-                    'value'=>'$data->alamat_pegawai',
+                    'header'=>'Jabatan',
+					'name'=>'jabatan_id',
+                    'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', CHtml::listData(
+					JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'
+					),
+					array('empty'=>'-- Pilih --')),
+                    'value'=>function($data) {
+						if (empty($data->jabatan_id)) return "-";
+						$jabatan = JabatanM::model()->findByPk($data->jabatan_id);
+						return $jabatan->jabatan_nama;
+					},
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){
@@ -368,11 +387,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 array(
                     'header'=>'NIP',
+					'name'=>'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
                 ), /*
                 array(
                     'header'=>'Gelar Depan',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'gelardepan'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'gelardepan'),
                     'value'=>'$data->gelardepan',
                 ), */
                 array(
@@ -382,13 +402,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ), /*
                 array(
                     'header'=>'Gelar Belakang',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'gelarbelakang_nama'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'gelarbelakang_nama'),
                     'value'=>'$data->gelarbelakang_nama',
                 ), */
                 array(
-                    'header'=>'Alamat Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'alamat_pegawai'),
-                    'value'=>'$data->alamat_pegawai',
+                    'header'=>'Jabatan',
+					'name'=>'jabatan_id',
+                    'filter'=>  CHtml::activeDropDownList($modPegawaiMenyetujui, 'jabatan_id', CHtml::listData(
+					JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'
+					),
+					array('empty'=>'-- Pilih --')),
+                    'value'=>function($data) {
+						if (empty($data->jabatan_id)) return "-";
+						$jabatan = JabatanM::model()->findByPk($data->jabatan_id);
+						return $jabatan->jabatan_nama;
+					},
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){

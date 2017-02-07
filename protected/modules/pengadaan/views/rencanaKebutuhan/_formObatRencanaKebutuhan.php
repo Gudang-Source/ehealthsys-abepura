@@ -46,7 +46,7 @@
         </td>
         <td>
             <div class="control-group ">
-                <?php echo CHtml::label('jumlah', 'qty_input', array('class'=>'control-label')); ?>
+                <?php echo CHtml::label('Jumlah', 'qty_input', array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer2')) ?>
                     <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
@@ -54,7 +54,7 @@
                                   'class'=>'btn btn-primary',
                                   'onkeyup'=>"tambahObatAlkes();",
                                   'rel'=>"tooltip",
-                                  'title'=>"Klik untuk menambahkan resep",)); ?>
+                                  'title'=>"Klik untuk menambahkan Obat/Alkes",)); ?>
                 </div>
             </div>
         </td>
@@ -139,7 +139,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Stok',
                     'type'=>'raw',
-                    'value'=>'$data->StokObatRuangan." ".$data->satuankecil->satuankecil_nama',
+                    // 'value'=>'$data->StokObatRuangan." ".$data->satuankecil->satuankecil_nama',
+					'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil->satuankecil_nama',
                     'htmlOptions'=>array(
                         'style'=>'text-align: right',
                     )
