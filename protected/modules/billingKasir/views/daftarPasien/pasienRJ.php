@@ -222,7 +222,7 @@
                                     'style'=>'text-align: rcenter',
                                 ),
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
-                                'value'=>
+                                'value'=>'($data->penjamin_id == 1)?"-":'.
                                     'CHtml::Link("<i class=\"icon-form-rtfarmasi\"></i>",Yii::app()->controller->createUrl("RincianTagihanFarmasi/RincianBiayaFarmasi",array("id"=>$data->pendaftaran_id,"frame"=>true)),
                                             array("class"=>"", 
                                                   "target"=>"iframeRincianTagihan",
