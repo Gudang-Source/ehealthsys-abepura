@@ -75,7 +75,8 @@ function cariPesertaBpjsNoKartu()
 				$("#umurSekarang").text(peserta.umur.umurSekarang);
 				$("#umurSaatPelayanan").text(peserta.umur.umurSaatPelayanan);
 				$("#pencarian-peserta-bpjs-form .btn-primary-blue").removeAttr('disabled',true);
-				$("#pencarian-peserta-bpjs-form .btn-riwayat").removeAttr('disabled',true);				
+				$("#pencarian-peserta-bpjs-form .btn-riwayat").removeAttr('disabled',true);		
+				if (obj.tab != null) isiRiwayat(obj.tab);
 				// OVERWRITES old selecor
 				jQuery.expr[':'].contains = function(a, i, m) {
 				  return jQuery(a).text().toUpperCase()
@@ -147,8 +148,8 @@ function cariPesertaBpjsNIK()
 				//RND-9239 $("#umurSekarang").text(list.umur.umurSekarang);
 				//RND-9239 $("#umurSaatPelayanan").text(list.umur.umurSaatPelayanan);
 				$("#pencarian-peserta-bpjs-form .btn-primary-blue").removeAttr('disabled',true);
-				$("#pencarian-peserta-bpjs-form .btn-riwayat").removeAttr('disabled',true);
-				
+				$("#pencarian-peserta-bpjs-form .btn-riwayat").removeAttr('disabled',true);		
+				if (obj.tab != null) isiRiwayat(obj.tab);
 				// OVERWRITES old selecor
 				jQuery.expr[':'].contains = function(a, i, m) {
 				  return jQuery(a).text().toUpperCase()
@@ -193,6 +194,10 @@ function clearDataPeserta(){
 	$("#noMr").text('');
 	$("#pencarian-peserta-bpjs-form .btn-primary-blue").attr('disabled',true);
 	$("#pencarian-peserta-bpjs-form .btn-riwayat").attr('disabled',true);
+}
+
+function isiRiwayat(tab) {
+	$("#tabel-riwayat tbody").empty().html(tab);
 }
 
 /**

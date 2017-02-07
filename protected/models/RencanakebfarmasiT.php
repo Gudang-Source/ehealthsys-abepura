@@ -66,7 +66,7 @@ class RencanakebfarmasiT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ruangan_id, tglperencanaan, noperencnaan, create_time, create_loginpemakai_id, create_ruangan', 'required'),
+			array('pegawai_id, pegawaimengetahui_id, pegawaimenyetujui_id, ruangan_id, tglperencanaan, noperencnaan, create_time, create_loginpemakai_id, create_ruangan', 'required'),
 			array('ruangan_id, pegawai_id, otorisasipimpinan_id, otorisasikeuangan_id, pegawaimengetahui_id, pegawaimenyetujui_id, jmlwaktupemakaian, leadtime_lt', 'numerical', 'integerOnly'=>true),
 			array('noperencnaan', 'length', 'max'=>50),
 			array('statusrencana', 'length', 'max'=>20),
