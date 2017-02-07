@@ -215,8 +215,8 @@
                     </div>
                 </div>
                 <?php //echo $form->textFieldRow($model,'discount',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'biayaadministrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
-                <?php echo $form->textFieldRow($model,'pajakpph',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                <?php echo $form->textFieldRow($model,'biayaadministrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;', 'onblur'=>'setTotalHarga();', )); ?>
+                <?php echo $form->textFieldRow($model,'pajakpph',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;','onblur'=>'setTotalHarga();', )); ?>
                 <div class="control-group ">
                         <?php //echo Chtml::label("PPN (10%)", 'pajakppn', array('class' => 'control-label')); ?>
                     <label class="control-label">                       
@@ -227,6 +227,12 @@
                         <?php echo $form->textField($model,'pajakppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;', 'readonly' => true)); ?>
                     </div>
                 </div>
+                </div>
+                <div class="control-group">
+                    <?php echo Chtml::label("Total Keseluruhan",'totalkeseluruhan', array('class' => 'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'totalkeseluruhan',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100, 'readonly' => true)); ?>
+                    </div>
                 </div>
                 <?php echo $form->textFieldRow($model,'nofakturpajak',array('class'=>'span3 custom-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'Ketikan No. Faktur Pajak')); ?>
                 <div class="control-group ">
@@ -610,7 +616,7 @@ function loadPembelian(id)
         $("#tableDetailBarang tbody .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null});
         clear();
         setTotalHarga();
-        totPPN($("#GUTerimapersediaanT_totalharga"));
+        totPPN($("#GUTerimapersediaanT_totalharga"));        
 	}, "json");
 }
 
@@ -625,6 +631,8 @@ function totPPN()
     }else{
         $("#GUTerimapersediaanT_pajakppn").val(formatNumber(0));
     }
+    
+    getTotalSeluruh();
 }
 
 function persenPpn(obj){
@@ -639,5 +647,19 @@ function persenPpn(obj){
     }
     
     totPPN($("#GUTerimapersediaanT_pajakppn"));
+}
+
+function getTotalSeluruh()
+{
+    unformatNumberSemua();
+    var totalharga = $("#GUTerimapersediaanT_totalharga").val();
+    var diskon = $("#GUTerimapersediaanT_discount").val();
+    var biayaadmin = $("#GUTerimapersediaanT_biayaadministrasi").val();
+    var pajakpph = $("#GUTerimapersediaanT_pajakpph").val();
+    var pajakppn = $("#GUTerimapersediaanT_pajakppn").val();
+    var totalkeseluruhan = (parseInt(totalharga) - parseInt(diskon)) + parseInt(biayaadmin) + parseInt(pajakpph) + parseInt(pajakppn);
+    
+    $("#GUTerimapersediaanT_totalkeseluruhan").val(totalkeseluruhan);
+    formatNumberSemua();
 }
 </script>
