@@ -24,13 +24,13 @@
                         </div>
                     </div>
                 </td>
-                <td>
+                <td hidden>
                      <?php echo $form->textField($modRiwayatRuangan,'tglpenetapanruangan',array('style'=>'width: 124px;','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$modRiwayatRuangan->getAttributeLabel('tglpenetapanruangan'))); ?>
                 </td>
-                <td>
+                <td hidden>
                      <?php echo $form->textField($modRiwayatRuangan,'nopenetapanruangan',array('style'=>'width: 124px;','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$modRiwayatRuangan->getAttributeLabel('nopenetapanruangan'))); ?>
                 </td>
-                <td>
+                <td hidden>
                      <?php echo $form->textField($modRiwayatRuangan,'tentangpenetapan',array('style'=>'width: 124px;','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$modRiwayatRuangan->getAttributeLabel('tentangpenetapan'))); ?>
                 </td>
             </tr>
@@ -55,6 +55,9 @@
                 </td>
                 <td>
                     <?php echo $form->textField($model,'[1]ruangan_singkatan',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('ruangan_singkatan'))); ?>
+                </td>
+				<td>
+                    <?php echo $form->textField($model,'[1]kode_bpjs',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kode_bpjs'))); ?>
                 </td>
                 <td>
                     <?php echo $form->textField($model,'[1]ruangan_jenispelayanan',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('ruangan_jenispelayanan'))); ?>
