@@ -157,7 +157,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'nama_pegawai'),
                     'value'=>'$data->namaLengkap',
-                    'filter'=>Chtml::activeTextField($modPegawaiMenyetujui, 'nama_pegawai', array('class' => 'numbers-only'))
+                    'filter'=>Chtml::activeTextField($modPegawaiMenyetujui, 'nama_pegawai', array('class' => 'hurufs-only'))
                 ),
                  array(
                     'header'=>'Jabatan',
