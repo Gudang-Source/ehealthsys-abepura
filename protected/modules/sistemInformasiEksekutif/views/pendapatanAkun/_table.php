@@ -8,7 +8,7 @@
 
     <div class="panel-body">
         <?php
-        $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+        $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
         $sort = true;
         if (isset($caraPrint)) {
             $data = $model->searchPrint();
@@ -51,7 +51,7 @@
                     'header' => 'Jumlah',
                     'name' => 'jumlah',
                     'type' => 'raw',
-                    'value' => 'number_format($data->jumlah)',
+                    'value' => 'number_format($data->jumlah,0,"",".")',
                     'footer' => 'sum(jumlah)',
                 )
             ),

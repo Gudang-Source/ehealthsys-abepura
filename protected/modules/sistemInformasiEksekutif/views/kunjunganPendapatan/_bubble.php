@@ -16,6 +16,9 @@
         chart_bubble.dataDateFormat = "YYYY-MM-DD";
         chart_bubble.trendLines = [];
         chart_bubble.startDuration = 1.5;
+        chart_bubble.numberFormatter = {
+                    precision:0,decimalSeparator:",",thousandsSeparator:"."
+                  };
         // first value axis (on the left)
         var valueAxis1 = new AmCharts.ValueAxis();
         valueAxis1.axisAlpha = 0;

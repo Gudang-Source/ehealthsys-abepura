@@ -79,7 +79,7 @@ if ($model->jns_periode == "bulan") {
                             <td>
                                 <?php
                                 if (isset($data['jumlah_layanan'])) {
-                                    echo number_format($data['jumlah_layanan'], 0);
+                                    echo number_format($data['jumlah_layanan'], 0,"",".");
                                     $total_layanan += $data['jumlah_layanan'];
                                 } else {
                                     echo 0;
@@ -91,7 +91,7 @@ if ($model->jns_periode == "bulan") {
                             <td>
                                 <?php
                                 if (isset($data['jumlah_umum'])) {
-                                    echo number_format($data['jumlah_umum'], 0);
+                                    echo number_format($data['jumlah_umum'], 0,"",".");
                                     $total_umum += $data['jumlah_umum'];
                                 } else {
                                     echo 0;
@@ -102,7 +102,7 @@ if ($model->jns_periode == "bulan") {
                             <td>
                                 <?php
                                 if (isset($data['jumlah_lainnya'])) {
-                                    echo number_format($data['jumlah_lainnya'], 0);
+                                    echo number_format($data['jumlah_lainnya'], 0,"",".");
                                     $total_lainnya += $data['jumlah_lainnya'];
                                 } else {
                                     echo 0;
@@ -119,17 +119,17 @@ if ($model->jns_periode == "bulan") {
                         </td>
                         <td>
                             <?php
-                            echo "<strong>" . number_format($total_layanan, 0) . "</strong>";
+                            echo "<strong>" . number_format($total_layanan, 0,"",".") . "</strong>";
                             ?>
                         </td>
                         <td>
                             <?php
-                            echo "<strong>" . number_format($total_umum, 0) . "</strong>";
+                            echo "<strong>" . number_format($total_umum, 0,"",".") . "</strong>";
                             ?>
                         </td>
                         <td>
                             <?php
-                            echo "<strong>" . number_format($total_lainnya, 0) . "</strong>";
+                            echo "<strong>" . number_format($total_lainnya, 0,"",".") . "</strong>";
                             ?>
                         </td>
                     </tr>

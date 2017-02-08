@@ -308,7 +308,8 @@ else {
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
         $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/rincianTagihanFarmasi/rincianBiayaFarmasiRI');
-$pendaftaran_id = $pendaftaran_id;
+//$pendaftaran_id = $pendaftaran_id;
+        $pendaftaran_id = isset($_GET['id'])?$_GET['id']:null;      
 $js = <<< JSCRIPT
 function print(caraPrint)
 {
