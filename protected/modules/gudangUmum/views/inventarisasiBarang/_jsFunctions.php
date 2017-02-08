@@ -118,6 +118,7 @@ function pilihSemua(obj){
 		$(".cekList").attr("checked",false);
 		$(".cekFisik").removeClass("required");
 	}
+        getTotal();
 }
 
 function print(caraPrint)

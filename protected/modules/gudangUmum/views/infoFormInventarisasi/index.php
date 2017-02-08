@@ -30,23 +30,30 @@ $('.search-form form').submit(function(){
 							: ($row+1)',
 					'type'=>'raw',
 					'htmlOptions'=>array('style'=>'text-align:center;'),
+                                        'headerHtmlOptions' => array('style' => 'text-align:center;')
 				),
 				array (
 					'name'=>'forminvbarang_tgl',
 					'type'=>'raw',
-					'value'=>'MyFormatter::formatDateTimeForUser($data->forminvbarang_tgl)'
+					'value'=>'MyFormatter::formatDateTimeForUser($data->forminvbarang_tgl)',
+                                        'headerHtmlOptions' => array('style' => 'text-align:center;')
 				),
-				'forminvbarang_no',
+                                array(
+                                    'name' => 'forminvbarang_no',
+                                    'headerHtmlOptions' => array('style' => 'text-align:center;')
+                                ),				
                                 array(
                                     'header' => 'Total Volume',
                                     'value' => 'number_format($data->forminvbarang_totalvolume,0,"",".")',
-                                    'htmlOptions' => array('style'=>'text-align:right;')
+                                    'htmlOptions' => array('style'=>'text-align:right;'),
+                                    'headerHtmlOptions' => array('style' => 'text-align:center;')
                                 ),                            
 				array(
-				  'header'=>'Total Harga',
-				  'type'=>'raw',
-				  'value'=>'"Rp".number_format($data->forminvbarang_totalharga,0,"",".")',
-                                  'htmlOptions' => array('style'=>'text-align:right;')
+                                    'header'=>'Total Harga (Rp)',
+                                    'type'=>'raw',
+                                    'value'=>'number_format($data->forminvbarang_totalharga,0,"",".")',
+                                    'htmlOptions' => array('style'=>'text-align:right;'),
+                                    'headerHtmlOptions' => array('style' => 'text-align:center;')
 				),
 				array(
 					'header'=>'Detail',
@@ -59,6 +66,7 @@ $('.search-form form').submit(function(){
 							"title"=>"Klik untuk melihat detail formulir",
 						))',
 					'htmlOptions'=>array('style'=>'text-align:center;'),
+                                        'headerHtmlOptions' => array('style' => 'text-align:center;')
 				),	
 				array(
 					'header'=>'Inventarisasi',
@@ -67,6 +75,7 @@ $('.search-form form').submit(function(){
 						array("rel"=>"tooltip",
 						"title"=>"Klik untuk melakukan inventarisasi barang ".(!empty($data->invbarang_id) ? "lagi" : ""),)))',
 					'htmlOptions'=>array('style'=>'text-align:center;'),
+                                        'headerHtmlOptions' => array('style' => 'text-align:center;')
 				),
 			),
 			'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
