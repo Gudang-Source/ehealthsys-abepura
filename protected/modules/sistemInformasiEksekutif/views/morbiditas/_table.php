@@ -139,20 +139,20 @@ foreach ($temp_total as $key => $value) {
                             ?>
                         </tr>
                     <?php } ?>
-                    <tr>
+                    <!--<tr>
                         <td>
                             <strong>Total</strong>
                         </td>
                         <?php
-                        foreach ($total_row as $value) {
+                      //  foreach ($total_row as $value) {
                             ?><td>
                                 <?php
-                                echo "<strong>" . number_format($value, 0) . "</strong>";
+                              //  echo "<strong>" . number_format($value, 0) . "</strong>";
                                 ?>
                             </td>
-                        <?php }
+                        <?php //}
                         ?>
-                    </tr>
+                    </tr>-->
                 </tbody>
             </table>
         </div>

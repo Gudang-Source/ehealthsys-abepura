@@ -109,13 +109,13 @@ foreach ($dataTable as $key => $value) {
                             foreach ($value as $data) { ?>
                                 <td>
                                     <?php
-                                    echo number_format($data,0);
+                                    echo number_format($data,0,"",".");
                                     $total += $data;
                                 }
                                 ?>
                             </td>
                             <td>
-                                <?php echo number_format($total,0); ?>
+                                <?php echo number_format($total,0,"","."); ?>
                             </td>
                         </tr>
                     <?php }

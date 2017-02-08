@@ -207,31 +207,8 @@ class PSBukuregisterpasien extends BukuregisterpasienV {
         $criteria = $this->criteriaGrafik($this);
               
         $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
-        if(!empty($this->propinsi_id)){
-            $criteria->addCondition('propinsi_id='.$this->propinsi_id);
-		}
-        $criteria->compare('LOWER(propinsi_nama)', strtolower($this->propinsi_nama), true);
-        if(!empty($this->kabupaten_id)){
-            $criteria->addCondition('kabupaten_id='.$this->kabupaten_id);
-		}
-        $criteria->compare('LOWER(kabupaten_nama)', strtolower($this->kabupaten_nama), true);
-        if(!empty($this->kelurahan_id)){
-            $criteria->addCondition('kelurahan_id='.$this->kelurahan_id);
-		}
-        $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
-        if(!empty($this->kecamatan_id)){
-            $criteria->addCondition('kecamatan_id='.$this->kecamatan_id);
-		}
-        $criteria->compare('LOWER(kecamatan_nama)', strtolower($this->kecamatan_nama), true);
-        if(!empty($this->carabayar_id)){
-            $criteria->addCondition('carabayar_id='.$this->carabayar_id);
-		}
-        $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
-        if(!empty($this->penjamin_id)){
-            $criteria->addCondition('penjamin_id='.$this->penjamin_id);
-		}
-        $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
-		$criteria->addCondition('ruangan_id='.Yii::app()->user->getState('ruangan_id'));
+        
+        $criteria->addCondition('ruangan_id='.Yii::app()->user->getState('ruangan_id'));
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,

@@ -78,10 +78,13 @@ echo CHtml::css('.control-label{
             <th style="text-align: center;">Satuan Kecil</th>
             <th style="text-align: center;">HPP (Rp.)</th>
             <th style="text-align: center;">Inventarisasi Sistem</th>
+            <th style="text-align: center;">Sub Total</th>
         </tr>
     </thead>
     <tbody>
         <?php
+            $totVol = 0;
+            $totHarga = 0;
             foreach($modDetails as $i=>$barang){
         ?>
         <tr>
@@ -96,11 +99,23 @@ echo CHtml::css('.control-label{
             echo $format->formatNumberForPrint(
             (isset($data->barang_hpp) && !empty($data->barang_hpp) && $data->barang_hpp != 0) ? $data->barang_hpp : $data->barang_harganetto
             ); 
+            
+            $totVol += $barang->volume_inventaris;
+            $totHarga += ($barang->volume_inventaris * ( (isset($data->barang_hpp) && !empty($data->barang_hpp) && $data->barang_hpp != 0) ? $data->barang_hpp : $data->barang_harganetto));
             ?></td>
             <td style="text-align:right;"><?php echo $format->formatNumberForPrint($barang->volume_inventaris); ?></td>
+            <td style="text-align:right;"><?php echo $format->formatNumberForPrint($barang->volume_inventaris * ( (isset($data->barang_hpp) && !empty($data->barang_hpp) && $data->barang_hpp != 0) ? $data->barang_hpp : $data->barang_harganetto)); ?></td>
+            
         </tr>
         <?php } ?>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="7" style="text-align:right;"><b>Total</b></td>
+            <td style="text-align:right;"><?php echo $format->formatNumberForPrint($totVol); ?></td>
+            <td style="text-align:right;"><?php echo $format->formatNumberForPrint($totHarga); ?></td>
+        </tr>
+    </tfoot>
 </table>
   
 <table width="100%" style="margin-top:20px;">

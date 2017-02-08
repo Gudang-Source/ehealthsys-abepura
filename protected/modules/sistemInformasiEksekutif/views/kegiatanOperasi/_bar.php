@@ -142,7 +142,7 @@ if ($model->jns_periode == "bulan") {
         <div id="chartdiv" style="width: 100%; height: 400px;"></div>
     </div>
 </div>
-</div>
+
 
 
 

@@ -202,7 +202,7 @@
             <div class="control-group ">
                 <label class="control-label" for="namaObat">Jumlah</label>
                 <div class="controls">
-                    <?php echo CHtml::textField('qty', '', array('class' => 'span1 integer2', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>
+                    <?php echo CHtml::textField('qty', '', array('class' => 'span1 numbers-only', 'onkeypress' => "return $(this).focusNextInputField(event)",'style' => 'text-align:right;')); ?>
                     <?php echo CHtml::dropDownList('satuanbahan', '', LookupM::getItems('satuanbahanmakanan'), array('empty' => '-- Pilih --', 'class' => 'span1')); ?>
                     <?php echo CHtml::textField('ukuran', '', array('class' => 'span2', 'placeholder' => 'Ukuran')); ?>
                     <?php echo CHtml::textField('merk', '', array('class' => 'span2', 'placeholder' => 'Merk')); ?>
@@ -227,12 +227,12 @@
                     <th>Nama</th>
                     <th>Jumlah Persediaan</th>
                     <th hidden>Satuan</th>
-                    <th>Harga Netto</th>
+                    <th>Harga Netto (Rp)</th>
                     <!--<th>Harga Jual</th>-->
                     <th>Diskon</th>
                     <th>Tanggal Kadaluarsa</th>
                     <th>Jumlah</th>
-                    <th>Sub Total</th>
+                    <th>Subtotal  (Rp)</th>
                     <th>Batal</th>
                 </tr>
             </thead>

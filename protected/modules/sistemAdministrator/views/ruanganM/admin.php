@@ -58,6 +58,7 @@
                     ),
                     'ruangan_nama',
                     'ruangan_singkatan',
+					'kode_bpjs',
                     'ruangan_lokasi',
                      array(
                          'header'=>'Kasus Penyakit',

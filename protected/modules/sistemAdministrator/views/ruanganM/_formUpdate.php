@@ -16,6 +16,7 @@
                     <?php echo $form->textFieldRow($model,'ruangan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                     <?php echo $form->textFieldRow($model,'ruangan_singkatan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                     <?php echo $form->textFieldRow($model,'ruangan_lokasi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+					<?php echo $form->textFieldRow($model,'kode_bpjs',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                     
                     <?php echo $form->dropDownListRow($model,'modul_id',  CHtml::listData(ModulK::model()->findAll(array(
                         'condition'=>'modul_aktif = true',

@@ -18,7 +18,7 @@
 
 </div>
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCKaKWoGgPIaCh-xDEeJMFoDrEaXaW9PUI&callback=initialize" async defer></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCKaKWoGgPIaCh-xDEeJMFoDrEaXaW9PUI&callback=initialize" async defer></script>
 <script type="text/javascript">
 var markerCount = 0;
 var map;

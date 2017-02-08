@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
 	<div class="panel-heading">
-		<div class="panel-title">Pasien Janji Poliklinik Hari Ini</div>
+		<div class="panel-title">Dokumen Rekam Medis Hari Ini</div>
 		<div class="panel-options">
 			<a data-rel="collapse" href="#"><i class="entypo-down-open"></i></a>
 			<a data-rel="reload" href="#" onclick="refreshTable();"><i class="entypo-arrows-ccw"></i></a>

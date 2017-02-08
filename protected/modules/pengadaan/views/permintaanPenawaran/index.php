@@ -73,7 +73,7 @@
 			</div>
 			<div class="span4">
 				<div class="control-group ">
-					<?php echo $form->labelEx($modPermintaanPenawaran, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
+					<?php echo Chtml::label("Pegawai Mengetahui <font style='color:red'>*</font>", 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo $form->hiddenField($modPermintaanPenawaran, 'pegawaimengetahui_id',array('readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 						<?php 
@@ -105,9 +105,10 @@
 								}',
 							),
 							'htmlOptions' => array(
-								'class'=>'pegawaimengetahui_nama',
+								'class'=>'pegawaimengetahui_nama  hurufs-only required',
 								'onkeyup'=>"return $(this).focusNextInputField(event)",
-								'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($modPermintaanPenawaran, 'pegawaimengetahui_id') . '").val(""); '
+								'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($modPermintaanPenawaran, 'pegawaimengetahui_id') . '").val(""); ',
+                                                                'placeholder' => 'Ketik Pegawai Mengetahui'
 							),
 							'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
 						)); 
@@ -117,7 +118,7 @@
 			</div>
 			<div class="span4">
 				<div class="control-group ">
-					<?php echo $form->labelEx($modPermintaanPenawaran, 'pegawaimenyetujui_id', array('class' => 'control-label')); ?>
+					<?php echo Chtml::label("Pegawai Menyetujui <font style='color:red'>*</font>", 'pegawaimenyetujui_id', array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo $form->hiddenField($modPermintaanPenawaran, 'pegawaimenyetujui_id',array('readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 						<?php
@@ -149,9 +150,10 @@
 								}',
 							),
 							'htmlOptions' => array(
-								'class'=>'pegawaimenyetujui_nama',
+								'class'=>'pegawaimenyetujui_nama hurufs-only required',
 								'onkeyup'=>"return $(this).focusNextInputField(event)",
-								'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($modPermintaanPenawaran, 'pegawaimenyetujui_id') . '").val(""); '
+								'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($modPermintaanPenawaran, 'pegawaimenyetujui_id') . '").val(""); ',
+                                                                'placeholder' => 'Ketik Pegawai Menyetujui'
 							),
 							'tombolDialog' => array('idDialog' => 'dialogPegawaiMenyetujui'),
 						));                    

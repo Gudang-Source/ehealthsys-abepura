@@ -27,6 +27,7 @@ class PembelianbarangT extends CActiveRecord
         public $data;
         public $tick;
         public $pilihanx;
+        public $supplier_nama;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

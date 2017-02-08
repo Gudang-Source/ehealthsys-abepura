@@ -28,6 +28,9 @@ class GFPegawairuanganV extends PegawairuanganV
 		if(!empty($this->pegawai_id)){
 			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
 		}
+                if(!empty($this->jabatan_id)){
+			$criteria->addCondition('jabatan_id = '.$this->jabatan_id);
+		}
 		$criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
 		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);

@@ -37,8 +37,8 @@
                             ),
                             'htmlOptions' => array(
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                'class' => 'span2',
-                                                'placeholder'=>'Ketikan nama barang',
+                                'class' => 'span2 custom-only',
+                                                'placeholder'=>'Ketik Nama Barang',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogBarang'),
                         ));

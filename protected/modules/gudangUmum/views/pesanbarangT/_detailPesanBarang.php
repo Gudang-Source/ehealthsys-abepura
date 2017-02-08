@@ -14,7 +14,7 @@
     <td><?php echo $modBarang->barang_merk; ?></td>
     <td><?php echo $modBarang->barang_ukuran; ?></td>
     <td><?php echo $modBarang->barang_ekonomis_thn; ?></td>
-    <td><?php echo CHtml::activeTextField($modDetail, '[]qty_pesan', array('class'=>'span1 numbersOnly pesan')).' '.$modDetail->satuanbarang; ?></td>
+    <td><?php echo CHtml::activeTextField($modDetail, '[]qty_pesan', array('class'=>'span1 numbersOnly pesan', 'style' => 'text-align:right;')).' '.$modDetail->satuanbarang; ?></td>
    <!-- <td><?php //echo CHtml::activeDropDownList($modDetail, '[]satuanbarang', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>-->
     
     <!--<td><?php //echo $modBarang->barang_ukuran; ?><br/><?php //echo $modBarang->barang_bahan; ?></td>-->

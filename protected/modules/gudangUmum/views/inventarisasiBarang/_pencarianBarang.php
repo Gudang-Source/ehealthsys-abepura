@@ -23,13 +23,13 @@
 				</div>
 			</div>
 			<?php echo $form->textFieldRow($modBarang, 'inventarisasi_kode', array('placeholder' => 'Ketik Kode Barang', 'class' => 'span3', 'maxlength' => 50, 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>     
-                        
-		</div>
-		<div class="span4">
-			<?php echo $form->textFieldRow($modBarang, 'barang_nama', array('placeholder' => 'Ketik Kode Barang', 'class' => 'span3', 'maxlength' => 50, 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>        
+                        <?php echo $form->textFieldRow($modBarang, 'barang_nama', array('placeholder' => 'Ketik Nama Barang', 'class' => 'span3', 'maxlength' => 50, 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>        
 			<?php echo $form->textFieldRow($modBarang, 'barang_noseri', array('placeholder' => 'Ketik No. Seri', 'class' => 'span3', 'maxlength' => 200, 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
                         <?php echo $form->textFieldRow($modBarang, 'barang_merk', array('placeholder' => 'Ketik Merk Barang', 'class' => 'span3', 'maxlength' => 200, 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>               
-			<?php echo $form->dropDownListRow($modBarang, 'barang_satuan', CHtml::listData(SatuankecilM::model()->findAll(), 'satuankecil_id', 'satuankecil_nama'), array('empty' => '-- Pilih --', 'class' => 'span3', 'maxlength' => 50, 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
+			<?php echo $form->dropDownListRow($modBarang, 'barang_satuan', CHtml::listData(SatuankecilM::model()->findAll(" satuankecil_aktif = TRUE ORDER BY satuankecil_nama ASC "), 'satuankecil_id', 'satuankecil_nama'), array('empty' => '-- Pilih --', 'class' => 'span3', 'maxlength' => 50, 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
+		</div>
+		<div class="span4">
+			
                 </div>
 		<div class="span4">
                         <?php 
