@@ -43,10 +43,10 @@ echo CHtml::css('.control-label{
     .table tbody tr:hover td, .table tbody tr:hover th {
         background-color: none;
     }
-    .kertas{
+    /*.kertas{
      width:20cm;
      height:12cm;
-    }
+    }*/
 ');
 ?>  
 <?php
