@@ -30,29 +30,34 @@ $('.search-form form').submit(function(){
 							: ($row+1)',
 					'type'=>'raw',
 					'htmlOptions'=>array('style'=>'text-align:center;'),
+					'headerHtmlOptions'=>array('style'=>'text-align:center;'),
 				),
 				array (
 					'header'=>'Tanggal Inventarisasi',
 					'name'=>'invbarang_tgl',
 					'type'=>'raw',
-					'value'=>'MyFormatter::formatDateTimeForUser($data->invbarang_tgl)'
+					'value'=>'MyFormatter::formatDateTimeForUser($data->invbarang_tgl)',
+					'headerHtmlOptions'=>array('style'=>'text-align:center;'),
 				),
 				array (
 					'header'=>'No. Inventarisasi',
 					'name'=>'invbarang_no',
 					'type'=>'raw',
-					'value'=>'$data->invbarang_no'
+					'value'=>'$data->invbarang_no',
+					'headerHtmlOptions'=>array('style'=>'text-align:center;'),
 				),
 				array (
 					'header'=>'Tanggal Formulir',
 					'type'=>'raw',
-					'value'=>'MyFormatter::formatDateTimeForUser($data->forminvbarang_tgl)'
+					'value'=>'MyFormatter::formatDateTimeForUser($data->forminvbarang_tgl)',
+					'headerHtmlOptions'=>array('style'=>'text-align:center;'),
 				),
 				array (
 					'header'=>'No. Formulir',
 					'name'=>'forminvbarang_no',
 					'type'=>'raw',
-					'value'=>'$data->forminvbarang_no'
+					'value'=>'$data->forminvbarang_no',
+					'headerHtmlOptions'=>array('style'=>'text-align:center;'),
 				),
 //				array (
 //					'header'=>'Jenis Inventarisasi',
@@ -61,12 +66,13 @@ $('.search-form form').submit(function(){
 //					'value'=>'$data->invbarang_jenis'
 //				),
 				array(
-				  'header'=>'Total HPP',
+				  'header'=>'Total HPP (Rp)',
 				  'type'=>'raw',
 				  'value'=>'MyFormatter::formatNumberForPrint($data->invbarang_totalnetto)',
                                   'htmlOptions'=>array(
                                       'style'=>'text-align: right',
                                   ),
+					'headerHtmlOptions'=>array('style'=>'text-align:center;'),
 				),
 				array(
 					'header'=>'Detail Inventarisasi',
@@ -79,6 +85,7 @@ $('.search-form form').submit(function(){
 							"title"=>"Klik untuk melihat detail formulir",
 						))',
 					'htmlOptions'=>array('style'=>'text-align:left;'),
+					'headerHtmlOptions'=>array('style'=>'text-align:center;'),
 				),	
 			),
 			'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
