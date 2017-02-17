@@ -55,10 +55,28 @@
             <?php echo $form->textFieldRow($model,'nopembelian',array('class'=>'span3', 'maxlength'=>20)); ?>
 </td>
         <td>
-
-            <?php echo $form->dropDownListRow($model,'sumberdana_id', CHtml::listData(SumberdanaM::model()->findAll('sumberdana_aktif = true ORDER BY sumberdana_nama'), 'sumberdana_id', 'sumberdana_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
-            <?php echo $form->dropDownListRow($model,'supplier_id', CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true ORDER BY supplier_nama'), 'supplier_id', 'supplier_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
-            <?php echo $form->dropDownListRow($model,'peg_pemesanan_id', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true ORDER BY nama_pegawai'), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+			 <div class="control-group ">
+				<?php echo CHtml::label('Sumber Dana','sumberdana_id', array('class' => 'control-label')); ?>
+				<div class="controls">
+					<?php echo $form->dropDownList($model,'sumberdana_id', CHtml::listData(SumberdanaM::model()->findAll('sumberdana_aktif = true ORDER BY sumberdana_nama'), 'sumberdana_id', 'sumberdana_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+				</div>
+			</div>
+			
+			
+			
+			<div class="control-group ">
+				<?php echo CHtml::label('Supplier','supplier_id', array('class' => 'control-label')); ?>
+				<div class="controls">
+					<?php echo $form->dropDownList($model,'supplier_id', CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true ORDER BY supplier_nama'), 'supplier_id', 'supplier_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+				</div>
+			</div>
+                  
+			 <div class="control-group ">
+				<?php echo CHtml::label('Pegawai Pemesanan','peg_pemesanan_id', array('class' => 'control-label')); ?>
+				<div class="controls">
+					<?php echo $form->dropDownList($model,'peg_pemesanan_id', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true ORDER BY nama_pegawai'), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+				</div>
+			</div>            
             <?php //echo $form->dropDownListRow($model,'sumberdanabhn', LookupM::getItems('sumberdanabahan'),array('empty'=>'-- Pilih --')); ?>
         </td>
     </tr>
