@@ -84,7 +84,7 @@ $('.search-form form').submit(function(){
 							"rel"=>"tooltip",
 							"title"=>"Klik untuk melihat detail formulir",
 						))',
-					'htmlOptions'=>array('style'=>'text-align:left;'),
+					'htmlOptions'=>array('style'=>'text-align:center;'),
 					'headerHtmlOptions'=>array('style'=>'text-align:center;'),
 				),	
 			),

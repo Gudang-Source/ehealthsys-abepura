@@ -50,7 +50,7 @@ echo CHtml::css('.control-label{
         <td>:</td>
         <td><?php echo $model->invbarang_no; ?></td>
 
-        <td><b>Total Harga</b></td>
+        <td><b>Total Harga (Rp)</b></td>
         <td>:</td>
         <td><?php echo $format->formatNumberForPrint($model->invbarang_totalharga); ?></td>
     </tr>
@@ -59,7 +59,7 @@ echo CHtml::css('.control-label{
         <td>:</td>
         <td><?php echo $format->formatDateTimeForUser($model->invbarang_tgl); ?></td>
 
-        <td><b>Total HPP</b></td>
+        <td><b>Total HPP (Rp)</b></td>
         <td>:</td>
         <td><?php echo $format->formatNumberForPrint($model->invbarang_totalnetto); ?></td>
     </tr>
@@ -69,7 +69,7 @@ echo CHtml::css('.control-label{
         <td>:</td>
         <td><?php echo $model->formulirinvbarang->forminvbarang_no; ?></td>
 
-        <td><b>Total Volume</b></td>
+        <td><b>Total Volume </b></td>
         <td>:</td>
         <td><?php echo $format->formatNumberForPrint($model->formulirinvbarang->forminvbarang_totalvolume); ?></td>
     </tr>
@@ -78,7 +78,7 @@ echo CHtml::css('.control-label{
         <td>:</td>
         <td><?php echo $format->formatDateTimeForUser($model->formulirinvbarang->forminvbarang_tgl); ?></td>
 
-        <td><b>Total Harga</b></td>
+        <td><b>Total Harga (Rp)</b></td>
         <td>:</td>
         <td><?php echo $format->formatNumberForPrint($model->formulirinvbarang->forminvbarang_totalharga); ?></td>
     </tr>
