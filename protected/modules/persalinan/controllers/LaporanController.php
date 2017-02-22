@@ -981,7 +981,7 @@ class LaporanController extends MyAuthController {
     }
     
     public function actionLaporanCaraMasukPasien() {
-        $model = new PSLaporancaramasukpenunjangV('search');
+        $model = new PSLaporancaramasukrdV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
@@ -993,15 +993,17 @@ class LaporanController extends MyAuthController {
         $model->thn_akhir = date('Y');
         $asalrujukan = CHtml::listData(AsalrujukanM::model()->findAll('asalrujukan_aktif = true'), 'asalrujukan_id', 'asalrujukan_id');
         $model->asalrujukan_id = $asalrujukan;
-        $ruanganasal = CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'),'ruangan_id','ruangan_id');
-        $model->ruanganasal_id = $ruanganasal;
-        if (isset($_GET['PSLaporancaramasukpenunjangV'])) {
-            $model->attributes = $_GET['PSLaporancaramasukpenunjangV'];
-            $model->jns_periode = $_GET['PSLaporancaramasukpenunjangV']['jns_periode'];
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PSLaporancaramasukpenunjangV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PSLaporancaramasukpenunjangV']['tgl_akhir']);
-            $model->bln_awal = $format->formatMonthForDb($_GET['PSLaporancaramasukpenunjangV']['bln_awal']);
-            $model->bln_akhir = $format->formatMonthForDb($_GET['PSLaporancaramasukpenunjangV']['bln_akhir']);
+       // $ruanganasal = CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'),'ruangan_id','ruangan_id');
+      //  $model->ruanganasal_id = $ruanganasal;
+        if (isset($_GET['PSLaporancaramasukrdV'])) {
+            $model->attributes = $_GET['PSLaporancaramasukrdV'];
+            $model->jns_periode = $_GET['PSLaporancaramasukrdV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PSLaporancaramasukrdV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PSLaporancaramasukrdV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PSLaporancaramasukrdV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PSLaporancaramasukrdV']['bln_akhir']);
+			$model->thn_awal = $_GET['PSLaporancaramasukrdV']['thn_awal'];
+            $model->thn_akhir = $_GET['PSLaporancaramasukrdV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -1019,7 +1021,7 @@ class LaporanController extends MyAuthController {
     }
 
     public function actionPrintLaporanCaraMasukPasien() {
-        $model = new PSLaporancaramasukpenunjangV('search');
+        $model = new PSLaporancaramasukrdV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
@@ -1034,13 +1036,15 @@ class LaporanController extends MyAuthController {
         //Data Grafik
         $data['title'] = 'Grafik Laporan Cara Masuk Pasien';
         $data['type'] = $_REQUEST['type'];
-        if (isset($_REQUEST['PSLaporancaramasukpenunjangV'])) {
-            $model->attributes = $_REQUEST['PSLaporancaramasukpenunjangV'];
-            $model->jns_periode = $_REQUEST['PSLaporancaramasukpenunjangV']['jns_periode'];
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PSLaporancaramasukpenunjangV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PSLaporancaramasukpenunjangV']['tgl_akhir']);
-            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PSLaporancaramasukpenunjangV']['bln_awal']);
-            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PSLaporancaramasukpenunjangV']['bln_akhir']);
+        if (isset($_REQUEST['PSLaporancaramasukrdV'])) {
+            $model->attributes = $_REQUEST['PSLaporancaramasukrdV'];
+            $model->jns_periode = $_REQUEST['PSLaporancaramasukrdV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PSLaporancaramasukrdV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PSLaporancaramasukrdV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PSLaporancaramasukrdV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PSLaporancaramasukrdV']['bln_akhir']);
+			$model->thn_awal = $_GET['PSLaporancaramasukrdV']['thn_awal'];
+            $model->thn_akhir = $_GET['PSLaporancaramasukrdV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -1060,7 +1064,7 @@ class LaporanController extends MyAuthController {
 
     public function actionFrameGrafikLaporanCaraMasukPasien() {
         $this->layout = '//layouts/iframe';
-        $model = new PSLaporancaramasukpenunjangV('search');
+        $model = new PSLaporancaramasukrdV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
@@ -1074,13 +1078,15 @@ class LaporanController extends MyAuthController {
         //Data Grafik
         $data['title'] = 'Grafik Laporan Cara Masuk Pasien';
         $data['type'] = $_GET['type'];
-        if (isset($_GET['PSLaporancaramasukpenunjangV'])) {
-            $model->attributes = $_GET['PSLaporancaramasukpenunjangV'];
-            $model->jns_periode = $_GET['PSLaporancaramasukpenunjangV']['jns_periode'];
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PSLaporancaramasukpenunjangV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PSLaporancaramasukpenunjangV']['tgl_akhir']);
-            $model->bln_awal = $format->formatMonthForDb($_GET['PSLaporancaramasukpenunjangV']['bln_awal']);
-            $model->bln_akhir = $format->formatMonthForDb($_GET['PSLaporancaramasukpenunjangV']['bln_akhir']);
+        if (isset($_GET['PSLaporancaramasukrdV'])) {
+            $model->attributes = $_GET['PSLaporancaramasukrdV'];
+            $model->jns_periode = $_GET['PSLaporancaramasukrdV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PSLaporancaramasukrdV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PSLaporancaramasukrdV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PSLaporancaramasukrdV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PSLaporancaramasukrdV']['bln_akhir']);
+			$model->thn_awal = $_GET['PSLaporancaramasukrdV']['thn_awal'];
+            $model->thn_akhir = $_GET['PSLaporancaramasukrdV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
