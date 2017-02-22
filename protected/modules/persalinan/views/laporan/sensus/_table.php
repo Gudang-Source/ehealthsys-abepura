@@ -36,7 +36,7 @@ if (isset($caraPrint)){
         background-color: none;
     }
 </style>";
-  if ($caraPrint == "PRINT"){
+  if ($caraPrint == "PRINT" OR $caraPrint == "PDF"){
       
   $itemCssClass = 'table border';
   }

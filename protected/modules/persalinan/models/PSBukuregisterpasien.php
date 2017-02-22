@@ -114,9 +114,9 @@ class PSBukuregisterpasien extends BukuregisterpasienV {
         $criteria->compare('LOWER(pengantar)', strtolower($this->pengantar), true);
         $criteria->compare('LOWER(hubungankeluarga)', strtolower($this->hubungankeluarga), true);
         $criteria->compare('LOWER(nama_pj)', strtolower($this->nama_pj), true);
-        if(!empty($this->ruangan_id)){
+       // if(!empty($this->ruangan_id)){
             $criteria->addCondition('ruangan_id='.Yii::app()->user->getState('ruangan_id'));
-		}
+	//	}
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         if(!empty($this->instalasi_id)){
             $criteria->addCondition('instalasi_id='.$this->instalasi_id);

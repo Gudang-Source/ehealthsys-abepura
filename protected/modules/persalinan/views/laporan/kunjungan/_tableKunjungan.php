@@ -10,28 +10,34 @@ if (isset($caraPrint)){
   if ($caraPrint=='EXCEL') {
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+  
+   if ($caraPrint=='PDF') {
+        $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+    }
   echo "<style>
      .border th, .border td{
-        border:1px solid #000;
-    }
-    .border{
-        box-shadow:none;
-    }
-    
-    .table thead:first-child{
-        border-top:1px solid #000;        
-    }
-    
-    thead th{
-        background:none;
-        color:#333;
-    }
-    
-    .table tbody tr:hover td, .table tbody tr:hover th {
-        background-color: none;
-    }
+		border:1px solid #000;
+	}
+	.table thead:first-child{
+		border-top:1px solid #000;        
+	}
+
+	thead th{
+		background:none;
+		color:#333;
+	}
+
+	.border {
+		box-shadow:none;
+		border-spacing:0px;
+		padding:0px;
+	}
+
+	.table tbody tr:hover td, .table tbody tr:hover th {
+		background-color: none;
+	}
 </style>";
-  if ($caraPrint == "PRINT"){
+  if ($caraPrint == "PRINT" OR $caraPrint == "PDF"){
       
   $itemCssClass = 'table border';
   }
@@ -49,44 +55,48 @@ if (isset($caraPrint)){
                 'header' => 'No',
                 'value' => $row,
             ),
+			array(
+				'header' => 'Tanggal Pendaftaran/ <br> No Pendaftaran',
+				'type' => 'raw',
+				'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br>".$data->no_pendaftaran'
+			),
             array(
               'header'=>'No. Rekam Medik',
               'value'=>'$data->no_rekam_medik',
             ),
             array(
-              'header'=>'Nama Pasien Bin',
-              'value'=>'$data->NamaNamaBIN',
+              'header'=>'Nama Pasien',
+              'value'=>'$data->namadepan." ".$data->nama_pasien',
             ),
             array(
-                'header'=>'Umur',
-                'value'=>'$data->umur',
+                'header'=>'Umur/ <br/> Jenis Kelamin',
+				'type' => 'raw',
+                'value'=>'$data->umur."/ <br/>".$data->jeniskelamin',
             ),
             array(
                 'header'=>'Alamat Pasien',
                 'value'=>'$data->alamat_pasien',
             ),
-            array(
-                'header'=>'Status Pasien',
-                'value'=>'$data->statuspasien',
-            ),
-            array(
-                'header'=>'Status Masuk',
-                'value'=>'$data->statusmasuk',
-            ),
-            array(
-                'header'=>'Kunjungan',
-                'value'=>'$data->kunjungan',
-            ),
-            array(
-                'header'=>'Jenis Kelamin',
-                'value'=>'$data->jeniskelamin',
-            ),
-            array(
-               'name'=>'CaraBayar/Penjamin',
+			 array(
+               'header'=>'Cara Bayar/ <br/>Penjamin',
                'type'=>'raw',
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: center')
             ), 
+            array(
+                'header'=>'Status Pasien',
+                'value'=>'$data->statuspasien',
+            ),
+			 array(
+                'header'=>'Kunjungan',
+                'value'=>'$data->kunjungan',
+            ),  
+            array(
+                'header'=>'Status Masuk',
+                'value'=>'$data->statusmasuk',
+            ),
+                    
+           
             array(
                 'name'=>'Cara Masuk / Transportasi',
                 'type'=>'raw',
