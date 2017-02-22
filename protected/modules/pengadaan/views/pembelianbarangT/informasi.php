@@ -43,36 +43,48 @@
     //                        'filter'=>false,
     //                ), 
 				
-                    'nopembelian',
+                    
+					array(
+                        'header' => 'No Permintaan',
+                        'value' => '$data->nopembelian',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
+                    ),
     //		'terimapersediaan_id',                    
                     array(
                         'header' => 'Sumber Dana',
-                        'value' => '$data->sumberdana->sumberdana_nama'
+                        'value' => '$data->sumberdana->sumberdana_nama',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),
                     array(
                         'header' => 'Supplier',
-                        'value' => '$data->supplier->supplier_nama'
+                        'value' => '$data->supplier->supplier_nama',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),
                      array(
                         'header' => 'Tanggal Pembelian',
-                        'value' => '!empty($data->tglpembelian)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tglpembelian)))):"-"'
+                        'value' => '!empty($data->tglpembelian)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tglpembelian)))):"-"',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),  
                      array(
                         'header' => 'Tanggal Dikirim',
-                        'value' => '!empty($data->tgldikirim)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tgldikirim)))):"-"'
+                        'value' => '!empty($data->tgldikirim)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tgldikirim)))):"-"',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),  
 
                     array(
                         'header' => 'Pegawai Pemesan',
-                        'value' => 'empty($data->pemesan)?"-":$data->pemesan->nama_pegawai'
+                        'value' => 'empty($data->pemesan)?"-":$data->pemesan->nama_pegawai',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),                    
                     array(
                         'header' => 'Pegawai Mengetahui',
-                        'value' => '!empty($data->peg_mengetahui_id)?$data->mengetahui->nama_pegawai:"-"'
+                        'value' => '!empty($data->peg_mengetahui_id)?$data->mengetahui->nama_pegawai:"-"',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),                    
                     array(
                         'header' => 'Pegawai Menyetujui',
-                        'value' => '!empty($data->peg_menyetujui_id)?$data->menyetujui->nama_pegawai:"-"'                       
+                        'value' => '!empty($data->peg_menyetujui_id)?$data->menyetujui->nama_pegawai:"-"',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),                                        
                 /*
                     'create_time',
@@ -84,7 +96,8 @@
                     array(
                         'header'=>'Rincian',
                         'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gudangUmum/PembelianbarangTGU/detailPembelianBarang",array("id"=>$data->pembelianbarang_id,"frame"=>true)),array("id"=>"$data->pembelianbarang_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pembelian Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
+                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gudangUmum/PembelianbarangTGU/detailPembelianBarang",array("id"=>$data->pembelianbarang_id,"frame"=>true)),array("id"=>"$data->pembelianbarang_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pembelian Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),
 				
                     array(
@@ -92,6 +105,7 @@
                         'type'=>'raw',
                         'htmlOptions'=>array('style'=>'text-align:left;'),
                         'value'=>'(empty($data->terimapersediaan_id)) ? ((Yii::app()->user->getState("instalasi_id") == Params::INSTALASI_ID_LOGISTIK) ? CHtml::link("<i class=\'icon-form-terimabrg\'></i> ",  Yii::app()->controller->createUrl("/gudangUmum/TerimapersediaanT/index",array("id"=>$data->pembelianbarang_id)),array("rel"=>"tooltip","title"=>"Klik untuk Penerimaan Persediaan Barang")) : "Belum Diterima") : "Telah Dikirim"',
+						'headerHtmlOptions' => array('style' => 'text-align:center;')
                     ),
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

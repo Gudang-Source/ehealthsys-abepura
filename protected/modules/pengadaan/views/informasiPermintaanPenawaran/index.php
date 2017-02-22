@@ -82,7 +82,7 @@ $('#divSearch-form form').submit(function(){
                                 if (count($cek)>0){
                                     return CHtml::Link("<i class='icon-form-mintabeli'></i>",'', array('disabled'=>true,'style'=>'opacity: 0.3',"class"=>"", "rel"=>"tooltip","title"=>"Permintaan Penawaran Sudah ".$cek->statuspembelian));
                                 }else{
-                                    return   CHtml::Link("<i class='icon-form-mintabeli'></i>",$this->createUrl($this->path_permintaan."/Index").'&penawaran_id='.$data->permintaanpenawaran_id, array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Pembelian"));
+                                    return   CHtml::Link("<i class='icon-form-mintabeli'></i>",$this->createUrl($this->path_permintaan.$this->suffix."/Index").'&penawaran_id='.$data->permintaanpenawaran_id, array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Pembelian"));
                                 }
                             }else{                                
                                 return   CHtml::Link("<i class='icon-form-mintabeli'></i>",'', array('disabled'=>true,'style'=>'opacity: 0.3',"class"=>"", "rel"=>"tooltip","title"=>"Tombol akan aktif jika permintaan sudah disetujui dan diketahui"));

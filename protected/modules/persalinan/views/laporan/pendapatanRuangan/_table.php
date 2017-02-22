@@ -57,6 +57,7 @@ if(isset($caraPrint) && $caraPrint == "EXCEL"){
                 array(
                     'header'=>'Cara Bayar / Penjamin',
                     'name'=>'carabayarPenjamin',
+					'type' => 'raw',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
@@ -153,6 +154,7 @@ if(isset($caraPrint) && $caraPrint == "EXCEL"){
                 array(
                     'header'=>'Cara Bayar / Penjamin',
                     'name'=>'carabayarPenjamin',
+					'type' => 'raw',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
