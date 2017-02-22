@@ -1,8 +1,9 @@
 <?php
 
-class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
+class PSLaporancaramasukrdV extends LaporancaramasukpasienrdV {
 	
 	public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir,$tglAwal,$tglAkhir;
+	public $data, $tick, $jumlah;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -29,7 +30,8 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 
         $criteria = $this->functionCriteria();
        
-        
+        $criteria->select = "count(pendaftaran_id) as jumlah, (CASE WHEN asalrujukan_id IS NULL THEN 'Tidak Ada Rujukan' ELSE asalrujukan_nama END) as data";
+		$criteria->group = "asalrujukan_id, asalrujukan_nama";
         
         
 
@@ -73,8 +75,11 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 				}
             }
         }*/
-
-      //  $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tglAwal, $this->tglAkhir);
+		
+		if (!empty($this->asalrujukan_id)){
+			$criteria->addInCondition("asalrujukan_id", $this->asalrujukan_id);
+		}
+        $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id ='.$this->pasien_id);
 		}
