@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
-                    <?php $this->renderPartial('_pie', array('model' => $model, 'dataPieChart' => $dataPieChart)); ?>
+                    <?php $this->renderPartial('_bar', array('model' => $model, 'dataKegOperasi' => $dataKegOperasi, 'dataBarLineChart' => $dataBarLineChart)); ?>                    
                 </div>
                 <div class="col-md-6">
                     <?php $this->renderPartial('_table', array('model' => $model, 'dataTable' => $dataTable)); ?>
@@ -14,7 +14,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <?php $this->renderPartial('_bar', array('model' => $model, 'dataKegOperasi' => $dataKegOperasi, 'dataBarLineChart' => $dataBarLineChart)); ?>
+                    <?php $this->renderPartial('_pie', array('model' => $model, 'dataPieChart' => $dataPieChart)); ?>
                 </div>
             </div>
         </div>

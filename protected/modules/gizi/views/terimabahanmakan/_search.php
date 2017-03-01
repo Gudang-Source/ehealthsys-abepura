@@ -10,7 +10,7 @@
         <td>
             <?php //echo  $form->textFieldRow($model,'tgl_pendaftaran'); ?>
             <div class="control-group ">
-                <?php echo $form->labelEx($model,'tglterimabahan', array('class'=>'control-label')) ?>
+                <?php echo Chtml::label("Tanggal Terima Bahan",'tglterimabahan', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php   
                             $model->tgl_awal = MyFormatter::formatDateTimeForUser($model->tgl_awal);
@@ -46,12 +46,37 @@
             </div>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'nopenerimaanbahan',array('class'=>'span3 angkahuruf-only', 'maxlength'=>20, 'autofocus'=>true, 'placeholder'=>'Ketik no. penerimaan bahan')); ?>
-            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+			<div class="control-group">
+				<?php echo Chtml::label("No Penerimaan Bahan",'nopenerimaanbahan', array('class' => 'control-label')) ?>
+				<div class="controls">
+						<?php echo $form->textField($model,'nopenerimaanbahan',array('class'=>'span3 angkahuruf-only', 'maxlength'=>20, 'autofocus'=>true, 'placeholder'=>'Ketik no. penerimaan bahan')); ?>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<?php echo Chtml::label("Ruangan",'ruangan_id', array('class' => 'control-label')) ?>
+				<div class="controls">
+						<?php echo $form->dropDownList($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+				</div>
+			</div>
+                        
         </td>
         <td>
-            <?php echo $form->dropDownListRow($model,'supplier_id', CHtml::listData(SupplierM::model()->findAll("supplier_aktif = true AND supplier_jenis = '".Params::SUPPLIER_JENIS_GIZI."' ORDER BY supplier_nama ASC"), 'supplier_id', 'supplier_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
-            <?php echo $form->dropDownListRow($model,'sumberdanabhn', LookupM::getItems('sumberdanabahan'),array('empty'=>'-- Pilih --')); ?>
+			<div class="control-group">
+				<?php echo Chtml::label("Supplier",'supplier_id', array('class' => 'control-label')) ?>
+				<div class="controls">
+						<?php echo $form->dropDownList($model,'supplier_id', CHtml::listData(SupplierM::model()->findAll("supplier_aktif = true AND supplier_jenis = '".Params::SUPPLIER_JENIS_GIZI."' ORDER BY supplier_nama ASC"), 'supplier_id', 'supplier_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<?php echo Chtml::label("Sumber Dana Bahan",'sumberdanabhn', array('class' => 'control-label')) ?>
+				<div class="controls">
+						<?php echo $form->dropDownList($model,'sumberdanabhn', LookupM::getItems('sumberdanabahan'),array('empty'=>'-- Pilih --')); ?>
+				</div>
+			</div>
+            
+            
         </td>
     </tr>
 </table>

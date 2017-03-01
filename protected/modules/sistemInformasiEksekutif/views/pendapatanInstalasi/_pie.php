@@ -16,6 +16,9 @@
         chart_pie.valueField = "jumlah";
         chart_pie.labelRadius = 30;
         chart_pie.labelText = "[[title]]:[[value]]([[percents]]%)";
+        chart_pie.numberFormatter = {
+            precision:0,decimalSeparator:",",thousandsSeparator:"."
+          };
 
         // WRITE
         chart_pie.write("pie");

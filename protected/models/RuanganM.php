@@ -51,7 +51,7 @@ class RuanganM extends CActiveRecord
 			array('ruangan_nama, ruangan_namalainnya, ruangan_jenispelayanan, ruangan_lokasi', 'length', 'max'=>50),
 			array('ruangan_singkatan', 'length', 'max'=>3),
 			array('ruangan_image', 'length', 'max'=>100),
-			array('ruangan_aktif, ruangan_fasilitas, modul_id', 'safe'),
+			array('ruangan_aktif, ruangan_fasilitas, modul_id, kode_bpjs', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('ruangan_id, instalasi_id, data , tick , jumlah, ruangan_nama, ruangan_namalainnya, bulan, tgl_awal, tgl_akhir,ruangan_jenispelayanan, ruangan_lokasi, ruangan_aktif, ruangan_singkatan, riwayatruangan_id, ruangan_fasilitas, ruangan_image', 'safe', 'on'=>'search'),
@@ -88,6 +88,7 @@ class RuanganM extends CActiveRecord
 			'ruangan_fasilitas' => 'Fasilitas',
 			'ruangan_image' => 'Photo Image',
                         'modul_id' => 'Modul',
+			'kode_bpjs' => 'Kode BPJS',
 		);
 	}
 

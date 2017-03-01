@@ -6,7 +6,7 @@
     //    'Manage',
     //);
 
-    $url = Yii::app()->createUrl(Yii::app()->controller->module->id.'/laporan/frameGrafikLaporanPemakaiObatAlkes&id=1');
+    $url = Yii::app()->createUrl(Yii::app()->controller->module->id.'/laporan/FrameGrafikLaporanPemakaiObatAlkes&id=1');
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();

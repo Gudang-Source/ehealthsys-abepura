@@ -1,29 +1,29 @@
 <table class="table table-condensed" id="dataPasienKunjungan">
     <tr>
-        <td>Tgl. Rekam Medik</td>
+        <td><b>Tgl. Rekam Medik</b></td>
         <td>: <?php echo MyFormatter::formatDateTimeForUser($modPasien->tgl_rekam_medik); ?></td>
-        <td>Alamat</td>
+        <td><b>Alamat</b></td>
         <td>: <?php echo $modPasien->alamat_pasien; ?></td>
     </tr>
     
     <tr>
-        <td>No. Rekam Medik</td>
+        <td><b>No. Rekam Medik</b></td>
         <td>: <?php echo $modPasien->no_rekam_medik; ?></td>
-        <td>Pekerjaan</td>
+        <td><b>Pekerjaan</b></td>
         <td>: <?php echo empty($modPasien->pekerjaan_id)?"-":$modPasien->pekerjaan->pekerjaan_nama; ?></td>
     </tr>
     <tr>
-        <td>Nama Pasien</td>
+        <td><b>Nama Pasien</b></td>
         <td>: <?php echo $modPasien->nama_pasien; ?></td>
-        <td>Agama</td>
+        <td><b>Agama</b></td>
         <td>: <?php echo $modPasien->agama; ?></td>
     </tr>
     <tr>
-        <td>Tgl. Lahir</td>
+        <td><b>Tgl. Lahir</b></td>
         <td>: <?php echo MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir); ?></td>
     </tr>
     <tr>
-        <td>Jenis Kelamin</td>
+        <td><b>Jenis Kelamin</b></td>
         <td>: <?php echo $modPasien->jeniskelamin; ?></td>
     </tr>
 </table>

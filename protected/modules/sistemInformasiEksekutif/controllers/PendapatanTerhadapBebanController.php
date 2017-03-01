@@ -64,7 +64,7 @@ FROM beban_r
 GROUP BY tanggal
 ORDER BY tanggal) a
 
-JOIN (SELECT tanggal, sum(coalesce(jumlah,0)) as pendapatan
+LEFT JOIN (SELECT tanggal, sum(coalesce(jumlah,0)) as pendapatan
 FROM pendapatanrs_r
 GROUP BY tanggal
 ORDER BY tanggal) b ON b.tanggal=a.tanggal
@@ -80,7 +80,7 @@ FROM beban_r
 GROUP BY tanggal
 ORDER BY tanggal) a
 
-JOIN (SELECT tanggal, sum(coalesce(jumlah,0)) as pendapatan
+LEFT JOIN (SELECT tanggal, sum(coalesce(jumlah,0)) as pendapatan
 FROM pendapatanrs_r
 GROUP BY tanggal
 ORDER BY tanggal) b ON b.tanggal=a.tanggal
@@ -97,7 +97,7 @@ FROM beban_r
 GROUP BY tanggal
 ORDER BY tanggal) a
 
-JOIN (SELECT tanggal, sum(coalesce(jumlah,0)) as pendapatan
+LEFT JOIN (SELECT tanggal, sum(coalesce(jumlah,0)) as pendapatan
 FROM pendapatanrs_r
 GROUP BY tanggal
 ORDER BY tanggal) b ON b.tanggal=a.tanggal
@@ -118,7 +118,7 @@ FROM beban_r
 GROUP BY tanggal
 ORDER BY tanggal) a
 
-JOIN (SELECT tanggal, sum(coalesce(jumlah,0)) as pendapatan
+LEFT JOIN (SELECT tanggal, sum(coalesce(jumlah,0)) as pendapatan
 FROM pendapatanrs_r
 GROUP BY tanggal
 ORDER BY tanggal) b ON b.tanggal=a.tanggal

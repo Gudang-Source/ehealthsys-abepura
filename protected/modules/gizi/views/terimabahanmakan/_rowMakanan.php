@@ -40,7 +40,7 @@ echo '<tr>
                     //'<td>'.CHtml::activeDropDownList($modDetail, '[0]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array( 'class'=>'span2 satuanbahan')).'</td>'.
 					'<td>'.CHtml::activeTextField($modDetail, '[0]harganettobahan', array('value'=>$model->harganettobahan, 'class'=>'span2 integer2 harganettobahan', 'onblur'=>'hitung(this);','readonly'=>false))
 					.CHtml::activeHiddenField($modDetail, '[0]hargajualbahan', array('value'=>$model->hargajualbahan, 'class'=>'span2 integer2 hargajualbahan', 'readonly'=>true)).'</td>
-                    <td>'.CHtml::activeTextField($modDetail, '[0]discount', array('value'=>$model->discount, 'class'=>'discount span1 integer2', 'onkeyup'=>'hitungTotalDiscount();')).'</td>'.
+                    <td>'.CHtml::activeTextField($modDetail, '[0]discount', array('value'=>$model->discount, 'class'=>'discount integer2', 'onkeyup'=>'hitungTotalDiscount();', 'style'=>'width:70px;')).'</td>'.
                     // <td><span name="[0][tglkadaluarsabahan]">'.MyFormatter::formatDateTimeForUser($model->tglkadaluarsabahan).'</span></td>
                     '<td>'.
 					//$this->renderPartial('_waktu', array('modDetail'=>$modDetail), true, true).

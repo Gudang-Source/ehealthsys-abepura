@@ -113,13 +113,13 @@ class BebanKeuanganController extends MyAuthController {
         foreach ($dataChart as $key => $value) {
             $temp['periode'] = $key;
             foreach ($value as $data) {
-                if ($data['id'] == 12) {
+                if ($data['id'] == Params::REKENING1_BEBAN_PELAYANAN) {
                     $temp['jumlah_layanan'] = $data['jumlah'];
                 }
-                if ($data['id'] == 13) {
+                if ($data['id'] == Params::REKENING1_BEBAN_UMUM) {
                     $temp['jumlah_umum'] = $data['jumlah'];
                 }
-                if ($data['id'] == 14) {
+                if ($data['id'] == Params::REKENING1_BEBAN_LAINNYA) {
                     $temp['jumlah_lainnya'] = $data['jumlah'];
                 }
             }

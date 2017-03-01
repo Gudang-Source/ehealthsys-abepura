@@ -12,6 +12,9 @@ if (isset($caraPrint)){
   if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
+   if ($caraPrint=='PDF') {
+        $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+    }
   echo "<style>
      .border th, .border td{
         border:1px solid #000;
@@ -33,7 +36,7 @@ if (isset($caraPrint)){
         background-color: none;
     }
 </style>";
-  if ($caraPrint == "PRINT"){
+  if ($caraPrint == "PRINT" OR $caraPrint == "PDF"){
       
   $itemCssClass = 'table border';
   }
@@ -50,26 +53,29 @@ if (isset($caraPrint)){
                 'header' => 'No.',
                 'value' => $row,
             ),
-            array(
-                'header'=>'Nama Pasien / Nama Panggilan',
-                'value'=>'$data->NamaNamaBIN',
-            ),
-            array(
+			array(
+				'header' => 'Tanggal Pendaftaran/ <br/>No Pendaftaran',
+				'type' => 'raw',
+				'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br>".$data->no_pendaftaran'
+			),
+			array(
                 'header'=>'No. Rekam Medik',
                 'value'=>'$data->no_rekam_medik',
             ),
             array(
-                'header'=>'Umur',
-                'value'=>'$data->umur',
+                'header'=>'Nama Pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
             ),
+            
             array(
-                'header'=>'Jenis Kelamin',
-                'value'=>'$data->jeniskelamin',
-            ),
+                'header'=>'Umur/ <br/> Jenis Kelamin',
+				'type' => 'raw',
+                'value'=>'$data->umur."/ <br/>".$data->jeniskelamin',
+            ),           
             array(
                 'header'=>'Alamat Pasien',
                 'value'=>'$data->alamat_pasien',
-            ),
+            ),			
             array(
                 'header'=>'Kunjungan',
                 'value'=>'$data->kunjungan',
@@ -78,11 +84,7 @@ if (isset($caraPrint)){
                 'header'=>'Status Pasien',
                 'value'=>'$data->statuspasien',
             ),
-            array(
-                'header'=>'Nama Diagnosa',
-                'value'=>'$data->diagnosa_nama',
-            ),
-            array(
+			 array(
                'header'=>'Cara Bayar / Penjamin',
               // 'name'=>'CaraBayar/Penjamin',
                'type'=>'raw',
@@ -90,7 +92,11 @@ if (isset($caraPrint)){
                'htmlOptions'=>array('style'=>'text-align: center')
             ),  
             array(
-                'header'=>'Nama Tindakan',
+                'header'=>'Diagnosa',
+                'value'=>'$data->diagnosa_nama',
+            ),           
+            array(
+                'header'=>'Tindakan',
                 'type'=>'raw',
                 'value'=>'$this->grid->getOwner()->renderPartial(\'sensus/_tindakan\', array(\'id\'=>$data->pendaftaran_id))',
             ),
