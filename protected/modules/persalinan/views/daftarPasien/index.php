@@ -155,7 +155,24 @@
                                             'header'=>'Rincian Tagihan',
                                             'type'=>'raw',
                                             'value'=>'CHtml::link("<icon class=\'icon-list-brown\'></idcon>", Yii::app()->createUrl("'.$modul.'/'.$controller.'/rincian", array("id"=>$data->pendaftaran_id)), array("target"=>"frameRincian", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
-                            ),  
+									),
+									array(
+											'header'=>'Batal Periksa',
+											'type'=>'raw',
+											'value'=>function($data) {
+												$rd = InfokunjunganrdV::model()->findByAttributes(array(
+													'pendaftaran_id'=>$data->pendaftaran_id
+												));
+
+												if (($rd->pasienpulang_id != 0) || ($rd->carakeluar != "")) 
+													return "-";
+												
+												$admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+												if (empty($admisi)) return CHtml::link('<i class="icon-form-silang"></i>', "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
+												else return "-";
+											},
+											'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+									),
 
                     ),
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -298,6 +315,23 @@
                                        "onclick"=>"$(\'#dialogTindakLanjut\').dialog(\'open\');")))',
                                     'htmlOptions'=>array('style'=>'text-align: center; width:60px')
                             ), */
+							array(
+									'header'=>'Batal Periksa',
+									'type'=>'raw',
+									'value'=>function($data) {
+										$rd = InfokunjunganrdV::model()->findByAttributes(array(
+											'pendaftaran_id'=>$data->pendaftaran_id
+										));
+
+										if (($rd->pasienpulang_id != 0) || ($rd->carakeluar != "")) 
+											return "-";
+
+										$admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+										if (empty($admisi)) return CHtml::link('<i class="icon-form-silang"></i>', "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
+										else return "-";
+									},
+									'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+							),
 
                     ),
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -423,6 +457,23 @@
                                        "onclick"=>"$(\'#dialogTindakLanjut\').dialog(\'open\');")))',
                                     'htmlOptions'=>array('style'=>'text-align: center; width:60px')
                             ),
+					array(
+							'header'=>'Batal Periksa',
+							'type'=>'raw',
+							'value'=>function($data) {
+								$rd = InfokunjunganrdV::model()->findByAttributes(array(
+									'pendaftaran_id'=>$data->pendaftaran_id
+								));
+								
+								if (($rd->pasienpulang_id != 0) || ($rd->carakeluar != "")) 
+									return "-";
+								
+								$admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+								if (empty($admisi)) return CHtml::link('<i class="icon-form-silang"></i>', "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
+								else return "-";
+							},
+							'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+					),
 
                             ),
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -644,6 +695,33 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 <?php $this->endWidget(); ?>
 
 <script>
+	
+	
+function batalperiksa(pendaftaran_id)
+{
+	myConfirm("Anda yakin akan membatalkan pemeriksaan/persalinan pasien ini?","Perhatian!",function(r) {
+		if(r){
+			 $.ajax({
+				type:'POST',
+				url:'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/' . 'batalPeriksa'); ?>',
+				data: {pendaftaran_id : pendaftaran_id},//
+				dataType: "json",
+				success:function(data){
+					if(data.status == true){
+						myAlert(data.pesan);
+						$.fn.yiiGridView.update('daftarPasien-grid', {
+							data: $(this).serialize() });
+					}else if(data.pesan == 'exist'){
+						myAlert('Pasien telah melakukan pemeriksaan');
+					}else{
+						myAlert(data.pesan);
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+			});
+		}
+	});
+}
 // document.getElementById('PSInfokunjunganpersalinanV_tgl_awal_date').setAttribute("style","display:none;");
 // document.getElementById('PSInfokunjunganpersalinanV_tgl_akhir_date').setAttribute("style","display:none;");
 function cekTanggal(){
