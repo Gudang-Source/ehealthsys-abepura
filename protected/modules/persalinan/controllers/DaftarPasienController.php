@@ -518,5 +518,101 @@ class DaftarPasienController extends MyAuthController
 		   Yii::app()->end();
 	   }
     }
+	
+	/**
+	 * Membatalkan Pasien Periksa untuk Modul Persalinan.
+	 * NOTE : Di Copypaste dari rawatDarurat/daftarPasien
+	 */
+	public function actionBatalPeriksa() {
+        if (Yii::app()->request->isAjaxRequest) {
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $pendaftaran_id = isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null;
+                $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+
+                $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran_id,
+                ), array(
+                    'condition'=>'tindakansudahbayar_id is not null'
+                ));
+                $oa = ObatalkespasienT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran_id,
+                ), array(
+                    'condition'=>'oasudahbayar_id is not null'
+                ));
+                
+                $ada = false;
+                
+                if (!empty($tindakan) || !empty($oa)) {
+                    $ada = true;
+                    $pesan = "Pasien sudah melakukan pembayaran. "
+                            . "Mohon pembayaran sebelumnya dibatalkan terlebih dahulu sebelum melakukan pembatalan pemeriksaan.";
+                    $status = false;
+                    goto onco; // loncat ke label 'onco'
+                }
+                
+                /*
+                 * cek data pendaftaran pasien masuk penunjang
+                 */
+                $criteria = new CDbCriteria();
+                if (!empty($pendaftaran_id)) {
+                    $criteria->addCondition("pendaftaran_id = " . $pendaftaran_id);
+                }
+
+                $pasienMasukPenunjang = PasienmasukpenunjangT::model()->find($criteria);
+
+                $pesan = '';
+                $status = false;
+                $model = new PasienbatalperiksaR();
+                $model->pendaftaran_id = $pendaftaran_id;
+                $model->pasien_id = $modPendaftaran->pasien_id;
+                $model->tglbatal = date('Y-m-d');
+                $model->keterangan_batal = "Batal Rawat Jalan";
+                $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+
+                if ($model->save()) {
+                    $status = true;
+                    $pesan = "Pemeriksaan pasien berhasil dibatalkan!";
+                } else {
+                    $status = false;
+                    $pesan = "Pemeriksaan gagal dibatalkan! " . CHtml::errorSummary($model);
+                }
+
+                $attributes = array(
+                    'pasienbatalperiksa_id' => $model->pasienbatalperiksa_id,
+                    'update_time' => date('Y-m-d H:i:s'),
+                    'update_loginpemakai_id' => Yii::app()->user->id
+                );
+                $pendaftaran = PendaftaranT::model()->updateByPk($pendaftaran_id, $attributes);
+
+                
+                
+                onco:
+                
+                /*
+                 * kondisi_commit
+                 */
+                if ($status == true && $ada == false) {
+                    $transaction->commit();
+                } else {
+                    $transaction->rollback();
+                }
+            } catch (Exception $ex) {
+                var_dump($ex); die;
+//					print_r($ex);
+                $status = false;
+                $pesan = "exist";
+                $transaction->rollback();
+            }
+
+            $data = array(
+                'pesan' => $pesan,
+                'status' => $status
+            );
+            echo json_encode($data);
+            Yii::app()->end();
+        }
+    }
+
    
 }
