@@ -12,7 +12,7 @@
             <div class="control-group ">
                 <label for="SADiagnosaICDIXM_diagnosaicdix_kode" class="control-label">Kode Diagnosa </label>
                 <div class="controls">
-                    <?php echo $form->textField($model,'diagnosaicdix_kode',array('class'=>'span3','maxlength'=>10, 'placeholder'=>'Ketik Kode Diagnosa')); ?>
+                    <?php echo $form->textField($model,'diagnosaicdix_kode',array('class'=>'span3 angkadot-only','maxlength'=>10, 'placeholder'=>'Ketik Kode Diagnosa')); ?>
                 </div>
             </div>
         </td>
@@ -20,7 +20,7 @@
             <div class="control-group ">
                 <label for="SADiagnosaICDIXM_diagnosaicdix_nama" class="control-label">Nama Diagnosa </label>
                 <div class="controls">
-                    <?php echo $form->textField($model,'diagnosaicdix_nama',array('class'=>'span3','maxlength'=>50, 'placeholder'=>'Ketik Nama Diagnosa')); ?>
+                    <?php echo $form->textField($model,'diagnosaicdix_nama',array('class'=>'span3 custom-only','maxlength'=>50, 'placeholder'=>'Ketik Nama Diagnosa')); ?>
                 </div>
             </div>
         </td>
