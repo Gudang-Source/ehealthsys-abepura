@@ -16,10 +16,19 @@
                    'type'=>'raw',
                    'value'=>'CHtml::link($data->tabularlist_chapter, "javascript:cariDtd(this,\'$data->tabularlist_id\');",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Klik Untuk Melihat DTD"))',
                    'htmlOptions'=>array('style'=>'text-align: left; width:120px'),
+					'filter' => CHtml::activeTextField($modTabularList, 'tabularlist_chapter', array('class' => 'all-caps angkahuruf-only'))
                     ),
 
                  ),
-                'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+					 .  '$(".all-caps").keyup(function() {
+							var allcaps = $(this).val().toUpperCase();
+							$(this).val(allcaps);
+						});
+						$(".angkahuruf-only").keyup(function() {
+							setAngkaHurufsOnly(this);
+						});'
+					. '}',
                 )); ?>
                  </div>   
             </td>
@@ -36,12 +45,29 @@
                                'header'=>'Kode',
                                'type'=>'raw',
                                'value'=>'CHtml::link($data->dtd_kode, "javascript:cariDiagnosa(\'$data->dtd_id\');",array("id"=>"$data->dtd_id","rel"=>"tooltip","title"=>"Klik Untuk Melihat Diagnosa"))',
-                               'htmlOptions'=>array('style'=>'text-align: left; width:120px')
+                               'htmlOptions'=>array('style'=>'text-align: left; width:120px'),								
                             ),
-                            'dtd_kode',	
-                            'dtd_nama',
+							array(
+								'name' => 'dtd_kode',
+								'filter' => Chtml::activeTextField($modDTDM, 'dtd_kode', array('class' => 'kode-dtd all-caps')).CHtml::activeHiddenField($modDTDM, 'tabularlist_id', array('id'=>'dtd_tabularlist_id'))
+							),                          							
+                            array(
+                           'name'=>'dtd_nama',
+							'filter' => Chtml::activeTextField($modDTDM, 'dtd_nama', array('class' => 'custom-only'))
+						),    
                      ),
-                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+						 .  '$(".kode-dtd").keyup(function(){'
+								. 'setKodeDTD(this);'
+							. '});'
+						 . '$(".custom-only").keyup(function(){'
+								. 'setCustomOnly(this);'
+							. '});'
+						 . '$(".all-caps").keyup(function() {
+							var allcaps = $(this).val().toUpperCase();
+							$(this).val(allcaps);
+						});'						 
+						 . '}',
                     )); ?>
                 </div>
 
@@ -53,10 +79,29 @@
                     'template'=>"{summary}\n{items}\n{pager}",
                     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
                     'columns'=>array(	
-                            'diagnosa_kode',	
-                            'diagnosa_nama',
+                           // 'diagnosa_kode',	
+						   array(
+								'name' => 'diagnosa_kode',
+								'filter' => Chtml::activeTextField($modDiagnosa, 'diagnosa_kode', array('class' => 'kode-icd all-caps')).CHtml::activeHiddenField($modDiagnosa, 'dtd_id', array('id'=>'diagnosa_dtd'))
+							), 
+							array(
+								'name' => 'diagnosa_nama',
+								'filter' => Chtml::activeTextField($modDiagnosa, 'diagnosa_nama', array('class' => 'custom-only'))
+							),
+                           // 'diagnosa_nama',
                      ),
-                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+						. '$(".kode-icd").keyup(function() {
+							setKodeICD(this);
+						});
+						$(".custom-only").keyup(function() {
+							setCustomOnly(this);
+						});
+						$(".all-caps").keyup(function() {
+							var allcaps = $(this).val().toUpperCase();
+							$(this).val(allcaps);
+						});
+						}',
                     )); ?>
                 </div>
             </td>
@@ -90,9 +135,12 @@ function cariDtd(obj,tabularlist_id)
 function cariDiagnosa(dtd_id)
 {
      $('#diagnosa-div').attr("style","display:block");
+	$("#diagnosa_dtd").val(dtd_id); 
 //     $('#dtd-div').attr("style","display:none");
+	
      $.fn.yiiGridView.update('diagnosa-grid', {
 //            data: { RDDiagnosaM_dtd_id : dtd_id}
+	data: $("#diagnosa-grid :input").serialize()
     });
 }
 

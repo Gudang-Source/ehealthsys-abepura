@@ -2,7 +2,7 @@
 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'sadiagnosa-icdixm-grid',
 	'dataProvider'=>$model->search(),
-	'filter'=>$model,
+//	'filter'=>$model,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
