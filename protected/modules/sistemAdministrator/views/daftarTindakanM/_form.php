@@ -20,9 +20,9 @@
                     <?php echo $form->textFieldRow($model,'daftartindakan_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
                 </td>
                 <td width="50%">
-                    <?php echo $form->textFieldRow($model,'daftartindakan_nama',array('class'=>'span3 angkahuruf-only', 'onkeyup' => 'namaLain(this);', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
-                    <?php echo $form->textFieldRow($model,'daftartindakan_namalainnya',array('class'=>'span3  angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
-                    <?php echo $form->textFieldRow($model,'tindakanmedis_nama',array('class'=>'span3  angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                    <?php echo $form->textFieldRow($model,'daftartindakan_nama',array('class'=>'span3', 'onkeyup' => 'namaLain(this);', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                    <?php echo $form->textFieldRow($model,'daftartindakan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                    <?php echo $form->textFieldRow($model,'tindakanmedis_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
                     <?php echo $form->textFieldRow($model,'daftartindakan_katakunci',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
                 </td>
                 <?php /*
