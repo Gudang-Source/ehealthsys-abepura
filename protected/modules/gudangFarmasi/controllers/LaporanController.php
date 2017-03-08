@@ -624,8 +624,22 @@ class LaporanController extends MyAuthController
         if (isset($_REQUEST['GFFakturpembelianT'])) {
             $model->attributes = $_REQUEST['GFFakturpembelianT'];
             $format = new MyFormatter();
+            $model->jns_periode = $_REQUEST['GFFakturpembelianT']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['GFFakturpembelianT']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['GFFakturpembelianT']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['GFFakturpembelianT']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['GFFakturpembelianT']['bln_akhir']);
+            $model->thn_awal = $_GET['GFFakturpembelianT']['thn_awal'];
+            $model->thn_akhir = $_GET['GFFakturpembelianT']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
 
         $caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
