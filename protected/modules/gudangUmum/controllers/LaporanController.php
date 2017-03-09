@@ -15,8 +15,8 @@ class LaporanController extends MyAuthController
         $format = new MyFormatter();
         $model->unsetAttributes();
         $model->jns_periode = "hari";
-        $model->tgl_awal = date('Y-m-d 00:00:00');
-        $model->tgl_akhir = date('Y-m-d 23:59:59');
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
         $model->bln_awal = date('Y-m', strtotime('first day of january'));
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
