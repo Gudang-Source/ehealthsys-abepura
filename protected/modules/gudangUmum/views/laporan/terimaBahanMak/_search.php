@@ -162,7 +162,7 @@
                 <td> 
                     <div id='searching'>
                     <fieldset>    
-                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        <?php  /*$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                             'id'=>'kunjungan1',
                             'slide'=>true,
                             'content'=>array(
@@ -180,11 +180,11 @@
                                                     </td>
                                             </tr>
                                             </table>',            
-                                'active'=>false,
+                                'active'=>true,
                                     ),
                             ),
         //                                    'htmlOptions'=>array('class'=>'aw',)
-                            )); ?>											
+                            ));*/ ?>											
                     </fieldset>	
                     </div>
                 </td>  
@@ -193,7 +193,7 @@
                 <td> 
                     <div id='searching'>
                     <fieldset>    
-                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        <?php /*$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                             'id'=>'kunjungan2',
                             'slide'=>true,
                             'content'=>array(
@@ -211,18 +211,18 @@
                                                     </td>
                                             </tr>
                                             </table>',            
-                                'active'=>false,
+                                'active'=>true,
                                     ),
                             ),
         //                                    'htmlOptions'=>array('class'=>'aw',)
-                            )); ?>											
+                            ));*/ ?>											
                     </fieldset>	
                     </div>
                 </td>  
                 <td> 
                     <div id='searching'>
                     <fieldset>    
-                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        <?php /*$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                             'id'=>'kunjungan3',
                             'slide'=>true,
                             'content'=>array(
@@ -240,11 +240,11 @@
                                                     </td>
                                             </tr>
                                             </table>',            
-                                'active'=>false,
+                                'active'=>true,
                                     ),
                             ),
         //                                    'htmlOptions'=>array('class'=>'aw',)
-                            )); ?>											
+                            ));*/ ?>											
                     </fieldset>	
                     </div>
                 </td>  

@@ -95,8 +95,8 @@
                                 <td align='center'>Nama</td>
                                 <td align='center'>Satuan</td>
                                 <td align='center'>Jumlah</td>
-                                <td align='center'>Harga</td>
-                                <td align='center'>Bruto</td>
+                                <td align='center'>Harga (Rp)</td>
+                                <td align='center'>Bruto (Rp)</td>
                                 <td align='center'>Disc %</td>
                                 <td align='center'>Ppn %</td>
                                 <td align='center'>Netto %</td>
@@ -170,7 +170,8 @@
 			
             foreach($detail as $key=>$details){
                     $harga = $details->hargasatuan;
-                    $bruto = $details->total_bruto;
+                    //$bruto = $details->total_bruto;
+					$bruto = $details->jmlterima * $harga;
                     $discount = $details->persendiscount;
                     $ppn = $details->ppn;
                     $netto = $details->total_netto;
@@ -186,15 +187,15 @@
                     $totBayar += $bayar;
                     $totSisa += $sisa;
                     echo "<tr>
-                              <td width='150px;'>".$details->obatalkes_kode."</td>
-                              <td width='280px;'>".$details->obatalkes_nama."</td>
-                              <td width='220px;'>".$details->satuanbesar_nama."</td>
+                              <td width='150px;'>".$details->obatalkes->obatalkes_kode."</td>
+                              <td width='280px;'>".$details->obatalkes->obatalkes_nama."</td>
+                              <td width='220px;'>".$details->obatalkes->satuanbesar->satuanbesar_nama."</td>
                               <td width='70px;' style='text-align:center'>".$details->jmlterima."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($harga)."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($bruto)."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($discount)."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($ppn)."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($netto)."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($harga,0,"",".")."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($bruto,0,"",".")."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($discount,0,"",".")."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($ppn,0,"",".")."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($netto,0,"",".")."</td>
                               <td width='70px;' style='text-align:right'>-</td>
                           </tr>";
             }
@@ -204,27 +205,27 @@
                                 <table align=right>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Total : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totBruto)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totBruto,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Discount : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totDiscount)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totDiscount,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Ppn : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totPpn)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totPpn,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Total Transaksi : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totNetto)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totNetto,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Bayar : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totBayar)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totBayar,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Sisa : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totSisa)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totSisa,0,"",".")."</td>
                                     </tr>
                                 </table>
                             </div>

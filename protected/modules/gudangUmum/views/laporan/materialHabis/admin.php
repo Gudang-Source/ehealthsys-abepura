@@ -24,6 +24,8 @@
     <div class="block-tabel">
         <h6>Tabel <b>Material Habis</b></h6>
         <?php $this->renderPartial('materialHabis/_table', array('model'=>$model,'searchdata'=>$searchdata,)); ?>
+	</div>
+	<div class="block-tabel">
         <?php $this->renderPartial('_tab'); ?>
         <iframe class="biru" src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
         </iframe>           

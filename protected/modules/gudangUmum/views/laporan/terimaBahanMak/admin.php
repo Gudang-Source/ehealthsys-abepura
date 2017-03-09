@@ -24,10 +24,13 @@
     <div class="block-tabel">
         <h6>Tabel <b>Penerimaan Bahan Makanan</b></h6>
         <?php $this->renderPartial('terimaBahanMak/_table', array('model'=>$model,'searchdata'=>$searchdata,)); ?>
-        <?php $this->renderPartial('_tab'); ?>
-        <iframe class="biru" src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
-        </iframe>           
+        
     </div>
+	<div class="block-tabel">
+		<?php $this->renderPartial('_tab'); ?>        
+	<iframe class="biru" src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
+        </iframe>           
+	</div>
     <?php 
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
