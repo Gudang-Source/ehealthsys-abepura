@@ -272,6 +272,18 @@
                     ),                            
                     'footer'=>'sum(total_ppn)',
                 ),
+				 array(
+                    'header'=>'Pph (Rp)',
+                    'name'=>'total_pph',
+                    'value'=>'number_format($data->total_pph,0,"",".")',
+                    'headerHtmlOptions'=>array('style'=>'text-align:center;'),
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
+                    'footerHtmlOptions'=>array(
+                        'style'=>'text-align:right',
+                        'class'=>'currency'
+                    ),                            
+                    'footer'=>'sum(total_pph)',
+                ),
                 array(
                     'header'=>'Materai (Rp)',
                     'name'=>'materai',

@@ -99,7 +99,8 @@
                                 <td align='center'>Bruto (Rp)</td>
                                 <td align='center'>Disc %</td>
                                 <td align='center'>Ppn %</td>
-                                <td align='center'>Netto %</td>
+								<td align='center'>Pph %</td>
+                                <td align='center'>Netto</td>
                                 <td align='center'>Keterangan</td>
                             </tr>";
             
@@ -157,6 +158,7 @@
             $totBruto = 0;
             $totDiscount = 0;
             $totPpn = 0;
+			$totPph = 0;
             $totNetto = 0;
             $totBayar = 0;
             $totSisa = 0;
@@ -173,16 +175,20 @@
                     //$bruto = $details->total_bruto;
 					$bruto = $details->jmlterima * $harga;
                     $discount = $details->persendiscount;
-                    $ppn = $details->ppn;
-                    $netto = $details->total_netto;
-                    $bayar = $details->total_bayar;
+                    $ppn = $details->persenppnfaktur;
+					$pph = $details->persenpphfaktur;
+                    //$netto = $details->total_netto;
+					$netto = $bruto + ($bruto * ($ppn/100)) + ($bruto * ($pph/100)) - $details->jmldiscount;
+                    $bayar = $details->total_bayar;					
                     $sisa = $details->total_sisa;
                     
                     
                     $totHarga += $harga;
                     $totBruto += $bruto;
-                    $totDiscount += $details->total_discount;
-                    $totPpn += $details->total_ppn;
+                    //$totDiscount += $details->total_discount;
+					$totDiscount += $details->jmldiscount;
+                    $totPpn += ($bruto * ($ppn/100));
+					$totPph += ($bruto * ($pph/100));
                     $totNetto += $netto;
                     $totBayar += $bayar;
                     $totSisa += $sisa;
@@ -195,6 +201,7 @@
                               <td width='70px;' style='text-align:right'>".number_format($bruto,0,"",".")."</td>
                               <td width='70px;' style='text-align:right'>".number_format($discount,0,"",".")."</td>
                               <td width='70px;' style='text-align:right'>".number_format($ppn,0,"",".")."</td>
+							  <td width='70px;' style='text-align:right'>".number_format($pph,0,"",".")."</td>
                               <td width='70px;' style='text-align:right'>".number_format($netto,0,"",".")."</td>
                               <td width='70px;' style='text-align:right'>-</td>
                           </tr>";
@@ -214,6 +221,10 @@
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Ppn : </td>
                                         <td width='150px;' style='text-align:right'>".number_format($totPpn,0,"",".")."</td>
+                                    </tr>
+									<tr>
+                                        <td colspan=7 style='text-align:right'>Pph : </td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totPph,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Total Transaksi : </td>
