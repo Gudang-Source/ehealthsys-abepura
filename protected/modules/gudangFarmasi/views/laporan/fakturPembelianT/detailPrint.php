@@ -177,10 +177,13 @@
                     $discount = $details->persendiscount;
                     $ppn = $details->persenppnfaktur;
 					$pph = $details->persenpphfaktur;
+					$materai = $details->fakturpembelian->biayamaterai;
                     //$netto = $details->total_netto;
 					$netto = $bruto + ($bruto * ($ppn/100)) + ($bruto * ($pph/100)) - $details->jmldiscount;
-                    $bayar = $details->total_bayar;					
-                    $sisa = $details->total_sisa;
+                    //$bayar = $details->total_bayar;					
+					$bayar = !empty($details->fakturpembelian->bayarkesupplier->tandabuktikeluar_id)?$details->fakturpembelian->bayarkesupplier->tandabuktikeluar->jmlkaskeluar:0;
+                    //$sisa = $details->total_sisa;
+					
                     
                     
                     $totHarga += $harga;
@@ -190,8 +193,8 @@
                     $totPpn += ($bruto * ($ppn/100));
 					$totPph += ($bruto * ($pph/100));
                     $totNetto += $netto;
-                    $totBayar += $bayar;
-                    $totSisa += $sisa;
+                    $totBayar = $bayar;
+                    $totSisa = ($totNetto+$materai) - $totBayar;
                     echo "<tr>
                               <td width='150px;'>".$details->obatalkes->obatalkes_kode."</td>
                               <td width='280px;'>".$details->obatalkes->obatalkes_nama."</td>
@@ -226,9 +229,13 @@
                                         <td colspan=7 style='text-align:right'>Pph : </td>
                                         <td width='150px;' style='text-align:right'>".number_format($totPph,0,"",".")."</td>
                                     </tr>
+									<tr>
+                                        <td colspan=7 style='text-align:right'>Materai : </td>
+                                        <td width='150px;' style='text-align:right'>".number_format($materai,0,"",".")."</td>
+                                    </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Total Transaksi : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totNetto,0,"",".")."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format(($totNetto+$materai),0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Bayar : </td>
