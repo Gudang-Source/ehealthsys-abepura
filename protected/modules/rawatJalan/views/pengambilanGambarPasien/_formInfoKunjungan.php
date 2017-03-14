@@ -249,22 +249,41 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         "))',
                     ),
                    // 'no_pendaftaran',
-                    'no_pendaftaran',
+					array(
+						'name' => 'no_pendaftaran',
+						'filter' => CHtml::activeTextField($modDialogKunjungan, 'no_pendaftaran', array('class' => 'alphanumeric-only', 'maxlength' => 12))
+					),
+                    
                     array(
                         'name'=>'tgl_pendaftaran',
                         'type'=>'raw',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
                         'filter'=> false,
                     ),
-                    'no_rekam_medik',
-                    'nama_pasien',
+					array(
+						'name' => 'no_rekam_medik',
+						'filter' => CHtml::activeTextField($modDialogKunjungan, 'no_rekam_medik', array('class' => 'numbers-only', 'maxlength' => 6))
+					),
+                    array(
+						'name' => 'nama_pasien',
+						'filter' => CHtml::activeTextField($modDialogKunjungan, 'nama_pasien', array('class' => 'hurufs-only', 'maxlength' => 50))
+					),
+                    
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
                         'filter'=> CHtml::dropDownList('RJInfokunjunganrjV[jeniskelamin]',$modDialogKunjungan->jeniskelamin,LookupM::model()->getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
                     ),
-                    'instalasi_nama',
-                    'ruangan_nama',
+					array(
+						'header' => 'Instalasi/ <br/> Ruangan',
+						'type' => 'raw',
+						'value' => '$data->instalasi_nama."/ <br>".$data->ruangan_nama'
+					),
+                   // 'instalasi_nama',
+				//	array(
+				//		'name' => 'ruangan_nama',
+					//	'filter' => CHtml::activeDropDownList($modDialogKunjungan, 'ruangan_nama', CHtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE AND instalasi_id = '".Yii::app()->user->getState('instalasi_id')."' ORDER BY ruangan_nama ASC"), 'ruangan_nama', 'ruangan_nama'), array('empty' => '-- Pilih --')),
+				//	),                    
                     array(
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
@@ -274,7 +293,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+		. '$(".alphanumeric-only").keyup(function(){setAlphaNumericOnly(this);});'
+		. '$(".numbers-only").keyup(function(){setNumbersOnly(this);});'
+		. '$(".hurufs-only").keyup(function(){setHurufsOnly(this);});}',
+			
     ));
 ////======= end pendaftaran dialog =============
     
