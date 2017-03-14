@@ -79,7 +79,7 @@
                                 }',
 
                             ),
-                            'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2 numbersOnly'),
+                            'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2 numbers-only', 'maxlength' => 6),
                             'tombolDialog'=>array('idDialog'=>'dialogDaftarPasien','idTombol'=>'tombolPasienDialog'),
                         )); ?>
                     </div>
