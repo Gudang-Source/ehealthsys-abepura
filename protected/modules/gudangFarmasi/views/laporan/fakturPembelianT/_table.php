@@ -93,7 +93,7 @@
                     'footer'=>'Total',
                 ),  
                 array(
-                    'header'=>'Bruto',
+                    'header'=>'Bruto (Rp)',
                     'name'=>'total_bruto',
                     'value'=>'number_format($data->total_bruto,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -105,7 +105,7 @@
                     'footer'=>'sum(total_bruto)',
                 ),
                 array(
-                    'header'=>'Discount',
+                    'header'=>'Discount (Rp)',
                     'name'=>'total_discount',
                     'value'=>'str_replace(".",",",$data->total_discount)',                    
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -117,7 +117,7 @@
                     'footer'=>'sum(total_discount)',
                 ),
                 array(
-                    'header'=>'Ppn',
+                    'header'=>'Ppn (Rp)',
                     'name'=>'total_ppn',
                     'value'=>'number_format($data->total_ppn,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -129,7 +129,7 @@
                     'footer'=>'sum(total_ppn)',
                 ),
                 array(
-                    'header'=>'Materai',
+                    'header'=>'Materai (Rp)',
                     'name'=>'materai',
                     'value'=>'number_format($data->materai,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -141,7 +141,7 @@
                     'footer'=>'sum(materai)',
                 ),
                 array(
-                    'header'=>'Netto',
+                    'header'=>'Netto (Rp)',
                     'name'=>'total_netto',
                     'value'=>'number_format($data->total_netto,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -153,7 +153,7 @@
                     'footer'=>'sum(total_netto)',
                 ),
                 array(
-                    'header'=>'Total Tagihan',
+                    'header'=>'Total Tagihan (Rp)',
                     'name'=>'total_tagihan',
                     'value'=>'number_format($data->total_tagihan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -165,7 +165,7 @@
                     'footer'=>'sum(total_tagihan)',
                 ),
                 array(
-                    'header'=>'Bayar',
+                    'header'=>'Bayar (Rp)',
                     'name'=>'total_bayar',
                     'type'=>'raw',
                     'value'=>'number_format($data->total_bayar,0,"",".")',
@@ -178,7 +178,7 @@
                     'footer'=>'sum(total_bayar)',
                 ),
                 array(
-                    'header'=>'Sisa',
+                    'header'=>'Sisa (Rp)',
                     'name'=>'total_sisa',
                     'value'=>'number_format($data->total_sisa,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -237,7 +237,7 @@
                     'footer'=>'Total',
                 ),  
                 array(
-                    'header'=>'Bruto',
+                    'header'=>'Bruto (Rp)',
                     'name'=>'total_bruto',
                     'value'=>'number_format($data->total_bruto,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -249,7 +249,7 @@
                     'footer'=>'sum(total_bruto)',
                 ),
                 array(
-                    'header'=>'Diskon',
+                    'header'=>'Diskon (Rp)',
                     'name'=>'total_discount',
                     'value'=>'str_replace(".",",",$data->total_discount)',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -261,7 +261,7 @@
                     'footer'=>'sum(total_discount)',
                 ),
                 array(
-                    'header'=>'Ppn',
+                    'header'=>'Ppn (Rp)',
                     'name'=>'total_ppn',
                     'value'=>'number_format($data->total_ppn,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -272,8 +272,20 @@
                     ),                            
                     'footer'=>'sum(total_ppn)',
                 ),
+				 array(
+                    'header'=>'Pph (Rp)',
+                    'name'=>'total_pph',
+                    'value'=>'number_format($data->total_pph,0,"",".")',
+                    'headerHtmlOptions'=>array('style'=>'text-align:center;'),
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
+                    'footerHtmlOptions'=>array(
+                        'style'=>'text-align:right',
+                        'class'=>'currency'
+                    ),                            
+                    'footer'=>'sum(total_pph)',
+                ),
                 array(
-                    'header'=>'Materai',
+                    'header'=>'Materai (Rp)',
                     'name'=>'materai',
                     'value'=>'number_format($data->materai,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -285,7 +297,7 @@
                     'footer'=>'sum(materai)',
                 ),
                 array(
-                    'header'=>'Netto',
+                    'header'=>'Netto (Rp)',
                     'name'=>'total_netto',
                     'value'=>'number_format($data->total_netto,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -297,7 +309,7 @@
                     'footer'=>'sum(total_netto)',
                 ),
                 array(
-                    'header'=>'Total Tagihan',
+                    'header'=>'Total Tagihan (Rp)',
                     'name'=>'total_tagihan',
                     'value'=>'number_format($data->total_tagihan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),
@@ -309,7 +321,7 @@
                     'footer'=>'sum(total_tagihan)',
                 ),
                 array(
-                    'header'=>'Bayar',
+                    'header'=>'Bayar (Rp)',
                     'name'=>'total_bayar',
                     'type'=>'raw',
                     'value'=>'number_format($data->total_bayar,0,"",".")',
@@ -322,7 +334,7 @@
                     'footer'=>'sum(total_bayar)',
                 ),
                 array(
-                    'header'=>'Sisa',
+                    'header'=>'Sisa (Rp)',
                     'name'=>'total_sisa',
                     'value'=>'number_format($data->total_sisa,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'text-align:center;'),

@@ -72,7 +72,8 @@ class BayarkesupplierT extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                                    'fakturpembelian'=>array(self::BELONGS_TO,'FakturpembelianT','fakturpembelian_id'),
+			'fakturpembelian'=>array(self::BELONGS_TO,'FakturpembelianT','fakturpembelian_id'),
+			'tandabuktikeluar'=>array(self::BELONGS_TO,'TandabuktikeluarT','tandabuktikeluar_id'),
 		);
 	}
 
