@@ -38,7 +38,7 @@
                                                 return false;
                                             }',
                                     ),
-                                    'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3 required'),
+                                    'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'numbers-only span3 required','maxlength' => 6),
                                     'tombolDialog'=>array('idDialog'=>'dialogRekamedik','idTombol'=>'tombolDialogRekamedik'),
                                 )); 
                 ?>
@@ -112,7 +112,7 @@ $modDataPasien->statusperiksa = Params::STATUSPERIKSA_SUDAH_DIPERIKSA;
 if(isset($_GET['RJInfokunjunganrjV'])){
     $modDataPasien->attributes = $_GET['RJInfokunjunganrjV'];
     $format = new MyFormatter();    
-    $modDataPasien->tgl_pendaftaran  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_pendaftaran']);
+    //$modDataPasien->tgl_pendaftaran  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_pendaftaran']);
     //$modDataPasien->statusperiksa  = $_REQUEST['RJInfokunjunganrjV']['statusperiksa'];
     $modDataPasien->statusperiksa = Params::STATUSPERIKSA_SUDAH_DIPERIKSA;
     // $modDataPasien->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_awal']);
@@ -191,9 +191,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                      'name' => 'nama_pegawai',
                      'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                      'filter' => Chtml::activeTextField($modDataPasien, 'nama_pegawai',array('class'=>'hurufs-only'))
-                 ),                 
-                 'jeniskasuspenyakit_nama',
-
+                 ),       
+				 array(
+					 'name' => 'jeniskasuspenyakit_nama',
+					 'filter' => CHtml::activeTextField($modDataPasien, 'jeniskasuspenyakit_nama', array('class' => 'custom-only'))
+				 ),                 
                 array(
                     'name'=>'statusperiksa',
                     'type'=>'raw',
@@ -218,6 +220,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             });
             $(".hurufs-only").keyup(function() {
                 setHurufsOnly(this);
+            });
+			$(".custom-only").keyup(function() {
+                setCustomOnly(this);
             });
         }',
 ));
