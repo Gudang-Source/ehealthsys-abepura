@@ -1,9 +1,9 @@
 <div class="white-container">
     <legend class="rim2">Informasi Diagnosa <b>ICD X</b></legend><?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
-    <div class="box2">
+ 
         <table width="100%">
             <tr>
-                <td width="30%">
+                <td width="33%">
                     <div style="height: 100%;"> 
                     <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'id'=>'tabular-grid',
@@ -17,17 +17,35 @@
                        'type'=>'raw',
                        'value'=>'CHtml::link($data->tabularlist_chapter, "javascript:cariDtd(this,\'$data->tabularlist_id\');",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Klik Untuk Melihat DTD"))',
                        'htmlOptions'=>array('style'=>'text-align: left; width:120px'),
+						   'filter' => CHtml::activeTextField($modTabularList, 'tabularlist_chapter', array('class' => 'all-caps angkahuruf-only'))
                         ),
-                        'tabularlist_title2',
+						//array(
+						//	'name' => 'tabularlist_title2',
+						//	'filter' => CHtml::activeTextField($modTabularList, 'tabularlist_title2', array('class' => 'hurufs-only'))
+						//),
+                        
 
                      ),
-                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
-                    )); ?>
+                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+					 .  '$(".all-caps").keyup(function() {
+							var allcaps = $(this).val().toUpperCase();
+							$(this).val(allcaps);
+						});
+						$(".angkahuruf-only").keyup(function() {
+							setAngkaHurufsOnly(this);
+						});
+						$(".hurufs-only").keyup(function() {
+							setHurufsOnly(this);
+						});'
+					. '}',
+                )); ?>
                      </div>   
                 </td>
-                <td>
+                <td  width="33%"> 
 
-
+					<?php echo $this->renderPartial('_table', array('modDTDM'=>$modDTDM));  ?>
+				</td>
+				<td  width="33%">
                     <div id="diagnosa-div" style="display: none;" >
                         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'id'=>'diagnosa-grid',
@@ -38,20 +56,32 @@
                         'columns'=>array(	
                             array(
                                 'name' => 'diagnosa_kode',
-                                'filter' => CHtml::activeTextField($modDiagnosa, 'diagnosa_kode').CHtml::activeHiddenField($modDiagnosa, 'dtd_id', array('id'=>'diagnosa_dtd')),
+                                'filter' => CHtml::activeTextField($modDiagnosa, 'diagnosa_kode', array('class' => '')).CHtml::activeHiddenField($modDiagnosa, 'dtd_id', array('id'=>'diagnosa_dtd')),
                             ),
-                                'diagnosa_nama',
+                            array(
+								'name' => 'diagnosa_nama',
+								'filter' => Chtml::activeTextField($modDiagnosa, 'diagnosa_nama', array('class' => 'custom-only'))
+							),
                          ),
-                        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});diagnosahideshow();}',
+                        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});diagnosahideshow();'
+							. '$(".kode-icd").keyup(function() {
+							setKodeICD(this);
+						});
+						$(".custom-only").keyup(function() {
+							setCustomOnly(this);
+						});
+						$(".all-caps").keyup(function() {
+							var allcaps = $(this).val().toUpperCase();
+							$(this).val(allcaps);
+						});}',
                         )); ?>
                     </div>
-                </td>
-                <td>
-                        <?php echo $this->renderPartial('_table', array('modDTDM'=>$modDTDM));  ?>
-                </td>   
+               
+                        
+				</td>   
             </tr>
         </table>
-    </div>
+ 
     <?php /*
     <div class="search-form">
         <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
@@ -122,7 +152,7 @@ function cariDiagnosa(dtd_id)
 function diagnosahideshow()
 {
      $('#diagnosa-div').attr("style","display:block");
-     $('#dtd-div').attr("style","display:none");
+   //  $('#dtd-div').attr("style","display:none");
 }
 
 
