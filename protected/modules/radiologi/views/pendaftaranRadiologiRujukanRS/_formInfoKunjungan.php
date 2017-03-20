@@ -34,7 +34,7 @@
                                         }',
                                 ),
                                 'tombolDialog'=>array('idDialog'=>'dialogKunjungan'),
-                                'htmlOptions'=>array('placeholder'=>'Ketik No. Pendaftaran','class'=>'all-caps','rel'=>'tooltip','title'=>'Ketik no. pendaftaran',
+                                'htmlOptions'=>array('placeholder'=>'Ketik No. Pendaftaran','class'=>'all-caps alphanumeric-only','rel'=>'tooltip','title'=>'Ketik no. pendaftaran',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",                                    
                                     ),
                             )); 
@@ -90,6 +90,13 @@
             <?php echo CHtml::textField('penjamin_nama',$modKunjungan->penjamin_nama,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         </div>
     </div>
+	
+	<div class="control-group">
+        <?php echo CHtml::label("Dokter Pengirim", 'penjamin_nama', array('class'=>'control-label')); ?>
+        <div class="controls">
+            <?php echo CHtml::textField('dokterpengirim',$modKunjungan->gelardepan." ".$modKunjungan->nama_pegawai." ".$modKunjungan->gelarbelakang_nama,array('readonly'=>true,'class'=>'span4', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>            
+        </div>
+    </div>
 </div>
 <div class = "span4">
     <div class="control-group">
@@ -125,7 +132,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','class'=>'all-caps','rel'=>'tooltip','title'=>'Ketik no. rekam medik untuk mencari data kunjungan',
+                                'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','class'=>'all-caps numbers-only','rel'=>'tooltip','title'=>'Ketik no. rekam medik untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     ),
                             )); 
@@ -165,7 +172,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Ketik Nama Pasien','rel'=>'tooltip','title'=>'Ketik nama pasien untuk mencari data kunjungan',
+                                'htmlOptions'=>array('class' => 'hurufs-only','placeholder'=>'Ketik Nama Pasien','rel'=>'tooltip','title'=>'Ketik nama pasien untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     ),
                             )); 
@@ -196,18 +203,26 @@
             <?php echo CHtml::textField('jeniskelamin',$modKunjungan->jeniskelamin,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         </div>
     </div>
-    
+   
+	<?php /*
     <div class="control-group">
-        <?php echo CHtml::label("Nama Penanggung Jawab", 'nama_pj', array('class'=>'control-label')); ?>
+        <?php //echo CHtml::label("Nama Penanggung Jawab", 'nama_pj', array('class'=>'control-label')); ?>
         <div class="controls">
-            <?php echo CHtml::hiddenField('penanggungjawab_id',$modKunjungan->penanggungjawab_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-            <?php echo CHtml::textField('nama_pj',$modKunjungan->nama_pj,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php //echo CHtml::hiddenField('penanggungjawab_id',$modKunjungan->penanggungjawab_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php //echo CHtml::textField('nama_pj',$modKunjungan->nama_pj,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         </div>
     </div>
     <div class="control-group">
-        <?php echo CHtml::label("Status Penanggung Jawab", 'pengantar', array('class'=>'control-label')); ?>
+        <?php //echo CHtml::label("Status Penanggung Jawab", 'pengantar', array('class'=>'control-label')); ?>
         <div class="controls">
-            <?php echo CHtml::textField('pengantar',$modKunjungan->pengantar,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php //echo CHtml::textField('pengantar',$modKunjungan->pengantar,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        </div>
+    </div>
+	*/ ?>
+	<div class="control-group">
+        <?php echo CHtml::label("Alamat Pasien", 'alamat_pasien', array('class'=>'control-label')); ?>
+        <div class="controls">
+            <?php echo CHtml::textArea('alamat_pasien',$modKunjungan->alamat_pasien,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         </div>
     </div>
     
@@ -219,12 +234,7 @@
         ?>
         <img id="photo-preview" src="<?php echo $url_photopasien?>"width="128px"/> 
     </div><br>
-    <div class="control-group">
-        <?php echo CHtml::label("Alamat Pasien", 'alamat_pasien', array('class'=>'control-label')); ?>
-        <div class="controls">
-            <?php echo CHtml::textArea('alamat_pasien',$modKunjungan->alamat_pasien,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        </div>
-    </div>
+    
 </div>
 
 <?php 
@@ -235,8 +245,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Pencarian Data Rujukan Ke Radiologi',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>980,
-        'height'=>480,
+        'width'=>1050,
+        'height'=>610,
         'resizable'=>false,
     ),
 ));
@@ -245,6 +255,16 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     if(isset($_GET['ROPasienKirimKeUnitLainV'])) {
         $modDialogKunjungan->attributes = $_GET['ROPasienKirimKeUnitLainV'];
     }
+	
+	$ruangan = array();
+	if ( !empty($modDialogKunjungan->instalasiasal_id))
+	{
+		$cri = new CDbCriteria();
+		$cri->addCondition("instalasi_id = '".$modDialogKunjungan->instalasiasal_id."' AND ruangan_aktif = TRUE ");
+		$cri->order = 'ruangan_nama ASC';
+		$ruangan = RuanganM::model()->findAll($cri);
+	}
+	
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'datakunjungan-grid',
@@ -263,32 +283,54 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                             $(\"#dialogKunjungan\").dialog(\"close\");
                                         "))',
                     ),
-                    'no_pendaftaran',
-                    array(
+					array(
                         'name'=>'tgl_pendaftaran',
                         'type'=>'raw',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
                         'filter'=> false,
                     ),
-                    'no_rekam_medik',
-                    'nama_pasien',
+					array(
+						'name' => 'no_pendaftaran',
+						'filter' => CHtml::activeTextField($modDialogKunjungan, 'no_pendaftaran', array('class' => 'alphanumeric-only'))
+					),                    
+                    array(
+						'name' => 'no_rekam_medik',
+						'filter' => CHtml::activeTextField($modDialogKunjungan, 'no_rekam_medik', array('class' => 'numbers-only'))
+					),
+                     array(
+						'name' => 'nama_pasien',
+						'filter' => CHtml::activeTextField($modDialogKunjungan, 'nama_pasien', array('class' => 'hurufs-only')),
+						 'value' => '$data->namadepan." ".$data->nama_pasien'
+					),                    
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> CHtml::activeDropDownList($modDialogKunjungan,'jeniskelamin',LookupM::model()->getItems('jeniskelamin'), array('empty' => '-- Pilih --')),
                     ),
-                    'instalasiasal_nama',
-                    'ruanganasal_nama',
+					array(
+						'header' => 'Instalasi Asal',
+						'value' => '$data->instalasiasal_nama',
+						'filter' => CHtml::activeDropDownList($modDialogKunjungan,'instalasiasal_id', CHtml::listData(InstalasiM::model()->findAll("instalasi_aktif = TRUE ORDER BY instalasi_nama ASC"), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --')),
+					),
+                    array(
+						'header' => 'Ruangan Asal',
+						'value' => '$data->ruanganasal_nama',
+						'filter' => CHtml::activeDropDownList($modDialogKunjungan,'ruanganasal_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --')),
+					),
+                   
                     array(
                         'name'=>'carabayar_id',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
-                        'filter'=>CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif IS TRUE"),'carabayar_id','carabayar_nama'),
+                        'filter'=> CHtml::activeDropDownList($modDialogKunjungan,'carabayar_id',CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif IS TRUE"),'carabayar_id','carabayar_nama'), array('empty' => '-- Pilih --')),
                     ),
 
 
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+		. '$(".numbers-only").keyup(function(){setNumbersOnly(this);});'
+		. '$(".hurufs-only").keyup(function(){setHurufsOnly(this);});'
+		. '$(".alphanumeric-only").keyup(function(){setAlphaNumericOnly(this);});}',
     ));
 
 $this->endWidget();
