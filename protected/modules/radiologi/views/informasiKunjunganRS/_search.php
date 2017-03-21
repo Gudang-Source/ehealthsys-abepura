@@ -50,15 +50,14 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 
                </div>
             </div>
-            <?php echo $form->textFieldRow($model,'no_rekam_medik',array('autofocus'=>true, 'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik no. rekam medik')); ?>
+            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3 alphanumeric-only all-caps','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik no. pendaftaran','maxlength' => 12)); ?>
         </div>
         <div class="span4">
-            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik no. pendaftaran')); ?>
-            <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik nama pasien')); ?>
-            <?php echo $form->textFieldRow($model,'alias',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Alias')); ?>
-        </div>
-        <div class="span4">
-            <div class="control-group ">
+            
+			<?php echo $form->textFieldRow($model,'no_rekam_medik',array('autofocus'=>true, 'class'=>'span3 numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik no. rekam medik', 'maxlength' => 6)); ?>
+            <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3 hurufs-only','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Ketik nama pasien')); ?>
+            <?php //echo $form->textFieldRow($model,'alias',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=>'Alias')); ?>
+			<div class="control-group ">
                 <?php echo CHtml::label('Dokter Penanggung Jawab','Dokter Penanggung Jawab', array('class'=>'control-label inline')) ?>
                 <div class="controls">
                     <?php   
@@ -67,15 +66,29 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 
                 </div>
             </div>
-            <div class="control-group ">
-                <?php echo CHtml::label('Asal Instalasi','Asal Instalasi', array('class'=>'control-label inline')) ?>
-                <div class="controls">
-                    <?php   
-                        echo $form->dropDownList($model,'instalasi_id',CHtml::listData(InstalasiM::model()->findAll('instalasi_id in('.PARAMS::INSTALASI_ID_RJ.','.PARAMS::INSTALASI_ID_RD.','.PARAMS::INSTALASI_ID_RI.') ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'--Pilih--','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); 
-                    ?>
-
-                </div>
-            </div>
+        </div>
+        <div class="span4">
+            
+             <?php
+                $instalasi = InstalasiM::model()->findAllByAttributes(array(
+                    'instalasi_id' => array(2,3,4),
+                ));
+                $ruangan = RuanganM::model()->findAllByAttributes(array(
+                    'instalasi_id' => array(2,3,4),
+                    'ruangan_aktif' => true,
+                ), array(
+                    'order'=>'instalasi_id, ruangan_nama',
+                ));
+                echo $form->dropDownListRow($model,'instalasi_id', CHtml::listData($instalasi, 'instalasi_id', 'instalasi_nama'), array(
+                    'empty'=>'-- Pilih --',
+                    'class'=>'span3',                     
+                    'ajax' => array('type'=>'POST',
+                        'url'=> $this->createUrl('/ActionDynamic/getRuanganDariInstalasi',array('encode'=>false,'namaModel'=>get_class($model))), 
+                        'success'=>'function(data){$("#'.CHtml::activeId($model, "ruangan_id").'").html(data); }',
+                    ),
+                 ));
+                echo $form->dropDownListRow($model,'ruangan_id', array(), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
+				?>
         </div>
     </div>
     <div class="form-actions">

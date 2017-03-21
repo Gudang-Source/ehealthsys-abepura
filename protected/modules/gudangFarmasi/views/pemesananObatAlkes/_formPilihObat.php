@@ -2,7 +2,7 @@
     <tr>
         <td>
             <div class="control-group ">
-                <?php echo CHtml::label('Obat & Alat Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
+                <?php echo CHtml::label('Obat & Alkes', 'obatalkes_nama', array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::hiddenField('obatalkes_id'); ?>
                     <?php echo CHtml::hiddenField('obatalkes_kode'); ?>

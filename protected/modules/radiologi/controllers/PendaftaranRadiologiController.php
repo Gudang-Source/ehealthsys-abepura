@@ -1304,8 +1304,8 @@ class PendaftaranRadiologiController extends MyAuthController
                     $criteria->addCondition('ruangan_id = '.$postPemeriksaan['ruangan_id']);
                     $criteria->addCondition('kelaspelayanan_id = '.$postPemeriksaan['kelaspelayanan_id']);
                     $criteria->addCondition('penjamin_id = '.$postPemeriksaan['penjamin_id']);
-                    //$criteria->compare('LOWER(jenispemeriksaanrad_nama)',strtolower($postPemeriksaan['jenispemeriksaanrad_nama']), true);
-					$criteria->compare('jenispemeriksaanrad_id',$postPemeriksaan['jenispemeriksaanrad_id']);
+                    $criteria->compare('LOWER(jenispemeriksaanrad_nama)',strtolower($postPemeriksaan['jenispemeriksaanrad_nama']));
+					//$criteria->compare('jenispemeriksaanrad_id',$postPemeriksaan['jenispemeriksaanrad_id']);
                     $criteria->compare('LOWER(pemeriksaanrad_nama)',strtolower($postPemeriksaan['pemeriksaanrad_nama']), true);
                     $criteria->order = "jenispemeriksaanrad_urutan, pemeriksaanrad_urutan";
                     $modPemeriksaanRads = ROTarifpemeriksaanradruanganV::model()->findAll($criteria);
