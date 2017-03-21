@@ -95,6 +95,7 @@ class RJLaporancaramasukpasienrj extends LaporancaramasukpasienrjV {
 
             return new CActiveDataProvider($this, array(                   
                     'criteria'=>$criteria,
+					'pagination' => false
             ));
     }
 }
