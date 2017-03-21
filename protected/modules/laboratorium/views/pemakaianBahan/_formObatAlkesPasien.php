@@ -2,7 +2,7 @@
     <tr>
         <td>
             <div class="control-group ">
-                <?php echo CHtml::label('Nama Obat & Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
+                <?php echo CHtml::label('Obat & Alkes', 'obatalkes_nama', array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::hiddenField('obatalkes_id'); ?>
                     <?php echo CHtml::hiddenField('qty_stok' ,0); ?>
@@ -47,7 +47,7 @@
                                                     return false;
                                                 }',
                                         ),
-                                        'htmlOptions'=>array('class' => 'custom-only', 'placeholder' => 'Ketik Nama Obat & Alkes',
+                                        'htmlOptions'=>array('class' => 'custom-only', 'placeholder' => 'Ketik Obat & Alkes',
                                                 'onkeyup'=>"return $(this).focusNextInputField(event)",
                                         ),
                                         'tombolDialog'=>array('idDialog'=>'dialogObatAlkes'),
@@ -58,7 +58,7 @@
         </td>
         <td>
             <div class="control-group ">
-                <?php echo CHtml::label('jumlah', 'qty_input', array('class'=>'control-label')); ?>
+                <?php echo CHtml::label('Jumlah', 'qty_input', array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer')) ?>
                     <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
@@ -141,7 +141,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'empty'=>'-- Pilih --'
                     ))
                 ),
-                'obatalkes_nama',
+				array(
+					'name' => 'obatalkes_nama',
+					'filter' => CHtml::activeTextField($modObatAlkes, 'obatalkes_nama', array('class' => 'custom-only'))
+				),
+                
               //  'obatalkes_kategori',
                // 'obatalkes_golongan',
                // array(
@@ -159,12 +163,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Jumlah Stok',
                     'type'=>'raw',
-                    'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))',
+                    'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil_nama',
                 ),
 
                 
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+	. '$(".custom-only").keyup(function(){setCustomOnly(this);});}',
 )); 
 
 $this->endWidget();

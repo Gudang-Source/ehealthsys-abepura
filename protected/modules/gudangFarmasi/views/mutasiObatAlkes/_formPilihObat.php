@@ -8,7 +8,7 @@
 </div>
 <div class="span4">
     <div class="control-group ">
-        <?php echo CHtml::label('Nama Obat Alkes', 'obatalkes_nama', array('class'=>'control-label')); ?>
+        <?php echo CHtml::label('Obat & Alkes', 'obatalkes_nama', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php echo CHtml::hiddenField('obatalkes_id'); ?>
         <?php 
@@ -42,7 +42,7 @@
                         }',
                 ),
                 'htmlOptions'=>array(
-                    'placeholder'=>'Ketik Nama Obat & Alkes',
+                    'placeholder'=>'Ketik Obat & Alkes',
                     'class' => 'custom-only',
                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                     'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); '

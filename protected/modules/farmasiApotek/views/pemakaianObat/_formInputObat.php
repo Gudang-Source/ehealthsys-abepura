@@ -2,7 +2,7 @@
         <div class="control-group ">
             <?php echo CHtml::hiddenField('obatalkes_id'); ?>
             <?php echo CHtml::hiddenField('obatalkes_kode'); ?>
-            <label class="control-label" for="namaObat">Nama Obat & Alkes</label>
+            <label class="control-label" for="namaObat">Obat & Alkes</label>
             <div class="controls">
                 <?php
                 $this->widget('MyJuiAutoComplete', array(
