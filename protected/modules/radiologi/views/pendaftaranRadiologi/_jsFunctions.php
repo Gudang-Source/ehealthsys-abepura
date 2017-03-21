@@ -807,6 +807,7 @@ function setRiwayatKunjunganPasien(pasien_id){
  * @param {obj} form_checklist
  */
 function updateChecklistPemeriksaanRad(){
+
     $('#dialog-pilihpemeriksaan .dialog-content').addClass("animation-loading");
     $.ajax({
         type:'POST',

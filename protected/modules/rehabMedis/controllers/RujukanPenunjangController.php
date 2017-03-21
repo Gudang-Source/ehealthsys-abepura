@@ -7,7 +7,7 @@ class RujukanPenunjangController extends MyAuthController
 	{
             $this->pageTitle = Yii::app()->name." - Pasien Rujukan";
             $model = new PasienkirimkeunitlainV;
-            $model->tgl_awal = date('Y-m-d', strtotime('-5 days'));
+            $model->tgl_awal = date('Y-m-d');// strtotime('-5 days')
             $model->tgl_akhir = date('Y-m-d');
             $model->ruangan_id = 12; //Yii::app()->user->getState('ruangan_id');
             

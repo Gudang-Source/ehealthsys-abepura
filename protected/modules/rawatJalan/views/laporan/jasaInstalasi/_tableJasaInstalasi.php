@@ -12,30 +12,34 @@
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
         }
         
+        if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.HeaderGroupGridViewPDF';
+        }
+  
         echo "
-            <style>
-                .border th, .border td{
-                    border:1px solid #000;
-                }
-                .table thead:first-child{
-                    border-top:1px solid #000;        
-                }
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
 
-                thead th{
-                    background:none;
-                    color:#333;
-                }
+            thead th{
+                background:none;
+                color:#333;
+            }
 
-                .border {
-                    box-shadow:none;
-                    border-spacing:0px;
-                    padding:0px;
-                }
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
 
-                .table tbody tr:hover td, .table tbody tr:hover th {
-                    background-color: none;
-                }
-            </style>";
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
         $itemCssClass = 'table border';
     } else{
         $data = $model->searchTable();
