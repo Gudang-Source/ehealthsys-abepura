@@ -118,7 +118,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                         'empty'=>'-- Pilih --'
                     ))
                 ),
-                'obatalkes_nama',                                           
+				array(
+					'name' => 'obatalkes_nama',
+					'filter' => CHtml::activeTextField($modObatDialog, 'obatalkes_nama', array('class' => 'custom-only'))
+				),
+                
 //                array(
 //                    'name'=>'sumberdana_id',
 //                    'type'=>'raw',
@@ -132,7 +136,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                     'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil_nama',
                 ),
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+	. '$(".custom-only").keyup(function(){setCustomOnly(this);});}',
 ));
 
 $this->endWidget();
