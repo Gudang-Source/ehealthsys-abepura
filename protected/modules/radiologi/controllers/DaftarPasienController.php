@@ -11,8 +11,9 @@ class DaftarPasienController extends MyAuthController
                 $modPasienMasukPenunjang = new ROPasienMasukPenunjangV;
                 $format = new MyFormatter();
 //                $modPasienMasukPenunjang->tgl_awal = date('d M Y').' 00:00:00';
-                $modPasienMasukPenunjang->tgl_awal = date('d M Y', strtotime('-5 days')).' 00:00:00';
-                $modPasienMasukPenunjang->tgl_akhir = date('d M Y H:i:s');
+                //$modPasienMasukPenunjang->tgl_awal = date('d M Y', strtotime('-5 days')).' 00:00:00';
+				$modPasienMasukPenunjang->tgl_awal = date('d M Y');
+                $modPasienMasukPenunjang->tgl_akhir = date('d M Y');
                 if(isset($_GET['ROPasienMasukPenunjangV'])){
                     $modPasienMasukPenunjang->attributes = $_GET['ROPasienMasukPenunjangV'];
                     $modPasienMasukPenunjang->tgl_awal = $format->formatDateTimeForDb($_GET['ROPasienMasukPenunjangV']['tgl_awal']);

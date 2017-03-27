@@ -347,7 +347,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'header' => 'Nama Pasien',
                         'name' => 'nama_pasien',
-                        'value' => '$data->nama_pasien',
+                        'value' => '$data->namadepan." ".$data->nama_pasien',
                         'filter' => Chtml::activeTextField($modDialogKunjungan, 'nama_pasien', array('class' => 'hurufs-only'))
                     ),                      
                     array(

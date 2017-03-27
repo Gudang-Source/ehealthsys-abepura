@@ -176,7 +176,7 @@
 			<tr> <br>
                         <td>
                             <div class="control-group">
-                          <?php echo CHtml::label('Tanggal Pendaftaran','tglPendaftaran', array('class'=>'control-label')) ?>
+                          <?php echo CHtml::label('Tanggal Masuk Penunjang','tglPendaftaran', array('class'=>'control-label')) ?>
                                   <div class="controls">  
 									 
                                          <?php 
@@ -185,10 +185,10 @@
                                          $this->widget('MyDateTimePicker',array(
                                                                                  'model'=>$modPasienMasukPenunjang,
                                                                                  'attribute'=>'tgl_awal',
-                                                                                 'mode'=>'datetime',
-//                                          'maxDate'=>'d',
+                                                                                 'mode'=>'date',																						
                                                                                  'options'=> array(
                                                                                  'dateFormat'=>Params::DATE_FORMAT,
+																					 'maxDate'=>'d',		
                                                                                 ),
                                                                                  'htmlOptions'=>array('readonly'=>true,
                                                                                  'onkeypress'=>"return $(this).focusNextInputField(event)"),
@@ -202,22 +202,23 @@
                                         <?php $this->widget('MyDateTimePicker',array(
                                                                                  'model'=>$modPasienMasukPenunjang,
                                                                                  'attribute'=>'tgl_akhir',
-                                                                                 'mode'=>'datetime',
-//                                         'maxdate'=>'d',
+                                                                                 'mode'=>'date',																				 
                                                                                  'options'=> array(
-                                                                                 'dateFormat'=>Params::DATE_FORMAT,
+																					'dateFormat'=>Params::DATE_FORMAT,
+																					'maxDate'=>'d',
                                                                                 ),
                                                                                  'htmlOptions'=>array('readonly'=>true,
                                                                                  'onkeypress'=>"return $(this).focusNextInputField(event)"),
 											)); ?>
                                    </div> 
                             </div>
-                                 <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_rekam_medik',array('autofocus'=>true, 'class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no. rekam medik')); ?>
+							<?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_pendaftaran',array('class'=>'span3 alphanumeric-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no. pendaftaran')); ?>
+                                 
 
                         </td>
                         <td>
-                                <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no. pendaftaran')); ?>
-                                <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
+                                <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_rekam_medik',array('autofocus'=>true, 'class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>6, 'placeholder'=>'Ketik no. rekam medik')); ?>
+                                <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_pasien',array('class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
                                 <?php // echo $form->textFieldRow($modPasienMasukPenunjang,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Alias')); ?>
                                 <?php 
                                 $carabayar = CarabayarM::model()->findAll(array(

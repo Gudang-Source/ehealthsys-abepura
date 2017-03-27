@@ -12,5 +12,5 @@ $modTarifTindakan= ROTariftindakanM::model()->find('kelaspelayanan_id='.$kelaspe
                                                    ' AND jenistarif_id='.$jenistarif_id);
     $modTarifTindakan->harga_tariftindakan=0;//Belum Disetting dr masternya Berarti
 }
-echo "Rp. ".number_format($modTarifTindakan->harga_tariftindakan,0,"",".");
+echo "Rp".number_format($modTarifTindakan->harga_tariftindakan,0,"",".");
 ?>
