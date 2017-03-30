@@ -571,6 +571,16 @@ function printStatus()
 }
 
 /**
+* 
+ * @param {type} obj
+ * @returns {undefined} */
+function addDokterLengkap(obj)
+{
+    $('#dialogPemeriksaLengkap').dialog('open');
+    $('#dialogPemeriksaLengkap #rowTindakan').val($(obj).parent().find('input[id="row"]').val());
+}
+
+/**
  * javascript yang di running setelah halaman ready / load sempurna
  * posisi script ini harus tetap dibawah
  */

@@ -198,4 +198,5 @@
     </div>
     <?php $this->endWidget(); ?>
     <?php $this->renderPartial($this->path_view.'_jsFunctions', array('modKunjungan'=>$modKunjungan, 'modPasienMasukPenunjang'=>$modPasienMasukPenunjang,'modTindakan'=>$modTindakan,'modObatAlkesPasien'=>$modObatAlkesPasien,)); ?>
+	<?php $this->renderPartial('_dialogPemeriksaLengkap',array('modTindakan'=>$modTindakan)); ?> 
 </div>
