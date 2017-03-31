@@ -7,7 +7,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>800,
-        'height'=>256,
+        'height'=>200,
         'resizable'=>false,
     ),
 ));
@@ -43,6 +43,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         )); ?>
                     </div>
                 </div>
+				
+				<?php /*
                 <div class="control-group">
                     <?php echo CHtml::activeLabel($modTindakan, 'dokterdelegasi_id'); ?>
                     <div class="controls">
@@ -70,6 +72,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         )); ?>
                     </div>
                 </div>
+				 
                 <div class="control-group">
                     <?php echo CHtml::activeLabel($modTindakan, 'dokteranastesi_id'); ?>
                     <div class="controls">
@@ -151,10 +154,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         )); ?>
                     </div>
                 </div>
-                 -->
+                 -->  */ ?>				 
             </td>
             
-            <td>
+            <td><?php /*
                 <div class="control-group">
                     <?php echo CHtml::activeLabel($modTindakan, 'perawat_1'); ?>
                     <div class="controls">
@@ -181,6 +184,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         )); ?>
                     </div>
                 </div>
+				
                 <div class="control-group">
                     <?php echo CHtml::activeLabel($modTindakan, 'perawat_2'); ?>
                     <div class="controls">
@@ -206,9 +210,9 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 										'onkeypress'=>"return $(this).focusNextInputField(event)"),
                         )); ?>
                     </div>
-                </div>
+                </div>*/ ?>
                 <div class="control-group">
-                    <?php echo CHtml::activeLabel($modTindakan, 'perawat_3'); ?>
+                    <?php echo CHtml::activeLabel($modTindakan, 'perawat_1'); ?>
                     <div class="controls">
                         <?php $this->widget('MyJuiAutoComplete',array(
                                     'name'=>'perawat_id',
@@ -232,7 +236,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 										'onkeypress'=>"return $(this).focusNextInputField(event)"),
                         )); ?>
                     </div>
-                </div>
+                </div> 
             </td>
         </tr>
         <tr>

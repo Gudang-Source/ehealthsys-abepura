@@ -199,6 +199,7 @@ function pilihPemeriksaanIni(obj){
  */
 function renameInputRow(obj_table){
     var row = 0;
+	var i = 0;
     $(obj_table).find("tbody > tr").each(function(){
         $(this).find("#no_urut").val(row+1);
         $(this).find('span').each(function(){ //element <span>
@@ -208,6 +209,14 @@ function renameInputRow(obj_table){
                 $(this).attr("name","["+row+"]["+old_name_arr[2]+"]");
             }
         });
+		
+		$(this).find('a[id^="btnAddDokter_"]').attr('id','btnAddDokter_'+i+'');
+		$(this).find('a[id^="btnAddDokter_"]').attr('onclick','addDokterLengkap(this,'+i+')');
+        $(this).find('div[id^="tampilanDokterPemeriksa_"]').attr('id','tampilanDokterPemeriksa_'+i+'');        
+        $(this).find('div[id^="tampilanPerawat_"]').attr('id','tampilanPerawat_'+i+'');
+        $(this).find('input[id="rowDokter"]').attr('value',i);
+        $(this).find('input[id="rowDokter"]').val(i);
+		
         $(this).find('input,select,textarea').each(function(){ //element <input>
             var old_name = $(this).attr("name").replace(/]/g,"");
             var old_name_arr = old_name.split("[");
@@ -217,6 +226,7 @@ function renameInputRow(obj_table){
             }
         });
         row++;
+		i++;
     });
     
 }
@@ -574,10 +584,42 @@ function printStatus()
 * 
  * @param {type} obj
  * @returns {undefined} */
-function addDokterLengkap(obj)
+function addDokterLengkap(obj,i)
 {
     $('#dialogPemeriksaLengkap').dialog('open');
-    $('#dialogPemeriksaLengkap #rowTindakan').val($(obj).parent().find('input[id="row"]').val());
+    $('#dialogPemeriksaLengkap #rowTindakan').val(i);
+	
+}
+
+function setPerawat(item)
+{
+    var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
+    $('#LBTindakanPelayananT_'+row+'_perawat_id').val(item.pegawai_id);
+	$('#tampilanPerawat_'+row).html("Perawat : "+item.nama_pegawai);
+} 
+
+function updatePerawat(value){
+	if(value == ''){
+		var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
+		$('#LBTindakanPelayananT_'+row+'_perawat_id').val('');
+		$('#tampilanPerawat_'+row).html('');
+	}
+}
+
+function setDokterPemeriksa1(item)
+{
+    var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
+	alert(row);
+    $('#LBTindakanPelayananT_'+row+'_dokterpemeriksa1_id').val(item.pegawai_id);
+    $('#tampilanDokterPemeriksa_'+row).html("Dokter Pemeriksa : "+item.nama_pegawai);
+}
+
+function updateDokterPemeriksa1(value){
+	if(value == ''){
+		var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
+		$('#LBTindakanPelayananT_'+row+'_dokterpemeriksa1_id').val('');
+		$('#tampilanDokterPemeriksa_'+row).html('');
+	}
 }
 
 /**

@@ -3,7 +3,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogPemeriksaLengkap',
     'options'=>array(
-        'title'=>'Dokter Pemeriksa',
+        'title'=>'Dokter Pemeriksa asdasd',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>800,

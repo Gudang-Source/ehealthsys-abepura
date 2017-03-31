@@ -74,7 +74,7 @@
                 <div class="block-tabel">
                     <h6>Tabel <b>Pemeriksaan</b> <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-arrow-down icon-white"></i>')),array('class'=>'btn btn-mini btn-primary', 'type'=>'button',"onclick"=>"setCheckedPemeriksaanDariPermintaan();", 'rel'=>'tooltip', 'title'=>'Klik untuk menyalin dari tabel permintaan')); ?></h6>
                     <div id="form-tindakanpemeriksaan" style="">
-                        <table class="table table-condensed table-striped">
+                        <table class="table table-condensed table-striped" id="tblPeriksa">
                             <thead>
                                 <th>No.</th>
                                 <th>Nama Pemeriksaan</th>
