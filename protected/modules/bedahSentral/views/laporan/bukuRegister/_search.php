@@ -25,7 +25,7 @@
              <?php $format = new MyFormatter(); ?>
 
              <?php echo CHtml::hiddenField('type', ''); ?>
-             <?php echo CHtml::label('Tanggal Kunjungan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Periode Laporan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -137,6 +137,7 @@
                         <?php
                         $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
                             'id' => 'big',
+							'slide' => true,
 //                            'parent'=>false,
 //                            'disabled'=>true,
 //                            'accordion'=>false, //default
@@ -188,7 +189,7 @@
                             </tr><tr>
                         <td><label>Penjamin</label></td><td>' .
                                 $form->dropDownList($model, 'penjamin_id', CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>',
-                                'active' => false,
+                                'active' => true,
                             ),
                         ),
                     ));
@@ -199,9 +200,9 @@
         </tr>
     </table>
     <div class="form-actions">
-        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')),
+        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')),
                     array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan')); ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "'.Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.'').'";}); return false;'));  ?>
