@@ -6,13 +6,14 @@
         <div class="control-group" style="float:left;">
             <?php echo CHtml::activeLabel($modPemeriksaanRad, 'jenispemeriksaanrad_id',array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo CHtml::activeTextField($modPemeriksaanRad, 'jenispemeriksaanrad_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanRad();",)); ?>
+                <?php //echo CHtml::activeTextField($modPemeriksaanRad, 'jenispemeriksaanrad_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanRad();",)); ?>
+				<?php echo CHtml::activeDropDownList($modPemeriksaanRad, 'jenispemeriksaanrad_nama', CHtml::listData(JenispemeriksaanradM::model()->findAll("jenispemeriksaanrad_aktif = TRUE ORDER BY jenispemeriksaanrad_nama ASC"), 'jenispemeriksaanrad_nama', 'jenispemeriksaanrad_nama'),array("onchange"=>"updateChecklistPemeriksaanRad();" , 'empty' => '-- Pilih --')) ?>
             </div>
         </div>
         <div class="control-group" style="float:left;">
             <?php echo CHtml::activeLabel($modPemeriksaanRad, 'pemeriksaanrad_id',array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo CHtml::activeTextField($modPemeriksaanRad, 'pemeriksaanrad_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanRad();",)); ?>
+                <?php echo CHtml::activeTextField($modPemeriksaanRad, 'pemeriksaanrad_nama',array('class'=>'span3 custom-only','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanRad();",)); ?>
             </div>
         </div>
         <div style="float:right;">

@@ -191,7 +191,7 @@
                 </td>
                 <td>
                     <?php echo $form->dropDownListRow($modTarifRad,'kelaspelayanan_id',CHtml::listData($modTarifRad->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
-                    <?php echo $form->textFieldRow($modTarifRad,'daftartindakan_nama',array('style'=>'width:204px', 'onkeypress'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Ketik Nama Daftar Tindakan')); ?>
+                    <?php echo $form->textFieldRow($modTarifRad,'daftartindakan_nama',array('class' => 'custom-only','style'=>'width:204px', 'onkeypress'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Ketik Nama Daftar Tindakan')); ?>
                 </td>
             </tr>
         </table>

@@ -179,6 +179,12 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
 				if(!empty($this->ruangan_id)){
 					$criteria->addCondition("t.ruangan_id = ".$this->ruangan_id);					
 				}
+				if(!empty($this->ruanganasal_id)){
+					$criteria->addCondition("t.ruanganasal_id = ".$this->ruanganasal_id);					
+				}
+				if(!empty($this->instalasiasal_id)){
+					$criteria->addCondition("t.instalasiasal_id = ".$this->instalasiasal_id);					
+				}
                 $criteria->compare('LOWER(t.nama_pegawai)',($this->nama_pegawai));
                 $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
                 $criteria->compare('LOWER(t.pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);

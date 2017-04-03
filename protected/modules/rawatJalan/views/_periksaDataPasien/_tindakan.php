@@ -17,13 +17,24 @@ if (isset($caraPrint)){
     'columns'=>array( 
         array(
             'header'=>'Ruangan/Poliklinik',
-            'value'=>'$data->pendaftaran->ruangan->ruangan_nama',
+            'value'=>'$data->ruangan->ruangan_nama',
         ),
         'tgl_tindakan',
         'daftartindakan.kategoritindakan.kategoritindakan_nama',
         'daftartindakan.daftartindakan_nama',
-        'qty_tindakan',
-        'tarif_tindakan',
+		array(
+			'name'=>'qty_tindakan',
+			'htmlOptions'=>array(
+				'style'=>'text-align: right;',
+			),
+		),
+		array(
+			'name'=>'tarif_tindakan',
+			'value'=>'MyFormatter::formatNumberForPrint($data->tarif_tindakan)',
+			'htmlOptions'=>array(
+				'style'=>'text-align: right;',
+			),
+		),
         array(
             'header'=>'Keterangan',
             'value'=>'$data->keterangantindakan',

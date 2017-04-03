@@ -61,7 +61,7 @@
 
                                         ),
                                         'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)", 
-                                                                                    'class'=>'span3',
+                                                                                    'class'=>'span3 hurufs-only',
                                                                                     'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($model, 'pegawai_id').'").val("");setDataPasien(); '),
                                         'tombolDialog'=>array('idDialog'=>'dialogDokter','idTombol'=>'tombolDialogDokter'),
                             )); ?>

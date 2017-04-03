@@ -123,7 +123,7 @@ class RinciantagihanpasienpenunjangVController extends MyAuthController
                 $mpdf->WriteHTML($style, 1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('laboratorium.views.rinciantagihanpasienpenunjangV.rincian',array('modPenunjang'=>$modPenunjang,'modPendaftaran'=>$modPendaftaran, 'modRincian'=>$modRincian, 'data'=>$data, 'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($data['judulLaporan'].'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }

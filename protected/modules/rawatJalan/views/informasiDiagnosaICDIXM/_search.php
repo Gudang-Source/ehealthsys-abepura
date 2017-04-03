@@ -4,7 +4,7 @@
             <div class="control-group ">
                 <?php echo CHtml::activeLabel($model,'diagnosaicdix_kode', array('class'=>'control-label')) ?>
                 <div class="controls">
-                    <?php echo $form->textField($model,'diagnosaicdix_kode',array('placeholder'=>'Ketik Kode Diagnosa', 'class'=>'span3','maxlength'=>10)); ?>
+                    <?php echo $form->textField($model,'diagnosaicdix_kode',array('placeholder'=>'Ketik Kode Diagnosa', 'class'=>'span3 angkadot-only','maxlength'=>10)); ?>
                 </div>
             </div>
         </td>
@@ -12,7 +12,7 @@
             <div class="control-group ">
                 <?php echo CHtml::activeLabel($model,'diagnosaicdix_nama', array('class'=>'control-label')) ?>
                 <div class="controls">
-                    <?php echo $form->textField($model,'diagnosaicdix_nama',array('placeholder'=>'Ketik Nama Diagnosa', 'class'=>'span3','maxlength'=>50)); ?>
+                    <?php echo $form->textField($model,'diagnosaicdix_nama',array('placeholder'=>'Ketik Nama Diagnosa', 'class'=>'span3 custom-only','maxlength'=>50)); ?>
                 </div>
             </div>
         </td>
