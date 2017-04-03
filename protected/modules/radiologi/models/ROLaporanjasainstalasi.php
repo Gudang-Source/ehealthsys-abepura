@@ -2,9 +2,11 @@
 
 class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
     
-    public $tgl_awal;
-    public $tgl_akhir;
+    public $tgl_awal, $bln_awal, $thn_awal;
+    public $tgl_akhir, $bln_akhir, $thn_akhir;
     public $subtotal;
+	public $jns_periode;
+	public $data, $tick, $jumlah;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
