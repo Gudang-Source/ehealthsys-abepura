@@ -21,7 +21,14 @@
                     'pointLabels'=>array( 'show'=> true ),
                     ),
             'animate'=>true,
-            'axes'=>array(
+             'axesDefaults'=>array(
+                'tickRenderer'=> 'js:$.jqplot.CanvasAxisTickRenderer',
+                'tickOptions'=>array(
+                  'angle'=> -30,
+                  'fontSize'=> '10pt'
+                ),
+            ),
+			'axes'=>array(
                 'xaxis'=>array(
                     'renderer'=> 'js:$.jqplot.CategoryAxisRenderer',
                     'width'=>10,
