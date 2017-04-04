@@ -2,7 +2,8 @@
 
 class BSBukuregisterpenunjangV extends BukuregisterpenunjangV {
 
-    public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
+    //public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
+	
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -28,7 +29,40 @@ class BSBukuregisterpenunjangV extends BukuregisterpenunjangV {
     public static function criteriaGrafik($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
         $criteria->select = 'count(pendaftaran_id) as jumlah';
-        if ($_GET['filter'] == 'carabayar') {
+				
+		if ($_GET['tampilGrafik'] == 'instalasiasal'){
+			$criteria->select .= ', instalasiasal_nama as '.$type;
+			$criteria->group .= 'instalasiasal_nama';
+		}elseif ($_GET['tampilGrafik'] == 'ruanganasal'){
+			$criteria->select .= ', ruanganasal_nama as '.$type;
+			$criteria->group .= 'ruanganasal_nama';
+		}elseif ($_GET['tampilGrafik'] == 'wilayah'){
+			
+			if (!empty($model->kelurahan_id)){
+				$criteria->select .= ', kecamatan_nama as '.$type;
+				$criteria->group .= 'kecamatan_nama';
+			}elseif (!empty($model->kecamatan_id)){
+				$criteria->select .= ', kecamatan_nama as '.$type;
+				$criteria->group .= 'kecamatan_nama';
+			}elseif (!empty($model->kabupaten_id)){
+				$criteria->select .= ', kabupaten_nama as '.$type;
+				$criteria->group .= 'kabupaten_nama';
+			}elseif (!empty($model->propinsi_id)){
+				$criteria->select .= ', propinsi_nama as '.$type;
+				$criteria->group .= 'propinsi_nama';
+			}else{
+				$criteria->select .= ', propinsi_nama as '.$type;
+				$criteria->group .= 'propinsi_nama';
+			}	
+		}elseif ($_GET['tampilGrafik'] == 'carabayar'){
+			$criteria->select .= ', carabayar_nama as '.$type;
+			$criteria->group .= 'carabayar_nama';
+		}elseif ($_GET['tampilGrafik'] == 'penjamin'){
+			$criteria->select .= ', penjamin_nama as '.$type;
+			$criteria->group .= 'penjamin_nama';
+		}
+		
+        /*if ($_GET['filter'] == 'carabayar') {
             if (!empty($model->penjamin_id)) {
                 $criteria->select .= ', penjamin_nama as '.$type;
                 $criteria->group .= 'penjamin_nama';
@@ -70,7 +104,7 @@ class BSBukuregisterpenunjangV extends BukuregisterpenunjangV {
                     $criteria->select .= ','.$v.' as '.$i;
                 }
             }            
-        }
+        }*/
 
         return $criteria;
     }
@@ -107,6 +141,14 @@ class BSBukuregisterpenunjangV extends BukuregisterpenunjangV {
 		}
         $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
+		
+		if (!empty($this->ruanganasal_id)){
+			$criteria->addInCondition(" ruanganasal_id = '".$this->ruanganasal_id."' ");
+		}else{
+			if (!empty($this->instalasiasal_id)){
+				$criteria->addCondition(" instalasiasal_id = '".$this->instalasiasal_id."' ");
+			}
+		}
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -173,10 +215,14 @@ class BSBukuregisterpenunjangV extends BukuregisterpenunjangV {
 		if(!empty($this->shift_id)){
 			$criteria->addCondition('shift_id = '.$this->shift_id);
 		}
-		if(!empty($this->ruanganasal_id)){
-			$criteria->addCondition('ruanganasal_id = '.$this->ruanganasal_id);
+		if (!empty($this->ruanganasal_id)){
+			$criteria->addInCondition(" ruanganasal_id = '".$this->ruanganasal_id."' ");
+		}else{
+			if (!empty($this->instalasiasal_id)){
+				$criteria->addCondition(" instalasiasal_id = '".$this->instalasiasal_id."' ");
+			}
 		}
-        $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
+		
 		if(!empty($this->jeniskasuspenyakit_id)){
 			$criteria->addCondition('jeniskasuspenyakit_id = '.$this->jeniskasuspenyakit_id);
 		}		
@@ -191,10 +237,7 @@ class BSBukuregisterpenunjangV extends BukuregisterpenunjangV {
         $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->compare('LOWER(ruanganpenunj_nama)', strtolower($this->ruanganpenunj_nama), true);
-		if(!empty($this->instalasiasal_id)){
-			$criteria->addCondition('instalasiasal_id = '.$this->instalasiasal_id);
-		}
-        $criteria->compare('LOWER(instalasiasal_nama)', strtolower($this->instalasiasal_nama), true);
+		
 		if(!empty($this->pasienadmisi_id)){
 			$criteria->addCondition('pasienadmisi_id = '.$this->pasienadmisi_id);
 		}
