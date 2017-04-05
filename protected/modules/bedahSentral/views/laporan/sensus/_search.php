@@ -1,3 +1,18 @@
+<?php
+            Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/dropCheck.css');
+                   
+        ?>
+<style>
+	.summary{
+		font-weight: normal;
+	}
+	.pagination{
+		font-weight: normal;
+	}
+	.nav nav-tabs{
+		font-weight: normal;
+	}
+</style>
 <legend class="rim"><i class="icon-search icon-white"></i> Pencarian</legend>
 <div class="search-form" style="">
     <?php
@@ -139,47 +154,47 @@
             <td width="50%">
                 <div id='searching'>
                     <fieldset>
-                       <?php
-                        $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
-                            'id' => 'big',
-//                                    'parent'=>false,
-//                                    'disabled'=>true,
-//                                    'accordion'=>false, //default
-                            'content' => array(
-                                'content1' => array(
-                                    'header' => 'Berdasarkan Instalasi Asal',
-                                    'isi' => '<table id="jeniss"><tr><td>' . $form->hiddenField($model, 'pilihan', array('value' => 'instalasi', 'disabled' => 'disabled'))
-                                    . '<label>Instalasi</label></td><td>'
-                                    . $form->dropDownList($model, 'instalasiasal_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                        'ajax' => array('type' => 'POST',
-                                            'url' => Yii::app()->createUrl('ActionDynamic/GetRuanganAsalForCheckBox', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
-                                            'update' => '.ruangan', //selector to update
-                                        )
-                                    ))
-                                    . '</td></tr><tr><td><label>Ruangan</label></td><td>
-                                            <div class="ruangan"><label>data tidak ditemukan</label></div>
-                                            </td></tr></table>',
-                                    'active' => true,
-                                ),
-                                'content2' => array(
-                                    'header' => 'Berdasarkan Cara Bayar',
-                                    'isi' => '<table><tr>
-                                                    <td>' . $form->hiddenField($model, 'pilihan', array('value' => 'carabayar', 'disabled' => 'disabled')) . '<label>Cara Bayar</label></td>
-                                                    <td>' . $form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                        'ajax' => array('type' => 'POST',
-                                            'url' => Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
-                                            'update' => '#' . CHtml::activeId($model, 'penjamin_id') . '', //selector to update
-                                        ),
-                                    )) . '</td>
-                                                        </tr><tr>
-                                                    <td><label>Penjamin</label></td><td>' .
-                                    $form->dropDownList($model, 'penjamin_id', CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>',
-                                    'active' => true
-                                ),
+                      <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'big1',
+                            'slide'=>true,
+                            'content'=>array(
+                                    'content9'=>array(
+                                    'header'=>'Berdasarkan Instalasi dan Ruangan',
+                                    'isi'=>'<table>
+                                                            <tr>
+                                                                    <td>'.CHtml::hiddenField('filter', 'carabayar', array('disabled'=>'disabled')).'<label>Instalasi</label></td>
+                                                                    <td>'.$form->dropDownList($model, 'instalasiasal_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                                                            'ajax' => array('type' => 'POST',
+                                                                                    'url' => $this->createUrl('/ActionDynamic/GetRuangAslForDropCheck/', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
+                                                                                    'update' => '#checkboxes3',  //selector to update
+                                                                            ),
+                                                                    )).'
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                    <td>
+                                                                            <label>Ruangan</label>
+                                                                    </td>
+                                                                    <td>
+                                                                            <div class="multiselect" id="multiselect3">
+                                                                            <div class="selectBox" onclick="showCheckboxes3();">
+                                                                                <select id = "dropRuangan">
+                                                                                    <option>-- Pilih --</option>
+                                                                                </select>
+                                                                                <div class="overSelect"></div>
+                                                                            </div>
+                                                                            <div class="checkboxes" id="checkboxes3">
+                                                                               '.$form->checkBoxList($model, 'ruanganasal_id', array(), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)).'
+                                                                            </div>
+                                                                    </td>
+                                                            </tr>
+                                                     </table>',
+                                     'active'=>true
+                                    ),
                             ),
 //                                    'htmlOptions'=>array('class'=>'aw',)
-                        ));
-                        ?>
+                    )); ?>
+			</td>			
                     </fieldset>
                 </div>
             </td>
@@ -202,14 +217,70 @@
                         ?> 
             </td>
         </tr>
+		<tr>
+			<td>
+				  <?php
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
+                        'id' => 'kunjungan',
+                        'slide' => true,
+                        'content' => array(
+                            'content2' => array(
+                                'header' => 'Berdasarkan Cara Bayar',
+                                'isi' => '<table><tr>
+                        <td>' . CHtml::hiddenField('filter', 'carabayar', array('disabled' => 'disabled')) . '<label>Cara Bayar</label></td>
+                        <td>' . $form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                    'ajax' => array('type' => 'POST',
+                                        'url' => Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
+                                        'update' => '#' . CHtml::activeId($model, 'penjamin_id') . '', //selector to update
+                                    ),
+                                )) . '</td>
+                            </tr><tr>
+                        <td><label>Penjamin</label></td><td>' .
+                                $form->dropDownList($model, 'penjamin_id', CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>',
+                                'active' => true,
+                            ),
+                        ),
+                    ));
+                    ?>
+			</td>			
+				<td>
+				 <?php 
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'kunjungan5',
+                        'slide'=>false,
+                        'content'=>array(
+                        'content5'=>array(
+                            'header'=>'Opsi Grafik',
+                            'isi'=>  '<table>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'instalasiasal')).' <label>Instalasi Asal</label></td>                                               
+											<td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'ruanganasal')).' <label>Ruangan Asal</label></td>                                               
+                                        </tr>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'kunjungan')).' <label>Kunjungan</label></td>                                                                                            
+											<td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                                                                            
+                                        </tr>
+										<tr>                                            
+											<td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'penjamin')).' <label>Penjamin</label></td>                                                                                            
+                                        </tr>
+                                    </table>',          
+                            'active'=>TRUE,
+                                ),
+                        ),
+    //                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>	
+			</td>
+				 
+		</tr>
+	
     </table>
             
     <div class="form-actions">
         <?php
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
         ?>
         <?php
-        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . ''), array('class' => 'btn btn-danger',
+        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="entypo-arrows-ccw"></i>')), Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . ''), array('class' => 'btn btn-danger',
             'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . '') . '";}); return false;'));
         ?>
     </div>
@@ -227,3 +298,42 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
     }
 </script>
 <?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
+<script>
+    function showCheckboxes3() {
+        $("#multiselect3").find("#checkboxes3").slideToggle('fast');
+    }
+    
+    $(document).bind('click', function(e) {
+        var $clicked = $(e.target);
+        if (!$clicked.parents().hasClass("multiselect")){                     
+            $("#checkboxes3").hide();    
+        }
+     });
+	 
+	 function checkAll() {
+        if ($("#checkAllInstalasi").is(":checked")) {
+            $('#instalasi input[name*="ruanganasal_id"]').each(function () {
+                $(this).attr('checked', true);
+            })
+//        myAlert('Checked');
+        } else {
+            $('#instalasi input[name*="ruanganasal_id"]').each(function () {
+                $(this).removeAttr('checked');
+            })
+        }
+        
+        
+        if($('#checkAllRuangan').is(':checked')){
+           $('#searchLaporan input[name*="ruanganasal_id"]').each(function(){
+                $(this).attr('checked',true);
+           });
+        }else{
+             $('#searchLaporan input[name*="ruanganasal_id"]').each(function(){
+                $(this).removeAttr('checked');
+           });
+        }
+    }
+    
+    checkAll();
+    
+</script>
