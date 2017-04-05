@@ -96,6 +96,10 @@ if (isset($caraPrint)){
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: left')
             ), 
+			array(
+				'header'=>'Kunjungan',
+				'name' => 'kunjungan'
+			),
 //            array(
 //                'header'=>'Jenis Pemeriksaan',
 //                'type'=>'raw',

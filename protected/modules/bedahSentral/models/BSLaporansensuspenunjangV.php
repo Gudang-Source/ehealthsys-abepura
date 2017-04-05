@@ -33,9 +33,13 @@ class BSLaporansensuspenunjangV extends LaporansensuspenunjangV {
         }
 
       //  if(!empty($this->ruanganasal_id)){
-            if (is_array($this->ruanganasal_id)){
+            if (!empty($this->ruanganasal_id)){
                 $criteria->addInCondition('ruanganasal_id',$this->ruanganasal_id);
-            }                
+			}else{
+				if (!empty($this->instalasiasal_id)){
+					$criteria->addCondition("instalasiasal_id = '".$this->instalasiasal_id."' ");
+				}
+			}
       //  }
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
 
@@ -65,35 +69,24 @@ class BSLaporansensuspenunjangV extends LaporansensuspenunjangV {
         $criteria = new CDbCriteria();
         
         $criteria = $this->functionCriteria();
+		$criteria->select = 'count(pendaftaran_id) as jumlah';
         
-        $criteria->select = 'count(tglmasukpenunjang) as jumlah, kunjungan as data';
-        $criteria->group = 'kunjungan';
-        if ($this->pilihan == 'carabayar'){
-            if (!empty($this->penjamin_id)) {
-                $criteria->select .= ', penjamin_nama as tick';
-                $criteria->group .= ', penjamin_nama';
-            } else if (!empty($this->carabayar_id)) {
-                $criteria->select .= ', penjamin_nama as tick';
-                $criteria->group .= ', penjamin_nama';
-            } else {
-                $criteria->select .= ', carabayar_nama as tick';
-                $criteria->group .= ', carabayar_nama';
-            }
-        }
-        else{
-            if (is_array($this->ruanganasal_id)){
-                $criteria->select .= ', ruanganasal_nama as tick';
-                $criteria->group .= ', ruanganasal_nama';
-            }
-            else if (!empty($this->instalasiasal_id)){
-                $criteria->select .= ', ruanganasal_nama as tick';
-                $criteria->group .= ', ruanganasal_nama';
-            }
-            else {
-                $criteria->select .= ', instalasiasal_nama as tick';
-                $criteria->group .= ', instalasiasal_nama';
-            }
-        }
+        if ($_GET['tampilGrafik'] == 'instalasiasal'){
+			$criteria->select .= ', instalasiasal_nama as data';
+			$criteria->group .= 'instalasiasal_nama';
+		}elseif ($_GET['tampilGrafik'] == 'ruanganasal'){
+			$criteria->select .= ', ruanganasal_nama as data';
+			$criteria->group .= 'ruanganasal_nama';
+		}elseif ($_GET['tampilGrafik'] == 'carabayar'){
+			$criteria->select .= ', carabayar_nama as data';
+			$criteria->group .= 'carabayar_nama';
+		}elseif ($_GET['tampilGrafik'] == 'penjamin'){
+			$criteria->select .= ', penjamin_nama as data';
+			$criteria->group .= 'penjamin_nama';
+		}elseif ($_GET['tampilGrafik'] == 'kunjungan'){
+			$criteria->select .= ', kunjungan as data';
+			$criteria->group .= 'kunjungan';
+		}
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
