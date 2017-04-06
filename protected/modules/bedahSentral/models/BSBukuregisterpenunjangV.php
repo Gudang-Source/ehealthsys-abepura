@@ -143,7 +143,7 @@ class BSBukuregisterpenunjangV extends BukuregisterpenunjangV {
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
 		
 		if (!empty($this->ruanganasal_id)){
-			$criteria->addInCondition(" ruanganasal_id = '".$this->ruanganasal_id."' ");
+			$criteria->addInCondition("ruanganasal_id",$this->ruanganasal_id);
 		}else{
 			if (!empty($this->instalasiasal_id)){
 				$criteria->addCondition(" instalasiasal_id = '".$this->instalasiasal_id."' ");
@@ -216,7 +216,7 @@ class BSBukuregisterpenunjangV extends BukuregisterpenunjangV {
 			$criteria->addCondition('shift_id = '.$this->shift_id);
 		}
 		if (!empty($this->ruanganasal_id)){
-			$criteria->addInCondition(" ruanganasal_id = '".$this->ruanganasal_id."' ");
+			$criteria->addInCondition("ruanganasal_id",$this->ruanganasal_id);
 		}else{
 			if (!empty($this->instalasiasal_id)){
 				$criteria->addCondition(" instalasiasal_id = '".$this->instalasiasal_id."' ");
