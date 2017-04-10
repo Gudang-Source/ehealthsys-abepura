@@ -1,6 +1,6 @@
 <?php 
 	$itemCssClass = 'table table-striped table-condensed';
-    $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+    $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
     $sort = true;
 	$row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
     if (isset($caraPrint)){
@@ -52,18 +52,18 @@
 	'dataProvider'=>$data,
         'template'=>$template,
         'enableSorting'=>$sort,
-        'mergeHeaders'=>array(
-            array(
-                'name'=>'<center>Tindakan</center>',
-                'start'=>7, //indeks kolom 3
-                'end'=>14, //indeks kolom 4
-            ),
+    //    'mergeHeaders'=>array(
+        //    array(
+        //        'name'=>'<center>Tindakan</center>',
+        //        'start'=>7, //indeks kolom 3
+       //         'end'=>14, //indeks kolom 4
+        //    ),
            // array(
            //    'name'=>'<center>Karcis</center>',
           //      'start'=>13, //indeks kolom 3
           //      'end'=>16, //indeks kolom 4
           //  ),
-        ),
+      //  ),
         'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                 array(
@@ -129,10 +129,11 @@
 //                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
 //                ),
                 array(
-                    'header' => 'Daftar Tindakan',
+                    'header' => 'Nama Tindakan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->daftartindakan_nama : \'\'',
-					'footer' => ' ',					
+					'footer' => '<b>Total</b>',	
+					'footerHtmlOptions' => array('style'=>'text-align:right;'),					
                 ),
                 array(
                     'header'=> 'Jumlah Tindakan',
@@ -140,9 +141,10 @@
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->qty_tindakan : \'\'',
 					'htmlOptions' => array('style' => 'text-align:right;'),
-					'footer' => ' ',					
+					'footer' => 'sum(qty_tindakan)',	
+					'footerHtmlOptions' => array('style'=>'text-align:right;'),
                 ),
-                array(
+           /*     array(
                     'name' => 'tarif_rsakomodasi',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_rsakomodasi,0,"",".") : \'\'',
@@ -193,7 +195,7 @@
 					'htmlOptions' => array('style' => 'text-align:right;'),
 					'footer' => 'sum(tarif_tindakan)',
 					'footerHtmlOptions' => array('style' => 'text-align:right;')
-                ),
+                ),*/
              /*   array(
                     'name' => 'karcisnama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),

@@ -198,9 +198,9 @@
                     </fieldset>
                 </div>
             </td>
-            <td>
+          
                   <?php
-                        $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
+                    /*    $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
                             'id' => 'big',
                             //                                    'disabled'=>true,
                             'content' => array(
@@ -213,11 +213,9 @@
                                     'active' => true,
                                 ),),
                                 //                                    'htmlOptions'=>array('class'=>'aw',)
-                        ));
+                        ));*/
                         ?> 
-            </td>
-        </tr>
-		<tr>
+          
 			<td>
 				  <?php
                     $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
@@ -243,6 +241,9 @@
                     ));
                     ?>
 			</td>			
+        </tr>
+		<tr>
+			
 				<td>
 				 <?php 
                     $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
@@ -257,12 +258,10 @@
 											<td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'ruanganasal')).' <label>Ruangan Asal</label></td>                                               
                                         </tr>
                                         <tr>
-                                            <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'kunjungan')).' <label>Kunjungan</label></td>                                                                                            
+                                            <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'penjamin')).' <label>Penjamin</label></td>   
 											<td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                                                                            
                                         </tr>
-										<tr>                                            
-											<td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'penjamin')).' <label>Penjamin</label></td>                                                                                            
-                                        </tr>
+										
                                     </table>',          
                             'active'=>TRUE,
                                 ),

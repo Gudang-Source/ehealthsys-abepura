@@ -56,12 +56,16 @@ if (isset($caraPrint)){
                 'value' => $row
             ),
 			array(
-				'header' => 'Tanggal/ No Pendaftaran',
-				'type' => 'raw',
-				'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/> ".$data->no_pendaftaran'
+				'header' => 'Tanggal Pendaftaran',
+				'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)'
 			),
 			array(
-                'header'=>'Tanggal/<br/> No Masuk Penunjang',
+				'header' => 'No Pendaftaran',
+				'type' => 'raw',
+				'value' => '$data->no_pendaftaran'
+			),
+			array(
+                'header'=>'Tanggal Masuk Penunjang/<br/> No Masuk Penunjang',
                 'type'=>'raw',
                 'value' => 'MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)."/<br/> ".$data->no_masukpenunjang'
             ),
@@ -81,12 +85,12 @@ if (isset($caraPrint)){
                 'value'=>'$data->jeniskelamin."/<br/>".$data->umur',
             ),
             array(
-                'header'=>'Alamat <br/>RT/RW',
+                'header'=>'Alamat',
                 'type'=>'raw',
-                'value'=>'$data->AlamatRTRW',
+                'value'=>'$data->alamat_pasien',
             ),
             array(
-                'header'=>'Instalasi/<br/> Ruangan Asal',
+                'header'=>'Instalasi Asal/<br/> Ruangan Asal',
                 'type'=>'raw',
                 'value'=>'$data->InstalasiRuangan',
             ),
@@ -96,10 +100,10 @@ if (isset($caraPrint)){
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: left')
             ), 
-			array(
-				'header'=>'Kunjungan',
-				'name' => 'kunjungan'
-			),
+		//array(
+		//		'header'=>'Kunjungan',
+		//		'name' => 'kunjungan'
+		//	),
 //            array(
 //                'header'=>'Jenis Pemeriksaan',
 //                'type'=>'raw',
