@@ -1071,6 +1071,15 @@ Class Params
             
         }
 		
+		public static function getArrayInstalasiPelayanan() {
+            return  array(Params::INSTALASI_ID_RJ,//frawat jalan
+					Params::INSTALASI_ID_RI,//rawat inap
+					Params::INSTALASI_ID_RD,//rawat darurat
+					Params::INSTALASI_ID_RM,//rehab medis
+                    );//gizi
+            
+        }
+		
         public static function getUmur($tglLahir) {
                 $dob=$tglLahir; $today=date("Y-m-d");
                 list($y,$m,$d)=explode('-',$dob);
