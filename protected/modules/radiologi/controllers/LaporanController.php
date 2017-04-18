@@ -1285,6 +1285,8 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
+		$tindakan = array('sudah', 'belum');
+        $model->tindakansudahbayar_id = $tindakan;
         if (isset($_GET['ROLaporanrekaptransaksi'])) {
             $model->attributes = $_GET['ROLaporanrekaptransaksi'];
             $model->jns_periode = $_GET['ROLaporanrekaptransaksi']['jns_periode'];
@@ -1303,7 +1305,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
-            $model->status = $_GET['ROLaporanrekaptransaksi']['status'];
+          // $model->status = $_GET['ROLaporanrekaptransaksi']['status'];
         }
          $searchdata = $model->searchLapPembayaPeriksaRADGrafik();
         $this->render('pembayaranPemeriksaanRAD/admin',array(
@@ -1391,7 +1393,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
-            $model->status = $_GET['ROLaporanrekaptransaksi']['status'];
+          //  $model->status = $_GET['ROLaporanrekaptransaksi']['status'];
         }
         $searchdata = $model->searchLapPemeriksaanRujukRADGrafik();
         $this->render('_grafik', array(
