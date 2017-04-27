@@ -54,6 +54,8 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
             $criteria->select = "count(t.pendaftaran_id) as jumlah, (CONCAT(p.gelardepan, ' ', p.nama_pegawai,' ',gb.gelarbelakang_nama) ) as data";
             $criteria->group = 'data';
         }
+		
+		$criteria->order = 'jumlah DESC';
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -71,6 +73,9 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
 //                case when daftartindakan_karcis = true then tarif_rsakomodasi else 0 end as karcisrs, 
 //                case when daftartindakan_karcis = true then tarif_medis else 0 end as karcisMedis, 
 //                tgl_pendaftaran, ruangan_id, carabayar_id, carabayar_nama, penjamin_id, penjamin_nama';
+		$criteria->join = " JOIN tindakanpelayanan_t tp ON t.tindakanpelayanan_id = tp.tindakanpelayanan_id "
+                        . " JOIN pegawai_m p ON p.pegawai_id = tp.dokterpemeriksa1_id "
+                        . " LEFT JOIN gelarbelakang_m gb ON p.gelarbelakang_id = gb.gelarbelakang_id ";
         $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
@@ -134,7 +139,7 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
 			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);					
 		}
         $criteria->compare('LOWER(instalasi_nama)', strtolower($this->instalasi_nama), true);
-        $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+        $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(tgl_tindakan)', strtolower($this->tgl_tindakan), true);
 		if(!empty($this->daftartindakan_id)){
@@ -175,10 +180,10 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
             $status = array();
             foreach ($this->tindakansudahbayar_id as $i=>$v){
                 if ($v == 1){
-                    $status[] = 'tindakansudahbayar_id is not null';
+                    $status[] = 't.tindakansudahbayar_id is not null';
                 }
                 else{
-                    $status[] = 'tindakansudahbayar_id is null';
+                    $status[] = 't.tindakansudahbayar_id is null';
                 }
             }
             $criteria->addCondition('('.implode(' or ',$status).')');

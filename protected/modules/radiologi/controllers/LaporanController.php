@@ -950,6 +950,7 @@ class LaporanController extends MyAuthController {
 
     public function actionPrintLaporanPendapatanRuangan() {
         $model = new ROLaporanpendapatanruanganV('search');
+		$format = new MyFormatter();      
 		$model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
@@ -991,6 +992,7 @@ class LaporanController extends MyAuthController {
     public function actionFrameGrafikLaporanPendapatanRuangan() {
         $this->layout = '//layouts/iframe';
         $model = new ROLaporanpendapatanruanganV('search');
+		$format = new MyFormatter();
         $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
