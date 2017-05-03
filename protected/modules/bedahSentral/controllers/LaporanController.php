@@ -436,10 +436,10 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $judulLaporan = 'Laporan Info Pemakai Obat Alkes Bedah Sentral';
+        $judulLaporan = 'Laporan Pemakaian Obat & Alkes Bedah Sentral';
 
         //Data Grafik       
-        $data['title'] = 'Grafik Laporan Pemakai Obat Alkes Bedah Sentral';
+        $data['title'] = 'Grafik Laporan Pemakaian Obat & Alkes Bedah Sentral';
         $data['type'] = $_REQUEST['type'];
         if (isset($_REQUEST['BSLaporanpemakaiobatalkesruanganV'])) {
             $model->attributes = $_REQUEST['BSLaporanpemakaiobatalkesruanganV'];
@@ -484,7 +484,7 @@ class LaporanController extends MyAuthController {
         $model->thn_akhir = date('Y');
 
         //Data Grafik
-        $data['title'] = 'Grafik Laporan Pemakai Obat Alkes Bedah Sentral';
+        $data['title'] = 'Grafik Laporan Pemakaian Obat & Alkes Bedah Sentral';
         $data['type'] = $_GET['type'];
         if (isset($_GET['BSLaporanpemakaiobatalkesruanganV'])) {
             $model->attributes = $_GET['BSLaporanpemakaiobatalkesruanganV'];
@@ -657,8 +657,8 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $penjamin = CHtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE'),'penjamin_id', 'penjamin_id');
-        $model->penjamin_id = $penjamin;
+      //  $penjamin = CHtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE'),'penjamin_id', 'penjamin_id');
+        //$model->penjamin_id = $penjamin;
         $kelas = CHtml::listData(KelaspelayananM::model()->findAll(), 'kelaspelayanan_id', 'kelaspelayanan_id');
         $model->kelaspelayanan_id = $kelas;
         if (isset($_GET['BSLaporanbiayapelayanan'])) {

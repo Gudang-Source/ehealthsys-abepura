@@ -46,6 +46,7 @@ if (isset($caraPrint)){
 //            'carabayarPenjamin',
             array(
                 'header'=>'Cara Bayar Penjamin',
+				 'type'=>'raw',
                 'value'=>'$data->carabayarPenjamin',
             ),
             array(

@@ -95,15 +95,17 @@ class BSLaporanbiayapelayanan extends LaporanbiayapelayananV{
         $criteria->select = 'pendaftaran_id, ruangan_id, tgl_pendaftaran, no_rekam_medik, nama_pasien, nama_bin, jeniskelamin, umur, no_pendaftaran, jeniskasuspenyakit_nama, kelaspelayanan_nama, kelaspelayanan_id, carabayar_nama, penjamin_nama, penjamin_id, carabayar_id, sum(tarif_tindakan) as total, sum(iurbiaya_tindakan) as iurbiaya';
         $criteria->group = 'pendaftaran_id, ruangan_id, tgl_pendaftaran, no_rekam_medik, nama_pasien, nama_bin, jeniskelamin, umur, no_pendaftaran, jeniskasuspenyakit_nama, kelaspelayanan_nama, kelaspelayanan_id, carabayar_nama, penjamin_nama, penjamin_id, carabayar_id';
 
-        if (is_array($this->penjamin_id)){
-            $criteria->addInCondition('penjamin_id', $this->penjamin_id);
+        if (!empty($this->penjamin_id)){
+            $criteria->addCondition('penjamin_id ='.$this->penjamin_id);
         }else{
-            $criteria->addCondition('penjamin_id is null');
+			if (!empty($this->carabayar_id)){
+				$criteria->addCondition('carabayar_id ='.$this->carabayar_id);
+			}
         }
         if (is_array($this->kelaspelayanan_id)){
             $criteria->addInCondition('kelaspelayanan_id', $this->kelaspelayanan_id);
         }else{
-            $criteria->addCondition('kelaspelayanan_id is null');
+            //$criteria->addCondition('kelaspelayanan_id is null');
         }
         $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
 

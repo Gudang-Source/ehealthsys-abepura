@@ -21,7 +21,7 @@
     <div class="row-fluid">
         <div class="span4">
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Pemakaian', 'tglpelayanan', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tglpelayanan', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -138,7 +138,7 @@
                                 'content2'=>array(
                                     'header'=>'Berdasarkan Jenis Obat',
                                     'isi'=>'<table><tr>      
-                                                <td>'.CHtml::checkBox('checkAllJenis', false, array('onkeypress' => "return $(this).focusNextInputField(event)",
+                                                <td>'.CHtml::checkBox('checkAllJenis', true, array('onkeypress' => "return $(this).focusNextInputField(event)",
                                                         'class' => 'checkbox-column', 'onclick' => 'checkAll()', 'checked' => 'checked')).' Pilih Semua<td></tr></table>
                                                 <table id="tindak_lanjut_tbl">
 						<tr>
@@ -158,9 +158,9 @@
         </table>
    
     <div class="form-actions">
-        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')),
+        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')),
                 array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan')); ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "'.Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.'').'";}); return false;'));  ?>

@@ -33,7 +33,7 @@
     <div class="row-fluid">
          <div class="span4">
              <?php echo CHtml::hiddenField('type', ''); ?>
-             <?php echo CHtml::label('Tanggal Pelayanan', 'tglkunjungan', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Periode Laporan', 'tglkunjungan', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -166,39 +166,31 @@
                 <td>
                      <div id='searching'>
                     <fieldset>    
-                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-                            'id'=>'kunjungan2',
-                            'slide'=>true,
-                            'content'=>array(
-                            'content1'=>array(
-                                'header'=>'Berdasarkan Cara Bayar',
-                                'isi'=>  '<table>
-                                            <tr>
-                                                <td>'.CHtml::hiddenField('filter', 'carabayar', array('disabled'=>'disabled')).'<label>Cara&nbsp;Bayar</label></td>
-                                                <td>'.$form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
-                                                    'ajax' => array('type' => 'POST',
-                                                        'url' => $this->createUrl('/ActionDynamic/GetPenjaminPasienForCheckBox', array('encode' => false, 'namaModel' => ''.$model->getNamaModel().'')),
-                                                        'update' => '#penjamin',  //selector to update
-                                                    ),
-                                                )).'
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label>Penjamin</label>
-                                                </td>
-                                                <td>
-                                                   <div id="penjamin">
-                                                           <label> Data belum ditemukan </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>',          
-                                'active'=>false,
+                       <fieldset>
+                    <?php
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
+                        'id' => 'kunjungana',
+                        'slide' => true,
+                        'content' => array(
+                            'content22' => array(
+                                'header' => 'Berdasarkan Cara Bayar',
+                                'isi' => '<table><tr>
+                        <td>' . CHtml::hiddenField('filter', 'carabayar', array('disabled' => 'disabled')) . '<label>Cara Bayar</label></td>
+                        <td>' . $form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                    'ajax' => array('type' => 'POST',
+                                        'url' => Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
+                                        'update' => '#' . CHtml::activeId($model, 'penjamin_id') . '', //selector to update
                                     ),
+                                )) . '</td>
+                            </tr><tr>
+                        <td><label>Penjamin</label></td><td>' .
+                                $form->dropDownList($model, 'penjamin_id', CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>',
+                                'active' => true,
                             ),
-        //                                    'htmlOptions'=>array('class'=>'aw',)
-                            )); ?>											
+                        ),
+                    ));
+                    ?>
+                </fieldset>									
                     </fieldset>	
                     </div>      
                 </td>
@@ -206,11 +198,11 @@
             </table>
             
     <div class="form-actions">
-        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan', 'onclick' => 'pilihPencarian();'));
+        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan', 'onclick' => 'pilihPencarian();'));
             echo "&nbsp;";
         ?>
         <?php
-        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . ''), array('class' => 'btn btn-danger',
+        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="entypo-arrows-ccw"></i>')), Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . ''), array('class' => 'btn btn-danger',
             'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . Yii::app()->createUrl($this->module->id . '/' . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id . '') . '";}); return false;'));
         ?>
     </div>   
