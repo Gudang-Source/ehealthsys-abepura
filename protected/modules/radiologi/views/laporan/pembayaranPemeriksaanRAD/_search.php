@@ -22,7 +22,7 @@
                     <div class="row-fluid">
                         <div class="span4">
                             <?php echo CHtml::hiddenField('type', ''); ?>
-                            <?php echo CHtml::label('Tanggal Pendaftaran', 'tglterimabahan', array('class' => 'control-label')) ?>
+                            <?php echo CHtml::label('Periode Laporan', 'tglterimabahan', array('class' => 'control-label')) ?>
                             <div class="controls">
                                 <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('onchange'=>'ubahJnsPeriode();')); ?>
                             </div>
@@ -124,6 +124,7 @@
                                 </div>
                             </div>
                         </div>
+						<?php /*
                         <div class = "span4">
                             <div class = "control-group">
                                 <?php echo Chtml::label("Status",'tindakansudahbayar_id', array('class'=>'control-label')) ?>
@@ -132,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */ ?>
 <table style="width:100%">
     <tr>
         <td>
@@ -192,6 +193,29 @@
                         echo CHtml::hiddenField('idSupplier');  ?>                           
         </td>
     </tr>    
+	<tr>
+		<td>
+			 <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content1'=>array(
+                                'header'=>'Berdasarkan Status',
+                                'isi'=>  '
+                                            <table class="penjamin">                                            
+                                            <tr>
+                                                    <td>'.
+                                                           $form->checkBoxList($model, 'tindakansudahbayar_id', CustomFunction::getStatusBayar(), array('value'=>'pengunjung', 'inline'=>true, 'empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)"))
+                                                    .'</td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>true,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>		
+		</td>
+	</tr>
 </table>
 	<div class="form-actions">
                     <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
