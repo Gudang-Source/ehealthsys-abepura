@@ -101,7 +101,28 @@ class ROLaporanrekaptransaksi extends LaporanrekaptransaksiV {
 
             $criteria=new CDbCriteria;
 
-            $criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
+			$grafik = isset($_GET['tampilGrafik'])?$_GET['tampilGrafik']:null;
+			
+            if ($grafik == 'carabayar'){
+				
+				if (!empty($this->penjamin_id)){
+					$criteria->select = "count(pendaftaran_id) as jumlah, penjamin_nama as data";
+					$criteria->group = " penjamin_nama ";
+				}else{
+					$criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
+					$criteria->group = " carabayar_nama ";
+				}
+			}elseif ($grafik== 'status'){								
+				$criteria->select = "count(pendaftaran_id) as jumlah, (CASE WHEN tindakansudahbayar_id IS NULL THEN 'Belum Bayar' ELSE 'Sudah Bayar' END) as data";
+				$criteria->group = " data ";				
+			}elseif ($grafik == 'dokter'){								
+				$criteria->select = "count(pendaftaran_id) as jumlah, (CONCAT(gelardepan, ' ', nama_pegawai,' ',gelarbelakang_nama) ) as data";
+				$criteria->group = " data ";				
+			}else{
+				$criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
+					$criteria->group = " carabayar_nama ";
+			}
+			
             $criteria->addBetweenCondition('tgl_pendaftaran',$this->tgl_awal,$this->tgl_akhir,true);                       
             if (!empty($this->carabayar_id))
             {
@@ -117,17 +138,24 @@ class ROLaporanrekaptransaksi extends LaporanrekaptransaksiV {
                 $criteria->addCondition("pegawai_id = ".$this->pegawai_id);
             }
 
-            if (!empty($this->status)){
-                if (strtolower($this->status) == strtolower(Params::STATUSBAYAR_LUNAS)){
-                    $criteria->addCondition(" tindakansudahbayar_id IS NOT NULL ");
-                }elseif (strtolower($this->status) == strtolower(Params::STATUSBAYAR_BELUM_LUNAS)){
-                    $criteria->addCondition(" tindakansudahbayar_id IS NULL ");
-                }
-            }
+            if (is_array($this->tindakansudahbayar_id)){
+				$status = array();
+				foreach ($this->tindakansudahbayar_id as $i=>$v){
+					if ($v == 1){
+						$status[] = 't.tindakansudahbayar_id is not null';
+					}
+					else{
+						$status[] = 't.tindakansudahbayar_id is null';
+					}
+				}
+				$criteria->addCondition('('.implode(' or ',$status).')');
+			}
+			
+			
 
             $criteria->addCondition(" ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
 
-            $criteria->group = " carabayar_nama ";
+          //  $criteria->group = " carabayar_nama ";
 
 
 
@@ -202,7 +230,10 @@ class ROLaporanrekaptransaksi extends LaporanrekaptransaksiV {
 
             $criteria=new CDbCriteria;
 
-            $criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
+			
+			$criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
+			$criteria->group = " carabayar_nama ";
+			
             $criteria->addBetweenCondition('tgl_pendaftaran',$this->tgl_awal,$this->tgl_akhir,true);                       
             if (!empty($this->carabayar_id))
             {
@@ -220,7 +251,7 @@ class ROLaporanrekaptransaksi extends LaporanrekaptransaksiV {
 
             $criteria->addCondition(" ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
 
-            $criteria->group = " carabayar_nama ";
+             $criteria->order = 'jumlah DESC';
 
 
 
