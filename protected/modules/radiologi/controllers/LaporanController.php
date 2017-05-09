@@ -1349,7 +1349,7 @@ class LaporanController extends MyAuthController {
                 }
                 $model->tgl_awal = $model->tgl_awal." 00:00:00";
                 $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
-                $model->status = $_GET['ROLaporanrekaptransaksi']['status'];
+               // $model->status = $_GET['ROLaporanrekaptransaksi']['status'];
         }
         $caraPrint = $_REQUEST['caraPrint'];
         $target = 'pembayaranPemeriksaanRAD/_print';
@@ -1395,7 +1395,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
           //  $model->status = $_GET['ROLaporanrekaptransaksi']['status'];
         }
-        $searchdata = $model->searchLapPemeriksaanRujukRADGrafik();
+        //$searchdata = $model->searchLapPemeriksaanRujukRADGrafik();searchLapPembayaPeriksaRADGrafik
+		$searchdata = $model->searchLapPembayaPeriksaRADGrafik();
         $this->render('_grafik', array(
             'model' => $model,
             'data' => $data,

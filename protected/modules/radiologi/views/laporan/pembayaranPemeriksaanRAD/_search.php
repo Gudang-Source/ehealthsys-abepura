@@ -196,10 +196,10 @@
 	<tr>
 		<td>
 			 <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-                            'id'=>'kunjungan',
+                            'id'=>'kunjungana',
                             'slide'=>true,
                             'content'=>array(
-                            'content1'=>array(
+                            'content5'=>array(
                                 'header'=>'Berdasarkan Status',
                                 'isi'=>  '
                                             <table class="penjamin">                                            
@@ -214,6 +214,30 @@
                             ),
         //                                    'htmlOptions'=>array('class'=>'aw',)
                             )); ?>		
+		</td>
+	
+		<td>
+			<?php 
+				$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+					'id'=>'kunjungan5',
+					'slide'=>false,
+					'content'=>array(
+					'content5'=>array(
+						'header'=>'Opsi Grafik',
+						'isi'=>  '<table>
+									<tr>
+										<td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                               
+										 <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'dokter')).' <label>Dokter</label></td>                                               
+									</tr>
+									<tr>
+										<td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'status')).' <label>Status Bayar</label></td>                                                                                            
+									</tr>
+								</table>',          
+						'active'=>TRUE,
+							),
+					),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+				)); ?>	
 		</td>
 	</tr>
 </table>
