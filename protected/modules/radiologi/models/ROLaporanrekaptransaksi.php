@@ -231,8 +231,24 @@ class ROLaporanrekaptransaksi extends LaporanrekaptransaksiV {
             $criteria=new CDbCriteria;
 
 			
-			$criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
-			$criteria->group = " carabayar_nama ";
+			$grafik = isset($_GET['tampilGrafik'])?$_GET['tampilGrafik']:null;
+			
+            if ($grafik == 'carabayar'){
+				
+				if (!empty($this->penjamin_id)){
+					$criteria->select = "count(pendaftaran_id) as jumlah, penjamin_nama as data";
+					$criteria->group = " penjamin_nama ";
+				}else{
+					$criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
+					$criteria->group = " carabayar_nama ";
+				}
+			}elseif ($grafik == 'tindakan'){								
+				$criteria->select = "count(pendaftaran_id) as jumlah, daftartindakan_nama as data";
+				$criteria->group = " data ";				
+			}else{
+				$criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
+					$criteria->group = " carabayar_nama ";
+			}
 			
             $criteria->addBetweenCondition('tgl_pendaftaran',$this->tgl_awal,$this->tgl_akhir,true);                       
             if (!empty($this->carabayar_id))
