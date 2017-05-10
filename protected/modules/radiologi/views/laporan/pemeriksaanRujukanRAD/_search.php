@@ -153,11 +153,11 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                            <label>Ruangan</label>
+                                                                            <label>Perujuk</label>
                                                                     </td>
                                                                     <td>
                                                                             <div id="ruangan">
-                                                                                    <label>Data Tidak Ditemukan</label>
+                                                                                   
                                                                             </div>
                                                                     </td>
                                                                 </tr>
