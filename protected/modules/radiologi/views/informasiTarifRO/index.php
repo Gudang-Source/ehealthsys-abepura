@@ -23,8 +23,9 @@
 		'kelompoktindakan_nama',
                 'komponenunit_nama',
 		'kategoritindakan_nama',
+				'kelaspelayanan_nama',
 		'daftartindakan_nama',
-		'kelaspelayanan_nama',
+		
                  array(
 			'name'=>'tarifTotal',
 			'value'=>'$this->grid->getOwner()->renderPartial(\'radiologi.views.informasiTarifRO._tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id, \'jenistarif_id\'=>$data->jenistarif_id),true)',
@@ -128,12 +129,14 @@
         <div class="search-form">
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
         <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
-                'action'=>Yii::app()->createUrl($this->route),
-                'method'=>'get',
-                'id'=>'formCari',
-                'type'=>'horizontal',
-        )); ?>
-       <div class="row-fluid" id="formCariInput">
+				'id'=>'formCari',
+				'enableAjaxValidation'=>false,
+					'type'=>'horizontal',
+					//'focus'=>'#SARuanganM_instalasi_id',
+					'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
+
+			)); ?>        
+     
        <!--      <div class="span4">-->
                 <?php
                        /* echo $form->dropDownListRow($modTarifRad,'instalasi_id',
@@ -178,10 +181,10 @@
             <div class="span4">-->
                 <?php //echo $form->textFieldRow($modTarifRad, 'pemeriksaanrad_nama',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'autofocus'=>TRUE)); ?>
             <!--</div>-->
-        </div>
+          <div class="row-fluid" id="formCariInput">
          <table width="100%">
             <tr>
-                <td>
+                <td>				
                     <?php echo $form->dropDownListRow($modTarifRad, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true), array('order'=>'jenistarif_nama ASC')), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
                     <?php echo $form->dropDownListRow($modTarifRad, 'kelompoktindakan_id', CHtml::listData(KelompoktindakanM::model()->findAllByAttributes(array('kelompoktindakan_aktif'=>true), array('order'=>'kelompoktindakan_nama ASC')), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
                 </td>
@@ -195,19 +198,22 @@
                 </td>
             </tr>
         </table>
+		  </div>
         <div class="form-actions">
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),
                                                     array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
                                                     array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
-                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'print("PRINT")')); ?>
+                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif("PRINT")')); ?>
              <?php $content = $this->renderPartial('tips/tipsInformasiTarifRO',array(),true);
                         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));    ?>
         </div>
-        </div>
-    </fieldset>
+        
+    
     <?php $this->endWidget(); ?>
+	</div>
+		</fieldset>
 </div>
 <?php $urlPrint = $this->createUrl('print'); ?>
 <script>
@@ -308,7 +314,7 @@ $js = <<< JSCRIPT
     }
     function print(caraPrint)
     {
-        window.open("${urlPrint}/"+$('#formCari').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+        window.open("${urlPrint}/"+$('#formCariInput').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
     }
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        

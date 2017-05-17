@@ -3,6 +3,7 @@
 class InformasiTarifController extends MyAuthController
 {
 	public $path_view = 'laboratorium.views.informasiTarif.';
+	public $layouts = '//layouts/main';
 	public function actionIndex()
 	{
 		$modTarifLab = new LBTariftindakanperdaruanganV('searchInformasi');
@@ -125,7 +126,7 @@ class InformasiTarifController extends MyAuthController
                     //$modTarifRad->carabayar_id=$_GET['ROTarifpemeriksaanradruanganV']['carabayar_id'];
                     //$modTarifRad->penjamin_id=$_GET['ROTarifpemeriksaanradruanganV']['penjamin_id'];
             }
-            $this->render('print',array('modTarifRad'=>$modTarifRad));
+            $this->render($this->path_view.'print',array('modTarifRad'=>$modTarifRad));
         }
 
 }

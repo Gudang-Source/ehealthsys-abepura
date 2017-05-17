@@ -13,8 +13,9 @@
 		'kelompoktindakan_nama',
                 'komponenunit_nama',
 		'kategoritindakan_nama',
+				'kelaspelayanan_nama',
 		'daftartindakan_nama',
-		'kelaspelayanan_nama',
+		
 		array(
 			'name'=>'tarifTotal',
 			'value'=>'$this->grid->getOwner()->renderPartial(\'gizi.views.informasiTarif._tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id, \'jenistarif_id\'=>$data->jenistarif_id),true)',
@@ -67,6 +68,6 @@
 <script>
     function printTarif() {
         //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
-        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"caraPrint=PRINT","",'location=_new, width=900px');
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCari :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
     }
 </script>
