@@ -28,8 +28,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'kelompoktindakan_nama',
             'komponenunit_nama',
             'kategoritindakan_nama',
+		'kelaspelayanan_nama',
             'daftartindakan_nama',
-            'kelaspelayanan_nama',
+            
 //                'ruangan_id',
 
         array(
