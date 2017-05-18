@@ -14,6 +14,7 @@
                 'kategoritindakan_nama',                
                 'kelaspelayanan_nama',
                 'daftartindakan_nama',
+				
                 array(
                         'name'=>'tarifTotal',
                         'value'=>'$this->grid->getOwner()->renderPartial(\'_tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id, \'jenistarif_id\'=>$data->jenistarif_id),true)',
@@ -70,19 +71,17 @@
         ", CClientScript::POS_READY);
         ?>
 
-        <?php
-        $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
-                'action'=>Yii::app()->createUrl($this->route),
-                'method'=>'get',
-                'id'=>'search',
-                'type'=>'horizontal',
-                'htmlOptions'=>array('enctype'=>'multipart/form-data'),
-                'focus'=>'#'.CHtml::activeId($modTarifTindakanRuanganV,'daftartindakan_nama'),
+         <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+				'id'=>'formCari',
+				'enableAjaxValidation'=>false,
+					'type'=>'horizontal',
+					//'focus'=>'#SARuanganM_instalasi_id',
+					'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
 
-        )); ?>        
+			)); ?>        
         <table width='100%'>
             <tr>
-                <td>
+                <td>					
                     <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true)), 'jenistarif_id', 'jenistarif_nama'), array('empty'=>'-- Pilih --','class'=>'span3')); ?>
                     <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'kelompoktindakan_id', CHtml::listData(KelompoktindakanM::model()->findAllByAttributes(array('kelompoktindakan_aktif'=>true), array('order'=>'kelompoktindakan_nama ASC')), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
                 </td>
@@ -117,6 +116,6 @@
 <script>
     function printTarif() {
         //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
-        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCari :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
     }
 </script>

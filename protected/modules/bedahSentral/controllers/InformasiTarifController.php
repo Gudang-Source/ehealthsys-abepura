@@ -58,11 +58,14 @@ class InformasiTarifController extends MyAuthController
             $this->layout = '//layouts/iframe';
             $modTarifRad = new BSTarifTindakanPerdaRuanganV('searchInformasi');
           //  $modTarifRad->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
-            $modTarifRad->instalasi_id = Yii::app()->user->getState('instalasi_id');
+          //  $modTarifRad->instalasi_id = Yii::app()->user->getState('instalasi_id');
             //$modTarifRad->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
             //$modTarifRad->penjamin_id = Params::PENJAMIN_ID_UMUM;
             if(isset($_GET['BSTarifTindakanPerdaRuanganV'])){
+				
                     $modTarifRad->attributes=$_GET['BSTarifTindakanPerdaRuanganV'];
+					
+					//var_dump($modTarifRad->daftartindakan_nama);die;
                     //$modTarifRad->carabayar_id=$_GET['ROTarifpemeriksaanradruanganV']['carabayar_id'];
                     //$modTarifRad->penjamin_id=$_GET['ROTarifpemeriksaanradruanganV']['penjamin_id'];
             }

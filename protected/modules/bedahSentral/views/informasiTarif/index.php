@@ -114,6 +114,6 @@ $('form#formCari').submit(function(){
 <script>
     function printTarif() {
         //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
-        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"caraPrint=PRINT","",'location=_new, width=900px');
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCari :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
     }
 </script>

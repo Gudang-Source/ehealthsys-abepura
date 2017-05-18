@@ -43,8 +43,9 @@ $format = new MyFormatter();
 		'kelompoktindakan_nama',
                 'komponenunit_nama',
 		'kategoritindakan_nama',
-                'kelaspelayanan_nama',
+        'kelaspelayanan_nama',        
 		'daftartindakan_nama',		
+		
                  array(
 			'name'=>'tarifTotal',
 			'value'=>'$this->grid->getOwner()->renderPartial(\'pemulasaranJenazah.views.informasiTarif._tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id, \'jenistarif_id\'=>$data->jenistarif_id),true)',

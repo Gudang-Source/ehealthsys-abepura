@@ -24,8 +24,9 @@
 		'kelompoktindakan_nama',
                 'komponenunit_nama',
 		'kategoritindakan_nama',
+				'kelaspelayanan_nama',
 		'daftartindakan_nama',
-		'kelaspelayanan_nama',
+		
                 array(
 			'name'=>'tarifTotal',
 			'value'=>'$this->grid->getOwner()->renderPartial(\'laboratorium.views.informasiTarif._tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id, \'jenistarif_id\'=>$data->jenistarif_id),true)',
@@ -138,11 +139,13 @@
         ?>
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
         <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
-                'action'=>Yii::app()->createUrl($this->route),
-                'method'=>'get',
-                'id'=>'formCari',
-                'type'=>'horizontal',
-        )); ?>
+				'id'=>'formCari',
+				'enableAjaxValidation'=>false,
+					'type'=>'horizontal',
+					//'focus'=>'#SARuanganM_instalasi_id',
+					'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
+
+			)); ?>
        <div class="row-fluid">
             <!--<div class="span4">-->
                 <?php /*
@@ -243,7 +246,7 @@
 <script>
     function printTarif() {
         //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
-        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"caraPrint=PRINT","",'location=_new, width=900px');
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCari :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
     }
 </script>
 <script>
