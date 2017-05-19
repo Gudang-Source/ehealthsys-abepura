@@ -9,6 +9,20 @@ class InformasiTarifController extends MyAuthController
 		$modTarifLab = new LBTariftindakanperdaruanganV('searchInformasi');
 		$modTarifLab->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
 		$modTarifLab->instalasi_id = Yii::app()->user->getState('instalasi_id');
+		
+		$kom_unit = Params::KomponenUnitRuangan();
+		if (isset($kom_unit[Yii::app()->user->getState('ruangan_id')]))
+		{
+			$modTarifLab->komponenunit_id = $kom_unit[Yii::app()->user->getState('ruangan_id')];
+		}
+
+		$kel_tin = Params::KelompokTindakanInstalasi();
+
+		if (isset($kel_tin[Yii::app()->user->getState('instalasi_id')]))
+		{			
+			
+			$modTarifLab->kelompoktindakan_id = $kel_tin[Yii::app()->user->getState('instalasi_id')];
+		}
 		//$modTarifLab->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
 		//$modTarifLab->penjamin_id = Params::PENJAMIN_ID_UMUM;
 		if(isset($_GET['LBTariftindakanperdaruanganV'])){
