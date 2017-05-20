@@ -11,13 +11,13 @@ function panggilAntrian(ket){
         myAlert("Silahkan tentukan antrian yang akan dipanggil !");
         return false;
     }
-	if(sudahdipanggil == 1){ //RTN-2259
-		myAlert("Pasien ini sudah dipanggil!");
-		return false;	
-	}
+	//if(sudahdipanggil == 1){ //RTN-2259
+	//	myAlert("Pasien ini sudah dipanggil!");
+	//	return false;	
+	//}
 	$("#dialog-panggilantrian .btn-primary").parent().addClass('animation-loading');
 	$('#dialog-panggilantrian .btn-primary').attr("disabled",true);
-	$('#dialog-panggilantrian .btn-primary').removeAttr("onclick");
+	// $('#dialog-panggilantrian .btn-primary').removeAttr("onclick");
     $.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('Panggil'); ?>&antrian_id='+antrian_id+'&ket='+ket,
@@ -36,7 +36,7 @@ function panggilAntrian(ket){
 			setTimeout(function(){
 				$("#dialog-panggilantrian .btn-primary").parent().removeClass('animation-loading');
 				$('#dialog-panggilantrian .btn-primary').removeAttr("disabled");
-				$('#dialog-panggilantrian .btn-primary').attr("onclick",attr_onclick);
+				// $('#dialog-panggilantrian .btn-primary').attr("onclick",attr_onclick);
                                 $(".f_rm:first").focus();
 			},3000); //3 detik tombol baru aktif
         },

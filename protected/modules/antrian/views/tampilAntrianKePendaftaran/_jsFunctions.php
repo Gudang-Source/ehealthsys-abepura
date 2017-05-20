@@ -18,16 +18,17 @@ function setAntrians(antrian_id){
 					var obj = data[key];
 					if(obj.antrian_id !== null){
 					var antrian_id = $("#loket_"+obj.loket_id+" #<?php echo CHtml::activeId($model, 'antrian_id'); ?>").val();
-						if(antrian_id != obj.antrian_id){
+						//if(antrian_id != obj.antrian_id){
 							noantrians[i] = obj.noantrian;
 							loket_ids[i] = obj.loket_id;
 							i++;
 							setFormAntrian($("#loket_"+obj.loket_id),obj);
-						}
+						//}
 					}
 				    setTableStatistik($("#loket_"+obj.loket_id),obj);
 				}
 			}
+			console.log(i);
             if(i > 0){ //agar tidak memanggil ketika refresh interval fungsi ini kecuali jika noantrian berubah
                 setSuaraPanggilan(noantrians,loket_ids);
             }
