@@ -10,6 +10,20 @@ class InformasiTarifController extends MyAuthController
         $modTarifTindakanRuanganV->instalasi_id=$idInstalasi;
         $modTarifTindakanRuanganV->ruangan_id=$idRuangan;
         $modTarifTindakanRuanganV->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
+		$kom_unit = Params::KomponenUnitRuangan();
+		if (isset($kom_unit[Yii::app()->user->getState('ruangan_id')]))
+		{
+			$modTarifTindakanRuanganV->komponenunit_id = $kom_unit[Yii::app()->user->getState('ruangan_id')];
+		}
+		
+		$kel_tin = Params::KelompokTindakanInstalasi();
+		
+		if (isset($kel_tin[Yii::app()->user->getState('instalasi_id')]))
+		{			
+			$modTarifTindakanRuanganV->kelompoktindakan_id = $kel_tin[Yii::app()->user->getState('instalasi_id')];
+		}
+		
+		
         
         if(isset($_GET['BSTarifTindakanPerdaRuanganV'])){
             $modTarifTindakanRuanganV->attributes=$_GET['BSTarifTindakanPerdaRuanganV'];
