@@ -140,7 +140,7 @@
         foreach($modLokets AS $i => $loket){
     ?>
             <div class="span4">
-                <div id="loket_<?php echo $loket->loket_id;?>" class="antrian">
+                <div id="loket_<?php echo $loket->loket_id;?>" class="antrian" data-antrian="<?php echo $loket->loket_id;?>">
                     <div class="loket-nama" style="background-color:<?php echo $col[$cnt]; ?>;">
                         <?php echo strtoupper($loket->loket_nama); ?><br/>DI LOKET <?php echo $loket->loket_singkatan; ?>
                     </div>
@@ -210,7 +210,14 @@
             $(document).ready(function()
             {
                 setInterval('updateClock()', 1000);
+				setInterval(function() {
+					$(".antrian").each(function() {
+						updateStatistik($(this).data("antrian"));
+					});
+				}, 60000);
+				$(".antrian").each(function() {
+					updateStatistik($(this).data("antrian"));
+				});
             });
-            
         </script>
                                  

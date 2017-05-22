@@ -25,7 +25,7 @@
                 <?php echo CHtml::label('No. Antrian','noantrian',array('class'=>'control-label'));?>
                 <div class="controls">
                     <?php echo $form->hiddenField($model,'antrian_id',array('readonly'=>true));?>
-                    <?php echo CHtml::dropDownList('cari_loket_id', $modAntrian->loket_id,CHtml::listData($modAntrian->getLokets(null, true), 'loket_id', 'loket_nama'),array('class'=>'span2','empty'=>'-- Pilih --','onchange'=>'setFormAntrian("reset");') )?>
+                    <?php echo CHtml::dropDownList('cari_loket_id', $modAntrian->loket_id,CHtml::listData($modAntrian->getLokets(null, true), 'loket_id', 'loket_nama'),array('class'=>'span2','empty'=>'-- Pilih --','onchange'=>'setFormAntrian("reset");$("#dialog-panggilantrian").dialog("open");') )?>
                     <?php echo CHtml::textField('noantrian',$modAntrian->noantrian,array('readonly'=>true,'class'=>'span2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('id'=>'bth-lihatantrian','title'=>'Klik untuk menampilkan form antrian','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'$("#dialog-panggilantrian").dialog("open");')); ?>
                 </div>

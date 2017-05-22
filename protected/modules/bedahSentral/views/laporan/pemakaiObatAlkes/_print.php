@@ -6,7 +6,7 @@ if($caraPrint=='EXCEL')
     header('Content-Disposition: attachment;filename="'.$judulLaporan.'-'.date("Y/m/d").'.xls"');
     header('Cache-Control: max-age=0');     
 }
-echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>'Laporan Kunjungan Pasien', 'periode'=>'Periode : '.$periode)); 
+echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$judulLaporan, 'periode'=>'Periode : '.$periode)); 
 
 if ($caraPrint != 'GRAFIK')
 $this->renderPartial('pemakaiObatAlkes/_table', array('model'=>$model, 'caraPrint'=>$caraPrint)); 

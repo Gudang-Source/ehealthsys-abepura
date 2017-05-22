@@ -38,7 +38,7 @@ class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		$criteria->addCondition('ruangan_id ='.Yii::app()->user->getState('ruangan_id'));
                 
 		$criteria->limit = 10;
-
+		$criteria->order = "jenistarif_nama ASC, kelompoktindakan_nama ASC, komponenunit_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -48,7 +48,7 @@ class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
             $provider = $this->searchInformasi();
             
             $provider->criteria->limit = -1;
-            $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
+           // $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
             $provider->pagination = false;
             
             return $provider;

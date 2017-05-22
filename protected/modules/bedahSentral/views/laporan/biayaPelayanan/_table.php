@@ -1,14 +1,47 @@
 <?php 
-$table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+$itemCssClass = 'table table-striped table-condensed';
+$table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
 $data = $model->searchTable();
 $template = "{summary}\n{items}\n{pager}";
 $sort = true;
+$row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
 if (isset($caraPrint)){
+	$row = '$row+1';
     $sort = false;
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+  if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+  
+        echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
 }
 ?>
 <?php $this->widget($table,array(
@@ -16,22 +49,34 @@ if (isset($caraPrint)){
     'dataProvider'=>$data,
     'enableSorting'=>$sort,
     'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
             array(
                     'header' => 'No.',
-                    'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1'
+					
+                    'value' => $row
             ),
+			array(
+				'header' => 'Tanggal Pendaftaran/ <br/>No Pendaftaran',
+				'type' => 'raw',
+				'value' => 'MyFormatter::formatDateTimeFOrUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran'
+			),
             'no_rekam_medik',
 //            'NamaNamaBIN',
             array (
-                'header' => 'Nama / Nama Bin',
-                'value' => '$data->NamaNamaBin',
-            ),
-            'no_pendaftaran',
-            'umur',
-            'jeniskelamin',
+                'header' => 'Nama pasien',
+                'value' => '$data->namadepan." ".$data->nama_pasien',
+            ),            
+            'umur',           
+            
+//            'kelaspelayanan_nama',
+//            'carabayarPenjamin',
             array(
+                'header'=>'Cara Bayar/<br/> Penjamin',
+				 'type'=>'raw',
+                'value'=>'$data->carabayarPenjamin',
+            ),
+			array(
               'header'=>'Jenis Kasus Penyakit',
               'type'=>'raw',
               'value'=>'$data->jeniskasuspenyakit_nama',
@@ -42,12 +87,6 @@ if (isset($caraPrint)){
               'type'=>'raw',
               'value'=>'$data->kelaspelayanan_nama',
             ),
-//            'kelaspelayanan_nama',
-//            'carabayarPenjamin',
-            array(
-                'header'=>'Cara Bayar Penjamin',
-                'value'=>'$data->carabayarPenjamin',
-            ),
             array(
                 'header'=>'Iur Biaya',
                 'type'=>'raw',
@@ -55,10 +94,11 @@ if (isset($caraPrint)){
                 'htmlOptions' => array('style'=>'text-align:right;')
             ),
             array(
-                'header'=>'Total Biaya Pelayanan',
+                'header'=>'Biaya Pelayanan',
                 'type'=>'raw',
                 'value'=>'"Rp".number_format($data->total,0,"",".")',
-                'htmlOptions' => array('style'=>'text-align:right;')
+                'htmlOptions' => array('style'=>'text-align:right;'),
+			//	'footer' => 'sum(total)'
             ),
 //            'iurbiaya',
 //            'total',

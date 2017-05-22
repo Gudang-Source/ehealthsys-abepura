@@ -1273,7 +1273,7 @@ class ActionDynamicController extends Controller
                     echo CHtml::checkBoxList(''.$namaModel."[namaperujuk]", $selects, $rujukan);
                 }
                 else{
-                    echo '<label>Data Tidak Ditemukan</label>';
+                   // echo '<label>Data Tidak Ditemukan</label>';
                 }
            }
         }

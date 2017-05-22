@@ -23,6 +23,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporansensuspenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporansensuspenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporansensuspenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporansensuspenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporansensuspenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -64,6 +66,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporansensuspenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporansensuspenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporansensuspenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporansensuspenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporansensuspenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -107,6 +111,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporansensuspenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporansensuspenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporansensuspenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporansensuspenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporansensuspenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -145,6 +151,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporanpasienpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporanpasienpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporanpasienpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporanpasienpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporanpasienpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -186,6 +194,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporanpasienpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporanpasienpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporanpasienpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporanpasienpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporanpasienpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -229,6 +239,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporanpasienpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporanpasienpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporanpasienpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporanpasienpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporanpasienpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -424,10 +436,10 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $judulLaporan = 'Laporan Info Pemakai Obat Alkes Bedah Sentral';
+        $judulLaporan = 'Laporan Pemakaian Obat & Alkes Bedah Sentral';
 
         //Data Grafik       
-        $data['title'] = 'Grafik Laporan Pemakai Obat Alkes Bedah Sentral';
+        $data['title'] = 'Grafik Laporan Pemakaian Obat & Alkes Bedah Sentral';
         $data['type'] = $_REQUEST['type'];
         if (isset($_REQUEST['BSLaporanpemakaiobatalkesruanganV'])) {
             $model->attributes = $_REQUEST['BSLaporanpemakaiobatalkesruanganV'];
@@ -472,7 +484,7 @@ class LaporanController extends MyAuthController {
         $model->thn_akhir = date('Y');
 
         //Data Grafik
-        $data['title'] = 'Grafik Laporan Pemakai Obat Alkes Bedah Sentral';
+        $data['title'] = 'Grafik Laporan Pemakaian Obat & Alkes Bedah Sentral';
         $data['type'] = $_GET['type'];
         if (isset($_GET['BSLaporanpemakaiobatalkesruanganV'])) {
             $model->attributes = $_GET['BSLaporanpemakaiobatalkesruanganV'];
@@ -645,8 +657,8 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $penjamin = CHtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE'),'penjamin_id', 'penjamin_id');
-        $model->penjamin_id = $penjamin;
+      //  $penjamin = CHtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE'),'penjamin_id', 'penjamin_id');
+        //$model->penjamin_id = $penjamin;
         $kelas = CHtml::listData(KelaspelayananM::model()->findAll(), 'kelaspelayanan_id', 'kelaspelayanan_id');
         $model->kelaspelayanan_id = $kelas;
         if (isset($_GET['BSLaporanbiayapelayanan'])) {
@@ -915,6 +927,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSBukuregisterpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSBukuregisterpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSBukuregisterpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSBukuregisterpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSBukuregisterpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -956,6 +970,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['BSBukuregisterpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_REQUEST['BSBukuregisterpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_REQUEST['BSBukuregisterpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSBukuregisterpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSBukuregisterpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -998,6 +1014,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSBukuregisterpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSBukuregisterpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSBukuregisterpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSBukuregisterpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSBukuregisterpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -1040,6 +1058,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporancaramasukpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporancaramasukpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporancaramasukpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporancaramasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporancaramasukpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -1084,6 +1104,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporancaramasukpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporancaramasukpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporancaramasukpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporancaramasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporancaramasukpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -1126,6 +1148,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BSLaporancaramasukpenunjangV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['BSLaporancaramasukpenunjangV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['BSLaporancaramasukpenunjangV']['bln_akhir']);
+			$model->thn_awal = $_GET['BSLaporancaramasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['BSLaporancaramasukpenunjangV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
