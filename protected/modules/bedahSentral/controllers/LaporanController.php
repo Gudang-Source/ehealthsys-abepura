@@ -525,8 +525,8 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
-        $penjamin = CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_id');
-        $model->penjamin_id = $penjamin;
+      //  $penjamin = CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_id');
+       // $model->penjamin_id = $penjamin;
         $tindakan = array('sudah', 'belum');
         $model->tindakansudahbayar_id = $tindakan;
         

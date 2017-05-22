@@ -1,6 +1,6 @@
 <?php 
 $itemCssClass = 'table table-striped table-condensed';
-$table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
+$table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $data = $model->searchTable();
 $template = "{summary}\n{items}\n{pager}";
 $sort = true;
@@ -86,19 +86,27 @@ if (isset($caraPrint)){
               'header'=>'Kelas Pelayanan',
               'type'=>'raw',
               'value'=>'$data->kelaspelayanan_nama',
+				'footer' => '<b>Total</b>',
+				'footerHtmlOptions' => array('style' => 'text-align:right;','colspan' => 8)
             ),
+		
             array(
                 'header'=>'Iur Biaya',
                 'type'=>'raw',
+				'name' => 'iurbiaya',
                 'value'=>'"Rp".number_format($data->iurbiaya,0,"",".")',
-                'htmlOptions' => array('style'=>'text-align:right;')
+                'htmlOptions' => array('style'=>'text-align:right;'),
+				'footer' => 'sum(iurbiaya)',
+				'footerHtmlOptions' => array('style' => 'text-align:right;')
             ),
             array(
                 'header'=>'Biaya Pelayanan',
                 'type'=>'raw',
+				'name' => 'total',
                 'value'=>'"Rp".number_format($data->total,0,"",".")',
                 'htmlOptions' => array('style'=>'text-align:right;'),
-			//	'footer' => 'sum(total)'
+				'footer' => 'sum(total)',
+				'footerHtmlOptions' => array('style' => 'text-align:right;')
             ),
 //            'iurbiaya',
 //            'total',

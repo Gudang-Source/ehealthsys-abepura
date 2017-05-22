@@ -114,14 +114,15 @@ class BSLaporanjasainstalasi extends LaporanjasainstalasiV {
 		if(!empty($this->tindakanpelayanan_id)){
 			$criteria->addCondition('tindakanpelayanan_id = '.$this->tindakanpelayanan_id);
 		}
-		if(!empty($this->penjamin_id)){
-			$criteria->addInCondition('penjamin_id',$this->penjamin_id);
-		}
-        $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
-		if(!empty($this->carabayar_id)){
-			$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
-		}
-        $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
+		
+		if (!empty($this->penjamin_id)){
+            $criteria->addCondition('penjamin_id ='.$this->penjamin_id);
+        }else{
+			if (!empty($this->carabayar_id)){
+				$criteria->addCondition('carabayar_id ='.$this->carabayar_id);
+			}
+        }
+		
 		if(!empty($this->kelaspelayanan_id)){
 			$criteria->addCondition('kelaspelayanan_id = '.$this->kelaspelayanan_id);
 		}
