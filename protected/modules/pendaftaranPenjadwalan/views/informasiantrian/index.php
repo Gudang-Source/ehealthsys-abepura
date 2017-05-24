@@ -77,13 +77,13 @@
                         'type'=>'raw',
                         'value'=>function($data) {
                             if (date('Y-m-d', strtotime($data->tglantrian)) < date('Y-m-d')){
-                               return ($data->panggil_flaq)?"-":CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array('disabled'=>true ,"class"=>"btn btn-primary","rel"=>"tooltip","title"=>"Pemanggilan Antrian Sudah Lewat Harinya"));
+                               return CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array('disabled'=>true ,"class"=>"btn btn-primary","rel"=>"tooltip","title"=>"Pemanggilan Antrian Sudah Lewat Harinya"));
                             }else{
                                  if (empty($data->pendaftaran_id)){
-                                    return ($data->panggil_flaq)?"-":CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(".$data->antrian_id."); return false;","rel"=>"tooltip","title"=>"Klik untuk memanggil nomor antrian"));
+                                    return CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(".$data->antrian_id."); return false;","rel"=>"tooltip","title"=>"Klik untuk memanggil nomor antrian"));
                                 }else{
                                     //return ($data->panggil_flaq)?"-":CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(".$data->antrian_id."); return false;","rel"=>"tooltip","title"=>"Klik untuk memanggil nomor antrian"));
-                                    return ($data->panggil_flaq)?"-":CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array('disabled'=>true ,"class"=>"btn btn-primary","rel"=>"tooltip","title"=>"Pasien Sudah Didaftarkan"));
+                                    return CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array('disabled'=>true ,"class"=>"btn btn-primary","rel"=>"tooltip","title"=>"Pasien Sudah Didaftarkan"));
                                 }
                             }
                         },
