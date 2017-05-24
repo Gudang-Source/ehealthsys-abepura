@@ -1,7 +1,44 @@
-<?php if (isset($caraPrint)){
+<?php 
+$itemsCssClass = 'table table-striped table-condensed';
+$table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+$no = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
+if (isset($caraPrint)){
+	$no = '$row+1';
   $data = $model->searchPrint();  
   $template = "{items}";
   $sort = false;
+  if ($caraPrint == "EXCEL"){
+      $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+   if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDFNonRp';
+        }
+  
+        echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemsCssClass = 'table border';
 } else{
   $data = $model->searchTable();
   $template = "{summary}\n{items}\n{pager}";
@@ -9,7 +46,7 @@
 }
 ?>
 
-<?php $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
+<?php $this->widget($table,array(
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
         'enableSorting'=>$sort,
@@ -21,32 +58,46 @@
                 'end'=>8, //indeks kolom 4
             ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemsCssClass,
 	'columns'=>array(
                 array(
                     'header' => 'No.',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                     'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1'
                 ),
+				array(
+					'header' => 'Tanggal Pendaftaran/ <br/> No Pendaftaran',
+					'type' => 'raw',
+					'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran'
+				),
                 array(
                     'name'=>'no_rekam_medik',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
+					'header' => 'Nama Pasien',
                     'name'=>'nama_pasien',
+					'value' => '$data->namadepan." ".$data->nama_pasien',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
+               
                 array(
-                    'name'=>'no_pendaftaran',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
-                    'name'=>'nama_pegawai',
+                    'header'=>'Dokter',
+					'value' => function($data){
+						$p = DokterV::model()->find("pegawai_id = '".$data->dokterpemeriksa1_id."' ");
+							
+						if (count($p)>0){
+							return $p->namaLengkap;
+						}else{
+							return '-';
+						}
+					},
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'header'=>'Cara Bayar Penjamin',
                     'name'=>'carabayarPenjamin',
+					'type' => 'raw',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
