@@ -23,7 +23,7 @@
 		<!-- RND-8745  untuk penginputan tanggan "sampai dengan" sebaiknya sejajar dengan penginputan tanggal pelayanan  -->
         <div class="span4">
             <?php echo CHtml::hiddenField('type', ''); ?>
-            <?php echo CHtml::label('Tanggal Pelayanan', 'tgl_tindakan', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tgl_tindakan', array('class' => 'control-label')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
             </div>
@@ -184,7 +184,7 @@
                                                 <td>Data Tidak Ditemukan</td>
                                             </tr>
                                             </table>',            
-                                'active'=>false,
+                                'active'=>true,
                                     ),
                             ),
         //                                    'htmlOptions'=>array('class'=>'aw',)
@@ -196,9 +196,9 @@
                            
             </table>       
     <div class="form-actions">
-        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')),
+        <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')),
                 array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan','onclick'=>'pilihPencarian();')); ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "'.Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.'').'";}); return false;'));  ?>

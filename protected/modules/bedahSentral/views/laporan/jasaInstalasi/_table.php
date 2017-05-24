@@ -1,4 +1,5 @@
 <?php 
+$itemCssClass = 'table table-striped table-condensed';
 $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
 $data = $model->searchTable();
 $template = "{summary}\n{items}\n{pager}";
@@ -9,8 +10,38 @@ if (isset($caraPrint)){
   $no = '$row+1';
   $data = $model->searchPrint();  
   $template = "{items}";
-  if ($caraPrint == "EXCEL")
+  if ($caraPrint == "EXCEL"){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+   if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDFNonRp';
+        }
+  
+        echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
 }
 ?>
 <?php $this->widget($table,array(
@@ -30,7 +61,7 @@ if (isset($caraPrint)){
                 'end'=>15, //indeks kolom 4
             ),
         ),*/
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
 	'columns'=>array(
                 array(
                     'header' => 'No.',
