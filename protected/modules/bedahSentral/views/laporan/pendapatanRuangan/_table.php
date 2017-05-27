@@ -11,7 +11,7 @@ if (isset($caraPrint)){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
   }
    if ($caraPrint=='PDF') {
-            $table = 'ext.bootstrap.widgets.BootGridViewPDFNonRp';
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
         }
   
         echo "
@@ -55,7 +55,7 @@ if (isset($caraPrint)){
             array(
                 'name'=>'<center>Tarif</center>',
                 'start'=>7, //indeks kolom 3
-                'end'=>8, //indeks kolom 4
+                'end'=>12, //indeks kolom 4
             ),
         ),
         'itemsCssClass'=>$itemsCssClass,
@@ -105,61 +105,78 @@ if (isset($caraPrint)){
                     'value'=>'$data->kelaspelayanan_nama',
 //                    'name'=>'kelaspelayanan_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footer' => '<b>Total</b>',
+					'footerHtmlOptions' => array('style' => 'text-align:right;', 'colspan' => 7)
                 ),
                 array(
                     'header'=>'Tarif Satuan',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_satuan,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_satuan',
+                    'name'=>'tarif_satuan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_satuan)'
                 ),
                 array(
                     'header'=>'Tarif Cyto Tindakan',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarifcyto_tindakan,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarifcyto_tindakan',
+                    'name'=>'tarifcyto_tindakan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarifcyto_tindakan)'
                 ),
                 array(
                     'header'=>'Tarif RS Akomodasi',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_rsakomodasi,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_rsakomodasi',
+                    'name'=>'tarif_rsakomodasi',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_rsakomodasi)'
                 ),
                 array(
                     'header'=>'Tarif Medis',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_medis,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_medis',
+                    'name'=>'tarif_medis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_medis)'
                 ),
                 array(
                     'header'=>'Tarif Paramedis',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_paramedis,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_paramedis',
+                    'name'=>'tarif_paramedis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_paramedis)'
                 ),
                 array(
                     'header'=>'Tarif Bhp',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_bhp,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_bhp',
+                    'name'=>'tarif_bhp',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_bhp)'
                 ),
                 array(
                     'header'=>'Total',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->totalTarif,0,"",".")',
+					'name' => 'totalTarif',
                     'htmlOptions'=>array('style'=>'text-align:right'),
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(totalTarif)'
                 ),
             
 //                'profilrs_id',

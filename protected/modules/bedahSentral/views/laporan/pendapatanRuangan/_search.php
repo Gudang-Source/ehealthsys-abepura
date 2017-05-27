@@ -11,14 +11,17 @@
     
     $format = new MyFormatter();
     ?>
-    <style>
+   <style>
 
         #penjamin label.checkbox{
             width: 100px;
             display:inline-block;
         }
-
-    </style>
+		label.checkbox{
+			width:100px;
+			display:inline-block;
+		}
+    </style>  
     <div class="row-fluid">
 		<!-- RND-8745  untuk penginputan tanggan "sampai dengan" sebaiknya sejajar dengan penginputan tanggal pelayanan  -->
         <div class="span4">
@@ -132,23 +135,28 @@
                 <td> 
                     <div id='searching'>
                     <fieldset>    
-                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                       <?php 
+						$cri = new CDbCriteria();
+						$cri->join = "JOIN kelasruangan_m kr ON kr.kelaspelayanan_id = t.kelaspelayanan_id";
+						$cri->addCondition(" t.kelaspelayanan_aktif = TRUE ");
+						$cri->addCondition(" kr.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+						$cri->order = "t.kelaspelayanan_nama ASC";
+						
+						$kelas = KelaspelayananM::model()->findAll($cri);						
+						$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                             'id'=>'kunjungan',
                             'slide'=>true,
                             'content'=>array(
-                            'content1'=>array(
-                                'header'=>'Berdasarkan Kelas Pelayanan',
-                                'isi'=>  CHtml::checkBox('checkAllKelas',true, array('onkeypress'=>"return $(this).focusNextInputField(event)",
-						'class'=>'checkbox-column','onclick'=>'checkAll()','checked'=>'checked')).'Pilih Semua 
-                                            <table>
-					<tr>
-						<td>
-							<div id="kelasPelayanan">'.
-							$form->checkBoxList($model, 'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama ASC"), 'kelaspelayanan_id', 'kelaspelayanan_nama'), array('value'=>'pengunjung', 'inline'=>true, 'empty' => '-- Pilih --')).'
-							</div>
-						</td>
-					 </tr>
-					 </table>',            
+                            'content2'=>array(
+                                'header'=>'Berdasarkan Kelas pelayanan',
+                                'isi'=>  CHtml::checkBox('cek_all', true, array("id"=>"checkSemuaid",'value'=>'cek', "onclick"=>"checkSemua()")).'Pilih Semua <br\>                                             
+                                            <table class="penjamin">                                            
+                                            <tr>
+                                                    <td>'.
+                                                           $form->checkBoxList($model, 'kelaspelayanan_id', CHtml::listData($kelas, 'kelaspelayanan_id', 'kelaspelayanan_nama'))
+                                                    .'</td>
+                                            </tr>
+                                            </table>',            
                                 'active'=>true,
                                     ),
                             ),
@@ -160,28 +168,54 @@
                 <td> 
                     <div id='searching'>
                     <fieldset>    
+                          <?php
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion', array(
+                        'id' => 'kunjungana',
+                        'slide' => true,
+                        'content' => array(
+                            'content22' => array(
+                                'header' => 'Berdasarkan Cara Bayar',
+                                'isi' => '<table><tr>
+                        <td>' . CHtml::hiddenField('filter', 'carabayar', array('disabled' => 'disabled')) . '<label>Cara Bayar</label></td>
+                        <td>' . $form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                    'ajax' => array('type' => 'POST',
+                                        'url' => Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
+                                        'update' => '#' . CHtml::activeId($model, 'penjamin_id') . '', //selector to update
+                                    ),
+                                )) . '</td>
+                            </tr><tr>
+                        <td><label>Penjamin</label></td><td>' .
+                                $form->dropDownList($model, 'penjamin_id', CHtml::listData($model->getPenjaminItems(), 'penjamin_id', 'penjamin_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",)) . '</td></tr></table>',
+                                'active' => true,
+                            ),
+                        ),
+                    ));
+                    ?>										
+                    </fieldset>	
+                    </div>
+                </td>
+                </tr>
+                <tr>
+					
+						<td style = "text-align:left;">
+                        <div id='searching'>
+                    <fieldset>    
                         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-                            'id'=>'kunjungan1',
+                            'id'=>'kunjungan2',
                             'slide'=>true,
                             'content'=>array(
-                            'content2'=>array(
-                                'header'=>'Berdasarkan Cara Bayar',
+                            'content3'=>array(
+                                'header'=>'Berdasarkan Dokter',
                                 'isi'=>  '
                                             <table>                                            
                                             <tr>
-                                                    <td>'.CHtml::hiddenField('filter', 'carabayar', array('disabled'=>'disabled')).
-                                                           $form->dropDownList($model, 'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
-								'ajax' => array('type' => 'POST',
-									'url' => $this->createUrl('GetPenjaminPasienForCheckBox', array('encode' => false, 'namaModel' => ''.$model->getNamaModel().'')),
-									'update' => '#penjamin',  //selector to update
-								),
-							))
+                                                    <td>'.$form->dropDownListRow($model,'nama_pegawai',  CHtml::listData(DokterV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."'  ORDER BY nama_pegawai ASC"), 'nama_pegawai', 'namaLengkap'),array('empty'=>'-- Pilih --'))
                                                     .'</td>
                                             </tr>
                                             </table>
                                             <table  id="penjamin">
                                             <tr>
-                                                <td>Data Tidak Ditemukan</td>
+                                                <td></td>
                                             </tr>
                                             </table>',            
                                 'active'=>true,
@@ -191,9 +225,30 @@
                             )); ?>											
                     </fieldset>	
                     </div>
-                </td>
-                </tr>
-                           
+                        
+                    
+					</td>
+					<td>
+						<?php 
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'kunjungan5',
+                        'slide'=>false,
+                        'content'=>array(
+                        'content5'=>array(
+                            'header'=>'Opsi Grafik',
+                            'isi'=>  '<table>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'kelaspelayanan')).' <label>Kelas Pelayanan</label></td>                                               
+											<td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                               
+                                        </tr>                                        										
+                                    </table>',          
+                            'active'=>TRUE,
+                                ),
+                        ),
+    //                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>	
+					</td>
+				</tr>
             </table>       
     <div class="form-actions">
         <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')),
@@ -250,6 +305,19 @@ function pilihPencarian(){
    // }else{
     //    $('#searchLaporan').submit();
    // }
+}
+
+ function checkSemua() {
+            if ($("#checkSemuaid").is(":checked")) {
+                $('.penjamin input[name*="BSLaporanpendapatanruanganV"]').each(function(){
+                   $(this).attr('checked',true);
+                })
+            } else {
+               $('.penjamin input[name*="BSLaporanpendapatanruanganV"]').each(function(){
+                   $(this).removeAttr('checked');
+                })
+            }
+            //setAll();
 }
 </script>
 <?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
