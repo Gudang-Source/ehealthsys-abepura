@@ -17,7 +17,7 @@ class BSLaporantindakankomponenV extends LaporantindakankomponenV
 
 		$criteria=new CDbCriteria;
                 
-		$criteria->group = 't.nama_pasien,t.ruangan_id,t.ruangan_nama,t.no_rekam_medik,t.no_pendaftaran,t.tgl_pendaftaran,t.tgl_keluar,t.kelaspelayanan_nama,t.nama_pegawai,t.daftartindakan_nama,t.tarif_tindakankomp';
+		$criteria->group = 't.instalasi_nama, t.ruangan_nama, t.gelarbelakang_nama, t.gelardepan, t.namadepan, t.nama_pasien,t.ruangan_id,t.ruangan_nama,t.no_rekam_medik,t.no_pendaftaran,t.tgl_pendaftaran,t.tgl_keluar,t.kelaspelayanan_nama,t.nama_pegawai,t.daftartindakan_nama,t.tarif_tindakankomp';
 		$criteria->select = $criteria->group;
 		$criteria->addBetweenCondition('date(t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
 		//$criteria->compare("t.komponentarif_id", Params::KOMPONENTARIF_ID_JASA_MEDIS);   
