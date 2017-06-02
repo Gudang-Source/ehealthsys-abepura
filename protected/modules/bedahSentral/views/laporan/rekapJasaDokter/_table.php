@@ -58,9 +58,9 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                         'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1'
                     ),
                     array(
-                        'header' => 'Nama Pasien',
+                        'header' => 'Tanggal Pendaftaran/ No Pendaftaran',
                         'type' => 'raw',
-                        'value' => '$data->nama_pasien',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran',
                     ),
                     array(
                         'header' => 'No. Rekam Medis',
@@ -68,14 +68,9 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                         'value' => '$data->no_rekam_medik',
                     ),
                     array(
-                        'header' => 'No. Pendaftaran',
+                        'header' => 'Nama Pasien',
                         'type' => 'raw',
-                        'value' => '$data->no_pendaftaran',
-                    ),
-                    array(
-                        'header' => 'Ruangan',
-                        'type' => 'raw',
-                        'value' => '$data->ruangan_nama',
+                        'value' => '$data->namadepan." ".$data->nama_pasien',
                     ),
                     array(
                         'header' => 'Kelas Pelayanan',
@@ -83,31 +78,32 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                         'value' => '$data->kelaspelayanan_nama',
                     ),
                     array(
-                        'header' => 'Tanggal Pendaftaran',
+                        'header' => 'Nama Tindakan',
                         'type' => 'raw',
-                        'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                        'value' => '$data->daftartindakan_nama',
+                    ),
+					array(
+                        'header' => 'Nama Dokter',
+                        'type' => 'raw',
+                        'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                     ),
                     array(
                         'header' => 'Tanggal Keluar',
                         'type' => 'raw',
                         'value' => '(isset($data->tgl_keluar) ?MyFormatter::formatDateTimeForUser($data->tgl_keluar) : "-")',
-                    ),
-                    array(
-                        'header' => 'Nama Tindakan',
-                        'type' => 'raw',
-                        'value' => '$data->daftartindakan_nama',
-                    ),
+                    ),                   
                     array(
                         'header' => 'Jasa Pelayanan',
                         'type' => 'raw',
                         'value' => 'MyFormatter::formatNumberForPrint($data->tarif_tindakankomp)',
 						'htmlOptions' => array('style' => 'text-align:right;'),
 					),
-                    array(
-                        'header' => 'Nama Dokter',
-                        'type' => 'raw',
-                        'value' => '$data->nama_pegawai',
-                    ),
+					array(
+						'header' => 'Instalasi/ <br/>Ruangan',
+						'type' => 'raw',
+						'value' => '$data->instalasi_nama."/<br/>".$data->ruangan_nama'
+					),
+                    
                 ),
                 'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
             ));
