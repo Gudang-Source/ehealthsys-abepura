@@ -1,16 +1,50 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $rim = 'max-width:1300px;overflow-x:scroll;';
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $data = $model->searchJasaDokter();
 $template = "{summary}\n{items}\n{pager}";
+$row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
 $sort = true;
 if (isset($caraPrint)) {
+	$row = '$row+1';
     $sort = false;
     $data = $model->searchPrintJasaDokter();
     $rim = '';
     $template = "{items}";
-    if ($caraPrint == "EXCEL")
+    if ($caraPrint == "EXCEL"){
         $table = 'ext.bootstrap.widgets.BootExcelGridView';
+	}
+	
+	if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+  
+        echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
 }
 
 Yii::app()->clientScript->registerScript('search', "
@@ -51,11 +85,11 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                 'dataProvider' => $dataDetail,
                 'enableSorting' => $sort,
                 'template' => $template,
-                'itemsCssClass' => 'table table-striped table-condensed',
+                'itemsCssClass' => $itemCssClass,
                 'columns' => array(
                     array(
                         'header' => 'No.',
-                        'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1'
+                        'value' => $row
                     ),
                     array(
                         'header' => 'Tanggal Pendaftaran/ No Pendaftaran',

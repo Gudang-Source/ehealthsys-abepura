@@ -1,14 +1,46 @@
 <?php 
+	$itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.HeaderGroupGridViewNonRp';
     $sort = true;
-//    $row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
+	$row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
     if (isset($caraPrint)){
         $row = '$row+1';
         $data = $model->searchPrintJasaDokter();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+		}
+		
+		if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+  
+        echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
     } else{
         $data = $model->searchJasaDokter();
         $template = "{summary}\n{items}\n{pager}";
@@ -28,62 +60,62 @@
             'dataProvider'=>$data,
             'enableSorting'=>$sort,
             'template'=>$template,
-                'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+                'itemsCssClass'=>$itemCssClass,
                 'columns'=>array(
                     array(
                      'header' => 'No.',
-                     'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1'
+                     'value' => $row
                     ),
                     array(
-                      'header'=>'Nama Pasien',
-                      'type'=>'raw',
-                      'value'=>'$data->nama_pasien',
+                        'header' => 'No.',
+                        'value' => $row
                     ),
                     array(
-                      'header'=>'No. Rekam Medis',
-                      'type'=>'raw',
-                      'value'=>'$data->no_rekam_medik',
+                        'header' => 'Tanggal Pendaftaran/ No Pendaftaran',
+                        'type' => 'raw',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran',
                     ),
                     array(
-                      'header'=>'No. Pendaftaran',
-                      'type'=>'raw',
-                      'value'=>'$data->no_pendaftaran',
+                        'header' => 'No. Rekam Medis',
+                        'type' => 'raw',
+                        'value' => '$data->no_rekam_medik',
                     ),
                     array(
-                      'header'=>'Ruangan',
-                      'type'=>'raw',
-                      'value'=>'$data->ruangan_nama',
+                        'header' => 'Nama Pasien',
+                        'type' => 'raw',
+                        'value' => '$data->namadepan." ".$data->nama_pasien',
                     ),
                     array(
-                      'header'=>'Kelas Pelayanan',
-                      'type'=>'raw',
-                      'value'=>'$data->kelaspelayanan_nama',
+                        'header' => 'Kelas Pelayanan',
+                        'type' => 'raw',
+                        'value' => '$data->kelaspelayanan_nama',
                     ),
                     array(
-                      'header'=>'Tanggal Pendaftaran',
-                      'type'=>'raw',
-                      'value'=>'date("d/m/Y",strtotime($data->tgl_pendaftaran))',
+                        'header' => 'Nama Tindakan',
+                        'type' => 'raw',
+                        'value' => '$data->daftartindakan_nama',
+                    ),
+					array(
+                        'header' => 'Nama Dokter',
+                        'type' => 'raw',
+                        'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                     ),
                     array(
-                      'header'=>'Tanggal Keluar',
-                      'type'=>'raw',
-                      'value'=>'(isset($data->tgl_keluar) ?date("d/m/Y",strtotime($data->tgl_keluar)) : "-")',
-                    ),
+                        'header' => 'Tanggal Keluar',
+                        'type' => 'raw',
+                        'value' => '(isset($data->tgl_keluar) ?MyFormatter::formatDateTimeForUser($data->tgl_keluar) : "-")',
+                    ),                   
                     array(
-                      'header'=>'Nama Tindakan',
-                      'type'=>'raw',
-                      'value'=>'$data->daftartindakan_nama',
-                    ),
-                    array(
-                      'header'=>'Jasa Pelayanan',
-                      'type'=>'raw',
-                      'value'=>'number_format($data->tarif_tindakankomp)',
-                    ),
-                    array(
-                      'header'=>'Nama Dokter',
-                      'type'=>'raw',
-                      'value'=>'$data->nama_pegawai',
-                    ),        
+                        'header' => 'Jasa Pelayanan',
+                        'type' => 'raw',
+                        'value' => 'MyFormatter::formatNumberForPrint($data->tarif_tindakankomp)',
+						'htmlOptions' => array('style' => 'text-align:right;'),
+					),
+					array(
+						'header' => 'Instalasi/ <br/>Ruangan',
+						'type' => 'raw',
+						'value' => '$data->instalasi_nama."/<br/>".$data->ruangan_nama'
+					),    
                 ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
             )); 
