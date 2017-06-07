@@ -101,14 +101,14 @@ class BSLaporantindakankomponenV extends LaporantindakankomponenV
 
 		$criteria=new CDbCriteria;
                 
-		$criteria->select = 'pendaftaran_id, pasien_id, nama_pasien, namaperusahaan,no_pendaftaran, no_rekam_medik,tgl_pendaftaran,ruangan_nama,
+		$criteria->select = 'pendaftaran_id, pasien_id, namadepan,nama_pasien, namaperusahaan,no_pendaftaran, no_rekam_medik,tgl_pendaftaran,ruangan_nama,
 							ruangan_id,gelardepan,nama_pegawai,gelarbelakang_nama,instalasi_nama,instalasi_id,
 							sum(tarif_tindakan) As tarif_tindakan,
 							sum(tarif_tindakan) As total,
 							sum(tarif_tindakankomp) As tarif_rsakomodasi,
 							sum(qty_tindakan) As qty_tindakan
 							';
-		$criteria->group = 'pendaftaran_id, pasien_id, nama_pasien, namaperusahaan,no_pendaftaran, 
+		$criteria->group = 'pendaftaran_id, pasien_id, namadepan,nama_pasien, namaperusahaan,no_pendaftaran, 
 							no_rekam_medik,tgl_pendaftaran,ruangan_nama,ruangan_id,gelardepan,nama_pegawai,gelarbelakang_nama,instalasi_nama,instalasi_id';
 
 		$criteria->addBetweenCondition('date(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir);
@@ -131,14 +131,14 @@ class BSLaporantindakankomponenV extends LaporantindakankomponenV
 
 		$criteria = new CDbCriteria;
                 
-		$criteria->select = 'pendaftaran_id, pasien_id, nama_pasien, namaperusahaan,no_pendaftaran, no_rekam_medik,tgl_pendaftaran,ruangan_nama,
+		$criteria->select = 'pendaftaran_id, pasien_id, namadepan,nama_pasien, namaperusahaan,no_pendaftaran, no_rekam_medik,tgl_pendaftaran,ruangan_nama,
 							ruangan_id,gelardepan,nama_pegawai,gelarbelakang_nama,instalasi_nama,instalasi_id,
 							sum(tarif_tindakan) As tarif_tindakan,
 							sum(tarif_tindakan) As total,
 							sum(tarif_tindakankomp) As tarif_rsakomodasi,
 							sum(qty_tindakan) As qty_tindakan
 							';
-		$criteria->group = 'pendaftaran_id, pasien_id, nama_pasien, namaperusahaan,no_pendaftaran, 
+		$criteria->group = 'pendaftaran_id, pasien_id, namadepan,nama_pasien, namaperusahaan,no_pendaftaran, 
 							no_rekam_medik,tgl_pendaftaran,ruangan_nama,ruangan_id,gelardepan,nama_pegawai,gelarbelakang_nama,instalasi_nama,instalasi_id';
 
 		$criteria->addBetweenCondition('date(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir);
