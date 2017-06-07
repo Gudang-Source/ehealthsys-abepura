@@ -60,6 +60,7 @@ function fitTextInBoxAutoFit()
 var antrian_arr = [];
 var sound_arr = [];
 var is_call = false;
+var is_run = false;
 
 function push_arr(obj) {
 	antrian_arr.push(obj);
@@ -145,6 +146,7 @@ function setAntrians(pendaftaran_id){
             ?>
                     if(data.r_<?php echo $ruangan->ruangan_id;?>.pasien_id !== null){
 						i++;
+						is_run = true;
                         var pendaftaran_id = $("#ruangan_<?php echo $ruangan->ruangan_id;?>  #<?php echo CHtml::activeId($model, 'pendaftaran_id'); ?>").val();
                         // if(data.r_<?php echo $ruangan->ruangan_id;?>.pendaftaran_id != pendaftaran_id){
                             setFormAntrian($("#ruangan_<?php echo $ruangan->ruangan_id;?>"),data.r_<?php echo $ruangan->ruangan_id;?>);
@@ -166,7 +168,7 @@ function setAntrians(pendaftaran_id){
                 }
             }
             ?>
-			if (!is_call) call_antrian();
+			if (!is_call && is_run) call_antrian();
         },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
     });

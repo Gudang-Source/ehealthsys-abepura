@@ -73,7 +73,7 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                         array(
                             'header' => 'Tanggal Transaksi',
                             'type' => 'raw',
-                            'value' => 'date("d/m/Y",strtotime($data->tgl_pendaftaran))',
+                            'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
                         ),
                         array(
                             'header' => 'No. Rekam Medik',
@@ -81,9 +81,9 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                             'value' => '$data->no_rekam_medik',
                         ),
                         array(
-                            'header' => 'Nama Lengkap',
+                            'header' => 'Nama Pasien',
                             'type' => 'raw',
-                            'value' => '$data->nama_pasien',
+                            'value' => '$data->namadepan." ".$data->nama_pasien',
                         ),
                         array(
                             'header' => 'Unit Pelayanan',
