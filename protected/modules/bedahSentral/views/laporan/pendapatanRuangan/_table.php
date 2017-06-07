@@ -1,7 +1,44 @@
-<?php if (isset($caraPrint)){
+<?php 
+$itemsCssClass = 'table table-striped table-condensed';
+$table = 'ext.bootstrap.widgets.HeaderGroupGridView';
+$no = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
+if (isset($caraPrint)){
+	$no = '$row+1';
   $data = $model->searchPrint();  
   $template = "{items}";
   $sort = false;
+  if ($caraPrint == "EXCEL"){
+      $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
+   if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+  
+        echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemsCssClass = 'table border';
 } else{
   $data = $model->searchTable();
   $template = "{summary}\n{items}\n{pager}";
@@ -9,7 +46,7 @@
 }
 ?>
 
-<?php $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
+<?php $this->widget($table,array(
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
         'enableSorting'=>$sort,
@@ -18,35 +55,49 @@
             array(
                 'name'=>'<center>Tarif</center>',
                 'start'=>7, //indeks kolom 3
-                'end'=>8, //indeks kolom 4
+                'end'=>12, //indeks kolom 4
             ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemsCssClass,
 	'columns'=>array(
                 array(
                     'header' => 'No.',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                     'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1'
                 ),
+				array(
+					'header' => 'Tanggal Pendaftaran/ <br/> No Pendaftaran',
+					'type' => 'raw',
+					'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran'
+				),
                 array(
                     'name'=>'no_rekam_medik',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
+					'header' => 'Nama Pasien',
                     'name'=>'nama_pasien',
+					'value' => '$data->namadepan." ".$data->nama_pasien',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
+               
                 array(
-                    'name'=>'no_pendaftaran',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
-                    'name'=>'nama_pegawai',
+                    'header'=>'Dokter',
+					'value' => function($data){
+						$p = DokterV::model()->find("pegawai_id = '".$data->dokterpemeriksa1_id."' ");
+							
+						if (count($p)>0){
+							return $p->namaLengkap;
+						}else{
+							return '-';
+						}
+					},
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'header'=>'Cara Bayar Penjamin',
                     'name'=>'carabayarPenjamin',
+					'type' => 'raw',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
@@ -54,61 +105,78 @@
                     'value'=>'$data->kelaspelayanan_nama',
 //                    'name'=>'kelaspelayanan_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footer' => '<b>Total</b>',
+					'footerHtmlOptions' => array('style' => 'text-align:right;', 'colspan' => 7)
                 ),
                 array(
                     'header'=>'Tarif Satuan',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_satuan,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_satuan',
+                    'name'=>'tarif_satuan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_satuan)'
                 ),
                 array(
                     'header'=>'Tarif Cyto Tindakan',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarifcyto_tindakan,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarifcyto_tindakan',
+                    'name'=>'tarifcyto_tindakan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarifcyto_tindakan)'
                 ),
                 array(
                     'header'=>'Tarif RS Akomodasi',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_rsakomodasi,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_rsakomodasi',
+                    'name'=>'tarif_rsakomodasi',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_rsakomodasi)'
                 ),
                 array(
                     'header'=>'Tarif Medis',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_medis,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_medis',
+                    'name'=>'tarif_medis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_medis)'
                 ),
                 array(
                     'header'=>'Tarif Paramedis',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_paramedis,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_paramedis',
+                    'name'=>'tarif_paramedis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_paramedis)'
                 ),
                 array(
                     'header'=>'Tarif Bhp',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->tarif_bhp,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right'),
-//                    'name'=>'tarif_bhp',
+                    'name'=>'tarif_bhp',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(tarif_bhp)'
                 ),
                 array(
                     'header'=>'Total',
                     'type'=>'raw',
                     'value'=>'"Rp".number_format($data->totalTarif,0,"",".")',
+					'name' => 'totalTarif',
                     'htmlOptions'=>array('style'=>'text-align:right'),
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
+					'footerHtmlOptions' => array('style' => 'text-align:right;'),
+					'footer' => 'sum(totalTarif)'
                 ),
             
 //                'profilrs_id',

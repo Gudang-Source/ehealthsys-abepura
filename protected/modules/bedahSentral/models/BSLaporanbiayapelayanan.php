@@ -15,22 +15,36 @@ class BSLaporanbiayapelayanan extends LaporanbiayapelayananV{
                 ));
     }
     public function searchGrafik(){
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria;		
         $format = new MyFormatter();
-        $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
-        $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
-        $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->select = 'count(pendaftaran_id) as jumlah, kelaspelayanan_nama as data, penjamin_nama as tick';
-        $criteria->group = 'kelaspelayanan_nama, penjamin_nama, kelaspelayanan_id';
-         if (is_array($this->penjamin_id)){
-            $criteria->addInCondition('penjamin_id', $this->penjamin_id);
+		
+		if ($_GET['tampilGrafik'] == 'kelaspelayanan'){
+			$criteria->select = 'count(pendaftaran_id) as jumlah, kelaspelayanan_nama as data';
+			$criteria->group = 'data';
+		}elseif ($_GET['tampilGrafik'] == 'carabayar'){
+			if (!empty($this->penjamin_nama)){
+				$criteria->select = 'count(pendaftaran_id) as jumlah, penjamin_nama as data';
+				$criteria->group = 'data';
+			}else{
+				$criteria->select = 'count(pendaftaran_id) as jumlah, carabayar_nama as data';
+				$criteria->group = 'data';
+			}
+		}
+		
+       // $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
+      //  $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
+        $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);        
+        if (!empty($this->penjamin_id)){
+            $criteria->addCondition('penjamin_id ='.$this->penjamin_id);
         }else{
-            //$criteria->addCondition('penjamin_id is null');
+			if (!empty($this->carabayar_id)){
+				$criteria->addCondition('carabayar_id ='.$this->carabayar_id);
+			}
         }
         if (is_array($this->kelaspelayanan_id)){
             $criteria->addInCondition('kelaspelayanan_id', $this->kelaspelayanan_id);
         }else{
-            $criteria->addCondition('kelaspelayanan_id is null');
+            //$criteria->addCondition('kelaspelayanan_id is null');
         }
         $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         

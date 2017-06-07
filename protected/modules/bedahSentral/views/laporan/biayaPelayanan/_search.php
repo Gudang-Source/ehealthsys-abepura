@@ -141,7 +141,15 @@
                 <td> 
                     <div id='searching'>
                     <fieldset>    
-                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        <?php 
+						$cri = new CDbCriteria();
+						$cri->join = "JOIN kelasruangan_m kr ON kr.kelaspelayanan_id = t.kelaspelayanan_id";
+						$cri->addCondition(" t.kelaspelayanan_aktif = TRUE ");
+						$cri->addCondition(" kr.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+						$cri->order = "t.kelaspelayanan_nama ASC";
+						
+						$kelas = KelaspelayananM::model()->findAll($cri);						
+						$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                             'id'=>'kunjungan',
                             'slide'=>true,
                             'content'=>array(
@@ -151,7 +159,7 @@
                                             <table class="penjamin">                                            
                                             <tr>
                                                     <td>'.
-                                                           $form->checkBoxList($model, 'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama ASC"), 'kelaspelayanan_id', 'kelaspelayanan_nama'))
+                                                           $form->checkBoxList($model, 'kelaspelayanan_id', CHtml::listData($kelas, 'kelaspelayanan_id', 'kelaspelayanan_nama'))
                                                     .'</td>
                                             </tr>
                                             </table>',            
@@ -195,6 +203,28 @@
                     </div>      
                 </td>
                 </tr>
+				<tr>
+            <td>
+                  <?php 
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'kunjungan5',
+                        'slide'=>false,
+                        'content'=>array(
+                        'content5'=>array(
+                            'header'=>'Opsi Grafik',
+                            'isi'=>  '<table>
+                                        <tr>
+                                            <td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'kelaspelayanan')).' <label>Kelas Pelayanan</label></td>                                               
+											<td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                               
+                                        </tr>                                        										
+                                    </table>',          
+                            'active'=>TRUE,
+                                ),
+                        ),
+    //                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>	
+            </td>
+        </tr>
             </table>
             
     <div class="form-actions">
