@@ -108,6 +108,13 @@
                                     )),
                                     'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --')),
                     ),
+					array(
+                            'header'=>'Golongan Pegawai',
+                            'name'=>'golonganpegawai_id',
+                            'value'=>'(isset($data->golonganpegawai_id) ? $data->golonganpegawai->golonganpegawai_nama : "")',
+                            'filter'=>CHtml::activeDropDownList($model, 'golonganpegawai_id', CHtml::listData($model->getGolonganPegawaiItems(), 'golonganpegawai_id', 'golonganpegawai_nama'),
+								array('empty'=>'-- Pilih --')),
+                    ),
                     array(
 							'header'=>'Lihat Riwayat',
 							'type'=>'raw',

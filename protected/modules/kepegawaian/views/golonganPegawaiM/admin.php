@@ -57,6 +57,7 @@
                             ),
                             'golonganpegawai_nama',
                             'golonganpegawai_namalainnya',
+							'golonganpegawai_urutan',
                             array(
                                 'header'=>'<center>Status</center>',
                                 'value'=>'($data->golonganpegawai_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',

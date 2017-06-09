@@ -26,6 +26,7 @@
                     'golonganpegawai_id',
                     'golonganpegawai_nama',
                     'golonganpegawai_namalainnya',
+					'golonganpegawai_urutan',
                     array(             
                         'name'=>'golonganpegawai_aktif',
                         'type'=>'raw',
