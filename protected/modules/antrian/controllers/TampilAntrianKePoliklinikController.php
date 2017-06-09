@@ -1,7 +1,7 @@
 <?php
 class TampilAntrianKePoliklinikController extends Controller
 {
-    public $layout='//layouts/antrian';
+    public $layout='//layouts/antrianPoli';
     public $defaultAction = 'index';
     
     public function actionIndex($layarantrian_id = null)
@@ -38,15 +38,20 @@ class TampilAntrianKePoliklinikController extends Controller
             $modRuangans = $modRuangans->getRuanganAntrian($modLayar);
             if(count($modRuangans) > 0){
                 foreach ($modRuangans AS $r => $ruangan){
-                    $modKunjungan = $this->loadModelAntrian($ruangan->ruangan_id);
                     if(isset($_POST['pendaftaran_id'])&&$_POST['pendaftaran_id']!=''){
                         $modKunjungan = $this->loadModelAntrianById($ruangan->ruangan_id,$_POST['pendaftaran_id']);
-                    }
-                    if(isset($modKunjungan)){
+                    } else {
+						$modKunjungan = $this->loadModelAntrian($ruangan->ruangan_id);
+					}
+                    if(!empty($modKunjungan)){
                         $attributes = $modKunjungan->attributeNames();
+						$r = RuanganM::model()->findByPk($ruangan->ruangan_id);
                         foreach($attributes as $i=>$attribute) {
                             $data["r_".$ruangan->ruangan_id]["$attribute"] = $modKunjungan->$attribute;
                         }
+						// var_dump($r->attributes); die;
+						$data["r_".$ruangan->ruangan_id]['ruangan_filesuara'] = $r->ruangan_filesuara;
+						$data["r_".$ruangan->ruangan_id]['antri_terbilang'] = strtolower(MyFormatter::formatNumberTerbilang((int)$modKunjungan->no_urutantri));
                     }
                 }
             }

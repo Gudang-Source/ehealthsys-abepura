@@ -49,6 +49,7 @@
 											),
 											'htmlOptions'=>array(
 												'onkeypress'=>"return $(this).focusNextInputField(event)",
+                                                                                                'class' => 'hurufs-only'
 												
 											),
 											'tombolDialog'=>array('idDialog'=>'dialogInstalasi'),
@@ -92,21 +93,23 @@
 											),
 											'htmlOptions'=>array(
 												'onkeypress'=>"return $(this).focusNextInputField(event)",
+                                                                                            'class' => 'hurufs-only'
 												
 											),
 											'tombolDialog'=>array('idDialog'=>'dialogJenisalatmedis'),
+                                                            
 										)); 
 						 ?>
 				</div>
 			</div>
-			<?php echo $form->textFieldRow($model,'alatmedis_noaset',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-			<?php echo $form->textFieldRow($model,'alatmedis_nama',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-			<?php echo $form->textFieldRow($model,'alatmedis_namalain',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+			<?php echo $form->textFieldRow($model,'alatmedis_noaset',array('class'=>'span3 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'style' => 'text-align:right;')); ?>
+			<?php echo $form->textFieldRow($model,'alatmedis_nama',array('class'=>'span3 kode-alatmedis', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+			<?php echo $form->textFieldRow($model,'alatmedis_namalain',array('class'=>'span3 hurufs-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			<?php echo $form->checkBoxRow($model,'alatmedis_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 		<div class = "span4">
-			<?php echo $form->textFieldRow($model,'alatmedis_kode',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2)); ?>
-			<?php echo $form->textFieldRow($model,'alatmedis_format',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
+			<?php echo $form->textFieldRow($model,'alatmedis_kode',array('class'=>'span3 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2, 'style' => 'text-align:right;')); ?>
+			<?php echo $form->textFieldRow($model,'alatmedis_format',array('class'=>'span3 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10, 'style' => 'text-align:right;')); ?>
 		</div>
 		<div class="span4">
 				
@@ -120,7 +123,15 @@
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Alat Medis',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('content'=>''));?>
+		<?php  
+                        $tips = array(
+                            '0' => 'autocomplete-search',
+                            '1' => 'simpan',
+                            '2' => 'ulang',
+                        );
+                        $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips' => $tips),true);
+                        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+        ?>
 		</div>
 	</div>
 <?php $this->endWidget(); ?>
@@ -133,7 +144,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 		'autoOpen'=>false,
 		'modal'=>true,
 		'width'=>980,
-		'height'=>480,
+		'height'=>580,
 		'resizable'=>false,
 	),
 ));
@@ -154,7 +165,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			array(
 				'header'=>'Pilih',
 				'type'=>'raw',
-				'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+				'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
 							"#",
 							array(
 								"class"=>"btn-small", 
@@ -183,7 +194,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 		'autoOpen'=>false,
 		'modal'=>true,
 		'width'=>980,
-		'height'=>480,
+		'height'=>580,
 		'resizable'=>false,
 	),
 ));
@@ -204,7 +215,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			array(
 				'header'=>'Pilih',
 				'type'=>'raw',
-				'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+				'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
 							"#",
 							array(
 								"class"=>"btn-small", 

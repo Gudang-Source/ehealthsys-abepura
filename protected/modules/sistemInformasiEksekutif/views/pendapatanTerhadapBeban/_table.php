@@ -60,13 +60,13 @@ if (isset($caraPrint)) {
                             </td>
                             <td>
                                 <?php
-                                echo number_format($value['jumlah_pendapatan']);
+                                echo number_format($value['jumlah_pendapatan'],0,"",".");
                                 $total_pendapatan += $value['jumlah_pendapatan'];
                                 ?>
                             </td>
                             <td>
                                 <?php
-                                echo number_format($value['jumlah_beban']);
+                                echo number_format($value['jumlah_beban'],0,"",".");
                                 $total_beban += $value['jumlah_beban'];
                                 ?>
                             </td>

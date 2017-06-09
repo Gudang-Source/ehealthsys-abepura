@@ -22,6 +22,7 @@ class GFFakturpembelianT extends FakturpembelianT {
     public $noterima,$tglterima,$nopermintaan;
     public $fakturpembelian_id;
     public $tabPrint;    
+	public $total_pph;
     
     public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
 
@@ -64,7 +65,7 @@ class GFFakturpembelianT extends FakturpembelianT {
         $criteria=new CDbCriteria;
         $this->tgl_awal  = $format->formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
-
+		/*
         $criteria->select = 't.nofaktur,t.tglfaktur, t.tgljatuhtempo, t.keteranganfaktur, t.bayarkesupplier_id,t.fakturpembelian_id,
                              t.create_ruangan,supplier_m.supplier_id,supplier_m.supplier_nama,supplier_m.supplier_alamat,
                              sum(penerimaandetail_t.harganettoper * penerimaandetail_t.jmlterima) as total_bruto,
@@ -84,7 +85,75 @@ class GFFakturpembelianT extends FakturpembelianT {
                            LEFT JOIN penerimaanbarang_t ON t.fakturpembelian_id = penerimaanbarang_t.fakturpembelian_id
                            LEFT JOIN penerimaandetail_t ON penerimaanbarang_t.penerimaanbarang_id = penerimaandetail_t.penerimaanbarang_id';
         $criteria->group = 't.nofaktur,t.tglfaktur,t.tgljatuhtempo,t.keteranganfaktur,t.create_ruangan,t.fakturpembelian_id,
-                            supplier_m.supplier_id,supplier_m.supplier_nama,supplier_alamat,t.bayarkesupplier_id,t.fakturpembelian_id';
+                            supplier_m.supplier_id,supplier_m.supplier_nama,supplier_alamat,t.bayarkesupplier_id,t.fakturpembelian_id';*/
+		$criteria->select = "	t.fakturpembelian_id,
+								s.supplier_nama,
+								s.supplier_id,
+								t.nofaktur,
+								t.tglfaktur,
+								t.tgljatuhtempo,
+								SUM(fd.jmlterima * fd.hargasatuan) as total_bruto,
+								SUM(fd.jmldiscount) as total_discount, 
+								ceil(SUM( (fd.persenppnfaktur/100) * (fd.jmlterima * fd.hargasatuan) )) as total_ppn,
+								ceil(SUM( (fd.persenpphfaktur/100) * (fd.jmlterima * fd.hargasatuan) )) as total_pph,
+								t.biayamaterai as materai,
+								( SUM(fd.jmlterima * fd.hargasatuan) 
+									-  SUM(fd.jmldiscount)
+									+ (ceil(SUM( (fd.persenppnfaktur/100) * (fd.jmlterima * fd.hargasatuan) )))
+									+ (ceil(SUM( (fd.persenpphfaktur/100) * (fd.jmlterima * fd.hargasatuan) )))
+								+t.biayamaterai
+								) as total_netto,
+								( SUM(fd.jmlterima * fd.hargasatuan) 
+									-  SUM(fd.jmldiscount)
+									+ (ceil(SUM( (fd.persenppnfaktur/100) * (fd.jmlterima * fd.hargasatuan) )))
+									+ (ceil(SUM( (fd.persenpphfaktur/100) * (fd.jmlterima * fd.hargasatuan) )))
+									+t.biayamaterai
+								) as total_tagihan,
+								 ( (CASE 	WHEN 
+											t.bayarkesupplier_id IS NOT NULL 
+										THEN 
+											(
+												SELECT sum(bk.jmlkaskeluar) 
+												FROM bayarkesupplier_t byr 
+												JOIN tandabuktikeluar_t bk ON bk.tandabuktikeluar_id = byr.tandabuktikeluar_id
+												where byr.bayarkesupplier_id = t.bayarkesupplier_id 				
+											) 
+										ELSE 
+											0 
+										END
+									)) as total_bayar,
+								 ( 
+									( SUM(fd.jmlterima * fd.hargasatuan) 
+										-  SUM(fd.jmldiscount)
+										+ (ceil(SUM( (fd.persenppnfaktur/100) * (fd.jmlterima * fd.hargasatuan) )))
+										+ (ceil(SUM( (fd.persenpphfaktur/100) * (fd.jmlterima * fd.hargasatuan) )))
+										+ t.biayamaterai
+									) 
+									- 
+									(CASE 	WHEN 
+											t.bayarkesupplier_id IS NOT NULL 
+										THEN 
+											(
+												SELECT sum(bk.jmlkaskeluar) 
+												FROM bayarkesupplier_t byr 
+												JOIN tandabuktikeluar_t bk ON bk.tandabuktikeluar_id = byr.tandabuktikeluar_id
+												where byr.bayarkesupplier_id = t.bayarkesupplier_id 				
+											) 
+										ELSE 
+											0 
+										END
+									)
+) as total_sisa 
+								 ";
+		$criteria->join = "	JOIN supplier_m s ON s.supplier_id = t.supplier_id 
+							JOIN fakturdetail_t fd ON fd.fakturpembelian_id = t.fakturpembelian_id 	";
+		$criteria->group = " t.fakturpembelian_id,
+								t.biayamaterai,
+								s.supplier_nama,
+								s.supplier_id,
+								t.nofaktur,
+								t.tglfaktur,
+								t.tgljatuhtempo ";
 		if(!empty($this->supplier_id)){
 			$criteria->addCondition('t.supplier_id = '.$this->supplier_id);
 		}        

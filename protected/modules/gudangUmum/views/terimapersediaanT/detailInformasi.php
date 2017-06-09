@@ -108,7 +108,7 @@ $format = new MyFormatter;
         <th>Jumlah Terima</th>
         <!--<th>Satuan</th>-->
         <th>Ukuran<br/>Bahan</th>
-        <th>Sub Total</th>
+        <th>Subtotal</th>
     </thead>
     <tbody>
     <?php
@@ -144,7 +144,9 @@ $format = new MyFormatter;
      
          $diskon = $modTerima->discount;
          $ppn = $modTerima->pajakppn;
-         $totalseluruh = ($total - $diskon) + $ppn;
+         $pph = $modTerima->pajakpph;
+         $biayaadmin = $modTerima->biayaadministrasi;
+         $totalseluruh = ($total - $diskon) + $ppn + $pph + $biayaadmin;
     ?>
             <tr>
                 <td colspan = "10" style = "text-align:right;border-top: 1px solid #000;"><b>Total</b></td>
@@ -153,6 +155,14 @@ $format = new MyFormatter;
              <tr>
                 <td colspan = "10" style = "text-align:right;border-top: 1px solid #000;"><b>Diskon</b></td>
                 <td style = "border-top: 1px solid #000;text-align:right;"><b><?php echo $format->formatNumberForPrint($diskon); ?></b></td>
+            </tr>
+            <tr>
+                <td colspan = "10" style = "text-align:right;border-top: 1px solid #000;"><b>Biaya Administrasi</b></td>
+                <td style = "border-top: 1px solid #000;text-align:right;"><b><?php echo $format->formatNumberForPrint($biayaadmin); ?></b></td>
+            </tr>
+            <tr>
+                <td colspan = "10" style = "text-align:right;border-top: 1px solid #000;"><b>PPH</b></td>
+                <td style = "border-top: 1px solid #000;text-align:right;"><b><?php echo $format->formatNumberForPrint($pph); ?></b></td>
             </tr>
              <tr>
                 <td colspan = "10" style = "text-align:right;border-top: 1px solid #000;"><b>PPN</b></td>

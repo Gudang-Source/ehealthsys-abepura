@@ -3,6 +3,7 @@
 class GUTerimapersediaanT extends TerimapersediaanT{
     
     public $sumberdana;
+    public $totalkeseluruhan;
     
     public static function model($className = __CLASS__) {
         return parent::model($className);

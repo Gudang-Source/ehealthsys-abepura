@@ -41,7 +41,7 @@ class MutasibrgTController extends MyAuthController {
                     $modDetails[$i]->attributes = $row->attributes;
                     $modDetails[$i]->barang_id = $row->barang_id;
                     $modDetails[$i]->satuanbrg = $row->satuanbarang;
-                    $modDetails[$i]->qty_mutasi = $row->qty_pesan;
+                    $modDetails[$i]->qty_mutasi = $row->qty_pesan;                    
                     if (Yii::app()->user->getState('krngistokumum') == true){
                         if (InventarisasiruanganT::validasiStok($modDetails[$i]->qty_mutasi, $modDetails[$i]->barang_id) == false){
                             $modDetails[$i]->qty_mutasi = 0;
@@ -591,6 +591,8 @@ class MutasibrgTController extends MyAuthController {
                                 $modDetails[$ii]->barang_kode = $brg->barang_kode;
                                 $modDetails[$ii]->barang_nama = $brg->barang_nama;
                                 $modDetails[$ii]->barang_merk = $brg->barang_merk;
+                                $modDetails[$ii]->barang_ukuran = $brg->barang_ukuran;
+                                $modDetails[$ii]->barang_ekonomis_thn = $brg->barang_ekonomis_thn;
                                 $modDetails[$ii]->qty_pesan = $detail->qty_pesan;
                                 $modDetails[$ii]->qty_mutasi = $detail->qty_pesan;
                                 $modDetails[$ii]->satuanbrg = $detail->satuanbarang;

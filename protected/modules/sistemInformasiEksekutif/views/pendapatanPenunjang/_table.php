@@ -131,7 +131,7 @@ foreach ($temp_total as $key => $value) {
                                 ?>
                                 <td>
                                     <?php
-                                    echo $jml[$x];
+                                    echo number_format($jml[$x],0,"",".");
                                     ?>
                                 </td>
                                 <?php
@@ -147,7 +147,7 @@ foreach ($temp_total as $key => $value) {
                         foreach ($total_row as $value) {
                             ?><td>
                                 <?php
-                                echo "<strong>" . number_format($value, 0) . "</strong>";
+                                echo "<strong>" . number_format($value, 0,"",".") . "</strong>";
                                 ?>
                             </td>
                         <?php }

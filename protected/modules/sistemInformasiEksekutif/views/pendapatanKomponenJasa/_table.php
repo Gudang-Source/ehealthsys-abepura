@@ -59,7 +59,7 @@ if (isset($caraPrint)) {
                         foreach ($dataTable as $key => $value) {
                             ?><td>
                                 <?php
-                                echo number_format($value->jumlah_medis, 0);
+                                echo number_format($value->jumlah_medis, 0,"",".");
                                 ?>
                             </td>
                         <?php }
@@ -73,7 +73,7 @@ if (isset($caraPrint)) {
                         foreach ($dataTable as $key => $value) {
                             ?><td>
                                 <?php
-                                echo number_format($value->jumlah_paramedis, 0);
+                                echo number_format($value->jumlah_paramedis, 0,"",".");
                                 ?>
                             </td>
                         <?php }
@@ -87,7 +87,7 @@ if (isset($caraPrint)) {
                         foreach ($dataTable as $key => $value) {
                             ?><td>
                                 <?php
-                                echo "<strong>" . number_format($value->jumlah_medis + $value->jumlah_paramedis, 0) . "</strong>";
+                                echo "<strong>" . number_format($value->jumlah_medis + $value->jumlah_paramedis, 0,"",".") . "</strong>";
                                 ?>
                             </td>
                         <?php }

@@ -8,7 +8,7 @@
             'id'=>'gureturpenerimaan-t-form',
             'enableAjaxValidation'=>false,
             'type'=>'horizontal',
-            'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+            'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)','onsubmit' => 'return requiredCheck(this);'),
             'focus'=>'#',
     )); ?>
 
@@ -37,13 +37,13 @@
                                 'dateFormat' => Params::DATE_FORMAT,
                                 'maxDate' => 'd',
                             ),
-                            'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)",),
+                            'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3 ', 'onkeypress' => "return $(this).focusNextInputField(event)",),
                         ));
                         ?>
                         <?php echo $form->error($model, 'tglreturterima'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model,'alasanreturterima',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+                <?php echo $form->textFieldRow($model,'alasanreturterima',array('placeholder' => 'Ketik Alasan Retur','class'=>'span3 angkahuruf-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                 <?php echo $form->textAreaRow($model,'keterangan_retur',array('rows'=>6, 'cols'=>50, 'class'=>'span5', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
@@ -84,7 +84,7 @@
                                                                         }',
                             ),
                             'htmlOptions' => array(
-                                'class'=>'namaPegawai',
+                                'class'=>'namaPegawai hurufs-only',
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogPegawai', 'jsFunction'=>'openDialog("'.Chtml::activeId($model, 'peg_retur_id').'");'),
@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="control-group ">
-                    <?php echo $form->labelEx($model, 'peg_mengetahui_id', array('class' => 'control-label')); ?>
+                    <?php echo Chtml::label("Pegawai Mengetahui <font style='color:red;'>*</font>", 'peg_mengetahui_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'peg_mengetahui_id'); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
@@ -127,7 +127,7 @@
                                                                         }',
                             ),
                             'htmlOptions' => array(
-                                'class'=>'namaPegawai',
+                                'class'=>'namaPegawai hurufs-only required',
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogPegawai', 'jsFunction'=>'openDialog("'.Chtml::activeId($model, 'peg_mengetahui_id').'");'),
@@ -297,13 +297,28 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             array(
                 'header'=>'NIP',
                 'name'=>'nomorindukpegawai',
-                'value'=>'$data->nomorindukpegawai'
+                'value'=>'$data->nomorindukpegawai',
+                'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class' => 'numbers-only'))
             ),
-            'nama_pegawai',            
             array(
-                'name'=>'jeniskelamin',
-                'filter'=> CHtml::dropDownList('GUPegawaiRuanganV[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
-                'value'=>'$data->jeniskelamin',
+                'header'=>'Nama Pegawai',
+                'name'=>'nama_pegawai',
+                'value'=>'$data->namaLengkap',
+                'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class' => 'hurufs-only'))
+            ),            
+            array(
+                'header' =>  'Jabatan',
+                'name'=>'jabatan_id',
+                'filter'=> CHtml::dropDownList('GUPegawaiRuanganV[jabatan_id]',$modPegawai->jabatan_id, Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --')),
+                'value'=> function($data){
+                    $j = JabatanM::model()->findByPk($data->jabatan_id);
+                    
+                    if (count($j)>0){
+                        return $j->jabatan_nama;
+                    }else{
+                        return '-';
+                    }
+                }
                 ),
             //'alamat_pegawai',
             //'agama',

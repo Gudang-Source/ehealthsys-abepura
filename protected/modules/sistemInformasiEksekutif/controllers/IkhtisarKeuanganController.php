@@ -95,7 +95,7 @@ class IkhtisarKeuanganController extends MyAuthController {
         switch ($model->jns_periode) {
             case 'bulan' : $sql = "
 		SELECT 
-		date_trunc('month', tglperiodeposting_awal) as periode, coalesce(sum(saldoakhirberjalan), 0)  as jumlah
+		date_trunc('month', tglperiodeposting_awal) as periode, coalesce(sum(jumlah), 0)  as jumlah
 		FROM laporanlabarugi_v
 		WHERE DATE(tglperiodeposting_awal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY periode
@@ -104,7 +104,7 @@ class IkhtisarKeuanganController extends MyAuthController {
                 break;
             case 'tahun' : $sql = "
 		SELECT 
-		date_trunc('year', tglperiodeposting_awal) as periode, coalesce(sum(saldoakhirberjalan), 0)  as jumlah
+		date_trunc('year', tglperiodeposting_awal) as periode, coalesce(sum(jumlah), 0)  as jumlah
 		FROM laporanlabarugi_v
 		WHERE DATE(tglperiodeposting_awal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY periode
@@ -114,7 +114,7 @@ class IkhtisarKeuanganController extends MyAuthController {
                 break;
             default : $sql = "
 		SELECT 
-		date_trunc('day', tglperiodeposting_awal) as periode, coalesce(sum(saldoakhirberjalan), 0)  as jumlah
+		date_trunc('day', tglperiodeposting_awal) as periode, coalesce(sum(jumlah), 0)  as jumlah
 		FROM laporanlabarugi_v
 		WHERE DATE(tglperiodeposting_awal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY periode

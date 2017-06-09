@@ -99,7 +99,7 @@
                                             }',
                                     ),
                                     'htmlOptions' => array(
-                                            'class'=>'pegawaimengetahui_nama',
+                                            'class'=>'pegawaimengetahui_nama hurufs-only',
                                             'onkeyup'=>"return $(this).focusNextInputField(event)",
                                             'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'mengetahui_id') . '").val(""); '
                                     ),
@@ -225,10 +225,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'NIP',
                     'value'=>'$data->nomorindukpegawai',
                     'name'=>'nomorindukpegawai',
+					'filter' => CHtml::activeTextField($modPegawaiMengetahui, 'nomorindukpegawai', array('class' =>'numbers-only'))
                 ),
                 array(
                     'header'=>'Nama Pegawai',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
+                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai', array('class' => 'hurufs-only')),
                     'value'=>'$data->namaLengkap',
                 ),
 				array(
@@ -253,7 +254,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ), */
             ),
             'afterAjaxUpdate' => 'function(id, data){
-            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+						. '$(".numbers-only").keyup(function(){setNumbersOnly(this);});'
+						. '$(".hurufs-only").keyup(function(){setHurufsOnly(this);});}',
         ));
 $this->endWidget();
 //========= end Pegawai Mengetahui dialog =============================

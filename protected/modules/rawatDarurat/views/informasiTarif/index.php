@@ -58,6 +58,7 @@
                 'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
 
         )); ?>
+		<div id='formCariInput'>
         <table width='100%'>
             <tr>
                 <td>
@@ -70,10 +71,11 @@
                 </td>
                 <td>
                     <?php echo $form->dropDownListRow($modTarifTindakanRuanganV,'kelaspelayanan_id',CHtml::listData($modTarifTindakanRuanganV->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
-                    <?php echo $form->textFieldRow($modTarifTindakanRuanganV,'daftartindakan_nama',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'placeholder'=>'Ketik nama daftar tindakan')); ?>
+                    <?php echo $form->textFieldRow($modTarifTindakanRuanganV,'daftartindakan_nama',array( 'class' => 'custom-only','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'placeholder'=>'Ketik nama daftar tindakan')); ?>
                 </td>
             </tr>
         </table>
+		</div>
         <div class="form-actions">
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit',
                 'ajax' => array(

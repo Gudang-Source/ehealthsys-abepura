@@ -11,86 +11,94 @@ if (isset($caraPrint)){
 }
 ?>
 <?php
-echo CHtml::css('.control-label{
-    float:left; 
-    text-align: right; 
-    width:140px;
-    font-size:12px;
-    color:black;
-    padding-right:10px;
-    }
-    .data-pasien td.right{
-        width:140px;
-        text-align: right; 
-    }
-');
+echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
 ?>
+
 <table width="100%" style='margin-left:auto; margin-right:auto;' class="data-pasien">
     <tr>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('nama_pasien')); ?>:</label>
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('nama_pasien')); ?></b></label>
         </td>
         <td>
-            <?php echo CHtml::encode($modPendaftaran->pasien->nama_pasien); ?>
+            : <?php echo CHtml::encode($modPendaftaran->pasien->nama_pasien); ?>
         </td>
-        <td width="30%">
-        </td>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?>:</label>
+       
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?></b></label>
         </td>
         <td>
-            <?php echo MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran); ?>
+            : <?php echo MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran); ?>
         </td>
     </tr>
     <tr>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('jeniskelamin')); ?>:</label>
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('jeniskelamin')); ?></b></label>
         </td>
         <td>
-            <?php echo CHtml::encode($modPendaftaran->pasien->jeniskelamin); ?>
+            : <?php echo CHtml::encode($modPendaftaran->pasien->jeniskelamin); ?>
         </td>
-        <td width="30%">
-        </td>
-        <td class="right">
-             <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('no_pendaftaran')); ?>:</label>
+       
+        <td class="left">
+             <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('no_pendaftaran')); ?></b></label>
         </td>
         <td>
-            <?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?>
+            : <?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?>
         </td>
     </tr>
     <tr>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('umur')); ?>:</label>
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('umur')); ?></b></label>
         </td>
         
         <td>
-            <?php echo CHtml::encode($modPendaftaran->umur); ?>
+            : <?php echo CHtml::encode($modPendaftaran->umur); ?>
         </td>
-        <td width="30%">
-        </td>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('kelas_pelayanan')); ?>:</label>
+     
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('kelas_pelayanan')); ?></b></label>
             
         </td>
         
         <td>
-            <?php echo CHtml::encode($modPendaftaran->kelaspelayanan->kelaspelayanan_nama); ?>
+            : <?php echo CHtml::encode($modPendaftaran->kelaspelayanan->kelaspelayanan_nama); ?>
         </td>
     </tr>
     <tr>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('carabayar_id')); ?>:</label>
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('carabayar_id')); ?></b></label>
         </td>
         <td>
-            <?php echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama); ?>
+            : <?php echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama); ?>
         </td>
-        <td width="30%">
-        </td>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('diagnosa')); ?>:</label>
+        
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('diagnosa')); ?></b></label>
         </td>
         <td>
-              <?php if (count($modPendaftaran->diagnosa) > 0 ){ ?>
+            :  <?php if (count($modPendaftaran->diagnosa) > 0 ){ ?>
                     <ul>
                             <?php foreach ($modPendaftaran->diagnosa as $row){
                                 echo '<li>'.$row->diagnosa->diagnosa_nama.'</li>';
@@ -100,26 +108,26 @@ echo CHtml::css('.control-label{
         </td>
     </tr>
     <tr>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('penjamin_id')); ?>:</label>
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('penjamin_id')); ?></b></label>
         </td>
         <td>
-            <?php echo CHtml::encode($modPendaftaran->penjamin->penjamin_nama); ?>
+            : <?php echo CHtml::encode($modPendaftaran->penjamin->penjamin_nama); ?>
         </td>
-        <td width="30%">
-        </td>
-        <td class="right">
-            <label class='control-label'><?php echo CHtml::encode($modPenunjang->getAttributeLabel('no_masukpenunjang')); ?>:</label>
+       
+        <td class="left">
+            <label class='control-label'><b><?php echo CHtml::encode($modPenunjang->getAttributeLabel('no_masukpenunjang')); ?></b></label>
         </td>
         <td>
-            <?php echo CHtml::encode($modPenunjang->no_masukpenunjang); ?>
+            : <?php echo CHtml::encode($modPenunjang->no_masukpenunjang); ?>
         </td>
     </tr>
     
     </table>
+<p>&nbsp;</p>
 <?php echo CHtml::css('td.textright{text-align:right;}'); ?>
-<table class='table table-striped table-bordered table-condensed'>
-    <thead>
+<table class='border table'>
+  
         <tr>
             <th>
                 Keterangan
@@ -146,8 +154,7 @@ echo CHtml::css('.control-label{
                 Status Bayar
             </th> 
         </tr>
-    </thead>
-    <tbody>
+ 
         <?php 
         $ruangan = array();
         $total = 0;
@@ -189,8 +196,7 @@ echo CHtml::css('.control-label{
             $iurBiaya += $row->iurbiaya_tindakan;
         }
         ?>
-    </tbody>
-    <tfoot>
+   
         <tr>
             <td colspan="6"><div class='pull-right'>Total Tagihan</div></td>
             <td class="textright"><?php echo number_format($total, 0,',','.'); ?></td>
@@ -216,7 +222,7 @@ echo CHtml::css('.control-label{
             <td class="textright"><?php echo number_format($iurBiaya, 0,',','.'); ?></td>
             <td></td>
         </tr>
-    </tfoot>
+   
 </table>
     <?php
 

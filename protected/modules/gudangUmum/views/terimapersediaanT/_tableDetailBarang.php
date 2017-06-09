@@ -3,21 +3,24 @@
 <table class="table table-striped table-condensed" id="tableDetailBarang">
     <thead>
         <tr>
-            <th>Golongan</th>
+            <!--<th>Golongan</th>
             <th>Bidang</th>
             <th>Kelompok</th>
             <th>Sub Kelompok</th>
-            <th>Sub Sub Kelompok</th>
-            <th>Barang</th>
+            <th>Sub Sub Kelompok</th>-->
+            <th>Tipe Barang</th>
+            <th>Kode Barang</th>
+            <th>Nama Barang</th>            
+            <th>Isi Kemasan</th>
             <th>Jumlah Terima</th>
-            <th>Harga Satuan</th>
-            <th>Harga Beli</th>
+            <th>Harga Satuan (Rp)</th>
+            <th>Harga Beli (Rp)</th>
             <?php if (!empty($modBeli->pembelianbarang_id)) { ?>
             <th>Jumlah Beli</th>
             <?php } ?>
-            <th>Satuan</th>
-            <th>Jumlah<br/>Kemasan</th>
-            <th>kondisi Barang</th>
+            <!--<th>Satuan</th>-->
+            
+            <th>Kondisi Barang</th>
             <th>Batal</th>
         </tr>
     </thead>
@@ -30,18 +33,21 @@
             <tr>   
                 <td><?php
                     echo CHtml::activeHiddenField($detail, '['.$i.']barang_id',array('class'=>'barang')); 
-                    echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama:null; 
+                    echo CHtml::activeHiddenField($detail, '['.$i.']satuanbeli',array()); 
+                   // echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama:null; 
+                    echo $modBarang->barang_type;
                     ?>
                 </td>
-                <td><?php echo !empty($modBarang->subsubkelompok)? $modBarang->subsubkelompok->subkelompok->kelompok->bidang->bidang_nama:null; ?></td>
-                <td><?php echo !empty($modBarang->subsubkelompok)? $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama:null; ?></td>
-                <td><?php echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subkelompok->subkelompok_nama:null; ?></td>
-                <td><?php echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subsubkelompok_nama:null; ?></td>
+              <!--  <td><?php //echo !empty($modBarang->subsubkelompok)? $modBarang->subsubkelompok->subkelompok->kelompok->bidang->bidang_nama:null; ?></td>
+                <td><?php //echo !empty($modBarang->subsubkelompok)? $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama:null; ?></td>
+                <td><?php //echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subkelompok->subkelompok_nama:null; ?></td>
+                <td><?php //echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subsubkelompok_nama:null; ?></td>-->
+                <td><?php echo $modBarang->barang_kode; ?></td>
                 <td><?php echo $modBarang->barang_nama; ?></td>
-                
+                <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldalamkemasan', array( 'class'=>'span1')); ?></td>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']jmlterima', array('class'=>'span1 numbersOnly qty', 'onblur'=>'setTotalHarga();'.(isset($modBeli)) ?'cekTerima(this)':'', 'style'=>'text-align: right;'));
+                    echo CHtml::activeTextField($detail, '['.$i.']jmlterima', array('class'=>'span1 numbersOnly qty', 'onblur'=>'setTotalHarga();'.(isset($modBeli)) ?'cekTerima(this)':'', 'style'=>'text-align: right;')).' '.$modBarang->barang_satuan;
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']jmlterima');
                 ?>
@@ -69,8 +75,7 @@
                 ?>
                 </td>
                 <?php } ?>
-                <td><?php echo CHtml::activeDropDownList($detail, '['.$i.']satuanbeli', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
-                <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldalamkemasan', array( 'class'=>'span1')); ?></td>
+                <!--<td><?php //echo CHtml::activeDropDownList($detail, '['.$i.']satuanbeli', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>                -->
                 <td><?php echo CHtml::activeDropDownList($detail, '['.$i.']kondisibarang', LookupM::getItems('inventariskeadaan'), array('class'=>'span2')); ?></td>
                 
                 <td><?php echo Chtml::link('<icon class="icon-remove"></icon>', '', array('onclick'=>'batal(this);', 'style'=>'cursor:pointer;', 'class'=>'cancel')); ?></td>

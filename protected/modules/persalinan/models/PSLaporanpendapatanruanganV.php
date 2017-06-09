@@ -61,7 +61,7 @@ class PSLaporanpendapatanruanganV extends LaporanpendapatanruanganV {
     public function functionCriteria(){
         $criteria = new CDbCriteria();
         
-        $criteria->addBetweenCondition('tgl_pendaftaran', $this->tglAwal, $this->tglAkhir);
+        $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
 		
 		if(!empty($this->profilrs_id)){
 			$criteria->addCondition('profilrs_id ='.$this->profilrs_id);

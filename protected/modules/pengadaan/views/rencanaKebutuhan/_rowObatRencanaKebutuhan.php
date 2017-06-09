@@ -26,16 +26,27 @@
         <?php echo MyFormatter::formatDateTimeForUser($modRencanaDetailKeb->obatalkes->tglkadaluarsa); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]minimalstok',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;')); ?>
+        <?php 
+		echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]minimalstok',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;')); 
+		echo " ".$modRencanaDetailKeb->obatalkes->satuankecil->satuankecil_nama;
+		?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]maksimalstok',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;')); ?>
+        <?php 
+		echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]maksimalstok',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;')); 
+		echo " ".$modRencanaDetailKeb->obatalkes->satuankecil->satuankecil_nama;
+		?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]stokakhir',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;')); ?>
+        <?php 
+		echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]stokakhir',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;')); 
+		echo " ".$modRencanaDetailKeb->obatalkes->satuankecil->satuankecil_nama;
+		?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]jmlpermintaan',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php 
+		echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]jmlpermintaan',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); 
+		?>
     </td>
     <td>
         <?php echo CHtml::activeDropDownList($modRencanaDetailKeb, '[ii]satuanobat', LookupM::getItems('satuanobat'),array('onChange'=>'pilihSatuan(this);','style'=>'width:100px;')); ?><br>
@@ -48,6 +59,7 @@
         </div>
     </td>
     <td>
+		<?php echo CHtml::activeHiddenField($modRencanaDetailKeb, '[ii]satuankecil_id'); ?>
         <?php echo CHtml::activeTextField($modRencanaDetailKeb,'[ii]harganettorenc',array('readonly'=>false,'class'=>'span2 integer2','onblur'=>'hitungTotal();','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td hidden>

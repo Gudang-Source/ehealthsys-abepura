@@ -33,6 +33,8 @@
                             ),
                             'htmlOptions'=>array(
                                 'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                'class' => 'alphanumeric-only',
+                                'placeholder' => 'Ketik No Penerimaan'
                             ),
                             'tombolDialog'=>array('idDialog'=>'dialogPenerimaan'),
                         ));
@@ -96,8 +98,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'dataProvider'=>$provider,
 	'filter'=>$terima,
 	'template'=>"{summary}\n{items}\n{pager}",
-	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-        'afterAjaxUpdate' => 'reinstallDatePicker', // (#1)
+	'itemsCssClass'=>'table table-striped table-bordered table-condensed',        
 	'columns'=>array(
                 array(
                     'header'=>'Pilih',
@@ -112,7 +113,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
             array(
                 'header'=>'No. Penerimaan',
-                'name'=>'nopenerimaan'
+                'name'=>'nopenerimaan',
+                'filter' => Chtml::activeTextField($terima, 'nopenerimaan', array('class' => 'alphanumeric-only'))
             ),
             array(
                 'header'=>'Tgl. Terima',
@@ -122,28 +124,16 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'filter'=>$this->widget('MyDateTimePicker', array(
                     'model'=>$terima, 
                     'attribute'=>'tglterima', 
-                    'mode' => 'date',    
-                    //'language' => 'ja',
-                    // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                    'mode' => 'date',                        
                     'htmlOptions' => array(
                         'id' => 'datepicker_for_due_date',
                         'size' => '10',
                         'style'=>'width:80%'
                     ),
-                    'options' => array(  // (#3)                    
+                    'options' => array(                
                         'dateFormat' => Params::DATE_FORMAT,                    
                         'maxDate' => 'd',
-                    ),
-                    'defaultOptions' => array(  // (#3)
-                        'showOn' => 'focus', 
-                        'dateFormat' => Params::DATE_FORMAT,
-                        'showOtherMonths' => true,
-                        'selectOtherMonths' => true,
-                        'changeMonth' => true,
-                        'changeYear' => true,
-                        'showButtonPanel' => true,
-                        'maxDate' => 'd',
-                    )
+                    ),                    
                 ), 
                 true),
             ),
@@ -172,13 +162,18 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             ) */
                     //'sumberdana.sumberdana_nama',
 	),
-        
+     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                        . 'reinstallDatePicker();$(".alphanumeric-only").keyup(function(){setAlphaNumericOnly(this);});}',
+                        
 )); 
 
 $this->endWidget();
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {        
-    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));    
+    $('#datepicker_for_due_date_date').click(function(){
+        $('#datepicker_for_due_date').datepicker('show');
+    ;});
 }
 ");
 ?>

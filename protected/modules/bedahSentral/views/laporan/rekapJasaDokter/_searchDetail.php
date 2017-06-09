@@ -23,7 +23,7 @@
                     <div class="control-group ">
                     
                     <?php echo CHtml::hiddenField('filter_tab','filter_tab',array()); ?>
-                    <?php echo CHtml::label('Tanggal Pencarian ','Tanggal Pencarian ', array('class'=>'control-label')) ?>
+                    <?php echo CHtml::label('Periode Laporan','Tanggal Pencarian ', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($model,'bulan',
                                 array(
@@ -89,10 +89,10 @@
 
     <div class="form-actions">
         <?php
-             echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), 
+             echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="entypo-search"></i>')), 
                      array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
         ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "'.Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.'').'";}); return false;'));  ?>

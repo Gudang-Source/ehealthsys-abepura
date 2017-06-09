@@ -48,7 +48,7 @@
                     <!--<td></td>-->
                     <td>
                     <?php                     
-                        echo CHtml::activeTextField($detail, '['.$i.']qty_pesan', array('class'=>'span1 numbersOnly')).' '.$detail->satuanbarang;
+                        echo CHtml::activeTextField($detail, '['.$i.']qty_pesan', array('class'=>'span1 numbersOnly', 'style' => 'text-align:right;')).' '.$detail->satuanbarang;
                         echo '<br/>';
                         echo $form->error($detail, '['.$i.']qty_pesan');
                     ?>

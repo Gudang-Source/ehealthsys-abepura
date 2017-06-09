@@ -22,7 +22,7 @@
                     <div class="row-fluid">
                         <div class="span4">
                             <?php echo CHtml::hiddenField('type', ''); ?>
-                            <?php echo CHtml::label('Tanggal Pendaftaran', 'tglterimabahan', array('class' => 'control-label')) ?>
+                            <?php echo CHtml::label('Periode Laporan', 'tglterimabahan', array('class' => 'control-label')) ?>
                             <div class="controls">
                                 <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('onchange'=>'ubahJnsPeriode();')); ?>
                             </div>
@@ -183,6 +183,29 @@
                         echo CHtml::hiddenField('idSupplier');  ?>                           
         </td>
     </tr>    
+	<tr>
+		<td>
+			<?php 
+				$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+					'id'=>'kunjungan5',
+					'slide'=>false,
+					'content'=>array(
+					'content5'=>array(
+						'header'=>'Opsi Grafik',
+						'isi'=>  '<table>
+									<tr>
+										<td>'.CHtml::radioButton('tampilGrafik', true, array('name'=>'dataGrafik', 'value' => 'carabayar')).' <label>Cara Bayar</label></td>                                               
+										 <td>'.CHtml::radioButton('tampilGrafik', false, array('name'=>'dataGrafik', 'value' => 'tindakan')).' <label>Tindakan</label></td>                                               
+									</tr>									
+								</table>',          
+						'active'=>TRUE,
+							),
+					),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+				)); ?>	
+		</td>
+		<td></td>
+	</tr>
 </table>
 	<div class="form-actions">
                     <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>

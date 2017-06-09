@@ -197,34 +197,49 @@ if($sukses > 0)
         }
     }
     */
-   
-   function cekGinekologi(obj){
-       var jeniskegiatan_persalinan = $('#PSPersalinanT_jeniskegiatanpersalinan').val();
-       var paritaske = $('#PSPersalinanT_paritaske').val();
-       var pemeriksa_ginekologi = $('#PSPemeriksaanginekologiT_pegawai_id').val();
-       
-       if ( (jeniskegiatan_persalinan != '') && (paritaske != '') )
-       {
-           obj.submit();           
-            //return false;
-       }else{           
-           myConfirm("Apakah Anda yakin hanya mengisi Pemeriksaan Ginekologi ? ","Perhatian!",function(r) {
-            if (r){
-                if (pemeriksa_ginekologi != ''){
-                    obj.submit();
-                }else{
-                    myAlert("Maaf, Pemeriksa Ginekologi Belum Diisi");
-                    return false;
-                }
-            }else{
-                if ( (jeniskegiatan_persalinan == '') || (paritaske == '') ){
-                    myAlert("Maaf, Jenis Kegiatan Persalinan dan Paritas Wajib Diisi pada Tab Persalinan");
-                    return false;
-                }
-            }
-	   });
-           return false;
-       }
-   }
+	function cekInputPersalinan() {
+		var jeniskegiatan_persalinan = $('#PSPersalinanT_jeniskegiatanpersalinan').val();
+		var paritaske = $('#PSPersalinanT_paritaske').val();
+		if (jeniskegiatan_persalinan.trim() == '' || paritaske.trim() == '') {
+			myAlert("Anda belum melakukan pengisian data Persalinan.");
+			return false;
+		}
+		return true;
+	}
+	function cekGinekologi(obj){
+		var jeniskegiatan_persalinan = $('#PSPersalinanT_jeniskegiatanpersalinan').val();
+		var paritaske = $('#PSPersalinanT_paritaske').val();
+		//var pemeriksa_ginekologi = $('#PSPemeriksaanginekologiT_pegawai_id').val();
+
+		if ( (jeniskegiatan_persalinan.trim() != '') && (paritaske.trim() != '') )
+		{
+			obj.submit();           
+			 //return false;
+		}else{
+			//myAlert("Input yang diperlukan pada tab Persalinan Wajib Diisi.");
+			//return false;
+			/**
+			myConfirm("Apakah Anda yakin hanya mengisi Pemeriksaan Ginekologi ? ","Perhatian!",function(r) {
+				if (r){
+					if (pemeriksa_ginekologi != ''){
+						obj.submit();
+					}else{
+						myAlert("Maaf, Pemeriksa Ginekologi Belum Diisi");
+						return false;
+					}
+				}
+				return false;
+				 /**
+				 else{
+					 if ( (jeniskegiatan_persalinan == '') || (paritaske == '') ){
+						 myAlert("Maaf, Jenis Kegiatan Persalinan dan Paritas Wajib Diisi pada Tab Persalinan");
+						 return false;
+					 }
+				 }
+				});
+				 **/
+				//return false;
+		}
+	}
     
 </script>

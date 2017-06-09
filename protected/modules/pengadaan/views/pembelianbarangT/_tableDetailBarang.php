@@ -16,8 +16,8 @@
             <th>Tahun Ekonomis</th>
             <th>Isi Dalam Kemasan</th>
             <th>Jumlah Permintaan</th>    
-            <th>Harga Satuan</th>    
-            <th>Harga Beli</th>
+            <th>Harga Satuan (Rp)</th>    
+            <th>Harga Beli (Rp)</th>
             <!--<th>Satuan</th>            -->
             
 			<?php if ($model->isNewRecord) { ?>
@@ -50,12 +50,12 @@
                 <td><?php echo $modBarang->barang_merk; ?></td>
                 <td><?php echo $modBarang->barang_ukuran; ?></td>
                 <td><?php echo $modBarang->barang_ekonomis_thn; ?></td>
-                <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldlmkemasan', array('class'=>'span1 numbersOnly qty', 'onchange'=>'hitungTotal(this);', 'style'=>'text-align: right;'));
+                <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldlmkemasan', array('class'=>'span1 numbers-only qty', 'onchange'=>'hitungTotal(this);', 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']jmlbeli'); ?></td>                
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbersOnly qty', 'onblur'=>'hitungTotal(this);', 'style'=>'text-align: right;')).' '.$modBarang->barang_satuan;
+                    echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbers-only qty', 'onblur'=>'hitungTotal(this);', 'style'=>'text-align: right;')).' '.$modBarang->barang_satuan;
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']jmlbeli');
                 ?>

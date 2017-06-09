@@ -19,7 +19,7 @@
     </style>
     <div class="row-fluid">
         <div class="span4">
-            <?php echo CHtml::label('Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
+            <?php echo CHtml::label('Periode Laporan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
             <?php echo CHtml::hiddenField('type',''); ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
@@ -125,16 +125,36 @@
         </div> 
     </div> 
    
-    <div id='searching' class="row-fluid">
-        <fieldset class="box2">
-            <legend class="rim">Berdasarkan Jenis Obat&nbsp;<?php echo CHtml::checkBox('cek_jenis_obat', true, array('onchange'=>'cek_all_jenisobat(this)','value'=>'cek_jenis_obat'));?></legend>
-            <div class="controls" id="jenisobat">
-                <?php
-                    echo $form->CheckBoxList($model,'jenisobatalkes_id',CHtml::listData(JenisobatalkesM::model()->findAll('jenisobatalkes_aktif = true'),'jenisobatalkes_id','jenisobatalkes_nama'));
-                ?>
-            </div>
-        </fieldset>
-    </div>
+    <table width="100%" border="0">
+              <tr>
+                <td> 
+                    <div id='searching'>
+                    <fieldset>                 
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                                                                'content'=>array(
+                                'content2'=>array(
+                                    'header'=>'Berdasarkan Jenis Obat',
+                                    'isi'=>'<table><tr>      
+                                                <td>'.CHtml::checkBox('checkAllJenis', true, array('onkeypress' => "return $(this).focusNextInputField(event)",
+                                                        'class' => 'checkbox-column', 'onclick' => 'checkAll()', 'checked' => 'checked')).' Pilih Semua<td></tr></table>
+                                                <table id="tindak_lanjut_tbl">
+						<tr>
+							<td>'.
+								$form->CheckBoxList($model, 'jenisobatalkes_id', CHtml::listData($model->getJenisobatalkesItems(), 'jenisobatalkes_id', 'jenisobatalkes_nama'))
+							.'</td>
+						</tr>
+						</table>',            
+                                        'active'=>true,
+                                    ),
+                            ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>
+                    </fieldset>					
+			</td>
+                </tr>
+        </table>
    
     <div class="form-actions">
         <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan')); ?>
@@ -150,8 +170,17 @@ $this->endWidget();
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
 ?>
-<?php Yii::app()->clientScript->registerScript('cekAll','
-  $("#content4").find("input[type=\'checkbox\']").attr("checked", "checked");
-',  CClientScript::POS_READY);
-?>
+<script>
+    function checkAll() {
+        if ($('#checkAllJenis').is(':checked')) {
+            $('#searchLaporan input[name*="jenisobatalkes_id"]').each(function () {
+                $(this).attr('checked', true);
+            });
+        } else {
+            $('#searchLaporan input[name*="jenisobatalkes_id"]').each(function () {
+                $(this).removeAttr('checked');
+            });
+        }
+    }
+</script>
 <?php $this->renderPartial('pemakaiObatAlkes/_jsFunctions', array('model'=>$model));?>

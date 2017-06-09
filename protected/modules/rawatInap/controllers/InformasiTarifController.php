@@ -5,6 +5,21 @@ class InformasiTarifController extends MyAuthController
 	public function actionIndex()
 	{
 		$modTarifTindakanRuanganV = new RITarifTindakanPerdaRuanganV('search');
+		$kom_unit = Params::KomponenUnitRuangan();
+		if (isset($kom_unit[Yii::app()->user->getState('ruangan_id')]))
+		{
+			$modTarifTindakanRuanganV->komponenunit_id = $kom_unit[Yii::app()->user->getState('ruangan_id')];
+		}
+		
+		
+		$kel_tin = Params::KelompokTindakanInstalasi();
+		
+		if (isset($kel_tin[Yii::app()->user->getState('instalasi_id')]))
+		{
+			
+			$modTarifTindakanRuanganV->kelompoktindakan_id = $kel_tin[Yii::app()->user->getState('instalasi_id')];
+		}
+		
 		//$modTarifTindakanRuanganV->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
 		if(isset($_GET['RITarifTindakanPerdaRuanganV'])){
 			$modTarifTindakanRuanganV->attributes=$_GET['RITarifTindakanPerdaRuanganV'];

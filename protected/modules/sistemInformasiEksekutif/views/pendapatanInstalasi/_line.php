@@ -18,6 +18,9 @@
         chart_line.dataDateFormat = "YYYY-MM-DD JJ:NN:SS";
         // listen for "dataUpdated" event (fired when chart is inited) and call zoomChart method when it happens
         chart_line.addListener("dataUpdated", zoomChart);
+        chart_line.numberFormatter = {
+            precision:0,decimalSeparator:",",thousandsSeparator:"."
+          };
         // AXES
         // category
         var categoryAxis = chart_line.categoryAxis;

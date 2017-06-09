@@ -29,7 +29,7 @@ class BSLaporanjasainstalasi extends LaporanjasainstalasiV {
 
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
-
+		$criteria->order = 'tgl_pendaftaran ASC';
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                     'pagination'=>false,
@@ -43,16 +43,20 @@ class BSLaporanjasainstalasi extends LaporanjasainstalasiV {
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
         
-        $criteria->select = "count(pendaftaran_id) as jumlah, case when tindakansudahbayar_id is null then 'BELUM BAYAR' else 'SUDAH BAYAR' end as data";
-        $criteria->group = 'pendaftaran_id, data  ';
-        if (!empty($this->carabayar_id)){
-            $criteria->select .= ', penjamin_nama as tick';
-            $criteria->group .= ', penjamin_nama';
-        }else{
-            $criteria->select .= ', carabayar_nama as tick';
-            $criteria->group .= ', carabayar_nama';
-        }
-
+		if ($_GET['tampilGrafik'] == 'statusbayar'){
+			$criteria->select = "count(pendaftaran_id) as jumlah, case when tindakansudahbayar_id is null then 'BELUM BAYAR' else 'SUDAH BAYAR' end as data";
+			$criteria->group = 'data  ';
+		}elseif($_GET['tampilGrafik'] == 'carabayar'){
+			if (!empty($this->penjamin_nama)){
+				$criteria->select = "count(pendaftaran_id) as jumlah, penjamin_nama as data";
+				$criteria->group = 'data';
+			}else{
+				$criteria->select = "count(pendaftaran_id) as jumlah, carabayar_nama as data";
+				$criteria->group = 'data';
+			}
+		}
+        
+		$criteria->order = 'jumlah DESC';
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));
@@ -60,7 +64,7 @@ class BSLaporanjasainstalasi extends LaporanjasainstalasiV {
     
     protected function functionCriteria(){
         $criteria = new CDbCriteria;
-        $criteria->order = 'pendaftaran_id';
+        //$criteria->order = 'pendaftaran_id';
 //        $criteria->select = 'no_rekam_medik, nama_pasien,no_pendaftaran, kelaspelayanan_nama,daftartindakan_nama,
 //                qty_tindakan, tarif_rsakomodasi, tarif_medis, tarif_paramedis, tarif_bhp, 
 //                case when daftartindakan_karcis = true then daftartindakan_nama end as karcisnama, 
@@ -114,14 +118,15 @@ class BSLaporanjasainstalasi extends LaporanjasainstalasiV {
 		if(!empty($this->tindakanpelayanan_id)){
 			$criteria->addCondition('tindakanpelayanan_id = '.$this->tindakanpelayanan_id);
 		}
-		if(!empty($this->penjamin_id)){
-			$criteria->addInCondition('penjamin_id',$this->penjamin_id);
-		}
-        $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
-		if(!empty($this->carabayar_id)){
-			$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
-		}
-        $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
+		
+		if (!empty($this->penjamin_id)){
+            $criteria->addCondition('penjamin_id ='.$this->penjamin_id);
+        }else{
+			if (!empty($this->carabayar_id)){
+				$criteria->addCondition('carabayar_id ='.$this->carabayar_id);
+			}
+        }
+		
 		if(!empty($this->kelaspelayanan_id)){
 			$criteria->addCondition('kelaspelayanan_id = '.$this->kelaspelayanan_id);
 		}

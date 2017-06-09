@@ -205,6 +205,7 @@ class GUInfoinventarisasibarangV extends InfoinventarisasibarangV
             $criteria = new CDbCriteria();
             $criteria = $this->functionMaterialRusakCriteria();
             $criteria->order = 'invbarang_tgl DESC';
+			$criteria->limit = 10;
 
             return new CActiveDataProvider($this, array(
                         'criteria' => $criteria,

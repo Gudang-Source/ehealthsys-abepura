@@ -59,7 +59,7 @@ class KegiatanLaboratoriumController extends MyAuthController {
 		SELECT 
 		jenispemeriksaanlab_id as id, jenispemeriksaanlab_nama as nama
 		FROM jenispemeriksaanlab_m
-                WHERE jenispemeriksaanlab_aktif = true
+                
 		ORDER BY jenispemeriksaanlab_nama ASC
 		";
 

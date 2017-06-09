@@ -433,6 +433,10 @@ Class Params
         const REKENING4_LEN = 8;
         const REKENING5_LEN = 10;
         
+        const REKENING1_BEBAN_PELAYANAN = 27;
+        const REKENING1_BEBAN_UMUM = 28;
+        const REKENING1_BEBAN_LAINNYA = 29;
+        
         const STATUSKEHADIRAN_HADIR = 1;
         const STATUSKEHADIRAN_SAKIT = 2;
         const STATUSKEHADIRAN_IZIN = 3;
@@ -525,7 +529,54 @@ Class Params
         
         
 
-
+		public static function KomponenUnitRuangan(){
+			return array(//Ruangan => komponenunit
+				18 => 25,  //akupuntur
+				12 => 17, // anak
+				10 => 16,//bedah
+				11 => 20,//dalam
+				16 => 21,//gigi dan mulut
+				13 => 15,//kebidanan dan kandungan
+				17 => 14,//kulit dan kelamin
+				14 => 12,//mata
+				25 => 8,//mcu
+				20 => 13,//saraf
+				15 => 14,//tht
+				57 => 22,//bedah sentral
+				62 => 6,//gizi
+				53 => 2,  //laboratorium 
+				63 => 9,//pemulasaran jenazah
+				56 => 10,//radiologi
+				3 => 3, //rawat darurat (instalasi/komponen)
+				27 => 11,// Perawatan Pria
+				28 => 11,// Perawatan Wanita
+				29 => 11,// Perawatan Anak
+				30 => 11,// Lantai 3
+				31 => 11,// Lantai 2
+				237 => 11,// Perinatologi
+				239 => 11,// Rawat Bedah
+				8 => 5,// Ruang Bersalin
+				4 => 11,//(instalasi/komponen)
+				46 => 4,//ruang icu
+				90 => 18,//rehab medis
+			);
+		}
+		
+		public static function KelompokTindakanInstalasi(){
+			return array(//instalasi => kelompoktindakan
+				2 => 15,  //rawat jalan				
+				4 => 17,  //rawat inap	
+				3 => 4,  //rawat darurat
+				25=>26, //mcu patokannya menggunakan ruangan
+				7 => 10,//bedah sntral//pelayanan medik operatif
+				10 => 23,//gizi
+				5 => 24, //laboratorium
+				17 => 12,//pemulasarann jenazxah
+				6 => 9, //pelayanan pemeriksaan radiodiagnostik		
+				20 => 21,//rawat intensef
+				8 => 5,//rehabilitasi medis
+			);
+		}
 
 
         /* Hardcode status periksa */
@@ -1065,6 +1116,15 @@ Class Params
                     Params::INSTALASI_ID_LAB,//laboratorium
                     Params::INSTALASI_ID_JZ,//pemulasaran jenazah
                     Params::INSTALASI_ID_GIZI);//gizi
+            
+        }
+		
+		public static function getArrayInstalasiPelayanan() {
+            return  array(Params::INSTALASI_ID_RJ,//frawat jalan
+					Params::INSTALASI_ID_RI,//rawat inap
+					Params::INSTALASI_ID_RD,//rawat darurat
+					Params::INSTALASI_ID_RM,//rehab medis
+                    );//gizi
             
         }
 		

@@ -112,6 +112,7 @@ class ROInfokunjunganrjrdriV extends InfokunjunganrjrdriV
 		$criteria->compare('hubungankeluarga',$this->hubungankeluarga);
 		$criteria->compare('nama_pj',$this->nama_pj);
 		if(!empty($this->ruangan_id)){
+			//$criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));					
 			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);					
 		}
 		$criteria->compare('ruangan_nama',$this->ruangan_nama);

@@ -2,9 +2,11 @@
 
 class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
     
-    public $tgl_awal;
-    public $tgl_akhir;
+    public $tgl_awal, $bln_awal, $thn_awal;
+    public $tgl_akhir, $bln_akhir, $thn_akhir;
     public $subtotal;
+	public $jns_periode;
+	public $data, $tick, $jumlah;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -42,15 +44,18 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
         
-        $criteria->select = "count(pendaftaran_id) as jumlah, case when tindakansudahbayar_id is null then 'BELUM BAYAR' else 'SUDAH BAYAR' end as data";
-        $criteria->group = 'pendaftaran_id, data';
-        if (!empty($this->carabayar_id)){
-            $criteria->select .= ', penjamin_nama as tick';
-            $criteria->group .= ', penjamin_nama';
-        }else{
-            $criteria->select .= ', carabayar_nama as tick';
-            $criteria->group .= ', carabayar_nama';
+         if ($_GET['tampilGrafik'] == 'statusbayar'){
+            $criteria->select = "count(t.pendaftaran_id) as jumlah, case when t.tindakansudahbayar_id is null then 'BELUM LUNAS' else 'LUNAS' end as data";
+            $criteria->group = 'data';
+        }elseif ($_GET['tampilGrafik'] == 'carabayar'){
+            $criteria->select = "count(t.pendaftaran_id) as jumlah, t.carabayar_nama as data";
+            $criteria->group = 'data';
+        }elseif ($_GET['tampilGrafik'] == 'dokter'){
+            $criteria->select = "count(t.pendaftaran_id) as jumlah, (CONCAT(p.gelardepan, ' ', p.nama_pegawai,' ',gb.gelarbelakang_nama) ) as data";
+            $criteria->group = 'data';
         }
+		
+		$criteria->order = 'jumlah DESC';
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -60,7 +65,7 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
     protected function functionCriteria(){
         $criteria = new CDbCriteria;
         $format = new MyFormatter();
-        $criteria->order = 'pendaftaran_id';
+        //$criteria->order = 'pendaftaran_id';
 //        $criteria->select = 'no_rekam_medik, nama_pasien,no_pendaftaran, kelaspelayanan_nama,daftartindakan_nama,
 //                qty_tindakan, tarif_rsakomodasi, tarif_medis, tarif_paramedis, tarif_bhp, 
 //                case when daftartindakan_karcis = true then daftartindakan_nama end as karcisnama, 
@@ -68,6 +73,9 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
 //                case when daftartindakan_karcis = true then tarif_rsakomodasi else 0 end as karcisrs, 
 //                case when daftartindakan_karcis = true then tarif_medis else 0 end as karcisMedis, 
 //                tgl_pendaftaran, ruangan_id, carabayar_id, carabayar_nama, penjamin_id, penjamin_nama';
+		$criteria->join = " JOIN tindakanpelayanan_t tp ON t.tindakanpelayanan_id = tp.tindakanpelayanan_id "
+                        . " JOIN pegawai_m p ON p.pegawai_id = tp.dokterpemeriksa1_id "
+                        . " LEFT JOIN gelarbelakang_m gb ON p.gelarbelakang_id = gb.gelarbelakang_id ";
         $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
@@ -131,7 +139,7 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
 			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);					
 		}
         $criteria->compare('LOWER(instalasi_nama)', strtolower($this->instalasi_nama), true);
-        $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+        $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(tgl_tindakan)', strtolower($this->tgl_tindakan), true);
 		if(!empty($this->daftartindakan_id)){
@@ -171,11 +179,11 @@ class ROLaporanjasainstalasi extends LaporanjasainstalasiV {
         if (is_array($this->tindakansudahbayar_id)){
             $status = array();
             foreach ($this->tindakansudahbayar_id as $i=>$v){
-                if ($v == 'sudah'){
-                    $status[] = 'tindakansudahbayar_id is not null';
+                if ($v == 1){
+                    $status[] = 't.tindakansudahbayar_id is not null';
                 }
                 else{
-                    $status[] = 'tindakansudahbayar_id is null';
+                    $status[] = 't.tindakansudahbayar_id is null';
                 }
             }
             $criteria->addCondition('('.implode(' or ',$status).')');

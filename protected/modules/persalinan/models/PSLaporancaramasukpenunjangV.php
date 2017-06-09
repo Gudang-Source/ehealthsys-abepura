@@ -28,14 +28,7 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
-        if($this->pilihan == 'instalasi'){
-            $criteria->select = 'count(tglmasukpenunjang) as jumlah, ruanganasal_nama as data';
-            $criteria->group = 'ruanganasal_nama';
-        }
-        else{
-            $criteria->select = 'count(tglmasukpenunjang) as jumlah, asalrujukan_nama as data';
-            $criteria->group = 'asalrujukan_nama';
-        }
+       
         
         
         
@@ -62,7 +55,7 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 
         $criteria = new CDbCriteria;
 
-        if (!empty($this->pilihan)){
+     /*   if (!empty($this->pilihan)){
             if ($this->pilihan == 'instalasi'){
                 if (!is_array($this->ruanganasal_id)){
                     $this->ruanganasal_id = 0;
@@ -79,9 +72,9 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 					$criteria->addCondition('asalrujukan_id ='.$this->asalrujukan_id);
 				}
             }
-        }
+        }*/
 
-        $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tglAwal, $this->tglAkhir);
+      //  $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tglAwal, $this->tglAkhir);
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id ='.$this->pasien_id);
 		}
@@ -125,7 +118,7 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 			$criteria->addCondition('shift_id ='.$this->shift_id);
 		}
 
-        $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
+       // $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
 		if(!empty($this->jeniskasuspenyakit_id)){
 			$criteria->addCondition('jeniskasuspenyakit_id ='.$this->jeniskasuspenyakit_id);
 		}
@@ -134,24 +127,24 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 			$criteria->addCondition('kelaspelayanan_id ='.$this->kelaspelayanan_id);
 		}
         $criteria->compare('LOWER(kelaspelayanan_nama)', strtolower($this->kelaspelayanan_nama), true);
-        $criteria->compare('LOWER(no_masukpenunjang)', strtolower($this->no_masukpenunjang), true);
-        $criteria->compare('LOWER(tglmasukpenunjang)', strtolower($this->tglmasukpenunjang), true);
-        $criteria->compare('LOWER(no_urutperiksa)', strtolower($this->no_urutperiksa), true);
+       // $criteria->compare('LOWER(no_masukpenunjang)', strtolower($this->no_masukpenunjang), true);
+      //  $criteria->compare('LOWER(tglmasukpenunjang)', strtolower($this->tglmasukpenunjang), true);
+      //  $criteria->compare('LOWER(no_urutperiksa)', strtolower($this->no_urutperiksa), true);
         $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);		
-        $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
-        $criteria->compare('LOWER(ruanganpenunj_nama)', strtolower($this->ruanganpenunj_nama), true);
-		if(!empty($this->instalasiasal_id)){
-			$criteria->addCondition('instalasiasal_id ='.$this->instalasiasal_id);
-		}
-        $criteria->compare('LOWER(instalasiasal_nama)', strtolower($this->instalasiasal_nama), true);
+        $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+       // $criteria->compare('LOWER(ruanganpenunj_nama)', strtolower($this->ruanganpenunj_nama), true);
+		//if(!empty($this->instalasiasal_id)){
+		//	$criteria->addCondition('instalasiasal_id ='.$this->instalasiasal_id);
+	//	}
+       // $criteria->compare('LOWER(instalasiasal_nama)', strtolower($this->instalasiasal_nama), true);
 		if(!empty($this->pasienadmisi_id)){
 			$criteria->addCondition('pasienadmisi_id ='.$this->pasienadmisi_id);
 		}
         $criteria->compare('LOWER(kunjungan)', strtolower($this->kunjungan), true);
-        $criteria->compare('LOWER(create_time)', strtolower($this->create_time), true);
-        $criteria->compare('LOWER(update_time)', strtolower($this->update_time), true);
-        $criteria->compare('LOWER(create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
-        $criteria->compare('LOWER(update_loginpemakai_id)', strtolower($this->update_loginpemakai_id), true);
+      //  $criteria->compare('LOWER(create_time)', strtolower($this->create_time), true);
+     //   $criteria->compare('LOWER(update_time)', strtolower($this->update_time), true);
+      //  $criteria->compare('LOWER(create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
+     //   $criteria->compare('LOWER(update_loginpemakai_id)', strtolower($this->update_loginpemakai_id), true);
         $criteria->compare('LOWER(create_ruangan)', strtolower($this->create_ruangan), true);
 		if(!empty($this->pasienkirimkeunitlain_id)){
 			$criteria->addCondition('pasienkirimkeunitlain_id ='.$this->pasienkirimkeunitlain_id);
@@ -159,16 +152,16 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 		if(!empty($this->pegawai_id)){
 			$criteria->addCondition('pegawai_id ='.$this->pegawai_id);
 		}
-        $criteria->compare('LOWER(gelardepan)', strtolower($this->gelardepan), true);
-        $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), true);
-		if(!empty($this->gelarbelakang_id)){
-			$criteria->addCondition('gelarbelakang_id ='.$this->gelarbelakang_id);
-		}
-        $criteria->compare('LOWER(gelarbelakang_nama)', strtolower($this->gelarbelakang_nama), true);
-		if(!empty($this->carabayar_id)){
-			$criteria->addCondition('carabayar_id ='.$this->carabayar_id);
-		}
-        $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
+     //   $criteria->compare('LOWER(gelardepan)', strtolower($this->gelardepan), true);
+     //   $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), true);
+	//	if(!empty($this->gelarbelakang_id)){
+	//		$criteria->addCondition('gelarbelakang_id ='.$this->gelarbelakang_id);
+	//	}
+    //    $criteria->compare('LOWER(gelarbelakang_nama)', strtolower($this->gelarbelakang_nama), true);
+	//	if(!empty($this->carabayar_id)){
+	//		$criteria->addCondition('carabayar_id ='.$this->carabayar_id);
+	//	}
+    /*    $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
 		if(!empty($this->penjamin_id)){
 			$criteria->addCondition('penjamin_id ='.$this->penjamin_id);
 		}
@@ -188,7 +181,7 @@ class PSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 		if(!empty($this->kelurahan_id)){
 			$criteria->addCondition('kelurahan_id ='.$this->kelurahan_id);
 		}
-        $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
+        $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);*/
 		if(!empty($this->rujukan_id)){
 			$criteria->addCondition('rujukan_id ='.$this->rujukan_id);
 		}

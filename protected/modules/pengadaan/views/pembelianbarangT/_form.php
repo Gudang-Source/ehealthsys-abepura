@@ -276,7 +276,7 @@
     <?php //echo $form->textFieldRow($model,'update_loginpemakai_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));  ?>
     <?php //echo $form->textFieldRow($model,'create_ruangan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
     <div class="block-tabel">
-        <h6>Detail <b>Barang</b></h6>
+        <h6>Tabel <b>Permintaan Pembelian Barang</b></h6>
         <?php
             if (isset($modDetails)) {
                 echo $form->errorSummary($modDetails);

@@ -95,11 +95,12 @@
                                 <td align='center'>Nama</td>
                                 <td align='center'>Satuan</td>
                                 <td align='center'>Jumlah</td>
-                                <td align='center'>Harga</td>
-                                <td align='center'>Bruto</td>
+                                <td align='center'>Harga (Rp)</td>
+                                <td align='center'>Bruto (Rp)</td>
                                 <td align='center'>Disc %</td>
                                 <td align='center'>Ppn %</td>
-                                <td align='center'>Netto %</td>
+								<td align='center'>Pph %</td>
+                                <td align='center'>Netto</td>
                                 <td align='center'>Keterangan</td>
                             </tr>";
             
@@ -157,6 +158,7 @@
             $totBruto = 0;
             $totDiscount = 0;
             $totPpn = 0;
+			$totPph = 0;
             $totNetto = 0;
             $totBayar = 0;
             $totSisa = 0;
@@ -170,31 +172,40 @@
 			
             foreach($detail as $key=>$details){
                     $harga = $details->hargasatuan;
-                    $bruto = $details->total_bruto;
+                    //$bruto = $details->total_bruto;
+					$bruto = $details->jmlterima * $harga;
                     $discount = $details->persendiscount;
-                    $ppn = $details->ppn;
-                    $netto = $details->total_netto;
-                    $bayar = $details->total_bayar;
-                    $sisa = $details->total_sisa;
+                    $ppn = $details->persenppnfaktur;
+					$pph = $details->persenpphfaktur;
+					$materai = $details->fakturpembelian->biayamaterai;
+                    //$netto = $details->total_netto;
+					$netto = $bruto + ($bruto * ($ppn/100)) + ($bruto * ($pph/100)) - $details->jmldiscount;
+                    //$bayar = $details->total_bayar;					
+					$bayar = !empty($details->fakturpembelian->bayarkesupplier->tandabuktikeluar_id)?$details->fakturpembelian->bayarkesupplier->tandabuktikeluar->jmlkaskeluar:0;
+                    //$sisa = $details->total_sisa;
+					
                     
                     
                     $totHarga += $harga;
                     $totBruto += $bruto;
-                    $totDiscount += $details->total_discount;
-                    $totPpn += $details->total_ppn;
+                    //$totDiscount += $details->total_discount;
+					$totDiscount += $details->jmldiscount;
+                    $totPpn += ($bruto * ($ppn/100));
+					$totPph += ($bruto * ($pph/100));
                     $totNetto += $netto;
-                    $totBayar += $bayar;
-                    $totSisa += $sisa;
+                    $totBayar = $bayar;
+                    $totSisa = ($totNetto+$materai) - $totBayar;
                     echo "<tr>
-                              <td width='150px;'>".$details->obatalkes_kode."</td>
-                              <td width='280px;'>".$details->obatalkes_nama."</td>
-                              <td width='220px;'>".$details->satuanbesar_nama."</td>
+                              <td width='150px;'>".$details->obatalkes->obatalkes_kode."</td>
+                              <td width='280px;'>".$details->obatalkes->obatalkes_nama."</td>
+                              <td width='220px;'>".$details->obatalkes->satuanbesar->satuanbesar_nama."</td>
                               <td width='70px;' style='text-align:center'>".$details->jmlterima."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($harga)."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($bruto)."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($discount)."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($ppn)."</td>
-                              <td width='70px;' style='text-align:right'>".number_format($netto)."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($harga,0,"",".")."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($bruto,0,"",".")."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($discount,0,"",".")."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($ppn,0,"",".")."</td>
+							  <td width='70px;' style='text-align:right'>".number_format($pph,0,"",".")."</td>
+                              <td width='70px;' style='text-align:right'>".number_format($netto,0,"",".")."</td>
                               <td width='70px;' style='text-align:right'>-</td>
                           </tr>";
             }
@@ -204,27 +215,35 @@
                                 <table align=right>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Total : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totBruto)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totBruto,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Discount : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totDiscount)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totDiscount,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Ppn : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totPpn)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totPpn,0,"",".")."</td>
+                                    </tr>
+									<tr>
+                                        <td colspan=7 style='text-align:right'>Pph : </td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totPph,0,"",".")."</td>
+                                    </tr>
+									<tr>
+                                        <td colspan=7 style='text-align:right'>Materai : </td>
+                                        <td width='150px;' style='text-align:right'>".number_format($materai,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Total Transaksi : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totNetto)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format(($totNetto+$materai),0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Bayar : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totBayar)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totBayar,0,"",".")."</td>
                                     </tr>
                                     <tr>
                                         <td colspan=7 style='text-align:right'>Sisa : </td>
-                                        <td width='150px;' style='text-align:right'>".number_format($totSisa)."</td>
+                                        <td width='150px;' style='text-align:right'>".number_format($totSisa,0,"",".")."</td>
                                     </tr>
                                 </table>
                             </div>

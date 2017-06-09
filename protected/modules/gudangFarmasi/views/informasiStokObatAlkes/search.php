@@ -34,8 +34,8 @@
         </div>
         <div class="span4">
             
-            <?php echo $form->textFieldRow($model,'obatalkes_kode',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'obatalkes_kode',array('class'=>'span3 kode-dtd all-caps','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder' => 'Ketikkan Kode Obat & Alkes')); ?>
+            <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3 custom-only all-caps','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder' => 'Ketikkan Nama Obat & Alkes')); ?>
         </div>
         <div class="span4">
             

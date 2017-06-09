@@ -1,16 +1,50 @@
 <?php
+$itemCssClass = 'table table-striped table-condensed';
 $rim = 'max-width:1300px;overflow-x:scroll;';
 $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
 $data = $model->searchJasaDokter();
 $template = "{summary}\n{items}\n{pager}";
+$row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
 $sort = true;
 if (isset($caraPrint)) {
+	$row = '$row+1';
     $sort = false;
     $data = $model->searchPrintJasaDokter();
     $rim = '';
     $template = "{items}";
-    if ($caraPrint == "EXCEL")
+    if ($caraPrint == "EXCEL"){
         $table = 'ext.bootstrap.widgets.BootExcelGridView';
+	}
+	
+	if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+  
+        echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
 }
 
 Yii::app()->clientScript->registerScript('search', "
@@ -51,16 +85,16 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                 'dataProvider' => $dataDetail,
                 'enableSorting' => $sort,
                 'template' => $template,
-                'itemsCssClass' => 'table table-striped table-condensed',
+                'itemsCssClass' => $itemCssClass,
                 'columns' => array(
                     array(
                         'header' => 'No.',
-                        'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1'
+                        'value' => $row
                     ),
                     array(
-                        'header' => 'Nama Pasien',
+                        'header' => 'Tanggal Pendaftaran/ No Pendaftaran',
                         'type' => 'raw',
-                        'value' => '$data->nama_pasien',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran',
                     ),
                     array(
                         'header' => 'No. Rekam Medis',
@@ -68,14 +102,9 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                         'value' => '$data->no_rekam_medik',
                     ),
                     array(
-                        'header' => 'No. Pendaftaran',
+                        'header' => 'Nama Pasien',
                         'type' => 'raw',
-                        'value' => '$data->no_pendaftaran',
-                    ),
-                    array(
-                        'header' => 'Ruangan',
-                        'type' => 'raw',
-                        'value' => '$data->ruangan_nama',
+                        'value' => '$data->namadepan." ".$data->nama_pasien',
                     ),
                     array(
                         'header' => 'Kelas Pelayanan',
@@ -83,31 +112,32 @@ $this->renderPartial('rekapJasaDokter/_search', array(
                         'value' => '$data->kelaspelayanan_nama',
                     ),
                     array(
-                        'header' => 'Tanggal Pendaftaran',
+                        'header' => 'Nama Tindakan',
                         'type' => 'raw',
-                        'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                        'value' => '$data->daftartindakan_nama',
+                    ),
+					array(
+                        'header' => 'Nama Dokter',
+                        'type' => 'raw',
+                        'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
                     ),
                     array(
                         'header' => 'Tanggal Keluar',
                         'type' => 'raw',
                         'value' => '(isset($data->tgl_keluar) ?MyFormatter::formatDateTimeForUser($data->tgl_keluar) : "-")',
-                    ),
-                    array(
-                        'header' => 'Nama Tindakan',
-                        'type' => 'raw',
-                        'value' => '$data->daftartindakan_nama',
-                    ),
+                    ),                   
                     array(
                         'header' => 'Jasa Pelayanan',
                         'type' => 'raw',
                         'value' => 'MyFormatter::formatNumberForPrint($data->tarif_tindakankomp)',
 						'htmlOptions' => array('style' => 'text-align:right;'),
 					),
-                    array(
-                        'header' => 'Nama Dokter',
-                        'type' => 'raw',
-                        'value' => '$data->nama_pegawai',
-                    ),
+					array(
+						'header' => 'Instalasi/ <br/>Ruangan',
+						'type' => 'raw',
+						'value' => '$data->instalasi_nama."/<br/>".$data->ruangan_nama'
+					),
+                    
                 ),
                 'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
             ));

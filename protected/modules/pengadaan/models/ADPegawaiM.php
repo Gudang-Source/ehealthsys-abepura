@@ -87,4 +87,20 @@ class ADPegawaiM extends PegawaiM
 			//'pagination'=>false,
 		));
 	}
+        
+        public function searchMengetahui(){
+            $criteria=new CDbCriteria;
+            $criteria->join = "JOIN ruanganpegawai_m rp ON rp.pegawai_id = t.pegawai_id";
+            $criteria->compare("LOWER(t.nama_pegawai)", strtolower($this->nama_pegawai), TRUE);
+            $criteria->compare("LOWER(t.nomorindukpegawai)", strtolower($this->nomorindukpegawai), TRUE);
+            if (!empty($this->jabatan_id)){
+                $criteria->addCondition("t.jabatan_id = '".$this->jabatan_id."' ");
+            }
+            $criteria->addCondition(" rp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+            $criteria->limit = 10;
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			//'pagination'=>false,
+		));
+        }
 }

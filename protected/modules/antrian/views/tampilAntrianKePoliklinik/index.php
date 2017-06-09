@@ -39,11 +39,15 @@
     }
     .judul{
         text-align: center;
-        font-size: 20px;
+        font-size: 30px;
         font-weight: bold;
-        color: black;
+        color: white;
         padding-bottom: 0px;
-        text-shadow: none;
+		text-shadow:
+            -2px -2px 0 #000,  
+             2px -2px 0 #000,
+             -2px 2px 0 #000,
+              2px 2px 0 #000;
     }
     .ruangan,.dokter{
         color: #FFFF00;
@@ -54,6 +58,26 @@
         text-align: center;
         background-color: #020;
     }
+	
+	.ruangan_big,.dokter_big {
+        color: #FFFF00;
+        width: <?php echo $modLayar->layarantrian_itemwidth; ?>;
+        height: 60px;
+		font-size: 40px;
+        /*font-size: 85%;*/
+        overflow: hidden;
+        text-align: center;
+        background-color: #020;
+    }
+	
+	.ruangan_big{
+        -moz-border-radius: 5px 5px 0 0;
+        -webkit-border-radius: 5px 5px 0 0;
+        border-radius: 5px 5px 0 0;
+        border: 1px solid #fff;
+        border-bottom: none;
+    }
+	
     .ruangan{
         -moz-border-radius: 5px 5px 0 0;
         -webkit-border-radius: 5px 5px 0 0;
@@ -68,6 +92,15 @@
         border-bottom: none;
         border-top:none;
     }
+	
+	.dokter_big{
+        /*font-size: 70%;*/
+        color: #3F3;
+        border: 1px solid #fff;
+        border-bottom: none;
+        border-top:none;
+    }
+	
     .no-antrian, .pasien-deskripsi{
         color:#fff;
         text-align: center;
@@ -77,13 +110,36 @@
         background-color:rgba(255,255,255,0.5);
         
         text-shadow:
-            -1.5px -1.5px 0 #aaa,  
-             1.5px -1.5px 0 #aaa,
-             -1.5px 1.5px 0 #aaa,
-              1.5px 1.5px 0 #aaa;
+            -2px -2px 0 #fff,  
+             2px -2px 0 #fff,
+             -2px 2px 0 #fff,
+              2px 2px 0 #fff;
         
     }
+	
+	.no-antrian_big, .pasien-deskripsi_big{
+        color:#fff;
+        text-align: center;
+        font-size: 200px;
+        font-weight: bold;
+        color: black;
+        background-color:rgba(255,255,255,0.5);
+        
+        text-shadow:
+            -4px -4px 0 #fff,  
+             4px -4px 0 #fff,
+             -4px 4px 0 #fff,
+              4px 4px 0 #fff;
+        
+    }
+	
     .no-antrian{
+        border: 1px solid #fff;
+        border-bottom: none;
+        border-top:none;
+    }
+	
+	.no-antrian_big {
         border: 1px solid #fff;
         border-bottom: none;
         border-top:none;
@@ -106,6 +162,26 @@
               1px 1px 0 #000;
         /*height: 20px;*/
     }
+	
+	.pasien-deskripsi_big{
+        /*font-size: 70%;*/
+        width: <?php echo $modLayar->layarantrian_itemwidth; ?>;
+        -moz-border-radius: 0 0 5px 5px;
+        -webkit-border-radius: 0 0 5px 5px;
+        border-radius: 0 0 5px 5px;
+        border: 1px solid #fff;
+        border-top:none;
+        background-color: #020;
+        color: white;
+        
+        text-shadow:
+            -1px -1px 0 #000,  
+             1px -1px 0 #000,
+             -1px 1px 0 #000,
+              1px 1px 0 #000;
+        /*height: 20px;*/
+    }
+	
     .statistik{
         color:#fff;
         text-shadow:
@@ -118,12 +194,19 @@
     .pasien-deskripsi span {
         font-size: 15px !important;
     }
+	.pasien-deskripsi_big span {
+        font-size: 40px !important;
+    }
     
     .w1 {
         width: 25%;
         float: left;
         padding-left: 5px;
     }
+	
+	.w2 {
+		
+	}
     
     .block-footer-antrian {
         position: absolute;
@@ -154,6 +237,25 @@
     }
 </style>
 <div class="row-fluid judul"><?php echo $modLayar->layarantrian_judul; ?></div>
+<div class="antrian_big" hidden>
+	<div class="w2">
+		<div id="ruangan_big" class="antrian" style="width: 100%;height:400px;">
+			<div class="ruangan_big" id="ruangan_nama_big">
+				<span>-</span>
+			</div>
+			<div class="dokter_big" id="dokter_big">
+				<span>Nama Dokter</span>
+			</div>
+			<div class="no-antrian_big">
+				XX-000
+			</div>
+			<div class="pasien-deskripsi_big" id="pasien-deskripsi_big">
+				<span>Nama Pasien</span>
+			</div>
+		</div>
+    </div>
+</div>
+<div class="isi_antrian">
     <?php 
     if(count($modRuangans) > 0){
         foreach($modRuangans AS $i=>$ruangan){
@@ -162,7 +264,7 @@
             }    ?>
             <div class="w1">
                 <div id="ruangan_<?php echo $ruangan->ruangan_id; ?>" class="antrian" style="width:230px;height:80px;">
-                    <div class="ruangan" id="ruangan_<?php echo $i; ?>">
+                    <div class="ruangan" id="ruangan_nama_<?php echo $i; ?>">
                         <span><?php echo strtoupper($ruangan->ruangan->ruangan_nama); ?></span>
                     </div>
                     <div class="dokter" id="dokter_<?php echo $i; ?>">
@@ -176,8 +278,6 @@
                     </div>
                     <?php echo $this->renderPartial('_formKunjungan',array('model'=>$model)); ?>
                     <br>
-                    <iframe id="suarapanggilan" src="" style="display:none;">
-                    </iframe>
                 </div>
             </div>
     <?php
@@ -188,6 +288,7 @@
     } 
     ?>
 <?php $profil = ProfilrumahsakitM::model()->find(); ?>
+</div>
 <div class="block-footer-antrian">
     <div id="footerAntrian">
         <marquee direction="left" scrollamount="10" id="textrunning">
@@ -200,6 +301,8 @@
 </div>
 <?php echo $this->renderPartial('_jsFunctions',array('model'=>$model,'modRuangans'=>$modRuangans,'modLayar'=>$modLayar,'konfig'=>$konfig)); ?>
 
+<iframe id="suarapanggilan" src="" style="display:none;">
+</iframe>
 <script>
             var mon = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
             function updateClock ( )

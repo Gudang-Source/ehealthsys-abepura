@@ -1,4 +1,4 @@
-<div class="white-container">
+ <div class="white-container">
     <legend class="rim2">Infomasi Tarif <b>Rawat Inap</b></legend>
     <div class="block-tabel">
         <h6>Tabel Informasi Tarif <b>Rawat Inap</b></h6> 		

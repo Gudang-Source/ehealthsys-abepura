@@ -11,13 +11,14 @@
             <th>Kode Barang</th>
             <th>Nama Barang</th>
             <th>Merk</th>
+            <th>Ukuran</th>
+            <th>Tahun Eknomis</th>
             <?php //if (isset($_GET['id'])){ ?>
             <th>Jumlah Pesan</th>
             <?php //} ?>
             <th>Jumlah Mutasi</th>
-            <th>Satuan</th>
-            <th>Ukuran</th>
-            <th>Tahun Eknomis</th>
+           <!-- <th>Satuan</th>-->
+            
             <?php if ($model->isNewRecord){ ?>
             <th>Batal</th>
             <?php } ?>
@@ -31,6 +32,7 @@
             <tr>   
                 <td><?php 
                     echo CHtml::activeHiddenField($detail, '['.$i.']barang_id',array('class'=>'barang')); 
+                    echo CHtml::activeHiddenField($detail, '['.$i.']satuanbrg',array()); 
                     //echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama:null; 
                     echo $modBarang->barang_type;
                     ?>
@@ -46,23 +48,24 @@
                 <td><?php //echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; 
                     echo $modBarang->barang_merk;
                 ?></td>                
+                <td><?php echo $modBarang->barang_ukuran; ?></td>
+                <td><?php echo $modBarang->barang_ekonomis_thn; ?></td>
                  <?php //if (isset($modPesan)){ ?>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']qty_pesan', array('class'=>'span1 qty_pesan', 'readonly'=>true, 'style'=>'text-align:right;'));
+                    echo CHtml::activeTextField($detail, '['.$i.']qty_pesan', array('class'=>'span1 qty_pesan', 'readonly'=>true, 'style'=>'text-align:right;')).' '.$detail->satuanbrg;
                 ?>
                 </td>
                 <?php //} ?>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']qty_mutasi', array('class'=>'span1 numbersOnly mutasi', 'onblur'=>'cekStok(this);', 'style'=>'text-align:right;'));
+                    echo CHtml::activeTextField($detail, '['.$i.']qty_mutasi', array('class'=>'span1 numbersOnly mutasi', 'onblur'=>'cekStok(this);', 'style'=>'text-align:right;')).' '.$detail->satuanbrg;
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']qty_mutasi');
                 ?>
                 </td>
-                <td><?php echo CHtml::activeDropDownList($detail, '['.$i.']satuanbrg', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
-                <td><?php echo $modBarang->barang_ukuran; ?><br/><?php echo $modBarang->barang_bahan; ?></td>
-                <td><?php echo $modBarang->barang_ekonomis_thn; ?></td>
+               <!-- <td><?php //echo CHtml::activeDropDownList($detail, '['.$i.']satuanbrg', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>-->
+               
                 <?php if ($model->isNewRecord){ ?>
                 <td><?php echo Chtml::link('<icon class="icon-remove"></icon>', '', array('onclick'=>'batal(this);', 'style'=>'cursor:pointer;', 'class'=>'cancel')); ?></td>
                 <?php } ?>

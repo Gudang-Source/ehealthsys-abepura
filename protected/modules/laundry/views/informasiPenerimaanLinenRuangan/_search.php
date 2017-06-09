@@ -55,7 +55,7 @@
 		<div class="control-group ">
 			<?php echo CHtml::activeLabel($modPengirimanlinen,'nopengirimanlinen',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($modPengirimanlinen,'nopengirimanlinen',array('placeholder'=>'Ketik No. Pengiriman', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($modPengirimanlinen,'nopengirimanlinen',array('placeholder'=>'Ketik No. Pengiriman', 'class'=>'span3 alphanumeric-only all-caps', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 	</div>

@@ -1,4 +1,5 @@
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting.js'); ?>
+<?php $data=ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
 <style>
     .grid th {
         border: 1px solid;
@@ -13,6 +14,9 @@
     }
 </style>
     <table width="100%">
+		<tr>
+			<td><?php echo $this->renderPartial('application.views.headerReport.headerDefault'); ?></td>
+		</tr>
         <tr>
             <td style="text-align:center;" align="center"><b>DETAIL PENGELUARAN UMUM</b></td>
         </tr>

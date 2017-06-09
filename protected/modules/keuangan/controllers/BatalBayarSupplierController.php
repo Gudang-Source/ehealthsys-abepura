@@ -5,7 +5,7 @@ class BatalBayarSupplierController extends MyAuthController
         protected $successSave=true;
 	public $path_view = 'billingKasir.views.batalBayarSupplier.';
         
-	public function actionIndex()
+	public function actionIndex($id=null)
 	{
                     if(!empty($_GET['frame'])){
                         $this->layout = 'iframe';
@@ -13,15 +13,22 @@ class BatalBayarSupplierController extends MyAuthController
                     $modBuktiKeluar = new KUTandabuktikeluarT;
                     $modBayarSupplier = new KUBayarkesupplierT;
                     $modBatalBayar = new KUBatalBayarSupplierT;
-
+					
+					if(!empty($id)) {
+						$modBatalBayar = KUBatalBayarSupplierT::model()->findByPk($id);
+						$modBuktiKeluar = KUTandabuktikeluarT::model()->findByPk($modBatalBayar->tandabuktikeluar_id);
+						$modBayarSupplier = KUBayarkesupplierT::model()->findByPk($modBatalBayar->bayarkesupplier_id);
+					}
+					
                     if(isset($_POST['KUBatalBayarSupplierT'])){
+						// var_dump($_POST); die;
                         $modBuktiKeluar->attributes = $_POST['KUTandabuktikeluarT'];
                         $transaction = Yii::app()->db->beginTransaction();
                         try {
                             $modBatalBayar = $this->saveBatalBayarSupplier($_POST['KUBatalBayarSupplierT']);
-
                             if($this->successSave){
                                 $transaction->commit();
+								$this->redirect(array('index', 'id'=>$modBatalBayar->batalbayarsupplier_id));
                                 Yii::app()->user->setFlash('success',"Data berhasil disimpan");
                             } else {
                                 $transaction->rollback();
@@ -44,7 +51,10 @@ class BatalBayarSupplierController extends MyAuthController
             $modBatalBayar->attributes = $postBatalBayar;
             $modBatalBayar->ruangan_id = Yii::app()->user->getState('ruangan_id');
             if($modBatalBayar->validate()){
-                $this->successSave = $this->successSave && true;
+                $this->successSave = $this->successSave && $modBatalBayar->save();
+				BayarkesupplierT::model()->updateByPk($modBatalBayar->bayarkesupplier_id, array(
+					'batalbayarsupplier_id'=>$modBatalBayar->batalbayarsupplier_id,
+				));
             } else {
                 $this->successSave = false;
             }
