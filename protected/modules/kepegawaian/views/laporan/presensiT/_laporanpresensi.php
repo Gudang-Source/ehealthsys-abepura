@@ -3,7 +3,31 @@
         width: 200px;
         display:inline-block;
     }
+	
+	.radio input[type="radio"], .checkbox input[type="checkbox"] {
+		float: none;
+		margin-left: -18px;
+	}
+	
+	input.multiselect-search{
+		width:100px;
+	}
+	
+	.btn-group .btn {
+		position: relative;
+		float: none;		
+	}
+	
+	.collapse.in, .collapse{
+		z-index: 0;
+		
+	  }
 </style>
+<?php 
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/js/bootstrap-multiselect/css/bootstrap-multiselect.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/bootstrap-multiselect/js/bootstrap-multiselect.js', CClientScript::POS_END);
+
+?>
 <div class="white-container">
     <legend class="rim2">Laporan <b>Presensi</b></legend>
     <fieldset class="box">
@@ -107,6 +131,18 @@
                 <td>
                     <?php echo $form->textFieldRow($model,'no_fingerprint',array('class'=>'span3','maxlength'=>30)); ?>
                     <?php
+						echo $form->dropDownListRow($model,'jenistenagamedis_id',  CHtml::listData($model->getJenisTenagaMedisItems(), 'jenistenagamedis_id', 'tenagamedis_nama'), 
+														array( 'multiple'=>'multiple'));
+						
+						echo $form->dropDownListRow($model,'kelompokjabatan',LookupM::getItems('kelompokjabatan'), 
+														array( 'multiple'=>'multiple'));
+						
+						echo $form->dropDownListRow($model,'kategoripegawaiasal',LookupM::getItems('kategoriasalpegawai'), 
+														array( 'multiple'=>'multiple'));
+						
+						
+					
+					
                         /*echo $form->dropDownListRow(
                             $model,'unit_perusahaan',LookupM::model()->GetItems('unit_perusahaan'),
                             array('class'=>'span3', 'empty'=>'-- Pilih --')
@@ -114,6 +150,31 @@
                     ?>
                 </td>
             </tr>
+			<tr>
+				<td>
+					
+					<?php  
+					
+					
+					/*$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+						'id'=>'kunjungan',
+						'slide'=>true,
+						'content'=>array(
+						'content2'=>array(							
+							'header'=>'Berdasarkan Jenis Tenaga Medis',
+							'isi'=>  '
+										<table>                                            
+										<tr>
+												<td></td>
+										</tr>
+										</table>',            
+							'active'=>true,
+								),
+						),
+		//                                    'htmlOptions'=>array('class'=>'aw',)
+						));*/ ?>		
+				</td>
+			</tr>
         </table>
 
 	<div class="form-actions">
@@ -149,4 +210,31 @@
         }        
         
     }
+	
+	$(document).ready(function() {
+	jQuery("#KPPresensiT_jenistenagamedis_id").multiselect({
+		includeSelectAllOption: true,
+		buttonClass: "form-control",
+		maxHeight: 300,
+		buttonWidth: '170px',
+		enableCaseInsensitiveFiltering: true,
+	}).hide();	
+	
+	jQuery("#KPPresensiT_kelompokjabatan").multiselect({
+		includeSelectAllOption: true,
+		buttonClass: "form-control",
+		maxHeight: 300,
+		buttonWidth: '170px',
+		enableCaseInsensitiveFiltering: true,
+	}).hide();	
+	
+	jQuery("#KPPresensiT_kategoripegawaiasal").multiselect({
+		includeSelectAllOption: true,
+		buttonClass: "form-control",
+		maxHeight: 300,
+		buttonWidth: '170px',
+		enableCaseInsensitiveFiltering: true,
+	}).hide();	
+});
 </script>
+

@@ -30,22 +30,49 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
         'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Jadwal Presensi</center>',
-                        'start'=>'6',
-                        'end'=>'10',
+                        'start'=>'9',
+                        'end'=>'13',
                     ),
                 ),
 	'columns'=>array(
-		/* array(
+				array(
                     'header'=>'No.',
                     'type'=>'raw',
                     'value' => '$row+1'
-                ),*/
+                ),
                 array(
                     'header' => 'No FP',
                     'name' => 'no_fingerprint'
                 ),
-               'pegawai.kelompokpegawai.kelompokpegawai_nama',
-                'pegawai.jabatan.jabatan_nama',
+				array(
+					'header' => 'Kelompok Pegawai/ <br/> Kategori Pegawai Asal',
+					'type' => 'raw',
+					'value' => function ($data){
+							$kelPeg = !empty($data->pegawai->kelompokpegawai_id)?$data->pegawai->kelompokpegawai->kelompokpegawai_nama:'-';
+							$katPegAsl =  !empty($data->pegawai->kategoripegawaiasal)?$data->pegawai->kategoripegawaiasal:'-';
+						
+							return $kelPeg."/ <br/>".$katPegAsl;
+					}
+				),                               
+				array(
+					'header' => 'Jabatan/ <br/> Kelompok Jabatan',
+					'type' => 'raw',
+					'value' => function ($data){
+							$jab = !empty($data->pegawai->jabatan_id)?$data->pegawai->jabatan->jabatan_nama:'-';
+							$kelJab =  !empty($data->pegawai->kelompokjabatan)?$data->pegawai->kelompokjabatan:'-';
+						
+							return $jab."/ <br/>".$kelJab;
+					}
+				),                
+				array(
+					'header' => 'Jenis Tenaga Medis',
+					'type' => 'raw',
+					'value' => function ($data){
+							$jnsTegMedis = !empty($data->pegawai->jenistenagamedis)?$data->pegawai->jenistenagamedis:'-';							
+						
+							return $jnsTegMedis;
+					}
+				),     
                 'pegawai.nomorindukpegawai',
                 'pegawai.nama_pegawai',  
                  array(

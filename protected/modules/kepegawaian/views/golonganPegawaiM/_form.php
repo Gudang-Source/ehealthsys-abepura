@@ -14,6 +14,7 @@
 
             <?php echo $form->textFieldRow($model,'golonganpegawai_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             <?php echo $form->textFieldRow($model,'golonganpegawai_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+	        <?php echo $form->textFieldRow($model,'golonganpegawai_urutan',array('class'=>'span3 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3,'style'=>'text-align:right;')); ?>
             <?php //echo $form->checkBoxRow($model,'golonganpegawai_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
