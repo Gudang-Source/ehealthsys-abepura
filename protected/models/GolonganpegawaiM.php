@@ -39,7 +39,7 @@ class GolonganpegawaiM extends CActiveRecord
 		return array(
 			array('golonganpegawai_nama, kopjmlmininalplafon, kopjmlmaksimalplafon', 'required'),
 			array('golonganpegawai_nama, golonganpegawai_namalainnya', 'length', 'max'=>50),
-			array('golonganpegawai_aktif, kopsimpananpokok, kopsimpananwajib', 'safe'),
+			array('golonganpegawai_urutan, golonganpegawai_aktif, kopsimpananpokok, kopsimpananwajib', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('golonganpegawai_id, golonganpegawai_nama, golonganpegawai_namalainnya, golonganpegawai_aktif', 'safe', 'on'=>'search'),
@@ -71,6 +71,7 @@ class GolonganpegawaiM extends CActiveRecord
 			'kopjmlmaksimalplafon' => 'Jumlah Maksimal Pinjaman',
 			'kopsimpananpokok' => 'Simpanan Pokok',
 			'kopsimpananwajib' => 'Simpanan Wajib',
+			'golonganpegawai_urutan' => 'Urutan'
 		);
 	}
 

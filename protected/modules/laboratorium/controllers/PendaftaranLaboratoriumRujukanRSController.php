@@ -614,5 +614,67 @@ class PendaftaranLaboratoriumRujukanRSController extends PendaftaranLaboratorium
             Yii::app()->end(); 
         }
     }
+	
+	/**
+        * untuk mencari dokter di autocomplete
+        */
+	public function actionGetDokter()
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			$criteria = new CDbCriteria();
+			if (isset($_GET['term'])){
+				$criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+			} else if (isset($_POST['id'])) {
+				$criteria->compare('pegawai_id', $_POST['id']);
+			}
+			$criteria->order = 'nama_pegawai';
+			if (isset($_GET['idPegawai'])){
+				if(!empty($_GET['idPegawai'])){
+					$criteria->addCondition("pegawai_id = ".$_GET['idPegawai']); 	
+				}
+			}
+			$models = DokterpegawaiV::model()->findAll($criteria);
+			foreach($models as $i=>$model)
+			{
+				$attributes = $model->attributeNames();
+				foreach($attributes as $j=>$attribute) {
+					$returnVal[$i]["$attribute"] = $model->$attribute;
+				}
+				$returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+				$returnVal[$i]['value'] = $model->pegawai_id;
+				$returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+			}
+
+			echo CJSON::encode($returnVal);
+		}
+		Yii::app()->end();
+	}
+	
+	/**
+        * untuk mencari perawat di autocomplete
+        */
+	public function actionGetPerawat()
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			$criteria = new CDbCriteria();
+			$criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+			$criteria->order = 'nama_pegawai';
+			$models = ParamedisV::model()->findAll($criteria);
+			$returnVal = array();
+			foreach($models as $i=>$model)
+			{
+				 $attributes = $model->attributeNames();
+				 foreach($attributes as $j=>$attribute) {
+					 $returnVal[$i]["$attribute"] = $model->$attribute;
+				 }
+				 $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+				 $returnVal[$i]['value'] = $model->pegawai_id;
+				 $returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+			}
+
+			echo CJSON::encode($returnVal);
+		}
+		Yii::app()->end();
+	}
     
 }

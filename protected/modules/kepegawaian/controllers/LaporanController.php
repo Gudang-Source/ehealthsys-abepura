@@ -193,6 +193,9 @@
                // $tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
                 $model->tglpresensi = $tglpresensi;
                 $model->tglpresensi_akhir = $tglpresensi_akhir;
+				$model->jenistenagamedis_id = !empty($_GET['KPPresensiT']['jenistenagamedis_id'])?$_GET['KPPresensiT']['jenistenagamedis_id']:null;
+				$model->kategoripegawaiasal = !empty($_GET['KPPresensiT']['kategoripegawaiasal'])?$_GET['KPPresensiT']['kategoripegawaiasal']:null;
+				$model->kelompokjabatan = !empty($_GET['KPPresensiT']['kelompokjabatan'])?$_GET['KPPresensiT']['kelompokjabatan']:null;
 				if(!empty($_GET['KPPresensiT']['ruangan_id'])){
 					$model->ruangan_id = $_GET['KPPresensiT']['ruangan_id'];
 				}
@@ -215,9 +218,14 @@
             $model->tglpresensi = date('Y-m-d 00:00:00');
             $model->tglpresensi_akhir = date('Y-m-d 23:59:59');
             $format = new MyFormatter();
-            $model->attributes = $_GET['KPPresensiT'];
-            $model->tglpresensi = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi']));
-            $model->tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
+			if (isset($_GET['KPPresensiT'])) {
+				$model->attributes = $_GET['KPPresensiT'];
+				$model->tglpresensi = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi']));
+				$model->tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
+				$model->jenistenagamedis_id = !empty($_GET['KPPresensiT']['jenistenagamedis_id'])?$_GET['KPPresensiT']['jenistenagamedis_id']:null;
+				$model->kategoripegawaiasal = !empty($_GET['KPPresensiT']['kategoripegawaiasal'])?$_GET['KPPresensiT']['kategoripegawaiasal']:null;
+				$model->kelompokjabatan = !empty($_GET['KPPresensiT']['kelompokjabatan'])?$_GET['KPPresensiT']['kelompokjabatan']:null;
+			}
           //  $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
             
             $judulLaporan = 'Laporan Presensi';
