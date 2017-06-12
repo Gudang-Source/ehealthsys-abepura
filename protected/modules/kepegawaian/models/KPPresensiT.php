@@ -9,6 +9,7 @@ class KPPresensiT extends PresensiT {
     public $statuskehadiran_nama;
     public $kelompokpegawai_id;
     public $jabatan_id;
+	
     
     
     public static function model($class = __CLASS__){
@@ -130,14 +131,23 @@ class KPPresensiT extends PresensiT {
         // should not be searched.
         $criteria=new CDbCriteria;
         $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint';
-        $criteria->order = 't.pegawai_id, date(t.tglpresensi)';
-        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint';
-        $criteria->join = 'INNER JOIN pegawai_m ON pegawai_m.pegawai_id=t.pegawai_id';
+        $criteria->order = 'date(t.tglpresensi) ASC, pegawai_m.nama_pegawai ASC';
+        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint, pegawai_m.nama_pegawai';
+        $criteria->join = 'JOIN pegawai_m ON pegawai_m.pegawai_id=t.pegawai_id';
         $criteria->addBetweenCondition('DATE(tglpresensi)',$this->tglpresensi, $this->tglpresensi_akhir);
         $criteria->compare('LOWER(pegawai_m.nama_pegawai)',strtolower($this->nama_pegawai),true);
         $criteria->compare('kategoripegawai',$this->kategoripegawai);
         $criteria->compare('nofingerprint',$this->no_fingerprint);
         $criteria->compare('pegawai_m.unit_perusahaan',$this->unit_perusahaan);
+		if (!empty($this->jenistenagamedis_id)){
+			$criteria->addInCondition("jenistenagamedis_id",$this->jenistenagamedis_id);
+		}
+		if (!empty($this->kelompokjabatan)){
+			$criteria->addInCondition("kelompokjabatan",$this->kelompokjabatan);
+		}
+		if (!empty($this->kategoripegawaiasal)){
+			$criteria->addInCondition("kategoripegawaiasal",$this->kategoripegawaiasal);
+		}
 
         if(!empty($this->ruangan_id))
         {
@@ -212,4 +222,8 @@ class KPPresensiT extends PresensiT {
             return '-';
         }
     }
+	
+	public function getJenisTenagaMedisItems(){
+		return JenistenagamedisM::model()->findAllByAttributes(array('jenistenagamedis_aktif'=>TRUE), array('order'=>'tenagamedis_nama asc'));
+	}
 }
