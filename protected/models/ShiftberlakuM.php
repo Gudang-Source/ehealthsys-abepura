@@ -52,7 +52,7 @@ class ShiftberlakuM extends CActiveRecord
 		return array(
 			array('shift_id, shiftberlaku_tgl, shiftberlaku_jmasuk, shiftberlaku_jmasuk_mulai, shiftberlaku_jmasuk_akhir, shiftberlaku_jpulang, shiftberlaku_jpulang_mulai, shiftberlaku_jpulang_akhir, create_time, create_loginpemakai_id', 'required'),
 			array('shift_id, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
-			array('update_time', 'safe'),
+			array('kelompokjabatan,update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('shiftberlaku_id, shift_id, shiftberlaku_tgl, shiftberlaku_jmasuk, shiftberlaku_jmasuk_mulai, shiftberlaku_jmasuk_akhir, shiftberlaku_jpulang, shiftberlaku_jpulang_mulai, shiftberlaku_jpulang_akhir, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),
@@ -91,6 +91,7 @@ class ShiftberlakuM extends CActiveRecord
 			'create_loginpemakai_id' => 'Create Loginpemakai',
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
+			'kelompokjabatan' => 'Kelompok Jabatan'
 		);
 	}
 
@@ -123,5 +124,19 @@ class ShiftberlakuM extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function cekSHift($tgl, $kelompok){
+		$cekJam = $this->findAll(" date(shiftberlaku_tgl) >= '".$tgl."' AND kelompokjabatan = '".$kelompok."'  ");
+		
+		if (count($cekJam)){
+			foreach ($cekJam as $jam){
+				
+				
+			}
+		}
+		
+		
+		return $data;
 	}
 }
