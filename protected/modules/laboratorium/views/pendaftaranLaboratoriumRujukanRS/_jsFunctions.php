@@ -609,7 +609,7 @@ function updatePerawat(value){
 function setDokterPemeriksa1(item)
 {
     var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
-	alert(row);
+	//alert(row);
     $('#LBTindakanPelayananT_'+row+'_dokterpemeriksa1_id').val(item.pegawai_id);
     $('#tampilanDokterPemeriksa_'+row).html("Dokter Pemeriksa : "+item.nama_pegawai);
 }
