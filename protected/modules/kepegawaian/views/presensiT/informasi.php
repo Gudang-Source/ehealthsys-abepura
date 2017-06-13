@@ -118,13 +118,21 @@
                     array(
                         'header' => 'Shift /<br>Jam Kerja',
                         'name' => 'pegawai.shift.shift_nama',
-                        'value' => function($data){
-									$tgl = MyFormatter::formatDateTimeForDb(date('Y-m-d',  strtotime($data->tglpresensi)));
-									$cekShiftBerlaku = ShiftberlakuM::model()->cekSHift($data->tglpresensi, $data->pegawai->kelompokjabatan);
+						'type' => 'raw',
+                        'value' => function($data){									
+									$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);
+									$jampulang = PresensiT::model()->getRealJam(Params::STATUSSCAN_PULANG, $data->tglpresensi, $data->pegawai_id);
+									if (!empty($jammasuk)){
+										$cekShiftBerlaku = ShiftberlakuM::model()->cekSHift($data->tglpresensi.' '.$jammasuk, $data->pegawai->kelompokjabatan,'masuk');
+									}elseif(!empty($jampulang)){										
+										$cekShiftBerlaku = ShiftberlakuM::model()->cekSHift($data->tglpresensi.' '.$jampulang, $data->pegawai->kelompokjabatan,'pulang');
+									}else{
+										$cekShiftBerlaku = null;
+									}
 								if (!empty($data->pegawai->kelompokjabatan)){
 									
 								}
-			
+								return $cekShiftBerlaku;
 								/*
 									$jamM = null;
 									$jamP = null;

@@ -9,6 +9,7 @@ class KPPresensiT extends PresensiT {
     public $statuskehadiran_nama;
     public $kelompokpegawai_id;
     public $jabatan_id;
+	public $waktu;
 	
     
     
@@ -64,6 +65,7 @@ class KPPresensiT extends PresensiT {
         
         return $provider;
     }
+	
     
     public function searchPrint()
 	{

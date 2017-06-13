@@ -126,15 +126,53 @@ class ShiftberlakuM extends CActiveRecord
 		));
 	}
 	
-	public function cekSHift($tgl, $kelompok){
-		$cekJam = $this->findAll(" date(shiftberlaku_tgl) >= '".$tgl."' AND kelompokjabatan = '".$kelompok."'  ");
-		
-		if (count($cekJam)){
-			foreach ($cekJam as $jam){
-				
-				
+	public function cekSHift($tgl, $kel, $status){
+		$jamP = date('H:i:s', strtotime($tgl));
+		$kelompok = strtolower($kel); 
+		if ($status == 'masuk'){
+			$masuk = new CDbCriteria();
+			$masuk->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
+			if (!empty($kelompok)){
+				if ( ($kelompok == Params::KELOMPOK_JABATAN_STRUKTURAL) OR ($kelompok == Params::KELOMPOK_JABATAN_FUNGSIONAL)){
+					$masuk->addCondition(" LOWER(kelompokjabatan) = '".$kelompok."' ");
+				}else{
+					$masuk->addCondition("kelompokjabatan = '' ");
+				}
+			}else{
+				$masuk->addCondition("kelompokjabatan = '' ");
 			}
+			$masuk->addCondition("shiftberlaku_jmasuk_mulai <= '".$jamP."' AND  shiftberlaku_jmasuk_akhir >= '".$jamP."' ");		
+			$masuk->order =  " shiftberlaku_tgl DESC ";		
+			$cekJam = $this->find($masuk);						
+			
+		}elseif ($status == 'pulang'){
+			
+			$pulang = new CDbCriteria();
+			$pulang->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
+			if (!empty($kelompok)){
+				if ( ($kelompok == Params::KELOMPOK_JABATAN_STRUKTURAL) OR ($kelompok == Params::KELOMPOK_JABATAN_FUNGSIONAL)){
+					$pulang->addCondition(" LOWER(kelompokjabatan) = '".$kelompok."' ");
+				}else{
+					$pulang->addCondition("kelompokjabatan = '' ");
+				}
+			}else{
+				$pulang->addCondition("kelompokjabatan = '' ");
+			}
+			$pulang->addCondition("shiftberlaku_jpulang_mulai <= '".$jamP."' AND  shiftberlaku_jpulang_akhir >= '".$jamP."' ");		
+			$pulang->order =  " shiftberlaku_tgl DESC ";		
+			$cekJam = $this->find($pulang);				
+			
+		}else{
+			$cekJam = null;
 		}
+		
+		$data = '-';
+		
+		if (count($cekJam)>0){		
+			$data = $cekJam->shift->shift_nama.'/ <br/>'.$cekJam->shiftberlaku_jmasuk.'-'.$cekJam->shiftberlaku_jpulang;						
+		}
+		
+		
 		
 		
 		return $data;

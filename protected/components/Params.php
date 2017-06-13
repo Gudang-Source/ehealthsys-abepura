@@ -10,6 +10,10 @@ Class Params
 {
 	//=== NILAI DEFAULT ===
 	//Merupakan konstanta yang diubah disesuaikan dengan kebutuhan di klien
+	
+	//kelompok jabatan
+	const KELOMPOK_JABATAN_STRUKTURAL = 'struktural';
+	const KELOMPOK_JABATAN_FUNGSIONAL = 'fungsional';
 
 	// DEFAULT CONST AUTHENTICATION 
 	const DEFAULT_UPDATE = 'Update';
@@ -18,7 +22,7 @@ Class Params
 	const DEFAULT_ADMIN = 'Admin';
 
 	const DEFAULT_PROFIL_RUMAH_SAKIT = 1; //profilrumahsakit_m     
-        const DEFAULT_PROFILKOPERASI = 1;
+	const DEFAULT_PROFILKOPERASI = 1;
 
 	const DEFAULT_RUANGAN_KIOSK= 2;           //pendaftaran rawat jalan
 	const DEFAULT_RUANGAN_KIOSK_KASIR= 146;   //kasir sentral
