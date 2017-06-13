@@ -126,27 +126,9 @@ $this->widget('bootstrap.widgets.BootAlert');
                     /*--------------------------*/
 
 
-                    #imgtag
-                    {
-                            position: relative;
-                            min-width: 300px;
-                            min-height: 300px;
-                            float: none;
-                            border: 3px solid #FFF;
-                            cursor: crosshair;
-                            text-align: center;
-                    }
+                   
 					
-					#imgtag2
-                    {
-                            position: relative;
-                            min-width: 300px;
-                            min-height: 300px;
-                            float: none;
-                            border: 3px solid #FFF;
-                            cursor: crosshair;
-                            text-align: center;
-                    }
+					
 					
                     .tagview
                     {
@@ -169,24 +151,9 @@ $this->widget('bootstrap.widgets.BootAlert');
                             background: #282828;
                             border-top: 1px solid #F10303;
                     }
-                    #tagit
-                    {
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 300px;
-                            border: 1px solid #D7C7C7;
-							z-index: 10;
-                    }
+                    
 					
-					#tagit2
-                    {
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 300px;
-                            border: 1px solid #D7C7C7;
-                    }
+					
 /*			#tagit .box
                     {
                             border: 1px solid #F10303;
@@ -194,52 +161,8 @@ $this->widget('bootstrap.widgets.BootAlert');
                             height: 10px;
                             float: left;
                     }*/
-                    #tagit .name
-                    {
-                            /*float: left;*/
-                            background-color: #FFF;
-                            width: 295px;
-                            /*height: 92px;*/
-                            /*padding: 5px;*/
-                            font-size: 10pt;
-                            margin:0 auto;
-                            margin-bottom: 0 auto;
-                    }
-                    #tagit DIV.text
-                    {
-                            margin-bottom: 5px;
-                    }
-                    #tagit INPUT[type=text]
-                    {
-                            margin-bottom: 5px;
-                    }
-                    #tagit #tagname
-                    {
-                            width: 110px;
-                    }
-					#tagit2 .name
-                    {
-                            /*float: left;*/
-                            background-color: #FFF;
-                            width: 295px;
-                            /*height: 92px;*/
-                            /*padding: 5px;*/
-                            font-size: 10pt;
-                            margin:0 auto;
-                            margin-bottom: 0 auto;
-                    }
-                    #tagit2 DIV.text
-                    {
-                            margin-bottom: 5px;
-                    }
-                    #tagit2 INPUT[type=text]
-                    {
-                            margin-bottom: 5px;
-                    }
-                    #tagit2 #tagname2
-                    {
-                            width: 110px;
-                    }
+                    
+					
                     #taglist
                     {
                             width: 300px;
@@ -510,6 +433,7 @@ $this->widget('bootstrap.widgets.BootAlert');
     <legend class="rim">Pemeriksaan Anggota Tubuh</legend>
     <div class="row-fluid">
             <div class="span7 box2">
+				<?php /*
                     <div align="center" id="imgtag">
                             <img id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$modGambarTubuh->FileNameGambar; ?>" class="taggd"/> 
                     <div id="tagbox"></div>
@@ -518,6 +442,121 @@ $this->widget('bootstrap.widgets.BootAlert');
                             <img id="myImgId2" src="<?php echo Params::urlPhotoAnatomiTubuh().$modGambarTubuh->FileNameGambar; ?>" class="taggd2"/> 
                     <div id="tagbox2"></div>
                     </div>
+				 * 
+				 */ 
+				$i = 1;
+				if (count($modGambarTubuh->AllDataGambarAnatomi) > 0)
+				{
+					$gbrTubuh = $modGambarTubuh->AllDataGambarAnatomi;
+					
+					foreach($gbrTubuh as $tbh){			
+						if ($i == 1){
+							$css = " 
+								#imgtag
+								{
+										position: relative;
+										min-width: 300px;
+										min-height: 300px;
+										float: none;
+										border: 3px solid #FFF;
+										cursor: crosshair;
+										text-align: center;
+								}
+								#tagit
+								{
+										position: absolute;
+										top: 0;
+										left: 0;
+										width: 300px;
+										border: 1px solid #D7C7C7;
+										z-index: 10;
+								}
+								#tagit .name
+								{
+										/*float: left;*/
+										background-color: #FFF;
+										width: 295px;
+										/*height: 92px;*/
+										/*padding: 5px;*/
+										font-size: 10pt;
+										margin:0 auto;
+										margin-bottom: 0 auto;
+								}
+								#tagit DIV.text
+								{
+										margin-bottom: 5px;
+								}
+								#tagit INPUT[type=text]
+								{
+										margin-bottom: 5px;
+								}
+								#tagit #tagname
+								{
+										width: 110px;
+								}";	
+				?>
+							<div align="center" id="imgtag">
+									<img alt="<?php echo $tbh->gambartubuh_id ?>"  id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd"/> 
+							<div id="tagbox"></div>
+							</div>
+				<?php
+						}else{
+							$css .= " 
+								#imgtag".$i."
+								{
+										position: relative;
+										min-width: 300px;
+										min-height: 300px;
+										float: none;
+										border: 3px solid #FFF;
+										cursor: crosshair;
+										text-align: center;
+								}
+								#tagit".$i."
+								{
+										position: absolute;
+										top: 0;
+										left: 0;
+										width: 300px;
+										border: 1px solid #D7C7C7;
+										z-index: 10;
+								}
+								#tagit".$i." .name
+								{
+										/*float: left;*/
+										background-color: #FFF;
+										width: 295px;
+										/*height: 92px;*/
+										/*padding: 5px;*/
+										font-size: 10pt;
+										margin:0 auto;
+										margin-bottom: 0 auto;
+								}
+								#tagit".$i." DIV.text
+								{
+										margin-bottom: 5px;
+								}
+								#tagit".$i." INPUT[type=text]
+								{
+										margin-bottom: 5px;
+								}
+								#tagit".$i." #tagname".$i."
+								{
+										width: 110px;
+								}";	
+				?>
+							<div align="center" id="imgtag<?php echo $i ?>">
+									<img alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $i ?>"/> 
+							<div id="tagbox<?php echo $i ?>"></div>
+							</div>
+				<?php
+						}
+						$i++;
+					}
+					Yii::app()->clientScript->registerCss('anatomi', $css);
+				}
+				?>
+				
             </div>
             <div class="span1">
                     &nbsp;

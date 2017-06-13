@@ -222,7 +222,7 @@ $(document).ready(function(){
 						<tr>\n\
 							<td>Bagian Tubuh : </td>\n\
 							<td>\n\
-								<select id="bagiantubuh_id" name="bagiantubuh_id" onkeypress="return $(this).focusNextInputField(event);" class="span2">\n\
+								<select id="bagiantubuh_id2" name="bagiantubuh_id" onkeypress="return $(this).focusNextInputField(event);" class="span2">\n\
 								<option value="">-- Pilih --</option>\n\
 								<?php foreach ($modBagianTubuh->BagianTubuh as $key => $value){ ?>\n\
 									<option value="<?php echo $value->bagiantubuh_id; ?>"><?php echo $value->namabagtubuh; ?></option>\n\
@@ -232,7 +232,7 @@ $(document).ready(function(){
 						</tr>\n\
 						<tr>\n\
 							<td>Keterangan : </td>\n\
-							<td><?php echo CHtml::textArea('keterangan','', array('class'=>'span2 ', 'onkeypress'=>"return $(this).focusNextInputField(event);"));?><br>\n\</td>\n\
+							<td><?php echo CHtml::textArea('keterangan2','', array('class'=>'span2 ', 'onkeypress'=>"return $(this).focusNextInputField(event);"));?><br>\n\</td>\n\
 						</tr>\n\
 					</table>\n\
 						<input type="button" name="btnsave" value="Tambah" id="btnsave2" />\n\
@@ -278,10 +278,12 @@ $(document).ready(function(){
 	//image 2
 	// Save button click - save tags
     $( document ).on( 'click',  '#tagit2 #btnsave2', function(){
-      bagiantubuh_id = $('#bagiantubuh_id').val();
-      keterangan = $('#keterangan').val();
+      bagiantubuh_id = $('#bagiantubuh_id2').val();
+      keterangan = $('#keterangan2').val();
 		var img = $('#imgtag2').find( 'img' );
 		var id = $( img ).attr( 'id' );
+		var gambartubuh_id = $( img ).attr( 'alt' );
+		
       $.ajax({
         type: "POST", 
         url: "<?php echo $this->createUrl('tambahBagianTubuh')?>", 
