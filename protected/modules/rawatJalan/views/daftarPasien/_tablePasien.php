@@ -1,4 +1,4 @@
-<h6>Tabel Pasien <b>Rawat Jalan </b><?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('title'=>'Klik untuk memanggil antrian terakhir','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'ambilAntrianTerakhir();','style'=>'font-size:10px;')); ?></h6>
+<h6>Tabel Pasien <b>Rawat Jalan </b><?php // echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('title'=>'Klik untuk memanggil antrian terakhir','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'ambilAntrianTerakhir();','style'=>'font-size:10px;')); ?></h6>
 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'daftarpasien-v-grid',
     'dataProvider'=>$model->searchDaftarPasien(),

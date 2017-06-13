@@ -376,7 +376,7 @@ function listRuangan(instalasi_id)
  * copy dari: antrian.views.tampilAntrianKePoliklinik._jsFunctions
  */
 function setSuaraPanggilanSingle(kodeantrian, noantrian, ruangan_id){
-    $("#suarapanggilan").attr("src","<?php echo $this->createUrl('/antrian/tampilAntrianKePoliklinik/suaraPanggilanSingle'); ?>&kodeantrian="+kodeantrian+"&noantrian="+noantrian+"&ruangan_id="+ruangan_id);
+    // $("#suarapanggilan").attr("src","<?php echo $this->createUrl('/antrian/tampilAntrianKePoliklinik/suaraPanggilanSingle'); ?>&kodeantrian="+kodeantrian+"&noantrian="+noantrian+"&ruangan_id="+ruangan_id);
 }
 /**
  * fungsi ini harus tetap di bawah posisinya
