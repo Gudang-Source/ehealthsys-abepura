@@ -129,10 +129,8 @@
 									}else{
 										$cekShiftBerlaku = null;
 									}
-								if (!empty($data->pegawai->kelompokjabatan)){
-									
-								}
-								return $cekShiftBerlaku;
+								
+									return $cekShiftBerlaku;
 								/*
 									$jamM = null;
 									$jamP = null;
@@ -228,15 +226,18 @@
                     array(
                         'header' => 'Terlambat (Menit)',
                          'value'=>function($data) use (&$cr) {
+									
+							 /*
                             $cr = new CDbCriteria();                            
                             $cr->compare('tglpresensi::date', $data->tglpresensi);
                             $cr->compare('pegawai_id', $data->pegawai_id);
                             $cr->addCondition('statusscan_id=:p1');
                             $cr->params[':p1'] = Params::STATUSSCAN_MASUK;
                             $pr = PresensiT::model()->find($cr);
-                            if (empty($pr)) return "-";
+                           if (empty($pr)) return "-";
                             $jammasuk = strtotime(date('H:i:s', strtotime($pr->tglpresensi)));
-                                                       
+                                            
+							
                             //return $pr1->jam;
                             $shift = $data->getShiftId($data->pegawai_id);
                             $jamM = null;
@@ -285,17 +286,28 @@
                             {
                                 return ShiftM::model()->getJam($cekPertukaran,1);
                             }
-                                                        
-                            $masuk = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
-                            $jam = floor(round(abs($masuk - $tepat) / 60,2));
-                            
-                            //if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
-                            //{    
-                                if ($masuk < $tepat){
-                                    return "0 Menit";
-                                }else{
-                                    return $jam.' Menit';
-                                }
+                               */                         
+							$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);
+							
+							$cekShiftBerlaku = ShiftberlakuM::model()->cekOntime($data->tglpresensi.' '.$jammasuk, $data->pegawai->kelompokjabatan,'masuk');
+							
+
+							$tepat = $cekShiftBerlaku;
+							
+							if ($tepat != '-'){
+								$masuk = strtotime(date('Y-m-d H:i:s',strtotime($data->tglpresensi.' '.$jammasuk)));
+								$jam = floor(round(abs($masuk - $tepat) / 60,2));
+
+								//if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+								//{    
+									if ($masuk < $tepat){
+										return "0 Menit";
+									}else{
+										return $jam.' Menit';
+									}
+							}else{
+								return '-';
+							}
                            // }
                            // else{
                              //   return '-';
@@ -307,6 +319,7 @@
                     array(
                         'header' => 'Pulang Awal (Menit)',
                         'value' => function($data) use (&$cr) {
+							/*
                             $cr->params[':p1'] = Params::STATUSSCAN_PULANG;
                             $pr = PresensiT::model()->find($cr);
                             if (empty($pr)) return "-";
@@ -358,19 +371,29 @@
                             {
                                 return ShiftM::model()->getJam($cekPertukaran,2);
                             }
-                                
+                                */
+							$jampulang = PresensiT::model()->getRealJam(Params::STATUSSCAN_PULANG, $data->tglpresensi, $data->pegawai_id);
+							
+							$cekShiftBerlaku = ShiftberlakuM::model()->cekOntime($data->tglpresensi.' '.$jampulang, $data->pegawai->kelompokjabatan,'pulang');
+							
+
+							$tepat = $cekShiftBerlaku;
                             
                             
-                            $pulang = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
+                            $pulang = strtotime(date('Y-m-d H:i:s',strtotime($data->tglpresensi.' '.$jampulang)));
                             $jam = floor(round(abs($tepat - $pulang) / 60,2));
                             
                            // if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
                            // {
+							if ($tepat != '-'){
                                 if ($pulang > $tepat){
                                     return "0 Menit";
                                 }else{
                                     return $jam.' Menit';
                                 }
+							}else{
+								return '-';
+							}
                            // }else{
                           //      return '-';
                            // }
@@ -381,7 +404,7 @@
                         'header' => 'Status',
                         //'name' => 'statuskehadiran.statuskehadiran_nama',
                         'value' => function($data){ 
-                            
+                            /*
                             $cr4 = new CDbCriteria();
                             $cr4->compare('tglpresensi::date', $data->tglpresensi);
                             $cr4->compare('pegawai_id', $data->pegawai_id);                            
@@ -395,7 +418,22 @@
                             $cr5->addCondition('statusscan_id=:p1');
                             $cr5->params[':p1'] = Params::STATUSSCAN_PULANG;
                             $pr5 = PresensiT::model()->find($cr5);
-                                                                                    
+                                */
+							
+							$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);
+							$jampulang = PresensiT::model()->getRealJam(Params::STATUSSCAN_PULANG, $data->tglpresensi, $data->pegawai_id);
+							
+							$jamMulai = ShiftberlakuM::model()->cekOntime($data->tglpresensi.' '.$jammasuk, $data->pegawai->kelompokjabatan,'masuk',true);
+							
+							$jamAkhir = ShiftberlakuM::model()->cekOntime($data->tglpresensi.' '.$jampulang, $data->pegawai->kelompokjabatan,'pulang', true);
+							
+
+							return $cekShiftBerlaku;
+							
+							if ($jamMulai != '-'){
+								
+							}
+							/*
                             if (count($pr4)>0){
                                 $waktu = date('H:i:s', strtotime($pr4->tglpresensi));
                                 if ( ($waktu >= '09:00:00') AND ($waktu <= '10:00:00')){
@@ -410,7 +448,7 @@
                                 }else{
                                     echo '-';
                                 }
-                            }
+                            }*/
                         }
                     ),                                
                                 /*
