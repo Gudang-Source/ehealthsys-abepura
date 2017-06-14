@@ -452,7 +452,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 					foreach($gbrTubuh as $tbh){			
 						if ($i == 1){
 							$css = " 
-								#imgtag
+								#imgtag1
 								{
 										position: relative;
 										min-width: 300px;
@@ -462,7 +462,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 										cursor: crosshair;
 										text-align: center;
 								}
-								#tagit
+								#tagit1
 								{
 										position: absolute;
 										top: 0;
@@ -471,7 +471,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 										border: 1px solid #D7C7C7;
 										z-index: 10;
 								}
-								#tagit .name
+								#tagit1 .name
 								{
 										/*float: left;*/
 										background-color: #FFF;
@@ -482,22 +482,26 @@ $this->widget('bootstrap.widgets.BootAlert');
 										margin:0 auto;
 										margin-bottom: 0 auto;
 								}
-								#tagit DIV.text
+								#tagit1 DIV.text
 								{
 										margin-bottom: 5px;
 								}
-								#tagit INPUT[type=text]
+								#tagit1 INPUT[type=text]
 								{
 										margin-bottom: 5px;
 								}
-								#tagit #tagname
+								#tagit1 #tagname
 								{
 										width: 110px;
 								}";	
 				?>
-							<div align="center" id="imgtag">
-									<img alt="<?php echo $tbh->gambartubuh_id ?>"  id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd"/> 
+							<!--<div align="center" id="imgtag">
+									<img img-no="" alt="<?php //echo $tbh->gambartubuh_id ?>"  id="myImgId" src="<?php //echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd"/> 
 							<div id="tagbox"></div>
+							</div>-->
+							<div align="center" id="imgtag<?php echo $i ?>">
+									<img img-no="<?php echo $i ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $i ?>"/> 
+							<div id="tagbox<?php echo $i ?>"></div>
 							</div>
 				<?php
 						}else{
@@ -546,7 +550,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 								}";	
 				?>
 							<div align="center" id="imgtag<?php echo $i ?>">
-									<img alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $i ?>"/> 
+									<img img-no="<?php echo $i ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $i ?>"/> 
 							<div id="tagbox<?php echo $i ?>"></div>
 							</div>
 				<?php

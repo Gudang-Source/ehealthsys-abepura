@@ -133,23 +133,26 @@ function loadTitikSesudahSimpan(){
 	}?>
 }
 
-$(document).ready(function(){
-    // defaultparamedis();     
-//    anatomitubuh();  
-	loadTitikSesudahSimpan();
-	
-	
+/*
+function imageAnatomi(obj,i){
 	var counter = 0;
-    var mouseX = 0;
-    var mouseY = 0;
-   
-    $("#imgtag img").click(function(e) { // make sure the image is click
-      var imgtag = $(this).parent(); // get the div to append the tagging list
+	var mouseX = 0;
+	var mouseY = 0;
+	
+	$(obj).click(function(e){			
+	 var imgtag = $(this).parent(); // get the div to append the tagging list
       mouseX = ( e.pageX - $(imgtag).offset().left ); // x and y axis
       mouseY = ( e.pageY - $(imgtag).offset().top );
-	  $( '#titikklik' ).remove(); // menghapus titik lain selain titik current klik
-		$("#imgtag").append(
-		$('<div id="titikklik"></div>')
+	  if (i == ''){
+		  i = '';
+	  }else{
+		  i = i;
+	  }
+	  $(obj).attr("mousex",mouseX);
+	  $(obj).attr("mousey",mouseY);
+	  $( '#titikklik'+i ).remove(); // menghapus titik lain selain titik current klik
+		$("#imgtag"+i).append(
+		$('<div id="titikklik'+i+'"></div>')
 				.css('position', 'absolute')
 				.css('top', Math.round(mouseY)-10 + 'px')
 				.css('left', Math.round(mouseX)-10 + 'px')
@@ -163,14 +166,14 @@ $(document).ready(function(){
 				.css('-moz-border-radius', '50%')
 				.css('border-radius', '50%')
 		);
-		var html = '<div id="tagit">\n\
+		var html = '<div id="tagit'+i+'">\n\
 				<div class="name"><br>\n\
 					<div class="text"><strong>Data Pemeriksaan</strong></div>\n\
 					<table>\n\
 						<tr>\n\
 							<td>Bagian Tubuh : </td>\n\
 							<td>\n\
-								<select id="bagiantubuh_id" name="bagiantubuh_id" onkeypress="return $(this).focusNextInputField(event);" class="span2">\n\
+								<select id="bagiantubuh_id'+i+'" name="bagiantubuh_id" onkeypress="return $(this).focusNextInputField(event);" class="span2">\n\
 								<option value="">-- Pilih --</option>\n\
 								<?php foreach ($modBagianTubuh->BagianTubuh as $key => $value){ ?>\n\
 									<option value="<?php echo $value->bagiantubuh_id; ?>"><?php echo $value->namabagtubuh; ?></option>\n\
@@ -180,21 +183,118 @@ $(document).ready(function(){
 						</tr>\n\
 						<tr>\n\
 							<td>Keterangan : </td>\n\
-							<td><?php echo CHtml::textArea('keterangan','', array('class'=>'span2 ', 'onkeypress'=>"return $(this).focusNextInputField(event);"));?><br>\n\</td>\n\
+							<td><textarea id ="keterangan'+i+'" class="span2" onkeypress="return $(this).focusNextInputField(event);"></textarea><?php //echo CHtml::textArea('keterangan','', array('class'=>'span2 ', 'onkeypress'=>"return $(this).focusNextInputField(event);"));?><br>\n\</td>\n\
 						</tr>\n\
 					</table>\n\
-						<input type="button" name="btnsave" value="Tambah" id="btnsave" />\n\
-						<input type="button" name="btncancel" value="Cancel" id="btncancel" /><br><br>\n\
+						<input onclick = "simpanAnatomi(this,'+i+')" type="button" name="btnsave" value="Tambah" id="btnsave'+i+'" />\n\
+						<input type="button" name="btncancel" value="Cancel" id="btncancel'+i+'" /><br><br>\n\
 					</div>\n\
 				</div>';
 	  
-      $( '#tagit' ).remove( ); // remove any tagit div first
+      $( '#tagit'+i ).remove( ); // remove any tagit div first
       $( imgtag ).append(html);
-      $( '#tagit' ).css({ top:mouseY, left:mouseX });
+      $( '#tagit'+i ).css({ top:mouseY, left:mouseX });
       
-      $('#tagname').focus();
+      $('#tagname'+i).focus();
+  });
+}
+
+function simpanAnatomi(obj,i){
+	 
+    var  bagiantubuh_id = $('#bagiantubuh_id'+i).val();
+    var  keterangan = $('#keterangan'+i).val();
+	var img = $('#imgtag'+i).find( 'img' );
+	var id = $( img ).attr( 'id' );
+	var koorX = $( img ).attr( 'mousex' );
+	var koorY = $( img ).attr( 'mousey' );
+	$.ajax({
+	  type: "POST", 
+	  url: "<?php echo $this->createUrl('tambahBagianTubuh')?>", 
+	  data: "pic_id=" + id + "&bagiantubuh_id=" + bagiantubuh_id + "&keterangan=" + keterangan + "&pic_x=" + koorX + "&pic_y=" + koorY + "&type=insert",
+	  dataType: "json",
+	  success: function(data){
+		  if(data.pesan != ""){
+			  myAlert(data.pesan);
+		  }else{
+			  $('#table-bagtubuh > tbody').append(data.form);
+			  renameInput($('#table-bagtubuh'));
+			  titikSebelumSimpan(data.axis['x'],data.axis['y'],data.bagiantubuh_id,'#imgtag');
+		  }
+          viewtag( id );
+		$('#tagit'+i).fadeOut();
+		$('#titikklik'+i).remove();
+	  },
+	  error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+	});
+      
+  
+}
+
+*/
+$(document).ready(function(){
+    // defaultparamedis();     
+//    anatomitubuh();  
+	loadTitikSesudahSimpan();
+	
+	
+	var counter = 0;
+    var mouseX = 0;
+    var mouseY = 0;
+   
+    $("[id^=imgtag] img").click(function(e) { // make sure the image is click
+      var imgtag = $(this).parent(); // get the div to append the tagging list
+	  var no_img = $(this).attr('img-no');
+      mouseX = ( e.pageX - $(imgtag).offset().left ); // x and y axis
+      mouseY = ( e.pageY - $(imgtag).offset().top );
+	  $( '#titikklik'+no_img ).remove(); // menghapus titik lain selain titik current klik
+		$("#imgtag"+no_img).append(
+		$('<div id="titikklik'+no_img+'"></div>')
+				.css('position', 'absolute')
+				.css('top', Math.round(mouseY)-10 + 'px')
+				.css('left', Math.round(mouseX)-10 + 'px')
+				.css('width', '5px')
+				.css('height', '5px')
+				.css('background-color', 'rgba(219, 50, 92, 0.5)')
+				.css('cursor', 'pointer')
+				.css('display', 'block')
+				.css('padding', '5px')
+				.css('-webkit-border-radius', '50%')
+				.css('-moz-border-radius', '50%')
+				.css('border-radius', '50%')
+		);
+		var html = '<div id="tagit'+no_img+'">\n\
+				<div class="name"><br>\n\
+					<div class="text"><strong>Data Pemeriksaan</strong></div>\n\
+					<table>\n\
+						<tr>\n\
+							<td>Bagian Tubuh : </td>\n\
+							<td>\n\
+								<select id="bagiantubuh_id'+no_img+'" name="bagiantubuh_id" onkeypress="return $(this).focusNextInputField(event);" class="span2">\n\
+								<option value="">-- Pilih --</option>\n\
+								<?php foreach ($modBagianTubuh->BagianTubuh as $key => $value){ ?>\n\
+									<option value="<?php echo $value->bagiantubuh_id; ?>"><?php echo $value->namabagtubuh; ?></option>\n\
+								<?php } ?>\n\
+							</select>\n\
+							</td>\n\
+						</tr>\n\
+						<tr>\n\
+							<td>Keterangan : </td>\n\
+							<td><textarea id ="keterangan'+no_img+'" class="span2" onkeypress="return $(this).focusNextInputField(event);"></textarea><?php //echo CHtml::textArea('keterangan','', array('class'=>'span2 ', 'onkeypress'=>"return $(this).focusNextInputField(event);"));?><br>\n\</td>\n\
+						</tr>\n\
+					</table>\n\
+						<input img-no="'+no_img+'" type="button" name="btnsave" value="Tambah" id="btnsave'+no_img+'" />\n\
+						<input img-no="'+no_img+'" type="button" name="btncancel" value="Cancel" id="btncancel'+no_img+'" /><br><br>\n\
+					</div>\n\
+				</div>';
+	  
+      $( '#tagit'+no_img ).remove( ); // remove any tagit div first
+      $( imgtag ).append(html);
+      $( '#tagit'+no_img ).css({ top:mouseY, left:mouseX });
+      
+      $('#tagname'+no_img).focus();
     });
 	
+	/*
 	 $("#imgtag2 img").click(function(e) { // make sure the image is click
       var imgtag = $(this).parent(); // get the div to append the tagging list
       mouseX = ( e.pageX - $(imgtag).offset().left ); // x and y axis
@@ -245,14 +345,19 @@ $(document).ready(function(){
       $( '#tagit2' ).css({ top:mouseY, left:mouseX });
       
       $('#tagname2').focus();
-    });
+    });*/
     
 	// Save button click - save tags
-    $( document ).on( 'click',  '#tagit #btnsave', function(){
-      bagiantubuh_id = $('#bagiantubuh_id').val();
-      keterangan = $('#keterangan').val();
-		var img = $('#imgtag').find( 'img' );
+	//#btnsave
+	 //$("#tagit1 #btnsave1").click(function(){ 
+    $( document ).on( 'click',  '[id^=tagit] [id^=btnsave]', function(){
+	  var no_img = $(this).attr('img-no');
+      var bagiantubuh_id = $('#bagiantubuh_id'+no_img).val();
+      var keterangan = $('#keterangan'+no_img).val();
+		var img = $('#imgtag'+no_img).find( 'img' );
 		var id = $( img ).attr( 'id' );
+		//var koorX = $( img ).attr( 'mousex' );
+		//var koorY = $( img ).attr( 'mousey' );
       $.ajax({
         type: "POST", 
         url: "<?php echo $this->createUrl('tambahBagianTubuh')?>", 
@@ -264,17 +369,17 @@ $(document).ready(function(){
 			}else{
 				$('#table-bagtubuh > tbody').append(data.form);
 				renameInput($('#table-bagtubuh'));
-				titikSebelumSimpan(data.axis['x'],data.axis['y'],data.bagiantubuh_id,'#imgtag');
+				titikSebelumSimpan(data.axis['x'],data.axis['y'],data.bagiantubuh_id,'#imgtag'+no_img);
 			}
 //          viewtag( id );
-          $('#tagit').fadeOut();
-		  $('#titikklik').remove();
+          $('#tagit'+no_img).fadeOut();
+		  $('#titikklik'+no_img).remove();
         },
 		error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
       });
       
     });
-	
+	/*
 	//image 2
 	// Save button click - save tags
     $( document ).on( 'click',  '#tagit2 #btnsave2', function(){
@@ -286,7 +391,7 @@ $(document).ready(function(){
 		
       $.ajax({
         type: "POST", 
-        url: "<?php echo $this->createUrl('tambahBagianTubuh')?>", 
+        url: "<?php //echo $this->createUrl('tambahBagianTubuh')?>", 
         data: "pic_id=" + id + "&bagiantubuh_id=" + bagiantubuh_id + "&keterangan=" + keterangan + "&pic_x=" + mouseX + "&pic_y=" + mouseY + "&type=insert",
         dataType: "json",
         success: function(data){
@@ -305,6 +410,7 @@ $(document).ready(function(){
       });
       
     });
+	*/
 	
 	// Cancel the tag box.
     $( document ).on( 'click', '#tagit #btncancel', function() {
