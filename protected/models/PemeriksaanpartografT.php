@@ -66,6 +66,14 @@ class PemeriksaanpartografT extends CActiveRecord
 			array('pto_airketuban, pto_penyusupan, urine_protein, urine_aseton', 'length', 'max'=>100),
 			array('pto_tekanandarah', 'length', 'max'=>20),
 			array('kontraksi_lama_detik, pto_ketubanpecah, pto_mules, update_time', 'safe'),
+			
+			array('create_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
+			array('update_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),
+			array('create_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'insert'),
+			array('update_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'update,insert'),
+			array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'),'on'=>'insert'),
+                        
+			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('pemeriksaanpartograf_id, persalinan_id, pto_tglperiksa, pto_ketubanpecah, pto_mules, pto_djj_menit, pto_airketuban, pto_penyusupan, pto_pembukaan, pto_penutupan, kontraksi_jml, kontraksi_lama_detik, kontraksi_oksitosin_unit, kontraksi_tetes_menit, pto_tekanandarah, pto_systolic, pto_diastolic, urine_protein, urine_aseton, urine_volumen, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),

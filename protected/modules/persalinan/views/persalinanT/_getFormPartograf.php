@@ -2,9 +2,9 @@
 $modPartograf = new PSPemeriksaanpartografT;
 $modPartograf->pto_tglperiksa = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
 ?>
-<div class='biru' id = 'par0'>
+<div class='biru form_partograf' id = 'par0' data-id="x">
         <div class="white">
-            <fieldset class='box'>
+            <fieldset class='box fbase'>
         <legend class='rim'>Pemeriksaan Partograf</legend>
         <table width="100%" class="table-condensed" id='hapusPar'>
             <tbody>                        
@@ -150,14 +150,13 @@ $modPartograf->pto_tglperiksa = MyFormatter::formatDateTimeForUser(date('Y-m-d H
                         </div>
                     </div>
                     
-                    <div class = "control-group">
+                    <div class = "control-group input_oa">
                         <?php echo Chtml::label("Obat / Cairan",'djj', array('class' => 'control-label'));  ?>
                         <div class="controls">
                             <?php  
-                                 echo CHtml::hiddenField('obatalkes_id'); 
+                                 echo CHtml::hiddenField('obatalkes_id[0]', '', array('class'=>'p_obatalkes_id')); 
                                 $this->widget('MyJuiAutoComplete', array(
-                                     'model' => $modPartograf,
-                                    'attribute' => '[0]obatalkes_nama',                                    
+                                    'name'=>'obatalkes_nama[0]',                                
                                     'source'=>'js: function(request, response) {
                                                    $.ajax({
                                                        url: "'.$this->createUrl('AutocompleteObatAlkes').'",
@@ -186,13 +185,24 @@ $modPartograf->pto_tglperiksa = MyFormatter::formatDateTimeForUser(date('Y-m-d H
                                     ),
                                     'htmlOptions'=>array(
                                         'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                        'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); '
+                                        'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); ',
+										'class' => 'input_obatalkes_nama',
                                     ),
-                                    'tombolDialog'=>array('idDialog'=>'dialogObatAlkes'),
+                                    'tombolDialog'=>array('idDialog'=>'dialogObatAlkes', 'jsFunction'=>'ubahNomor($(this).parents(".form_partograf").data("id"))'),
                                 )); 
                                ?>
                             
                         </div>
+						<div class="controls">
+                              <label>Qty</label>
+                         <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer2 qty_oa')) ?>
+                                        <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
+                                                array('onclick'=>'tambahObat(this);return false;',
+                                                      'class'=>'btn btn-primary btn_tambah_oa',                                                      
+                                                      'rel'=>"tooltip",
+                                                      'id'=>"btn_input",
+                                                      'title'=>"Klik untuk menambahkan obat / cariran",)); ?>
+                         </div>
                     </div>
                 </td> 
                 <td>
@@ -261,6 +271,24 @@ $modPartograf->pto_tglperiksa = MyFormatter::formatDateTimeForUser(date('Y-m-d H
                 </td>
             </tr>           
         </table>
+		<div class="block-tabel">
+			<h6>Pemakaian Obat / Cairan</h6>
+			<table class="table table-striped table-condensed periksaParObat" id="periksaParObat_0">
+				<thead>
+				<tr>
+					<th>Kode</th>        
+					<th>Obat</th>        
+					<th>Jumlah</th>                                        
+					<th>Batal</th>
+				</tr>
+				</thead>
+				<tbody>
+					<?php                                     
+						$this->renderPartial('_pemeriksaanPartogObat', array('form'=>$form, 'modPartograf' => $modPartograf, 'id'=>0)); 
+					?>
+				</tbody>
+			</table>
+        </div>
     </fieldset>               
     </div>
 </div>

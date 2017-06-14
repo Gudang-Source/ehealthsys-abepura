@@ -103,17 +103,19 @@
     <?php       $i++;
             }
             }else{
-                $modPeriksaKala4 = new PSPemeriksaankala4T;                
-                $modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));                                
-                $modPeriksaKala4->kala4_anemia = $modPemeriksaLama->kala4_anemia;
-                $modPeriksaKala4->kala4_systolic = $modPemeriksaLama->kala4_systolic;
-                $modPeriksaKala4->kala4_diastolic = $modPemeriksaLama->kala4_diastolic;
-                $modPeriksaKala4->kala4_tekanandarah = $modPemeriksaLama->kala4_tekanandarah;
-                $modPeriksaKala4->kala4_meanarteripressure = $modPemeriksaLama->kala4_meanarteripressure;
-                $modPeriksaKala4->kala4_detaknadi = $modPemeriksaLama->kala4_detaknadi;
-                $modPeriksaKala4->kala4_pernapasan = $modPemeriksaLama->kala4_pernapasan;
-                $modPeriksaKala4->kala4_tinggifundus = $modPemeriksaLama->tinggifundus_uteri;
-                $modPeriksaKala4->kala4_kontraksi = $modPemeriksaLama->kala4_kontraksi;
+                $modPeriksaKala4 = new PSPemeriksaankala4T;   
+				if (!empty($modPemeriksaLama)) {
+					$modPeriksaKala4->kala4_tanggal = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));                                
+					$modPeriksaKala4->kala4_anemia = $modPemeriksaLama->kala4_anemia;
+					$modPeriksaKala4->kala4_systolic = $modPemeriksaLama->kala4_systolic;
+					$modPeriksaKala4->kala4_diastolic = $modPemeriksaLama->kala4_diastolic;
+					$modPeriksaKala4->kala4_tekanandarah = $modPemeriksaLama->kala4_tekanandarah;
+					$modPeriksaKala4->kala4_meanarteripressure = $modPemeriksaLama->kala4_meanarteripressure;
+					$modPeriksaKala4->kala4_detaknadi = $modPemeriksaLama->kala4_detaknadi;
+					$modPeriksaKala4->kala4_pernapasan = $modPemeriksaLama->kala4_pernapasan;
+					$modPeriksaKala4->kala4_tinggifundus = $modPemeriksaLama->tinggifundus_uteri;
+					$modPeriksaKala4->kala4_kontraksi = $modPemeriksaLama->kala4_kontraksi;
+				}
     ?>
                  <tr>
                     <td>

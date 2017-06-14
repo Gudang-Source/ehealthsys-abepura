@@ -1,9 +1,9 @@
 <?php
     
 ?>
-<div class='biru' id = 'par0'>
+<div class='biru form_partograf' id = 'par0' data-id="<?php echo $id; ?>">
         <div class="white">
-            <fieldset class='box'>
+            <fieldset class='box fbase'>
         <legend class='rim'>Pemeriksaan Partograf</legend>
         <table width="100%" class="table-condensed" id='hapusPar'>
             <tbody>                        
@@ -148,11 +148,11 @@
                         </div>
                     </div>
                     
-                    <div class = "control-group">
+                    <div class = "control-group input_oa">
                         <?php echo Chtml::label("Obat / Cairan",'djj', array('class' => 'control-label'));  ?>
                         <div class="controls">
                             <?php  
-                                 echo CHtml::hiddenField('obatalkes_id'.$id); 
+                                echo CHtml::hiddenField('obatalkes_id['.$id.']', '', array('class'=>'p_obatalkes_id')); 
                                 $this->widget('MyJuiAutoComplete', array(
                                     'name'=>'obatalkes_nama['.$id.']',
                                     'source'=>'js: function(request, response) {
@@ -183,7 +183,8 @@
                                     ),
                                     'htmlOptions'=>array(
                                         'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                        'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); '
+                                        'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); ',
+										'class' => 'input_obatalkes_nama',
                                     ),
                                     'tombolDialog'=>array('idDialog'=>'dialogObatAlkes', 'jsFunction'=>'ubahNomor("'.$id.'")'),
                                 )); 
@@ -194,10 +195,10 @@
                         </div>
                           <div class="controls">
                               <label>Qty</label>
-                         <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer2')) ?>
+                         <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer2 qty_oa')) ?>
                                         <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
-                                                array('onclick'=>'tambahObat();return false;',
-                                                      'class'=>'btn btn-primary',                                                      
+                                                array('onclick'=>'tambahObat(this);return false;',
+                                                      'class'=>'btn btn-primary btn_tambah_oa',                                                      
                                                       'rel'=>"tooltip",
                                                       'id'=>"btn_input",
                                                       'title'=>"Klik untuk menambahkan obat / cariran",)); ?>
@@ -273,7 +274,7 @@
         
         <div class="block-tabel">
                         <h6>Pemakaian Obat / Cairan</h6>
-                        <table class="table table-striped table-condensed" id="periksaParObat">
+                        <table class="table table-striped table-condensed periksaParObat" id="periksaParObat_<?php echo $id; ?>">
                             <thead>
                             <tr>
                                 <th>Kode</th>        

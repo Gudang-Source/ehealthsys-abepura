@@ -86,7 +86,8 @@
 
 <script>
     
-    
+    var oa_idx = 0;
+	
     function setTabPartograf(obj, v)
     {
         var liLength = $("#tabberPartograf li").length; 
@@ -112,7 +113,7 @@
             for (var i =0;i<liLength;i++){
                 $("#parP"+i+"").hide();
             }
-            
+            v = liLength-1;
             $("#parP"+(liLength-1)+"").show();
                         
             renameInputPar('statusPar','parP'+id,id);
@@ -178,6 +179,7 @@
             }
             $("#parP"+v+"").show();          
         }
+		oa_idx = v;
     }
     
     function renameInputPar(obj_table, idAttribute, id)
@@ -190,7 +192,10 @@
           //  $(this).find('span[id*="'+attributeName+'"]').attr('id',modelName+'_'+id+'_'+i+'_'+attributeName+'_date');                        
        // i++;    
        // });
+	   
+	    console.log($('#'+idAttribute));
        
+	    $("#"+idAttribute).find(".form_partograf").data('id', id);
         $('#'+idAttribute).find('#'+obj_table+' tbody > tr').each(function(){
         
             $(this).find('span[name*="[ii]"]').each(function(){ //element <span>
@@ -215,6 +220,9 @@
                 }else if(old_name_arr.length == 3){
                     $(this).attr("id",old_name_arr[0]+"_"+id+"_"+old_name_arr[2]+"");
                     $(this).attr("name",old_name_arr[0]+"["+id+"]["+old_name_arr[2]+"]");          
+                } else if(old_name_arr.length == 2){
+                    $(this).attr("id",old_name_arr[0]+"_"+id+"");
+                    $(this).attr("name",old_name_arr[0]+"["+id+"]");          
                 }
             });
             //$(this).find('#tambahKala4').attr('onclick',"inputKala4(this,"+id+")");
@@ -239,8 +247,40 @@
                 $("#tabberPartograf").find("#Par"+id).remove();
            }
         });
-	
+		
     }
+	
+	function tambahObat(obj) {
+		var id = oa_idx;
+		var obatalkes_id = $(obj).parents('.input_oa').find('.p_obatalkes_id').val();
+		var qty = $(obj).parents('.input_oa').find('.qty_oa').val();
+		var sudah_ada = false;
+		
+		$(obj).parents('.input_oa').find('.input_obatalkes_nama').val('');
+		$(obj).parents('.input_oa').find('.p_obatalkes_id').val('');
+		$(obj).parents('.input_oa').find('.qty_oa').val('');
+		
+		$(obj).parents('.fbase').find('.periksaParObat tbody .row_obatalkes_id').each(function() {
+			if ($(this).val() == obatalkes_id) sudah_ada = true;
+		});
+		
+		if (sudah_ada) {
+			myAlert('Obatalkes sudah diinput sebelumnya.');
+			return false;
+		}
+		
+		$.post('<?php echo $this->createUrl('getOAPersalinan'); ?>', {
+			id: id,
+			obatalkes_id: obatalkes_id,
+			qty: qty,
+		}, function(data) {
+			if (data.ok == 0) {
+				myAlert(data.msg);
+				return false;
+			}
+			$(obj).parents('.fbase').find('.periksaParObat tbody').append(data.html);
+		}, 'json');
+	}
     
 </script>
 <?php 
@@ -285,7 +325,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectObat",
                                     "onClick" => "
-                                        $(\'#obatalkes_id\'+$(\'#nomor\').val()).val($data->obatalkes_id);                                        
+                                        $(\'#obatalkes_id_\'+$(\'#nomor\').val()).val($data->obatalkes_id);                                        
                                         $(\'#obatalkes_nama_\'+$(\'#nomor\').val()).val(\'$data->obatalkes_nama\');
                                         $(\'#dialogObatAlkes\').dialog(\'close\');
                                         return false;"
@@ -312,9 +352,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 'obatalkes_kode',
                 'obatalkes_nama',
-                //'obatalkes_kategori',
-                //'obatalkes_golongan',
-                // 'nobatch',
 		array(
                     'header'=>'Tgl Kadaluarsa',
                     'name'=>'tglkadaluarsa',
@@ -330,38 +367,18 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 						'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3 datemask','placeholder'=>'00/00/0000', 'id'=>'tglkadaluarsa'),
 						),true
 					),
-                ), /*
-                array(
-                    'name'=>'satuankecil_id',
-                    'type'=>'raw',
-//                    'value'=>'isset($data->satuankecil->satuankecil_nama) ? $data->satuankecil->satuankecil_nama : isset($data->satuankecil_nama) ? $data->satuankecil_nama : ""',
-                    'value'=>'$data->satuankecil_nama',
-                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'satuankecil_nama'),
-                ), */
-		// dicomment karena RND-5732
-//                array(
-//                    'name'=>'hargajual',
-//                    'type'=>'raw',
-//                    'value'=>'"Rp.".MyFormatter::formatNumberForPrint($data->hargajual)',
-//                    'filter'=>false,
-//                ),
+                ),
                 array(
                     'header'=>'Jumlah Stok',
                     'value'=>function($data) {
-                        //$stok = StokobatalkesT::model()->findAllByAttributes(array(
-                          //  'obatalkes_id'=>$data->obatalkes_id,
-                            //'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
-                        //));
     
                         $r = Yii::app()->user->getState('ruangan_id');
     
                         $criteria = new CDbCriteria();
                         $criteria->compare('obatalkes_id',$data->obatalkes_id);
                         $criteria->addCondition("tglkadaluarsa = '".MyFormatter::formatDateTimeForDb($data->tglkadaluarsa)."' ");
-                      //  if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI)
-                       // {
-                            $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
-                        //}
+                        $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
+
                         $stok = StokobatalkesT::model()->findAll($criteria);
                         $total = 0;
                         foreach ($stok as $item) {
