@@ -452,7 +452,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 					foreach($gbrTubuh as $tbh){			
 						if ($i == 1){
 							$css = " 
-								#imgtag1
+								#imgtag".$tbh->gambartubuh_id."
 								{
 										position: relative;
 										min-width: 300px;
@@ -462,7 +462,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 										cursor: crosshair;
 										text-align: center;
 								}
-								#tagit1
+								#tagit".$tbh->gambartubuh_id."
 								{
 										position: absolute;
 										top: 0;
@@ -471,7 +471,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 										border: 1px solid #D7C7C7;
 										z-index: 10;
 								}
-								#tagit1 .name
+								#tagit".$tbh->gambartubuh_id." .name
 								{
 										/*float: left;*/
 										background-color: #FFF;
@@ -482,15 +482,15 @@ $this->widget('bootstrap.widgets.BootAlert');
 										margin:0 auto;
 										margin-bottom: 0 auto;
 								}
-								#tagit1 DIV.text
+								#tagit".$tbh->gambartubuh_id." DIV.text
 								{
 										margin-bottom: 5px;
 								}
-								#tagit1 INPUT[type=text]
+								#tagit".$tbh->gambartubuh_id." INPUT[type=text]
 								{
 										margin-bottom: 5px;
 								}
-								#tagit1 #tagname
+								#tagit".$tbh->gambartubuh_id." #tagname".$tbh->gambartubuh_id."
 								{
 										width: 110px;
 								}";	
@@ -499,62 +499,65 @@ $this->widget('bootstrap.widgets.BootAlert');
 									<img img-no="" alt="<?php //echo $tbh->gambartubuh_id ?>"  id="myImgId" src="<?php //echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd"/> 
 							<div id="tagbox"></div>
 							</div>-->
-							<div align="center" id="imgtag<?php echo $i ?>">
-									<img img-no="<?php echo $i ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $i ?>"/> 
-							<div id="tagbox<?php echo $i ?>"></div>
+							<div align="center" id="imgtag<?php echo $tbh->gambartubuh_id ?>">
+									<img img-no="<?php echo $tbh->gambartubuh_id ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $tbh->gambartubuh_id ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $tbh->gambartubuh_id ?>"/> 
+							<div id="tagbox<?php echo $tbh->gambartubuh_id ?>"></div>
 							</div>
 				<?php
 						}else{
-							$css .= " 
-								#imgtag".$i."
-								{
-										position: relative;
-										min-width: 300px;
-										min-height: 300px;
-										float: none;
-										border: 3px solid #FFF;
-										cursor: crosshair;
-										text-align: center;
-								}
-								#tagit".$i."
-								{
-										position: absolute;
-										top: 0;
-										left: 0;
-										width: 300px;
-										border: 1px solid #D7C7C7;
-										z-index: 10;
-								}
-								#tagit".$i." .name
-								{
-										/*float: left;*/
-										background-color: #FFF;
-										width: 295px;
-										/*height: 92px;*/
-										/*padding: 5px;*/
-										font-size: 10pt;
-										margin:0 auto;
-										margin-bottom: 0 auto;
-								}
-								#tagit".$i." DIV.text
-								{
-										margin-bottom: 5px;
-								}
-								#tagit".$i." INPUT[type=text]
-								{
-										margin-bottom: 5px;
-								}
-								#tagit".$i." #tagname".$i."
-								{
-										width: 110px;
-								}";	
+							
+							//if (Yii::app()->user->getState('modul_id') == Params::MODUL_ID_RD ||  Yii::app()->user->getState('modul_id') == Params::MODUL_ID_PERSALINAN){
+									$css .= " 
+									#imgtag".$tbh->gambartubuh_id."
+									{
+											position: relative;
+											min-width: 300px;
+											min-height: 300px;
+											float: none;
+											border: 3px solid #FFF;
+											cursor: crosshair;
+											text-align: center;
+									}
+									#tagit".$tbh->gambartubuh_id."
+									{
+											position: absolute;
+											top: 0;
+											left: 0;
+											width: 300px;
+											border: 1px solid #D7C7C7;
+											z-index: 10;
+									}
+									#tagit".$tbh->gambartubuh_id." .name
+									{
+											/*float: left;*/
+											background-color: #FFF;
+											width: 295px;
+											/*height: 92px;*/
+											/*padding: 5px;*/
+											font-size: 10pt;
+											margin:0 auto;
+											margin-bottom: 0 auto;
+									}
+									#tagit".$tbh->gambartubuh_id." DIV.text
+									{
+											margin-bottom: 5px;
+									}
+									#tagit".$tbh->gambartubuh_id." INPUT[type=text]
+									{
+											margin-bottom: 5px;
+									}
+									#tagit".$tbh->gambartubuh_id." #tagname".$tbh->gambartubuh_id."
+									{
+											width: 110px;
+									}";
 				?>
-							<div align="center" id="imgtag<?php echo $i ?>">
-									<img img-no="<?php echo $i ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $i ?>"/> 
-							<div id="tagbox<?php echo $i ?>"></div>
+							<div align="center" id="imgtag<?php echo $tbh->gambartubuh_id ?>">
+									<img img-no="<?php echo $tbh->gambartubuh_id ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $tbh->gambartubuh_id ?>"/> 
+							<div id="tagbox<?php echo $tbh->gambartubuh_id ?>"></div>
 							</div>
 				<?php
 						}
+					//}
 						$i++;
 					}
 					Yii::app()->clientScript->registerCss('anatomi', $css);
@@ -587,7 +590,8 @@ $this->widget('bootstrap.widgets.BootAlert');
                                                                             <?= $vv->
                                                                                     bagiantubuh->
                                                                                     namabagtubuh; ?>
-                                                                            <?php echo CHtml::HiddenField('bagiantubuh_id', $vv->bagiantubuh_id,array('style'=>'width:50px;', 'class'=>'integer')); ?>
+                                                                            <?php echo CHtml::HiddenField('bagiantubuh_id', $vv->bagiantubuh_id,array('style'=>'width:50px;', 'class'=>'integer', 'delete'=>$vv->gambartubuh_id)); ?>
+																			<?php echo CHtml::HiddenField('gambartubuh_id', $vv->gambartubuh_id,array('style'=>'width:50px;', 'class'=>'integer')); ?>
                                                                             <?php echo CHtml::HiddenField('pemeriksaangambar_id', $vv->pemeriksaangambar_id,array('style'=>'width:50px;', 'class'=>'integer')); ?>
                                                                             <?php echo CHtml::HiddenField('kordinat_tubuh_x', $vv->kordinat_tubuh_x,array('style'=>'width:50px;', 'class'=>'integer')); ?>
                                                                             <?php echo CHtml::HiddenField('kordinat_tubuh_y', $vv->kordinat_tubuh_y,array('style'=>'width:50px;', 'class'=>'integer')); ?>

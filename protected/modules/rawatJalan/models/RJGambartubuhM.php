@@ -36,8 +36,5 @@ class RJGambartubuhM extends GambartubuhM
 	}
 	
 	
-	public function getAllDataGambarAnatomi(){
-		$model = RJGambartubuhM::model()->findAll('gambartubuh_aktif = true');
-		return $model;
-	}
+	
 }

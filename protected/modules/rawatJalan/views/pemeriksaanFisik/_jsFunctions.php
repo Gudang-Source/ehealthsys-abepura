@@ -20,10 +20,17 @@ function batalTambahBagianTubuh(obj){
     function(r){
         if(r){
             var bagiantubuh_id = $(obj).parents('tr').find('input[name$="[bagiantubuh_id]"]').val();
+			var gambartubuh_id = $(obj).parents('tr').find('input[name$="[gambartubuh_id]"]').val();
             $(obj).parents('tbody').find('input[name$="[bagiantubuh_id]"][value="'+bagiantubuh_id+'"]').each(function(){
-                $(this).parents('tr').detach();
+				//$(obj).parents('tbody').find('input[name$="[gambartubuh_id]"][value="'+gambartubuh_id+'"]').each(function(){
+					//alert($(this).attr('delete'));
+					if ($(this).attr('delete') == gambartubuh_id){							
+						$(this).parents('tr').detach();
+					}	
+				//})
+                //$(this).parents('tr').detach();
             });
-			$('#titik_'+bagiantubuh_id).detach();
+			$("#imgtag"+gambartubuh_id).find('#titik_'+bagiantubuh_id).detach();
         }
     }); 
 }
@@ -33,19 +40,24 @@ function hapusBagianTubuh(obj){
         if(r){
 			var bagiantubuh_id = $(obj).parents('tr').find('input[name="bagiantubuh_id"]').val();
 			var pemeriksaangambar_id = $(obj).parents('tr').find('input[name="pemeriksaangambar_id"]').val();
+			var gambartubuh_id = $(obj).parents('tr').find('input[name="gambartubuh_id"]').val();
+			
+			
 			$.ajax({
 				type: "POST", 
 				url: "<?php echo $this->createUrl('hapusBagianTubuh')?>", 
-				data: "bagiantubuh_id=" + bagiantubuh_id + "&pemeriksaangambar_id=" + pemeriksaangambar_id,
+				data: "bagiantubuh_id=" + bagiantubuh_id + "&pemeriksaangambar_id=" + pemeriksaangambar_id+ "&gambartubuh_id=" + gambartubuh_id,
 				dataType: "json",
 				success: function(data){
 					if(data.pesan != ""){
 						myAlert(data.pesan);
 					}else{
 						$(obj).parents('tbody').find('input[name="bagiantubuh_id"][value="'+bagiantubuh_id+'"]').each(function(){
-							$(this).parents('tr').detach();
+							if ($(this).attr('delete') == gambartubuh_id){							
+								$(this).parents('tr').detach();
+							}							
 						});
-						$('#titikbiru_'+bagiantubuh_id).detach();
+						$("#imgtag"+gambartubuh_id).find('#titikbiru_'+bagiantubuh_id).detach();
 					}
 				  
 				},
@@ -127,9 +139,11 @@ function titikSesudahSimpan(titikX,titikY,urutan,bagiantubuh_id, img){
 
 function loadTitikSesudahSimpan(){
 	<?php if(!empty($modPemeriksaanGambar)){
+		$j = 1;
 		foreach($modPemeriksaanGambar as $i => $v){ ?>
-		titikSesudahSimpan(<?= $v->kordinat_tubuh_x; ?>, <?= $v->kordinat_tubuh_y.','.$i.','.$v->bagiantubuh_id ?>, '#imgtag');	
-	<?php }
+		titikSesudahSimpan(<?= $v->kordinat_tubuh_x; ?>, <?= $v->kordinat_tubuh_y.','.$i.','.$v->bagiantubuh_id ?>, '#imgtag<?php echo $v->gambartubuh_id; ?>');	
+		
+	<?php $j++;}
 	}?>
 }
 
@@ -244,6 +258,7 @@ $(document).ready(function(){
     $("[id^=imgtag] img").click(function(e) { // make sure the image is click
       var imgtag = $(this).parent(); // get the div to append the tagging list
 	  var no_img = $(this).attr('img-no');
+	  var gambartubuh_id = $(this).attr('alt');
       mouseX = ( e.pageX - $(imgtag).offset().left ); // x and y axis
       mouseY = ( e.pageY - $(imgtag).offset().top );
 	  $( '#titikklik'+no_img ).remove(); // menghapus titik lain selain titik current klik
@@ -269,6 +284,7 @@ $(document).ready(function(){
 						<tr>\n\
 							<td>Bagian Tubuh : </td>\n\
 							<td>\n\
+								<input type="hidden" id="gambartubuh_id'+no_img+'" value="'+gambartubuh_id+'">\n\
 								<select id="bagiantubuh_id'+no_img+'" name="bagiantubuh_id" onkeypress="return $(this).focusNextInputField(event);" class="span2">\n\
 								<option value="">-- Pilih --</option>\n\
 								<?php foreach ($modBagianTubuh->BagianTubuh as $key => $value){ ?>\n\
@@ -354,6 +370,7 @@ $(document).ready(function(){
 	  var no_img = $(this).attr('img-no');
       var bagiantubuh_id = $('#bagiantubuh_id'+no_img).val();
       var keterangan = $('#keterangan'+no_img).val();
+	  var gambartubuh_id = $('#gambartubuh_id'+no_img).val();
 		var img = $('#imgtag'+no_img).find( 'img' );
 		var id = $( img ).attr( 'id' );
 		//var koorX = $( img ).attr( 'mousex' );
@@ -361,7 +378,7 @@ $(document).ready(function(){
       $.ajax({
         type: "POST", 
         url: "<?php echo $this->createUrl('tambahBagianTubuh')?>", 
-        data: "pic_id=" + id + "&bagiantubuh_id=" + bagiantubuh_id + "&keterangan=" + keterangan + "&pic_x=" + mouseX + "&pic_y=" + mouseY + "&type=insert",
+        data: "pic_id=" + id + "&bagiantubuh_id=" + bagiantubuh_id + "&keterangan=" + keterangan + "&pic_x=" + mouseX + "&pic_y=" + mouseY + "&type=insert"+"&gambartubuh_id="+gambartubuh_id,
         dataType: "json",
         success: function(data){
 			if(data.pesan != ""){
@@ -413,9 +430,10 @@ $(document).ready(function(){
 	*/
 	
 	// Cancel the tag box.
-    $( document ).on( 'click', '#tagit #btncancel', function() {
-      $('#tagit').fadeOut();
-      $('#titikklik').remove();
+    $( document ).on( 'click', '[id^=tagit] [id^=btncancel]', function() {
+	  var no_img = $(this).attr('img-no');
+      $('#tagit'+no_img).fadeOut();
+      $('#titikklik'+no_img).remove();
     });
     
 	// mouseover the taglist 
