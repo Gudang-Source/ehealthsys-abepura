@@ -4,7 +4,7 @@
         
         $i = 0;
         if (!empty($modPartograf->pemeriksaanpartograf_id)){            
-            $modPartografObat = PSPemeriksaanpartografobatT::model()->findAll(" pemeriksaanpartograf_id = '".$modPartograf->pemeriksaanpartograf_id."' ORDER BY pemeriksaanpartograf_id ASC");
+            $modPartografObat = ObatalkespasienT::model()->findAll(" pemeriksaanpartograf_id = '".$modPartograf->pemeriksaanpartograf_id."' ORDER BY pemeriksaanpartograf_id ASC");
             if (count($modPartografObat)< 1){
                 $modPartografObat = null;
             }
@@ -19,18 +19,31 @@
                 <tr>
                     <td>
                         <?php                        
-                        echo $form->hiddenField($data,'['.$id.']['.$i.']pemeriksaanpartografobat_id');
-                        echo $form->hiddenField($data,'['.$id.']['.$i.']obatalkes_id');
-                        echo $data->obatAlkes->obatalkes_kode;
+                        echo $form->hiddenField($data,'['.$id.']['.$i.']obatalkespasien_id', array(
+							'class'=>'row_obatalkespasien_id',
+						));
+                        echo $form->hiddenField($data,'['.$id.']['.$i.']obatalkes_id', array(
+							'class'=>'row_obatalkes_id',
+						));
+                        echo $data->obatalkes->obatalkes_kode;
                        ?>                      
                           
                     </td>                  
                     <td>
-                        <?php echo $data->obatAlkes->obatalkes_nama;                        ?>
+                        <?php echo $data->obatalkes->obatalkes_nama;                        ?>
                     </td>
-                    <td>                                                                    
-                        <?php echo $form->textField($data,'['.$id.']['.$i.']obatalkes_jumlah',array('readonly'=>true, 'class'=>'span2 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>              
+                    <td width="80">                                                                    
+                        <?php echo $form->textField($data,'['.$id.']['.$i.']qty_oa',array('readonly'=>true, 'class'=>'span2 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10, 'style'=>'text-align: right; width: 80px;'));?>              
                     </td>
+					<td width="50" style="text-align: center;">
+						<?php if (empty($data->oasudahabayar)): ?>
+						<?php echo CHtml::link('<i class="icon-remove"></i>', '#', array(
+							'onclick'=>'batalOASubmit(this); return false;',
+						)); ?>
+						<?php else : ?>
+						-
+						<?php endif; ?>
+					</td>
                    
     <?php       $i++;
             }

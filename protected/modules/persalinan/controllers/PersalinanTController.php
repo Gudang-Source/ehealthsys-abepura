@@ -49,7 +49,7 @@ class PersalinanTController extends MyAuthController {
 
 					if (count($modPartograf) < 1){
 						$modPartograf = new PSPemeriksaanpartografT;   
-						 $modPartografObat = new PSPemeriksaanpartografobatT;        
+						 $modPartografObat = new ObatalkespasienT;        
 					}else{                    
 						$modPartografObat = ObatalkespasienT::model()->findByAttributes(array(
 							'pemeriksaanpartograf_id'=>$modPartograf->pemeriksaanpartograf_id,
@@ -308,77 +308,7 @@ class PersalinanTController extends MyAuthController {
 				}
 			}
 			
-			if (isset($_POST['PSPemeriksaanpartografT'])) {
-				// var_dump($_POST);
-				$trans = Yii::app()->db->beginTransaction();
-				$p = PendaftaranT::model()->findByPk($model->pendaftaran_id);
-				$ok = true;
-				foreach ($_POST['PSPemeriksaanpartografT'] as $idx=>$item) {
-					if (
-						isset($item['pemeriksaanpartograf_id']) 
-						&& !empty($item['pemeriksaanpartograf_id'])
-						&& trim($item['pemeriksaanpartograf_id']) != '') {
-						$modPartograf = PemeriksaanpartografT::model()->findByPk($item['pemeriksaanpartograf_id']);
-					} else {
-						$modPartograf = new PemeriksaanpartografT;
-					}
-					
-					$modPartograf->attributes = $item;
-					$modPartograf->persalinan_id = $model->persalinan_id;
-					$modPartograf->pto_tglperiksa = MyFormatter::formatDateTimeForDb($modPartograf->pto_tglperiksa);
-					$modPartograf->pto_ketubanpecah = MyFormatter::formatDateTimeForDb($modPartograf->pto_ketubanpecah);
-					$modPartograf->pto_mules = MyFormatter::formatDateTimeForDb($modPartograf->pto_mules);
-					
-					if ($modPartograf->validate() || $modPartograf->validate()) {
-						$ok = $ok && $modPartograf->save();
-					} else $ok = false;
-					
-					// var_dump($modPartograf->attributes, $ok);
-					
-					if (isset($_POST['obatalkes'][$idx])) {
-						// var_dump($_POST['obatalkes'][$idx]);
-						foreach ($_POST['obatalkes'][$idx] as $obat_id=>$obat) {
-							$oa = ObatalkesM::model()->findByPk($obat_id);
-							$oap = new ObatalkespasienT();
-							
-							$oap->attributes = $p->attributes;
-							$oap->attributes = $oa->attributes;
-							$oap->pendaftaran_id = $model->pendaftaran_id;
-							$oap->pemeriksaanpartograf_id = $modPartograf->pemeriksaanpartograf_id;
-							$oap->qty_oa = $obat['qty'];
-							$oap->harganetto_oa = $oa->harganetto;
-							$oap->hargasatuan_oa = 0;
-							$oap->hargajual_oa = $oap->qty_oa * $oap->hargasatuan_oa;
-							$oap->tglpelayanan = date('Y-m-d H:i:s');
-							$oap->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
-							$oap->ruangan_id = Yii::app()->user->getState('ruangan_id');
-							
-							// var_dump($oap->attributes, $oap->validate(), $oap->errors);
-							if ($oap->validate() || $oap->validate()) {
-								$ok = $ok && $oap->save();
-								$ok = $ok && $this->simpanStokObatAlkesOut2($oap);
-							}
-						}
-					}
-					
-				}
-				
-				
-				// var_dump($ok);
-				
-				// die;
-				
-				if ($ok){                                                                
-					$trans->commit();
-					Yii::app()->user->setFlash('success',"Pemeriksaan Partogra Berhasil disimpan ");
-					$this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
-				}else{
-					$trans->rollback();
-					Yii::app()->user->setFlash('error',"Pemeriksaan Partograf gagal disimpan ");
-				}
-				
-			}
-
+			
         if (isset($_POST['PSPersalinanT'])) {
             $trans = Yii::app()->db->beginTransaction();
             if ( (!empty($_POST['PSPersalinanT']['paritaske'])) AND  (!empty($_POST['PSPersalinanT']['jeniskegiatanpersalinan']) ) ){
@@ -479,7 +409,13 @@ class PersalinanTController extends MyAuthController {
                             }
                         }
                         
+						$ok = true;
+						
                         if ($model->carapersalinan == Params::CARAPERSALINAN_NORMAL ){
+							
+							$p = PendaftaranT::model()->findByPk($model->pendaftaran_id);
+							
+							
                             foreach($_POST['PSPemeriksaanpartografT'] as $i=>$item)
                             {
                                 if(is_integer($i)) {
@@ -511,7 +447,32 @@ class PersalinanTController extends MyAuthController {
                                             $modPartograf->save();                                                    
                                        // }
                                     }
+									
+									if (isset($_POST['obatalkes'][$i])) {
+										// var_dump($_POST['obatalkes'][$i]);
+										foreach ($_POST['obatalkes'][$i] as $obat_id=>$obat) {
+											$oa = ObatalkesM::model()->findByPk($obat_id);
+											$oap = new ObatalkespasienT();
 
+											$oap->attributes = $p->attributes;
+											$oap->attributes = $oa->attributes;
+											$oap->pendaftaran_id = $model->pendaftaran_id;
+											$oap->pemeriksaanpartograf_id = $modPartograf->pemeriksaanpartograf_id;
+											$oap->qty_oa = $obat['qty'];
+											$oap->harganetto_oa = $oa->harganetto;
+											$oap->hargasatuan_oa = $oa->hargajual;
+											$oap->hargajual_oa = $oap->qty_oa * $oap->hargasatuan_oa;
+											$oap->tglpelayanan = date('Y-m-d H:i:s');
+											$oap->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
+											$oap->ruangan_id = Yii::app()->user->getState('ruangan_id');
+
+											// var_dump($oap->attributes, $oap->validate(), $oap->errors);
+											if ($oap->validate() || $oap->validate()) {
+												$ok = $ok && $oap->save();
+												$ok = $ok && $this->simpanStokObatAlkesOut2($oap);
+											}
+										}
+									}
                                 }
                             }
                         }
@@ -540,7 +501,7 @@ class PersalinanTController extends MyAuthController {
                         if ($cekPemeriksaanKala4) {                            
                             //var_dump();die;
                             if ($model->carapersalinan == Params::CARAPERSALINAN_NORMAL){
-                                if ($modPartograf->save()){
+                                if ($modPartograf->save() && $ok){
                                     
                                     $trans->commit();
                                     Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
@@ -570,7 +531,7 @@ class PersalinanTController extends MyAuthController {
                     Yii::app()->user->setFlash('error',"Data gagal disimpan ");
                 }
         }
-                         
+		
         $this->render('index', array('format'=>$format,'model' => $model, 
             'modPendaftaran'=>$modPendaftaran, 
             'modPasien'=>$modPasien, 
@@ -647,6 +608,39 @@ class PersalinanTController extends MyAuthController {
 			echo CJSON::encode($res);
 			
 			Yii::app()->end();
+		}
+		Yii::app()->end();
+	}
+	
+	
+	public function actionBatalOAPartograf()
+	{
+		if (Yii::app()->request->isAjaxRequest) {
+			$msg = array(
+				'ok'=>1,
+				'msg'=>'Pemakaian Obat berhasil dibatalkan',
+			);
+			$oa = ObatalkespasienT::model()->findByPk($_POST['id']);
+			if (empty($oa)) {
+				$msg['ok'] = 1;
+				$msg['msg'] = 'Pemakaian Obat tidak ditemukan, mohon refresh sekali lagi.';
+				goto sjson;
+			}
+			
+			if (!empty($oa->oasudahbayar_id)) {
+				$msg['ok'] = 1;
+				$msg['msg'] = 'Pemakaian Obat sudah dibayar dari kasir.';
+				goto sjson;
+			}
+			
+			StokobatalkesT::model()->deleteAllByAttributes(array(
+				'obatalkespasien_id'=>$oa->obatalkespasien_id
+			));
+			
+			ObatalkespasienT::model()->deleteByPk($oa->obatalkespasien_id);
+			
+			sjson:
+				echo CJSON::encode($msg);
 		}
 		Yii::app()->end();
 	}

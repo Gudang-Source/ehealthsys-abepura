@@ -355,6 +355,21 @@ foreach ($modPersalinan as $i => $persalinan){
             endforeach;
         ?>
         </table>
+		<br/>
+		<?php echo CHtml::link(Yii::t('mds', '{icon} Print Partograf', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printPartograf();return false",  )); ?>
 <?php
     }
 ?>
+
+<?php if (!empty($persalinan)) : ?>
+<script>
+/**
+ * print rincian belum bayar >> RND-3122
+ * @returns {undefined} */ 
+function printPartograf()
+{
+    window.open("<?php echo $this->createUrl('printDetailPartograf', array('persalinan_id'=>$persalinan->persalinan_id)); ?>","",'location=_new, width=1024px');
+
+}
+</script>
+<?php endif; ?>

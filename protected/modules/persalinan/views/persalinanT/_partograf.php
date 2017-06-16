@@ -281,6 +281,26 @@
 			$(obj).parents('.fbase').find('.periksaParObat tbody').append(data.html);
 		}, 'json');
 	}
+	
+	function batalOASubmit(obj) {
+		var id = $(obj).parent().parent().find(".row_obatalkespasien_id").val();
+		
+		myConfirm('Anda yakin untuk membatalkan pemakaian obat ini?', 'Perhatian!', function(r){
+            if(r)
+            {
+                $.post('<?php echo $this->createUrl('batalOAPartograf') ?>', {id: id}, function(data) {
+					if (data.ok == 1) {
+						$(obj).parent().parent().remove();
+						myAlert(data.msg);
+					} else {
+						myAlert(data.msg);
+					}
+				}, 'json');
+            }
+        });
+		
+		console.log(id);
+	}
     
 </script>
 <?php 
