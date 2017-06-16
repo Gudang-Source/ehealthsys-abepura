@@ -24,6 +24,7 @@
         <?php echo CHtml::activeTextField($modTindakan,'['.$i.'][ii]tarif_tindakan',array('readonly'=>true,'readonly'=>true,'class'=>'span1 integer','style'=>'width:96px')); ?>
     </td>
 </tr>
+<?php /*
 <tr>
 	<td colspan="6">Dokter Pemeriksa : <?php echo CHtml::link("<i class=\"icon-plus-sign\" title=\"Klik untuk merubah dokter / perawat / bidan\"></i>", 'javascript:;', array('id'=>'btnAddDokter_0','onclick'=>'addDokterLengkap(this,0)')); ?>	
 	<?php echo CHtml::activeTextField($modTindakan, '[0]dokterpemeriksa1_id', array('readonly'=>true,'class'=>'inputFormTabel')) ?>	
@@ -33,4 +34,6 @@
 		  
 	</td>	
 </tr>
+ * 
+ */ ?>
 
