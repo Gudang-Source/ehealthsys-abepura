@@ -19,16 +19,7 @@
         height: 32px;
     }
 			
-			#imgtag
-			{
-				position: relative;
-				min-width: 300px;
-				min-height: 300px;
-				float: none;
-				border: 3px solid #FFF;
-				cursor: crosshair;
-				text-align: center;
-			}
+			
 			
 			
 		</style>
@@ -113,10 +104,72 @@
 <table width="100%" class="content" border="0">
 	<tr>
 		<td width="70%">
+			<!--
 			<div align="center" id="imgtag">
 				<img id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$modGambarTubuh->FileNameGambar; ?>" class="taggd"/> 
 			<div id="tagbox"></div>
 			</div>
+			-->
+			<?php 
+				$css = '';
+				if (count($modGambarTubuh->AllDataGambarAnatomi) > 0)
+				{
+					$gbrTubuh = $modGambarTubuh->AllDataGambarAnatomi;
+					
+					foreach($gbrTubuh as $tbh){		
+						
+							$css .= "#imgtag".$tbh->gambartubuh_id."
+							{
+								position: relative;
+								min-width: 300px;
+								min-height: 300px;
+								float: none;
+								border: 3px solid #FFF;
+								cursor: crosshair;
+								text-align: center;
+							}#tagit".$tbh->gambartubuh_id."
+								{
+										position: absolute;
+										top: 0;
+										left: 0;
+										width: 300px;
+										border: 1px solid #D7C7C7;
+										z-index: 10;
+								}
+								#tagit".$tbh->gambartubuh_id." .name
+								{
+										/*float: left;*/
+										background-color: #FFF;
+										width: 295px;
+										/*height: 92px;*/
+										/*padding: 5px;*/
+										font-size: 10pt;
+										margin:0 auto;
+										margin-bottom: 0 auto;
+								}
+								#tagit".$tbh->gambartubuh_id." DIV.text
+								{
+										margin-bottom: 5px;
+								}
+								#tagit".$tbh->gambartubuh_id." INPUT[type=text]
+								{
+										margin-bottom: 5px;
+								}
+								#tagit".$tbh->gambartubuh_id." #tagname".$tbh->gambartubuh_id."
+								{
+										width: 110px;
+								}"; 
+			?>
+						<div align="center" id="imgtag<?php echo $tbh->gambartubuh_id ?>">
+							<img id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd"/> 
+						<div id="tagbox"></div>
+						</div>
+			<?php
+					}
+					
+					Yii::app()->clientScript->registerCss('anatomi', $css);
+				}
+			?>
 		</td>
 		<td width="30%" style="vertical-align:top;">
 			<table border="1" width="100%" >
@@ -278,20 +331,21 @@
     </tr>
 </table>
 <script>
-	function titikSesudahSimpan(titikX,titikY,urutan){
-	var titikX=titikX-85;
-	var titikY=titikY-17;
+	function titikSesudahSimpan(titikX,titikY,urutan,img){
+	var titikX=titikX-68;
+	var titikY=titikY-15;
 	var nomor = urutan+1;
-	var color = '#000000';
+	var color = 'white';
 	var size = '5px';
-	$("#imgtag").append(
-		$('<div><strong>'+nomor+'</strong></div>')
+	$(img).append(
+			$('<div><strong style="position:absolute;top:0;left:7px">'+nomor+'</strong></div>')
 			.css('position', 'absolute')
 			.css('top', titikY + 'px')
 			.css('left', titikX + 'px')
 			.css('width', size)
 			.css('height', size)
 			.css('background-color', color)
+			.css('border', '1px solid #333')
 			.css('cursor', 'pointer')
 			.css('display', 'block')
 			.css('padding', '10px')
@@ -299,14 +353,14 @@
 			.css('-moz-border-radius', '50%')
 			.css('border-radius', '50%')
 			.css('vertical-align','middle')
-			.css('color','#FFF')
+			.css('color','black')
 	);
 }
 
 function loadTitikSesudahSimpan(){
 	<?php if(!empty($modPemeriksaanGambar)){
 		foreach($modPemeriksaanGambar as $i => $v){ ?>
-		titikSesudahSimpan(<?= $v->kordinat_tubuh_x; ?>, <?= $v->kordinat_tubuh_y.','.$i; ?>);	
+		titikSesudahSimpan(<?= $v->kordinat_tubuh_x; ?>, <?= $v->kordinat_tubuh_y.','.$i; ?>,'#imgtag<?php echo $v->gambartubuh_id ?>');	
 	<?php }
 	}?>
 }

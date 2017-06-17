@@ -120,7 +120,7 @@ function titikSesudahSimpan(titikX,titikY,urutan,bagiantubuh_id, img){
 	var color = 'rgba(0, 128, 255, 0.8)';
 	var size = '5px';
 	$(img).append(
-		$('<div id="titikbiru_'+bagiantubuh_id+'"><strong>'+nomor+'</strong></div>')
+		$('<div id="titikbiru_'+bagiantubuh_id+'"><strong style="position:absolute;top:0;left:7px">'+nomor+'</strong></div>')
 			.css('position', 'absolute')
 			.css('top', titikY + 'px')
 			.css('left', titikX + 'px')
