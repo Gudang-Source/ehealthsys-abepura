@@ -185,17 +185,17 @@ foreach ($modPersalinan as $i => $persalinan){
              <td><b>Letak Janin</b></td>
             <td><?php echo ($letakjanin!='')?$letakjanin:'-'; ?></td>
             <td><b>Warna Ketuban</b></td>
-            <td><?php echo isset($modPemeriksaan->obs_warnaketuban)?$modPemeriksaan->obs_warnaketuban:'-'; ?></td>
-            <td><b>Frekuensi</b></td>
-            <td><?php echo isset($modPemeriksaan->frek_auskultasi)?$modPemeriksaan->frek_auskultasi.' /menit':'-'; ?></td>            
+            <td><?php echo isset($modPemeriksaan->obs_warnaketuban)?$modPemeriksaan->obs_warnaketuban:'-'; ?></td>            
+            <td><b>Denyut Jantung Janin</b></td>
+            <td><?php echo isset($modPemeriksaan->denyutjantung_janin)?$modPemeriksaan->denyutjantung_janin:'-'; ?></td>
         </tr>
          <tr>
              <td><b>Pemeriksaan Dalam</b></td>
              <td><?php echo isset($modPemeriksaan->obs_periksadalam)?MyFormatter::formatDateTimeForUser($modPemeriksaan->obs_periksadalam):'-'; ?></td>
             <td><b>Warna Ketuban</b></td>
             <td><?php echo isset($modPemeriksaan->penurunan_genitalia)?$modPemeriksaan->penurunan_genitalia:'-'; ?></td>            
-            <td><b>Denyut Jantung Janin</b></td>
-            <td><?php echo isset($modPemeriksaan->denyutjantung_janin)?$modPemeriksaan->denyutjantung_janin:'-'; ?></td>
+            <td><b>Frekuensi</b></td>
+            <td><?php echo isset($modPemeriksaan->frek_auskultasi)?$modPemeriksaan->frek_auskultasi.' /menit':'-'; ?></td>                        
         </tr>
          <tr>
             <td><b>Portio</b></td> 
@@ -283,7 +283,7 @@ foreach ($modPersalinan as $i => $persalinan){
         <tr>
             <td nowrap><b>Anemia</b></td>
             <td width="33%"><?php echo isset($modPemeriksaan->kala4_anemia)?$modPemeriksaan->kala4_anemia:'-'; ?></td>
-            <td nowrap><b>Kala III + IV</b></td>
+            <td nowrap><b>Kala III</b></td>
             <td width="33%"><?php echo isset($modPemeriksaan->pendarahan)?$modPemeriksaan->pendarahan:'-' ?></td>
             <td  nowrap><b>Inveksi</b></td>
             <td width="33%"><?php echo isset($modPemeriksaan->nifas_inveksi)?$modPemeriksaan->nifas_inveksi:'-' ?></td>
@@ -355,6 +355,21 @@ foreach ($modPersalinan as $i => $persalinan){
             endforeach;
         ?>
         </table>
+		<br/>
+		<?php echo CHtml::link(Yii::t('mds', '{icon} Print Partograf', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printPartograf();return false",  )); ?>
 <?php
     }
 ?>
+
+<?php if (!empty($persalinan)) : ?>
+<script>
+/**
+ * print rincian belum bayar >> RND-3122
+ * @returns {undefined} */ 
+function printPartograf()
+{
+    window.open("<?php echo $this->createUrl('printDetailPartograf', array('persalinan_id'=>$persalinan->persalinan_id)); ?>","",'location=_new, width=1024px');
+
+}
+</script>
+<?php endif; ?>

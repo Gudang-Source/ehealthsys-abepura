@@ -66,7 +66,7 @@ class PemeriksaanginekologiT extends CActiveRecord
 			array('tglperiksaobgyn, pegawai_id, pasien_id, pendaftaran_id, create_time, create_loginpemakai_id, create_ruangan', 'required'),
 			array('pegawai_id, pasien_id, pendaftaran_id, pasienadmisi_id, gin_jmlkawin_kali, gin_usiakawin_thn, gin_siklushaid_hari, gin_lamahaid_hari, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
 			array('gin_keluhan, gin_statuskawin, gin_menarche_thn, gin_darahhaid, gin_nafsumakan, gin_mictio, gin_defecatio', 'length', 'max'=>100),
-			array('gin_darahhaid_tambahkurang, gin_nafsumakan_kurusgemuk, update_time', 'safe'),
+			array('gin_periksadalam, gin_periksaluar, gin_darahhaid_tambahkurang, gin_nafsumakan_kurusgemuk, update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('pemeriksaanginekologi_id, tglperiksaobgyn, pegawai_id, pasien_id, pendaftaran_id, pasienadmisi_id, gin_keluhan, gin_jmlkawin_kali, gin_statuskawin, gin_usiakawin_thn, gin_menarche_thn, gin_siklushaid_hari, gin_lamahaid_hari, gin_darahhaid, gin_darahhaid_tambahkurang, gin_nafsumakan, gin_nafsumakan_kurusgemuk, gin_mictio, gin_defecatio, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),

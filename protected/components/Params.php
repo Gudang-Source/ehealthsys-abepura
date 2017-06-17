@@ -71,11 +71,11 @@ Class Params
 	const CARABAYAR_ID_PEKERJA = 7; 
 	const CARABAYAR_ID_GRATIS = 8; 
 	const CARABAYAR_ID_PERUSAHAAN = 9; 
-        const CARABAYAR_ID_JAMKESPA = 18;
+	const CARABAYAR_ID_JAMKESPA = 18;
 
 	
 	const MODUL_ID_SISADMIN = 1;
-        const MODUL_ID_PENDAFTARAN = 2;
+	const MODUL_ID_PENDAFTARAN = 2;
 	const MODUL_ID_RJ = 5;
 	const MODUL_ID_RD = 6;
 	const MODUL_ID_RI = 7;
@@ -91,11 +91,12 @@ Class Params
 	const MODUL_ID_AMBULANS = 18;
 	const MODUL_ID_AKUNTANSI = 26;
 	const MODUL_ID_KEUANGAN = 44;
-        const MODUL_ID_PENGGAJIAN = 61;
-        const MODUL_ID_KEPEGAWAIAN = 32;
-        const MODUL_ID_LAUNDRY = 54;
+	const MODUL_ID_PENGGAJIAN = 61;
+	const MODUL_ID_KEPEGAWAIAN = 32;
+	const MODUL_ID_LAUNDRY = 54;
+	const MODUL_ID_PERSALINAN = 12;
 
-        const INSTALASI_ID_RM = 1;
+	const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;
 	const INSTALASI_ID_RD = 3;
 	const INSTALASI_ID_RI = 4;
@@ -506,7 +507,8 @@ Class Params
         const PREFIX_PEMULASARAN_JEN = 'PJ';
         const PREFIX_APOTIK = 'AP';
         
-        
+        //cara persalinan
+        const CARAPERSALINAN_NORMAL = 'Normal'; //ditambil dari lookup_type carapersalinan
         
 	//===   END KONSTANTA ===
         

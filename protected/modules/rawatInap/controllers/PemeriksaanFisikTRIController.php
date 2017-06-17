@@ -367,7 +367,7 @@ class PemeriksaanFisikTRIController extends MyAuthController
 		$modPemeriksaanGambar = new RIPemeriksaangambarT;
 		$modPemeriksaanGambar->attributes = $postperiksagbr; 
 		$modPemeriksaanGambar->pemeriksaanfisik_id = $modPemeriksaanFisik->pemeriksaanfisik_id; 
-		$modPemeriksaanGambar->gambartubuh_id = $modGambarTubuh->DataGambarAnatomi->gambartubuh_id; 
+		//$modPemeriksaanGambar->gambartubuh_id = $modGambarTubuh->DataGambarAnatomi->gambartubuh_id; 
 		$modPemeriksaanGambar->pendaftaran_id = $modPemeriksaanFisik->pendaftaran_id; 
 		$modPemeriksaanGambar->pasien_id = $modPemeriksaanFisik->pasien_id; 
 		$modPemeriksaanGambar->tglpemeriksaan = date('Y-m-d H:i:s');
@@ -396,6 +396,7 @@ class PemeriksaanFisikTRIController extends MyAuthController
 					$modPemeriksaanGbr->keterangan_periksa_gbr	= $_POST['keterangan'];
 					$modPemeriksaanGbr->kordinat_tubuh_x		= $_POST['pic_x'];
 					$modPemeriksaanGbr->kordinat_tubuh_y		= $_POST['pic_y'];
+					$modPemeriksaanGbr->gambartubuh_id		= $_POST['gambartubuh_id'];
 					$form = $this->renderPartial('_rowDetail', array('modPemeriksaanGbr'=>$modPemeriksaanGbr), true);
 					$axis['x']=$modPemeriksaanGbr->kordinat_tubuh_x;
 					$axis['y']=$modPemeriksaanGbr->kordinat_tubuh_y;

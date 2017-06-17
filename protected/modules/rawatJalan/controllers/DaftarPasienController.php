@@ -7,6 +7,7 @@ Yii::import('application.modules.rawatDarurat.models.RDPasienPulangT');
 class DaftarPasienController extends MyAuthController
 {
 		public $path_view = 'rawatJalan.views.daftarPasien.';
+		public $path_view_rj = 'rawatJalan.views.';
 	
 		public $defaultAction = 'index';
         public $pasientersimpan = false;
@@ -2452,5 +2453,26 @@ class DaftarPasienController extends MyAuthController
         }
     }
     
+	
+	function actionPrintDetailPartograf($persalinan_id) {
+		$this->layout='//layouts/printWindows';
+		
+		$persalinan = PersalinanT::model()->findByPk($persalinan_id);
+		$pendaftaran = PendaftaranT::model()->findByPk($persalinan->pendaftaran_id);
+		$pasien = PasienM::model()->findByPk($pendaftaran->pasien_id);
+		
+		$mod = PemeriksaanpartografT::model()->findAllByAttributes(array(
+			'persalinan_id'=>$persalinan_id,
+		), array(
+			'order'=>'pemeriksaanpartograf_id',
+		));
+		
+		$this->render($this->path_view_rj.'_periksaDataPasien/_printPartograf', array(
+			'persalinan'=>$persalinan,
+			'pendaftaran'=>$pendaftaran,
+			'pasien'=>$pasien,
+			'mod'=>$mod
+		));
+	}
     
 }
