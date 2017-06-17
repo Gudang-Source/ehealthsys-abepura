@@ -1,4 +1,5 @@
-<div class="block-tabel">
+<div class="block-tabel"> 
+    <h6>Tabel <b>Riwayat kehamilan</b></h6>
     <table width="100%" id ="riwayatkelahiran" class = "table table-striped table-condensed">
         <thead>
             <tr>
@@ -9,6 +10,12 @@
         </thead>
         <tbody>
         <?php 
+        if (!empty($modGinekologi->pemeriksaanginekologi_id)){
+            $modRiwayatKehamilan = PSRiwayatkehamilanT::model()->findAll(" pemeriksaanginekologi_id = '".$modGinekologi->pemeriksaanginekologi_id."' ");
+        }else{
+            $modRiwayatKehamilan = '';
+        }
+                
         if (!empty($modRiwayatKehamilan)){
        
         foreach ($modRiwayatKehamilan as $i=>$detail){?>    

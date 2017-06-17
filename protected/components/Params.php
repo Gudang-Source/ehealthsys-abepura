@@ -507,7 +507,8 @@ Class Params
         const PREFIX_PEMULASARAN_JEN = 'PJ';
         const PREFIX_APOTIK = 'AP';
         
-        
+        //cara persalinan
+        const CARAPERSALINAN_NORMAL = 'Normal'; //ditambil dari lookup_type carapersalinan
         
 	//===   END KONSTANTA ===
         
