@@ -1,7 +1,7 @@
 <div class="white-container">
     <legend class="rim2">Pendaftaran Laboratorium <b>Rujukan Rumah Sakit</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.tiler.js'); //UNTUK PEMERIKSAAN LAB ?>
-    <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+    <?php //$this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             'id'=>'pemeriksaanlaboratorium-form',
@@ -74,7 +74,7 @@
                 <div class="block-tabel">
                     <h6>Tabel <b>Pemeriksaan</b> <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-arrow-down icon-white"></i>')),array('class'=>'btn btn-mini btn-primary', 'type'=>'button',"onclick"=>"setCheckedPemeriksaanDariPermintaan();", 'rel'=>'tooltip', 'title'=>'Klik untuk menyalin dari tabel permintaan')); ?></h6>
                     <div id="form-tindakanpemeriksaan" style="">
-                        <table class="table table-condensed table-striped">
+                        <table class="table table-condensed table-striped" id="tblPeriksa">
                             <thead>
                                 <th>No.</th>
                                 <th>Nama Pemeriksaan</th>
@@ -198,4 +198,5 @@
     </div>
     <?php $this->endWidget(); ?>
     <?php $this->renderPartial($this->path_view.'_jsFunctions', array('modKunjungan'=>$modKunjungan, 'modPasienMasukPenunjang'=>$modPasienMasukPenunjang,'modTindakan'=>$modTindakan,'modObatAlkesPasien'=>$modObatAlkesPasien,)); ?>
+	<?php $this->renderPartial('_dialogPemeriksaLengkap',array('modTindakan'=>$modTindakan)); ?> 
 </div>

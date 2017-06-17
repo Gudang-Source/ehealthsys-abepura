@@ -31,7 +31,10 @@ class PresensiT extends CActiveRecord
         public $data;
         public $jumlah;
         public $user_id;
-        public $jam;           
+        public $jam;         
+		public $jenistenagamedis_id;
+		public $kategoripegawaiasal;
+		public $kelompokjabatan;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -110,10 +113,13 @@ class PresensiT extends CActiveRecord
 			'create_loginpemakai_id' => 'Create Loginpemakai',
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
-                        'tglpresensi_akhir'=>'Sampai Dengan',
-                        'nomorindukpegawai'=>'NIP',
-                        'kategoripegawai'=>'Kategori Pegawai',
-                        'nama_pegawai'=>'Nama Pegawai',
+			'tglpresensi_akhir'=>'Sampai Dengan',
+			'nomorindukpegawai'=>'NIP',
+			'kategoripegawai'=>'Kategori Pegawai',
+			'nama_pegawai'=>'Nama Pegawai',
+			'jenistenagamedis_id' => 'Jenis Tenaga Medis',
+			'kategoripegawaiasal' => 'Kategori Pegawai Asal',
+			'kelompokjabatan' => 'Kelompok Jabatan'
 		);
 	}
 

@@ -13,7 +13,7 @@ $this->breadcrumbs=array(
 
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-	<?php echo $this->renderPartial($this->path_view.'_form',array('model'=>$model)); ?>
+	<?php echo $this->renderPartial($this->path_view.'_form',array('model'=>$model,'modBerlaku'=>$modBerlaku)); ?>
 <!--</div>-->
 </fieldset>
 

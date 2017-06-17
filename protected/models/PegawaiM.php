@@ -261,6 +261,7 @@ class PegawaiM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+		$criteria->join = " LEFT JOIN golonganpegawai_m gp ON gp.golonganpegawai_id = t.golonganpegawai_id";
                //  var_dump($this->tgl_lahirpegawai);
 		//$criteria->compare('tgl_lahirpegawai)',$this->tgl_lahirpegawai);
                 if (!empty($this->tgl_lahirpegawai)){
@@ -320,8 +321,8 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(kemampuanbahasa)',strtolower($this->kemampuanbahasa),true);
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
-		$criteria->compare('golonganpegawai_id', $this->golonganpegawai_id);
-                $criteria->order = 'pegawai_id ASC';
+		$criteria->compare('t.golonganpegawai_id', $this->golonganpegawai_id);
+		$criteria->order = 'gp.golonganpegawai_urutan ASC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -492,10 +493,10 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
                 
-                if (!empty($this->ruangan_id)) {
-                    $criteria->join = 'join ruanganpegawai_m p on p.pegawai_id = t.pegawai_id';
-                    $criteria->compare('p.ruangan_id', $this->ruangan_id);
-                }
+		if (!empty($this->ruangan_id)) {
+			$criteria->join = 'join ruanganpegawai_m p on p.pegawai_id = t.pegawai_id';
+			$criteria->compare('p.ruangan_id', $this->ruangan_id);
+		}
                 
 
 		return new CActiveDataProvider($this, array(

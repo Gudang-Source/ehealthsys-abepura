@@ -30,20 +30,48 @@ class ShiftController extends MyAuthController
 	public function actionCreate()
 	{
 		$model = new SAShiftM;
-
+		$modBerlaku = new SAShiftberlakuM;
+		$berlaku = true;
 		if(isset($_POST['SAShiftM']))
 		{
 			$model->attributes = $_POST['SAShiftM'];
 			$model->shift_kode = $_POST['SAShiftM']['shift_kode'];
 			$model->shift_urutan = $_POST['SAShiftM']['shift_urutan'];
 			if($model->save()){
-				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				
+				if (isset($_POST['SAShiftberlakuM'])){
+					foreach ($_POST['SAShiftberlakuM'] as $i => $shiftberlaku) {
+						if(empty($shiftberlaku['shiftberlaku_id'])){							
+							$modBerlaku= new SAShiftberlakuM;
+							$modBerlaku->attributes = $shiftberlaku;
+							$modBerlaku->shift_id = $model->shift_id;
+							$modBerlaku->create_time = date('Y-m-d H:i:s');
+							$modBerlaku->create_loginpemakai_id = Yii::app()->user->id;
+							$modBerlaku->create_ruangan = Yii::app()->user->getState('ruangan_id');
+							$modBerlaku->shiftberlaku_tgl = MyFormatter::formatDateTimeForDb($modBerlaku->shiftberlaku_tgl);
+								
+
+							if($modBerlaku->validate()){								
+								$berlaku = $berlaku && $modBerlaku->save();
+							}else{
+								$berlaku = false;
+							}
+						}
+					}
+				}
+				
+				if ($berlaku){
+					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+					$this->redirect(array('admin'));
+				}else{
+					var_dump($modBerlaku->getErrors());die;
+					Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+				}
 			}
 		}
 
 		$this->render($this->path_view.'create',array(
-			'model'=>$model,
+			'model'=>$model, 'modBerlaku'=>$modBerlaku
 		));
 	}
 
@@ -54,24 +82,56 @@ class ShiftController extends MyAuthController
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
-
+	
+		
+		$modBerlaku = new SAShiftberlakuM;
+		
+		
 		// Uncomment the following line if AJAX validation is needed
 		
 
 		if(isset($_POST['SAShiftM']))
 		{
-
+			$berlaku=true;
 			$model->attributes = $_POST['SAShiftM'];
 			$model->shift_kode = $_POST['SAShiftM']['shift_kode'];
 			$model->shift_urutan = $_POST['SAShiftM']['shift_urutan'];
 			if($model->save()){
-				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				if (isset($_POST['SAShiftberlakuM'])){
+					$del = SAShiftberlakuM::model()->deleteAllByAttributes(array(
+					'shift_id'=>$model->shift_id,
+				));
+					foreach ($_POST['SAShiftberlakuM'] as $i => $shiftberlaku) {																				
+						$modBerlaku= new SAShiftberlakuM;
+						$modBerlaku->attributes = $shiftberlaku;
+						$modBerlaku->shift_id = $model->shift_id;
+						$modBerlaku->create_time = date('Y-m-d H:i:s');
+						$modBerlaku->create_loginpemakai_id = Yii::app()->user->id;
+						$modBerlaku->create_ruangan = Yii::app()->user->getState('ruangan_id');
+						$modBerlaku->shiftberlaku_tgl = MyFormatter::formatDateTimeForDb($modBerlaku->shiftberlaku_tgl);								
+						
+						
+						if($modBerlaku->validate()){								
+							$berlaku = $berlaku && $modBerlaku->save();
+						}else{
+							$berlaku = false;
+						}
+					}
+				}
+				
+				if ($berlaku){
+					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+					$this->redirect(array('admin'));
+				}else{
+					var_dump($modBerlaku->getErrors());die;
+					Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+				}
 			}
 		}
 
 		$this->render($this->path_view.'update',array(
 				'model'=>$model,
+				'modBerlaku'=>$modBerlaku
 		));
 	}
 
