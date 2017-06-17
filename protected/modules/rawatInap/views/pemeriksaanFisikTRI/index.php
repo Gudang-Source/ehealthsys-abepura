@@ -480,7 +480,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 							<div id="tagbox"></div>
 							</div>-->
 							<div align="center" id="imgtag<?php echo $tbh->gambartubuh_id ?>">
-									<img img-no="<?php echo $tbh->gambartubuh_id ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $tbh->gambartubuh_id ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $tbh->gambartubuh_id ?>"/> 
+									<img img-no="<?php echo $tbh->gambartubuh_id ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $tbh->gambartubuh_id ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $tbh->gambartubuh_id ?>"  style="width:480px;"/> 
 							<div id="tagbox<?php echo $tbh->gambartubuh_id ?>"></div>
 							</div>
 				<?php
@@ -532,7 +532,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 									}";
 				?>
 							<div align="center" id="imgtag<?php echo $tbh->gambartubuh_id ?>">
-									<img img-no="<?php echo $tbh->gambartubuh_id ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $tbh->gambartubuh_id ?>"/> 
+									<img img-no="<?php echo $tbh->gambartubuh_id ?>" alt="<?php echo $tbh->gambartubuh_id ?>" id="myImgId<?php echo $i ?>" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd<?php echo $tbh->gambartubuh_id ?>"  style="width:480px;"/> 
 							<div id="tagbox<?php echo $tbh->gambartubuh_id ?>"></div>
 							</div>
 				<?php
