@@ -1,7 +1,7 @@
 <div class="white-container">
     <legend class="rim2">Pendaftaran Laboratorium <b>Rujukan Rumah Sakit</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.tiler.js'); //UNTUK PEMERIKSAAN LAB ?>
-    <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+    <?php //$this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             'id'=>'pemeriksaanlaboratorium-form',
