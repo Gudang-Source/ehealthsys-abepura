@@ -3,7 +3,8 @@
 		<?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
 	</td>
     <td>
-		<?php echo CHtml::activeHiddenField($modPemeriksaanGbr, '[i]bagiantubuh_id',array('style'=>'width:50px;', 'class'=>'integer')); ?>
+		<?php echo CHtml::activeHiddenField($modPemeriksaanGbr, '[i]gambartubuh_id',array('style'=>'width:50px;', 'class'=>'integer')); ?>
+		<?php echo CHtml::activeHiddenField($modPemeriksaanGbr, '[i]bagiantubuh_id',array('style'=>'width:50px;', 'class'=>'integer' ,'delete'=> $modPemeriksaanGbr->gambartubuh_id)); ?>
     	<?php echo CHtml::activeTextField($modPemeriksaanGbr, '[i]namabagtubuh',array('readonly'=>true,'style'=>'width:110px;')); ?>
     </td>
     <td>

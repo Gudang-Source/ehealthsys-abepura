@@ -26,7 +26,7 @@ class PemeriksaanFisikController extends MyAuthController
             $modRJMetodeGSCM = RJMetodeGCSM::model()->findAll('metodegcs_aktif=TRUE ORDER BY metodegcs_id');
 			$modBagianTubuh = new RJBagiantubuhM();
 			$modGambarTubuh = new RJGambartubuhM();
-			$modPemeriksaanGambar = RJPemeriksaangambarT::model()->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
+			$modPemeriksaanGambar = RJPemeriksaangambarT::model()->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id), array('order'=>'gambartubuh_id ASC'));
             $cekPemeriksaanFisik=RJPemeriksaanFisikT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
             
             $konsul = ($modPendaftaran->ruangan_id == Yii::app()->user->getState('ruangan_id'))?null:KonsulpoliT::model()->findByAttributes(array(
@@ -180,7 +180,8 @@ class PemeriksaanFisikController extends MyAuthController
 			$modPemeriksaanGambar = new RJPemeriksaangambarT;
 			$modPemeriksaanGambar->attributes = $postperiksagbr; 
 			$modPemeriksaanGambar->pemeriksaanfisik_id = $modPemeriksaanFisik->pemeriksaanfisik_id; 
-			$modPemeriksaanGambar->gambartubuh_id = $modGambarTubuh->DataGambarAnatomi->gambartubuh_id; 
+			//$modPemeriksaanGambar->gambartubuh_id = $modGambarTubuh->DataGambarAnatomi->gambartubuh_id; 
+			//$modPemeriksaanGambar->gambartubuh_id = $modGambarTubuh->DataGambarAnatomi->gambartubuh_id; 
 			$modPemeriksaanGambar->pendaftaran_id = $modPemeriksaanFisik->pendaftaran_id; 
 			$modPemeriksaanGambar->pasien_id = $modPemeriksaanFisik->pasien_id; 
 			$modPemeriksaanGambar->tglpemeriksaan = date('Y-m-d H:i:s');
@@ -370,6 +371,7 @@ class PemeriksaanFisikController extends MyAuthController
 					$modPemeriksaanGbr->keterangan_periksa_gbr	= $_POST['keterangan'];
 					$modPemeriksaanGbr->kordinat_tubuh_x		= $_POST['pic_x'];
 					$modPemeriksaanGbr->kordinat_tubuh_y		= $_POST['pic_y'];
+					$modPemeriksaanGbr->gambartubuh_id		= $_POST['gambartubuh_id'];
 					$form = $this->renderPartial($this->path_view.'_rowDetail', array('modPemeriksaanGbr'=>$modPemeriksaanGbr), true);
 					$axis['x']=$modPemeriksaanGbr->kordinat_tubuh_x;
 					$axis['y']=$modPemeriksaanGbr->kordinat_tubuh_y;
