@@ -356,12 +356,15 @@ foreach ($modPersalinan as $i => $persalinan){
         ?>
         </table>
 		<br/>
-		<?php echo CHtml::link(Yii::t('mds', '{icon} Print Partograf', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printPartograf();return false",  )); ?>
+		
 <?php
     }
 ?>
+		
+
 
 <?php if (!empty($persalinan)) : ?>
+<?php echo CHtml::link(Yii::t('mds', '{icon} Print Partograf', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printPartograf();return false",  )); ?>	
 <script>
 /**
  * print rincian belum bayar >> RND-3122

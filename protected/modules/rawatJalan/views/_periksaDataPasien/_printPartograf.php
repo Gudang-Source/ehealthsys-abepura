@@ -125,8 +125,10 @@ foreach ($ld as $val => $item) {
 <?php
 
 echo $this->renderPartial($this->path_view_rj.'_periksaDataPasien._headerPrint'); 
-
 ?>
+
+<h1>Partograf</h1>
+
 <table class="identitas" width="100%">
     <tr>
         <td>Cara Bayar</td><td>:</td><td><?php echo $pendaftaran->carabayar->carabayar_nama; ?></td>
