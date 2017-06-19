@@ -157,7 +157,7 @@
 								}"; 
 			?>
 						<div align="center" id="imgtag<?php echo $tbh->gambartubuh_id ?>">
-							<img id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd"/> 
+							<img id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$tbh->nama_file_gbr; ?>" class="taggd"  style="width:480px;"/> 
 						<div id="tagbox"></div>
 						</div>
 			<?php
@@ -328,8 +328,8 @@
 </table>
 <script>
 	function titikSesudahSimpan(titikX,titikY,urutan,img){
-	var titikX=titikX-68;
-	var titikY=titikY-15;
+	var titikX=titikX-77;
+	var titikY=titikY-17;
 	var nomor = urutan+1;
 	var color = 'white';
 	var size = '5px';
