@@ -1,4 +1,5 @@
 <?php
+
 //    $modStatuspresensi = PresensiT::model()->findByAttributes(array('karyawan_id'=>$karyawan_id, 'statusscan_id'=>$statusscan_id, 'date(tglpresensi)'=>'2012-10-09 08:23:09'));
     $modStatuspresensi = PresensiT::model()->find("pegawai_id=$pegawai_id AND statusscan_id=$statusscan_id AND DATE(tglpresensi)='$datepresensi'");// AND statuskehadiran_id=$statuskehadiran_id
     $format = new MyFormatter();

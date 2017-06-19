@@ -1,4 +1,6 @@
 <?php
+
+/*
 //    $modStatuspresensi = PresensiT::model()->findByAttributes(array('karyawan_id'=>$karyawan_id, 'statusscan_id'=>$statusscan_id, 'date(tglpresensi)'=>'2012-10-09 08:23:09'));
     $format = new MyFormatter();
     $tglpresensiM = '';    
@@ -115,4 +117,20 @@ echo $jampulang;
     }else{
         echo '-';
     }
+ * 
+ */
+
+
+	$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, $datepresensi, $pegawai_id);
+	$jampulang = PresensiT::model()->getRealJam(Params::STATUSSCAN_PULANG, $datepresensi, $pegawai_id);
+	
+	if (!empty($jammasuk)){
+		$cekShiftBerlaku = ShiftberlakuM::model()->cekSHift($datepresensi.' '.$jammasuk, $kelompok_jabatan,'masuk');
+	}elseif(!empty($jampulang)){										
+		$cekShiftBerlaku = ShiftberlakuM::model()->cekSHift($datepresensi.' '.$jampulang, $kelompok_jabatan,'pulang');
+	}else{
+		$cekShiftBerlaku = '-';
+	}
+	echo $cekShiftBerlaku;
+//}
 ?>
