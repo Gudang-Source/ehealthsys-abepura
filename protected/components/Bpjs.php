@@ -126,7 +126,7 @@
 		function search_nik($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/peserta/nik/'.$query;
+			$completeUrl = $this->url.'/peserta/peserta/nik/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
 		}
 
@@ -174,39 +174,46 @@
 		
 		function create_sep($nokartu, $tglsep, $tglrujukan, $norujukan, $ppkrujukan, $ppkpelayanan, $jnspelayanan, $catatan, $diagawal, $politujuan, $klsrawat, $user, $nomr, $no_trans, $lakaLantas)
 		{
-			$query = 
-                '<request>
-                        <data>
-                                <t_sep>
-                                        <noKartu>'.$nokartu.'</noKartu>
-                                        <tglSep>'.$tglsep.'</tglSep>
-                                        <tglRujukan>'.$tglrujukan.'</tglRujukan>
-                                        <noRujukan>'.$norujukan.'</noRujukan>
-                                        <ppkRujukan>'.$ppkrujukan.'</ppkRujukan>
-                                        <ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
-                                        <jnsPelayanan>'.$jnspelayanan.'</jnsPelayanan>
-                                        <catatan>'.$catatan.'</catatan>
-                                        <diagAwal>'.$diagawal.'</diagAwal>
-                                        <poliTujuan>'.$politujuan.'</poliTujuan>
-                                        <klsRawat>'.$klsrawat.'</klsRawat>
-                                        <lakaLantas>'.$lakaLantas.'</lakaLantas>
-                                        <user>'.$user.'</user>
-                                        <noMr>'.$nomr.'</noMr>
-                                </t_sep>
-                        </data>
-                </request>';
+			$query = array(
+				'request'=>array(
+					't_sep'=>array(
+						'noKartu'=>$nokartu,
+						'tglSep'=>$tglsep,
+						'tglRujukan'=>$tglrujukan,
+						"noRujukan"=>$norujukan,
+						"ppkRujukan"=>$ppkrujukan,
+						"ppkPelayanan"=>$ppkpelayanan,
+						"jnsPelayanan"=>$jnspelayanan,
+						"catatan"=>$catatan,
+						"diagAwal"=>$diagawal,
+						"poliTujuan"=>$politujuan,
+						"klsRawat"=>$klsrawat,
+						"lakaLantas"=>$lakaLantas,
+						"lokasiLaka"=>"",
+						"user"=>'MDO',
+						"noMr"=>$nomr
+					),
+				),
+			);
+			
+			foreach ($query['request']['t_sep'] as $attr => $item) {
+				$query['request']['t_sep'][$attr] = (string) $item;
+			}
+			
+			// var_dump($query);
+			// die;
                         
                         // echo "<pre>".CHtml::encode($query)."</pre>"; die;
                         //var_dump($this->HashBPJS());
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			
-			$completeUrl = $this->url.'/SEP/sep';
+			$completeUrl = $this->url.'/SEP/insert';
                         // echo $completeUrl; die;
 			
-			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');
+			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');
 			// echo($result); die;
-                        $result = json_decode($result, true);
-                        // var_dump($result); die;
+            $result = json_decode($result, true);
+            // var_dump($result); die;
                         
 			$final_result['response'] = $result['response'];
 			$final_result['metadata'] = $result['metadata'];
@@ -217,35 +224,45 @@
 		}
 
 		function update_tanggal_pulang_sep($nosep, $tglpulang, $ppkpelayanan){
-			$query = '<request>
-						<data>
-							<t_sep>
-								<noSep>'.$nosep.'</noSep>
-								<tglPlg>'.$tglpulang.'</tglPlg>
-								<ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
-							</t_sep>
-						</data>
-					</request>';
+			
+			$query = array(
+				'request'=>array(
+					't_sep'=>array(
+						'noSep'=>$nosep,
+						'tglPlg'=>$tglpulang,
+						'ppkPelayanan'=>$ppkpelayanan,
+					)
+				)
+			);
 
+			foreach ($query['request']['t_sep'] as $attr => $item) {
+				$query['request']['t_sep'][$attr] = (string) $item;
+			}
+			
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep/updtglplg';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'PUT', $query, 'Application/x‐www‐form‐urlencoded');		
+			$completeUrl = $this->url.'/Sep/updtglplg';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'PUT', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');		
 		}
 
 		function mapping_trans($nosep, $notrans, $ppkpelayanan){
-			$query = '<request>
-						<data>
-							<t_map_sep>
-								<noSep>'.$nosep.'</noSep>
-								<noTrans>'.$notrans.'</noTrans>
-								<ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
-							</t_map_sep>
-						</data>
-					</request>';
-                        //echo CHtml::encode($query); die;
+			$query = array(
+				'request'=>array(
+					't_map_sep'=>array(
+						'noSep'=>$nosep,
+						'noTrans'=>$notrans,
+						'ppkPelayanan'=>$ppkpelayanan,
+					)
+				)
+			);
+			
+			foreach ($query['request']['t_map_sep'] as $attr => $item) {
+				$query['request']['t_map_sep'][$attr] = (string) $item;
+			}
+            //echo CHtml::encode($query); die;
+			
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep/map/trans';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');		
+			$completeUrl = $this->url.'/SEP/map/trans';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');		
 		}
 
 		function delete_sep($query) {
@@ -276,7 +293,7 @@
 
 		function detail_sep($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep/'.$query;
+			$completeUrl = $this->url.'/SEP/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 

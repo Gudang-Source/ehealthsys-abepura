@@ -152,36 +152,36 @@ $this->breadcrumbs=array(
 					<td id="tglSep"></td>
 				</tr>
 				<tr>
-					<th>Kode Cabang Pelayanan</th>
-					<td id="kdCabangPel"></td>
-				</tr>
-				<tr>
 					<th>Kode Provider Pelayanan</th>
 					<td id="kdProviderPel"></td>
-				</tr>
-				<tr>
-					<th>Nama Cabang Pelayanan</th>
-					<td id="nmCabangPel"></td>
 				</tr>
 				<tr>
 					<th>Nama Provider Pelayanan</th>
 					<td id="nmProviderPel"></td>
 				</tr>
 				<tr>
-					<th>Kode Cabang Rujukan</th>
-					<td id="kdCabangRujuk"></td>
+					<th>Kode Cabang Pelayanan</th>
+					<td id="kdCabangPel"></td>
+				</tr>
+				<tr>
+					<th>Nama Cabang Pelayanan</th>
+					<td id="nmCabangPel"></td>
 				</tr>
 				<tr>
 					<th>Kode Provider Rujukan</th>
 					<td id="kdProviderRujuk"></td>
 				</tr>
 				<tr>
-					<th>Nama Cabang Rujukan</th>
-					<td id="nmCabangRujuk"></td>
-				</tr>
-				<tr>
 					<th>Nama Provider Rujukan</th>
 					<td id="nmProviderRujuk"></td>
+				</tr>
+				<tr>
+					<th>Kode Cabang Rujukan</th>
+					<td id="kdCabangRujuk"></td>
+				</tr>
+				<tr>
+					<th>Nama Cabang Rujukan</th>
+					<td id="nmCabangRujuk"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -228,10 +228,10 @@ function tampilDetailSEP()
 				$("#tglLahir").text(peserta.peserta.tglLahir);
 				$("#nik").text(peserta.peserta.nik);
 				$("#sex").text(peserta.peserta.sex);
-				$("#kdProvider").text(peserta.provPelayanan.kdProvider);
-				$("#nmProvider").text(peserta.provPelayanan.nmProvider);
-				$("#kdCabang").text(peserta.provPelayanan.kdCabang);
-				$("#nmCabang").text(peserta.provPelayanan.nmCabang);
+				$("#kdProvider").text(peserta.peserta.provUmum.kdProvider);
+				$("#nmProvider").text(peserta.peserta.provUmum.nmProvider);
+				$("#kdCabang").text(peserta.peserta.provUmum.kdCabang);
+				$("#nmCabang").text(peserta.peserta.provUmum.nmCabang);
 				$("#kdKelas").text(peserta.peserta.kelasTanggungan.kdKelas);
 				$("#nmKelas").text(peserta.peserta.kelasTanggungan.nmKelas);
 				$("#kdJenisPeserta").text(peserta.peserta.jenisPeserta.kdJenisPeserta);
