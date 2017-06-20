@@ -154,17 +154,20 @@ Yii::app()->clientScript->registerScript('search', "
                 ),                                
                  array(
                     'header'=>'<center>Terlambat</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("kelompokjabatan"=>$data->pegawai->kelompokjabatan,"statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+					'type' => 'raw',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
                  array(
                     'header'=>'<center>Pulang Awal</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("kelompokjabatan"=>$data->pegawai->kelompokjabatan,"statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+					'type' => 'raw',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
                  array(
                     'header'=>'<center>Status</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("kelompokjabatan"=>$data->pegawai->kelompokjabatan,"statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+					'type' => 'raw',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
             ),

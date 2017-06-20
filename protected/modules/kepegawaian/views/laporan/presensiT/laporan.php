@@ -124,7 +124,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 ),
                 array(
                     'header'=>'<center>Status</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id, "datepresensi"=>$data->datepresensi),true)',
+					'type' => 'raw',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id, "datepresensi"=>$data->datepresensi, "kelompokjabatan"=>$data->pegawai->kelompokjabatan),true)',
                 ),
                 
             ),
