@@ -127,7 +127,7 @@ foreach ($ld as $val => $item) {
 echo $this->renderPartial($this->path_view_rj.'_periksaDataPasien._headerPrint'); 
 ?>
 
-<h1>Partograf</h1>
+<h2 style="text-align: center;">Partograf</h2>
 
 <table class="identitas" width="100%">
     <tr>
