@@ -241,5 +241,14 @@ if($sukses > 0)
 				//return false;
 		}
 	}
+	/**
+	 * print pemeriksaan obsterikus
+	 * @param id integer ID Pemeriksaan Obsterikus.
+	 * @returns {undefined} */ 
+	function printPemeriksaanPersalinan(id)
+	{
+		window.open("<?php echo $this->createUrl('printPemeriksaanObsterikus'); ?>&id=" + id + "","",'location=_new, width=1024px');
+
+	}
     
 </script>

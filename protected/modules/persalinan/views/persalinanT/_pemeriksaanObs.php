@@ -514,177 +514,37 @@
                     <fieldset class='box'>
                         <legend class='rim'>Pemeriksaan Kala IV</legend>
 
-                        <?php /*
-                        <table width="100%">
-                            <tr>
-                                <td>
-                                    <!--kolom 1-->
-                                </td>
-                                <td>
-                                    <!--kolom 2-->
-                                </td>
-                                <td>
-                                    <!--kolom 3-->
-                                </td>
-                            </tr>
-                        </table>
-                         <div class="control-group ">
-                            <?php 
-                            // $modPemeriksaan->plasenta_lahir = null;
-                            echo $form->labelEx($modPemeriksaan, 'lahir', array('class' => 'control-label')) ?>
-                            <div class="controls">
-                                <?php
-                                $this->widget('MyDateTimePicker', array(
-                                    'model' => $modPeriksaKala4,
-                                    'attribute' => '[]kala4_tanggal',
-                                    'mode' => 'datetime',
-                                    'options' => array(
-                                        'dateFormat' => Params::DATE_FORMAT,
-                                        'maxDate' => 'd',
-                                    ),
-                                    'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)"
-                                    ),
-                                ));
-                                ?>
-                                <?php echo $form->error($modPeriksaKala4, '[]kala4_tanggal'); ?>
-                            </div>
-                        </div>
-
-                        <div class="control-group ">
-                            <?php echo $form->labelEx($modPeriksaKala4, '[]kala4_darahcc', array('class' => 'control-label')) ?>
-                            <div class="controls">
-                                <?php
-                                echo $form->textField($modPeriksaKala4, '[]kala4_darahcc', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)).' cc';
-                                ?>
-                                <?php echo $form->error($modPeriksaKala4, '[]kala4_darahcc'); ?>
-                            </div>
-                        </div>
-
-                        <div class="control-group ">
-                            <?php echo $form->labelEx($modPeriksaKala4, '[]kala4_anemia', array('class' => 'control-label')) ?>
-                            <div class="controls">
-                                <?php
-                                echo $form->textField($modPeriksaKala4, '[]kala4_anemia', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                ?>
-                                <?php echo $form->error($modPeriksaKala4, '[]kala4_anemia'); ?>
-                            </div>
-                        </div>
-
-
-                        <div class="control-group ">
-                                <?php echo $form->LabelEx($modPeriksaKala4,'[]kala4_systolic',array('class'=>'control-label'));?>
-                                <div class="controls">
-                                 <?php 
-                                 echo $form->textField($modPeriksaKala4,'[]kala4_systolic',array('class'=>'span1 numbersOnly systolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'setTekanan(this);', 'style'=>'text-align: right;')); ?>Mm
-                                 <?php 
-                                 echo $form->textField($modPeriksaKala4,'[]kala4_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'setTekanan(this);', 'style'=>'text-align: right;')); ?>Hg
-                                                            &nbsp;
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo CHtml::Label('','',array('class'=>'control-label'));?>
-                                <div class="controls">
-                                        <?php
-                                                $modPeriksaKala4->kala4_tekanandarah = empty($modPeriksaKala4->kala4_tekanandarah) ? "000 / 000" : $modPemeriksaan->kala4_tekanandarah;
-                                                $this->widget('CMaskedTextField', array(
-                                                'model' => $modPeriksaKala4,
-                                                'attribute' => '[]kala4_tekanandarah',
-                                                'mask' => '999 / 999',
-                                                'placeholder'=>'000 / 000',
-                                                'htmlOptions' => array('readonly'=>true, 'class'=>'span2 td', 'style'=>'width:60px;','onkeypress'=>"return $(this).focusNextInputField(event)") //,'onkeyup'=>'getTekananDarah(this);''onfocus'=>'change(this);', 'onblur'=>'change(this);',
-                                                ));
-                                        ?> Mm/Hg
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                            <div class="controls">
-                                <?php echo CHtml::label('','',array('class'=>'control-label'));?>
-                                <?php echo CHtml::textField('tekananDarah','', array('class'=>'span2', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);"));?>
-                            </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->LabelEx($modPeriksaKala4,'[]kala4_meanarteripressure',array('class'=>'control-label'));?>
-                                <div class="controls">
-                                         <?php echo $form->textField($modPeriksaKala4,'[]kala4_meanarteripressure',array('readonly'=>true, 'class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
-                                </div>
-                        </div>
-
-
-                        <div class="control-group ">
-                            <?php echo Chtml::label("Denyut Nadi", 'kala4_detaknadi', array('class' => 'control-label')) ?>
-                            <div class="controls">
-                                <?php
-                                echo $form->textField($modPeriksaKala4, '[]kala4_detaknadi', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                ?> <div class='additional-text'>/ Menit</div>
-                                <?php echo $form->error($modPeriksaKala4, '[]kala4_detaknadi'); ?>
-                            </div>
-                        </div>
-                        <div class="control-group ">
-                            <?php echo $form->labelEx($modPeriksaKala4, '[]kala4_pernapasan', array('class' => 'control-label')) ?>
-                            <div class="controls">
-                                <?php
-                                echo $form->textField($modPeriksaKala4, '[]kala4_pernapasan', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                ?><div class='additional-text'>/ Menit</div>
-                                <?php echo $form->error($modPeriksaKala4, '[]kala4_pernapasan'); ?>
-                            </div>
-                        </div>
-                        <div class="control-group ">
-                            <?php echo $form->labelEx($modPeriksaKala4, '[]kala4_tinggifundus', array('class' => 'control-label')) ?>
-                            <div class="controls">
-                                <?php
-                                echo $form->textField($modPeriksaKala4, '[]kala4_tinggifundus', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                ?> <div class='additional-text'>cm</div>
-                                <?php echo $form->error($modPeriksaKala4, '[]kala4_tinggifundus'); ?>
-                            </div>
-                        </div>
-                        <div class="control-group ">
-                            <?php echo $form->labelEx($modPeriksaKala4, '[]kala4_kontraksi', array('class' => 'control-label')) ?>
-                            <div class="controls">
-                                <?php
-                                echo $form->textField($modPeriksaKala4, '[]kala4_kontraksi', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                ?>
-                                <?php echo $form->error($modPeriksaKala4, '[]kala4_kontraksi'); ?>
-                            </div>
-                        </div>
-
-                        <div class="control-group ">
-                            <?php echo $form->labelEx($modPeriksaKala4, '[]kala4_kandungkemih', array('class' => 'control-label')) ?>
-                            <div class="controls">
-                                <?php
-                                echo $form->textField($modPeriksaKala4, '[]kala4_kandungkemih', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                                ?>
-                                <?php echo $form->error($modPeriksaKala4, '[]kala4_kandungkemih'); ?>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-
-                */ ?>
-
-             
-                    <div class="block-tabel">
-                        <h6>Pemantauan Persalinan Kala IV</h6>
-                        <table class="table table-striped table-condensed" id="periksaKala4">
-                            <thead>
-                            <tr>
-                                <th>Tanggal/ <br/>Waktu</th>        
-                                <th>Anemia</th>        
-                                <th>Tekanan Darah</th>        
-                                <th>Denyut Nadi/ <br/> Pernapasan</th>
-                                <th>Tinggi Fundus</th>
-                                <th>Kontraksi Uterus</th>
-                                <th>Kandung Kemih</th>
-                                <th>Pendarahan</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <?php                                     
-                                    $this->renderPartial('_pemeriksaanKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan, 'id'=>$id)); 
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+						<div class="block-tabel">
+							<h6>Pemantauan Persalinan Kala IV</h6>
+							<table class="table table-striped table-condensed" id="periksaKala4">
+								<thead>
+								<tr>
+									<th>Tanggal/ <br/>Waktu</th>        
+									<th>Anemia</th>        
+									<th>Tekanan Darah</th>        
+									<th>Denyut Nadi/ <br/> Pernapasan</th>
+									<th>Tinggi Fundus</th>
+									<th>Kontraksi Uterus</th>
+									<th>Kandung Kemih</th>
+									<th>Pendarahan</th>
+									<th>&nbsp;</th>
+								</tr>
+								</thead>
+								<tbody>
+									<?php                                     
+										$this->renderPartial('_pemeriksaanKala4', array('form'=>$form,'modPeriksaKala4' => $modPeriksaKala4, 'modPemeriksaan'=>$modPemeriksaan, 'id'=>$id)); 
+									?>
+								</tbody>
+							</table>
+						</div>
+						<?php 
+						if (!empty($modPemeriksaan)) {
+							echo CHtml::link(Yii::t('mds', '{icon} Print Pemeriksaan', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printPemeriksaanPersalinan(".$modPemeriksaan->pemeriksaanobstetrik_id.");return false",  ));
+						}
+						?>
+						
+						
+					</fieldset>	
                 </div>
             </div>
             </div>

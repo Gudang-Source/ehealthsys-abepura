@@ -681,4 +681,33 @@ class PersalinanTController extends MyAuthController {
 
             // return $modStokOaNew;      
         }
+		
+		
+	public function actionPrintPemeriksaanObsterikus($id) {
+		$this->layout='//layouts/printWindows';
+		
+		$ob = PemeriksaanobstetrikT::model()->findByPk($id);
+		$obdet = Pemeriksaankala4T::model()->findAllByAttributes(array(
+			'pemeriksaanobstetrik_id'=>$id,
+		), array(
+			'order'=>'kala4_tanggal asc, kala4_waktu asc',
+		));
+		
+		if (empty($ob)) {
+			throw new CHttpException("Data tidak ditemukan", 404);
+		}
+		
+		
+		$ps = PersalinanT::model()->findByPk($ob->persalinan_id);
+		$pd = PendaftaranT::model()->findByPk($ps->pendaftaran_id);
+		$pa = PasienM::model()->findByPk($pd->pasien_id);
+		
+		$this->render('_printObsterikus', array(
+			'ob'=>$ob,
+			'obdet'=>$obdet,
+			'ps'=>$ps,
+			'pd'=>$pd,
+			'pa'=>$pa,
+		));
+	}
 }
