@@ -127,9 +127,10 @@ foreach ($ld as $val => $item) {
 echo $this->renderPartial($this->path_view_rj.'_periksaDataPasien._headerPrint'); 
 ?>
 
-<h1>Partograf</h1>
+<h2 style="text-align: center;">Partograf</h2>
 
 <table class="identitas" width="100%">
+	<?php /*
     <tr>
         <td>Cara Bayar</td><td>:</td><td><?php echo $pendaftaran->carabayar->carabayar_nama; ?></td>
         <td nowrap>Kelas Pelayanan</td><td>:</td><td><?php echo !empty($pendaftaran->pasienadmisi_id)?$admisi->kelaspelayanan->kelaspelayanan_nama:$pendaftaran->kelaspelayanan->kelaspelayanan_nama; ?></td>
@@ -140,6 +141,8 @@ echo $this->renderPartial($this->path_view_rj.'_periksaDataPasien._headerPrint')
     <tr>
         <td colspan="6" style="border-bottom: 1px solid black">&nbsp;</td>
     </tr>
+	 * 
+	 */ ?>
     <tr>
         <td nowrap>No. Rekam Medik</td><td>:</td><td width="100%"><?php echo $pasien->no_rekam_medik; ?></td>
         <td nowrap>Tgl. Pendaftaran</td><td>:</td><td nowrap><?php echo MyFormatter::formatDateTimeForUser($pendaftaran->tgl_pendaftaran); ?></td>
