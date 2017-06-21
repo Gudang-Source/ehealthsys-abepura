@@ -22,20 +22,73 @@ $pbidan = PegawaiM::model()->findByPk($ps->bidan_id);
 	}
 </style>
 
-<h2 style="text-align: center;">Catatan Persalinan</h2>
 
+
+
+<?php
+
+$tanggal = empty($ob->create_time) ? '.............................' : "<u>".MyFormatter::formatDateTimeForUser($ob->create_time)."</u>";
+$bidan = empty($pbidan)?".............................":"<u>".$pbidan->namaLengkap."</u>";
+
+
+?>
+
+<table class="identitas" width="100%">
+	<?php /*
+    <tr>
+        <td>Cara Bayar</td><td>:</td><td><?php echo $pd->carabayar->carabayar_nama; ?></td>
+        <td nowrap>Kelas Pelayanan</td><td>:</td><td><?php echo !empty($pd->pasienadmisi_id)?$admisi->kelaspelayanan->kelaspelayanan_nama:$pd->kelaspelayanan->kelaspelayanan_nama; ?></td>
+    </tr>
+    <tr>
+        <td>Penjamin</td><td>:</td><td><?php echo $pd->penjamin->penjamin_nama; ?></td>
+    </tr>
+    <tr>
+        <td colspan="6" style="border-bottom: 1px solid black">&nbsp;</td>
+    </tr>
+	 * 
+	 */ ?>
+    <tr>
+        <td nowrap>No. Rekam Medik</td><td>:</td><td width="100%"><?php echo $pa->no_rekam_medik; ?></td>
+        <td nowrap>Tgl. Pendaftaran</td><td>:</td><td nowrap><?php echo MyFormatter::formatDateTimeForUser($pd->tgl_pendaftaran); ?></td>
+    </tr>
+    <tr>
+        <td>Nama Pasien</td><td>:</td><td nowrap><?php echo $pa->namadepan.$pa->nama_pasien; ?></td>
+        <td nowrap>No. Pendaftaran</td><td>:</td><td nowrap><?php echo $pd->no_pendaftaran; ?></td>
+    </tr>
+    <tr>
+        <td>Umur / Tgl. Lahir</td><td>:</td><td nowrap><?php echo $pd->umur." / ".MyFormatter::formatDateTimeForUser($pa->tanggal_lahir); ?></td>
+    </tr>
+    <tr>
+        <td>Alamat</td><td>:</td><td nowrap><?php echo $pa->no_rekam_medik; ?></td>
+        
+        <?php if (!empty($pd->pasienadmisi_id)): ?> 
+        <td nowrap>Kamar / No. Bed</td><td>:</td><td nowrap><?php echo empty($masukkamar->kamarruangan_id)?"-":($masukkamar->kamarruangan_nokamar." / ".$masukkamar->kamarruangan_nobed); ?></td>
+        <?php endif; ?>
+    </tr>
+    <tr>
+        <td>Dokter</td><td>:</td><td nowrap><?php echo $pd->pegawai->namaLengkap; ?></td>
+        <?php if (!empty($pd->pasienadmisi_id)): ?> 
+        <td>Dokter PJP</td><td>:</td><td nowrap><?php echo $admisi->pegawai->namaLengkap; ?></td>
+        <?php endif; ?>
+    </tr>
+	<tr>
+        <td colspan="6" style="border-bottom: 1px solid black">&nbsp;</td>
+    </tr>
+</table>
+<hr/>
+<h2 style="text-align: center;">Catatan Persalinan</h2>
 <table width="49%" class="tab_list">
 	<tbody>
 		<tr>
 			<td style="text-align: right;">1. </td>
 			<td width="100%">
-				Tanggal : ..............................<!--u><?php // echo MyFormatter::formatDateTimeForUser($ob->create_time); ?></u-->
+				Tanggal : <?php echo $tanggal; ?>
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align: right;">2. </td>
 			<td>
-				Nama Bidan : ..............................<!--u><?php // echo empty($pbidan)?"-":$pbidan->namaLengkap; ?></u-->
+				Nama Bidan :<?php echo $bidan; ?>
 			</td>
 		</tr>
 		<tr>
@@ -43,10 +96,10 @@ $pbidan = PegawaiM::model()->findByPk($ps->bidan_id);
 			<td>
 				Tempat Persalinan : <?php 
 				$alamatRS = "...................................";
-				//if ($ps->islahirdirs) {
-				//	$alamatRS = "<u>".Yii::app()->user->getState('alamatlokasi_rumahsakit')."</u>";
-				//	echo "<u>Rumah Sakit</u>";
-				//} else {
+				if ($ps->islahirdirs) {
+					$alamatRS = "<u>".Yii::app()->user->getState('alamatlokasi_rumahsakit')."</u>";
+					echo "<u>Rumah Sakit</u>";
+				} else {
 				?>
 				<table width="100%">
 					<tr>
@@ -62,7 +115,7 @@ $pbidan = PegawaiM::model()->findByPk($ps->bidan_id);
 						<td><input type="checkbox" /> Lainnya : ..............................</td>
 					</tr>
 				</table>
-				<?php //} ?>
+				<?php } ?>
 			</td>
 		</tr>
 		<tr>
@@ -110,7 +163,7 @@ $pbidan = PegawaiM::model()->findByPk($ps->bidan_id);
 			</td>
 		</tr>
 
-
+		
 		
 		<tr>
 			<td colspan="2"><br/><h4>Kala I</h4></td>
@@ -333,6 +386,22 @@ $pbidan = PegawaiM::model()->findByPk($ps->bidan_id);
 		</tr>
 		
 		
+		<?php
+		$lahir = KelahiranbayiT::model()->findByAttributes(array(
+			'persalinan_id'=>$ps->persalinan_id,
+		));
+		
+		$berat = "..........................";
+		$panjang = "..........................";
+		$jeniskelamin = "L / P";
+		
+		if (!empty($lahir)) {
+			if (!empty($lahir->bb_gram)) $berat = "<u>".$lahir->bb_gram."</u>";
+			if (!empty($lahir->tb_cm)) $panjang = "<u>".$lahir->tb_cm."</u>";
+			if (!empty($lahir->jeniskelamin)) $jeniskelamin	 = "<u>".substr($lahir->jeniskelamin, 0, 1)."</u>";
+		}
+		
+		?>
 		
 		<tr>
 			<td colspan="2"><br/><h4>BAYI BARU LAHIR</h4></td>
@@ -340,19 +409,19 @@ $pbidan = PegawaiM::model()->findByPk($ps->bidan_id);
 		<tr>
 			<td style="text-align: right;">34. </td>
 			<td>
-				Berat Badan : ..........................gram
+				Berat Badan : <?php echo $berat; ?> gram
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align: right;">35. </td>
 			<td>
-				Panjang : ..........................cm
+				Panjang : <?php echo $panjang; ?> cm
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align: right;">36. </td>
 			<td>
-				Jenis Kelamin : L / P
+				Jenis Kelamin : <?php echo $jeniskelamin; ?>
 			</td>
 		</tr>
 		<tr>

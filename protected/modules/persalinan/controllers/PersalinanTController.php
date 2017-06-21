@@ -700,12 +700,14 @@ class PersalinanTController extends MyAuthController {
 		
 		$ps = PersalinanT::model()->findByPk($ob->persalinan_id);
 		$pd = PendaftaranT::model()->findByPk($ps->pendaftaran_id);
+		$pa = PasienM::model()->findByPk($pd->pasien_id);
 		
 		$this->render('_printObsterikus', array(
 			'ob'=>$ob,
 			'obdet'=>$obdet,
 			'ps'=>$ps,
 			'pd'=>$pd,
+			'pa'=>$pa,
 		));
 	}
 }
