@@ -112,14 +112,14 @@
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->url.'/peserta/peserta/'.$query;
-                        //echo $completeUrl; die;
-                        $dat = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
-                        if ($dat['metadata']['code'] == 200) {
-                            $k = KelaspelayananM::model()->findByAttributes(array(
-                                'kelasbpjs_id'=>$dat['response']['peserta']['kelasTanggungan']['kdKelas'],
-                            ));
-                            $dat['response']['peserta']['kelasTanggungan']['kdKelasSim'] = $k->kelaspelayanan_id;
-                        }
+			//echo $completeUrl; die;
+			$dat = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
+			if ($dat['metadata']['code'] == 200) {
+				$k = KelaspelayananM::model()->findByAttributes(array(
+					'kelasbpjs_id'=>$dat['response']['peserta']['kelasTanggungan']['kdKelas'],
+				));
+				$dat['response']['peserta']['kelasTanggungan']['kdKelasSim'] = $k->kelaspelayanan_id;
+			}
 			return CJSON::encode($dat); //$this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
@@ -127,7 +127,15 @@
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->url.'/peserta/peserta/nik/'.$query;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
+			// return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+			$dat = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
+			if ($dat['metadata']['code'] == 200) {
+				$k = KelaspelayananM::model()->findByAttributes(array(
+					'kelasbpjs_id'=>$dat['response']['peserta']['kelasTanggungan']['kdKelas'],
+				));
+				$dat['response']['peserta']['kelasTanggungan']['kdKelasSim'] = $k->kelaspelayanan_id;
+			}
+			return CJSON::encode($dat); //$this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
 		function search_rujukan_no_rujukan($query)
@@ -265,10 +273,24 @@
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');		
 		}
 
-		function delete_sep($query) {
+		function delete_sep($nosep, $ppkpelayanan) {
+			$query = array(
+				'request'=>array(
+					't_sep'=>array(
+						'noSep'=>$nosep,
+						'ppkPelayanan'=>$ppkpelayanan,
+					)
+				)
+			);
+			
+			foreach ($query['request']['t_sep'] as $attr => $item) {
+				$query['request']['t_sep'][$attr] = (string) $item;
+			}
+			
+			
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'DELETE', $query, 'Application/x‐www‐form‐urlencoded');		
+			$completeUrl = $this->url.'/SEP/Delete';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'DELETE', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');		
 		}
 		
 		function delete_transaksi($nosep){
@@ -287,7 +309,7 @@
 
 		function riwayat_terakhir($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep/peserta/'.$query;
+			$completeUrl = $this->url.'/sep/peserta/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 

@@ -654,12 +654,15 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
             $sep = $last->noSEP;
             $ppk = substr($sep, 0, 8);
             
+			/*
             $str = "<request><data><t_sep>";
             $str .= "<noSep>".$sep."</noSep>";
             $str .= "<ppkPelayanan>".$ppk."</ppkPelayanan>";
             $str .= "</t_sep></data></request>";
+			 * 
+			 */
             
-            $dat = json_decode($bpjs->delete_sep($str));
+            $dat = json_decode($bpjs->delete_sep($sep, $ppk));
             
             // var_dump($dat);
             
