@@ -31,13 +31,18 @@ class BSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria = new CDbCriteria;
 
         $criteria = $this->functionCriteria();
-        if($this->pilihan == 'instalasi'){
+        if($_GET['tampilGrafik'] == 'instalasiasal'){
+            $criteria->select = 'count(tglmasukpenunjang) as jumlah, instalasiasal_nama as data';
+            $criteria->group = 'instalasiasal_nama';
+        }elseif($_GET['tampilGrafik'] == 'ruanganasal'){
             $criteria->select = 'count(tglmasukpenunjang) as jumlah, ruanganasal_nama as data';
             $criteria->group = 'ruanganasal_nama';
-        }
-        else{
-            $criteria->select = "count(tglmasukpenunjang) as jumlah, (CASE WHEN asalrujukan_nama IS NULL THEN 'Data Kosong'::text ELSE asalrujukan_nama END) as data";
+        }elseif($_GET['tampilGrafik'] == 'asalrujukan'){
+            $criteria->select = "count(tglmasukpenunjang) as jumlah, (CASE WHEN asalrujukan_nama IS NULL THEN 'NON RUJUKAN'::text ELSE asalrujukan_nama END) as data";
             $criteria->group = 'asalrujukan_nama';
+        }elseif($_GET['tampilGrafik'] == 'rujukan'){
+            $criteria->select = "count(tglmasukpenunjang) as jumlah, statusmasuk as data";
+            $criteria->group = 'statusmasuk';
         }
         
         
@@ -65,28 +70,16 @@ class BSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 
         $criteria = new CDbCriteria;
     
-        if (!empty($this->pilihan)){
-            if ($this->pilihan == 'instalasi'){
-               if(is_array($this->ruanganasal_id)){
-                        $criteria->addInCondition('ruanganasal_id',$this->ruanganasal_id);
-                }else{
-                    $criteria->addCondition('ruanganasal_id is NULL');
-                }
-                
-		
-            }
-            else{                
-              
-                if(is_array($this->asalrujukan_id)){
-                        $criteria->addInCondition('asalrujukan_id',$this->asalrujukan_id);
-                }else{
-                    $criteria->addCondition('asalrujukan_id is NULL');
-                }
-            }
-        }
+		if (!empty($this->ruanganasal_id)){
+			$criteria->addInCondition("ruanganasal_id", $this->ruanganasal_id);
+		}else{
+			if (!empty($this->instalasiasal_id)){
+				$criteria->addCondition("instalasiasal_id = '".$this->instalasiasal_id."' ");
+			}
+		}
         
-        $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
-        $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
+       // $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
+      //  $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id = '.$this->pasien_id);

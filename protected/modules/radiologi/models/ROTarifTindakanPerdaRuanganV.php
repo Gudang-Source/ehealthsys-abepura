@@ -38,7 +38,7 @@ class ROTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		}
                 $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);               
 		$criteria->limit = 10;
-
+		$criteria->order = "jenistarif_nama ASC, kelompoktindakan_nama ASC, komponenunit_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

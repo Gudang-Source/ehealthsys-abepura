@@ -3,11 +3,26 @@
 class InformasiTarifController extends MyAuthController
 {
 	public $path_view = 'laboratorium.views.informasiTarif.';
+	public $layouts = '//layouts/main';
 	public function actionIndex()
 	{
 		$modTarifLab = new LBTariftindakanperdaruanganV('searchInformasi');
 		$modTarifLab->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
 		$modTarifLab->instalasi_id = Yii::app()->user->getState('instalasi_id');
+		
+		$kom_unit = Params::KomponenUnitRuangan();
+		if (isset($kom_unit[Yii::app()->user->getState('ruangan_id')]))
+		{
+			$modTarifLab->komponenunit_id = $kom_unit[Yii::app()->user->getState('ruangan_id')];
+		}
+
+		$kel_tin = Params::KelompokTindakanInstalasi();
+
+		if (isset($kel_tin[Yii::app()->user->getState('instalasi_id')]))
+		{			
+			
+			$modTarifLab->kelompoktindakan_id = $kel_tin[Yii::app()->user->getState('instalasi_id')];
+		}
 		//$modTarifLab->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
 		//$modTarifLab->penjamin_id = Params::PENJAMIN_ID_UMUM;
 		if(isset($_GET['LBTariftindakanperdaruanganV'])){
@@ -125,7 +140,7 @@ class InformasiTarifController extends MyAuthController
                     //$modTarifRad->carabayar_id=$_GET['ROTarifpemeriksaanradruanganV']['carabayar_id'];
                     //$modTarifRad->penjamin_id=$_GET['ROTarifpemeriksaanradruanganV']['penjamin_id'];
             }
-            $this->render('print',array('modTarifRad'=>$modTarifRad));
+            $this->render($this->path_view.'print',array('modTarifRad'=>$modTarifRad));
         }
 
 }

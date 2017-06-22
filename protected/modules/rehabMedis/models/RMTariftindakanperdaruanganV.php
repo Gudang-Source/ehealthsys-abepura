@@ -38,7 +38,7 @@ class RMTariftindakanperdaruanganV  extends TariftindakanperdaruanganV
 		}
                 $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);               
 		$criteria->limit = 10;
-
+		$criteria->order = "jenistarif_nama ASC, kelompoktindakan_nama ASC, komponenunit_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -46,7 +46,7 @@ class RMTariftindakanperdaruanganV  extends TariftindakanperdaruanganV
         
         public function searchInformasiPrint() {
             $provider = $this->searchInformasi();
-            $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
+            //$provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
             $provider->criteria->limit = -1;
             $provider->pagination = false;
             

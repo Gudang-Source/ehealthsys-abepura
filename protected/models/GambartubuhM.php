@@ -141,4 +141,9 @@ class GambartubuhM extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+		
+		public function getAllDataGambarAnatomi(){
+			$model = GambartubuhM::model()->findAll('gambartubuh_aktif = true');
+			return $model;
+		}
 }

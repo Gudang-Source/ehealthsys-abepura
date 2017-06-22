@@ -15,12 +15,12 @@
     });
     ");
     ?>
-    <div class="search-form">
+    <fieldset class="box search-form">
         <?php $this->renderPartial($this->path_view.'pengirimanLinen/_searchPengirimanLinen',array(
             'model'=>$model,'format'=>$format
         )); ?>
-    </div><!-- search-form --> 
-    <div class="block-tabel">
+    </fieldset><!-- search-form --> 
+     <div class="block-tabel"> 
         <h6>Tabel <b>Laporan Pengiriman Linen</b></h6>
         <?php $this->renderPartial($this->path_view.'pengirimanLinen/_tablePengirimanLinen', array('model'=>$model)); ?>
     </div>

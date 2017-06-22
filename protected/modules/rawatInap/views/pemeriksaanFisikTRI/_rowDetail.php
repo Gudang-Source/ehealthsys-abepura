@@ -9,7 +9,8 @@
 		<?php echo $format->formatDateTimeForUser(date('Y-m-d H:i:s')); ?>
 	</td>
     <td>
-		<?php echo CHtml::activeHiddenField($modPemeriksaanGbr, '[i]bagiantubuh_id',array('style'=>'width:50px;', 'class'=>'integer')); ?>
+		<?php echo CHtml::activeHiddenField($modPemeriksaanGbr, '[i]gambartubuh_id',array('style'=>'width:50px;', 'class'=>'integer')); ?>
+		<?php echo CHtml::activeHiddenField($modPemeriksaanGbr, '[i]bagiantubuh_id',array('style'=>'width:50px;', 'class'=>'integer','delete'=> $modPemeriksaanGbr->gambartubuh_id)); ?>
     	<?php echo CHtml::activeTextField($modPemeriksaanGbr, '[i]namabagtubuh',array('readonly'=>true,'style'=>'width:110px;')); ?>
     </td>
     <td>

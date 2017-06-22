@@ -156,16 +156,7 @@
                             <?php echo $form->error($modPemeriksaan, 'presentasi_genitalia'); ?>
                         </div>
                     </div>
-                    <!--kolom frekuensi Auskultasi -->
-                    <div class="control-group ">
-                        <?php echo Chtml::label("Frekuensi", 'frek_auskultasi', array('class' => 'control-label')) ?>
-                        <div class="controls">
-                            <?php
-                            echo $form->textField($modPemeriksaan, 'frek_auskultasi', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 3, 'style'=>'text-align:right;')).' /menit';
-                            ?>
-                            <?php echo $form->error($modPemeriksaan, 'frek_auskultasi'); ?>
-                        </div>
-                    </div>
+                    <!--kolom frekuensi Auskultasi -->                    
                     <div class="control-group ">
                         <?php echo CHtml::label('DJJ', '', array('class' => 'control-label')) ?>
                         <div class="controls">
@@ -173,6 +164,15 @@
                             echo $form->dropDownList($modPemeriksaan, 'denyutjantung_janin', LookupM::getItems('denyutjantung'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, 'denyutjantung_janin'); ?>
+                        </div>
+                    </div>
+                    <div class="control-group ">
+                        <?php echo Chtml::label("Frekuensi", 'frek_auskultasi', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->textField($modPemeriksaan, 'frek_auskultasi', array('class'=>'span1 numbers-only','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 3, 'style'=>'text-align:right;')).' /menit';
+                            ?>
+                            <?php echo $form->error($modPemeriksaan, 'frek_auskultasi'); ?>
                         </div>
                     </div>
                     <div class="control-group ">
@@ -449,7 +449,7 @@
             <fieldset class='box'>
                 <legend class='rim'>Pendarahan</legend>
                 <div class="control-group ">
-                    <?php echo CHtml::label('Kala III + IV', '', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Kala III', '', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
                         echo $form->textField($modPemeriksaan, 'pendarahan', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));

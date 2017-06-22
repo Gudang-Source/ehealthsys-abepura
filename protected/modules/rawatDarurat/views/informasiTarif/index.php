@@ -58,6 +58,7 @@
                 'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
 
         )); ?>
+		<div id='formCariInput'>
         <table width='100%'>
             <tr>
                 <td>
@@ -74,6 +75,7 @@
                 </td>
             </tr>
         </table>
+		</div>
         <div class="form-actions">
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit',
                 'ajax' => array(

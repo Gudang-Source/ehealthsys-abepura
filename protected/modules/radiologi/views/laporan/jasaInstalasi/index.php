@@ -22,11 +22,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="box search-form">
+    <fieldset class="box search-form">
         <?php $this->renderPartial('jasaInstalasi/_search',array(
             'model'=>$model,
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form --> 
     <div class="block-tabel">
         <h6>Tabel <b>Jasa Instalasi</b></h6>
         <?php $this->renderPartial('jasaInstalasi/_table', array('model'=>$model)); ?>

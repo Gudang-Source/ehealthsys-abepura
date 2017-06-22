@@ -470,6 +470,6 @@ class LaporancaramasukpenunjangV extends CActiveRecord
         }
         
         public function pilihanGrafik(){
-            return array('instalasi'=>'Asal Instalasi','rujukan'=>'Asal Rujukan');
+            return array('instalasi'=>'Instalasi Asal','rujukan'=>'Asal Rujukan', 'ruangan'=>'Ruangan Asal');
         }
 }

@@ -1,3 +1,8 @@
+<?php
+$jenissuara = KonfigsystemK::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT)->jenissuaraantrian; 
+$jenissuara = isset($jenissuara)?$jenissuara:'PEREMPUAN';
+?>
+
 <script type="text/javascript">
 /************************************************************************************************************
 (C) www.dhtmlgoodies.com, October 2005
@@ -19,10 +24,16 @@ var fitTextInBox_maxHeight = false;
 var fitTextInBox_currentWidth = false;
 var fitTextInBox_currentBox = false;
 var fitTextInBox_currentTextObj = false;
+
+var cnt_fit = 0;
 function fitTextInBox(boxID,maxHeight)
 {
         if(maxHeight)fitTextInBox_maxHeight=maxHeight; else fitTextInBox_maxHeight = 10000;
         var obj = document.getElementById(boxID);
+		
+		// console.log(obj);
+		obj.style.whiteSpace = "noWrap";
+		
         fitTextInBox_maxWidth = obj.offsetWidth;	
         fitTextInBox_currentBox = obj;
         fitTextInBox_currentTextObj = obj.getElementsByTagName('SPAN')[0];
@@ -46,6 +57,77 @@ function fitTextInBoxAutoFit()
         }		
 }
 
+var antrian_arr = [];
+var sound_arr = [];
+var is_call = false;
+var is_run = false;
+
+function push_arr(obj) {
+	antrian_arr.push(obj);
+}
+
+function preregister_sound(kodeantrian, antri_terbilang, ruangan) {
+	var arr = [];
+	var arr_kode = kodeantrian.trim().toLowerCase().split("");
+	var arr_no = antri_terbilang.trim().split(" ");
+	var i = 0;
+	
+	arr.push({'name':'noantrian'});
+	for (i = 0; i < arr_kode.length; i++) {
+		arr.push({'name': arr_kode[i]});
+	}
+	for (i = 0; i < arr_no.length; i++) {
+		arr.push({'name': arr_no[i]});
+	}
+	
+	arr.push({'name':'poliklinik'});
+	arr.push({'name':ruangan});
+	
+	// console.log(arr);
+	
+	sound_arr.push(arr);
+	
+}
+
+function call_antrian() {
+	is_call = true;
+	
+	$(".antrian_big").show();
+	$(".isi_antrian").hide();
+	
+	console.log(antrian_arr);
+	
+	if (antrian_arr.length != 0) {
+		var data = antrian_arr[0];
+		var snd = sound_arr[0];
+		var gelarbelakang = "";
+
+
+		if(data.gelarbelakang_nama !== null)
+			gelarbelakang = ", "+data.gelarbelakang_nama;
+
+		$("#ruangan_nama_big > span").html(data.ruangan_nama);
+		$("#dokter_big > span").html(data.gelardepan+" "+data.nama_pegawai+gelarbelakang);
+		$(".no-antrian_big").html(data.ruangan_singkatan+"-"+data.no_urutantri);
+		$("#pasien-deskripsi_big > span").html(data.namadepan+" "+data.nama_pasien);
+		
+		registerSuaraAntrian(snd);
+		// playAntrian();
+	
+		setTimeout(function() {
+			antrian_arr.shift();
+			sound_arr.shift();
+			if (antrian_arr.length != 0) call_antrian();
+			else {
+				$(".antrian_big").hide();
+				$(".isi_antrian").show();
+				is_call = false;
+			}
+		}, 12000);
+	}
+	// $("#ruangan_nama_big").html(antrian_arr[0].);
+}
+
 /**
  * set semua antrian 
  * @param {type} antrian_id
@@ -57,27 +139,36 @@ function setAntrians(pendaftaran_id){
         data: {layarantrian_id:<?php echo $_GET['layarantrian_id']; ?>,pendaftaran_id:pendaftaran_id},
         dataType: "json",
         success:function(data){
+			var i = 0;
             <?php 
             if(count($modRuangans) > 0){
                 foreach($modRuangans AS $i=>$ruangan){
             ?>
                     if(data.r_<?php echo $ruangan->ruangan_id;?>.pasien_id !== null){
+						i++;
+						is_run = true;
                         var pendaftaran_id = $("#ruangan_<?php echo $ruangan->ruangan_id;?>  #<?php echo CHtml::activeId($model, 'pendaftaran_id'); ?>").val();
-                        if(data.r_<?php echo $ruangan->ruangan_id;?>.pendaftaran_id != pendaftaran_id){
+                        // if(data.r_<?php echo $ruangan->ruangan_id;?>.pendaftaran_id != pendaftaran_id){
                             setFormAntrian($("#ruangan_<?php echo $ruangan->ruangan_id;?>"),data.r_<?php echo $ruangan->ruangan_id;?>);
                             var kodeantrian = data.r_<?php echo $ruangan->ruangan_id;?>.ruangan_singkatan;
                             var noantrian = data.r_<?php echo $ruangan->ruangan_id;?>.no_urutantri;
+							var ruangan = data.r_<?php echo $ruangan->ruangan_id;?>.ruangan_filesuara;
                             var ruangan_id = data.r_<?php echo $ruangan->ruangan_id;?>.ruangan_id;
-                            setSuaraPanggilanSingle(kodeantrian,noantrian,ruangan_id);
-                        }
+							var antri_terbilang = data.r_<?php echo $ruangan->ruangan_id;?>.antri_terbilang;
+							var obj = data.r_<?php echo $ruangan->ruangan_id;?>;
+							if (antrian_arr.length == 0) is_call = false;
+							push_arr(obj);
+							preregister_sound(kodeantrian, antri_terbilang, ruangan);
+                            // setSuaraPanggilanSingle(kodeantrian,noantrian,ruangan_id);
+                        //}
                     }
-                    fitTextInBox('ruangan_'+<?php echo $i; ?>,20);
-                    fitTextInBox('dokter_'+<?php echo $i; ?>,20);
-                    fitTextInBox('pasien-deskripsi_'+<?php echo $i; ?>,20);
+					fitTextInBox('dokter_'+<?php echo $i; ?>,20);
+					fitTextInBox('pasien-deskripsi_'+<?php echo $i; ?>,20);
             <?php
                 }
             }
             ?>
+			if (!is_call && is_run) call_antrian();
         },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
     });
@@ -134,7 +225,7 @@ function setSuaraPanggilanSingle(kodeantrian, noantrian, ruangan_id){
 /**
  * fungsi .ready() harus tetap di bawah
  * @param {type} param */
-$( document ).ready(function(){
+$( document ).ready(function() {
     setAntrians('');
     <?php if($konfig->is_nodejsaktif){ ?>
     var chatServer='<?php echo $konfig->nodejs_host ?>';
@@ -151,6 +242,17 @@ $( document ).ready(function(){
     setInterval(function(){setAntrians('');},4000);
     <?php } ?>
     //DINONAKTIF KAN KARENA BERAT JIKA DI EKSEKUSI DI SMART TV BOX (TARAKAN) >> setInterval(function(){reloadHalaman();},1000);
+
+	<?php 
+	if(count($modRuangans) > 0){
+		foreach($modRuangans AS $i=>$ruangan){
+	?>
+			fitTextInBox('ruangan_nama_'+<?php echo $i; ?>,20);
+	<?php
+		}
+	}
+	?>
+	setJenisSuaraAntrian("<?php echo Yii::app()->request->baseUrl;?>/data/sounds/antrian/mp3/<?php echo $jenissuara ?>/");
 
     refreshAt(1, 0, 0);
 });   

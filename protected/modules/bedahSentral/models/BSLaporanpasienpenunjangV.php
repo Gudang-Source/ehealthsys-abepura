@@ -37,50 +37,42 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
     */
     public static function criteriaGrafik($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
-        $criteria->select = 'count(pendaftaran_id) as jumlah';
-        if ($_GET['filter'] == 'carabayar') {
-            if (!empty($model->penjamin_id)) {
-                $criteria->select .= ', penjamin_nama as '.$type;
-                $criteria->group .= 'penjamin_nama';
-            } else if (!empty($model->carabayar_id)) {
-                $criteria->select .= ', penjamin_nama as '.$type;
-                $criteria->group = 'penjamin_nama';
-            } else {
-                $criteria->select .= ', carabayar_nama as '.$type;
-                $criteria->group = 'carabayar_nama';
-            }
-        } else if ($_GET['filter'] == 'wilayah') {
-            if (!empty($model->kelurahan_id)) {
-                $criteria->select .= ', kelurahan_nama as '.$type;
-                $criteria->group .= 'kelurahan_nama';
-            } else if (!empty($model->kecamatan_id)) {
-                $criteria->select .= ', kelurahan_nama as '.$type;
-                $criteria->group .= 'kelurahan_nama';
-            } else if (!empty($model->kabupaten_id)) {
-                $criteria->select .= ', kecamatan_nama as '.$type;
-                $criteria->group .= 'kecamatan_nama';
-            } else if (!empty($model->propinsi_id)) {
-                $criteria->select .= ', kabupaten_nama as '.$type;
-                $criteria->group .= 'kabupaten_nama';
-            } else {
-                $criteria->select .= ', propinsi_nama as '.$type;
-                $criteria->group .= 'propinsi_nama';
-            }
-        }
-
-        if (!isset($_GET['filter'])){
-            $criteria->select .= ', propinsi_nama as '.$type;
-            $criteria->group .= 'propinsi_nama';
-        }
-
-        if (count($addCols) > 0){
-            if (is_array($addCols)){
-                foreach ($addCols as $i => $v){
-                    $criteria->group .= ','.$v;
-                    $criteria->select .= ','.$v.' as '.$i;
-                }
-            }            
-        }
+        $criteria->select = 'count(pendaftaran_id) as jumlah';        
+				
+		if ($_GET['tampilGrafik'] == 'instalasiasal'){
+			$criteria->select .= ', instalasiasal_nama as '.$type;
+			$criteria->group .= 'instalasiasal_nama';
+		}elseif ($_GET['tampilGrafik'] == 'ruanganasal'){
+			$criteria->select .= ', ruanganasal_nama as '.$type;
+			$criteria->group .= 'ruanganasal_nama';
+		}elseif ($_GET['tampilGrafik'] == 'wilayah'){
+			
+			if (!empty($model->kelurahan_id)){
+				$criteria->select .= ', kecamatan_nama as '.$type;
+				$criteria->group .= 'kecamatan_nama';
+			}elseif (!empty($model->kecamatan_id)){
+				$criteria->select .= ', kecamatan_nama as '.$type;
+				$criteria->group .= 'kecamatan_nama';
+			}elseif (!empty($model->kabupaten_id)){
+				$criteria->select .= ', kabupaten_nama as '.$type;
+				$criteria->group .= 'kabupaten_nama';
+			}elseif (!empty($model->propinsi_id)){
+				$criteria->select .= ', propinsi_nama as '.$type;
+				$criteria->group .= 'propinsi_nama';
+			}else{
+				$criteria->select .= ', propinsi_nama as '.$type;
+				$criteria->group .= 'propinsi_nama';
+			}	
+		}elseif ($_GET['tampilGrafik'] == 'carabayar'){
+			$criteria->select .= ', carabayar_nama as '.$type;
+			$criteria->group .= 'carabayar_nama';
+		}elseif ($_GET['tampilGrafik'] == 'penjamin'){
+			$criteria->select .= ', penjamin_nama as '.$type;
+			$criteria->group .= 'penjamin_nama';
+		}elseif ($_GET['tampilGrafik'] == 'kunjungan'){
+			$criteria->select .= ', kunjungan as '.$type;
+			$criteria->group .= 'kunjungan';
+		}
 
         return $criteria;
     }
@@ -90,12 +82,11 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-        $criteria = $this->criteriaGrafik($this, 'tick');
+        $criteria = $this->criteriaGrafik($this, 'data');
 //        if (!empty($criteria->group) &&(!empty($this->pilihanx))){
 //            $criteria->group .=',';
 //        }
-        $criteria->select .= ', kunjungan as data';
-        $criteria->group .= ', kunjungan';
+       
         $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
@@ -122,10 +113,19 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
-        if(!is_array($this->kunjungan)){
-            $this->kunjungan = 0;
+        
+		var_dump($this->ruanganasal_id);die;
+		if (!empty($this->ruanganasal_id)){
+			$criteria->addInCondition(" ruanganasal_id = '".$this->ruanganasal_id."' ");
+		}else{
+			if (!empty($this->instalasiasal_id)){
+				$criteria->addCondition(" instalasiasal_id = '".$this->instalasiasal_id."' ");
+			}
+		}
+		
+        if (is_array($this->kunjungan)){
+            $criteria->addInCondition('kunjungan', $this->kunjungan);
         }
-        $criteria->compare('kunjungan', $this->kunjungan);
 		
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -158,8 +158,7 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
             $this->kunjungan = array('KUNJUNGAN BARU','KUNJUNGAN LAMA');
         }
         
-        $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
-        $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
+      
         $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id = '.$this->pasien_id);
@@ -203,10 +202,8 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 		if(!empty($this->shift_id)){
 			$criteria->addCondition('shift_id = '.$this->shift_id);
 		}
-		if(!empty($this->ruanganasal_id)){
-			$criteria->addCondition('ruanganasal_id = '.$this->ruanganasal_id);
-		}
-        $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
+		
+       
 		if(!empty($this->jeniskasuspenyakit_id)){
 			$criteria->addCondition('jeniskasuspenyakit_id = '.$this->jeniskasuspenyakit_id);
 		}
@@ -221,10 +218,7 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
         $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->compare('LOWER(ruanganpenunj_nama)', strtolower($this->ruanganpenunj_nama), true);
-		if(!empty($this->instalasiasal_id)){
-			$criteria->addCondition('instalasiasal_id = '.$this->instalasiasal_id);
-		}
-        $criteria->compare('LOWER(instalasiasal_nama)', strtolower($this->instalasiasal_nama), true);
+	
 		if(!empty($this->pasienadmisi_id)){
 			$criteria->addCondition('pasienadmisi_id = '.$this->pasienadmisi_id);
 		}
@@ -270,6 +264,18 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 			$criteria->addCondition('kelurahan_id = '.$this->kelurahan_id);
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
+		
+		if (!empty($this->ruanganasal_id)){
+			$criteria->addInCondition("ruanganasal_id",$this->ruanganasal_id);
+		}else{
+			if (!empty($this->instalasiasal_id)){
+				$criteria->addCondition(" instalasiasal_id = '".$this->instalasiasal_id."' ");
+			}
+		}
+		
+		if (is_array($this->kunjungan)){
+            $criteria->addInCondition('kunjungan', $this->kunjungan);
+        }
 
         return $criteria;
     }    

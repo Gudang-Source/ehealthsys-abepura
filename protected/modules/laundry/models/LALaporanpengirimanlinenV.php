@@ -16,7 +16,7 @@ class LALaporanpengirimanlinenV extends LaporanpengirimanlinenV
 	 * @param string $className active record class name.
 	 * @return LaporanpengirimanlinenV the static model class
 	 */
-	public $tgl_awal, $tgl_akhir, $jml_tampil;
+	public $tgl_awal, $tgl_akhir, $jml_tampil, $jns_periode, $bln_awal, $bln_akhir, $thn_akhir, $thn_awal, $jumlah, $data;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -46,7 +46,7 @@ class LALaporanpengirimanlinenV extends LaporanpengirimanlinenV
             // should not be searched.
 
             $criteria=$this->criteriaSearch();
-			$criteria->limit=$this->jml_tampil;	
+			//$criteria->limit=$this->jml_tampil;	
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
 					'pagination'=>false,

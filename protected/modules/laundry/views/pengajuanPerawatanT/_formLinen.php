@@ -207,6 +207,8 @@ $modLinen = new LALinenM('searchDialog');
 $modLinen->unsetAttributes();
 if (isset($_GET['LALinenM'])){
     $modLinen->attributes = $_GET['LALinenM'];
+	$modLinen->barang_nama = $_GET['LALinenM']['barang_nama'];
+	$modLinen->jenislinen_nama = $_GET['LALinenM']['jenislinen_nama'];
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -248,17 +250,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 			'header'=>'Barang',
 			'type'=>'raw',
-			'value'=>'isset($data->barang_id)?$data->barang->barang_nama:""'
+			'name' => 'barang_nama',
+			'value'=>'isset($data->barang_id)?$data->barang->barang_nama:""',
+			'filter' => CHtml::activeTextField($modLinen,'barang_nama', array('class' => 'custom-only'))
 		),
 		array(
 			'header'=>'Bahan',
 			'type'=>'raw',
-			'value'=>'isset($data->bahanlinen_id)?$data->bahan->bahanlinen_nama:""'
+			'value'=>'isset($data->bahanlinen_id)?$data->bahan->bahanlinen_nama:""',
+			'filter' => CHtml::activeDropDownList($modLinen, 'bahanlinen_id', CHtml::listData(BahanlinenM::model()->findAll("bahanlinen_aktif = TRUE ORDER BY bahanlinen_nama ASC"), 'bahanlinen_id', 'bahanlinen_nama') ,array('empty' => '-- Pilih --'))
 		),
 		array(
 			'header'=>'Jenis',
 			'type'=>'raw',
-			'value'=>'isset($data->jenislinen_id)?$data->jenis->jenislinen_nama:""'
+			'value'=>'isset($data->jenislinen_id)?$data->jenis->jenislinen_nama:""',
+			'filter' => CHtml::activeTextField($modLinen,'jenislinen_nama', array('class' => 'angkahuruf-only'))
 		),
 		
     ),

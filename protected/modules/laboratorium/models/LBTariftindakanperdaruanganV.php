@@ -85,12 +85,12 @@ class LBTariftindakanperdaruanganV extends TariftindakanperdaruanganV
 	
 	public function getKelasPelayananItems()
 	{
-		return KelaspelayananM::model()->findAll(array('condition'=>'kelaspelayanan_aktif = TRUE'),array('order'=>'kelaspelayanan_nama'));
+		return KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama ASC");
 	} 
 
 	public function getKategoritindakanItems()
 	{
-		return KategoritindakanM::model()->findAll(array('condition'=>'kategoritindakan_aktif = TRUE'),array('order'=>'kategoritindakan_nama'));
+		return KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC");
 	} 
         
         public function searchInformasi()
@@ -117,7 +117,7 @@ class LBTariftindakanperdaruanganV extends TariftindakanperdaruanganV
                // $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama));
                 $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);
 		$criteria->limit = 10;
-
+		$criteria->order = "jenistarif_nama ASC, kelompoktindakan_nama ASC, komponenunit_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -125,7 +125,7 @@ class LBTariftindakanperdaruanganV extends TariftindakanperdaruanganV
         
          public function searchTarifPrint() {
             $provider = $this->searchInformasi();
-            $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
+           // $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
             $provider->criteria->limit = -1;
             $provider->pagination = false;
             

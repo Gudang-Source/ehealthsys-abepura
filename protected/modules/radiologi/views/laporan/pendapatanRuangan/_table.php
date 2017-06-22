@@ -1,12 +1,46 @@
 <?php 
+	 $itemCssClass = 'table table-striped table-condensed';
     $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
     $sort = true;
+	$row = '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1';
     if (isset($caraPrint)){
         $data = $model->searchPrint();
+		$row = '$row+1';
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+		}
+		
+		if ($caraPrint=='PDF') {
+            $table = 'ext.bootstrap.widgets.BootGridViewPDF';
+        }
+  
+        echo "
+        <style>
+            .border th, .border td{
+                border:1px solid #000;
+            }
+            .table thead:first-child{
+                border-top:1px solid #000;        
+            }
+
+            thead th{
+                background:none;
+                color:#333;
+            }
+
+            .border {
+                box-shadow:none;
+                border-spacing:0px;
+                padding:0px;
+            }
+
+            .table tbody tr:hover td, .table tbody tr:hover th {
+                background-color: none;
+            }
+        </style>";
+        $itemCssClass = 'table border';
     } else{
         $data = $model->searchTable();
          $template = "{summary}\n{items}\n{pager}";
@@ -22,39 +56,47 @@
             array(
                 'name'=>'<center>Tarif</center>',
                 'start'=>7, //indeks kolom 3
-                'end'=>8, //indeks kolom 4
+                'end'=>12, //indeks kolom 4
             ),
         ),
-        'itemsCssClass'=>'table table-striped table-condensed',
+        'itemsCssClass'=>$itemCssClass,
     'columns'=>array(
                 array(
                     'header' => 'No.',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                    'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
-                ),
+                    'value' =>$row
+                ),		
+				array(
+					'header' => 'Tanggal Pendaftaran/ <br/> No Pendaftaran',
+					'type' => 'raw',
+					'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran'
+				),
+				array(
+					'header' => 'No Rekam Medik',
+					'value' => '$data->no_rekam_medik'
+				),
+				array(
+					'header' => 'Nama Pasien',
+					'value' => '$data->namadepan." ".$data->nama_pasien'
+				),                
                 array(
-                    'header'=>'No. Rekam Medik / <br> Nama Pasien',
-                    'type'=>'raw',
-                    'value'=>'"$data->no_rekam_medik"."<br/>"."$data->nama_pasien"',
-                    'headerHtmlOptions'=>array('colspan'=>1,'style'=>'vertical-align:middle;'),
-                ),
-//                array(
-//                    'name'=>'nama_pasien',
-//                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-//                ),
-                array(
-                    'name'=>'no_pendaftaran',
+					'header' => 'Dokter',
+					'value'=>function($data){
+						$d = PegawaiM::model()->findByPk($data->dokterpemeriksa1_id);
+						
+						if (count($d)>0){
+							return $d->namaLengkap;
+						}else{
+							return '-';
+						}
+					},
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
-                array(
-                    'name'=>'nama_pegawai',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                ),
+                ),               
                 array(
                     'header'=>'Cara Bayar /<br/> Penjamin',
                     'type'=>'raw',
                     'name'=>'carabayarPenjamin',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),					
                 ),
                 array(
                     'header'=>'Kelas Pelayanan',
@@ -62,13 +104,13 @@
                     'value'=>'$data->kelaspelayanan_nama',
 //                    'name'=>'kelaspelayanan_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footerHtmlOptions'=>array('colspan'=>6,'style'=>'text-align:right;font-style:italic;'),
-                    'footer'=>'Jumlah Total',
+                    'footerHtmlOptions'=>array('colspan'=>7,'style'=>'text-align:right;font-style:italic;'),
+                    'footer'=>'<b>Total</b>',
                 ),
                 array(
                     'header'=>'Satuan',
                     'name'=>'tarif_satuan',
-                    'value'=>'"Rp. ".number_format($data->tarif_satuan)',
+                    'value'=>'"Rp".number_format($data->tarif_satuan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -77,7 +119,7 @@
                 array(
                     'header'=>'CytoTindakan',
                     'name'=>'tarifcyto_tindakan',
-                    'value'=>'"Rp. ".number_format($data->tarifcyto_tindakan)',
+                    'value'=>'"Rp".number_format($data->tarifcyto_tindakan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -86,7 +128,7 @@
                 array(
                       'header'=>'Biaya Operasional',
                     'name'=>'tarif_rsakomodasi',
-                    'value'=>'"Rp. ".number_format($data->tarif_rsakomodasi)',
+                    'value'=>'"Rp".number_format($data->tarif_rsakomodasi,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -95,7 +137,7 @@
                 array(
                       'header'=>'Jasa Pelayanan',
                     'name'=>'tarif_medis',
-                    'value'=>'"Rp. ".number_format($data->tarif_medis)',
+                    'value'=>'"Rp".number_format($data->tarif_medis,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -111,7 +153,7 @@
 //                ),
                 array(
                     'name'=>'tarif_bhp',
-                    'value'=>'"Rp. ".number_format($data->tarif_bhp)',
+                    'value'=>'"Rp".number_format($data->tarif_bhp,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -120,7 +162,7 @@
                 array(
                     'header'=>'Total',
                     'name'=>'totalTarif',
-                    'value'=>'"Rp. ".number_format($data->totalTarif)',
+                    'value'=>'"Rp".number_format($data->totalTarif,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),

@@ -15,9 +15,10 @@
                     'jenistarif_nama',
                     'kelompoktindakan_nama',
                     'komponenunit_nama',
-                    'kategoritindakan_nama',
-                    'kelaspelayanan_nama',
-                    'daftartindakan_nama',                                        
+                    'kategoritindakan_nama',                    
+					'kelaspelayanan_nama',
+                    'daftartindakan_nama',  
+					
     //                'ruangan_id',
 
                   array(

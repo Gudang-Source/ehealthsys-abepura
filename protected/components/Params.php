@@ -75,11 +75,11 @@ Class Params
 	const CARABAYAR_ID_PEKERJA = 7; 
 	const CARABAYAR_ID_GRATIS = 8; 
 	const CARABAYAR_ID_PERUSAHAAN = 9; 
-        const CARABAYAR_ID_JAMKESPA = 18;
+	const CARABAYAR_ID_JAMKESPA = 18;
 
 	
 	const MODUL_ID_SISADMIN = 1;
-        const MODUL_ID_PENDAFTARAN = 2;
+	const MODUL_ID_PENDAFTARAN = 2;
 	const MODUL_ID_RJ = 5;
 	const MODUL_ID_RD = 6;
 	const MODUL_ID_RI = 7;
@@ -95,11 +95,12 @@ Class Params
 	const MODUL_ID_AMBULANS = 18;
 	const MODUL_ID_AKUNTANSI = 26;
 	const MODUL_ID_KEUANGAN = 44;
-        const MODUL_ID_PENGGAJIAN = 61;
-        const MODUL_ID_KEPEGAWAIAN = 32;
-        const MODUL_ID_LAUNDRY = 54;
+	const MODUL_ID_PENGGAJIAN = 61;
+	const MODUL_ID_KEPEGAWAIAN = 32;
+	const MODUL_ID_LAUNDRY = 54;
+	const MODUL_ID_PERSALINAN = 12;
 
-        const INSTALASI_ID_RM = 1;
+	const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;
 	const INSTALASI_ID_RD = 3;
 	const INSTALASI_ID_RI = 4;
@@ -510,7 +511,8 @@ Class Params
         const PREFIX_PEMULASARAN_JEN = 'PJ';
         const PREFIX_APOTIK = 'AP';
         
-        
+        //cara persalinan
+        const CARAPERSALINAN_NORMAL = 'Normal'; //ditambil dari lookup_type carapersalinan
         
 	//===   END KONSTANTA ===
         
@@ -532,7 +534,54 @@ Class Params
         
         
 
-
+		public static function KomponenUnitRuangan(){
+			return array(//Ruangan => komponenunit
+				18 => 25,  //akupuntur
+				12 => 17, // anak
+				10 => 16,//bedah
+				11 => 20,//dalam
+				16 => 21,//gigi dan mulut
+				13 => 15,//kebidanan dan kandungan
+				17 => 14,//kulit dan kelamin
+				14 => 12,//mata
+				25 => 8,//mcu
+				20 => 13,//saraf
+				15 => 14,//tht
+				57 => 22,//bedah sentral
+				62 => 6,//gizi
+				53 => 2,  //laboratorium 
+				63 => 9,//pemulasaran jenazah
+				56 => 10,//radiologi
+				3 => 3, //rawat darurat (instalasi/komponen)
+				27 => 11,// Perawatan Pria
+				28 => 11,// Perawatan Wanita
+				29 => 11,// Perawatan Anak
+				30 => 11,// Lantai 3
+				31 => 11,// Lantai 2
+				237 => 11,// Perinatologi
+				239 => 11,// Rawat Bedah
+				8 => 5,// Ruang Bersalin
+				4 => 11,//(instalasi/komponen)
+				46 => 4,//ruang icu
+				90 => 18,//rehab medis
+			);
+		}
+		
+		public static function KelompokTindakanInstalasi(){
+			return array(//instalasi => kelompoktindakan
+				2 => 15,  //rawat jalan				
+				4 => 17,  //rawat inap	
+				3 => 4,  //rawat darurat
+				25=>26, //mcu patokannya menggunakan ruangan
+				7 => 10,//bedah sntral//pelayanan medik operatif
+				10 => 23,//gizi
+				5 => 24, //laboratorium
+				17 => 12,//pemulasarann jenazxah
+				6 => 9, //pelayanan pemeriksaan radiodiagnostik		
+				20 => 21,//rawat intensef
+				8 => 5,//rehabilitasi medis
+			);
+		}
 
 
         /* Hardcode status periksa */
@@ -1072,6 +1121,15 @@ Class Params
                     Params::INSTALASI_ID_LAB,//laboratorium
                     Params::INSTALASI_ID_JZ,//pemulasaran jenazah
                     Params::INSTALASI_ID_GIZI);//gizi
+            
+        }
+		
+		public static function getArrayInstalasiPelayanan() {
+            return  array(Params::INSTALASI_ID_RJ,//frawat jalan
+					Params::INSTALASI_ID_RI,//rawat inap
+					Params::INSTALASI_ID_RD,//rawat darurat
+					Params::INSTALASI_ID_RM,//rehab medis
+                    );//gizi
             
         }
 		
