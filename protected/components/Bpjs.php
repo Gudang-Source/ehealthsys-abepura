@@ -112,35 +112,43 @@
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->url.'/peserta/peserta/'.$query;
-                        //echo $completeUrl; die;
-                        $dat = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
-                        if ($dat['metadata']['code'] == 200) {
-                            $k = KelaspelayananM::model()->findByAttributes(array(
-                                'kelasbpjs_id'=>$dat['response']['peserta']['kelasTanggungan']['kdKelas'],
-                            ));
-                            $dat['response']['peserta']['kelasTanggungan']['kdKelasSim'] = $k->kelaspelayanan_id;
-                        }
+			//echo $completeUrl; die;
+			$dat = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
+			if ($dat['metadata']['code'] == 200) {
+				$k = KelaspelayananM::model()->findByAttributes(array(
+					'kelasbpjs_id'=>$dat['response']['peserta']['kelasTanggungan']['kdKelas'],
+				));
+				$dat['response']['peserta']['kelasTanggungan']['kdKelasSim'] = $k->kelaspelayanan_id;
+			}
 			return CJSON::encode($dat); //$this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
 		function search_nik($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/peserta/nik/'.$query;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
+			$completeUrl = $this->url.'/peserta/peserta/nik/'.$query;
+			// return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+			$dat = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
+			if ($dat['metadata']['code'] == 200) {
+				$k = KelaspelayananM::model()->findByAttributes(array(
+					'kelasbpjs_id'=>$dat['response']['peserta']['kelasTanggungan']['kdKelas'],
+				));
+				$dat['response']['peserta']['kelasTanggungan']['kdKelasSim'] = $k->kelaspelayanan_id;
+			}
+			return CJSON::encode($dat); //$this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
 		function search_rujukan_no_rujukan($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/Rujukan/rujukan/'.$query;
+			$completeUrl = $this->url.'/Rujukan/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
 		}
 
 		function search_rujukan_no_bpjs($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/rujukan/peserta/'.$query;
+			$completeUrl = $this->url.'/Rujukan/peserta/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);		
 		}
 
@@ -154,14 +162,14 @@
 		function search_rujukan_rs_no_rujukan($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/rujukanrs/peserta/'.$query;
+			$completeUrl = $this->url.'/Rujukan/RS/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
 		}
 
 		function search_rujukan_rs_no_bpjs($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/rujukanrs/peserta/nokartu/'.$query;
+			$completeUrl = $this->url.'/Rujukan/RS/peserta/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);		
 		}
 
@@ -174,39 +182,46 @@
 		
 		function create_sep($nokartu, $tglsep, $tglrujukan, $norujukan, $ppkrujukan, $ppkpelayanan, $jnspelayanan, $catatan, $diagawal, $politujuan, $klsrawat, $user, $nomr, $no_trans, $lakaLantas)
 		{
-			$query = 
-                '<request>
-                        <data>
-                                <t_sep>
-                                        <noKartu>'.$nokartu.'</noKartu>
-                                        <tglSep>'.$tglsep.'</tglSep>
-                                        <tglRujukan>'.$tglrujukan.'</tglRujukan>
-                                        <noRujukan>'.$norujukan.'</noRujukan>
-                                        <ppkRujukan>'.$ppkrujukan.'</ppkRujukan>
-                                        <ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
-                                        <jnsPelayanan>'.$jnspelayanan.'</jnsPelayanan>
-                                        <catatan>'.$catatan.'</catatan>
-                                        <diagAwal>'.$diagawal.'</diagAwal>
-                                        <poliTujuan>'.$politujuan.'</poliTujuan>
-                                        <klsRawat>'.$klsrawat.'</klsRawat>
-                                        <lakaLantas>'.$lakaLantas.'</lakaLantas>
-                                        <user>'.$user.'</user>
-                                        <noMr>'.$nomr.'</noMr>
-                                </t_sep>
-                        </data>
-                </request>';
+			$query = array(
+				'request'=>array(
+					't_sep'=>array(
+						'noKartu'=>$nokartu,
+						'tglSep'=>$tglsep,
+						'tglRujukan'=>$tglrujukan,
+						"noRujukan"=>$norujukan,
+						"ppkRujukan"=>$ppkrujukan,
+						"ppkPelayanan"=>$ppkpelayanan,
+						"jnsPelayanan"=>$jnspelayanan,
+						"catatan"=>$catatan,
+						"diagAwal"=>$diagawal,
+						"poliTujuan"=>$politujuan,
+						"klsRawat"=>$klsrawat,
+						"lakaLantas"=>$lakaLantas,
+						"lokasiLaka"=>"",
+						"user"=>'MDO',
+						"noMr"=>$nomr
+					),
+				),
+			);
+			
+			foreach ($query['request']['t_sep'] as $attr => $item) {
+				$query['request']['t_sep'][$attr] = (string) $item;
+			}
+			
+			// var_dump($query);
+			// die;
                         
                         // echo "<pre>".CHtml::encode($query)."</pre>"; die;
                         //var_dump($this->HashBPJS());
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			
-			$completeUrl = $this->url.'/SEP/sep';
+			$completeUrl = $this->url.'/SEP/insert';
                         // echo $completeUrl; die;
 			
-			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');
+			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');
 			// echo($result); die;
-                        $result = json_decode($result, true);
-                        // var_dump($result); die;
+            $result = json_decode($result, true);
+            // var_dump($result); die;
                         
 			$final_result['response'] = $result['response'];
 			$final_result['metadata'] = $result['metadata'];
@@ -215,43 +230,118 @@
 			return json_encode($final_result);
 			
 		}
+		
+		function update_sep($nosep, $nokartu, $tglsep, $tglrujukan, $norujukan, $ppkrujukan, $ppkpelayanan, $jnspelayanan, $catatan, $diagawal, $politujuan, $klsrawat, $user, $nomr, $no_trans, $lakaLantas)
+		{
+			$query = array(
+				'request'=>array(
+					't_sep'=>array(
+						'noSep'=>$nosep,
+						'noKartu'=>$nokartu,
+						'tglSep'=>$tglsep,
+						'tglRujukan'=>$tglrujukan,
+						"noRujukan"=>$norujukan,
+						"ppkRujukan"=>$ppkrujukan,
+						"ppkPelayanan"=>$ppkpelayanan,
+						"jnsPelayanan"=>$jnspelayanan,
+						"catatan"=>$catatan,
+						"diagAwal"=>$diagawal,
+						"poliTujuan"=>$politujuan,
+						"klsRawat"=>$klsrawat,
+						"lakaLantas"=>$lakaLantas,
+						"lokasiLaka"=>"",
+						"user"=>'MDO',
+						"noMr"=>$nomr
+					),
+				),
+			);
+			
+			foreach ($query['request']['t_sep'] as $attr => $item) {
+				$query['request']['t_sep'][$attr] = (string) $item;
+			}
+			
+			// var_dump($query);
+			// die;
+                        
+                        // echo "<pre>".CHtml::encode($query)."</pre>"; die;
+                        //var_dump($this->HashBPJS());
+			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
+			
+			$completeUrl = $this->url.'/SEP/insert';
+                        // echo $completeUrl; die;
+			
+			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');
+			// echo($result); die;
+            $result = json_decode($result, true);
+            // var_dump($result); die;
+                        
+			$final_result['response'] = $result['response'];
+			$final_result['metadata'] = $result['metadata'];
+
+			$this->mapping_trans($result['response'], $no_trans, $ppkpelayanan);
+			return json_encode($final_result);
+		}
 
 		function update_tanggal_pulang_sep($nosep, $tglpulang, $ppkpelayanan){
-			$query = '<request>
-						<data>
-							<t_sep>
-								<noSep>'.$nosep.'</noSep>
-								<tglPlg>'.$tglpulang.'</tglPlg>
-								<ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
-							</t_sep>
-						</data>
-					</request>';
+			
+			$query = array(
+				'request'=>array(
+					't_sep'=>array(
+						'noSep'=>$nosep,
+						'tglPlg'=>$tglpulang,
+						'ppkPelayanan'=>$ppkpelayanan,
+					)
+				)
+			);
 
+			foreach ($query['request']['t_sep'] as $attr => $item) {
+				$query['request']['t_sep'][$attr] = (string) $item;
+			}
+			
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep/updtglplg';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'PUT', $query, 'Application/x‐www‐form‐urlencoded');		
+			$completeUrl = $this->url.'/Sep/updtglplg';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'PUT', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');		
 		}
 
 		function mapping_trans($nosep, $notrans, $ppkpelayanan){
-			$query = '<request>
-						<data>
-							<t_map_sep>
-								<noSep>'.$nosep.'</noSep>
-								<noTrans>'.$notrans.'</noTrans>
-								<ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
-							</t_map_sep>
-						</data>
-					</request>';
-                        //echo CHtml::encode($query); die;
+			$query = array(
+				'request'=>array(
+					't_map_sep'=>array(
+						'noSep'=>$nosep,
+						'noTrans'=>$notrans,
+						'ppkPelayanan'=>$ppkpelayanan,
+					)
+				)
+			);
+			
+			foreach ($query['request']['t_map_sep'] as $attr => $item) {
+				$query['request']['t_map_sep'][$attr] = (string) $item;
+			}
+            //echo CHtml::encode($query); die;
+			
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep/map/trans';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');		
+			$completeUrl = $this->url.'/SEP/map/trans';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');		
 		}
 
-		function delete_sep($query) {
+		function delete_sep($nosep, $ppkpelayanan) {
+			$query = array(
+				'request'=>array(
+					't_sep'=>array(
+						'noSep'=>$nosep,
+						'ppkPelayanan'=>$ppkpelayanan,
+					)
+				)
+			);
+			
+			foreach ($query['request']['t_sep'] as $attr => $item) {
+				$query['request']['t_sep'][$attr] = (string) $item;
+			}
+			
+			
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'DELETE', $query, 'Application/x‐www‐form‐urlencoded');		
+			$completeUrl = $this->url.'/SEP/Delete';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'DELETE', CJSON::encode($query), 'Application/x‐www‐form‐urlencoded');		
 		}
 		
 		function delete_transaksi($nosep){
@@ -270,13 +360,13 @@
 
 		function riwayat_terakhir($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep/peserta/'.$query;
+			$completeUrl = $this->url.'/sep/peserta/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
 		function detail_sep($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/SEP/sep/'.$query;
+			$completeUrl = $this->url.'/SEP/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
@@ -302,6 +392,12 @@
                         }
                         
                         return CJSON::encode($res);
+		}
+		
+		function search_cbg_sep($query) {
+			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
+			$completeUrl = $this->url.'/sep/cbg/'.$query;
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 		
 		function search_cbg($query){
@@ -335,6 +431,20 @@
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 		
+		function monitor_verifikasi_klaim($tglMasuk = null, $tglKeluar = null, $klsRawat = null, $kasus = null, $cari = null, $status = null) {
+			$completeUrl = $this->url.'/sep/integrated/Kunjungan';
+			
+			if (!empty($tglMasuk)) $completeUrl .= '/tglMasuk/'.$tglMasuk;
+			if (!empty($tglKeluar)) $completeUrl .= '/tglKeluar/'.$tglKeluar;
+			if (!empty($klsRawat)) $completeUrl .= '/klsRawat/'.$klsRawat;
+			if (!empty($kasus)) $completeUrl .= '/kasus/'.$kasus;
+			if (!empty($cari)) $completeUrl .= '/Cari/'.$cari;
+			if (!empty($status)) $completeUrl .= '/status/'.$status;
+			
+			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+		}
+		
 		function create_grouper($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->inacbg_url.'/ca_grouper.php?'.$query;
@@ -347,5 +457,26 @@
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 		
+		
+		function referensi_diagnosa($query) {
+			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
+			$completeUrl = $this->url.'/diagnosa/ref/diagnosa/'.$query;
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+		}
+		
+		function referensi_poli($query) {
+			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
+			$completeUrl = $this->url.'/poli/ref/poli/'.$query;
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+		}
+		
+		function referensi_fasilitas($nama, $start, $limit) {
+			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
+			$completeUrl = $this->url.'/provider/ref/provider/query?nama='.$nama
+				."&start=".$start."&limit=".$limit;
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+		}
+		
 	}
+	
 ?>
