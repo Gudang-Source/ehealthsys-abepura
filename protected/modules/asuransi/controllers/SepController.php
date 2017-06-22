@@ -369,7 +369,8 @@ class SepController extends MyAuthController
 				   break;
 			   case '11':
 				   $nosep = $_GET['nosep'];
-				   print_r( $bpjs->detail_sep($nosep) );
+				   $res = $bpjs->detail_sep($nosep);
+				   print_r( $this->olahTampilSEP($res));
 				   break;
 			   case '12':
 				   $ppkpelayanan = $_GET['ppkrujukan'];
@@ -821,5 +822,20 @@ class SepController extends MyAuthController
 
 			echo CJSON::encode($data); 
 		}
+	}
+	
+	protected function olahTampilSEP($data) {
+		$data = CJSON::decode($data);
+		
+		if (!empty($data['response']['tglPulang'])) $data['response']['tglPulang'] = date('d/m/Y', strtotime($data['response']['tglPulang']));
+		if (!empty($data['response']['tglRujukan'])) $data['response']['tglRujukan'] = date('d/m/Y', strtotime($data['response']['tglRujukan']));
+		if (!empty($data['response']['tglSep'])) $data['response']['tglSep'] = date('d/m/Y', strtotime($data['response']['tglSep']));
+		if (!empty($data['response']['peserta']['tglCetakKartu'])) $data['response']['peserta']['tglCetakKartu'] = date('d/m/Y', strtotime($data['response']['peserta']['tglCetakKartu']));
+		if (!empty($data['response']['peserta']['tglLahir'])) $data['response']['peserta']['tglLahir'] = date('d/m/Y', strtotime($data['response']['peserta']['tglLahir']));
+		if (!empty($data['response']['peserta']['tglTAT'])) $data['response']['peserta']['tglTAT'] = date('d/m/Y', strtotime($data['response']['peserta']['tglTAT']));
+		if (!empty($data['response']['peserta']['tglTMT'])) $data['response']['peserta']['tglTMT'] = date('d/m/Y', strtotime($data['response']['peserta']['tglTMT']));
+			
+		
+		return CJSON::encode($data);
 	}
 }
