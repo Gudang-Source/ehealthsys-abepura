@@ -333,11 +333,11 @@ class ShiftberlakuM extends CActiveRecord
 		return $data;
 	}
 	
-	public function cekHadir($tgl, $kel, $status){
+	public function cekHadir($tgl, $kel, $status,$waktu=false, $hadir=null){
 		$jamP = date('H:i:s', strtotime($tgl));
 		$kelompok = strtolower($kel); 
 		
-		if ($status == 'masuk'){
+		if ($status == 'masuk'){			
 			$masuk = new CDbCriteria();		
 			$masuk->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
 			if (!empty($kelompok)){
@@ -373,10 +373,11 @@ class ShiftberlakuM extends CActiveRecord
 				$masuk->addCondition("shift_id = '".$cekJam->shift_id."' ");		
 				$masuk->order =  " shiftberlaku_tgl DESC ";		
 				$cekJam = $this->find($masuk);				
+			}else{
+				$cekJam = null;
 			}
 			
-		}elseif ($status == 'pulang'){
-			
+		}elseif ($status == 'pulang'){			
 			$pulang = new CDbCriteria();
 			$pulang->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
 			if (!empty($kelompok)){
@@ -412,6 +413,8 @@ class ShiftberlakuM extends CActiveRecord
 				$pulang->addCondition("shift_id = '".$cekJam->shift_id."' ");	
 				$pulang->order =  " shiftberlaku_tgl DESC ";		
 				$cekJam = $this->find($pulang);		
+			}else{
+				$cekJam = null;
 			}
 			
 		}else{
@@ -420,9 +423,145 @@ class ShiftberlakuM extends CActiveRecord
 		
 		$data = '-';
 		
-		if (count($cekJam)>0){		
-			$data == true;
-		}						
+		
+		if (count($cekJam)>0){					
+			if ($waktu == true){
+				if ($status == 'pulang'){					
+					if ($hadir == Params::STATUSKEHADIRAN_ALPHA){
+						$data = 1;						
+					}elseif ($hadir == Params::STATUSKEHADIRAN_HADIR){						
+						$data = 0;
+					}else{
+						$data = 0;
+					}
+					
+				}else{
+					$data = 1;
+				}
+			}else{
+				$data == true;
+			}
+		}else{
+			if ($waktu == true){			
+			//	var_dump($hadir);
+				$data = 0;
+				
+			}else{
+				$data = true;
+			}
+		}				
+		
+		
+		return $data;
+	}
+	
+	public function cekHadirAlpha($tgl, $kel, $status,$waktu=false, $hadir=null, $status_id=null){
+		$jamP = date('H:i:s', strtotime($tgl));
+		$kelompok = strtolower($kel); 
+		
+		if ($status == 'masuk'){			
+			$masuk = new CDbCriteria();		
+			$masuk->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
+			if (!empty($kelompok)){
+				if ( ($kelompok == Params::KELOMPOK_JABATAN_STRUKTURAL) OR ($kelompok == Params::KELOMPOK_JABATAN_FUNGSIONAL)){
+					$masuk->addCondition(" LOWER(kelompokjabatan) = '".$kelompok."' ");
+				}else{
+					$masuk->addCondition("kelompokjabatan = '' ");
+				}
+			}else{
+				$masuk->addCondition("kelompokjabatan = '' ");
+			}
+			$masuk->addCondition("shiftberlaku_jmasuk_mulai <= '".$jamP."' AND  shiftberlaku_jmasuk_akhir >= '".$jamP."' ");		
+			$masuk->order =  " shiftberlaku_tgl DESC ";		
+			$cekJam = $this->find($masuk);						
+			
+			if (count($cekJam)>0){
+				$masuk = new CDbCriteria();		
+				if ( (date('Y-m-d', strtotime($cekJam->shiftberlaku_tgl))) ==  (date('Y-m-d', strtotime($tgl)))){
+					$masuk->addCondition("DATE(shiftberlaku_tgl) = '".$tgl."' ");
+				}else{
+					$masuk->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
+				}
+
+				if (!empty($kelompok)){
+					if ( ($kelompok == Params::KELOMPOK_JABATAN_STRUKTURAL) OR ($kelompok == Params::KELOMPOK_JABATAN_FUNGSIONAL)){
+						$masuk->addCondition(" LOWER(kelompokjabatan) = '".$kelompok."' ");
+					}else{
+						$masuk->addCondition("kelompokjabatan = '' ");
+					}
+				}else{
+					$masuk->addCondition("kelompokjabatan = '' ");
+				}
+				$masuk->addCondition("shift_id = '".$cekJam->shift_id."' ");		
+				$masuk->order =  " shiftberlaku_tgl DESC ";		
+				$cekJam = $this->find($masuk);				
+			}else{
+				$cekJam = null;
+			}
+			
+		}elseif ($status == 'pulang'){			
+			$pulang = new CDbCriteria();
+			$pulang->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
+			if (!empty($kelompok)){
+				if ( ($kelompok == Params::KELOMPOK_JABATAN_STRUKTURAL) OR ($kelompok == Params::KELOMPOK_JABATAN_FUNGSIONAL)){
+					$pulang->addCondition(" LOWER(kelompokjabatan) = '".$kelompok."' ");
+				}else{
+					$pulang->addCondition("kelompokjabatan = '' ");
+				}
+			}else{
+				$pulang->addCondition("kelompokjabatan = '' ");
+			}
+			$pulang->addCondition("shiftberlaku_jpulang_mulai <= '".$jamP."' AND  shiftberlaku_jpulang_akhir >= '".$jamP."' ");		
+			$pulang->order =  " shiftberlaku_tgl DESC ";		
+			$cekJam = $this->find($pulang);				
+			
+			if (count($cekJam)>0){
+				$pulang = new CDbCriteria();
+				if ( (date('Y-m-d', strtotime($cekJam->shiftberlaku_tgl))) ==  (date('Y-m-d', strtotime($tgl)))){
+					$pulang->addCondition("DATE(shiftberlaku_tgl) = '".$tgl."' ");
+				}else{
+					$pulang->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
+				}
+
+				if (!empty($kelompok)){
+					if ( ($kelompok == Params::KELOMPOK_JABATAN_STRUKTURAL) OR ($kelompok == Params::KELOMPOK_JABATAN_FUNGSIONAL)){
+						$pulang->addCondition(" LOWER(kelompokjabatan) = '".$kelompok."' ");
+					}else{
+						$pulang->addCondition("kelompokjabatan = '' ");
+					}
+				}else{
+					$pulang->addCondition("kelompokjabatan = '' ");
+				}
+				$pulang->addCondition("shift_id = '".$cekJam->shift_id."' ");	
+				$pulang->order =  " shiftberlaku_tgl DESC ";		
+				$cekJam = $this->find($pulang);		
+			}else{
+				$cekJam = null;
+			}
+			
+		}else{
+			$cekJam = null;
+		}
+		
+		$data = '-';
+		
+		
+		if (count($cekJam)>0){					
+			if ($waktu == true){								
+				$data = 1;				
+				
+			}else{
+				$data == true;
+			}
+		}else{
+			if ($waktu == true){						
+				
+				$data = 0;
+				
+			}else{
+				$data = true;
+			}
+		}				
 		
 		
 		return $data;

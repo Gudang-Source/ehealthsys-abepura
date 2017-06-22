@@ -56,12 +56,12 @@ class KPPresensiT extends PresensiT {
                 . "left join pegawai_m pegawai on pegawai.pegawai_id = t.pegawai_id ";
                 //. "left join statuskehadiran_m statuskehadiran on statuskehadiran.statuskehadiran_id = t.statuskehadiran_id";
         $provider->criteria->group = "t.no_fingerprint, t.pegawai_id, t.tglpresensi::date, pegawai.nama_pegawai";
-        $provider->criteria->select = $provider->criteria->group;
+        $provider->criteria->select = "t.no_fingerprint, t.pegawai_id, t.tglpresensi::date, pegawai.nama_pegawai";
         
         $provider->criteria->compare('pegawai.kelompokpegawai_id', $this->kelompokpegawai_id);
         $provider->criteria->compare('pegawai.jabatan_id', $this->jabatan_id);
         
-        $provider->criteria->order = 't.tglpresensi::date, pegawai.nama_pegawai';
+        $provider->criteria->order = 't.tglpresensi::date DESC, pegawai.nama_pegawai';
         
         return $provider;
     }

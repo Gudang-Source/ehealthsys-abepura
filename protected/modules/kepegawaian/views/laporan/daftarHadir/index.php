@@ -35,13 +35,13 @@ $('.search-form form').submit(function(){
                  'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Hari Kerja</center>',
-                        'start'=>'8',
-                        'end'=>'12',
+                        'start'=>'7',
+                        'end'=>'11',
                     ),
                       array(
                         'name'=>'<center>Jam Kerja</center>',
-                        'start'=>'13',
-                        'end'=>'14',
+                        'start'=>'12',
+                        'end'=>'13',
                     ),
                 ),
                 'columns'=>array(
@@ -61,13 +61,13 @@ $('.search-form form').submit(function(){
                      array(
                          'header' => 'Rerata Jam Masuk',                        
                          'value' => function ($data) use ($model){                            
-                            return $this->renderPartial("daftarHadir/_rerataJamMasuk",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$model->tglpresensi,'tgl_akhir'=>$model->tglpresensi_akhir),true);
+                            //return $this->renderPartial("daftarHadir/_rerataJamMasuk",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$model->tglpresensi,'tgl_akhir'=>$model->tglpresensi_akhir),true);
                          }
                      ),                  
                     array(
                          'header' => 'Rerata Jam Pulang',
                          'value' => function ($data) use ($model){                            
-                            return $this->renderPartial("daftarHadir/_rerataJamKeluar",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi,'tgl_akhir'=>$model->tglpresensi_akhir),true);
+                            //return $this->renderPartial("daftarHadir/_rerataJamKeluar",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi,'tgl_akhir'=>$model->tglpresensi_akhir),true);
                          }
                         
                      ),                                     
@@ -75,35 +75,35 @@ $('.search-form form').submit(function(){
                          'header' => 'Hadir',
                         // 'value' => '$data->getTotalStatusKehadiran(1, $data->pegawai_id)',
                          'value' => function ($data) use ($model){                            
-                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_HADIR, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir);
+                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_HADIR, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir, $data->kelompokjabatan);
                          }   
                      ),
                     array(
                          'header' => 'Izin',
                         // 'value' => '$data->getTotalStatusKehadiran(2, $data->pegawai_id)'
                          'value' => function ($data) use ($model){                            
-                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_IZIN, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir);
+                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_IZIN, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir, $data->kelompokjabatan);
                          } 
                      ),
                     array(
                          'header' => 'Sakit',
                          //'value' => '$data->getTotalStatusKehadiran(3, $data->pegawai_id)'
                          'value' => function ($data) use ($model){                            
-                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_SAKIT, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir);
+                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_SAKIT, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir, $data->kelompokjabatan);
                          } 
                      ),
                     array(
                          'header' => 'Dinas',
                          //'value' => '$data->getTotalStatusKehadiran(4, $data->pegawai_id)'
                          'value' => function ($data) use ($model){                            
-                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_DINAS, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir);
+                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_DINAS, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir, $data->kelompokjabatan);
                          } 
                      ),
                     array(
                          'header' => 'Alpha',
                          //'value' => '$data->getTotalStatusKehadiran(5, $data->pegawai_id)'
                          'value' => function ($data) use ($model){                            
-                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_ALPHA, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir);
+                            return $data->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_ALPHA, $data->pegawai_id, $model->tglpresensi, $model->tglpresensi_akhir, $data->kelompokjabatan);
                          } 
                      ),
                     array(

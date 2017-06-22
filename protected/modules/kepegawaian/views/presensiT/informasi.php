@@ -451,8 +451,7 @@
                     array(
                         'header' => 'Status',
                         //'name' => 'statuskehadiran.statuskehadiran_nama',
-                        'value' => function($data){ 
-                    
+                        'value' => function($data){                     
 					$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);					
 					if (!empty($jammasuk)){
 						$cekShiftBerlaku = ShiftberlakuM::model()->cekSHift($data->tglpresensi.' '.$jammasuk, $data->pegawai->kelompokjabatan,'masuk');
