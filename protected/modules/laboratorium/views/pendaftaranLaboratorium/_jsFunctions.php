@@ -1009,18 +1009,24 @@ function pilihPemeriksaanIni(obj){
         $("#form-tindakanpemeriksaan-"+form_index).find('input[name$="[ii][satuantindakan]"]').val("<?php echo Params::SATUAN_TINDAKAN_LABORATORIUM; ?>");
         $("#form-tindakanpemeriksaan-"+form_index).find('input[name$="[ii][tarif_satuan]"]').val(formatInteger(harga_tariftindakan));
         $("#form-tindakanpemeriksaan-"+form_index).find('input[name$="[ii][tarif_tindakan]"]').val(formatInteger(harga_tariftindakan));
+		$("#form-tindakanpemeriksaan-"+form_index).find('select[name$="[ii][dokterpemeriksa1_id]"]').val($("#LBPasienmasukpenunjangT_pegawai_id").val());
+		$("#form-tindakanpemeriksaan-"+form_index).find('select[name$="[ii][perawat_id]"]').val($("#LBPasienmasukpenunjangT_perawat_id").val());
+		console.log($("#form-tindakanpemeriksaan-"+form_index).find('input[name$="[ii][dokterpemeriksa1_id]"]'));
     }else{
         var delete_row = $("#form-tindakanpemeriksaan-"+form_index).find('input[name$="[pemeriksaanlab_id]"][value="'+pemeriksaanlab_id+'"]').parents('tr');
         delete_row.detach();
     }
-    renameInputRow($("#form-tindakanpemeriksaan-"+form_index));
+    renameInputRow($("#form-tindakanpemeriksaan-"+form_index), ".tindakan_lab");
 }
 /**
  * rename input row yang terakhir di tambahkan
  * @param {type} obj_table
  */
-function renameInputRow(obj_table){
+function renameInputRow(obj_table, special_selection){
     var row = 0;
+	
+	if (special_selection == null) special_selection = "tbody > tr";
+	
     $(obj_table).find("tbody > tr").each(function(){
         $(this).find("#no_urut").val(row+1);
         $(this).find('span').each(function(){ //element <span>
