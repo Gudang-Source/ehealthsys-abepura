@@ -459,7 +459,8 @@ class ShiftberlakuM extends CActiveRecord
 		$jamP = date('H:i:s', strtotime($tgl));
 		$kelompok = strtolower($kel); 
 		
-		if ($status == 'masuk'){			
+		if ($status == 'masuk'){	
+			
 			$masuk = new CDbCriteria();		
 			$masuk->addCondition("DATE(shiftberlaku_tgl) <= '".$tgl."' ");
 			if (!empty($kelompok)){
@@ -494,9 +495,11 @@ class ShiftberlakuM extends CActiveRecord
 				}
 				$masuk->addCondition("shift_id = '".$cekJam->shift_id."' ");		
 				$masuk->order =  " shiftberlaku_tgl DESC ";		
-				$cekJam = $this->find($masuk);				
+				$cekJam = $this->find($masuk);		
+				
 			}else{
 				$cekJam = null;
+				//var_dump($tgl);
 			}
 			
 		}elseif ($status == 'pulang'){			
@@ -555,8 +558,8 @@ class ShiftberlakuM extends CActiveRecord
 			}
 		}else{
 			if ($waktu == true){						
-				
-				$data = 0;
+				//var_dump($tgl);
+				$data = 1;
 				
 			}else{
 				$data = true;

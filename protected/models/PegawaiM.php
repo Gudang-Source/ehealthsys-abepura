@@ -752,6 +752,7 @@ class PegawaiM extends CActiveRecord
 		
 		//var_dump($hasil);
         $tot = 0;
+		$tot1 = 0;
 		$ms = 0;
 		$pl = 0;
 		$count = count($hasil);
@@ -780,7 +781,23 @@ class PegawaiM extends CActiveRecord
 					$tot = $tot + $dt;
 					//var_dump($dt);					
 				}else{
-					if ($status_id == Params::STATUSKEHADIRAN_ALPHA){
+						if ($status_id == Params::STATUSKEHADIRAN_ALPHA){
+							if (!empty($hitung['jamkerjamasuk'])){ 
+							$dt1 = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,$status_id);				
+						}elseif (!empty($hitung['jamkerjapulang'])){		
+							if ($hitung['statuskehadiran_id'] != Params::STATUSKEHADIRAN_ALPHA ){							
+								$dt1 = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjapulang'], $hitung['kelompokjabatan'], 'pulang', true, $status_id);				
+							}else{
+
+								$dt1 = 0;
+							}
+						}else{	
+
+							$dt1 = 0;
+						}
+						$tot1 = $tot1 + $dt1;
+						
+						
 						if (!empty($hitung['jamkerjamasuk'])){ 
 							$pl = $pl+1;
 							$dt = ShiftberlakuM::model()->cekHadirAlpha($hitung['tglpresensi'].' '.$hitung['jamkerjapulang'], $hitung['kelompokjabatan'], 'masuk', true, Params::STATUSKEHADIRAN_ALPHA, $status_id);				
