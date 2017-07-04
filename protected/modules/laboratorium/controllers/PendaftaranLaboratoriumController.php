@@ -615,6 +615,14 @@ class PendaftaranLaboratoriumController extends MyAuthController
             $modTindakan->shift_id =Yii::app()->user->getState('shift_id');
             $modTindakan->dokterpemeriksa1_id=$modPasienMasukPenunjang->pegawai_id;
 			$modTindakan->perawat_id = (!empty($modPasienMasukPenunjang->perawat_id) ? $modPasienMasukPenunjang->perawat_id : null);
+			
+			
+			if (isset($post['dokterpemeriksa1_id']) && !empty($post['dokterpemeriksa1_id'])) 
+				$modTindakan->dokterpemeriksa1_id = $post['dokterpemeriksa1_id'];
+			
+			if (isset($post['perawat_id']) && !empty($post['perawat_id']))
+				$modTindakan->perawat_id = $post['perawat_id'];
+			
             $modTindakan->tgl_tindakan=date('Y-m-d H:i:s');
             $modTindakan->tarif_tindakan=$modTindakan->tarif_satuan * $modTindakan->qty_tindakan;
             $modTindakan->cyto_tindakan=0;
@@ -628,6 +636,8 @@ class PendaftaranLaboratoriumController extends MyAuthController
             $modTindakan->tarif_medis=0;
             $modTindakan->tarif_paramedis=0;
             $modTindakan->tarif_bhp=0;
+			
+			// var_dump($post, $modTindakan->attributes, $modPasienMasukPenunjang->attributes); die;
             
             if($modTindakan->validate()){
                 if($modTindakan->save()){

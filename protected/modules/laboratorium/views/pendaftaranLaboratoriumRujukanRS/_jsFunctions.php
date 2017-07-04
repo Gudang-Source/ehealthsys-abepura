@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <script type="text/javascript">
 /**
  * set form kunjungan
@@ -156,7 +160,7 @@ function hitungTotal(obj)
  * reset pencarian & checklist pemeriksaan lab
  */
 function setChecklistPemeriksaanLabReset(){
-    $("#form-caripemeriksaan").find("input:not(:disabled):not([readonly])").each(function(){
+    $("#form-caripemeriksaan").find("input:not(:disabled):no																															t([readonly])").each(function(){
         $(this).val("");
     });
     updateChecklistPemeriksaanLab();
@@ -179,28 +183,42 @@ function pilihPemeriksaanIni(obj){
         $("#form-tindakanpemeriksaan").find('input[name$="[ii][daftartindakan_id]"]').val(daftartindakan_id);
         $("#form-tindakanpemeriksaan").find('input[name$="[ii][jenistarif_id]"]').val(jenistarif_id);$("#form-tindakanpemeriksaan").find('span[name$="[ii][pemeriksaanlab_nama]"]').html(pemeriksaanlab_nama);
         $("#form-tindakanpemeriksaan").find('input[name$="[ii][satuantindakan]"]').val("<?php echo Params::SATUAN_TINDAKAN_LABORATORIUM; ?>");
-        $("#form-tindakanpemeriksaan").find('input[name$="[ii][tarif_satuan]"]').val(harga_tariftindakan);
+        $("#form-tindakanpemeriksaan").find('input[name$="[ii][tarif_satuan]"]').val(formatInteger(harga_tariftindakan));
         $("#form-tindakanpemeriksaan").find('input[name$="[ii][tarif_tindakan]"]').val(formatInteger(harga_tariftindakan));
+		$("#form-tindakanpemeriksaan").find('select[name$="[ii][dokterpemeriksa1_id]"]').val($("#LBPasienmasukpenunjangT_pegawai_id").val());
+		$("#form-tindakanpemeriksaan").find('select[name$="[ii][perawat_id]"]').val($("#LBPasienmasukpenunjangT_perawat_id").val());
+		console.log($("#form-tindakanpemeriksaan").find('input[name$="[ii][perawat_id]"]'));
         $("#form-tindakanpemeriksaan").find('a').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
     }else{
         var delete_row = $("#form-tindakanpemeriksaan").find('input[name$="[pemeriksaanlab_id]"][value="'+pemeriksaanlab_id+'"]').parents('tr');
-        if(delete_row.find('input[name$="[tindakanpelayanan_id]"][value=""]').length > 0){
+        var delete_dokter = $(delete_row).next();
+		var delete_analis = $(delete_row).next().next();
+		if(delete_row.find('input[name$="[tindakanpelayanan_id]"][value=""]').length > 0){
 			delete_row.detach();
+			delete_dokter.detach();
+			delete_analis.detach();
 		}else{
 			myAlert("Pemeriksaan tidak bisa dibatalkan karena sudah ditagihkan / dibayarkan ke pasien!");
 			$(obj).attr("checked",true);
 		}
     }
-    renameInputRow($("#form-tindakanpemeriksaan"));
+    renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab");
+	renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab2");
+	renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab3");
 }
 /**
  * rename input row yang terakhir di tambahkan
  * @param {type} obj_table
  */
-function renameInputRow(obj_table){
+function renameInputRow(obj_table, special_selection){
     var row = 0;
 	var i = 0;
-    $(obj_table).find("tbody > tr").each(function(){
+	
+	if (special_selection == null) special_selection = "tbody > tr";
+	
+	// console.log($(obj_table).find(special_selection));
+	
+    $(obj_table).find(special_selection).each(function(){
         $(this).find("#no_urut").val(row+1);
         $(this).find('span').each(function(){ //element <span>
             var old_name = $(this).attr("name").replace(/]/g,"");
@@ -210,12 +228,14 @@ function renameInputRow(obj_table){
             }
         });
 		
+		/*
 		$(this).find('a[id^="btnAddDokter_"]').attr('id','btnAddDokter_'+i+'');
 		$(this).find('a[id^="btnAddDokter_"]').attr('onclick','addDokterLengkap(this,'+i+')');
         $(this).find('div[id^="tampilanDokterPemeriksa_"]').attr('id','tampilanDokterPemeriksa_'+i+'');        
         $(this).find('div[id^="tampilanPerawat_"]').attr('id','tampilanPerawat_'+i+'');
         $(this).find('input[id="rowDokter"]').attr('value',i);
         $(this).find('input[id="rowDokter"]').val(i);
+		*/
 		
         $(this).find('input,select,textarea').each(function(){ //element <input>
             var old_name = $(this).attr("name").replace(/]/g,"");
@@ -225,6 +245,9 @@ function renameInputRow(obj_table){
                 $(this).attr("name",old_name_arr[0]+"["+old_name_arr[1]+"]["+row+"]["+old_name_arr[3]+"]");
             }
         });
+		$(this).find(".tampilanDokterPemeriksa").data("idx", row);
+		$(this).find(".btnAddDokter").data("idx", row);
+		// console.log($(this).find(".tampilanDokterPemeriksa").data("idx"));
         row++;
 		i++;
     });
@@ -314,7 +337,9 @@ function setTindakanPelayanan(){
         success:function(data){
             $('#form-tindakanpemeriksaan table > tbody').html(data.rows);
             $('#form-tindakanpemeriksaan').removeClass("animation-loading");
-            renameInputRow($("#form-tindakanpemeriksaan"));
+            renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab");
+			renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab2");
+			renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab3");
             setChecklistPemeriksaanLab();
 
         },
@@ -367,8 +392,8 @@ function tambahObatAlkesPasien(obj)
                 }
                 if(tambahkandetail){
                     $('#table-obatalkespasien > tbody').append(data.form);
-                    $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                    $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
                     renameInputRowObatAlkes($("#table-obatalkespasien"));  
                 }
@@ -584,18 +609,20 @@ function printStatus()
 * 
  * @param {type} obj
  * @returns {undefined} */
-function addDokterLengkap(obj,i)
+function addDokterLengkap(obj)
 {
+	i = $(obj).data("idx");
     $('#dialogPemeriksaLengkap').dialog('open');
     $('#dialogPemeriksaLengkap #rowTindakan').val(i);
 	
 }
 
+
 function setPerawat(item)
 {
     var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
-    $('#LBTindakanPelayananT_'+row+'_perawat_id').val(item.pegawai_id);
-	$('#tampilanPerawat_'+row).html("Perawat : "+item.nama_pegawai);
+    $('#LBTindakanPelayananT_0_'+row+'_perawat_id').val(item.pegawai_id);
+	$('.tampilanPerawat[data-idx='+row+']').html("Perawat : "+item.nama_pegawai);
 } 
 
 function updatePerawat(value){
@@ -609,9 +636,10 @@ function updatePerawat(value){
 function setDokterPemeriksa1(item)
 {
     var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
+	//console.log(row);
 	//alert(row);
-    $('#LBTindakanPelayananT_'+row+'_dokterpemeriksa1_id').val(item.pegawai_id);
-    $('#tampilanDokterPemeriksa_'+row).html("Dokter Pemeriksa : "+item.nama_pegawai);
+    $('#LBTindakanPelayananT_0_'+row+'_dokterpemeriksa1_id').val(item.pegawai_id);
+    $('.tampilanDokterPemeriksa[data-idx='+row+']').html("Dokter Pemeriksa : "+item.nama_pegawai);
 }
 
 function updateDokterPemeriksa1(value){
@@ -621,6 +649,16 @@ function updateDokterPemeriksa1(value){
 		$('#tampilanDokterPemeriksa_'+row).html('');
 	}
 }
+
+
+function updateDokterTindakan(obj) {
+	$(".tindakan_dokter").val($(obj).val());
+}
+
+
+function updateAnalisTindakan(obj) {
+	$(".tindakan_analis").val($(obj).val());
+}	
 
 /**
  * javascript yang di running setelah halaman ready / load sempurna

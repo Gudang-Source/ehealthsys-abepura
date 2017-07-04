@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <script type="text/javascript">
 /**
  * set form kunjungan
@@ -169,14 +173,20 @@ function pilihPemeriksaanIni(obj){
         $("#form-tindakanpemeriksaan").find('input[name$="[ii][jenistarif_id]"]').val(jenistarif_id);
         $("#form-tindakanpemeriksaan").find('span[name$="[ii][pemeriksaanlab_nama]"]').html(pemeriksaanlab_nama);
         $("#form-tindakanpemeriksaan").find('input[name$="[ii][satuantindakan]"]').val("<?php echo Params::SATUAN_TINDAKAN_LABORATORIUM; ?>");
-        $("#form-tindakanpemeriksaan").find('input[name$="[ii][tarif_satuan]"]').val(harga_tariftindakan);
+        $("#form-tindakanpemeriksaan").find('input[name$="[ii][tarif_satuan]"]').val(formatInteger(harga_tariftindakan));
         $("#form-tindakanpemeriksaan").find('input[name$="[ii][tarif_tindakan]"]').val(formatInteger(harga_tariftindakan));
+		$("#form-tindakanpemeriksaan").find('select[name$="[ii][dokterpemeriksa1_id]"]').val($("#LBPasienmasukpenunjangT_pegawai_id").val());
+		$("#form-tindakanpemeriksaan").find('select[name$="[ii][perawat_id]"]').val($("#LBPasienmasukpenunjangT_perawat_id").val());
         $("#form-tindakanpemeriksaan").find('a').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
     }else{
 		var row_tindakanpelayanan = $("#form-tindakanpemeriksaan").find('input[name$="[pemeriksaanlab_id]"][value="'+pemeriksaanlab_id+'"]').parents('tr');
         var tindakanpelayanan_id =  row_tindakanpelayanan.find('input[name$="[tindakanpelayanan_id]"]').val();
+		var delete_dokter = $(row_tindakanpelayanan).next();
+		var delete_analis = $(row_tindakanpelayanan).next().next();
 		if(tindakanpelayanan_id == ""){
             row_tindakanpelayanan.detach();
+			delete_dokter.detach();
+			delete_analis.detach();
         }else{ //jika undefined = tindakanpelayanan_id terisi
             myConfirm('Apakah anda yakin akan menghapus pemeriksaan yang sudah di database?', 'Perhatian!', function(r)
             {
@@ -188,15 +198,20 @@ function pilihPemeriksaanIni(obj){
             });
         }
     }
-    renameInputRow($("#form-tindakanpemeriksaan"));
+    renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab");
+	renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab2");
+	renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab3");
 }
 /**
  * rename input row yang terakhir di tambahkan
  * @param {type} obj_table
  */
-function renameInputRow(obj_table){
+function renameInputRow(obj_table, special_selection){
     var row = 0;
-    $(obj_table).find("tbody > tr").each(function(){
+	
+	if (special_selection == null) special_selection = "tbody > tr";
+	
+    $(obj_table).find(special_selection).each(function(){
         $(this).find("#no_urut").val(row+1);
         $(this).find('span').each(function(){ //element <span>
             var old_name = $(this).attr("name").replace(/]/g,"");
@@ -213,6 +228,9 @@ function renameInputRow(obj_table){
                 $(this).attr("name",old_name_arr[0]+"["+old_name_arr[1]+"]["+row+"]["+old_name_arr[3]+"]");
             }
         });
+		$(this).find(".tampilanDokterPemeriksa").data("idx", row);
+		$(this).find(".btnAddDokter").data("idx", row);
+		
         row++;
     });
     
@@ -242,7 +260,9 @@ function setTindakanPelayanan(){
         success:function(data){
             $('#form-tindakanpemeriksaan table > tbody').html(data.rows);
             $('#form-tindakanpemeriksaan').removeClass("animation-loading");
-            renameInputRow($("#form-tindakanpemeriksaan"));
+            renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab");
+			renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab2");
+			renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab3");
             setChecklistPemeriksaanLab();
 
         },
@@ -287,8 +307,14 @@ function hapusTindakanPelayanan(daftartindakan_id){
             myAlert(data.pesan);
             if(data.sukses){
                 var delete_row = $("#form-tindakanpemeriksaan").find('input[name$="[daftartindakan_id]"][value="'+daftartindakan_id+'"]').parents('tr');
-                delete_row.detach();
-                renameInputRow($("#form-tindakanpemeriksaan"));
+                var delete_dokter = $(delete_row).next();
+				var delete_analis = $(delete_row).next().next();
+				delete_row.detach();
+				delete_dokter.detach();
+				delete_analis.detach();
+                renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab");
+				renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab2");
+				renameInputRow($("#form-tindakanpemeriksaan"), ".tindakan_lab3");
             }
             setChecklistPemeriksaanLab();
         },
@@ -307,6 +333,16 @@ function printStatus()
         myAlert("Silahkan pilih data kunjungan pasien!");
     }
 }
+
+
+function updateDokterTindakan(obj) {
+	$(".tindakan_dokter").val($(obj).val());
+}
+
+
+function updateAnalisTindakan(obj) {
+	$(".tindakan_analis").val($(obj).val());
+}	
 
 /**
  * javascript yang di running setelah halaman ready / load sempurna

@@ -68,7 +68,14 @@ class PemeriksaanPasienLaboratoriumController extends PendaftaranLaboratoriumCon
 								$dataTindakans[$ii]->qty_tindakan = $tindakan['qty_tindakan'];
                                 $dataTindakans[$ii]->tarif_tindakan = ($tindakan['tarif_tindakan']);
 								$dataTindakans[$ii]->perawat_id = (!empty($modPasienMasukPenunjang->perawat_id) ? $modPasienMasukPenunjang->perawat_id : null);
-                                $dataTindakans[$ii]->update();
+                                
+								if (isset($tindakan['dokterpemeriksa1_id']) && !empty($tindakan['dokterpemeriksa1_id'])) 
+									$dataTindakans[$ii]->dokterpemeriksa1_id = $tindakan['dokterpemeriksa1_id'];
+
+								if (isset($tindakan['perawat_id']) && !empty($tindakan['perawat_id']))
+									$dataTindakans[$ii]->perawat_id = $tindakan['perawat_id'];
+								
+								$dataTindakans[$ii]->update();
                             }else{
                                 $dataTindakans[$ii] = $this->simpanTindakanPelayanan($modPendaftaran,$modPasienMasukPenunjang,$tindakan);
                                 if($_POST['ruangan_id'] == Params::RUANGAN_ID_LAB_KLINIK){
@@ -206,13 +213,16 @@ class PemeriksaanPasienLaboratoriumController extends PendaftaranLaboratoriumCon
         if(Yii::app()->request->isAjaxRequest) {
             $format = new MyFormatter();
             $rows = "";
-            $modTindakans = LBTindakanPelayananT::model()->findAllByAttributes(array('pasienmasukpenunjang_id'=>$_POST['pasienmasukpenunjang_id']), 'karcis_id IS NULL');
+            $modTindakans = LBTindakanPelayananT::model()->findAllByAttributes(array('pasienmasukpenunjang_id'=>$_POST['pasienmasukpenunjang_id']), array(
+				'condition'=>'karcis_id IS NULL',
+				'order'=>'tindakanpelayanan_id'
+			));
             if(count($modTindakans) > 0){
                 foreach($modTindakans AS $i => $modTindakan){
                     $modTindakan->pemeriksaanlab_id = PemeriksaanlabM::model()->findByAttributes(array('daftartindakan_id'=>$modTindakan->daftartindakan_id))->pemeriksaanlab_id;
                     $modTindakan->jenistarif_id = JenistarifpenjaminM::model()->findByAttributes(array('penjamin_id'=>$modTindakan->pendaftaran->penjamin_id))->jenistarif_id;
-                    $modTindakan->tarif_tindakan = $format->formatNumberForUser($modTindakan->tarif_tindakan);
-                    $modTindakan->tarif_satuan = $format->formatNumberForUser($modTindakan->tarif_satuan);
+                    $modTindakan->tarif_tindakan = $format->formatNumberForPrint($modTindakan->tarif_tindakan);
+                    $modTindakan->tarif_satuan = $format->formatNumberForPrint($modTindakan->tarif_satuan);
                     $rows .= $this->renderPartial($this->path_view_pendaftaran."_rowTindakanPemeriksaan",array('i'=>0, 'modTindakan'=>$modTindakan), true);
                 }
             }
