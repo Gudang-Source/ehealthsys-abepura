@@ -1,4 +1,6 @@
 <?php
+
+/*
    $cr = new CDbCriteria();                            
     $cr->compare('tglpresensi::date', $datepresensi);
     $cr->compare('pegawai_id', $pegawai_id);
@@ -74,4 +76,29 @@
     }else{
         echo '-';
     }
+ * */
+$jampulang = PresensiT::model()->getRealJam(Params::STATUSSCAN_PULANG, $datepresensi, $pegawai_id);
+ 
+		$cekShiftBerlaku = ShiftberlakuM::model()->cekOntime($datepresensi.' '.$jampulang, $kelompokjabatan,'pulang');
+							
+
+		$tepat = $cekShiftBerlaku;
+
+
+		$pulang = strtotime(date('Y-m-d H:i:s',strtotime($datepresensi.' '.$jampulang)));
+		$jam = floor(round(abs($tepat - $pulang) / 60,2));
+
+	   // if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+	   // {
+		if ($tepat != '-'){
+			if ($pulang > $tepat){
+				echo "0 Menit";
+			}else{
+				echo $jam.' Menit';
+			}
+		}else{
+			echo '-';
+		}
+
+
 ?>

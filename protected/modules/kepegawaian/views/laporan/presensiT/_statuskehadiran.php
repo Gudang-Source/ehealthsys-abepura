@@ -8,7 +8,8 @@
     //    echo $modStatuskehadiran->statuskehadiran_nama;
    // } else {
     //    echo "-";
-    //}
+    //}/*
+/*
                                $cr4 = new CDbCriteria();
                                $cr4->compare('tglpresensi::date', $datepresensi);
                                $cr4->compare('pegawai_id', $pegawai_id);                            
@@ -38,4 +39,34 @@
                                        echo '-';
                                    }
                                }
+ * */
+ 
+					$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, $datepresensi, $pegawai_id);					
+					if (!empty($jammasuk)){
+						$cekShiftBerlaku = ShiftberlakuM::model()->cekSHift($datepresensi.' '.$jammasuk, $kelompokjabatan,'masuk');
+					}else{
+						$cekShiftBerlaku = null;
+					}
+
+				
+					$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, $datepresensi, $pegawai_id);
+					$jampulang = PresensiT::model()->getRealJam(Params::STATUSSCAN_PULANG, $datepresensi, $pegawai_id);
+
+					$jamMulai = ShiftberlakuM::model()->cekOntime($datepresensi.' '.$jammasuk, $kelompokjabatan,'masuk',true);
+
+					$jamAkhir = ShiftberlakuM::model()->cekOntime($datepresensi.' '.$jampulang, $kelompokjabatan,'pulang', true);
+
+
+
+					if ($jamMulai != '-'){
+						$masukPecah = explode('__', $jamMulai);
+						if ( ($masukPecah[0] <= $jammasuk) AND ($masukPecah[1] >= $jammasuk)){
+							echo PresensiT::model()->getWarnaKehadiran(StatuskehadiranM::model()->findByPk(Params::STATUSKEHADIRAN_HADIR)->statuskehadiran_nama);
+						}else{
+							echo PresensiT::model()->getWarnaKehadiran(StatuskehadiranM::model()->findByPk(Params::STATUSKEHADIRAN_ALPHA)->statuskehadiran_nama);
+						}
+					}else{	
+						//if ($cekShiftBerlaku != '-'){
+							echo PresensiT::model()->getWarnaKehadiran(StatuskehadiranM::model()->findByPk(Params::STATUSKEHADIRAN_ALPHA)->statuskehadiran_nama);
+					}
 ?>

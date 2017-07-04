@@ -1,7 +1,15 @@
 <tr>
 	<td style="text-align: center;">
 		<div class="control-group">
-		<?php echo CHtml::activeHiddenField($modBerlaku, '[0]shiftberlaku_id',array('readonly'=>true));?>		
+		<?php echo CHtml::activeHiddenField($modBerlaku, '['.$i.']kelompokjabatan',array('readonly'=>true));?>		
+		<?php 
+			echo CHtml::activeDropDownList($modBerlaku, '['.$i.']kelompokjabatan', LookupM::getItems('kelompokjabatan'), array('empty' => '-- Pilih --'))
+		?>
+		</div>
+	</td>
+	<td style="text-align: center;">
+		<div class="control-group">
+		<?php echo CHtml::activeHiddenField($modBerlaku, '['.$i.']shiftberlaku_id',array('readonly'=>true));?>		
 		<?php 
 			$this->widget('MyDateTimePicker',array(
 				'model'=>$modBerlaku,
@@ -12,7 +20,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -30,7 +39,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2  required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -48,7 +58,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -66,7 +77,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>'required',
+										'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -84,7 +96,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>' required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -102,7 +115,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>' required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -124,7 +138,8 @@
 				
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>' required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>

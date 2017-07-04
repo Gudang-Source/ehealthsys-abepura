@@ -57,18 +57,18 @@ class PresensiTController extends MyAuthController
                                                             
                                        
                     $tgl = $format->formatDateTimeForDb(date('Y-m-d', strtotime($model->tglpresensi)));
-                                        
+                                      //  var_dump($shift);die;
                   
                     $model->statusscan_id = $_POST['KPPresensiT']['statusscan_id'];                        
                     if ($model->statusscan_id == Params::STATUSSCAN_MASUK){                                                    
                         //$model->jamkerjamasuk = $_POST['KPPresensiT']['jamkerjamasuk'];
                         $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjamasuk'];
-                        $model->jamkerjamasuk = (count($shift)>0)?$shift->shift_jamawal:'08:15:00';
+                        $model->jamkerjamasuk = ($shift != '-')?$shift->shift_jamawal:'08:15:00';
                         $model->terlambat_mnt = $model->getTerlambat($model->tglpresensi, $model->jamkerjamasuk);
                         $model->pulangawal_mnt = '';  
                         
                         $jammasuk = date('H:is',strtotime($model->tglpresensi));
-                        if (count($shift)>0){
+                        if ($shift != '-'){
                             if ( ($shift->shift_id == Params::SHIFT_PAGI)):
                                 if ($jammasuk > '09:00:00'):
                                     $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
@@ -159,7 +159,7 @@ class PresensiTController extends MyAuthController
                         $cr1->addBetweenCondition('tglpresensi', $tgl.' 00:00:00', $tgl.' 23:59:59');
                         $cek1 = PresensiT::model()->find($cr1);
                         
-                        if (count($shift)>0){
+                          if ($shift != '-'){
                             if ($shift->shift_id == Params::SHIFT_PAGI ):                               
                                 if (count($cek1) > 0){
                                     //$model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;

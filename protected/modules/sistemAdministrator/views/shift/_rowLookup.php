@@ -1,6 +1,14 @@
 <tr>
 	<td style="text-align: center;">
 		<div class="control-group">
+		<?php echo CHtml::activeHiddenField($modBerlaku, '[0]kelompokjabatan',array('readonly'=>true));?>		
+		<?php 
+			echo CHtml::activeDropDownList($modBerlaku, '[0]kelompokjabatan', LookupM::getItems('kelompokjabatan'), array('empty' => '-- Pilih --'))
+		?>
+		</div>
+	</td>
+	<td style="text-align: center;">
+		<div class="control-group">
 		<?php echo CHtml::activeHiddenField($modBerlaku, '[0]shiftberlaku_id',array('readonly'=>true));?>		
 		<?php 
 			$this->widget('MyDateTimePicker',array(
@@ -10,9 +18,10 @@
 				'options'=> array(
 					'dateFormat'=>Params::DATE_FORMAT,
 				),
-				'htmlOptions'=>array('readonly'=>true,
-									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+				'htmlOptions'=>array(	'readonly'=>true,
+										'onkeypress'=>"return $(this).focusNextInputField(event)",
+										'class'=>'required',
+										'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -30,7 +39,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2  required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -48,7 +58,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -66,7 +77,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -84,7 +96,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -102,7 +115,8 @@
 				),
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>
@@ -119,12 +133,14 @@
 				'options'=> array(				
 					'changeYear'=>true,
 					'changeMonth'=>true,					
-					'maxDate'=>'d',						
+					'maxDate'=>'d',		
+					'dateFormat'=>Params::DATE_FORMAT,
 				),
 				
 				'htmlOptions'=>array('readonly'=>true,
 									  'onkeypress'=>"return $(this).focusNextInputField(event)",
-									  'class'=>'dtPicker2 required',
+									  'class'=>'required',
+									  'style' => 'width:70px;'
 				 ),
 			));
 		?>

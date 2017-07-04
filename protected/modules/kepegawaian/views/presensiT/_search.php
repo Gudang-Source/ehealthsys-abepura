@@ -64,11 +64,12 @@
 
 	<?php //echo $form->textFieldRow($model,'tglpresensi_akhir',array('class'=>'span3')); ?>
 
-	<?php echo $form->textFieldRow($model,'no_fingerprint',array('class'=>'span3','maxlength'=>30)); ?>
+	<?php echo $form->textFieldRow($model,'no_fingerprint',array('class'=>'span3 numbers-only','maxlength'=>30)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'span3','maxlength'=>30)); ?>
-            <?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3','maxlength'=>30)); ?>
+            <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'span3 numbers-only','maxlength'=>15)); ?>
+            <?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3 hurufs-only','maxlength'=>30)); ?>
+			
         </td>
         <td>
             <div class="control-group">
@@ -86,7 +87,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <?php echo $form->labelEx($model, 'jabtan', array('class' => 'control-label')); ?>
+                <?php echo $form->labelEx($model, 'jabatan', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?php echo $form->dropDownList($model, 'jabatan_id', CHtml::listData(
                         JabatanM::model()->findAllByAttributes(array (
