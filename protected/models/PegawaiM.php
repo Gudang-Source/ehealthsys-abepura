@@ -752,10 +752,20 @@ class PegawaiM extends CActiveRecord
 		
 		//var_dump($hasil);
         $tot = 0;
-		$tot1 = 0;
+		$totH = 0;
+		$totI = 0;
+		$totD = 0;		
+		$totS = 0;
+		
 		$ms = 0;
-		$pl = 0;
+		$pl = 0;		
 		$count = count($hasil);
+		
+		$dtH = 0;
+		$dtI = 0;
+		$dtD = 0;		
+		$dtS = 0;
+		
 		//var_dump($count);
 			foreach ($hasil as $hitung){
 	//            if ($hitung['statuskehadiran_id'] == $status_id){
@@ -783,19 +793,58 @@ class PegawaiM extends CActiveRecord
 				}else{
 						if ($status_id == Params::STATUSKEHADIRAN_ALPHA){
 							if (!empty($hitung['jamkerjamasuk'])){ 
-							$dt1 = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,$status_id);				
-						}elseif (!empty($hitung['jamkerjapulang'])){		
-							if ($hitung['statuskehadiran_id'] != Params::STATUSKEHADIRAN_ALPHA ){							
-								$dt1 = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjapulang'], $hitung['kelompokjabatan'], 'pulang', true, $status_id);				
-							}else{
+								$dtH = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,  Params::STATUSKEHADIRAN_HADIR);				
+							}elseif (!empty($hitung['jamkerjapulang'])){										
+								$dtH = 0;							
+							}else{	
+
+								$dtH = 0;
+							}
+							$totH = $totH + $dtH;
+							
+							if (!empty($hitung['jamkerjamasuk'])){ 
+								$dtI = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,  Params::STATUSKEHADIRAN_IZIN);				
+							}elseif (!empty($hitung['jamkerjapulang'])){										
+								$dtI = 0;							
+							}else{	
+
+								$dtI = 0;
+							}
+							$totI = $totI + $dtI;
+							
+							if (!empty($hitung['jamkerjamasuk'])){ 
+								$dtD = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,  Params::STATUSKEHADIRAN_DINAS);				
+							}elseif (!empty($hitung['jamkerjapulang'])){										
+								$dtD = 0;							
+							}else{	
+
+								$dtD = 0;
+							}
+							$totD = $totD + $dtD;
+							
+							if (!empty($hitung['jamkerjamasuk'])){ 
+								$dtS = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,  Params::STATUSKEHADIRAN_SAKIT);				
+							}elseif (!empty($hitung['jamkerjapulang'])){										
+								$dtS = 0;							
+							}else{	
+
+								$dtS = 0;
+							}
+							$totS = $totS + $dtS;
+						/*	if (!empty($hitung['jamkerjamasuk'])){ 
+								$dt1 = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,$status_id);				
+							}elseif (!empty($hitung['jamkerjapulang'])){		
+								if ($hitung['statuskehadiran_id'] != Params::STATUSKEHADIRAN_ALPHA ){							
+									$dt1 = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjapulang'], $hitung['kelompokjabatan'], 'pulang', true, $status_id);				
+								}else{
+
+									$dt1 = 0;
+								}
+							}else{	
 
 								$dt1 = 0;
 							}
-						}else{	
-
-							$dt1 = 0;
-						}
-						$tot1 = $tot1 + $dt1;
+							$tot1 = $tot1 + $dt1;*/
 						
 						
 						if (!empty($hitung['jamkerjamasuk'])){ 
@@ -814,7 +863,7 @@ class PegawaiM extends CActiveRecord
 			}
 			
 		if ($status_id == Params::STATUSKEHADIRAN_ALPHA){
-			$kurang = $ms-$pl;
+			/*$kurang = $ms-$pl;
 			//var_dump($ms.'  '.$pl);
 			if ($ms >= $pl){
 				if ($ms == 0){
@@ -831,7 +880,8 @@ class PegawaiM extends CActiveRecord
 				
 			}elseif($ms <= $pl){
 				$tot = $ms;
-			}
+			}*/			
+			$tot = $count - ($totH);
 		}
 			
         

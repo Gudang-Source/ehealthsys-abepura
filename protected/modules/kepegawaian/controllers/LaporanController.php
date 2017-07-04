@@ -56,8 +56,8 @@
             $modPegawai->sakit = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_SAKIT, $id, $tgl_awal, $tgl_akhir);
             $modPegawai->dinas = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_DINAS, $id, $tgl_awal, $tgl_akhir);
             $modPegawai->alpha = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_ALPHA, $id, $tgl_awal, $tgl_akhir);
-            $modPegawai->rerata_jam_masuk = $this->renderPartial("daftarHadir/_rerataJamMasuk",array("pegawai_id"=>$id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$tgl_awal,'tgl_akhir'=>$tgl_akhir),true);
-            $modPegawai->rerata_jam_keluar = $this->renderPartial("daftarHadir/_rerataJamKeluar",array("pegawai_id"=>$id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$tgl_awal,'tgl_akhir'=>$tgl_akhir),true);
+            // $modPegawai->rerata_jam_masuk = $this->renderPartial("daftarHadir/_rerataJamMasuk",array("pegawai_id"=>$id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$tgl_awal,'tgl_akhir'=>$tgl_akhir),true);
+            //$modPegawai->rerata_jam_keluar = $this->renderPartial("daftarHadir/_rerataJamKeluar",array("pegawai_id"=>$id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$tgl_awal,'tgl_akhir'=>$tgl_akhir),true);
             $this->render('daftarHadir/detailAbdesensi',array(
                 'model'=>$model,
                 'modPegawai' => $modPegawai

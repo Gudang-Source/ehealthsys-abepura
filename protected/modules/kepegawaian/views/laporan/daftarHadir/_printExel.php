@@ -75,6 +75,11 @@
                         <td  align="right"><b>Alpha</b></td>
                         <td  colspan="3">: <?php echo $modPegawai->alpha; ?></td>                        
                     </tr>
+					<?php 
+					
+					/*
+					 * disabled dikarenakan, internal feature 
+					 * 
                     <tr>
                         <td  align="right"><b>Rerata Jam Masuk</b></td>
                         <td  colspan="3">: <?php echo $modPegawai->rerata_jam_masuk; ?></td>                        
@@ -83,6 +88,9 @@
                         <td  align="right"><b>Rerata Jam Pulang</b></td>
                         <td colspan="3">: <?php echo $modPegawai->rerata_jam_keluar; ?></td>                        
                     </tr>
+					 * 
+					 * 
+					 */ ?>
                     <?php /*<tr>
                         <td >Jumlah Absensi</td>
                         <td>:</td>

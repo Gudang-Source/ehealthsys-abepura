@@ -100,8 +100,8 @@ Yii::app()->clientScript->registerScript('search', "
            <?php echo $form->textFieldRow($modPegawai,'sakit',array('readonly'=>true,'class'=>'span3')); ?>
            <?php echo $form->textFieldRow($modPegawai,'dinas',array('readonly'=>true,'class'=>'span3')); ?>
            <?php echo $form->textFieldRow($modPegawai,'alpha',array('readonly'=>true,'class'=>'span3')); ?>
-           <?php echo $form->textFieldRow($modPegawai,'rerata_jam_masuk',array('readonly'=>true,'class'=>'span3')); ?>
-           <?php echo $form->textFieldRow($modPegawai,'rerata_jam_keluar',array('readonly'=>true,'class'=>'span3')); ?>
+           <?php //echo $form->textFieldRow($modPegawai,'rerata_jam_masuk',array('readonly'=>true,'class'=>'span3')); ?>
+           <?php //echo $form->textFieldRow($modPegawai,'rerata_jam_keluar',array('readonly'=>true,'class'=>'span3')); ?>
            
        </td>
     </tr>
