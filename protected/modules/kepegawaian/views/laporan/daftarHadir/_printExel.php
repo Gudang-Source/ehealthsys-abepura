@@ -75,6 +75,11 @@
                         <td  align="right"><b>Alpha</b></td>
                         <td  colspan="3">: <?php echo $modPegawai->alpha; ?></td>                        
                     </tr>
+					<?php 
+					
+					/*
+					 * disabled dikarenakan, internal feature 
+					 * 
                     <tr>
                         <td  align="right"><b>Rerata Jam Masuk</b></td>
                         <td  colspan="3">: <?php echo $modPegawai->rerata_jam_masuk; ?></td>                        
@@ -83,6 +88,9 @@
                         <td  align="right"><b>Rerata Jam Pulang</b></td>
                         <td colspan="3">: <?php echo $modPegawai->rerata_jam_keluar; ?></td>                        
                     </tr>
+					 * 
+					 * 
+					 */ ?>
                     <?php /*<tr>
                         <td >Jumlah Absensi</td>
                         <td>:</td>
@@ -143,8 +151,9 @@
                     'footerHtmlOptions' => array('colspan'=>6,'align'=>'center'),
                 ),                                
                  array(
-                    'header'=>'<center>Terlambat</center>',                     
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'header'=>'<center>Terlambat</center>',       
+					 'type' => 'raw',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("kelompokjabatan"=>$data->pegawai->kelompokjabatan,"statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),                                             
                      'footer' => $this->renderPartial("daftarHadir/_terlambat",array("statuskehadiran_id"=>$model->statuskehadiran_id,"pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
                      'footerHtmlOptions' => array('align'=>'center'),
@@ -152,14 +161,16 @@
                 ), 
                  array(
                     'header'=>'<center>Pulang Awal</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+					 'type' => 'raw',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("kelompokjabatan"=>$data->pegawai->kelompokjabatan,"statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                      'footer' => $this->renderPartial("daftarHadir/_pulangAwal",array("pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
                      'footerHtmlOptions' => array('align'=>'center'),
                 ), 
                  array(
                     'header'=>'<center>Status</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("statuskehadiran_id"=>1,"presensi_id"=>$data->presensi_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>$data->statusscan_id, "datepresensi"=>$data->datepresensi),true)',
+					 'type' => 'raw',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("kelompokjabatan"=>$data->pegawai->kelompokjabatan,"statuskehadiran_id"=>1,"presensi_id"=>$data->presensi_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>$data->statusscan_id, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
             ),

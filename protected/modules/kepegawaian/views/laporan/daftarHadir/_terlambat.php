@@ -8,7 +8,7 @@
     $cr->addCondition('statusscan_id=:p1');
     $cr->params[':p1'] = $statusscan_id;    
     $pr = PresensiT::model()->findAll($cr);   
-    
+    /*
     $shift = KPPresensiT::model()->getShiftId($pegawai_id);
        
     if (empty($pr)){echo "-";
@@ -79,5 +79,40 @@
             echo $j.' Jam '.$m.' Menit';
        // }
     
-    }
+    }*/
+	$total = 0;
+	foreach ($pr as $pr){
+		$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, date('Y-m-d', strtotime($pr->tglpresensi)), $pr->pegawai_id);
+
+		$cekShiftBerlaku = ShiftberlakuM::model()->cekOntime(date('Y-m-d', strtotime($pr->tglpresensi)).' '.$jammasuk, $pr->pegawai->kelompokjabatan,'masuk');
+
+
+		$tepat = $cekShiftBerlaku;
+
+		if ($tepat != '-'){
+			$masuk = strtotime(date('Y-m-d H:i:s',strtotime(date('Y-m-d', strtotime($pr->tglpresensi)).' '.$jammasuk)));
+			$jam = floor(round(abs($masuk - $tepat) / 60,2));
+
+			//if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+			//{    
+				if ($masuk < $tepat){
+					$total = $total + 0;
+				}else{
+					$total = $total + $jam;
+					
+				}
+		}else{
+			$total = $total + 0;
+		}
+	}
+	
+	$j =  floor(abs($total) / 60);                       
+	$m =  floor(abs(($total / 60) - $j) * 60);
+	
+	if (count($pr) > 0){
+		 echo $j.' Jam '.$m.' Menit';
+	}else{
+		echo '-';
+	}
+	
 ?>

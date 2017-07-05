@@ -698,56 +698,192 @@ class PegawaiM extends CActiveRecord
         return GolonganpegawaiM::model()->findAll('golonganpegawai_aktif=TRUE ORDER BY golonganpegawai_nama');
     }
     
-    public function getTotalStatusKehadiran($status_id, $pegawai_id, $tglpresensi, $tglpresensi_akhir)
-    {
+    public function getTotalStatusKehadiran($status_id, $pegawai_id, $tglpresensi, $tglpresensi_akhir, $kelompokjabatan=null)
+    {		
         $format = new MyFormatter();
-        $criteria = new CDbCriteria();
-        $criteria->select = "tglpresensi::date, jamkerjamasuk, statuskehadiran_id, jamkerjapulang ";
-        $criteria->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
-        $criteria->addCondition("pegawai_id = '$pegawai_id' ");
+        $criteria = new CDbCriteria();		
+        $criteria->select = "tglpresensi, jamkerjamasuk, statuskehadiran_id, jamkerjapulang, p.kelompokjabatan ";		
+		$criteria->join = " JOIN pegawai_m p ON p.pegawai_id = t.pegawai_id ";
+        $criteria->addBetweenCondition('date(tglpresensi)', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
+        $criteria->addCondition("p.pegawai_id = '$pegawai_id' ");		
         $criteria->addCondition("jamkerjapulang is null ");                
-        $criteria->group = "tglpresensi::date, jamkerjamasuk, jamkerjapulang, statuskehadiran_id";
+        $criteria->group = "tglpresensi, jamkerjamasuk, jamkerjapulang, statuskehadiran_id, p.kelompokjabatan";
         $total = PresensiT::model()->findAll($criteria);
         
-        $criteria1 = new CDbCriteria();
-        $criteria1->select = "tglpresensi::date, jamkerjamasuk, statuskehadiran_id, jamkerjapulang ";
+        $criteria1 = new CDbCriteria();		
+        $criteria1->select = "tglpresensi, jamkerjamasuk, statuskehadiran_id, jamkerjapulang, p.kelompokjabatan ";
+		$criteria1->join = " JOIN pegawai_m p ON p.pegawai_id = t.pegawai_id ";
         $criteria1->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
-        $criteria1->addCondition("pegawai_id = '$pegawai_id' ");
+        $criteria1->addCondition("p.pegawai_id = '$pegawai_id' ");
         $criteria1->addCondition("jamkerjamasuk is null ");                
-        $criteria1->group = "tglpresensi::date, jamkerjamasuk, statuskehadiran_id, jamkerjapulang";
+        $criteria1->group = "tglpresensi, jamkerjamasuk, statuskehadiran_id, jamkerjapulang, p.kelompokjabatan";
         $total1 = PresensiT::model()->findAll($criteria1);
                
         $list1 = array();        
         foreach($total as $data){
-            $list1[$data->tglpresensi] = array(
-                'tglpresensi' => $data->tglpresensi,
-                'jamkerjamasuk' => $data->jamkerjamasuk,
+			$jamkerjamasuk = date('H:i:s', strtotime($data->tglpresensi));
+			$tgl = date('Y-m-d', strtotime($data->tglpresensi));
+			
+            $list1[$tgl] = array(
+                'tglpresensi' => $tgl,
+                'jamkerjamasuk' => $jamkerjamasuk,
                 'jamkerjapulang' => $data->jamkerjapulang,
                 'statuskehadiran_id' => $data->statuskehadiran_id,
+				'kelompokjabatan' => $data->kelompokjabatan
             );
         }
         
         $list2 = array();        
         foreach($total1 as $data1){
-            $list2[$data1->tglpresensi] = array(
-                'tglpresensi' => $data1->tglpresensi,
-                'jamkerjamasuk' => $data1->jamkerjamasuk,
-                'jamkerjapulang' => $data1->jamkerjapulang,
-                'statuskehadiran_id' => $data1->statuskehadiran_id,
-            );
+			$jamkerjapulang = date('H:i:s', strtotime($data1->tglpresensi));
+			$tgl = date('Y-m-d', strtotime($data1->tglpresensi));
+			
+				$list2[$tgl] = array(
+					'tglpresensi' => $tgl,
+					'jamkerjamasuk' => $data1->jamkerjamasuk,
+					'jamkerjapulang' => $jamkerjapulang,
+					'statuskehadiran_id' => $data1->statuskehadiran_id,				
+					'kelompokjabatan' => $data1->kelompokjabatan
+				);
         }
         
         $hasil = array_merge($list2, $list1);//CustomFunction::joinTwo2DArraysPresensi($list1, $list2, 'tglpresensi');
         
+		
+		//var_dump($hasil);
         $tot = 0;
-        foreach ($hasil as $hitung){
-            if ($hitung['statuskehadiran_id'] == $status_id){
-                $tot = $tot + 1;
-            }else{
-                $tot = $tot + 0;
-            }
-        }
-        
+		$totH = 0;
+		$totI = 0;
+		$totD = 0;		
+		$totS = 0;
+		
+		$ms = 0;
+		$pl = 0;		
+		$count = count($hasil);
+		
+		$dtH = 0;
+		$dtI = 0;
+		$dtD = 0;		
+		$dtS = 0;
+		
+		//var_dump($count);
+			foreach ($hasil as $hitung){
+	//            if ($hitung['statuskehadiran_id'] == $status_id){
+	  //              $tot = $tot + 1;
+		//        }else{
+		  //          $tot = $tot + 0;
+			//    }
+				//var_dump( $hitung['tglpresensi']);
+				if ($hitung['statuskehadiran_id'] == $status_id && $hitung['statuskehadiran_id'] != Params::STATUSKEHADIRAN_ALPHA){				
+					if (!empty($hitung['jamkerjamasuk'])){ 
+						$dt = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,$status_id);				
+					}elseif (!empty($hitung['jamkerjapulang'])){		
+						if ($hitung['statuskehadiran_id'] != Params::STATUSKEHADIRAN_ALPHA ){							
+							$dt = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjapulang'], $hitung['kelompokjabatan'], 'pulang', true, $status_id);				
+						}else{
+							
+							$dt = 0;
+						}
+					}else{	
+						
+						$dt = 0;
+					}
+					$tot = $tot + $dt;
+					//var_dump($dt);					
+				}else{
+						if ($status_id == Params::STATUSKEHADIRAN_ALPHA){
+							if (!empty($hitung['jamkerjamasuk'])){ 
+								$dtH = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,  Params::STATUSKEHADIRAN_HADIR);				
+							}elseif (!empty($hitung['jamkerjapulang'])){										
+								$dtH = 0;							
+							}else{	
+
+								$dtH = 0;
+							}
+							$totH = $totH + $dtH;
+							
+							if (!empty($hitung['jamkerjamasuk'])){ 
+								$dtI = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,  Params::STATUSKEHADIRAN_IZIN);				
+							}elseif (!empty($hitung['jamkerjapulang'])){										
+								$dtI = 0;							
+							}else{	
+
+								$dtI = 0;
+							}
+							$totI = $totI + $dtI;
+							
+							if (!empty($hitung['jamkerjamasuk'])){ 
+								$dtD = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,  Params::STATUSKEHADIRAN_DINAS);				
+							}elseif (!empty($hitung['jamkerjapulang'])){										
+								$dtD = 0;							
+							}else{	
+
+								$dtD = 0;
+							}
+							$totD = $totD + $dtD;
+							
+							if (!empty($hitung['jamkerjamasuk'])){ 
+								$dtS = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,  Params::STATUSKEHADIRAN_SAKIT);				
+							}elseif (!empty($hitung['jamkerjapulang'])){										
+								$dtS = 0;							
+							}else{	
+
+								$dtS = 0;
+							}
+							$totS = $totS + $dtS;
+						/*	if (!empty($hitung['jamkerjamasuk'])){ 
+								$dt1 = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjamasuk'], $hitung['kelompokjabatan'], 'masuk', true,$status_id);				
+							}elseif (!empty($hitung['jamkerjapulang'])){		
+								if ($hitung['statuskehadiran_id'] != Params::STATUSKEHADIRAN_ALPHA ){							
+									$dt1 = ShiftberlakuM::model()->cekHadir($hitung['tglpresensi'].' '.$hitung['jamkerjapulang'], $hitung['kelompokjabatan'], 'pulang', true, $status_id);				
+								}else{
+
+									$dt1 = 0;
+								}
+							}else{	
+
+								$dt1 = 0;
+							}
+							$tot1 = $tot1 + $dt1;*/
+						
+						
+						if (!empty($hitung['jamkerjamasuk'])){ 
+							$pl = $pl+1;
+							$dt = ShiftberlakuM::model()->cekHadirAlpha($hitung['tglpresensi'].' '.$hitung['jamkerjapulang'], $hitung['kelompokjabatan'], 'masuk', true, Params::STATUSKEHADIRAN_ALPHA, $status_id);				
+						}elseif (!empty($hitung['jamkerjapulang'])){							
+							$ms = $ms+1;
+							$dt = ShiftberlakuM::model()->cekHadirAlpha($hitung['tglpresensi'].' '.$hitung['jamkerjapulang'], $hitung['kelompokjabatan'], 'pulang', true, Params::STATUSKEHADIRAN_ALPHA, $status_id);				
+						}else{		
+							
+							$dt = 0;
+						}
+						$tot = $tot + $dt;
+					}
+				}																
+			}
+			
+		if ($status_id == Params::STATUSKEHADIRAN_ALPHA){
+			/*$kurang = $ms-$pl;
+			//var_dump($ms.'  '.$pl);
+			if ($ms >= $pl){
+				if ($ms == 0){
+					$tot = $pl;
+				}else{
+					if ($kurang == 1){
+						$tot = $ms+$pl;
+					}else{
+						$tot = $ms;
+					}
+					
+					
+				}
+				
+			}elseif($ms <= $pl){
+				$tot = $ms;
+			}*/			
+			$tot = $count - ($totH);
+		}
+			
         
         //$data
       //  foreach($total as $total){

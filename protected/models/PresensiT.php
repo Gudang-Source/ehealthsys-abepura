@@ -343,6 +343,27 @@ class PresensiT extends CActiveRecord
                 return '';
             }
         }
+		
+		public function getRealJam($scan, $tanggal, $pegawai_id)
+        {
+            $format = new MyFormatter();
+            $tgl = $format->formatDateTimeForDb(date('Y-m-d'), strtotime($tanggal));
+            
+            $get = $this->find(" statusscan_id = '$scan' AND tglpresensi::text iLike '$tanggal%' AND pegawai_id = '$pegawai_id' ");
+            
+            if (count($get)>0){
+                if ($scan == Params::STATUSSCAN_MASUK)
+                {
+                    return date('H:i:s', strtotime($get->tglpresensi));
+                }elseif ($scan == Params::STATUSSCAN_PULANG){
+                    return date('H:i:s', strtotime($get->tglpresensi));
+                }else{
+                    return '';
+                }
+            }else{
+                return '';
+            }
+        }
         
         public function getWarnaKehadiran($status_kehadiran){
             if (strtolower($status_kehadiran) == strtolower(Params::STATUSKEHADIRAN_NAMA_HADIR)){

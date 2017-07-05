@@ -69,8 +69,8 @@
                             <?php echo CHtml::textArea('catatandokterpengirim',$modKunjungan->catatandokterpengirim,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
                         </div>
                     </div>
-                    <?php } ?>
                 </div>
+                <?php } ?>
                 <div class="block-tabel">
                     <h6>Tabel <b>Pemeriksaan</b> <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-arrow-down icon-white"></i>')),array('class'=>'btn btn-mini btn-primary', 'type'=>'button',"onclick"=>"setCheckedPemeriksaanDariPermintaan();", 'rel'=>'tooltip', 'title'=>'Klik untuk menyalin dari tabel permintaan')); ?></h6>
                     <div id="form-tindakanpemeriksaan" style="">

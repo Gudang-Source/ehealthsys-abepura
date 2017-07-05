@@ -1,6 +1,7 @@
 <?php
 //    $modStatuspresensi = PresensiT::model()->findByAttributes(array('karyawan_id'=>$karyawan_id, 'statusscan_id'=>$statusscan_id, 'date(tglpresensi)'=>'2012-10-09 08:23:09'));
 
+/*
      $cr = new CDbCriteria();                            
     $cr->compare('tglpresensi::date', $datepresensi);
     $cr->compare('pegawai_id', $pegawai_id);
@@ -71,5 +72,28 @@
         }}
     }else{
         echo '-';
-    }
+    }*/
+
+	$jammasuk = PresensiT::model()->getRealJam(Params::STATUSSCAN_MASUK, $datepresensi, $pegawai_id);
+							
+	$cekShiftBerlaku = ShiftberlakuM::model()->cekOntime($datepresensi.' '.$jammasuk, $kelompokjabatan,'masuk');
+
+
+	$tepat = $cekShiftBerlaku;
+
+	if ($tepat != '-'){
+		$masuk = strtotime(date('Y-m-d H:i:s',strtotime($datepresensi.' '.$jammasuk)));
+		$jam = floor(round(abs($masuk - $tepat) / 60,2));
+
+		//if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+		//{    
+			if ($masuk < $tepat){
+				echo "0 Menit";
+			}else{
+				echo $jam.' Menit';
+			}
+	}else{
+		echo '-';
+	}
+
 ?>
