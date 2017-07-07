@@ -48,6 +48,11 @@ if (isset($caraPrint)){
                 'header' => 'No',
                 'value' => '$row+1'
             ),
+			array(
+				'header' => 'Tanggal Pendaftaran/ <br/> No Pendaftaran',
+				'type' => 'raw',
+				'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/ <br/>".$data->no_pendaftaran'
+			),
              array(
 				'header'=>'No. Rekam Medik',
                 'value'=>'$data->no_rekam_medik',
@@ -95,6 +100,10 @@ if (isset($caraPrint)){
                 'type'=>'raw',
                 'value'=>'$this->grid->getOwner()->renderPartial(\'sensus/_tindakan\', array(\'id\'=>$data->pendaftaran_id))',
             ),
+			array(
+				'header' => 'Dokter',
+				'value' => '$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama'
+			),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); ?>

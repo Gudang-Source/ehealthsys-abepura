@@ -56,14 +56,10 @@ if (isset($caraPrint)){
                 'value' => $row
             ),
 			array(
-				'header' => 'Tanggal Pendaftaran',
-				'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)'
-			),
-			array(
-				'header' => 'No Pendaftaran',
-				'type' => 'raw',
-				'value' => '$data->no_pendaftaran'
-			),
+				'header' => 'Tanggal Pendaftaran/ <br/> No Pendaftaran',
+				'type'=>'raw',
+				'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/>".$data->no_pendaftaran'
+			),			
 			array(
                 'header'=>'Tanggal Masuk Penunjang/<br/> No Masuk Penunjang',
                 'type'=>'raw',
@@ -78,7 +74,12 @@ if (isset($caraPrint)){
                 'header'=>'Nama Pasien',
                 'type'=>'raw',
                 'value'=>'$data->namadepan." ".$data->nama_pasien',
-            ),            
+            ),       
+			array(
+				'header' => 'Tempat, Tanggal Lahir',
+				'type' => 'raw',
+				'value' => '$data->tempat_lahir.", ".MyFormatter::formatDateTimeForUser($data->tanggal_lahir)'
+			),
             array(
                 'header'=>'Jenis Kelamin/ <br/>Umur',
                 'type'=>'raw',
@@ -100,6 +101,30 @@ if (isset($caraPrint)){
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: left')
             ), 
+			array(
+				'header' => 'Diagnosa',
+				'value' => '$data->diagnosa_nama'
+			),			
+			array(
+				'header' => 'Dokter Operator',
+				'value' => '$data->dokteroperator_glrdepan." ".$data->dokteroperator_nama." ".$data->dokteroperator_glrblkg'
+			),
+			array(
+				'header' => 'Dokter Anastesi',
+				'value' => '$data->dokteranastesi_glrdepan." ".$data->dokteranastesi_nama." ".$data->dokteranastesi_glrblkg'
+			),
+			array(
+				'header' => 'Dokter Konsul',
+				'value' => '$data->dokterkonsul_glrdepan." ".$data->dokterkonsul_nama." ".$data->dokterkonsul_glrblkg'
+			),
+			array(
+				'header' => 'Tanggal Operasi',
+				'value' => 'MyFormatter::formatDateTimeForUser($data->mulaioperasi)'
+			),
+			array(
+				'header' => 'Tindakan',
+				'value' => '$data->operasi_nama'
+			),
 		//array(
 		//		'header'=>'Kunjungan',
 		//		'name' => 'kunjungan'

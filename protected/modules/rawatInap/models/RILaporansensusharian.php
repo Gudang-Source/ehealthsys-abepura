@@ -13,7 +13,7 @@ class RILaporansensusharian extends LaporansensuharianriV {
     public function searchTable() {
         $criteria = new CDbCriteria;
         
-        $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('tgladmisi', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition("pasien_id = ".$this->pasien_id); 	
 		}
@@ -182,7 +182,7 @@ class RILaporansensusharian extends LaporansensuharianriV {
         if(!empty($this->pasien_id)){
 			$criteria->addCondition("pasien_id = ".$this->pasien_id); 	
 		}
-        $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('date(tgladmisi)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(jenisidentitas)', strtolower($this->jenisidentitas), true);
         $criteria->compare('LOWER(no_identitas_pasien)', strtolower($this->no_identitas_pasien), true);
         $criteria->compare('LOWER(namadepan)', strtolower($this->namadepan), true);
@@ -281,7 +281,7 @@ class RILaporansensusharian extends LaporansensuharianriV {
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition("pasien_id = ".$this->pasien_id); 	
 		}
-		$criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
+		$criteria->addBetweenCondition('date(tgladmisi)', $this->tgl_awal, $this->tgl_akhir);
 		$criteria->compare('LOWER(jenisidentitas)',strtolower($this->jenisidentitas),true);
 		$criteria->compare('LOWER(no_identitas_pasien)',strtolower($this->no_identitas_pasien),true);
 		$criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
