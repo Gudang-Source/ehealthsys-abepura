@@ -25,31 +25,58 @@
                 'header' => 'No',
                 'value' => '$row+1'
             ),
+			array(
+				'header' => 'Tanggal Admisi',
+				'value' => 'MyFormatter::formatDateTimeForUser($data->tgladmisi)'
+				
+			),
             'no_rekam_medik',    
             array(
-                'header'=>' Nama Pasien / Alias',
-                'value'=>'$data->NamaNamaBIN',
+                'header'=>' Nama Pasien',
+                'value'=>'$data->namadepan." ".$data->nama_pasien',
             ),
-            'umur',
-            'jeniskelamin',
+			array(
+				'header' => 'Umur/<br/> Jenis Kelamin',
+				'type' => 'raw',
+				'value' => '$data->umur."/ <br/>".$data->jeniskelamin'
+			),           
             array(
                'header'=>'Alamat',
                'value'=>'$data->AlamatLengkap',
             ),
-            'kelaspelayanan_nama',
-            'nomasukkamar',
+            'kelaspelayanan_nama',            
             array(
                'name'=>'CaraBayar / Penjamin',
                'type'=>'raw',
                'value'=>'$data->CaraBayarPenjamin',
                'htmlOptions'=>array('style'=>'text-align: center')
             ),
+			array(
+				'header' => 'Dokter Pemeriksa',
+				'value' => '$data->dokterpj_gelardepan." ".$data->dokterpj_nama." ".$data->gelarpj_nama'
+			),
             'kunjungan',
             'statuspasien',
             array(
                 'header'=>'Diagnosa / Kelompok',
                 'value'=>'$data->diagnosa',
             ),
+			
+			array(
+				'header' => 'Dokter Konsul',
+				'value' => '$data->dokterkonsul_gelardepan." ".$data->dokterkonsul_nama." ".$data->gelarkonsul_nama'
+			),
+			array(
+				'header' => 'Tanggal Pulang',
+				'value' => 'MyFormatter::formatDateTimeForUser($data->tglpasienpulang)'
+				
+			),
+			'nomasukkamar',
+			array(
+				'header' => 'Lama Rawat',
+				'value' => '$data->lamarawat." ".$data->satuanlamarawat'
+				
+			),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); ?>

@@ -1,6 +1,15 @@
 <?php
 
-class BSLaporansensuspenunjangV extends LaporansensuspenunjangV {
+class BSLaporansensuspenunjangV extends LaporansensusbedahsentralV{
+
+/**
+ * #view yang sebelumnya LaporansensuspenunjangV digunakan, sebelum diganti menajadi LaporansensusbedahsentralV
+ *  
+ */
+	public $jns_periode;
+	public $tgl_awal, $bln_awal, $thn_awal;
+	public $tgl_akhir, $bln_akhir, $thn_akhir;
+	public $data, $jumlah;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -120,6 +129,57 @@ class BSLaporansensuspenunjangV extends LaporansensuspenunjangV {
 
         return $data;
     }
+	
+	public function getCaraBayarItems()
+        {
+            return CarabayarM::model()->findAll('carabayar_aktif=TRUE') ;
+        }
+        
+        public function getPenjaminItems()
+        {
+            return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE');
+        }
+        
+        public function getPropinsiItems()
+        {
+            return PropinsiM::model()->findAll('propinsi_aktif=TRUE ORDER BY propinsi_nama');
+        }
+        
+        public function getNamaNamaBIN()
+        {
+        	if (!empty($this->nama_bin)) {
+        		return $this->nama_pasien.' alias '.$this->nama_bin;
+        	} else {
+        		return $this->nama_pasien;
+        	}
+        	
+            
+        }
+        
+        public function getCaraBayarPenjamin()
+        {
+                return $this->carabayar_nama.'/ <br/> '.$this->penjamin_nama;
+        }
+        
+        public function getAlamatRTRW()
+        {
+            return $this->alamat_pasien.'/<br>'.$this->rt.'  '.$this->rw;
+        }
+        
+        public function getNoRMNoPend(){
+            return $this->no_rekam_medik.'<br/>/ '.$this->no_pendaftaran;
+        }
+        
+        public function getTglMasukNoPenunjang(){
+            return MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($this->tglmasukpenunjang))).'/<br/> '.PHP_EOL.$this->no_masukpenunjang;
+        }
+        
+        public function getJenisKelaminUmur(){
+            return $this->jeniskelamin.'/ <br/> '.$this->umur;
+        }
+        public function getInstalasiRuangan(){
+            return $this->instalasiasal_nama.'/ <br/> '.$this->ruanganasal_nama;
+        }
 
 }
 

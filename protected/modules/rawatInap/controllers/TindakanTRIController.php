@@ -825,28 +825,36 @@ class TindakanTRIController extends MyAuthController
         {
             if(Yii::app()->request->isAjaxRequest) {
                 $criteria = new CDbCriteria();
+				$criteria->join = " JOIN ruanganpegawai_m rp ON rp.pegawai_id = t.pegawai_id ";
+				$criteria->addCondition("rp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
                 if (isset($_GET['term'])){
-                    $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+                    $criteria->compare('LOWER(t.nama_pegawai)', strtolower($_GET['term']), true);
                 } else if (isset($_POST['id'])) {
-                    $criteria->compare('pegawai_id', $_POST['id']);
+                    $criteria->compare('t.pegawai_id', $_POST['id']);
                 }
-                $criteria->order = 'nama_pegawai';
+                $criteria->order = 't.nama_pegawai';
                 if (isset($_GET['idPegawai'])){
 					if(!empty($_GET['idPegawai'])){
-						$criteria->addCondition("pegawai_id = ".$_GET['idPegawai']); 	
+						$criteria->addCondition("t.pegawai_id = ".$_GET['idPegawai']); 	
 					}
                 }
+				
+							
                 $models = DokterpegawaiV::model()->findAll($criteria);
-                foreach($models as $i=>$model)
-                {
-                    $attributes = $model->attributeNames();
-                    foreach($attributes as $j=>$attribute) {
-                        $returnVal[$i]["$attribute"] = $model->$attribute;
-                    }
-                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
-                    $returnVal[$i]['value'] = $model->pegawai_id;
-                    $returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
-                }
+				if (count($models)>0){
+						foreach($models as $i=>$model)
+						{
+							$attributes = $model->attributeNames();
+							foreach($attributes as $j=>$attribute) {
+								$returnVal[$i]["$attribute"] = $model->$attribute;
+							}
+							$returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+							$returnVal[$i]['value'] = $model->pegawai_id;
+							$returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+						}
+				}else{
+					$returnVal = '';
+				}
 
                 echo CJSON::encode($returnVal);
             }
@@ -860,9 +868,13 @@ class TindakanTRIController extends MyAuthController
        {
            if(Yii::app()->request->isAjaxRequest) {
                $criteria = new CDbCriteria();
-               $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
-               $criteria->order = 'nama_pegawai';
+			   $criteria->join = " JOIN ruanganpegawai_m rp ON rp.pegawai_id = t.pegawai_id ";
+			   $criteria->addCondition(" rp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+			   $criteria->addCondition(" t.kelompokpegawai_id = '".Params::KELOMPOKPEGAWAI_ID_BIDAN."' ");
+               $criteria->compare('LOWER(t.nama_pegawai)', strtolower($_GET['term']), true);
+               $criteria->order = 't.nama_pegawai';
                $models = PegawaiM::model()->findAll($criteria);
+			   		die;	   
                $returnVal = array();
                foreach($models as $i=>$model)
                {
@@ -870,9 +882,9 @@ class TindakanTRIController extends MyAuthController
                     foreach($attributes as $j=>$attribute) {
                         $returnVal[$i]["$attribute"] = $model->$attribute;
                     }
-                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".(!empty($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:'');
                     $returnVal[$i]['value'] = $model->pegawai_id;
-					$returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+					$returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".(!empty($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:'');
                }
 
                echo CJSON::encode($returnVal);
@@ -888,8 +900,14 @@ class TindakanTRIController extends MyAuthController
        {
            if(Yii::app()->request->isAjaxRequest) {
                $criteria = new CDbCriteria();
-               $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
-               $criteria->order = 'nama_pegawai';
+               //$criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+               //$criteria->order = 'nama_pegawai';
+			   //var_dump($_GET['term']);
+			   $criteria->join = " JOIN ruanganpegawai_m rp ON rp.pegawai_id = t.pegawai_id ";
+			   $criteria->addCondition(" rp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+			   $criteria->addCondition(" t.kelompokpegawai_id = '".Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN."' ");
+               $criteria->compare('LOWER(t.nama_pegawai)', strtolower($_GET['term']), true);
+               $criteria->order = 't.nama_pegawai';
                $models = PegawaiM::model()->findAll($criteria);
                $returnVal = array();
                foreach($models as $i=>$model)
@@ -898,9 +916,9 @@ class TindakanTRIController extends MyAuthController
                     foreach($attributes as $j=>$attribute) {
                         $returnVal[$i]["$attribute"] = $model->$attribute;
                     }
-                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".(!empty($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:'');
                     $returnVal[$i]['value'] = $model->pegawai_id;
-					$returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+					$returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".(!empty($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:'');
                }
 
                echo CJSON::encode($returnVal);
@@ -915,9 +933,15 @@ class TindakanTRIController extends MyAuthController
        {
            if(Yii::app()->request->isAjaxRequest) {
                $criteria = new CDbCriteria();
-               $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
-               $criteria->order = 'nama_pegawai';
-               $models = DokterpegawaiV::model()->findAll($criteria);
+               //$criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+               //$criteria->order = 'nama_pegawai';
+               //$models = DokterpegawaiV::model()->findAll($criteria);
+			   $criteria->join = " JOIN ruanganpegawai_m rp ON rp.pegawai_id = t.pegawai_id ";
+			   $criteria->addCondition(" rp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+			   $criteria->addCondition(" t.kelompokpegawai_id IN ('".Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN."', '".Params::KELOMPOKPEGAWAI_ID_BIDAN."') ");
+               $criteria->compare('LOWER(t.nama_pegawai)', strtolower($_GET['term']), true);
+               $criteria->order = 't.nama_pegawai';
+               $models = PegawaiM::model()->findAll($criteria);
                $returnVal = array();
                foreach($models as $i=>$model)
                {
@@ -925,9 +949,9 @@ class TindakanTRIController extends MyAuthController
                     foreach($attributes as $j=>$attribute) {
                         $returnVal[$i]["$attribute"] = $model->$attribute;
                     }
-                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+                    $returnVal[$i]['label'] = $model->gelardepan." ".$model->nama_pegawai.", ".(!empty($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:'');
                     $returnVal[$i]['value'] = $model->pegawai_id;
-					$returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".$model->gelarbelakang_nama;
+					$returnVal[$i]['nama_pegawai'] = $model->gelardepan." ".$model->nama_pegawai.", ".(!empty($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:'');
                }
 
                echo CJSON::encode($returnVal);
