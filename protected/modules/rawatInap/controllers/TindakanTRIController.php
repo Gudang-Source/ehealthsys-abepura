@@ -866,15 +866,15 @@ class TindakanTRIController extends MyAuthController
         */
        public function actionGetBidan()
        {
-           if(Yii::app()->request->isAjaxRequest) {
+           if(Yii::app()->request->isAjaxRequest) {			   
                $criteria = new CDbCriteria();
 			   $criteria->join = " JOIN ruanganpegawai_m rp ON rp.pegawai_id = t.pegawai_id ";
 			   $criteria->addCondition(" rp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
-			   $criteria->addCondition(" t.kelompokpegawai_id = '".Params::KELOMPOKPEGAWAI_ID_BIDAN."' ");
+			   $criteria->addCondition(" t.kelompokpegawai_id IN ('".Params::KELOMPOKPEGAWAI_ID_BIDAN."','".Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN."') ");
                $criteria->compare('LOWER(t.nama_pegawai)', strtolower($_GET['term']), true);
                $criteria->order = 't.nama_pegawai';
                $models = PegawaiM::model()->findAll($criteria);
-			   		die;	   
+			   			   
                $returnVal = array();
                foreach($models as $i=>$model)
                {
@@ -905,7 +905,7 @@ class TindakanTRIController extends MyAuthController
 			   //var_dump($_GET['term']);
 			   $criteria->join = " JOIN ruanganpegawai_m rp ON rp.pegawai_id = t.pegawai_id ";
 			   $criteria->addCondition(" rp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
-			   $criteria->addCondition(" t.kelompokpegawai_id = '".Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN."' ");
+			   $criteria->addCondition(" t.kelompokpegawai_id IN ('".Params::KELOMPOKPEGAWAI_ID_BIDAN."','".Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN."') ");
                $criteria->compare('LOWER(t.nama_pegawai)', strtolower($_GET['term']), true);
                $criteria->order = 't.nama_pegawai';
                $models = PegawaiM::model()->findAll($criteria);
@@ -938,7 +938,7 @@ class TindakanTRIController extends MyAuthController
                //$models = DokterpegawaiV::model()->findAll($criteria);
 			   $criteria->join = " JOIN ruanganpegawai_m rp ON rp.pegawai_id = t.pegawai_id ";
 			   $criteria->addCondition(" rp.ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
-			   $criteria->addCondition(" t.kelompokpegawai_id IN ('".Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN."', '".Params::KELOMPOKPEGAWAI_ID_BIDAN."') ");
+			   $criteria->addCondition(" t.kelompokpegawai_id IN ('".Params::KELOMPOKPEGAWAI_ID_BIDAN."','".Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN."') ");
                $criteria->compare('LOWER(t.nama_pegawai)', strtolower($_GET['term']), true);
                $criteria->order = 't.nama_pegawai';
                $models = PegawaiM::model()->findAll($criteria);

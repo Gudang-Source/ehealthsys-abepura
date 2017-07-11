@@ -25,7 +25,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetDokter'),
                                     'options'=>array(
                                        'showAnim'=>'fold',
-                                       'minLength' => 4,
+                                       'minLength' => 3,
                                        'focus'=> 'js:function( event, ui ) {
                                             $("#dokterpemeriksa1_id").val( ui.item.label);
                                             return false;
@@ -52,7 +52,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetDokter'),
                                     'options'=>array(
                                        'showAnim'=>'fold',
-                                       'minLength' => 4,
+                                       'minLength' => 3,
                                        'focus'=> 'js:function( event, ui ) {
                                             $("#dokterdelegasi_id").val( ui.item.label);
                                             return false;
@@ -79,7 +79,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetDokter'),
                                     'options'=>array(
                                        'showAnim'=>'fold',
-                                       'minLength' => 4,
+                                       'minLength' => 3,
                                        'focus'=> 'js:function( event, ui ) {
                                             $("#dokteranastesi_id").val( ui.item.label);
                                             return false;
@@ -106,7 +106,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetDokter'),
                                     'options'=>array(
                                        'showAnim'=>'fold',
-                                       'minLength' => 4,
+                                       'minLength' => 3,
                                        'focus'=> 'js:function( event, ui ) {
                                             $("#dokterpemeriksa2_id").val( ui.item.label);
                                             return false;
@@ -133,7 +133,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetDokter'),
                                     'options'=>array(
                                        'showAnim'=>'fold',
-                                       'minLength' => 4,
+                                       'minLength' => 3,
                                        'focus'=> 'js:function( event, ui ) {
                                             $("#dokterpendamping_id").val( ui.item.label);
                                             return false;
@@ -164,7 +164,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetBidan'),
                                     'options'=>array(
                                        'showAnim'=>'fold',
-                                       'minLength' => 4,
+                                       'minLength' => 3,
                                        'focus'=> 'js:function( event, ui ) {
                                             $("#bidan_id").val( ui.item.label);
                                             return false;
@@ -190,7 +190,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetSuster'),
                                     'options'=>array(
                                        'showAnim'=>'fold',
-                                       'minLength' => 4,
+                                       'minLength' => 3,
                                        'focus'=> 'js:function( event, ui ) {
                                             $("#suster_id").val( ui.item.label);
                                             return false;
@@ -216,7 +216,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetPerawat'),
                                     'options'=>array(
                                        'showAnim'=>'fold',
-                                       'minLength' => 4,
+                                       'minLength' => 3,
                                        'focus'=> 'js:function( event, ui ) {
                                             $("#perawat_id").val( ui.item.label);
                                             return false;
