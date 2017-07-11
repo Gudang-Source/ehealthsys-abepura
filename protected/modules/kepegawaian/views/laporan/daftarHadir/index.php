@@ -32,16 +32,16 @@ $('.search-form form').submit(function(){
                 'dataProvider'=>$model->searchByNofinger(),
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
-                 'mergeHeaders'=>array(
+				'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Hari Kerja</center>',
-                        'start'=>'7',
-                        'end'=>'11',
+                        'start'=>'5',
+                        'end'=>'9',
                     ),
                       array(
                         'name'=>'<center>Jam Kerja</center>',
-                        'start'=>'12',
-                        'end'=>'13',
+                        'start'=>'10',
+                        'end'=>'11',
                     ),
                 ),
                 'columns'=>array(
@@ -50,7 +50,7 @@ $('.search-form form').submit(function(){
                          'value' => '$data->nofingerprint',
                      ),                    
                     'kelompokpegawai.kelompokpegawai_nama',
-                    'jabatan.jabatan_nama',
+                    'jabatan.jabatan_nama',					
                     'nomorindukpegawai',
                     'nama_pegawai',  
                     //'ruanganpegawai.ruangan.ruangan_nama',
@@ -58,7 +58,7 @@ $('.search-form form').submit(function(){
                       //  'header' => 'Shift',
                       //  'name' => 'shift.shift_nama',
                    // ),                    
-                     array(
+                    /* array(
                          'header' => 'Rerata Jam Masuk',                        
                          'value' => function ($data) use ($model){                            
                             //return $this->renderPartial("daftarHadir/_rerataJamMasuk",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$model->tglpresensi,'tgl_akhir'=>$model->tglpresensi_akhir),true);
@@ -70,7 +70,7 @@ $('.search-form form').submit(function(){
                             //return $this->renderPartial("daftarHadir/_rerataJamKeluar",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi,'tgl_akhir'=>$model->tglpresensi_akhir),true);
                          }
                         
-                     ),                                     
+                     ),              */                       
                     array(
                          'header' => 'Hadir',
                         // 'value' => '$data->getTotalStatusKehadiran(1, $data->pegawai_id)',

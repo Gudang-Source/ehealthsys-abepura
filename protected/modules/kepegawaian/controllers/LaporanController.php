@@ -71,14 +71,22 @@
             $model->tglpresensi = $_REQUEST['PegawaiM']['tglpresensi'];
             $model->tglpresensi_akhir = $_REQUEST['PegawaiM']['tglpresensi_akhir'];
             $judulLaporan='Laporan Presensi';
+			if (!empty($model->ruangan_id)){
+				$r = RuanganM::model()->findByPk($model->ruangan_id);
+				$judulLaporan2 = "Ruangan Pegawai ".$r->ruangan_nama."";
+			}else{
+				$judulLaporan2 = 'Semua Ruangan';
+			}
+			
+			$judulLaporan3='Periode '.MyFormatter::formatDateTimeForUser($model->tglpresensi).' sampai '.MyFormatter::formatDateTimeForUser($model->tglpresensi_akhir);
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';
-                $this->render('daftarHadir/Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                $this->render('daftarHadir/Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'judulLaporan2'=>$judulLaporan2,'judulLaporan3'=>$judulLaporan3,'caraPrint'=>$caraPrint));
             }
             else if($caraPrint=='EXCEL') {
                 $this->layout='//layouts/printExcel';
-                $this->render('daftarHadir/Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                $this->render('daftarHadir/Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'judulLaporan2'=>$judulLaporan2,'judulLaporan3'=>$judulLaporan3,'caraPrint'=>$caraPrint));
             }
             else if($_REQUEST['caraPrint']=='PDF') {
                 $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
@@ -88,7 +96,7 @@
                 $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-                $mpdf->WriteHTML($this->renderPartial('daftarHadir/Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+                $mpdf->WriteHTML($this->renderPartial('daftarHadir/Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'judulLaporan2'=>$judulLaporan2,'judulLaporan3'=>$judulLaporan3,'caraPrint'=>$caraPrint),true));
                 $mpdf->Output();
             }
         }
