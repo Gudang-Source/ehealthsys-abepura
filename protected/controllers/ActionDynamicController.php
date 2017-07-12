@@ -1704,5 +1704,47 @@ class ActionDynamicController extends Controller
         }
         Yii::app()->end();
     }
+	
+	public function actionAllPegawai()
+        {
+            $dataRuangan = array();
+			$kelompokpegawai_id = !empty($_POST['PegawaiM']['kelompokpegawai_id'])?$_POST['PegawaiM']['kelompokpegawai_id']:null;
+			$jabatan_id = !empty($_POST['PegawaiM']['jabatan_id'])?$_POST['PegawaiM']['jabatan_id']:null;
+			
+			$cri = new CDbCriteria();
+			if (!empty($kelompokpegawai_id)){
+				$cri->addCondition(" kelompokpegawai_id = '".$kelompokpegawai_id."' ");
+			}
+			
+			if (!empty($jabatan_id)){
+				$cri->addCondition(" jabatan_id = '".$jabatan_id."' ");
+			}
+			
+			$cri->addCondition("pegawai_aktif = TRUE");
+			$cri->order = "nama_pegawai ASC";
+			
+            if (!empty($_POST['PegawaiM']['ruangan_id'])){	
+				$cri->addCondition("ruangan_id = '".$_POST['PegawaiM']['ruangan_id']."' ");
+                $ruangan = PegawairuanganV::model()->findAll($cri);                        
+			}else{
+				$ruangan = PegawaiV::model()->findAll($cri);                        
+			}
+			
+
+            $data = CHtml::listData($ruangan,'pegawai_id','namaLengkap');
+
+            if(count($data) > 0){
+                if(count($data) > 1){
+                   // echo CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
+
+                foreach($data as $value=>$name)
+                {
+                    echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+			}else{
+				//echo CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+			}
+        }
 }
 ?>

@@ -22,6 +22,12 @@
 		z-index: 0;
 		
 	  }
+	  
+	  .caret{
+		  margin:6px;
+	  }
+	  
+	 
 </style>
 <?php 
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/js/bootstrap-multiselect/css/bootstrap-multiselect.css');

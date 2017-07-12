@@ -8,6 +8,7 @@
  .block-tabel{
      background-color:#fff;
  }
+ 
 
  /*[class^="icon-"], [class*=" icon-"] {                
      background-image: url("'.Yii::app()->request->baseUrl.'");                
