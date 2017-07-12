@@ -14,6 +14,7 @@
                 $model->tglpresensi = $_GET['PegawaiM']['tglpresensi'].' 00:00:00';
                 $model->tglpresensi_akhir = $_GET['PegawaiM']['tglpresensi_akhir'].' 23:59:59';                            
                 $model->ruangan_id = $_GET['PegawaiM']['ruangan_id'];                            
+				$model->pegawai_id = isset($_GET['PegawaiM']['pegawai_id'])?$_GET['PegawaiM']['pegawai_id']:null;                            
                 
             }
             $this->render('daftarHadir/index',array(
@@ -67,9 +68,13 @@
         //buat ngeprint detailPresensi
         public function actionPrintDetailPresensi(){
             $model= new PegawaiM;
-            $model->attributes=$_REQUEST['PegawaiM'];
-            $model->tglpresensi = $_REQUEST['PegawaiM']['tglpresensi'];
-            $model->tglpresensi_akhir = $_REQUEST['PegawaiM']['tglpresensi_akhir'];
+			if (isset($_REQUEST['PegawaiM'])){
+				$model->attributes=$_REQUEST['PegawaiM'];
+				$model->tglpresensi = $_REQUEST['PegawaiM']['tglpresensi'];
+				$model->tglpresensi_akhir = $_REQUEST['PegawaiM']['tglpresensi_akhir'];
+				$model->ruangan_id = $_REQUEST['PegawaiM']['ruangan_id'];                            
+				$model->pegawai_id = isset($_REQUEST['PegawaiM']['pegawai_id'])?$_REQUEST['PegawaiM']['pegawai_id']:null;                            
+			}
             $judulLaporan='Laporan Presensi';
 			if (!empty($model->ruangan_id)){
 				$r = RuanganM::model()->findByPk($model->ruangan_id);

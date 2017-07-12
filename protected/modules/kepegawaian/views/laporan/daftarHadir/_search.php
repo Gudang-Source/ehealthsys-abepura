@@ -1,3 +1,32 @@
+<style>
+    #ruangan label{
+        width: 200px;
+        display:inline-block;
+    }
+	
+	.radio input[type="radio"], .checkbox input[type="checkbox"] {
+		float: none;
+		margin-left: -18px;
+	}
+	
+	input.multiselect-search{
+		/*width:100px;*/
+	}
+	
+	.btn-group .btn {
+		position: relative;
+		float: none;		
+	}
+	
+	.collapse.in, .collapse{
+		z-index: 0;
+		
+	  }
+	  
+	  .caret{
+		  margin:6px;
+	  }
+</style>
 <script type="text/javascript">
     function reseting()
     {
@@ -9,6 +38,11 @@
 
     }   
 </script>
+<?php 
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/js/bootstrap-multiselect/css/bootstrap-multiselect.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/bootstrap-multiselect/js/bootstrap-multiselect.js', CClientScript::POS_END);
+
+?>
 <fieldset class="box">
     
     <legend class="rim"><i class="icon-white icon-search"></i> Pencarian</legend>
@@ -74,7 +108,8 @@
                     ?>
                 </div>
             </div>  
-                
+                <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'span3','maxlength'=>30)); ?>
+                <?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3','maxlength'=>50)); ?>
                 <?php
                     /*echo $form->dropDownListRow(
                         $model,'unit_perusahaan',LookupM::getItems('unit_perusahaan'),
@@ -83,21 +118,41 @@
                 ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'span3','maxlength'=>30)); ?>
-                <?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3','maxlength'=>50)); ?>
+				 <?php echo $form->dropDownListRow($model,'kelompokpegawai_id',CHtml::listData(KelompokpegawaiM::model()->findAll('kelompokpegawai_aktif = true ORDER BY kelompokpegawai_nama ASC'), 'kelompokpegawai_id', 'kelompokpegawai_nama'),array('class'=>'span3', 'empty'=>'-- Pilih --','ajax'=>array(
+					'type'=>'POST',
+						'url'=>  CController::createUrl('/ActionDynamic/AllPegawai'),
+						'success'=>'function(data) {updatePegawai(data);}'))); ?>     
+                <?php echo $form->dropDownListRow($model,'jabatan_id',CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true ORDER BY jabatan_nama ASC'), 'jabatan_id', 'jabatan_nama'),array('class'=>'span3','maxlength'=>50, 'empty'=>'-- Pilih --',
+					'ajax'=>array(
+					'type'=>'POST',
+						'url'=>  CController::createUrl('/ActionDynamic/AllPegawai'),
+						'success'=>'function(data) {updatePegawai(data);}'))); ?>     
+                <?php echo $form->dropDownListRow($model,'ruangan_id',CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array(
+					'class'=>'span3',
+					'maxlength'=>50, 
+					'empty'=>'-- Pilih --',
+					'ajax'=>array(
+					'type'=>'POST',
+						'url'=>  CController::createUrl('/ActionDynamic/AllPegawai'),
+						'success'=>'function(data) {updatePegawai(data);}'))); ?>                
+				
+				<div class="multiple-pegawai">
+				<?php 
+					echo $form->dropDownListRow($model,'pegawai_id',  CHtml::listData(PegawaiV::model()->findAll("pegawai_aktif = TRUE ORDER BY nama_pegawai"), 'pegawai_id', 'namaLengkap'), 
+						array( 'multiple'=>'multiple'));
+				?>                
+				</div>
             </td>
             <td>
-                <?php echo $form->dropDownListRow($model,'kelompokpegawai_id',CHtml::listData(KelompokpegawaiM::model()->findAll('kelompokpegawai_aktif = true ORDER BY kelompokpegawai_nama ASC'), 'kelompokpegawai_id', 'kelompokpegawai_nama'),array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
-                <?php echo $form->dropDownListRow($model,'jabatan_id',CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true ORDER BY jabatan_nama ASC'), 'jabatan_id', 'jabatan_nama'),array('class'=>'span3','maxlength'=>50, 'empty'=>'-- Pilih --')); ?>                
-                <?php echo $form->dropDownListRow($model,'ruangan_id',CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3','maxlength'=>50, 'empty'=>'-- Pilih --')); ?>                
+               
             </td>
         </tr>
     </table>
     <div class="form-actions">
         <?php 
-            echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit'));
+            echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="entypo-search"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit'));
             echo "&nbsp;";
-            echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('Laporan/LaporanPegawai'), array('class'=>'btn btn-danger'));
+            echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="entypo-arrows-ccw"></i>')), $this->createUrl('Laporan/LaporanPegawai'), array('class'=>'btn btn-danger'));
                  
          ?>
     </div>
@@ -113,3 +168,28 @@ $('#lapegawai-m-search').submit(function(){
 });
 ");
 ?>
+
+<script>
+$(document).ready(function() {
+	jQuery("#PegawaiM_pegawai_id").multiselect({
+		includeSelectAllOption: true,
+		buttonClass: "btn-dropdown",
+		maxHeight: 300,
+		buttonWidth: '140px',
+		enableCaseInsensitiveFiltering: true,
+	}).hide();			
+});
+
+function updatePegawai(data){
+	
+	$('#PegawaiM_pegawai_id').html(data);
+	$('#PegawaiM_pegawai_id').multiselect('rebuild');
+	jQuery("#PegawaiM_pegawai_id").multiselect({
+		includeSelectAllOption: true,
+		buttonClass: "btn-dropdown",
+		maxHeight: 300,
+		buttonWidth: '140px',
+		enableCaseInsensitiveFiltering: true,
+	}).hide();		
+}
+</script>
