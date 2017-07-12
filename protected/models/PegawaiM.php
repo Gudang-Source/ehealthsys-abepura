@@ -414,8 +414,12 @@ class PegawaiM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-                $criteria->with = array('ruanganpegawai');
-		$criteria->compare('pegawai_id',$this->pegawai_id);
+		if (!empty($this->pegawai_id)){
+			$criteria->addInCondition("t.pegawai_id", $this->pegawai_id);
+		}
+		
+		
+		//$criteria->compare('pegawai_id',$this->pegawai_id);
 		$criteria->compare('kelurahan_id',$this->kelurahan_id);
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
 		$criteria->compare('profilrs_id',$this->profilrs_id);
@@ -469,11 +473,12 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(kemampuanbahasa)',strtolower($this->kemampuanbahasa),true);
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
-                $criteria->addCondition("nofingerprint IS NOT NULL");
-                if (!empty($this->ruangan_id)){
-                    $criteria->addCondition("ruanganpegawai.ruangan_id =".$this->ruangan_id);
-                }
-                $criteria->order = 'nama_pegawai ASC';
+		$criteria->addCondition("nofingerprint IS NOT NULL");
+		if (!empty($this->ruangan_id)){
+			$criteria->with = array('ruanganpegawai');
+			$criteria->addCondition("ruanganpegawai.ruangan_id =".$this->ruangan_id);
+		}
+		$criteria->order = 'nama_pegawai ASC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -509,8 +514,10 @@ class PegawaiM extends CActiveRecord
                 // Warning: Please modify the following code to remove attributes that
                 // should not be searched.                
                 $criteria=new CDbCriteria;
-                $criteria->with = array('ruanganpegawai');
-		$criteria->compare('pegawai_id',$this->pegawai_id);
+                
+		if (!empty($this->pegawai_id)){
+			$criteria->addInCondition("t.pegawai_id", $this->pegawai_id);
+		}
 		$criteria->compare('kelurahan_id',$this->kelurahan_id);
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
 		$criteria->compare('profilrs_id',$this->profilrs_id);
@@ -563,6 +570,7 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
                 $criteria->addCondition("nofingerprint IS NOT NULL");
                 if (!empty($this->ruangan_id)){
+					$criteria->with = array('ruanganpegawai');
                     $criteria->addCondition("ruanganpegawai.ruangan_id =".$this->ruangan_id);
                 }
                 $criteria->order = 'nama_pegawai ASC';
