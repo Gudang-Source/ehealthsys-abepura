@@ -928,7 +928,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             $modSep->catatansep = $postSep['catatansep'];
             $data_diagnosa = explode(', ', $modRujukanBpjs->kddiagnosa_rujukan);
             $modSep->diagnosaawal = isset($data_diagnosa[0])?$data_diagnosa[0]:'';
-            $modSep->politujuan = $model->ruangan->ruangan_singkatan;
+            $modSep->politujuan = empty($model->ruangan->kode_bpjs) ? $model->ruangan->ruangan_singkatan: $model->ruangan->kode_bpjs;
             $modSep->klsrawat = $kelas->kelasbpjs_id;
             $modSep->tglpulang = date('Y-m-d H:i:s');
             $modSep->create_time = date('Y-m-d H:i:s');
