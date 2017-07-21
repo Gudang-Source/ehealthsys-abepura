@@ -55,7 +55,13 @@ $this->widget('bootstrap.widgets.BootAlert');
                 ?>
             </div>
         </div>
-        <?php echo $form->textAreaRow($model,'keterangan',array('rows'=>6, 'cols'=>50, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+		<div class="control-group">
+			<?php echo CHtml::label("Keterangan <span class='required'>*</span>", 'keterangan', array('class' => 'control-label')) ?>
+			<div class="controls">
+				<?php echo $form->textArea($model,'keterangan',array('rows'=>6, 'cols'=>50, 'class'=>'span3 required', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+			</div>
+		</div>
+        
     </div>
     <div class="span4">        
         <div class="control-group ">
