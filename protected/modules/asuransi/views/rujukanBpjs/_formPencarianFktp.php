@@ -42,7 +42,7 @@
 							  'title'=>"Klik untuk mencari data Rujukan BPJS berdasarkan Nomor Kartu Peserta",)); ?>
 			</div>
 		</div>
-		<div class="control-group ">
+		<div class="control-group " hidden>
 			<label class="control-label">
 				<?php
 					echo CHtml::radioButton('radio_tglrujukan_fktp', false, array(

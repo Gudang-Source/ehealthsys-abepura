@@ -8,6 +8,244 @@
 		var $url  	= "";
                 var $inacbg_url = "";
 		
+		/*
+		var $test_json_rujukan_rs = '{
+	        "metadata": 
+	        {
+		        "code": "200",
+		        "message": "OK"
+	        },
+	        "response": 
+		        {
+		        "item": 
+		        {
+			        "catatan": null,
+			        "diagnosa": 
+			        {
+				        "kdDiag": "H259",
+				        "nmDiag": null
+			        },
+			        "keluhan": "abcdef",
+			        "noKunjungan": "0312R0010715A000058",
+			        "pemFisikLain": "kumis hitam",
+			        "peserta": 
+			        {
+			        "jenisPeserta": 
+			        {
+				        "kdJenisPeserta": "asd",
+				        "nmJenisPeserta": "def"
+			        },
+			        "kelasTanggungan": 
+			        {
+				        "kdKelas": "1",
+				        "nmKelas": "Kelas 1"
+			        },
+			        "nama": "RIMBAR YUNUS, IR",
+			        "nik": "23424080182301928",
+			        "noKartu": "0000033420148",
+			        "noMr": null,
+			        "pisa": "1",
+			        "provUmum": 
+			        {
+						"kdCabang": null,
+						"kdProvider": "03010402",
+						"nmCabang": null,
+						"nmProvider": "PEGAMBIRAN"
+			        },
+			        "sex": "P",
+			        "statusPeserta": {
+						"keterangan": "AKTIF",
+						"kode": "0"
+					},
+			        "tglCetakKartu": null,
+					"tglLahir": "1965-01-11",
+					"tglTAT": "2065-01-11",
+					"tglTMT": "1994-06-01",
+			        "umur": null
+			        },
+			        "poliRujukan": 
+			        {
+				        "kdPoli": "MAT",
+				        "nmPoli": "Poli Mata"
+			        },
+			        "provKunjungan": 
+			        {
+			        "kdCabang": null,
+			        "kdProvider": "0312R001",
+			        "nmCabang": null,
+			        "nmProvider": "RSU DR ADNAN WD"
+			        },
+			        "provRujukan": 
+			        {
+				        "kdCabang": null,
+				        "kdProvider": null,
+				        "nmCabang": null,
+				        "nmProvider": null
+			        },
+			        "tglKunjungan": "2015-07-14"
+		        }
+	        }
+        }';		
+		
+		var $test_json_no_rujukan = '{
+          "metadata": {
+            "code": "200",
+            "message": "OK"
+          },
+          "response": {
+            "item": {
+              "catatan": "",
+              "diagnosa": {
+                "kdDiag": "B54",
+                "nmDiag": "Unspecified malaria"
+              },
+              "keluhan": "",
+              "noKunjungan": "030104021115Y000002",
+              "pemFisikLain": "",
+              "peserta": {
+                "informasi": {
+                  "dinsos": null,
+                  "iuran": null,
+                  "noSKTM": null,
+                  "prolanisPRB": null
+                },
+                "jenisPeserta": {
+                  "kdJenisPeserta": "1",
+                  "nmJenisPeserta": "PNS Daerah"
+                },
+                "kelasTanggungan": {
+                  "kdKelas": "1",
+                  "nmKelas": "KELAS I"
+                },
+                "nama": "SITI AMINAH",
+                "nik": null,
+                "noKartu": "0000099799751",
+                "noMr": null,
+                "pisa": "1",
+                "provUmum": {
+                  "kdCabang": null,
+                  "kdProvider": "03010402",
+                  "nmCabang": null,
+                  "nmProvider": "PEGAMBIRAN"
+                },
+                "sex": "P",
+                "statusPeserta": {
+                  "keterangan": "AKTIF",
+                  "kode": "0"
+                },
+                "tglCetakKartu": null,
+                "tglLahir": "1965-01-11",
+                "tglTAT": "2065-01-11",
+                "tglTMT": "1994-06-01",
+                "umur": null
+              },
+              "poliRujukan": {
+                "kdPoli": "INT",
+                "nmPoli": "Poli Penyakit Dalam"
+              },
+              "provKunjungan": {
+                "kdCabang": null,
+                "kdProvider": "03010402",
+                "nmCabang": null,
+                "nmProvider": "PEGAMBIRAN"
+              },
+              "provRujukan": {
+                "kdCabang": null,
+                "kdProvider": "0301R001",
+                "nmCabang": null,
+                "nmProvider": "RSUP DR M JAMIL PADANG"
+              },
+              "tglKunjungan": "2015-11-02",
+              "tktPelayanan": {
+                "nmPelayanan": "Rawat Jalan",
+                "tktPelayanan": "10"
+              }
+            }
+          }
+        }';
+		
+		var $test_json_rujukan = '	
+		{
+          "metadata": {
+            "code": "200",
+            "message": "OK"
+          },
+          "response": {
+            "item": {
+              "catatan": "",
+              "diagnosa": {
+                "kdDiag": "B54",
+                "nmDiag": "Unspecified malaria"
+              },
+              "keluhan": "",
+              "noKunjungan": "030104021115Y000002",
+              "pemFisikLain": "",
+              "peserta": {
+                "informasi": {
+                  "dinsos": null,
+                  "iuran": null,
+                  "noSKTM": null,
+                  "prolanisPRB": null
+                },
+                "jenisPeserta": {
+                  "kdJenisPeserta": "1",
+                  "nmJenisPeserta": "PNS Daerah"
+                },
+                "kelasTanggungan": {
+                  "kdKelas": "1",
+                  "nmKelas": "KELAS I"
+                },
+                "nama": "SITI AMINAH",
+                "nik": null,
+                "noKartu": "0000099799751",
+                "noMr": null,
+                "pisa": "1",
+                "provUmum": {
+                  "kdCabang": null,
+                  "kdProvider": "03010402",
+                  "nmCabang": null,
+                  "nmProvider": "PEGAMBIRAN"
+                },
+                "sex": "P",
+                "statusPeserta": {
+                  "keterangan": "AKTIF",
+                  "kode": "0"
+                },
+                "tglCetakKartu": null,
+                "tglLahir": "1965-01-11",
+                "tglTAT": "2065-01-11",
+                "tglTMT": "1994-06-01",
+                "umur": null
+              },
+              "poliRujukan": {
+                "kdPoli": "INT",
+                "nmPoli": "Poli Penyakit Dalam"
+              },
+              "provKunjungan": {
+                "kdCabang": null,
+                "kdProvider": "03010402",
+                "nmCabang": null,
+                "nmProvider": "PEGAMBIRAN"
+              },
+              "provRujukan": {
+                "kdCabang": null,
+                "kdProvider": "0301R001",
+                "nmCabang": null,
+                "nmProvider": "RSUP DR M JAMIL PADANG"
+              },
+              "tglKunjungan": "2015-11-02",
+              "tktPelayanan": {
+                "nmPelayanan": "Rawat Jalan",
+                "tktPelayanan": "10"
+              }
+            }
+          }
+        }		
+		';
+		 * 
+		 */
+				
+				
 //		var $server = array(
 //				'local'	 => 'http://10.10.0.2:8080/SepLokalRest',
 //				'production' => 'http://10.10.0.1:8080/SepLokalRest',
@@ -142,14 +380,39 @@
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->url.'/Rujukan/'.$query;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
+			
+			$res = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
+			// $res = CJSON::decode($this->test_json_no_rujukan);
+			if ($res['metadata']['code'] == 200) {
+				$item = $res['response']['item'];
+				$item['tglKunjungan'] = MyFormatter::formatDateTimeForUser($item['tglKunjungan']);
+				$item['peserta']['tglLahir'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglLahir']);
+				$item['peserta']['tglTAT'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglTAT']);
+				$item['peserta']['tglTMT'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglTMT']);
+				$res['response']['item'] = $item;
+			}
+			
+			return CJSON::encode($res);
+			// return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
 		}
 
 		function search_rujukan_no_bpjs($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/Rujukan/peserta/'.$query;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);		
+			$completeUrl = $this->url.'/Rujukan/Peserta/'.$query;
+			
+			$res = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
+			// $res = CJSON::decode($this->test_json_rujukan);
+			if ($res['metadata']['code'] == 200) {
+				$item = $res['response']['item'];
+				$item['tglKunjungan'] = MyFormatter::formatDateTimeForUser($item['tglKunjungan']);
+				$item['peserta']['tglLahir'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglLahir']);
+				$item['peserta']['tglTAT'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglTAT']);
+				$item['peserta']['tglTMT'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglTMT']);
+				$res['response']['item'] = $item;
+			}
+			
+			return CJSON::encode($res);
 		}
 
 		function list_rujukan_tanggal($query, $start, $limit)
@@ -163,14 +426,41 @@
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->url.'/Rujukan/RS/'.$query;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
+			$res = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));	
+			// $res = CJSON::decode($this->test_json_rujukan_rs);
+			
+			// var_dump($res); die;
+			
+			if ($res['metadata']['code'] == 200) {
+				$item = $res['response']['item'];
+				$item['tglKunjungan'] = MyFormatter::formatDateTimeForUser($item['tglKunjungan']);
+				$item['peserta']['tglLahir'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglLahir']);
+				$item['peserta']['tglTAT'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglTAT']);
+				$item['peserta']['tglTMT'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglTMT']);
+				$res['response']['item'] = $item;
+			}
+			
+			return CJSON::encode($res);
+			
 		}
 
 		function search_rujukan_rs_no_bpjs($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->url.'/Rujukan/RS/peserta/'.$query;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);		
+			$res = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));	
+			// $res = CJSON::decode($this->test_json_rujukan_rs);
+			if ($res['metadata']['code'] == 200) {
+				$item = $res['response']['item'];
+				$item['tglKunjungan'] = MyFormatter::formatDateTimeForUser($item['tglKunjungan']);
+				$item['peserta']['tglLahir'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglLahir']);
+				$item['peserta']['tglTAT'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglTAT']);
+				$item['peserta']['tglTMT'] = MyFormatter::formatDateTimeForUser($item['peserta']['tglTMT']);
+				$res['response']['item'] = $item;
+			}
+			
+			return CJSON::encode($res);
+			
 		}
 
 		function list_rujukan_rs_tanggal($query, $start, $limit)
