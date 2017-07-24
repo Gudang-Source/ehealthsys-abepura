@@ -150,16 +150,19 @@ function cariDataRujukanBpjsFktp()
 			$('#data-fktp').removeClass("animation-loading");
 			var obj = JSON.parse(data);
 			if(obj.response!=null){
-				var peserta = obj.response.peserta;
+				var item = obj.response.item;
+				var peserta = item.peserta;
+				var poliRujukan = item.poliRujukan;
+				var diagnosa = item.diagnosa;
 				//Data Rujukan
-				$("#tglKunjungan").text(peserta.tglKunjungan);
-				$("#noKunjungan").text(peserta.noKunjungan);
-				$("#kdPoli").text(peserta.poliRujukan.kdPoli);
-				$("#nmPoli").text(peserta.poliRujukan.nmPoli);
-				$("#keluhan").text(peserta.keluhan);
-				$("#nmDiag").text(peserta.diagnosa.kdDiag+'-'+peserta.diagnosa.nmDiag);
-				$("#pemFisikLain").text(peserta.pemFisikLain);
-				$("#catatan").text(peserta.catatan);
+				$("#fktp #tglKunjungan").text(item.tglKunjungan);
+				$("#fktp #noKunjungan").text(item.noKunjungan);
+				$("#fktp #kdPoli").text(poliRujukan.kdPoli);
+				$("#fktp #nmPoli").text(poliRujukan.nmPoli);
+				$("#fktp #keluhan").text(item.keluhan);
+				$("#fktp #nmDiag").text(diagnosa.kdDiag+'-'+diagnosa.nmDiag);
+				$("#fktp #pemFisikLain").text(item.pemFisikLain);
+				$("#fktp #catatan").text(item.catatan);
 				//End Data Rujukan
 				//Data Peserta
 				$("#noKartu").text(peserta.noKartu);
@@ -175,12 +178,12 @@ function cariDataRujukanBpjsFktp()
 				$("#nmKelas").text(peserta.kelasTanggungan.nmKelas);
 				$("#kdJenisPeserta").text(peserta.jenisPeserta.kdJenisPeserta);
 				$("#nmJenisPeserta").text(peserta.jenisPeserta.nmJenisPeserta);
-				//RND-9239 $("#keterangan").text(peserta.statusPeserta.keterangan);
+				$("#keterangan").text(peserta.statusPeserta.keterangan);
 				$("#tglCetakKartu").text(peserta.tglCetakKartu);
 				$("#tglTAT").text(peserta.tglTAT);
 				$("#tglTMT").text(peserta.tglTMT);
 				$("#noMr").text(peserta.noMr);
-				//RND-9239 $("#umurSekarang").text(peserta.umur.umurSekarang);
+				$("#umurSekarang").text(peserta.umur);
 				//RND-9239 $("#umurSaatPelayanan").text(peserta.umur.umurSaatPelayanan);
 				//End Data Peserta
 				$("#pencarian-rujukan-bpjs-form .btn-primary-blue").removeAttr('disabled',true);
@@ -248,16 +251,19 @@ function cariDataRujukanBpjsFktl()
 			$('#data-fktl').removeClass("animation-loading");
 			var obj = JSON.parse(data);
 			if(obj.response!=null){
-				var peserta = obj.response.peserta;
+				var item = obj.response.item;
+				var peserta = item.peserta;
+				var poliRujukan = item.poliRujukan;
+				var diagnosa = item.diagnosa;
 				//Data Rujukan
-				$("#tglKunjungan").text(peserta.tglKunjungan);
-				$("#noKunjungan").text(peserta.noKunjungan);
-				$("#kdPoli").text(peserta.poliRUjukan.kdPoli);
-				$("#nmPoli").text(peserta.poliRUjukan.nmPoli);
-				$("#keluhan").text(peserta.keluhan);
-				$("#nmDiag").text(peserta.diagnosa.kdDiag+'-'+peserta.diagnosa.nmDiag);
-				$("#pemFisikLain").text(peserta.pemFisikLain);
-				$("#catatan").text(peserta.catatan);
+				$("#fktl #tglKunjungan").text(item.tglKunjungan);
+				$("#fktl #noKunjungan").text(item.noKunjungan);
+				$("#fktl #kdPoli").text(poliRujukan.kdPoli);
+				$("#fktl #nmPoli").text(poliRujukan.nmPoli);
+				$("#fktl #keluhan").text(item.keluhan);
+				$("#fktl #nmDiag").text(diagnosa.kdDiag+'-'+diagnosa.nmDiag);
+				$("#fktl #pemFisikLain").text(item.pemFisikLain);
+				$("#fktl #catatan").text(item.catatan);
 				//End Data Rujukan
 				//Data Peserta
 				$("#noKartu").text(peserta.noKartu);
@@ -273,7 +279,7 @@ function cariDataRujukanBpjsFktl()
 				$("#nmKelas").text(peserta.kelasTanggungan.nmKelas);
 				$("#kdJenisPeserta").text(peserta.jenisPeserta.kdJenisPeserta);
 				$("#nmJenisPeserta").text(peserta.jenisPeserta.nmJenisPeserta);
-				//RND-9239 $("#keterangan").text(peserta.statusPeserta.keterangan);
+				$("#keterangan").text(peserta.statusPeserta.keterangan);
 				$("#tglCetakKartu").text(peserta.tglCetakKartu);
 				$("#tglTAT").text(peserta.tglTAT);
 				$("#tglTMT").text(peserta.tglTMT);
@@ -356,26 +362,24 @@ function lihatRiwayat()
 
 function printRujukanBpjs(caraPrint){
 	var norujukan = $('#nomorrujukan_fktp').val();
-	var nokartu = $('#nomorkartupeserta_fktp').val();
+	var nokartu = $('#noKartu').html();
 	var tglrujukan = $('#tglrujukan_fktp').val();
 	
-	window.open('<?php echo $this->createUrl('PrintRujukanBpjs'); ?>&norujukan='+norujukan+'&nokartu='+nokartu+'tglrujukan='+tglrujukan+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
+	window.open('<?php echo $this->createUrl('PrintRujukanBpjs'); ?>&norujukan='+norujukan+'&nokartu='+nokartu+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
 
 function printRujukanFktl(caraPrint){
-	var norujukan = $('#nomorrujukan_fktp').val();
-	var nokartu = $('#nomorkartupeserta_fktp').val();
-	var tglrujukan = $('#tglrujukan_fktp').val();
+	var norujukan = $('#nomorrujukan_fktl').val();
+	var nokartu = $('#nomorkartupeserta_fktl').val();
 	
-	window.open('<?php echo $this->createUrl('PrintRujukanBpjsFktl'); ?>&norujukan='+norujukan+'&nokartu='+nokartu+'tglrujukan='+tglrujukan+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
+	window.open('<?php echo $this->createUrl('PrintRujukanBpjsFktl'); ?>&norujukan='+norujukan+'&nokartu='+nokartu+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
 
 function printRujukanFktp(caraPrint){
 	var norujukan = $('#nomorrujukan_fktp').val();
 	var nokartu = $('#nomorkartupeserta_fktp').val();
-	var tglrujukan = $('#tglrujukan_fktp').val();
 	
-	window.open('<?php echo $this->createUrl('PrintRujukanBpjsFktp'); ?>&norujukan='+norujukan+'&nokartu='+nokartu+'tglrujukan='+tglrujukan+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
+	window.open('<?php echo $this->createUrl('PrintRujukanBpjsFktp'); ?>&norujukan='+norujukan+'&nokartu='+nokartu+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
 
 $(document).each(function(){

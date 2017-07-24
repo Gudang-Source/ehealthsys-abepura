@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row-fluid" class="fktl">
 	<div class="span6">
 		<div class="control-group">
 			<label class="control-label">Tanggal Kunjungan</label>

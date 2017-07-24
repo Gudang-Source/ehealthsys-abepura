@@ -81,11 +81,19 @@ class RujukanBpjsController extends MyAuthController{
 	{
 		$this->layout='//layouts/printWindows';
 		$format = new MyFormatter;
+		$bpjs = new Bpjs();
 		
 		$judul_print = 'DATA PESERTA BPJS';
+		
+		$res = CJSON::decode($bpjs->search_kartu($nokartu));
+		// var_dump($res); die;
+		
 		$this->render($this->path_view.'printRujukanBpjs', array(
 			'format'=>$format,
 			'judul_print'=>$judul_print,
+			'norujukan'=>$norujukan,
+			'nokartu'=>$nokartu,
+			'res'=>$res,
 		));
 	} 
 	
@@ -96,11 +104,21 @@ class RujukanBpjsController extends MyAuthController{
 	{
 		$this->layout='//layouts/printWindows';
 		$format = new MyFormatter;
+		$bpjs = new Bpjs();
+		
+		if (!empty($norujukan)) {
+			$res = CJSON::decode($bpjs->search_rujukan_rs_no_rujukan($norujukan));
+		} else {
+			$res = CJSON::decode($bpjs->search_rujukan_rs_no_bpjs($nokartu));
+		}
 		
 		$judul_print = 'DATA RUJUKAN PESERTA BPJS FKTL';
 		$this->render($this->path_view.'printFKTL', array(
 			'format'=>$format,
 			'judul_print'=>$judul_print,
+			'norujukan'=>$norujukan,
+			'nokartu'=>$nokartu,
+			'res'=>$res,
 		));
 	} 
 	
@@ -111,11 +129,24 @@ class RujukanBpjsController extends MyAuthController{
 	{
 		$this->layout='//layouts/printWindows';
 		$format = new MyFormatter;
+		$bpjs = new Bpjs();
 		
 		$judul_print = 'DATA RUJUKAN PESERTA BPJS FKTP';
+		
+		if (!empty($norujukan)) {
+			$res = CJSON::decode($bpjs->search_rujukan_no_rujukan($norujukan));
+		} else {
+			$res = CJSON::decode($bpjs->search_rujukan_no_bpjs($nokartu));
+		}
+		
+		var_dump($res); die;
+		
 		$this->render($this->path_view.'printFKTP', array(
 			'format'=>$format,
 			'judul_print'=>$judul_print,
+			'norujukan'=>$norujukan,
+			'nokartu'=>$nokartu,
+			'res'=>$res,
 		));
 	} 
 }
