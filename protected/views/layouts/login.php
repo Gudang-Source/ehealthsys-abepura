@@ -1,10 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<link rel="shortcut icon" href="<?php echo Yii::app()->baseUrl;?>/images/icon/favicon.ico"/>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="language" content="en">
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="RSUD Abepura" />
+
+	<link rel="shortcut icon" href="<?php echo Yii::app()->baseUrl;?>/images/icon/favicon.ico"/>
 	<!-- blueprint CSS framework -->
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
@@ -44,9 +50,9 @@
         }
         .logo-login{float:left;}
         .logo-bakti{float:right;}
-        .profil_rs{text-align:center;color: #212121;font-size: 14px; float: left; width: calc(100% - 140px)}
+        .profil_rs{text-align:center;color: #212121;font-size: 12px; float: left; width: calc(100% - 140px)}
         .contain{width:60%;margin:0 auto;}
-        .nama_rs{font-size: 35px; font-weight:bold; }
+        .nama_rs{font-size: 3vw; font-weight:bold; }
     </style>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <script>
