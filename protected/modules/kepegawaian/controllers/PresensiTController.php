@@ -85,8 +85,8 @@ class PresensiTController extends MyAuthController
 
                     }elseif($model->statusscan_id == Params::STATUSSCAN_PULANG){
                         $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjapulang'];
-                        $model->jamkerjapulang = (count($shift)>0)?$shift->shift_jamakhir:'15:00:00';
-                        $model->pulangawal_mnt = $model->getPulangAwal($model->tglpresensi, $model->jamkerjapulang);
+                        //$model->jamkerjapulang = (count($shift)>0)?$shift->shift_jamakhir:'15:00:00';
+                        //$model->pulangawal_mnt = $model->getPulangAwal($model->tglpresensi, $model->jamkerjapulang);
                         $model->terlambat_mnt = '';                                                
                         //$model->jamkerjapulang = $_POST['KPPresensiT']['jamkerjapulang'];                        
                     }elseif($model->statusscan_id == Params::STATUSSCAN_DATANG){

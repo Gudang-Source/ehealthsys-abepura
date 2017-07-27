@@ -167,6 +167,38 @@
                     'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("kelompokjabatan"=>$data->pegawai->kelompokjabatan,"statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
+				array(
+						'header' => 'Keterangan',						
+						'value' => function($data) use (&$cr) {                            
+                            $cr = new CDbCriteria();
+                            $cr->compare('tglpresensi::date', $data->datepresensi);
+                            $cr->compare('pegawai_id', $data->pegawai_id);
+                            //$cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
+                            $cr->addCondition('statusscan_id=:p1');
+                            $cr->params[':p1'] = Params::STATUSSCAN_MASUK;
+                            $pr = PresensiT::model()->find($cr);
+                            
+							if (count($pr)>0){
+								if (!empty($pr->keterangan)){
+									echo "<u>Ket - Masuk</u> : ".$pr->keterangan.'<br/>';
+								}
+							}
+							
+							$cr = new CDbCriteria();
+                            $cr->compare('tglpresensi::date', $data->datepresensi);
+                            $cr->compare('pegawai_id', $data->pegawai_id);
+                            //$cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
+                            $cr->addCondition('statusscan_id=:p1');
+                            $cr->params[':p1'] = Params::STATUSSCAN_PULANG;
+                            $pr = PresensiT::model()->find($cr);
+                            
+							if (count($pr)>0){
+								if (!empty($pr->keterangan)){
+									echo "<u>Ket - Pulang</u> : ".$pr->keterangan.'<br/>';
+								}
+							}
+                        },
+					),
             ),
         )
   );

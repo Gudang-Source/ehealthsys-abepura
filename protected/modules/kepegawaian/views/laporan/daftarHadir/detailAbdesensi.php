@@ -170,6 +170,38 @@ Yii::app()->clientScript->registerScript('search', "
 					'type' => 'raw',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
+				array(
+						'header' => 'Keterangan',						
+						'value' => function($data) use (&$cr) {                            
+                            $cr = new CDbCriteria();
+                            $cr->compare('tglpresensi::date', $data->datepresensi);
+                            $cr->compare('pegawai_id', $data->pegawai_id);
+                            //$cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
+                            $cr->addCondition('statusscan_id=:p1');
+                            $cr->params[':p1'] = Params::STATUSSCAN_MASUK;
+                            $pr = PresensiT::model()->find($cr);
+                            
+							if (count($pr)>0){
+								if (!empty($pr->keterangan)){
+									echo "<u>Ket - Masuk</u> : ".$pr->keterangan.'<br/>';
+								}
+							}
+							
+							$cr = new CDbCriteria();
+                            $cr->compare('tglpresensi::date', $data->datepresensi);
+                            $cr->compare('pegawai_id', $data->pegawai_id);
+                            //$cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
+                            $cr->addCondition('statusscan_id=:p1');
+                            $cr->params[':p1'] = Params::STATUSSCAN_PULANG;
+                            $pr = PresensiT::model()->find($cr);
+                            
+							if (count($pr)>0){
+								if (!empty($pr->keterangan)){
+									echo "<u>Ket - Pulang</u> : ".$pr->keterangan.'<br/>';
+								}
+							}
+                        },
+					),
             ),
             'afterAjaxUpdate'=>'
                 function(id, data){
