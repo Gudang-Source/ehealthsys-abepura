@@ -205,7 +205,7 @@ $('.search-form form').submit(function(){
                                 'type'=>'raw',
                                 'value'=>'(CHtml::link("<i class=\'icon-form-periksa\'></i> ", Yii::app()->controller->createUrl("/pendaftaranPenjadwalan/pemeriksaanFisikAnamnesaRI",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id)),array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Fisik & Anamnesa Pasien")))',
                                 'htmlOptions'=>array('style'=>'text-align: left; width:40px'),
-                            ),
+                            ), */
                         array(
                            'header'=>'Verifikasi Diagnosa',
                            'type'=>'raw',
@@ -218,7 +218,7 @@ $('.search-form form').submit(function(){
                                               "rel"=>"tooltip",
                                               "title"=>"Klik Verifikasi Diagnosa",
                                 )))."</div>"',  
-                        ), */
+                        ), 
                         array(
                             'name'=>'statusperiksa',
                             'type'=>'raw',
