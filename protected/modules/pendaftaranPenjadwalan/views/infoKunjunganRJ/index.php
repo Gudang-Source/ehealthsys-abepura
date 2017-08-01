@@ -211,23 +211,23 @@ $('.search-form form').submit(function(){
 				   'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-form-ubah></i>". $data->keterangan_pendaftaran," ",array("onclick"=>"ubahKeterangan(\'$data->pendaftaran_id\');$(\'#editKeterangan\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Keterangan Pendaftaran")) . "</div>"',
                    'htmlOptions'=>array('style'=>'text-align: left')
                 ),
-//                array(
-//                   'header'=>'Verifikasi Diagnosa',
-//                   'type'=>'raw',
-//                   'value'=>'CHtml::Link("<i class=icon-pencil></i>Verifikasi Diagnosa",Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/verifikasiDiagnosa/index",array("id"=>$data->pendaftaran_id,"menu"=>"RJ","frame"=>true)),
-//                            array("class"=>"", 
-//                                  "target"=>"iframeVerifikasiDiagnosa",
-//                                  "onclick"=>"$(\"#dialogVerifikasiDiagnosa\").dialog(\"open\");",
-//                                  "rel"=>"tooltip",
-//                                  "title"=>"Klik Verifikasi Diagnosa",
-//                    ))',
-//                    
-//                       'htmlOptions'=>array(
-//                       'style'=>'text-align: left',
-////                       'class'=>'merah',
-//                     
-//                   )
-//                ),
+               array(
+                   'header'=>'Verifikasi Diagnosa',
+                   'type'=>'raw',
+                   'value'=>'CHtml::Link("<i class=icon-pencil></i>Verifikasi Diagnosa",Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/verifikasiDiagnosa/index",array("id"=>$data->pendaftaran_id,"menu"=>"RJ","frame"=>true)),
+                            array("class"=>"", 
+                                  "target"=>"iframeVerifikasiDiagnosa",
+                                  "onclick"=>"$(\"#dialogVerifikasiDiagnosa\").dialog(\"open\");",
+                                  "rel"=>"tooltip",
+                                  "title"=>"Klik Verifikasi Diagnosa",
+                    ))',
+                    
+                       'htmlOptions'=>array(
+                       'style'=>'text-align: left',
+                       'class'=>'merah',
+                     
+                   )
+                ),
                 /*
                 array(
                    'header'=>'Verifikasi Diagnosa',
