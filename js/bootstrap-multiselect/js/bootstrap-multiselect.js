@@ -423,7 +423,7 @@
             disabledText: '',
             delimiterText: ', ',
             templates: {
-                button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
+                button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b style="float:right;" class="caret"></b></button>',
                 ul: '<ul class="multiselect-container dropdown-menu"></ul>',
                 filter: '<li class="multiselect-item multiselect-filter"><div class="input-group"><i class="inside entypo-search"></i><input class="multiselect-search" type="text"></div></li>',                
                 filterClearBtn: '<button class="btn btn-default multiselect-clear-filter" type="button"><i class="entypo-cancel"></i></button>',
@@ -467,7 +467,11 @@
                 this.$button.css({
                     'width' : '100%', //this.options.buttonWidth,
                     'overflow' : 'hidden',
-                    'text-overflow' : 'ellipsis'
+                    'text-overflow' : 'ellipsis',
+                    'background': 'none',
+                    'text-align':'left',
+                    'border':'1px solid #ccc',                    
+                    'border-radius':'4px'
                 });
                 this.$container.css({
                     'width': this.options.buttonWidth

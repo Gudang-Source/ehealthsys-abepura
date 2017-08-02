@@ -28,18 +28,47 @@ echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi
                     'type'=>'raw',
                     'value' => '$row+1'
                 ),*/
-                array(
+               array(
                     'header' => 'No FP',
-                    'value' => '$data->no_fingerprint'
+                    'name' => 'no_fingerprint'
                 ),
-               'pegawai.kelompokpegawai.kelompokpegawai_nama',
-                'pegawai.jabatan.jabatan_nama',
+				array(
+					'header' => 'Kelompok Pegawai/ <br/> Kategori Pegawai Asal',
+					'type' => 'raw',
+					'value' => function ($data){
+							$kelPeg = !empty($data->pegawai->kelompokpegawai_id)?$data->pegawai->kelompokpegawai->kelompokpegawai_nama:'-';
+							$katPegAsl =  !empty($data->pegawai->kategoripegawaiasal)?$data->pegawai->kategoripegawaiasal:'-';
+						
+							return $kelPeg."/ <br/>".$katPegAsl;
+					}
+				),                               
+				array(
+					'header' => 'Jabatan/ <br/> Kelompok Jabatan',
+					'type' => 'raw',
+					'value' => function ($data){
+							$jab = !empty($data->pegawai->jabatan_id)?$data->pegawai->jabatan->jabatan_nama:'-';
+							$kelJab =  !empty($data->pegawai->kelompokjabatan)?$data->pegawai->kelompokjabatan:'-';
+						
+							return $jab."/ <br/>".$kelJab;
+					}
+				),                
+				array(
+					'header' => 'Jenis Tenaga Medis',
+					'type' => 'raw',
+					'value' => function ($data){
+							$jnsTegMedis = !empty($data->pegawai->jenistenagamedis)?$data->pegawai->jenistenagamedis:'-';							
+						
+							return $jnsTegMedis;
+					}
+				),     
                 'pegawai.nomorindukpegawai',
                 'pegawai.nama_pegawai',  
-                  array(
+                 array(
                         'header' => 'Shift / Jam Kerja',
-                        'value'=>'$this->grid->owner->renderPartial("presensiT/_shift",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi),true)',
+						'type' => 'raw',
+                        'value'=>'$this->grid->owner->renderPartial("presensiT/_shift",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id,"kelompok_jabatan"=>$data->pegawai->kelompokjabatan ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi),true)',
                     ),
+            
                 array(
                     'header'=>'Tanggal Presensi',
                     'value'=>'MyFormatter::formatDateTimeForUser($data->datepresensi)',
@@ -55,7 +84,7 @@ echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi
 //                    'header'=>'Tanggal Presensi',
 //                    'value'=>'$data->tglpresensi',
 //                ),
-               array(
+                array(
                     'header'=>'<center>Masuk</center>',
                     'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi),true)',
                 ),
@@ -73,18 +102,51 @@ echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi
                 ),
                 array(
                     'header' => 'Terlambat (Menit)',
-                     'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi),true)',
+                     'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi, "kelompokjabatan"=>$data->pegawai->kelompokjabatan),true)',
                       'htmlOptions' => array('style'=>'text-align:center;')   
                 ),
                 array(
                     'header' => 'Pulang Awal (Menit)',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_PULANG, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_PULANG, "datepresensi"=>$data->datepresensi, "kelompokjabatan"=>$data->pegawai->kelompokjabatan),true)',
                      'htmlOptions' => array('style'=>'text-align:center;')   
                 ),
                 array(
                     'header'=>'<center>Status</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id, "datepresensi"=>$data->datepresensi),true)',
+					'type' => 'raw',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("statuskehadiran_id"=>1,"pegawai_id"=>$data->pegawai_id, "datepresensi"=>$data->datepresensi, "kelompokjabatan"=>$data->pegawai->kelompokjabatan),true)',
                 ),
+                array(
+						'header' => 'Keterangan',						
+						'value' => function($data) use (&$cr) {                            
+                            $cr = new CDbCriteria();
+                            $cr->compare('tglpresensi::date', $data->datepresensi);
+                            $cr->compare('pegawai_id', $data->pegawai_id);
+                            //$cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
+                            $cr->addCondition('statusscan_id=:p1');
+                            $cr->params[':p1'] = Params::STATUSSCAN_MASUK;
+                            $pr = PresensiT::model()->find($cr);
+                            
+							if (count($pr)>0){
+								if (!empty($pr->keterangan)){
+									echo "<u>Ket - Masuk</u> : ".$pr->keterangan.'<br/>';
+								}
+							}
+							
+							$cr = new CDbCriteria();
+                            $cr->compare('tglpresensi::date', $data->datepresensi);
+                            $cr->compare('pegawai_id', $data->pegawai_id);
+                            //$cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
+                            $cr->addCondition('statusscan_id=:p1');
+                            $cr->params[':p1'] = Params::STATUSSCAN_PULANG;
+                            $pr = PresensiT::model()->find($cr);
+                            
+							if (count($pr)>0){
+								if (!empty($pr->keterangan)){
+									echo "<u>Ket - Pulang</u> : ".$pr->keterangan.'<br/>';
+								}
+							}
+                        },
+					),
             )
 )); ?>
 

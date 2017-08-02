@@ -176,7 +176,7 @@
 							'type'=>'raw',
 							'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-form-ubah></i>". $data->keterangan_pendaftaran," ",array("onclick"=>"ubahKeterangan(\'$data->pendaftaran_id\');$(\'#editKeterangan\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Keterangan Pendaftaran")) . "</div>"',
 							'htmlOptions'=>array('style'=>'text-align: left')
-						), /*
+						), 
                         array(
                        'header'=>'Verifikasi Diagnosa',
                        'type'=>'raw',
@@ -190,7 +190,7 @@
                                           "title"=>"Klik Verifikasi Diagnosa",
                             )))."</div>"',  
                         ),
-                        array(
+                   /*     array(
                            'header'=>'Pemeriksaan Fisik <br/> & Anamnesa',
                            'type'=>'raw',
                            'value'=>'CHtml::Link("<i class=\"icon-form-periksa\"></i>",Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.$anamnesa_link.'/indexAnamnesa",array("pendaftaran_id"=>$data->pendaftaran_id)),
