@@ -51,21 +51,23 @@ class RKLaporanmortalitaspasienV extends LaporanmortalitaspasienV
 			$criteria->addCondition("golonganumur_id = ".$this->golonganumur_id);			
 		}
                 
-                if (!empty($this->ruangan_id)){
-                    if (is_array($this->ruangan_id)){
-                        $criteria->addInCondition('ruangan_id', $this->ruangan_id);
-                    }
-                }else{
-                    if (!empty($this->instalasi_id)){
-                        $ruangan = RuanganM::model()->findAll("instalasi_id = '".$this->instalasi_id."' AND ruangan_aktif = TRUE ");
-                        $r = array();
-                        foreach($ruangan as $ruang){
-                            $r[] = $ruang->ruangan_id; 
-                        }
-                        
-                        $criteria->addInCondition('ruangan_id', $r);
-                    }
-                }
+		if (!empty($this->ruangan_id)){
+			if (is_array($this->ruangan_id)){
+				$criteria->addInCondition('ruangan_id', $this->ruangan_id);
+			}else{
+				$criteria->addCondition("ruangan_id = ".$this->ruangan_id);
+			}
+		}else{
+			if (!empty($this->instalasi_id)){
+				$ruangan = RuanganM::model()->findAll("instalasi_id = '".$this->instalasi_id."' AND ruangan_aktif = TRUE ");
+				$r = array();
+				foreach($ruangan as $ruang){
+					$r[] = $ruang->ruangan_id; 
+				}
+
+				$criteria->addInCondition('ruangan_id', $r);
+			}
+		}
                 
 		$criteria->compare('LOWER(kondisipulang)',strtolower($this->kondisipulang),true);
 		$criteria->compare('LOWER(carakeluar)',strtolower($this->carakeluar),true);
