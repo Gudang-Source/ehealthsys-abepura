@@ -142,8 +142,8 @@
 											<td>'.'<label>Instalasi</label></td>
 											<td>'.$form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
 												'ajax' => array('type' => 'POST',
-													'url' => $this->createUrl('GetRuanganForCheckBox', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
-													'update' => '#ruangan',  //selector to update
+													'url' => $this->createUrl('/ActionDynamic/GetRuanganDariInstalasi', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
+													'update' => '#'.CHtml::activeId($model, 'ruangan_id'),  //selector to update
 												),
 											)).'
 											</td>
@@ -153,9 +153,7 @@
 												<label>Ruangan</label>
 											</td>
 											<td>
-												<div id="ruangan">
-													<label>Data Tidak Ditemukan</label>
-												</div>
+												'.$form->dropDownList($model,'ruangan_id', array(),array('empty' => '-- Pilih --')).'
 											</td>
 										</tr>
 									 </table>',

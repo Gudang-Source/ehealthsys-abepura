@@ -7520,6 +7520,7 @@ class LaporanController extends MyAuthController {
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
             $model->instalasi_id = $_GET['RKLaporanmortalitaspasienV']['instalasi_id'];
+			$model->ruangan_id = $_GET['RKLaporanmortalitaspasienV']['ruangan_id'];
         }
 
         $this->render('mortalitas/admin', array(
@@ -7562,6 +7563,12 @@ class LaporanController extends MyAuthController {
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
             $model->instalasi_id = $_GET['RKLaporanmortalitaspasienV']['instalasi_id'];
+			$model->ruangan_id = $_GET['RKLaporanmortalitaspasienV']['ruangan_id'];
+			
+			if (!empty($model->ruangan_id)){
+				$r = RuanganM::model()->findByPk($model->ruangan_id);
+				$judulLaporan .= '<br/>'.$r->instalasi->instalasi_nama.' / '.$r->ruangan_nama;
+			}
         }
         $caraPrint = $_REQUEST['caraPrint'];
         $target = 'mortalitas/_print';
@@ -7606,6 +7613,7 @@ class LaporanController extends MyAuthController {
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
             $model->instalasi_id = $_GET['RKLaporanmortalitaspasienV']['instalasi_id'];
+			$model->ruangan_id = $_GET['RKLaporanmortalitaspasienV']['ruangan_id'];
         }
 
         $this->render('_grafik', array(
@@ -7685,6 +7693,7 @@ class LaporanController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+						
         }
         $caraPrint = $_REQUEST['caraPrint'];
         $target = $this->pathViewPP.'kunjunganDokter/_printKunjunganDokter';
