@@ -74,7 +74,35 @@
 			'nomasukkamar',
 			array(
 				'header' => 'Lama Rawat',
-				'value' => '$data->lamarawat." ".$data->satuanlamarawat'
+				'value' => function($data){
+					if (!empty($data->tglpasienpulang)){
+						$awal = strtotime(MyFormatter::formatDateTimeForDb($data->tgladmisi));
+						$akhir = strtotime(MyFormatter::formatDateTimeForDb($data->tglpasienpulang));
+
+						$hasil = $akhir - $awal;						
+
+						$hari = floor($hasil / (60 * 60 * 24));
+						$totJam = $hari * 24;
+						
+						$jam   = floor($hasil / (60 * 60));
+						$menit   = floor(($hasil - $jam * (60 * 60))/60);
+						
+						$jm = ($jam-$totJam);
+						
+						if ($jm == 0){
+							echo $hari.' Hari <br/>';
+						}else{
+							if ($menit == 0){
+								echo $hari.' Hari <br/>'.''.$jm.' Jam';
+							}else{
+								echo $hari.' Hari <br/>'.''.$jm.' Jam  <br> '.$menit.' Menit';
+							}							
+						}
+						
+						
+					
+					}
+				}
 				
 			),
 	),
