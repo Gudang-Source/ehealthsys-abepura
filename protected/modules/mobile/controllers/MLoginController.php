@@ -49,17 +49,26 @@ class MLoginController extends Controller{
                 $data['data']['pasien_id'] = $loadData['pasien_id'];
                 $data['data']['pegawai_id'] = $loadData['pegawai_id'];
                 $data['pasien_id'] = $loadData['pasien_id'];
-                $data['pegawai_id'] = $loadData['pegawai_id'];
+                $data['pegawai_id'] = $loadData['pegawai_id'];				
+								
 				if(!empty($data['pegawai_id'])){
 					$sql = "SELECT * 
 						FROM pegawai_m
 						WHERE pegawai_id = ". $data['data']['pegawai_id']."
 						";
 					$loadDataPegawai = Yii::app()->db->createCommand($sql)->queryRow();
+					if (empty($loadDataPegawai['loginpemakai_id'])){
+						$data['loginpemakai_id'] = $loadData['loginpemakai_id']; 
+					}
 					$data['data'] = $loadDataPegawai;
+				}else{
+					$data['loginpemakai_id'] = $loadData['loginpemakai_id']; 
 				}
+
+				
                 $data['sukses'] = 1;
 				$data['is_found'] = 1;
+				
                 $data['pesan'] = "Login berhasil!";
             }else{
                 $data['pesan'] = "Login gagal! Username dan password yang anda masukan salah";
