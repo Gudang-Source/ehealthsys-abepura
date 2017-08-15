@@ -1487,9 +1487,9 @@ class MPasienBridgingController extends MyMobileAuthController
     
     /**
      * transaksi survei pelayanan (kepuasan)
-     * MA-71
+     * 
      * @param $_GET['pasien_id'] Boleh Kosong
-     * @param $_GET['status_kepuasan'] | 0 = PUAS, 1 = TIDAK PUAS
+     * @param $_GET['status_kepuasan'] | 0 = TIDAK PUAS, 1 = PUAS , 2 =  BIASA, 3 = SANGAT PUAS
      * @return json
      */
     public function actionSurveiPelayanan(){
@@ -1500,9 +1500,12 @@ class MPasienBridgingController extends MyMobileAuthController
         if(isset($_GET['pasien_id']) && isset($_GET['status_kepuasan'])){
             $transaction = Yii::app()->db->beginTransaction();
             try{
+				$status_kep = isset($_GET['status_kepuasan'])?$_GET['status_kepuasan']:null;
+								
+				
                 $model = new MOMsurveypelayananT;
                 $model->pasien_id = $_GET['pasien_id'];
-                $model->status_kepuasan = ($_GET['status_kepuasan'] >= 1 ? Params::STATUS_KEPUASAN_PUAS : Params::STATUS_KEPUASAN_TIDAK_PUAS);
+                $model->status_kepuasan = Params::getSurveiKepuasan($status_kep);
                 $model->jenissurvey = Params::JENISSURVEY_MOBILE;
                 $model->tglsurveypelayanan = date('Y-m-d H:i:s');
                 if($model->save()){

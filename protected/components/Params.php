@@ -302,6 +302,8 @@ Class Params
 	const STATUSBAYAR_BELUM_LUNAS = 'BELUM LUNAS'; 
 
 	const STATUS_KEPUASAN_PUAS = "PUAS";                //untuk msurveypelayanan_t.status_kepuasan
+	const STATUS_KEPUASAN_BIASA = "BIASA";				//untuk msurveypelayanan_t.status_kepuasan
+	const STATUS_KEPUASAN_SANGAT_PUAS = "SANGAT PUAS"; //untuk msurveypelayanan_t.status_kepuasan
 	const STATUS_KEPUASAN_TIDAK_PUAS = "TIDAK PUAS";    //untuk msurveypelayanan_t.status_kepuasan
 
 	const JENISSURVEY_WEBSITE = "WEBSITE";  //untuk msurveypelayanan_t.jenissurvey
@@ -1198,7 +1200,18 @@ Class Params
       			'LUNAS'=>'LUNAS',
       			'BELUM LUNAS'=>'BELUM LUNAS',
       		);
-      }
+	}
+	
+	public static function getSurveiKepuasan($st){
+		$dt = array(
+			0 => Params::STATUS_KEPUASAN_TIDAK_PUAS,
+			1 => Params::STATUS_KEPUASAN_PUAS,
+			2 => Params::STATUS_KEPUASAN_BIASA,
+			3 => Params::STATUS_KEPUASAN_SANGAT_PUAS,
+		);
+		
+		return $dt[$st];
+	}
                 
       
         
