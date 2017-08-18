@@ -20,6 +20,7 @@ class MLoginController extends Controller{
     public function actionLogin()
     {
         header("content-type:application/json");
+		
         $format = new MyFormatter();
         $data = array();
         $data['sukses'] = 0;
@@ -31,6 +32,7 @@ class MLoginController extends Controller{
             $data['loginpemakai_id'] = '';
             $data['pasien_id'] = '';
             $data['pegawai_id'] = '';
+			$data['app'] = 'mpasien';
             $sql = "SELECT * 
                     FROM loginpemakai_k
                     WHERE loginpemakai_aktif = TRUE
@@ -61,8 +63,26 @@ class MLoginController extends Controller{
 						$data['loginpemakai_id'] = $loadData['loginpemakai_id']; 
 					}
 					$data['data'] = $loadDataPegawai;
+					$data['app'] = 'mhealthsys';
+					if (!empty($loadDataPegawai['photopegawai'])){
+						$data['url_image'] = Params::urlPegawaiDirectory().$loadDataPegawai['photopegawai'];
+					}else{
+						$data['url_image'] ='images/no_photo.jpg';
+					}
+					
 				}else{
-					$data['loginpemakai_id'] = $loadData['loginpemakai_id']; 
+					$sql = "SELECT photopasien 
+						FROM pasien_m
+						WHERE pasien_id = ". $data['data']['pasien_id']."
+						";
+					$loadDataPasien = Yii::app()->db->createCommand($sql)->queryRow();
+					$data['loginpemakai_id'] = $loadData['loginpemakai_id']; 		
+					if (!empty($loadDataPasien['photopasien'])){
+						$data['url_image'] = Params::urlPasienDirectory().$loadDataPasien['photopasien'];
+					}else{
+						$data['url_image'] ='images/no_photo.jpg';
+					}
+					
 				}
 
 				
