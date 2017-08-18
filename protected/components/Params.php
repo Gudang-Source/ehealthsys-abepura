@@ -902,6 +902,11 @@ Class Params
 	{
 		return Yii::getPathOfAlias('webroot').'/data/images/pasien/';
 	}
+	
+	public static function urlPasienDirectory()
+	{
+		return Yii::app()->getBaseUrl('webroot').'/data/images/pasien/';    //Untuk Menampilkan Gambar Tumbs Pasien
+	} 
 
 	public static function urlKendaraanDirectory()
 	{
