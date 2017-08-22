@@ -1487,9 +1487,9 @@ class MPasienBridgingController extends MyMobileAuthController
     
     /**
      * transaksi survei pelayanan (kepuasan)
-     * MA-71
+     * 
      * @param $_GET['pasien_id'] Boleh Kosong
-     * @param $_GET['status_kepuasan'] | 0 = PUAS, 1 = TIDAK PUAS
+     * @param $_GET['status_kepuasan'] | 0 = TIDAK PUAS, 1 = PUAS , 2 =  BIASA, 3 = SANGAT PUAS
      * @return json
      */
     public function actionSurveiPelayanan(){
@@ -1500,9 +1500,12 @@ class MPasienBridgingController extends MyMobileAuthController
         if(isset($_GET['pasien_id']) && isset($_GET['status_kepuasan'])){
             $transaction = Yii::app()->db->beginTransaction();
             try{
+				$status_kep = isset($_GET['status_kepuasan'])?$_GET['status_kepuasan']:null;
+								
+				
                 $model = new MOMsurveypelayananT;
                 $model->pasien_id = $_GET['pasien_id'];
-                $model->status_kepuasan = ($_GET['status_kepuasan'] >= 1 ? Params::STATUS_KEPUASAN_PUAS : Params::STATUS_KEPUASAN_TIDAK_PUAS);
+                $model->status_kepuasan = Params::getSurveiKepuasan($status_kep);
                 $model->jenissurvey = Params::JENISSURVEY_MOBILE;
                 $model->tglsurveypelayanan = date('Y-m-d H:i:s');
                 if($model->save()){
@@ -1827,6 +1830,7 @@ class MPasienBridgingController extends MyMobileAuthController
         $data['totalantrian']=array();
         $data['sisaantrian']=array(); 
         if(isset($_GET['pasien_id'])){
+						
              
             $sql = "SELECT loket_m.loket_id, loket_m.loket_nama, COUNT(antrian_t.loket_id) AS jumlah
                     FROM antrian_t
@@ -1842,7 +1846,8 @@ class MPasienBridgingController extends MyMobileAuthController
             }
             
             $sql = "SELECT loket_m.loket_id, loket_m.loket_nama, COUNT(antrian_t.loket_id) AS jumlah
-                    FROM antrian_t
+			
+           FROM antrian_t
                     LEFT JOIN loket_m ON loket_m.loket_id = antrian_t.loket_id
                     JOIN ruangan_m ON ruangan_m.ruangan_id = antrian_t.ruangan_id
                     JOIN carabayar_m ON carabayar_m.carabayar_id = antrian_t.carabayar_id
@@ -1853,6 +1858,23 @@ class MPasienBridgingController extends MyMobileAuthController
             $loadDatas = Yii::app()->db->createCommand($sql)->queryAll();
             if($loadDatas){
                 $data['sisaantrian'] = $loadDatas;
+            }
+			
+			
+			$sql = "SELECT loket_m.loket_id, loket_m.loket_nama, COUNT(antrian_t.loket_id) AS jumlah
+			
+           FROM antrian_t
+                    LEFT JOIN loket_m ON loket_m.loket_id = antrian_t.loket_id
+                    JOIN ruangan_m ON ruangan_m.ruangan_id = antrian_t.ruangan_id
+                    JOIN carabayar_m ON carabayar_m.carabayar_id = antrian_t.carabayar_id
+                    WHERE DATE(antrian_t.tglantrian) = '".date("Y-m-d")."'
+                        AND ruangan_m.ruangan_id = ".Params::DEFAULT_RUANGAN_KIOSK."
+                        AND (antrian_t.pendaftaran_id IS NOT NULL OR antrian_t.panggil_flaq = TRUE)
+                    GROUP BY antrian_t.loket_id, loket_m.loket_id, loket_m.loket_nama";
+			
+			$loadDatas = Yii::app()->db->createCommand($sql)->queryAll();
+            if($loadDatas){
+                $data['sisatotal'] = $loadDatas;
             }
         }
         $encode = CJSON::encode($data);
@@ -1870,7 +1892,7 @@ class MPasienBridgingController extends MyMobileAuthController
      * $data['sisaantrian']=0;
      */
     public function actionGetAntrianKePoliklinik(){
-        header("content-type:application/json");
+        //header("content-type:application/json");
         $data = array();
         $data['antrianpasien']=array();
         $data['antriandipanggil']=array();
@@ -1905,12 +1927,26 @@ class MPasienBridgingController extends MyMobileAuthController
                         LEFT JOIN gelarbelakang_m ON gelarbelakang_m.gelarbelakang_id = pegawai_m.gelarbelakang_id
                         WHERE DATE(pendaftaran_t.tgl_pendaftaran) = '".date("Y-m-d")."'
                             AND ruangan_m.ruangan_id = ".$loadDataAntrian['ruangan_id']."
-                            AND pendaftaran_t.panggilantrian = TRUE
+                            AND pendaftaran_t.panggilantrian = FALSE
                         ORDER BY pendaftaran_t.no_urutantri DESC
                         LIMIT 1";
                 $loadData = Yii::app()->db->createCommand($sql)->queryRow();
                 if($loadData){
                     $data['antriandipanggil'] = $loadData;
+                }
+				
+				$data['antrianpasien'] = $loadDataAntrian;
+                 
+                $sql = "SELECT pendaftaran_t.no_urutantri
+                        FROM pendaftaran_t                        
+                        WHERE DATE(tgl_pendaftaran) = '".date("Y-m-d")."'
+                            AND ruangan_id = ".$loadDataAntrian['ruangan_id']."
+                            AND panggilantrian = FALSE
+                        ORDER BY no_urutantri ASC
+                        ";
+                $loadData = Yii::app()->db->createCommand($sql)->queryAll();
+                if($loadData){
+                    $data['sisadipanggil'] = $loadData;
                 }
                 
                 $sql = "SELECT ruangan_m.ruangan_id, ruangan_m.ruangan_nama, COUNT(pendaftaran_t.pendaftaran_id) AS jumlah
@@ -1924,6 +1960,7 @@ class MPasienBridgingController extends MyMobileAuthController
                 if($loadData){
                     $data['totalantrian'] = $loadData['jumlah'];
                 }
+				
                 $sql = "SELECT ruangan_m.ruangan_id, ruangan_m.ruangan_nama, COUNT(pendaftaran_t.pendaftaran_id) AS jumlah
                         FROM pendaftaran_t
                         JOIN ruangan_m ON ruangan_m.ruangan_id = pendaftaran_t.ruangan_id

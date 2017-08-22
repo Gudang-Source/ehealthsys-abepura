@@ -20,6 +20,7 @@ class MLoginController extends Controller{
     public function actionLogin()
     {
         header("content-type:application/json");
+		
         $format = new MyFormatter();
         $data = array();
         $data['sukses'] = 0;
@@ -31,6 +32,7 @@ class MLoginController extends Controller{
             $data['loginpemakai_id'] = '';
             $data['pasien_id'] = '';
             $data['pegawai_id'] = '';
+			$data['app'] = 'mpasien';
             $sql = "SELECT * 
                     FROM loginpemakai_k
                     WHERE loginpemakai_aktif = TRUE
@@ -49,17 +51,44 @@ class MLoginController extends Controller{
                 $data['data']['pasien_id'] = $loadData['pasien_id'];
                 $data['data']['pegawai_id'] = $loadData['pegawai_id'];
                 $data['pasien_id'] = $loadData['pasien_id'];
-                $data['pegawai_id'] = $loadData['pegawai_id'];
+                $data['pegawai_id'] = $loadData['pegawai_id'];				
+								
 				if(!empty($data['pegawai_id'])){
 					$sql = "SELECT * 
 						FROM pegawai_m
 						WHERE pegawai_id = ". $data['data']['pegawai_id']."
 						";
 					$loadDataPegawai = Yii::app()->db->createCommand($sql)->queryRow();
+					if (empty($loadDataPegawai['loginpemakai_id'])){
+						$data['loginpemakai_id'] = $loadData['loginpemakai_id']; 
+					}
 					$data['data'] = $loadDataPegawai;
+					$data['app'] = 'mhealthsys';
+					if (!empty($loadDataPegawai['photopegawai'])){
+						$data['url_image'] = Params::urlPegawaiDirectory().$loadDataPegawai['photopegawai'];
+					}else{
+						$data['url_image'] ='images/no_photo.jpg';
+					}
+					
+				}else{
+					$sql = "SELECT photopasien 
+						FROM pasien_m
+						WHERE pasien_id = ". $data['data']['pasien_id']."
+						";
+					$loadDataPasien = Yii::app()->db->createCommand($sql)->queryRow();
+					$data['loginpemakai_id'] = $loadData['loginpemakai_id']; 		
+					if (!empty($loadDataPasien['photopasien'])){
+						$data['url_image'] = Params::urlPasienDirectory().$loadDataPasien['photopasien'];
+					}else{
+						$data['url_image'] ='images/no_photo.jpg';
+					}
+					
 				}
+
+				
                 $data['sukses'] = 1;
 				$data['is_found'] = 1;
+				
                 $data['pesan'] = "Login berhasil!";
             }else{
                 $data['pesan'] = "Login gagal! Username dan password yang anda masukan salah";
