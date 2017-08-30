@@ -56,7 +56,7 @@ class PresensiTController extends MyAuthController
                     $shift = $model->getShiftId($model->pegawai_id);
                                                             
                                        
-                    $tgl = $format->formatDateTimeForDb(date('Y-m-d', strtotime($model->tglpresensi)));
+                    $tgl = $format->formatDateTimeForDb($model->tglpresensi);
                                       //  var_dump($shift);die;
                   
                     $model->statusscan_id = $_POST['KPPresensiT']['statusscan_id'];                        
@@ -109,9 +109,11 @@ class PresensiTController extends MyAuthController
                          $cr->addCondition("statusscan_id = ".$model->statusscan_id);                    
                          $cr->addCondition("statuskehadiran_id = '".Params::STATUSKEHADIRAN_HADIR."' AND pegawai_id = '$model->pegawai_id' ");
                      }                    
-                    $cr->addBetweenCondition('tglpresensi', $tgl.' 00:00:00', $tgl.' 23:59:59');
+                    $cr->addBetweenCondition('date(tglpresensi)', $tgl, $tgl);
                     $cek = PresensiT::model()->find($cr);
-                                                                                
+                                                        
+					//var_dump($model->tglpresensi);die;
+					
                     $valid = $model->validate();
                     
                     if (count($cek) > 0){
@@ -156,7 +158,7 @@ class PresensiTController extends MyAuthController
                     }else{        
                         $cr1 = new CDbCriteria();                                                                                              
                         $cr1->addCondition("statuskehadiran_id = '".Params::STATUSKEHADIRAN_ALPHA."' AND pegawai_id = '$model->pegawai_id' ");                                               
-                        $cr1->addBetweenCondition('tglpresensi', $tgl.' 00:00:00', $tgl.' 23:59:59');
+                        $cr1->addBetweenCondition('date(tglpresensi)', $tgl, $tgl);
                         $cek1 = PresensiT::model()->find($cr1);
                         
                           if ($shift != '-'){
@@ -177,7 +179,7 @@ class PresensiTController extends MyAuthController
                             $cr2 = new CDbCriteria(); 
                             $cr->addCondition("statusscan_id = ".Params::STATUSSCAN_MASUK);    
                             $cr2->addCondition("statuskehadiran_id = '".Params::STATUSKEHADIRAN_ALPHA."' AND pegawai_id = '$model->pegawai_id' ");                                               
-                            $cr2->addBetweenCondition('tglpresensi', $tgl.' 00:00:00', $tgl.' 23:59:59');
+                            $cr2->addBetweenCondition('date(tglpresensi)', $tgl, $tgl);
                             $cek2 = PresensiT::model()->find($cr2);
                             
                             if (count($cek2)==0):

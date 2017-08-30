@@ -12,6 +12,7 @@ class PPPasienM extends PasienM
      * @return KelompokmenuK the static model class
      */
     public $umur,$thn,$bln,$hr,$pekerjaan_nama;
+	public $kelurahan_nama;
 //    public $tgl_rm_awal;
 //    public $tgl_rm_akhir;
     public static function model($className=__CLASS__)

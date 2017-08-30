@@ -74,6 +74,7 @@ $modDataPasien = new PPPasienM('searchWithDaerah');
 $modDataPasien->unsetAttributes();
 if(isset($_GET['PPPasienM'])) {
     $modDataPasien->attributes = $_GET['PPPasienM'];
+	
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pasien-m-grid',
@@ -177,8 +178,8 @@ $this->endWidget();
     if(isset($_GET['PPPasienM'])) {
         $modDataPasien->attributes = $_GET['PPPasienM'];
 //        $modDataPasien->tanggal_lahir =  isset($_GET['PPPasienM']['tanggal_lahir']) ? $format->formatDateTimeForDb($_GET['PPPasienM']['tanggal_lahir']) : null;
-        $modDataPasien->cari_kelurahan_nama = $_GET['PPPasienM']['cari_kelurahan_nama'];
-        $modDataPasien->cari_kecamatan_nama = $_GET['PPPasienM']['cari_kecamatan_nama'];
+        $modDataPasien->cari_kelurahan_nama = isset($_GET['PPPasienM']['cari_kelurahan_nama'])?$_GET['PPPasienM']['cari_kelurahan_nama']:null;
+        $modDataPasien->cari_kecamatan_nama =  isset($_GET['PPPasienM']['cari_kecamatan_nama'])?$_GET['PPPasienM']['cari_kecamatan_nama']:null;
         $modDataPasien->nama_bin = $_GET['PPPasienM']['nama_bin'];
 		if(isset($_GET['PPPasienM']['nomorindukpegawai'])){
 			$modDataPasien->nomorindukpegawai = $_GET['PPPasienM']['nomorindukpegawai'];
