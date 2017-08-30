@@ -1571,7 +1571,7 @@ class MPasienBridgingController extends MyMobileAuthController
                         FROM ruanganpegawai_m
                         JOIN pegawai_m ON ruanganpegawai_m.pegawai_id = pegawai_m.pegawai_id
                         LEFT JOIN gelarbelakang_m ON pegawai_m.gelarbelakang_id = gelarbelakang_m.gelarbelakang_id
-                    WHERE (pegawai_m.kelompokpegawai_id = ANY (ARRAY[1, 3])) 
+                    WHERE (pegawai_m.kelompokpegawai_id IN (".Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK.")) 
                         AND pegawai_m.pegawai_aktif = true
                         AND ruanganpegawai_m.ruangan_id = ".$_GET['ruangan_id']."
                     ORDER BY pegawai_m.nama_pegawai";
@@ -1745,6 +1745,8 @@ class MPasienBridgingController extends MyMobileAuthController
             foreach($loadDatas AS $i => $val){
                 $data[$i] = $val;
                 $data[$i]['tgljadwal'] = $format->formatDateTimeId($val['tgljadwal']);
+				$data[$i]['gelardepan'] = !empty($val['gelardepan'])?$val['gelardepan']:'';
+				$data[$i]['gelarbelakang_nama'] = !empty($val['gelarbelakang_nama'])?$val['gelarbelakang_nama']:'';
             }
         }
         return $data;

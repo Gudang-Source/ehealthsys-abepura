@@ -120,6 +120,9 @@
  */
 class PasienM extends CActiveRecord
 {
+	public $kelurahan_nama;
+	public $cari_kelurahan_nama;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
