@@ -976,7 +976,11 @@ class MPasienBridgingController extends MyMobileAuthController
             LIMIT 1";
         $loadData = Yii::app()->db->createCommand($sql)->queryRow();
         if(!empty($loadData)){
-            $data = $loadData;
+			foreach ($loadData as $ld => $val){								
+				$dt[$ld] =  (!empty($val))?$val:"";
+			}
+			
+            $data = $dt;
             $data['tglperiksafisik'] = $format->formatDateTimeForUser($loadData['tglperiksafisik']);
         }
         return $data;
