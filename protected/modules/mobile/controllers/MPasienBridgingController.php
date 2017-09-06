@@ -976,7 +976,11 @@ class MPasienBridgingController extends MyMobileAuthController
             LIMIT 1";
         $loadData = Yii::app()->db->createCommand($sql)->queryRow();
         if(!empty($loadData)){
-            $data = $loadData;
+			foreach ($loadData as $ld => $val){								
+				$dt[$ld] =  (!empty($val))?$val:"";
+			}
+			
+            $data = $dt;
             $data['tglperiksafisik'] = $format->formatDateTimeForUser($loadData['tglperiksafisik']);
         }
         return $data;
@@ -1747,6 +1751,14 @@ class MPasienBridgingController extends MyMobileAuthController
                 $data[$i]['tgljadwal'] = $format->formatDateTimeId($val['tgljadwal']);
 				$data[$i]['gelardepan'] = !empty($val['gelardepan'])?$val['gelardepan']:'';
 				$data[$i]['gelarbelakang_nama'] = !empty($val['gelarbelakang_nama'])?$val['gelarbelakang_nama']:'';
+				
+				$cekTgl = date('Y-m-d',strtotime($val['tgljadwal']));
+				
+				if (date('Y-m-d') == $cekTgl){
+					$data[$i]['hari_ini'] = true;
+				}else{
+					$data[$i]['hari_ini'] = false;
+				}
             }
         }
         return $data;
@@ -1760,7 +1772,7 @@ class MPasienBridgingController extends MyMobileAuthController
     protected function getRencanaKontrolPasien($pasien_id){
         $format = new MyFormatter();
         $data = array();
-        $sql = "
+        /*$sql = "
             SELECT 
             pendaftaran_t.pendaftaran_id, pendaftaran_t.no_pendaftaran, pendaftaran_t.tglrenkontrol, dokterpenunjang_m.gelardepan, dokterpenunjang_m.nama_pegawai, gelarbelakang_m.gelarbelakang_nama, 
             ruanganpenunjang_m.ruangan_nama
@@ -1775,12 +1787,29 @@ class MPasienBridgingController extends MyMobileAuthController
                 AND DATE(pendaftaran_t.tglrenkontrol) >= '".date("Y-m-d")."'
             ORDER BY tglrenkontrol ASC
             LIMIT 5
+            ";*/
+		
+		$sql = "
+            SELECT 
+            pendaftaran_t.pendaftaran_id, pendaftaran_t.no_pendaftaran, pendaftaran_t.tglrenkontrol, pegawai_m.gelardepan, pegawai_m.nama_pegawai, gelarbelakang_m.gelarbelakang_nama, 
+            ruangan_m.ruangan_nama
+            FROM pendaftaran_t            
+            JOIN ruangan_m ON ruangan_m.ruangan_id = pendaftaran_t.ruangan_id            
+            LEFT JOIN pegawai_m pegawai_m ON pegawai_m.pegawai_id = pendaftaran_t.pegawai_id
+            LEFT JOIN gelarbelakang_m ON gelarbelakang_m.gelarbelakang_id = pegawai_m.gelarbelakang_id      
+            WHERE pendaftaran_t.tglrenkontrol IS NOT NULL
+                AND pendaftaran_t.pasien_id = ".$pasien_id."
+                AND DATE(pendaftaran_t.tglrenkontrol) >= '".date("Y-m-d")."'
+            ORDER BY tglrenkontrol ASC
+            LIMIT 5
             ";
         $loadDatas = Yii::app()->db->createCommand($sql)->queryAll();
         if(count($loadDatas) > 0){
             foreach($loadDatas AS $i => $val){
                 $data[$i] = $val;
                 $data[$i]['tglrenkontrol'] = $format->formatDateTimeId($val['tglrenkontrol']);
+				$data[$i]['gelardepan'] = !empty($val['gelardepan'])?$val['gelardepan']:'';
+				$data[$i]['gelarbelakang_nama'] = !empty($val['gelarbelakang_nama'])?$val['gelarbelakang_nama']:'';
             }
         }
         return $data;
