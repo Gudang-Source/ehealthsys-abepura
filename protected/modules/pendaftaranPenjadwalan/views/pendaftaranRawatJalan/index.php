@@ -75,7 +75,7 @@
                         'id'=>'form-karcis',
                         'content'=>array(
                             'content-karcis'=>array(
-                                'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk tampilkan karcis')).'<b> Karcis</b>',
+                                'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk tampilkan karcis')).'<b> Karcis 123</b>',
                                 'isi'=>'<div id="content-karcis-html">'
 										.$this->renderPartial($this->path_view.'_formKarcis',array(
 											'form'=>$form,

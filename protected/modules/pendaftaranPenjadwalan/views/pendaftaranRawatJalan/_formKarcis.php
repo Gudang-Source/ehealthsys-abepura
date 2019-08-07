@@ -11,6 +11,10 @@ if(count($modKarcisV) > 0){
 		$modTindakan->karcis_id = $karcis->karcis_id;
 		$modTindakan->jenistarif_id = $karcis->jenistarif_id;
 		$modTindakan->tarif_satuan = $format->formatNumberForUser($karcis->harga_tariftindakan);
+		$modTindakan->attributes = $karcis->attributes;
+		$modTindakan->karcis_id = $karcis->karcis_id;
+		$modTindakan->jenistarif_id = $karcis->jenistarif_id;
+		$modTindakan->tarif_satuan = $format->formatNumberForUser($karcis->harga_tariftindakan);
 		if ($i == 0 ){
 			$modTindakan->is_pilihtindakan = 1;
 			echo	'<tr class="checked">';

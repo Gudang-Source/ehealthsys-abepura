@@ -1,3 +1,4 @@
+
 <div class="control-group">
         <?php echo CHtml::label("Cari ".$modAsuransiPasien->getAttributeLabel('nopeserta')." <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getAsuransiNoKartu($('#".CHtml::activeId($modAsuransiPasien,"nopeserta")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek peserta'></i>", 'nopeserta', array('class'=>'control-label'))?>
         <div class="controls">
@@ -335,9 +336,10 @@
     <!-- <span class="required">*</span> -->
     </label>
     <div class="controls">
-        <?php echo $form->textField($modSep,'nosep',array('placeholder'=>'No. SEP Manual / Otomatis','class'=>'span3 nosep', 'disabled'=>'disabled' ,'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+
+        <?php echo $form->textField($modSep,'nosep',array('placeholder'=>'No. SEP Manua / Otomatis','class'=>'span3 nosep', 'disabled'=>'disabled' ,'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
         <?php echo $form->error($modSep, 'nosep'); ?>
-		<?php echo "<i class=\"icon-search\" onclick=\"cekSEP($('#".CHtml::activeId($modSep,"nosep")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek SEP'></i>"; ?>
+        <?php echo "<i class=\"icon-search\" onclick=\"cekSEP($('#".CHtml::activeId($modSep,"nosep")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek SEP'></i>"; ?>
     </div>
 </div>
 <?php //echo $form->textFieldRow($modSep,'nosep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
@@ -355,3 +357,4 @@
 <?php
     // echo CHtml::link(Yii::t('mds', '{icon} Terverifikasi', array('{icon}'=>'<i class="icon-form-check icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Data SEP sudah Terverifikasi','class'=>'btn btn-info pull-right verified', 'style'=>'display:none', 'disabled'=>true,));
 ?>
+

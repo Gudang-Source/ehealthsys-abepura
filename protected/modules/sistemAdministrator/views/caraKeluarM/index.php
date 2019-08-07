@@ -1,29 +1,7 @@
-<?php 
-//$this->widget('bootstrap.widgets.BootMenu', array(
-//    'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
-//    'stacked'=>false, // whether this is a stacked menu
-//    'items'=>array(
-//        array('label'=>'Jadwal Dokter', 'url'=>$this->createUrl('/rawatDarurat/jadwaldokterM')),
-//        array('label'=>'Transportasi', 'url'=>$this->createUrl('/rawatDarurat/transportasiM')),
-//        array('label'=>'Keadaan Masuk', 'url'=>$this->createUrl('/rawatDarurat/KeadaanMasukM')),
-//        array('label'=>'Kondisi Pulang', 'url'=>$this->createUrl('/rawatDarurat/KondisiPulangM')),
-//        array('label'=>'Rujukan Keluar', 'url'=>$this->createUrl('/rawatDarurat/rujukanKeluarM')),
-//        array('label'=>'Asal Rujukan', 'url'=>$this->createUrl('/rawatDarurat/triaseM')),
-//        array('label'=>'Triase', 'url'=>$this->createUrl('/rawatDarurat/triaseM')),
-//        array('label'=>'Cara Keluar', 'url'=>'', 'active'=>true),
-//    ),
-//)); ?>
 <?php
 $this->breadcrumbs=array(
-	'Rdcara Keluar Ms',
+	'Carakeluar Ms',
 );
-
-$arrMenu = array();
-                array_push($arrMenu,array('label'=>Yii::t('mds','List').' Cara Keluar ', 'header'=>true, 'itemOptions'=>array('class'=>'heading-master'))) ;
-                (Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Create').' Cara Keluar', 'icon'=>'file', 'url'=>array('create'))) :  '' ;
-                (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Cara Keluar', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
-
-$this->menu=$arrMenu;
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
@@ -32,4 +10,14 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 	'itemView'=>'_view',
 )); ?>
 
-<?php $this->widget('UserTips',array('type'=>'list'));?>
+<div class="row-fluid">
+    <div class="form-actions">
+        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                $this->createUrl($this->id.'/admin'), 
+                array('class'=>'btn btn-danger',
+                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+        <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan CarakeluarM',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl($this->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+        <?php $this->widget('UserTips',array('type'=>'list'));?>
+    </div>
+</div>

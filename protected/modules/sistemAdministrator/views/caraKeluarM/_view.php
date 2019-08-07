@@ -1,23 +1,19 @@
 <div class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('lookup_id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->lookup_id),array('view','id'=>$data->lookup_id)); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('carakeluar_id')); ?>:</b>
+	<?php echo CHtml::link(CHtml::encode($data->carakeluar_id),array('view','id'=>$data->carakeluar_id)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('lookup_name')); ?>:</b>
-	<?php echo CHtml::encode($data->lookup_name); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('carakeluar_nama')); ?>:</b>
+	<?php echo CHtml::encode($data->carakeluar_nama); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('lookup_urutan')); ?>:</b>
-	<?php echo CHtml::encode($data->lookup_urutan); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('carakeluar_namalain')); ?>:</b>
+	<?php echo CHtml::encode($data->carakeluar_namalain); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('lookup_kode')); ?>:</b>
-	<?php echo CHtml::encode($data->lookup_kode); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('lookup_aktif')); ?>:</b>
-	<?php $lookup_aktif =(CHtml::encode($data->lookup_aktif == TRUE)) ? Yii::t('mds','Yes') :  Yii::t('mds','No'); echo $lookup_aktif; ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('carakeluar_aktif')); ?>:</b>
+	<?php echo CHtml::encode($data->carakeluar_aktif); ?>
 	<br />
 
 

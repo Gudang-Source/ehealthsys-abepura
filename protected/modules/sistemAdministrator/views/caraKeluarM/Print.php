@@ -1,37 +1,40 @@
 
 <?php 
 $table = 'ext.bootstrap.widgets.BootGridView';
+$template = "{summary}\n{items}\n{pager}";
+if (isset($caraPrint)){
+    $template = "{items}";
+}
 if($caraPrint=='EXCEL')
 {
-    $table = 'ext.bootstrap.widgets.BootExcelGridView';
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="'.$judulLaporan.'-'.date("Y/m/d").'.xls"');
-    header('Cache-Control: max-age=0');     
+    header('Cache-Control: max-age=0');   
+    $table = 'ext.bootstrap.widgets.BootExcelGridView';
 }
-echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judulLaporan, 'colspan'=>5));      
+echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judulLaporan, 'colspan'=>''));      
 
 $this->widget($table,array(
 	'id'=>'sajenis-kelas-m-grid',
         'enableSorting'=>false,
 	'dataProvider'=>$model->searchPrint(),
-        'template'=>"{items}",
+        'template'=>$template,
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
-		////'lookup_id',
+		////'carakeluar_id',
 		array(
                         'header'=>'ID',
-                        'value'=>'$data->lookup_id',
+                        'value'=>'$data->carakeluar_id',
                 ),
-		'lookup_type',
-		'lookup_name',
-		array(
-                        'header'=>'Nama Lain',
-                        'value'=>'$data->lookup_value',
-                ),
-		'lookup_kode',
-		/*
-		'lookup_aktif',
-		*/
+		'carakeluar_nama',
+		'carakeluar_namalain',
+		// 'carakeluar_aktif',
+        'carakeluar_namalain',
+        array(
+                    'header'=>'<center>Status</center>',
+                    'value'=>'($data->carakeluar_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+                    'htmlOptions'=>array('style'=>'text-align:center;'),
+        ),
  
         ),
     )); 
